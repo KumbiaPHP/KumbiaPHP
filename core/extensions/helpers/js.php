@@ -155,7 +155,7 @@ class Js
      * @param string $name nombre de campo
      * @param string $format formato de fecha como lo acepta jsCalendar
      * @param string $class clases adicionales
-     * @param string | array $attrs atributos de campo
+     * @param string $attrs atributos de campo
      * @param string $value valor para el campo
      * @return string
      **/
@@ -172,5 +172,73 @@ class Js
             $id = $field['field'];
         }
         return Form::text($name, "class=\"js-calendar $class\" $attrs", $value) . ' ' . Html::img('calendar.gif', $format, "id=\"{$id}_tigger\"");
+    }
+    
+    /**
+     * Lista desplegable para actualizar usando ajax
+     *
+     * @param string $name nombre de campo
+     * @param array $data
+     * @param string $update capa que se actualizara
+     * @param string $action accion que se ejecutara
+     * @param string $class
+     * @param string | array $attrs
+     **/
+    public static function updaterSelect($name, $data, $update, $action, $class=null, $attrs=null)
+    {
+        if(is_array($attrs)){
+            $attrs = Tag::getAttrs($attrs);
+        }
+        
+        $field = Form::getFormField($name);
+        if($field['form']) {
+            $id = "{$field['form']}_{$field['field']}";
+        } else {
+            $id = $field['field'];
+        }
+        
+        // accion que se ejecutara
+        Html::meta(URL_PATH . rtrim($action, '/') . '/', "name=\"js.$id.action\"");
+        
+		// capa que se actualizara
+        Html::meta($update, "name=\"js.$id.update\"");
+		
+        // genera el campo
+        return Form::select($name, $data, "class=\"js-remote $class\" $attrs");
+    }
+	
+    /**
+     * Lista desplegable para actualizar usando ajax que toma los valores de un array de objetos
+     *
+     * @param string $name nombre de campo
+     * @param array $data
+     * @param string $field campo que se mostrara
+     * @param string $update capa que se actualizara
+     * @param string $action accion que se ejecutara
+     * @param string $blank campo en blanco
+     * @param string $class
+     * @param string | array $attrs
+     **/
+    public static function updaterDbSelect($name, $data, $field, $update, $action, $blank=null, $class=null, $attrs=null)
+    {
+        if(is_array($attrs)){
+            $attrs = Tag::getAttrs($attrs);
+        }
+        
+        $field = Form::getFormField($name);
+        if($field['form']) {
+            $id = "{$field['form']}_{$field['field']}";
+        } else {
+            $id = $field['field'];
+        }
+        
+        // accion que se ejecutara
+        Html::meta(URL_PATH . rtrim($action, '/') . '/', "name=\"js.$id.action\"");
+        
+		// capa que se actualizara
+        Html::meta($update, "name=\"js.$id.update\"");
+		
+        // genera el campo
+        return Form::dbSelect($name, $data, $field, $blank, "class=\"js-remote $class\" $attrs");
     }
 }

@@ -64,6 +64,14 @@
                 $(this.rel).load(this.href);
             }
         },
+        /**
+         * Metodo para utilizar con map de jQuery, el cual genera calendarios jsCalendar
+         *
+         **/
+        calendar: function() {
+            var tigger = $('#' + this.id + '_tigger').get(0);
+            Calendar.setup({ inputField: this.id, ifFormat: tigger.alt, daFormat: tigger.alt, button: tigger.id});
+        },
         
         /**
 		 * Enviar formularios de manera asincronica, via POST
@@ -78,16 +86,18 @@
 				$('#'+div).html(data);
 			});
 		},
-		
+        
         /**
-         * Metodo para utilizar con map de jQuery, el cual genera 
-         * calendarios jsCalendar
+         * Carga con AJAX al cambiar select
          *
+         * @param Object event
          **/
-        calendar: function() {
-            var tigger = $('#' + this.id + '_tigger').get(0);
-            Calendar.setup({ inputField: this.id, ifFormat: tigger.alt, daFormat: tigger.alt, button: tigger.id});
+        cUpdaterSelect: function(event) {
+            var action = $('meta[name=js.' + this.id + '.action]').attr("content");
+			var update = $('meta[name=js.' + this.id + '.update]').attr("content");
+            $('#' + update).load(action + this.value);
         },
+        
         
         /**
          * Enlaza a las clases por defecto
@@ -102,10 +112,28 @@
             $("a.js-toggle").live('click', this.cFx('toggle'));
             $("a.js-fade-in").live('click', this.cFx('fadeIn'));
             $("a.js-fade-out").live('click', this.cFx('fadeOut'));
-            $("form.js-remote").live('submit', this.cFRemote);
+            
+            $(".js-ajax").ajaxComplete(function (event, XMLHttpRequest, ajaxOptions) {
+                $.KumbiaPHP.bindNoLive(this);
+            });
+            
+            // enlaza los que no funcionan con live
+            this.bindNoLive(document);
+        },
+        /**
+         * Aquellos que no se enlazan automaticamente con live
+         *
+         * @param DomObject parent
+         **/
+        bindNoLive : function(parent) {
+            // lista desplegable que actualiza con ajax
+            $("select.js-remote", parent).bind('change', this.cUpdaterSelect);
             
             // calendario
-            $("input.js-calendar").map(this.calendar);
+            $("input.js-calendar", parent).map(this.calendar);
+            
+            // formulario ajax
+            $("form.js-remote", parent).bind('submit', this.cFRemote);
         }
     }
 
