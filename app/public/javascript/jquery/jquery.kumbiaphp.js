@@ -113,7 +113,7 @@
             $("a.js-fade-in").live('click', this.cFx('fadeIn'));
             $("a.js-fade-out").live('click', this.cFx('fadeOut'));
             
-            $(".js-ajax").ajaxComplete(function (event, XMLHttpRequest, ajaxOptions) {
+            $("div.js-remote").ajaxComplete(function (event, XMLHttpRequest, ajaxOptions) {
                 $.KumbiaPHP.bindNoLive(this);
             });
             
