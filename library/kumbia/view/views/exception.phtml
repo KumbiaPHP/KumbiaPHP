@@ -1,0 +1,49 @@
+<div style='background: #FFFFFF; padding: 5px'>
+<?php Flash::error ( get_class($e) . ": {$e->getMessage()} ({$e->getCode() })<br> <span style='font-size:12px'>En el archivo <i>{$e->getFile() }</i> en la l&iacute;nea: <i>{$e->getLine() }</i>", true ) ?>
+
+<?php if ($show_trace): ?>
+    <?php if (isset ( $config['application']['debug'] ) && $config['application']['debug']): ?> 
+        <div style='font-size:14px; margin: 10px; border:1px solid #333333; background: #676767; font-family: Lucida Console; margin:10px; color: white; padding: 3px' align='left'>
+            <?php foreach ($e->getTrace() as $trace): ?>
+                <?php if (isset ( $trace ['file'] )): ?>
+                    <?php echo $trace ['file'] . "(" . $trace ['line'] . ")" ?><br>
+                        <?php if (strpos ( $trace ['file'], basename(APP_PATH) )): ?>
+                            <strong>La excepción se ha generado en el archivo '<?php echo $trace ['file'] ?>' en la línea '<?php echo $trace ['line'] ?>':</strong><br>
+                            <div style='color: #000000; margin: 10px; border: 1px solid #333333; background: #FFFFFF; padding:0px'>
+                                <table cellspacing='0' cellpadding='0'>
+                                <?php
+                                    $lines = file ( $trace ['file'] );
+                                    $eline = $trace ['line'];
+                                ?>
+                                
+                                <?php for($i = (($eline - 4) < 0 ? 0 : $eline - 4); $i <= ($eline + 2 > count ( $lines ) - 1 ? count ( $lines ) - 1 : $eline + 2); $i ++): ?>
+                                    <?php if ($i == $eline - 1): ?>
+                                        <tr><td style='background:#c0c0c0; font-size:13px'><strong><?php echo ($i + 1) ?></strong></td><td>&nbsp;<span style='background: #FFDDDD;font-family: Lucida Console; font-size:13px;'><strong>&nbsp;<?php echo htmlentities ( $lines [$i], ENT_NOQUOTES ) ?></strong></span></td></tr>
+                                    <?php else: ?>
+                                        <tr><td style='background:#c0c0c0; font-size:13px'><strong><?php echo ($i + 1) ?></strong></td><td style='font-family: Lucida Console; font-size:13px;'>&nbsp;<?php echo htmlentities ( $lines [$i], ENT_NOQUOTES ) ?></td></tr>
+                                    <?php endif;?>
+                                <?php endfor; ?>
+                                </table>
+                            </div>
+                            <pre style='font-family: Lucida Console; margin:10px; color: white;'>
+                        <?php endif; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>  
+    <?php endif; ?>
+
+    <div style='font-size:12px; margin: 0px 15px 0px 15px; padding: 5px; border:1px solid #333333; background: #f2f2f2;' align='left'>
+        <strong>Informaci&oacute;n Adicional:</strong><br>
+        <strong>En producción:</strong> <?php echo $config['application']['production'] ?  'Sí' : 'No' ?><br>
+        <strong>Ubicaci&oacute;n actual:</strong> <?php echo $route ?><br>
+        <strong>Modelos Cargados:</strong> <?php echo $models ?><br>
+        <strong>Modulos de Kumbia Cargados:</strong> <?php echo $config['modules']['kumbia'] ?><br>
+        <strong>Otros Modulos Cargados:</strong> <?php echo $config['modules']['extensions'] ?><br>
+        <strong>Datos de Session:</strong> <?php if(isset($_SESSION['session_data'])) print_r($_SESSION['session_data']) ?><br>
+    </div>
+<?php else: ?>
+    <pre style='font-family: Lucida Console; margin: 10px; border:1px solid #969696; background: #fafafa'>
+        <?php echo $e->getTraceAsString () ?>
+    </pre>
+<?php endif; ?>
+</div>

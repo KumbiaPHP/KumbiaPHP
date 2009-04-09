@@ -1,0 +1,46 @@
+<?php
+/**
+ * Kumbia PHP Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://XXXXXXXX
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@zend.com so we can send you a copy immediately.
+ *
+ * @category   Kumbia
+ * @package    Filter
+ * @subpackage BaseFilters
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ */
+ 
+/**
+ * Filtra una cadena Htmlspecialchars
+ *
+ * @category   Kumbia
+ * @package    Filter
+ * @subpackage BaseFilter
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    SVN:$id
+ */
+class HtmlspecialcharsFilter implements FilterInterface
+{
+    /**
+     * Ejecuta el filtro
+     *
+     * @param string $s
+     * @param array $options
+     * @return string
+     */
+    public static function execute ($s, $options)
+    {
+        $charset = (isset($options['charset']) && $options['charset']) ? $options['charset'] : Config::get('config.application.charset');
+        return htmlspecialchars((string) $s, ENT_QUOTES, $charset);
+    }
+}

@@ -1,0 +1,114 @@
+body {
+	font-family: 'Verdana,Helvetica,Arial,sans-serif';
+}
+
+body { background: #434343; font-family: "Lucida Grande",Verdana; }
+#contenido { background-color: #fff; border: #999 1px solid; padding: 10px ; width: 70%; margin:3em auto; }
+#logo { float: left; }
+#version {float: right; font-size: 14pt; color: #900; margin: 1.5em 3em 0 0;}
+#info { padding: 3em; clear:both; }
+#info h1 { font-size: 2em; color: #900; margin: 0; text-align:center }
+#info p,li { color: #900; font-size: 15px; }
+#footer a { text-decoration: none; font-weight: bold; font-size: 14px; }
+#footer a:hover { color: #FF6600; }
+#footer ul.links { text-align: center; list-style: none inside; padding: 0; }
+#footer ul.links li { display: inline; }
+
+/* Implements All Control Buttons */
+.controlButton {
+
+}
+.requerido{
+	color: #F00;
+}
+
+/* Cambia el Estilo las opciones de reportes en StandardForm */
+.report_options {
+	background: #F2F2F2;
+	border: 1px solid #969696;
+}
+
+/* Formatea los mensajes de Kumbia */
+.notice_message, .success_message, .warning_message, .error_message, .validation_message {
+	border: 1px solid;
+	margin: 1px 0;
+	padding:3px 10px 3px 50px;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+}
+
+.error_message {
+	color: #D8000C;
+	background-color: #FFBABA;
+	background-image: url('@img_path/default/error.png');
+}
+
+.notice_message {
+	color: #00529B;
+	background-color: #BDE5F8;
+	background-image: url('@img_path/default/info.png');
+}
+
+.success_message {
+	color: #4F8A10;
+	background-color: #DFF2BF;
+	background-image:url('@img_path/default/valid.png');
+}
+
+.warning_message {
+	color: #9F6000;
+	background-color: #FEEFB3;
+	background-image: url('@img_path/default/warning.png');
+}
+
+.validation_message {
+	color: #D63301;
+	background-color: #FFCCBA;
+	background-image: url('@img_path/default/warning.png');
+}
+
+.highlight {
+	background: #FFFFDF;
+}
+
+
+/* Cambia los colores del Browse en StandardForm */
+.browse_primary {
+	background: #AEB9FF;
+}
+
+.browse_primary_active {
+	background: #AEB9FF;
+}
+
+.browse_secondary {
+	background: #FFF;
+}
+
+.browse_secondary_active {
+	background: #F2F2F2;
+}
+
+div.autocomplete {
+	position: relative;
+	background-color: white;
+	border: 1px solid #888;
+	margin: 0;
+	padding: 0;
+}
+div.autocomplete ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+div.autocomplete ul li.selected {
+	background-color: #ffb;
+}
+div.autocomplete ul li {
+      list-style-type: none;
+      display: block;
+	  margin: 1px 0;
+      padding: 1px;
+      cursor: pointer;
+      font-size: 10px;
+}

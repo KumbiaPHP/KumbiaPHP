@@ -1,0 +1,27 @@
+Welcome to the Kumbia PHP Framework 0.5 Release Stable!.
+
+INFORMACION DEL LANZAMIENTO
+---------------
+Kumbia PHP Framework 0.5 Release Stable (revision 739). Released on
+2009-01-01.
+
+NUEVAS CARACTERISTICAS
+------------
+
+* Mejoras en el Route
+* Mejoras en el Dispatcher
+* Actualización de las Librerias 
+* Reescritura de los adaptadores de BD
+* Soporte a nuevos adaptadores para motores de BD
+* Soporte PDO en los adaptadores
+* Optimizaciones Multiples en el core de Kumbia
+* Componente Filter
+* Reescritura de ActiveRecord
+* Soporte a Relaciones en ActiveRecord
+* Reescritura de los Helpers para la generacion de los Tag
+* Solucionados Multiples Bug en el componente StandardForm
+* Nuevo componente para Paginar Objetos ActiveRecord
+* otras...
+
+https://launchpad.net/kumbia
+
