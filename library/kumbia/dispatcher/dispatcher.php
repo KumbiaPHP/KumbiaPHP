@@ -31,7 +31,7 @@
  * @license   http://www.kumbia.org/license.txt GNU/GPL
  * @access    public
  */
-abstract class Dispatcher
+class Dispatcher
 {
     /**
      * Objeto del controlador en ejecución
@@ -92,12 +92,15 @@ abstract class Dispatcher
                     require_once CORE_PATH . 'generator/generator.php';
                 }
 
-                if (!isset($_SESSION['KUMBIA_CONTROLLERS'][CORE_PATH][APP_PATH][$module][$app_controller])) {
-                    $activeController = new $app_controller();
+				/**
+				 * Verifica si el controlador esta persistente en la sesion
+				 **/
+                if (Session::isset_data($app_controller, 'kumbia.controllers')) {
+					$activeController = unserialize(Session::get($app_controller, 'kumbia.controllers'));
+                } else {
+					$activeController = new $app_controller();
                     $activeController->module_name = $module;
                     $activeController->controller_name = $controller;
-                } else {
-                    $activeController = unserialize($_SESSION['KUMBIA_CONTROLLERS'][CORE_PATH][APP_PATH][$module][$app_controller]);
                 }
 				
                 $activeController->response = '';
@@ -149,7 +152,7 @@ abstract class Dispatcher
 					 *
 					 **/
 					if($activeController->persistent) {
-						$_SESSION['KUMBIA_CONTROLLERS'][KUMBIA_PATH][$application][$module][$app_controller] = serialize($activeController);
+						Session::set($app_controller, serialize($activeController), 'kumbia.controllers');
 					}
                 } catch (PDOException $e) {
                     throw new KumbiaException($e->getMessage(), $e->getCode());
