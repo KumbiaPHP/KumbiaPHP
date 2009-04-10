@@ -20,97 +20,56 @@
  */
 
 /**
- * @see SessionNamespace
- */
-require_once CORE_PATH.'library/kumbia/session/namespace/namespace.php';
-
-/**
- * @see SessionRecord
- */
-require_once CORE_PATH.'library/kumbia/session/session_record/session_record.php';
-
-/**
  * Modelo orientado a objetos para el acceso a datos en Sesiones
  *
  * @category Kumbia
  * @package Session
  * @copyright Copyright (c) 2005-2007 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
  * @license http://www.kumbia.org/license.txt GNU/GPL
- * @access public
  */
-class Session {
-
+class Session 
+{
 	/**
-	 * Crear ó especificar el valor para un indice de la sesión
+	 * Crear o especificar el valor para un indice de la sesiÃ³n
 	 * actual
 	 *
 	 * @param string $index
-	 * @param mixed $value
+	 * @param string $namespace
 	 */
-	static function set_data($index, $value){
-	  	$_SESSION['session_data'][$index] = $value;
+	static function set($index, $value, $namespace='default')
+	{
+	  	$_SESSION['KUMBIA_SESSION'][CORE_PATH][APP_PATH][$namespace][$index] = $value;
 	}
-
 	/**
-	 * Obtener el valor para un indice de la sesión
+	 * Obtener el valor para un indice de la sesion
 	 *
 	 * @param string $index
+	 * @param string $namespace
 	 * @return mixed
 	 */
-	static function get_data($index){
-		if(isset($_SESSION['session_data'][$index])){
-	  		return $_SESSION['session_data'][$index];
-		} else {
-			return null;
-		}
+	static function get($index, $namespace='default')
+	{
+		return $_SESSION['KUMBIA_SESSION'][CORE_PATH][APP_PATH][$namespace][$index];
 	}
-
-	/**
-	 * Crear ó especificar el valor para un indice de la sesión
-	 * actual
-	 *
-	 * @param string $index
-	 * @param mixed $value
-	 */
-	static function set($index, $value){
-	  	$_SESSION['session_data'][$index] = $value;
-	}
-
-	/**
-	 * Obtener el valor para un indice de la sesión
-	 *
-	 * @param string $index
-	 * @return mixed
-	 */
-	static function get($index){
-	  	if(isset($_SESSION['session_data'][$index])){
-	  		return $_SESSION['session_data'][$index];
-		} else {
-			return null;
-		}
-	}
-
 	/**
 	 * Unset una variable de indice
 	 *
+	 * @param string $index
+	 * @param string $namespace
 	 */
-	static function unset_data(){
-	  	$lista_args = func_get_args();
-	  	if($lista_args){
-  	  		foreach($lista_args as $arg){
-			  	unset($_SESSION['session_data'][$arg]);
-			}
-		}
+	static function unset_data($index, $namespace='default')
+	{
+	  	unset($_SESSION['KUMBIA_SESSION'][CORE_PATH][APP_PATH][$namespace][$index]);
 	}
-
 	/**
 	 * Evalua si esta definido un valor dentro de
 	 * los valores de sesion
 	 *
 	 * @param string $index
-	 * @return mixed
+	 * @param string $namespace
+	 * @return boolean
 	 */
-	static function isset_data($index){
-		return isset($_SESSION['session_data'][$index]);
+	static function isset_data($index, $namespace='default'){
+		return isset($_SESSION['KUMBIA_SESSION'][CORE_PATH][APP_PATH][$namespace][$index]);
 	}
 }
