@@ -278,10 +278,6 @@ class Kumbia
          * @see Util
          */
         require CORE_PATH . 'helpers/util.php';
-        /**
-         * @see Session
-         */
-        require CORE_PATH . 'session/session.php';
     }
 
 	/**

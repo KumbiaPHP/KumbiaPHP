@@ -95,8 +95,8 @@ class Dispatcher
 				/**
 				 * Verifica si el controlador esta persistente en la sesion
 				 **/
-                if (Session::isset_data($app_controller, 'kumbia.controllers')) {
-					$activeController = unserialize(Session::get($app_controller, 'kumbia.controllers'));
+                if (isset($_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"])) {
+					$activeController = unserialize($_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"]);
                 } else {
 					$activeController = new $app_controller();
                     $activeController->module_name = $module;
@@ -152,7 +152,7 @@ class Dispatcher
 					 *
 					 **/
 					if($activeController->persistent) {
-						Session::set($app_controller, serialize($activeController), 'kumbia.controllers');
+						$_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"] = serialize($activeController);
 					}
                 } catch (PDOException $e) {
                     throw new KumbiaException($e->getMessage(), $e->getCode());
