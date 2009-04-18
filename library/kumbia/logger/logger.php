@@ -99,7 +99,7 @@ abstract class Logger {
  	 */
 	public static function initialize($name='')
     {
-        self::$log_path = CORE_PATH . 'logs/';
+        self::$log_path = APP_PATH . 'temp/logs/';
 		if($name===''||$name===true){
 			$name = 'log'.date('dmY').'.txt';
 		}
