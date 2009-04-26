@@ -42,36 +42,44 @@ define('APP_PATH', dirname(dirname(__FILE__)) . '/');
  *   y es relativa al DOCUMENT_ROOT del servidor web
  **/
 define('PUBLIC_PATH', dirname($_SERVER['SCRIPT_NAME']) . '/');
+/**
+ * Si se utiliza Virtual Host
+ **/
+//define('PUBLIC_PATH', '/');
 
 /**
- * Define el BASE_PATH
+ * Define el URL_PATH
  *
- * BASE_PATH:
+ * URL_PATH:
  * - Path para generar la Url en los links a acciones y controladores
  * - Esta ruta la utiliza Kumbia como base para generar las Urls para acceder de lado de
  *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
  **/
-define('BASE_PATH', dirname(dirname(dirname(PUBLIC_PATH))) . '/');
+define('URL_PATH', dirname(dirname(dirname(PUBLIC_PATH))) . '/');
 /**
  * Si se usa multiaplicacion
  **/
-//define('BASE_PATH', dirname(dirname(dirname(PUBLIC_PATH))). basename(APP_PATH) . '/');
+//define('URL_PATH', dirname(dirname(dirname(PUBLIC_PATH))). basename(APP_PATH) . '/');
 /**
  * Si se usa urls bonitas sin rewrite
  **/
-//define('BASE_PATH', dirname(dirname(dirname(PUBLIC_PATH))) . '/index.php/');
+//define('URL_PATH', dirname(dirname(dirname(PUBLIC_PATH))) . '/index.php/');
 /**
  * Si se usa multiaplicacion y urls bonitas sin rewrite
  **/
-//define('BASE_PATH', dirname(dirname(dirname(PUBLIC_PATH))). basename(APP_PATH) . '/index.php/');
+//define('URL_PATH', dirname(dirname(dirname(PUBLIC_PATH))). basename(APP_PATH) . '/index.php/');
 /**
  * Si se usa urls feas
  **/
-//define('BASE_PATH', dirname(dirname(dirname(PUBLIC_PATH))) . '/index.php?url=');
+//define('URL_PATH', dirname(dirname(dirname(PUBLIC_PATH))) . '/index.php?url=');
 /**
  * Si se usa multiaplicacion y urls feas
  **/
-//define('BASE_PATH', dirname(dirname(dirname(PUBLIC_PATH))). basename(APP_PATH) . '/index.php?url=');
+//define('URL_PATH', dirname(dirname(dirname(PUBLIC_PATH))). basename(APP_PATH) . '/index.php?url=');
+/**
+ * Si se usa Virtual Host
+ **/
+//define('URL_PATH',  $_SERVER['HTTP_HOST'] . '/');
 
 /**
  * Define el LIBRARY_PATH

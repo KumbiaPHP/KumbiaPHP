@@ -303,7 +303,7 @@ function get_params($params){
  * @return string
  */
 function get_kumbia_url($url){
-	$return_url = BASE_PATH;
+	$return_url = URL_PATH;
 	
 	$action = $url;
 	$module = '';
