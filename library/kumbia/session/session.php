@@ -49,7 +49,11 @@ class Session
 	 */
 	static function get($index, $namespace='default')
 	{
-		return $_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index];
+		if(isset($_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index])) {
+			return $_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index];
+		} else {
+			return null;
+		}
 	}
 	/**
 	 * Unset una variable de indice
