@@ -1,13 +1,28 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">	
-	<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
-		<title>Kumbia PHP Framework</title>
-		<?php stylesheet_link_tag('style', 'use_variables: true') ?> 
-		<?php echo Kumbia::stylesheet_link_tags() ?> 
-		<?php render_partial('kumbia/prototype') ?> 
-	</head>
-	<body>
-		<?php echo content() ?> 
-	</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv='Content-type' content='text/html; charset=<?php echo APP_CHARSET ?>' />
+  <title>KumbiaPHP web & app Framework</title>
+  <?php echo stylesheet_link_tag('bienvenida') ?>
+  <?php echo stylesheet_link_tag('style') ?>
+  <?php echo Kumbia::stylesheet_link_tags(); ?>
+</head>
+<body>
+    <div id='content'>
+        <div id='head'>
+            <h1 id='logo'>KumbiaPHP</h1><div id='info-app'>web & app Framework versión <?php echo Kumbia::KUMBIA_VERSION ?></div>
+            
+            <div class='alignright'>
+                <p id='config'>
+                    <spam class='app'><?php echo APP ?></spam> 
+                    <?php echo link_to('status/', 'Config', 'title: Ver configuración de '.APP) ?>
+                </p>
+             </div>
+        </div>
+
+        <?php content(); ?>
+        
+        <?php echo render_partial('kumbia/footer') ?>
+    </div>
+</body>
 </html>

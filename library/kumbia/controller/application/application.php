@@ -671,12 +671,12 @@ class Controller
 	 * @param string $model
 	 **/
 	public function load_models($model=null)
-	{
+	{	    
 		$models = $model ? func_get_args() : $this->models;
 		foreach($models as $model) {
 			if(!isset(Kumbia::$models[$model])) {
 				if(!class_exists($model)) {
-					$model_file = Kumbia::$active_models_dir.'/'.uncamelize(lcfirst($model)).'.php';
+					$model_file = APP_PATH.'models/'.uncamelize(lcfirst($model)).'.php';
 					if(!file_exists($model_file))
 						throw new KumbiaException("No existe el modelo \"$model\"");
 					require_once $model_file;

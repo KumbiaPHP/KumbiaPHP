@@ -1,18 +1,3 @@
-body {
-	font-family: 'Verdana,Helvetica,Arial,sans-serif';
-}
-
-body { background: #434343; font-family: "Lucida Grande",Verdana; }
-#contenido { background-color: #fff; border: #999 1px solid; padding: 10px ; width: 70%; margin:3em auto; }
-#logo { float: left; }
-#version {float: right; font-size: 14pt; color: #900; margin: 1.5em 3em 0 0;}
-#info { padding: 3em; clear:both; }
-#info h1 { font-size: 2em; color: #900; margin: 0; text-align:center }
-#info p,li { color: #900; font-size: 15px; }
-#footer a { text-decoration: none; font-weight: bold; font-size: 14px; }
-#footer a:hover { color: #FF6600; }
-#footer ul.links { text-align: center; list-style: none inside; padding: 0; }
-#footer ul.links li { display: inline; }
 
 /* Implements All Control Buttons */
 .controlButton {
@@ -40,31 +25,31 @@ body { background: #434343; font-family: "Lucida Grande",Verdana; }
 .error_message {
 	color: #D8000C;
 	background-color: #FFBABA;
-	background-image: url('@img_path/default/error.png');
+	background-image: url('../img/default/error.png');
 }
 
 .notice_message {
 	color: #00529B;
 	background-color: #BDE5F8;
-	background-image: url('@img_path/default/info.png');
+	background-image: url('../img/default/info.png');
 }
 
 .success_message {
 	color: #4F8A10;
 	background-color: #DFF2BF;
-	background-image:url('@img_path/default/valid.png');
+	background-image:url('../img/default/valid.png');
 }
 
 .warning_message {
 	color: #9F6000;
 	background-color: #FEEFB3;
-	background-image: url('@img_path/default/warning.png');
+	background-image: url('../img/default/warning.png');
 }
 
 .validation_message {
 	color: #D63301;
 	background-color: #FFCCBA;
-	background-image: url('@img_path/default/warning.png');
+	background-image: url('../img/default/warning.png');
 }
 
 .highlight {

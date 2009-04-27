@@ -34,6 +34,12 @@ error_reporting(E_ALL ^ E_STRICT);
 define('APP_PATH', dirname(dirname(__FILE__)) . '/');
 
 /**
+ * Define el nombre de la APP
+ * 
+ */
+define('APP', basename(APP_PATH));
+
+/**
  * Define el PUBLIC_PATH
  *
  * PUBLIC_PATH:
@@ -96,6 +102,16 @@ define('LIBRARY_PATH', dirname(APP_PATH) . '/library/');
  * - Ruta al directorio que contiene el núcleo de Kumbia (por defecto la ruta al directorio library/kumbia)
  **/
 define('CORE_PATH', LIBRARY_PATH . 'kumbia/');
+
+/**
+ * @see Benchmark
+ */
+require CORE_PATH.'benchmark/benchmark.php';
+
+/**
+ * Inicia el benchmark
+ */
+Benchmark::start_clock('kumbia');
 
 /**
  * @see KumbiaException
