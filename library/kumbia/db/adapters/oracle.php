@@ -151,7 +151,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 			return false;
 		}
 
-		if($this->id_connection = @oci_pconnect($config['username'], $config['password'], "//{$config['host']}/$config['name']")){
+		if($this->id_connection = @oci_pconnect($config['username'], $config['password'], "//{$config['host']}/{$config['name']}")){
 			/**
 			 * Cambio el formato de fecha al estandar YYYY-MM-DD
 			 */

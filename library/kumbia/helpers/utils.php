@@ -707,99 +707,100 @@ function remove_dir($dir){
 * @return object
 **/
 function paginate() {
-	$params = get_params(func_get_args());
-	
-	$page_number = isset($params['page']) ? $params['page'] : 1;
-	$per_page = isset($params['per_page']) ? $params['per_page'] : 10;
-	$start = $per_page*($page_number-1);
-	
-	/**
-	 * Instancia del objeto contenedor de pagina
-	 **/
-	$page = new stdClass();
-	
-	/**
-	 * Si es un array, se hace paginacion de array
-	 **/
-	if(is_array($params[0])) {
-		$items = $params[0];
-		$n = count($items);
-		$page->items = array_slice($items, $start, $per_page);
-	} else {
-	
-		/**
-		 * Si es una cadena, instancio el modelo
-		 **/
-		if(is_string($params[0])) {
-			$m = ucfirst(camelize($params[0]));
-			$model = kumbia::$models[$m];
-		} else {
-			$model = $params[0];
-		}
-	
-		/**
-		 * Arreglo que contiene los argumentos para el find
-		 **/
-		$find_args = array();
-		
-		/**
-		 * Asignando parametros de busqueda
-		 **/
-		if(isset($params['conditions'])) {
-			$conditions = $params['conditions'];
-		}elseif(isset($params[1])) {
-			$conditions = $params[1];
-		}
+    $params = get_params(func_get_args());
+    
+    $page_number = isset($params['page']) ? $params['page'] : 1;
+    $per_page = isset($params['per_page']) ? $params['per_page'] : 10;
+    $start = $per_page*($page_number-1);
+    
+    /**
+     * Instancia del objeto contenedor de pagina
+     **/
+    $page = new stdClass();
+    
+    /**
+     * Si es un array, se hace paginacion de array
+     **/
+    if(is_array($params[0])) {
+        $items = $params[0];
+        $n = count($items);
+        $page->items = array_slice($items, $start, $per_page);
+    } else {
+    
+        /**
+         * Si es una cadena, instancio el modelo
+         **/
+        if(is_string($params[0])) {
+            $m = ucfirst(camelize($params[0]));
+            $model = kumbia::$models[$m];
+        } else {
+            $model = $params[0];
+        }
+    
+        /**
+         * Arreglo que contiene los argumentos para el find
+         **/
+        $find_args = array();
+        $conditions = null;
+        /**
+         * Asignando parametros de busqueda
+         **/
+        if(isset($params['conditions'])) {
+            $conditions = $params['conditions'];
+        }elseif(isset($params[1])) {
+            $conditions = $params[1];
+        }
 
-		if(isset($params['columns'])) {
-			array_push($find_args, "columns: {$params['columns']}");
-		}
-		if(isset($params['join'])) {
-			array_push($find_args, "join: {$params['join']}");
-		}
-		if(isset($params['group'])) {
-			array_push($find_args, "group: {$params['group']}");
-		}
-		if(isset($params['having'])) {
-			array_push($find_args, "having: {$params['having']}");
-		}
-		if(isset($params['order'])) {
-			array_push($find_args, "order: {$params['order']}");
-		}
-		if(isset($params['distinct'])) {
-			array_push($find_args, "distinct: {$params['distinct']}");
-		}
-		if(isset($conditions)) {
-			array_push($find_args, $conditions);
-		}
-		
-		/**
-		 * Cuento las apariciones
-		 **/
-		$n = call_user_func_array(array($model, 'count'), $find_args);
-		
-		/**
-		 * Asignamos el offset y limit
-		 **/
-		array_push($find_args, "offset: $start");
-		array_push($find_args, "limit: $per_page");
-		
-		/**
-		 * Se efectua la busqueda
-		 **/
-		$page->items = call_user_func_array(array($model, 'find'), $find_args);
-	}
-	
-	/**
-	 * Se efectuan los calculos para las paginas
-	 **/
-	$page->next = ($start + $per_page)<$n ? ($page_number+1) : false ;
-	$page->prev = ($page_number>1) ? ($page_number-1) : false ;
-	$page->current = $page_number;
-	$page->total = ($n % $per_page) ? ((int)($n/$per_page) + 1):($n/$per_page);
-	$page->count = $n;
-	
-	return $page;
+        if(isset($params['columns'])) {
+            array_push($find_args, "columns: {$params['columns']}");
+        }
+        if(isset($params['join'])) {
+            array_push($find_args, "join: {$params['join']}");
+        }
+        if(isset($params['group'])) {
+            array_push($find_args, "group: {$params['group']}");
+        }
+        if(isset($params['having'])) {
+            array_push($find_args, "having: {$params['having']}");
+        }
+        if(isset($params['order'])) {
+            array_push($find_args, "order: {$params['order']}");
+        }
+        if(isset($params['distinct'])) {
+            array_push($find_args, "distinct: {$params['distinct']}");
+        }
+        if(isset($conditions)) {
+            array_push($find_args, $conditions);
+        }
+        
+        /**
+         * Cuento las apariciones
+         **/
+        //$n = call_user_func_array(array($model, 'count'), $find_args);
+        $n = call_user_func_array(array($model, 'count'), $conditions);
+        
+        /**
+         * Asignamos el offset y limit
+         **/
+        array_push($find_args, "offset: $start");
+        array_push($find_args, "limit: $per_page");
+        
+        /**
+         * Se efectua la busqueda
+         **/
+        $page->items = call_user_func_array(array($model, 'find'), $find_args);
+    }
+    
+    /**
+     * Se efectuan los calculos para las paginas
+     **/
+    $page->next = ($start + $per_page)<$n ? ($page_number+1) : false ;
+    $page->prev = ($page_number>1) ? ($page_number-1) : false ;
+    $page->current = $page_number;
+    $page->total = ($n % $per_page) ? ((int)($n/$per_page) + 1):($n/$per_page);
+    $page->count = $n;
+    
+    return $page;
 }
 
 /**
