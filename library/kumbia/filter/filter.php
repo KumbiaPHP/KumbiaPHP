@@ -112,7 +112,7 @@ class Filter
 	{
 		$file = CORE_PATH . "filter/base_filters/$f_filter.php";
 		if(!file_exists($file)) {
-			$file = APP_PATH . "plugins/filters/$f_filter.php";
+			$file = APP_PATH . "filters/$f_filter.php";
 			if(!file_exists($file)) {
 				throw new KumbiaException("Filtro $f no encontrado");
 			}
