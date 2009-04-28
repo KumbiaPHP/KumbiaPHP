@@ -40,54 +40,6 @@ define('APP_PATH', dirname(dirname(__FILE__)) . '/');
 define('APP', basename(APP_PATH));
 
 /**
- * Define el PUBLIC_PATH
- *
- * PUBLIC_PATH:
- * - Ruta al directorio public de la aplicación (por defecto ruta al directorio app/public)
- * - Esta ruta la utiliza el cliente (el navegador web) para acceder a los recursos
- *   y es relativa al DOCUMENT_ROOT del servidor web
- **/
-define('PUBLIC_PATH', dirname($_SERVER['SCRIPT_NAME']) . '/');
-/**
- * Si se utiliza Virtual Host
- **/
-//define('PUBLIC_PATH', '/');
-
-/**
- * Define el URL_PATH
- *
- * URL_PATH:
- * - Path para generar la Url en los links a acciones y controladores
- * - Esta ruta la utiliza Kumbia como base para generar las Urls para acceder de lado de
- *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
- **/
-define('URL_PATH', dirname(dirname(dirname(PUBLIC_PATH))) . '/');
-/**
- * Si se usa multiaplicacion
- **/
-//define('URL_PATH', dirname(dirname(dirname(PUBLIC_PATH))). basename(APP_PATH) . '/');
-/**
- * Si se usa urls bonitas sin rewrite
- **/
-//define('URL_PATH', dirname(dirname(dirname(PUBLIC_PATH))) . '/index.php/');
-/**
- * Si se usa multiaplicacion y urls bonitas sin rewrite
- **/
-//define('URL_PATH', dirname(dirname(dirname(PUBLIC_PATH))). basename(APP_PATH) . '/index.php/');
-/**
- * Si se usa urls feas
- **/
-//define('URL_PATH', dirname(dirname(dirname(PUBLIC_PATH))) . '/index.php?url=');
-/**
- * Si se usa multiaplicacion y urls feas
- **/
-//define('URL_PATH', dirname(dirname(dirname(PUBLIC_PATH))). basename(APP_PATH) . '/index.php?url=');
-/**
- * Si se usa Virtual Host
- **/
-//define('URL_PATH',  $_SERVER['HTTP_HOST'] . '/');
-
-/**
  * Define el LIBRARY_PATH
  *
  * LIBRARY_PATH:
@@ -102,6 +54,30 @@ define('LIBRARY_PATH', dirname(APP_PATH) . '/library/');
  * - Ruta al directorio que contiene el núcleo de Kumbia (por defecto la ruta al directorio library/kumbia)
  **/
 define('CORE_PATH', LIBRARY_PATH . 'kumbia/');
+
+/**
+ * Define el URL_PATH
+ *
+ * URL_PATH:
+ * - Path para generar la Url en los links a acciones y controladores
+ * - Esta ruta la utiliza Kumbia como base para generar las Urls para acceder de lado de
+ *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
+ **/
+if($_SERVER['QUERY_STRING']) {
+	define('URL_PATH', substr($_SERVER['REQUEST_URI'], 0, -strlen($_SERVER['QUERY_STRING']) + 4));
+} else {
+	define('URL_PATH', $_SERVER['REQUEST_URI']);
+}
+
+/**
+ * Define el PUBLIC_PATH
+ *
+ * PUBLIC_PATH:
+ * - Ruta al directorio public de la aplicación (por defecto ruta al directorio app/public)
+ * - Esta ruta la utiliza el cliente (el navegador web) para acceder a los recursos
+ *   y es relativa al DOCUMENT_ROOT del servidor web
+ **/
+define('PUBLIC_PATH', URL_PATH);
 
 /**
  * @see Benchmark
