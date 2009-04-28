@@ -84,14 +84,6 @@ class Dispatcher
              */
             //require_once "$controllers_dir/$controller".'_controller.php';
             if (class_exists($app_controller)) {
-                /*
-                 * se obtiene la superclase
-                 */
-                $super_class = get_parent_class($app_controller);
-                if ($super_class='StandardForm') {
-                    require_once CORE_PATH . 'generator/generator.php';
-                }
-
 				/**
 				 * Verifica si el controlador esta persistente en la sesion
 				 **/
