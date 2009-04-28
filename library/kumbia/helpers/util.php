@@ -289,19 +289,17 @@ class Util
     /**
      * Convierte los argumentos de una funcion o metodo a parametros por nombre
      *
-     * @param array $params argumentos de la funcion de donde se analizaran los argumentos
-     * @param int $fixed_args numero de argumentos fijos en la funcion de donde se analizaran los argumentos
+     * @param string $params argumentos de la funcion de donde se analizaran los argumentos
 	 * @return array
      */
-    public static function get_params($params, $fixed_args=0)
+    public static function get_params($params)
     {
+		$params = explode(', ', $params);
 		$data = array();
-		$i = $fixed_args;
-		$len = count($params);
-		do {
-			$match = explode(': ', $params[$i], 2);
+		foreach($params as $p) {
+			$match = explode(': ', $p, 2);
 			$data[$match[0]] = $match[1];
-		} while(++$i < $len);
+		}
 		return $data;
     }
     /**
