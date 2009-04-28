@@ -336,7 +336,7 @@ class ActiveRecordBase
             return $this->database;
         } else {
             $core = Config::read('config.ini');
-            return $core->{Router::get_application()}->database;
+            return $core['application']['database'];
         }
     }
     /**
@@ -1632,7 +1632,7 @@ class ActiveRecordBase
         	}
         }
         $environment = Config::read('databases.ini');
-        $config = $environment->{$this->get_database()};
+        $config = $environment[$this->get_database()];
         if ($ex) {
             $fields = array();
             $values = array();
@@ -1691,7 +1691,7 @@ class ActiveRecordBase
                             if ($this->is_a_numeric_type($field) || $this->$field == null) {
                                 $values[] = addslashes($this->$field !== '' && $this->$field !== null ? $this->$field : "NULL");
                             } else {
-                                if ($this->_data_type[$field] == 'date' && $config->type == 'oracle') {
+                                if ($this->_data_type[$field] == 'date' && $config['type'] == 'oracle') {
                                     /**
                                      * Se debe especificar el formato de fecha en Oracle
                                      */
@@ -1710,13 +1710,13 @@ class ActiveRecordBase
                     /**
                      * Campos autonumericos en Oracle deben utilizar una sequencia auxiliar
                      */
-                    if ($config->type == 'oracle') {
+                    if ($config['type'] == 'oracle') {
                         if (!$this->id) {
                             $fields[] = "id";
                             $values[] = $this->source . "_id_seq.NEXTVAL";
                         }
                     }
-                    if ($config->type == 'informix') {
+                    if ($config['type'] == 'informix') {
                         if (!$this->id) {
                             $fields[] = "id";
                             $values[] = 0;
@@ -1726,7 +1726,7 @@ class ActiveRecordBase
             }
             $val = $this->db->insert($table, $values, $fields);
         }
-        if (!isset($config->pdo) && $config->type == 'oracle') {
+        if (!isset($config['pdo']) && $config['type'] == 'oracle') {
             $this->commit();
         }
         if (!$ex) {
