@@ -953,7 +953,7 @@ function get_server_url($route) {
 function use_helper($helper) {
 	$helpers = func_get_args();
 	foreach($helpers as $helper) {
-		$file = APP_PATH . "plugins/helpers/$helper.php";
+		$file = APP_PATH . "helpers/$helper.php";
 		if(!require_once($file)) {
 			throw new KumbiaException("No se encontr&oacute; el Helper \"$helper\"",
 				"Es necesario definir el archivo $helper.php para que el helper funcione correctamente");
