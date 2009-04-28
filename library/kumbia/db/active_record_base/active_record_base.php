@@ -1639,7 +1639,7 @@ class ActiveRecordBase
             foreach($this->non_primary as $np) {
                 $np = ActiveRecord::sql_item_sanizite($np);
                 if (in_array($np, $this->_in)) {
-                    if ($config->type == 'oracle') {
+                    if ($config['type'] == 'oracle') {
                         $this->$np = date("Y-m-d");
                     } else {
                         $this->$np = date("Y-m-d G:i:s");
@@ -1655,7 +1655,7 @@ class ActiveRecordBase
                         /**
                          * Se debe especificar el formato de fecha en Oracle
                          */
-                        if ($this->_data_type[$np] == 'date' && $config->type == 'oracle') {
+                        if ($this->_data_type[$np] == 'date' && $config['type'] == 'oracle') {
                             $values[] = "TO_DATE(" . $this->db->add_quotes($this->$np) . ", 'YYYY-MM-DD')";
                         } else {
                             $values[] = $this->db->add_quotes($this->$np);
@@ -1670,7 +1670,7 @@ class ActiveRecordBase
             foreach($this->fields as $field) {
                 if ($field != 'id' && !$this->id) {
                     if (in_array($field, $this->_at)) {
-                        if ($config->type == 'oracle') {
+                        if ($config['type'] == 'oracle') {
                             $this->$field = date("Y-m-d");
                         } else {
                             $this->$field = date("Y-m-d G:i:s");
@@ -1680,7 +1680,7 @@ class ActiveRecordBase
                         unset($this->$field);
                     }
                     $use_default = in_array($field, $this->_with_default) && isset($this->$field) && (is_null($this->$field) || $this->$field == '');
-                    if($this->_data_type[$field] == 'datetime' && $config->type == 'mysql'){
+                    if($this->_data_type[$field] == 'datetime' && $config['type'] == 'mysql'){
                     	$this->$field = date("Y-m-d G:i:s",strtotime($this->$field));
 						}
 					if (isset($this->$field) && !$use_default) {
