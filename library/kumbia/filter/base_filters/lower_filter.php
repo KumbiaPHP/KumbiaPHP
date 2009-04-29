@@ -29,7 +29,7 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    SVN:$id
  */
-class lower_filter implements FilterInterface
+class LowerFilter implements FilterInterface
 {
     /**
      * Ejecuta el filtro
