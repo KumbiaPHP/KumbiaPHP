@@ -44,7 +44,7 @@ class FilterBuilder implements BuilderInterface
 		/**
 		 * Nombre de archivo
 		 **/
-		$__file__ = APP_PATH . 'plugins/filters/' . "{$sfilter}_filter.php";
+		$__file__ = APP_PATH . 'filters/' . "{$sfilter}_filter.php";
 			
 		/**
 		 * Generando archivo

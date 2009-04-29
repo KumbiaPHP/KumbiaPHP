@@ -44,7 +44,7 @@ class FilterDestroyer implements DestroyerInterface
 		/**
 		 * Nombre de archivo
 		 **/
-		$file = APP_PATH . "plugins/filters/{$sfilter}_filter.php";
+		$file = APP_PATH . "filters/{$sfilter}_filter.php";
 		
 		echo "\r\n-- Eliminando filter: $filter\r\n$file\r\n";
 		

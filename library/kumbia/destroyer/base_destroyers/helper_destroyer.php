@@ -42,7 +42,7 @@ class HelperDestroyer implements DestroyerInterface
 		/**
 		 * Nombre de archivo
 		 **/
-		$file = APP_PATH . "plugins/helpers/$name.php";
+		$file = APP_PATH . "helpers/$name.php";
 		
 		echo "\r\n-- Eliminando helper: $name\r\n$file\r\n";
 		

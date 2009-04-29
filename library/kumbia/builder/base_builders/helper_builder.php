@@ -42,7 +42,7 @@ class HelperBuilder implements BuilderInterface
 		/**
 		 * Nombre de archivo para modelo
 		 **/
-		$__file__ = APP_PATH . 'plugins/helpers/' . "$name.php";
+		$__file__ = APP_PATH . 'helpers/' . "$name.php";
 			
 		/**
 		 * Generando archivo
