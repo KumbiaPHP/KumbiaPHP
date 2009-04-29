@@ -1742,4 +1742,45 @@ function month_field_tag($name) {
 	$params[1] = $meses;
 	return select_tag($params);
 }
-?>
+
+/**
+ * Permite incluir un objeto flash dentro de una vista respetando
+ * las convenciones de directorios y rutas en Kumbia
+ *
+ * @param string $data url del archivo flash con o sin extension .swf<br/>
+ * height: Alto del flash<br/>
+ * width: Ancho del flash<br/>
+ * wmode: Modo en que se muestra el flash
+ *
+ * @return string
+ */
+function swf_tag($data){
+	$params = is_array($data) ? $data : get_params(func_get_args());
+	
+	if(!isset($params['data']) && isset($params[0])){
+		$temp = str_replace(".swf", "", $params[0]);
+		$params['data'] = PUBLIC_PATH."swf/{$temp}.swf";
+		unset($params[0]);
+	}else{
+		$temp = str_replace(".swf", "", $params['data']);
+		$params['data'] = PUBLIC_PATH."swf/{$temp}.swf";
+	}
+	
+	if(!isset($params['type'])){
+		$params['type'] = 'application/x-shockwave-flash';
+	}
+	
+	if(!isset($params['wmode'])){
+		$wmode = 'transparent';
+	}else{
+		$wmode = $params['wmode'];
+		unset($params['wmode']);
+	}
+	
+	$code = xhtml_start_tag('object', $params);
+	$code .= '<param name="movie" value="'.$params['data'].'" />';
+	$code .= '<param name="wmode" value="'.$wmode.'" />';
+	$code .= xhtml_end_tag('object');
+	
+	return $code;
+}
