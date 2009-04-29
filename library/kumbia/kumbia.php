@@ -85,22 +85,23 @@ class Kumbia
          * usuario y clases personalizadas, en la variable extensions.
          *
          */
-		$config = Config::read('config');
-		if($config['modules']['extensions']){
-			$extensions = explode(',', str_replace(' ', '', $config['modules']['extensions']));
+		$boot = Config::read('boot');
+		if($boot['modules']['extensions']){
+			$extensions = explode(',', str_replace(' ', '', $boot['modules']['extensions']));
 			foreach ($extensions as $extension){
-				require_once LIBRARY_PATH . $extension .'/'.$extension.'.php';
+				require_once LIBRARY_PATH . "extensions/$extension" .'/'.$extension.'.php';
 			}
 			unset($extensions);
 		}
-		if($config['modules']['kumbia']){
-			$extensions = explode(',', str_replace(' ', '', $config['modules']['kumbia']));
+		if($boot['modules']['kumbia']){
+			$extensions = explode(',', str_replace(' ', '', $boot['modules']['kumbia']));
 			foreach ($extensions as $extension){
 				require_once CORE_PATH . $extension .'/'.$extension.'.php';
 			}
 			unset($extensions);
 		}
 		
+		$config = Config::read('config');
         /**
          * Establecer el timezone para las fechas y horas
          */
