@@ -289,6 +289,7 @@ function link_to_remote($action){
 	$params['onclick'] = $code;
 	$params['href'] = '#';
 	
+	unset($params['action']);
 	unset($params['before']);
 	unset($params['oncomplete']);
 	unset($params['success']);
