@@ -72,7 +72,7 @@ class KumbiaException extends Exception {
 		if(!$config['application']['production']) {
 			$show_trace = $e->_show_trace;
 			$models = implode(' ,', array_keys(Kumbia::$models));
-			$boot = Config::read('boot');
+			$boot = Config::read('boot.ini');
 			include CORE_PATH . 'view/views/exception.phtml';
 		} else {
 			include APP_PATH . 'views/errors/404.phtml';

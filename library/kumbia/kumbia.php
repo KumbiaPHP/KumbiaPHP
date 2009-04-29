@@ -85,7 +85,7 @@ class Kumbia
          * usuario y clases personalizadas, en la variable extensions.
          *
          */
-		$boot = Config::read('boot');
+		$boot = Config::read('boot.ini');
 		if($boot['modules']['extensions']){
 			$extensions = explode(',', str_replace(' ', '', $boot['modules']['extensions']));
 			foreach ($extensions as $extension){
@@ -101,7 +101,7 @@ class Kumbia
 			unset($extensions);
 		}
 		
-		$config = Config::read('config');
+		$config = Config::read('config.ini');
         /**
          * Establecer el timezone para las fechas y horas
          */
