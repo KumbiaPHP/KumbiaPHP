@@ -264,23 +264,23 @@ class Report {
 
 		switch($_REQUEST['reportType']){
 			case 'pdf':
-				require_once CORE_PATH.'report/format/pdf.php';
+				require_once CORE_PATH . 'extensions/report/format/pdf.php';
 				pdf($result, $sumArray, $title, $weightArray, $headerArray);
 			break;
 			case 'xls':
-				require_once CORE_PATH.'report/format/xls.php';
+				require_once CORE_PATH . 'extensions/report/format/xls.php';
 				xls($result, $sumArray, $title, $weightArray, $headerArray);
 			break;
 			case 'html':
-				require_once CORE_PATH.'report/format/htm.php';
+				require_once CORE_PATH . 'extensions/report/format/htm.php';
 				htm($result, $sumArray, $title, $weightArray, $headerArray);
 			break;
 			case 'doc':
-				require_once CORE_PATH.'report/format/doc.php';
+				require_once CORE_PATH . 'extensions/report/format/doc.php';
 				doc($result, $sumArray, $title, $weightArray, $headerArray);
 			break;
 			default:
-				require_once CORE_PATH.'report/format/pdf.php';
+				require_once CORE_PATH . 'extensions/report/format/pdf.php';
 				pdf($result, $sumArray, $title, $weightArray, $headerArray);
 			break;
 		}

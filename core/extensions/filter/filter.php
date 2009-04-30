@@ -21,7 +21,7 @@
 /**
  * @see FilterInterface
  **/
-require_once CORE_PATH.'filter/filter_interface.php';
+require_once CORE_PATH . 'extensions/filter/filter_interface.php';
  
 /**
  * Implementación de Filtros para Kumbia
@@ -110,7 +110,7 @@ class Filter
 	 **/
 	protected static function _load_filter($filter)
 	{
-		$file = CORE_PATH . "filter/base_filters/$f_filter.php";
+		$file = CORE_PATH . "extensions/filter/base_filters/$f_filter.php";
 		if(!file_exists($file)) {
 			$file = APP_PATH . "filters/$f_filter.php";
 			if(!file_exists($file)) {

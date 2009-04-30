@@ -21,23 +21,23 @@
 /**
  * @see DestroyerInterface
  */
-require_once CORE_PATH.'destroyer/destroyer_interface.php';
+require_once CORE_PATH . 'extensions/destroyer/destroyer_interface.php';
 /**
  * @see ModelDestroyer
  */
-require_once CORE_PATH.'destroyer/base_destroyers/model_destroyer.php';
+require_once CORE_PATH . 'extensions/destroyer/base_destroyers/model_destroyer.php';
 /**
  * @see ControllerDestroyer
  */
-require_once CORE_PATH.'destroyer/base_destroyers/controller_destroyer.php';
+require_once CORE_PATH . 'extensions/destroyer/base_destroyers/controller_destroyer.php';
 /**
  * @see HelperDestroyer
  */
-require_once CORE_PATH.'destroyer/base_destroyers/helper_destroyer.php';
+require_once CORE_PATH . 'extensions/destroyer/base_destroyers/helper_destroyer.php';
 /**
  * @see FilterDestroyer
  */
-require_once CORE_PATH.'destroyer/base_destroyers/filter_destroyer.php';
+require_once CORE_PATH . 'extensions/destroyer/base_destroyers/filter_destroyer.php';
 
 /**
  * Manejador de Destroyers
@@ -60,11 +60,6 @@ class Destroyer
 	public static function destroy($destroyer, $name=null, $params=array())
     {
 		$success = false;
-		
-		if(is_string($params)) {
-			$params = array_slice(Util::getParams(func_get_args()), 1);
-		}
-		
         $destroyer_class = Util::camelcase($destroyer).'Destroyer';
         if (class_exists($destroyer_class)) {
             $success = call_user_func(array($destroyer_class, 'execute'), $name, $params);

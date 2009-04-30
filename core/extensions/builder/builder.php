@@ -60,11 +60,6 @@ class Builder
 	 */
 	public static function build($builder, $name=null, $params=array()) {
 		$success = false;
-		
-		if (is_string($params)) {
-			$params = array_slice(Util::getParams(func_get_args()), 2);
-		}
-		
         $builder_class = Util::camelcase($builder).'Builder';
         if (class_exists($builder_class)) {
             $success = call_user_func(array($builder_class, 'execute'), $name, $params);

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Kumbia PHP Framework
  *
@@ -30,9 +29,8 @@
  * @license http://www.kumbia.org/license.txt GNU/GPL
  *
  */
-
-abstract class Registry{
-
+class Registry
+{
 	/**
 	 * Variable donde se guarda el registro
 	 *
@@ -41,20 +39,13 @@ abstract class Registry{
 	private static $registry = array();
 
 	/**
-	 * Constructor Privado.
-	 *
-	 */
-	private function __construct(){
-
-	}
-
-	/**
 	 * Establece un valor del registro
 	 *
 	 * @param string $index
 	 * @param string $value
 	 */
-	public static function set($index, $value){
+	public static function set($index, $value)
+	{
 		self::$registry[$index] = $value;
 	}
 
@@ -64,7 +55,8 @@ abstract class Registry{
 	 * @param string $index
 	 * @param string $value
 	 */
-	public static function append($index, $value){
+	public static function append($index, $value)
+	{
 		if(!isset(self::$registry[$index])){
 			self::$registry[$index] = array();
 		}
@@ -79,7 +71,8 @@ abstract class Registry{
 	 * @param string $value
 	 */
 
-	public static function prepend($index, $value){
+	public static function prepend($index, $value)
+	{
 		if(!isset(self::$registry[$index])){
 			self::$registry[$index] = array();
 		}
@@ -92,7 +85,8 @@ abstract class Registry{
 	 * @param string $index
 	 * @return mixed
 	 */
-	public static function get($index){
+	public static function get($index)
+	{
 		if(isset(self::$registry[$index])){
 			return self::$registry[$index];
 		} else {

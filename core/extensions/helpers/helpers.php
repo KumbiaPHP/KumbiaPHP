@@ -23,14 +23,14 @@
 /**
  * @see Registry
  */
- require_once CORE_PATH.'registry/registry.php';
+ require_once CORE_PATH . 'extensions/registry/registry.php';
 
 /**
  * Tags
  */
- require_once CORE_PATH.'helpers/tags.php';
+ require_once CORE_PATH . 'extensions/helpers/tags.php';
 
 /**
  * Utils
  */
- require_once CORE_PATH.'helpers/utils.php';
+ require_once CORE_PATH . 'extensions/helpers/utils.php';
