@@ -18,7 +18,7 @@
  *
  */
 
-final class Benchmark 
+class Benchmark 
 {
     /**
      * Almacena los datos de un Benchmark especifico, esto para evitar colision
@@ -108,5 +108,3 @@ final class Benchmark
 	echo ' Tiempo: ',$time; 
     }
 }
-
-?>

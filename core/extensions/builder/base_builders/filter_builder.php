@@ -56,7 +56,7 @@ class FilterBuilder implements BuilderInterface
 			
 			ob_start();
 			echo "<?php\n";
-			include CORE_PATH . 'builder/base_builders/templates/filter.php';
+			include CORE_PATH . 'extensions/builder/base_builders/templates/filter.php';
 			$code = ob_get_contents();
 			ob_end_clean();
 

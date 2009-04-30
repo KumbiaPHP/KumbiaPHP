@@ -21,23 +21,23 @@
 /**
  * @see BuilderInterface
  */
-require_once CORE_PATH.'builder/builder_interface.php';
+require_once CORE_PATH . 'extensions/builder/builder_interface.php';
 /**
  * @see ModelBuilder
  */
-require_once CORE_PATH.'builder/base_builders/model_builder.php';
+require_once CORE_PATH . 'extensions/builder/base_builders/model_builder.php';
 /**
  * @see ControllerBuilder
  */
-require_once CORE_PATH.'builder/base_builders/controller_builder.php';
+require_once CORE_PATH . 'extensions/builder/base_builders/controller_builder.php';
 /**
  * @see HelperBuilder
  */
-require_once CORE_PATH.'builder/base_builders/helper_builder.php';
+require_once CORE_PATH . 'extensions/builder/base_builders/helper_builder.php';
 /**
  * @see FilterBuilder
  */
-require_once CORE_PATH.'builder/base_builders/filter_builder.php';
+require_once CORE_PATH . 'extensions/builder/base_builders/filter_builder.php';
 
 /**
  * Manejador de builders

@@ -67,7 +67,7 @@ class ControllerBuilder implements BuilderInterface
 			
 			ob_start();
 			echo "<?php\n";
-			include CORE_PATH . 'builder/base_builders/templates/controller.php';
+			include CORE_PATH . 'extensions/builder/base_builders/templates/controller.php';
 			$code = ob_get_contents();
 			ob_end_clean();
 
