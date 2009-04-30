@@ -11,7 +11,7 @@ body{
 #head {
     height: 53px;
     background-color: #CCCC99;
-    background: #D1C2A3 url(../img/head.png) no-repeat scroll left;
+    background: #D1C2A3 url(../img/default/head.png) no-repeat scroll left;
 }
 
 #head h1 {
