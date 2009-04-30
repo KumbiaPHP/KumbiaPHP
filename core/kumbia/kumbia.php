@@ -86,15 +86,15 @@ class Kumbia
          *
          */
 		$boot = Config::read('boot.ini');
-		if($boot['modules']['extensions']){
-			$extensions = explode(',', str_replace(' ', '', $boot['modules']['extensions']));
+		if($boot['modules']['vendors']){
+			$extensions = explode(',', str_replace(' ', '', $boot['modules']['vendors']));
 			foreach ($extensions as $extension){
-				require_once LIBRARY_PATH . "extensions/$extension" .'/'.$extension.'.php';
+				require_once VENDORS_PATH . "$extension" .'/'.$extension.'.php';
 			}
 			unset($extensions);
 		}
-		if($boot['modules']['kumbia']){
-			$extensions = explode(',', str_replace(' ', '', $boot['modules']['kumbia']));
+		if($boot['modules']['extensions']){
+			$extensions = explode(',', str_replace(' ', '', $boot['modules']['extensions']));
 			foreach ($extensions as $extension){
 				require_once CORE_PATH . $extension .'/'.$extension.'.php';
 			}
