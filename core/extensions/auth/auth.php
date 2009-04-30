@@ -22,7 +22,7 @@
  * AuthInterface
  *
  */
-require_once CORE_PATH . 'auth/interface.php';
+require_once CORE_PATH . 'extensions/auth/auth_interface.php';
 
 
 class Auth {
@@ -104,7 +104,7 @@ class Auth {
 			throw new kumbiaException("Adaptador de autenticaci&oacute;n '$adapter' no soportado");
 		}
 		$this->adapter = $adapter;
-		require  CORE_PATH . "auth/adapters/$adapter.php";
+		require  CORE_PATH . "extensions/auth/adapters/{$adapter}_auth.php";
 		$adapter_class = $adapter."Auth";
 		$this->extra_args = $extra_args;
 		$this->adapter_object = new $adapter_class($auth, $extra_args);
