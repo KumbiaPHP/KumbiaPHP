@@ -20,12 +20,6 @@
  */
 
 /**
- * @see AclRoleException
- */
-include CORE_PATH . 'acl/role/exception.php';
-
-
-/**
  * Esta clase define los roles y parametros
  * de cada uno
  *
@@ -54,7 +48,7 @@ class AclRole{
 	 */
 	function __construct($name){
 		if($name=='*'){
-			throw new AclRoleException('Nombre invalido "*" para nombre de Rol en Acl_Role::__constuct');
+			throw new KumbiaException('Nombre invalido "*" para nombre de Rol en Acl_Role::__constuct');
 		}
 		$this->name = $name;
 	}
