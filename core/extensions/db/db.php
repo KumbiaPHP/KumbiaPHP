@@ -26,12 +26,12 @@
 /**
  * @see DbBaseInterface
  */
- include_once CORE_PATH.'db/interface.php';
+ include_once CORE_PATH . 'extensions/db/db_base_interface.php';
 
 /**
  * @see DbLoader
  */
- include_once CORE_PATH.'db/loader/loader.php';
+ include_once CORE_PATH . 'extensions/db/loader/loader.php';
 
 /**
  * Clase principal que deben heredar todas las clases driver de KumbiaForms
@@ -371,13 +371,13 @@ class DbBase
 				/**
 				 * @see DbPDO
 				 */
-				require_once CORE_PATH . 'db/adapters/pdo.php';
-				require_once CORE_PATH . 'db/adapters/pdo/' . $config['type'] . '.php';
+				require_once CORE_PATH . 'extensions/db/adapters/pdo.php';
+				require_once CORE_PATH . 'extensions/db/adapters/pdo/' . $config['type'] . '.php';
 			}
 		} else {
 			$dbclass = "Db{$config['type']}";
 			if(!class_exists($dbclass)) {
-				require_once CORE_PATH . 'db/adapters/' . $config['type'] . '.php';
+				require_once CORE_PATH . 'extensions/db/adapters/' . $config['type'] . '.php';
 			}
 		}
 		if(!class_exists($dbclass)){

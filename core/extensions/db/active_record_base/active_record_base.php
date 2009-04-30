@@ -26,7 +26,7 @@
 /**
  * ActiveRecordException
  */
-require_once CORE_PATH.'db/active_record_base/exception.php';
+require_once CORE_PATH . 'extensions/db/active_record_base/exception.php';
 /**
  * ActiveRecordBase Clase para el Mapeo Objeto Relacional
  *

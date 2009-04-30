@@ -50,12 +50,12 @@ class DbLoader  {
 
 		if(isset($config['type']) && $config['type']){
 			if(isset($config['pdo']) && $config['pdo']){
-				require_once CORE_PATH.'db/adapters/pdo.php';
-				require_once CORE_PATH.'db/adapters/pdo/' . $config['type'] . '.php';
+				require_once CORE_PATH . 'extensions/db/adapters/pdo.php';
+				require_once CORE_PATH . 'extensions/db/adapters/pdo/' . $config['type'] . '.php';
 				eval("class Db extends DbPDO{$config['type']} {}");
 				return true;
 			} else {
-				require_once CORE_PATH.'db/adapters/' . $config['type'] . '.php';
+				require_once CORE_PATH . 'extensions/db/adapters/' . $config['type'] . '.php';
 				eval("class Db extends Db{$config['type']} {}");
 				return true;
 			}

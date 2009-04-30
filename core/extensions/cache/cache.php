@@ -24,11 +24,11 @@
 /**
  * @see CacheInterface
  */
-include CORE_PATH.'cache/cache_interface.php';
+include CORE_PATH . 'extensions/cache/cache_interface.php';
 /**
  * @see FileCache
  */
-include CORE_PATH.'cache/drivers/file_cache.php';
+include CORE_PATH . 'extensions/cache/drivers/file_cache.php';
 
 /**
  * Clase que implementa un componente de cacheo (En Desarrollo)

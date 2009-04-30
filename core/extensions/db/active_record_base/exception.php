@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Kumbia PHP Framework
  *
@@ -54,5 +53,3 @@ class ActiveRecordException extends KumbiaException {
 	}
 
 }
-
-?>
