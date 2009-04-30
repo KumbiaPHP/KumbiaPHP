@@ -58,11 +58,7 @@ class KumbiaException extends Exception {
 		/**
 		 * @see Flash
 		 */
-		require_once CORE_PATH.'messages/flash.php';
-		/**
-		 * @see Helpers
-		 */
-		require_once CORE_PATH.'helpers/helpers.php';
+		require_once CORE_PATH . 'kumbia/messages/flash.php';
 	
 		header('HTTP/1.1 404 Not Found');
 		$config = Config::read('config.ini');
@@ -73,7 +69,7 @@ class KumbiaException extends Exception {
 			$show_trace = $e->_show_trace;
 			$models = implode(' ,', array_keys(Kumbia::$models));
 			$boot = Config::read('boot.ini');
-			include CORE_PATH . 'view/views/exception.phtml';
+			include CORE_PATH . 'views/errors/exception.phtml';
 		} else {
 			include APP_PATH . 'views/errors/404.phtml';
 		}
@@ -94,13 +90,13 @@ class KumbiaException extends Exception {
 			$controller = Dispatcher::get_controller();
 			if(!$controller || $controller->response != 'view') {
 				Kumbia::$content = $content;
-				include CORE_PATH . 'view/templates/default.phtml';
+				include CORE_PATH . 'views/templates/default.phtml';
 			} else {
 				echo $content;
 			}
 		} else {
 			Kumbia::$content = $content;
-			include CORE_PATH . 'view/templates/default.phtml';
+			include CORE_PATH . 'views/templates/default.phtml';
 		}
 	}
 }

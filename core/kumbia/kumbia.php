@@ -69,7 +69,7 @@ class Kumbia
 		/**
          * @see Controller
          */
-        require CORE_PATH . 'controller/application/application.php';
+        require CORE_PATH . 'kumbia/controller/application/application.php';
         	
         /**
          * @see ApplicationController
@@ -96,7 +96,7 @@ class Kumbia
 		if($boot['modules']['extensions']){
 			$extensions = explode(',', str_replace(' ', '', $boot['modules']['extensions']));
 			foreach ($extensions as $extension){
-				require_once CORE_PATH . $extension .'/'.$extension.'.php';
+				require_once CORE_PATH . "extensions/$extension" .'/'.$extension.'.php';
 			}
 			unset($extensions);
 		}
@@ -125,7 +125,7 @@ class Kumbia
 		/**
 		 * @see Router
 		 */
-		require CORE_PATH.'router/router.php';
+		require CORE_PATH . 'kumbia/router/router.php';
 		/**
 		 * El Router analiza la url
 		 **/
@@ -163,11 +163,11 @@ class Kumbia
 			 /**
 			 * @see Db
 			 */
-			require CORE_PATH . 'db/db.php';
+			require CORE_PATH . 'extensions/db/db.php';
 			/**
 			 * @see ActiveRecordBase
 			 */
-			require CORE_PATH . 'db/active_record_base/active_record_base.php';
+			require CORE_PATH . 'extensions/db/active_record_base/active_record_base.php';
 			/**
 			 * El driver de Kumbia es cargado segun lo que diga en config.ini
 			 */
@@ -266,19 +266,19 @@ class Kumbia
     	/**
          * @see Dispatcher
          */
-        require CORE_PATH . 'dispatcher/dispatcher.php';
+        require CORE_PATH . 'kumbia/dispatcher/dispatcher.php';
         /**
          * @see Flash
          */
-        require CORE_PATH . 'messages/flash.php';
+        require CORE_PATH . 'extensions/messages/flash.php';
         /**
          * @see Utils
          */
-        require CORE_PATH . 'helpers/utils.php';
+        require CORE_PATH . 'extensions/helpers/utils.php';
         /**
          * @see Util
          */
-        require CORE_PATH . 'helpers/util.php';
+        require CORE_PATH . 'extensions/helpers/util.php';
     }
 
 	/**
@@ -294,7 +294,7 @@ class Kumbia
         /**
          * @see Tags
          */
-        require_once CORE_PATH . 'helpers/tags.php';
+        require_once CORE_PATH . 'extensions/helpers/tags.php';
         
         /**
          * Mapea los atributos del controller en el scope
