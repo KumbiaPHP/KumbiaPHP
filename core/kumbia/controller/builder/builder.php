@@ -23,7 +23,7 @@
 /**
  * @see BuilderControllerException
  */
-require_once CORE_PATH.'library/kumbia/controller/builder/exception.php';
+require_once CORE_PATH . 'kumbia/controller/builder/exception.php';
 
 /**
  * Es la clase principal de implementacion de los coders

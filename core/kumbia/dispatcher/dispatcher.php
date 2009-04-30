@@ -162,7 +162,7 @@ class Dispatcher
                 /**
                  * @see InteractiveBuilder
                  */
-                require CORE_PATH.'generator/builder.php';
+                require CORE_PATH.'kumbia/generator/builder.php';
                 InteractiveBuilder::create_controller($controller, $action);
                 throw new KumbiaException("No se encontr&oacute; el Controlador \"$controllers_dir/$controller\". Hubo un problema al cargar el controlador, probablemente
                     el archivo no exista en el directorio de módulos o exista algun error de sintaxis.", self::NOT_FOUND_FILE_CONTROLLER);
