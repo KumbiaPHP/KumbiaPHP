@@ -158,17 +158,9 @@ class Dispatcher
                     Debe definir esta clase para poder trabajar este controlador", self::NOT_FOUND_CONTROLLER);
             }
         } else {
-            if (Config::get('config.application.interactive')) {
-                /**
-                 * @see InteractiveBuilder
-                 */
-                require CORE_PATH.'kumbia/generator/builder.php';
-                InteractiveBuilder::create_controller($controller, $action);
-                throw new KumbiaException("No se encontr&oacute; el Controlador \"$controllers_dir/$controller\". Hubo un problema al cargar el controlador, probablemente
-                    el archivo no exista en el directorio de módulos o exista algun error de sintaxis.", self::NOT_FOUND_FILE_CONTROLLER);
-            } else {
-                return false;
-            }
+			throw new KumbiaException("
+                    No se encontr&oacute; el Clase Controladora \"{$app_controller}\".
+                    Debe definir esta clase para poder trabajar este controlador", self::NOT_FOUND_CONTROLLER);
         }
     }
     /**
