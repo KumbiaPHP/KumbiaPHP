@@ -82,7 +82,7 @@ define('PUBLIC_PATH', URL_PATH);
 /**
  * @see Benchmark
  */
-require CORE_PATH.'benchmark/benchmark.php';
+require CORE_PATH . 'extensions/benchmark/benchmark.php';
 
 /**
  * Inicia el benchmark
@@ -92,7 +92,7 @@ Benchmark::start_clock('kumbia');
 /**
  * @see KumbiaException
  */
-require CORE_PATH.'kumbia_exception.php';
+require CORE_PATH . 'kumbia/kumbia_exception.php';
 /**
  * Inicializar el ExceptionHandler
  */
@@ -114,11 +114,11 @@ if(isset($_GET['url'])) {
 /**
  * @see Config
  */
-require CORE_PATH.'config/config.php';
+require CORE_PATH . 'kumbia/config/config.php';
 /**
  * @see Cache
  **/
-require CORE_PATH . 'cache/cache.php';
+require CORE_PATH . 'extensions/cache/cache.php';
 /**
  * Lee la configuracion
  */
@@ -142,7 +142,7 @@ session_start();
 /**
  * @see Kumbia
  */
-require CORE_PATH.'kumbia.php';
+require CORE_PATH . 'kumbia/kumbia.php';
 /**
  * Atender la petición
  */
