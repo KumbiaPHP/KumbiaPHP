@@ -40,20 +40,20 @@ define('APP_PATH', dirname(dirname(__FILE__)) . '/');
 define('APP', basename(APP_PATH));
 
 /**
- * Define el LIBRARY_PATH
+ * Define el CORE_PATH
  *
- * LIBRARY_PATH:
- * - Ruta al directorio de librerias compartidas del framework (por defecto la ruta al directorio library)
+ * CORE_PATH:
+ * - Ruta al directorio que contiene el núcleo de Kumbia (por defecto la ruta al directorio core/kumbia)
  **/
-define('LIBRARY_PATH', dirname(APP_PATH) . '/library/');
+define('CORE_PATH', dirname(APP_PATH) . '/core/kumbia/');
 
 /**
- * Define el LIBRARY_PATH
+ * Define el VENDORS_PATH
  *
- * LIBRARY_PATH:
- * - Ruta al directorio que contiene el núcleo de Kumbia (por defecto la ruta al directorio library/kumbia)
+ * VENDORS_PATH:
+ * - Ruta al directorio de librerias compartidas de terceros (por defecto la ruta al directorio core/vendors)
  **/
-define('CORE_PATH', LIBRARY_PATH . 'kumbia/');
+define('VENDORS_PATH', dirname(APP_PATH) . '/core/vendors/');
 
 /**
  * Define el URL_PATH
