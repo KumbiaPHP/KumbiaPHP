@@ -23,11 +23,6 @@
  */
 
 /**
- * @see ConfigException
- */
-require_once CORE_PATH . 'config/config_exception.php';
-
-/**
  * Clase para la carga de Archivos .INI y de configuración
  *
  * Aplica el patrón Singleton que utiliza un array
@@ -114,10 +109,10 @@ class Config
 			return self::$_vars[$namespace];
 		
 		if(!file_exists(APP_PATH."config/$file")){
-			throw new ConfigException("No existe el archivo de configuraci&oacute;n $file");
+			throw new KumbiaException("No existe el archivo de configuraci&oacute;n $file");
 		}
 
-        self::$_vars[$namespace] = parse_ini_file(APP_PATH."config/$file", true);
+        self::$_vars[$namespace] = parse_ini_file(APP_PATH . "config/$file", true);
 		return self::$_vars[$namespace];
 	}
 }

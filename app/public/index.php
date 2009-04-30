@@ -45,7 +45,7 @@ define('APP', basename(APP_PATH));
  * CORE_PATH:
  * - Ruta al directorio que contiene el núcleo de Kumbia (por defecto la ruta al directorio core/kumbia)
  **/
-define('CORE_PATH', dirname(APP_PATH) . '/core/kumbia/');
+define('CORE_PATH', dirname(APP_PATH) . '/core/');
 
 /**
  * Define el VENDORS_PATH
@@ -53,7 +53,7 @@ define('CORE_PATH', dirname(APP_PATH) . '/core/kumbia/');
  * VENDORS_PATH:
  * - Ruta al directorio de librerias compartidas de terceros (por defecto la ruta al directorio core/vendors)
  **/
-define('VENDORS_PATH', dirname(APP_PATH) . '/core/vendors/');
+define('VENDORS_PATH', CORE_PATH . 'vendors/');
 
 /**
  * Define el URL_PATH
