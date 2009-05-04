@@ -102,6 +102,12 @@ class Dispatcher
                 $activeController->id = $id;
                 $activeController->all_parameters = $all_parameters;
                 $activeController->parameters = $parameters;
+				
+				/**
+				 * Asigna el controlador activo
+				 **/
+				self::$controller = $activeController;
+				
                 try {
                     /**
                      * Se ejecutan los filtros before
@@ -150,7 +156,6 @@ class Dispatcher
                     throw new KumbiaException($e->getMessage(), $e->getCode());
                 }
 
-                self::$controller = $activeController;
                 return $activeController;
             } else {
                 throw new KumbiaException("
