@@ -16,7 +16,7 @@
      */
     $config = Config::read('config.ini');
     
-    $databases = ($config['application']['databases']) ? 'On' : 'Off';
+    $databases = ($config['application']['database']) ? 'On' : 'Off';
     $models_autoload = ($config['application']['models_autoload']) ? 'On' : 'Off';
     $status = ($config['application']['production']) ? 'Production' : 'Development';
     
