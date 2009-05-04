@@ -274,11 +274,11 @@ class Kumbia
         /**
          * @see Utils
          */
-        require CORE_PATH . 'extensions/helpers/utils.php';
+        require CORE_PATH . 'kumbia/util/utils.php';
         /**
          * @see Util
          */
-        require CORE_PATH . 'extensions/helpers/util.php';
+        require CORE_PATH . 'kumbia/util/util.php';
     }
 
 	/**
@@ -294,7 +294,7 @@ class Kumbia
         /**
          * @see Tags
          */
-        require_once CORE_PATH . 'extensions/helpers/tags.php';
+        require_once CORE_PATH . 'helpers/tags.php';
         
         /**
          * Mapea los atributos del controller en el scope
