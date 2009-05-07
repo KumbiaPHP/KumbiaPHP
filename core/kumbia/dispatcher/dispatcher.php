@@ -1,35 +1,23 @@
 <?php
 /**
- * Kumbia PHP Framework
+ * KumbiaPHP web & app Framework
  *
  * LICENSE
  *
- * This source file is subject to the GNU/GPL that is bundled
- * with this package in the file docs/LICENSE.txt.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.kumbia.org/license.txt
+ * http://wiki.kumbiaphp.com/Licencia
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to kumbia@kumbia.org so we can send you a copy immediately.
+ * to license@kumbiaphp.com so we can send you a copy immediately.
  *
+ * Clase para manejar las peticiones de KumbiaPHP Framework
+ * 
  * @category   Kumbia
- * @package    Controller
- * @subpackage Dispatcher
- * @copyright  Copyright (c) 2005-2007 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
- * @copyright  Copyright (c) 2008-2008 Emilio Rafael Silveira Tovar (emilio.rst at gmail.com)
- * @copyright  Copyright (c) 2007-2009 Deivinson Jose Tejeda Brito (deivinsontejeda at gmail.com)
- * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL
- */
-
-/**
- * Clase para manejar excepciones ocurridas en la clase Logger
- *
- * @category  Kumbia
- * @package   Dispatcher
- * @abstract
- * @copyright Copyright (c) 2005-2007 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
- * @license   http://www.kumbia.org/license.txt GNU/GPL
- * @access    public
+ * @package    Dispatcher 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 class Dispatcher
 {

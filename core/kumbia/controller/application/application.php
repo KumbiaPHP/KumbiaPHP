@@ -1,33 +1,23 @@
 <?php
 /**
- * Kumbia PHP Framework
- * PHP version 5
+ * KumbiaPHP web & app Framework
+ *
  * LICENSE
  *
- * This source file is subject to the GNU/GPL that is bundled
- * with this package in the file docs/LICENSE.txt.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.kumbiaphp.com/
+ * http://wiki.kumbiaphp.com/Licencia
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to kumbia@kumbiaphp.com so we can send you a copy immediately.
+ * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category  Kumbia
- * @package   Controller
- * @copyright Copyright (c) 2005-2008 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
- * @copyright Copyright (c) 2008-2008 Emilio Rafael Silveira Tovar (emilio.rst at gmail.com)
- * @copyright Copyright (c) 2007-2009 Deivinson Tejeda Brito (deivinsontejeda at gmail.com)
- * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL
- */
-/**
  * ApplicationController Es la clase principal para controladores de Kumbia
- *
- * @category  Kumbia
- * @package   Controller
- * @copyright Copyright (c) 2005-2008 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
- * @copyright Copyright (c) 2008-2008 Emilio Rafael Silveira Tovar (emilio.rst at gmail.com)
- * @copyright Copyright (c) 2007-2009 Deivinson Tejeda Brito (deivinsontejeda at gmail.com)
- * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL
+ * 
+ * @category   Kumbia
+ * @package    Controller 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 class Controller 
 {
@@ -375,10 +365,10 @@ class Controller
 		if(headers_sent()){
 			print "
 				<script type='text/javascript'>
-					window.setTimeout(\"window.location='".KUMBIA_PATH."$controller'\", $seconds);
+					window.setTimeout(\"window.location='".URL_PATH."$controller'\", $seconds);
 				</script>\n";
 		} else {
-			header('Location: '.KUMBIA_PATH."$controller");
+			header('Location: '.URL_PATH."$controller");
 		}
 	}
 

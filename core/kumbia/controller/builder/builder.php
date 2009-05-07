@@ -1,39 +1,23 @@
 <?php
-
 /**
- * Kumbia PHP Framework
+ * KumbiaPHP web & app Framework
  *
  * LICENSE
  *
- * This source file is subject to the GNU/GPL that is bundled
- * with this package in the file docs/LICENSE.txt.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.kumbia.org/license.txt
+ * http://wiki.kumbiaphp.com/Licencia
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to kumbia@kumbia.org so we can send you a copy immediately.
+ * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category Kumbia
- * @package Controller
- * @subpackage BuilderController
- * @copyright  Copyright (c) 2005-2007 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
- * @license http://www.kumbia.org/license.txt GNU/GPL
- */
-
-/**
- * @see BuilderControllerException
- */
-require_once CORE_PATH . 'kumbia/controller/builder/exception.php';
-
-/**
  * Es la clase principal de implementacion de los coders
- *
- * @category Kumbia
- * @package Controller
- * @subpackage BuilderController
- * @copyright Copyright (c) 2005-2007 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
- * @license http://www.kumbia.org/license.txt GNU/GPL
- *
+ * 
+ * @category   Kumbia
+ * @package    Builder 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 class BuilderController extends ApplicationController {
 	/**
@@ -59,7 +43,7 @@ class BuilderController extends ApplicationController {
 			$objModel = ucwords($objModel);
 			$objModel = str_replace(" ", "", $objModel);
 			if(!class_exists($objModel)){
-				throw new BuilderControllerException("No se encontr&oacute; la Clase \"$objModel\" Es necesario definir una clase en el modelo
+				throw new KumbiaException("No se encontr&oacute; la Clase \"$objModel\" Es necesario definir una clase en el modelo
 							'$model' llamado '$objModel' para que esto funcione correctamente.");
 				return false;
 			} else {
