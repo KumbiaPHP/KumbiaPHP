@@ -734,7 +734,7 @@ function paginate() {
          **/
         if(is_string($params[0])) {
             $m = ucfirst(camelize($params[0]));
-            $model = kumbia::$models[$m];
+            $model = ActiveRecord::get($m);
         } else {
             $model = $params[0];
         }
@@ -840,7 +840,7 @@ function paginate_by_sql($model, $sql) {
 	 **/
 	if(is_string($params[0])) {
 		$m = ucfirst(camelize($params[0]));
-		$model = kumbia::$models[$m];
+		$model = ActiveRecord::get($m);
 	}
 
 	/**

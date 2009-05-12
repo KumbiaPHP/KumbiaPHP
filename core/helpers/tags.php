@@ -508,13 +508,11 @@ function form_remote_tag($data){
  */
 function form_tag($action){
 	$params = is_array($action) ? $action : get_params(func_get_args());
-	
-	$id = Router::get_id();
 	if(!isset($params['action']) && isset($params[0])) {
 		$params['action'] = $params[0];
 	}
 	if(isset($params['action'])) {
-		$params['action'] = get_kumbia_url("{$params['action']}/$id");
+		$params['action'] = get_kumbia_url("{$params['action']}");
 	}
 	if(!isset($params['method'])||!$params['method']) {
 		$params['method'] = "post";
@@ -527,7 +525,6 @@ function form_tag($action){
 		}
 		unset($params['confirm']);
 	}
-	
 	return xhtml_start_tag('form', $params);
 }
 
