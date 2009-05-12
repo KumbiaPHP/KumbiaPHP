@@ -26,7 +26,7 @@ class Controller
 	 *
 	 * @var array
 	 **/
-	public $models = array();
+	public $models = null;
 	/**
 	 * Indica si el controlador es persistente
 	 *
@@ -39,28 +39,24 @@ class Controller
 	 * @var string
 	 */
 	public $response = '';
-    
 	/**
 	 * Nombre del modulo actual
 	 *
 	 * @var string
 	 */
 	public $module_name;
-
 	/**
 	 * Nombre del controlador actual
 	 *
 	 * @var string
 	 */
 	public $controller_name;
-
 	/**
 	 * Nombre de la acción actual
 	 *
 	 * @var string
 	 */
 	public $action_name;
-
 	/**
 	 * Nombre del primer parametro despues de action
 	 * en la URL
@@ -89,22 +85,12 @@ class Controller
 	 * @var string
 	 */
 	protected $logger;
-
 	/**
 	 * Vista a renderizar
 	 *
 	 * @var string
 	 **/
 	public $view = null;
-
-	/**
-	 * Constructor
-	 *
-	 **/
-	public function __construct() 
-	{
-		$this->load_models();
-	}
 
 	/**
 	 * Asigna cacheo de vistas o template
@@ -340,19 +326,6 @@ class Controller
 	}
 
 	/**
-	 * Indica si un controlador va a ser persistente, en este
-	 * caso los valores internos son automaticamente almacenados
-	 * en sesion y disponibles cada vez que se ejecute una acción
-	 * en el controlador
-	 *
-	 * @param boolean $value
-	 */
-	protected function set_persistance($value)
-    {
-		$this->persistance = $value;
-	}
-
-	/**
 	 * Redirecciona la ejecución a otro controlador en un
 	 * tiempo de ejecución determinado
 	 *
@@ -394,15 +367,6 @@ class Controller
 	}
 
 	/**
-	 * Reescribir este metodo permite controlar las excepciones generadas en un controlador
-	 *
-	 * @param Exception $e
-	 */
-	protected function exceptions($exception)
-    {
-		throw $exception;
-	}
-	/**
 	 * Crea un log sino existe y guarda un mensaje
 	 *
 	 * @param string $msg
@@ -418,153 +382,6 @@ class Controller
 		}
 		$this->logger->log($msg, $type);
 	}
-
-
-	/**
-	 * Carga los campos de un registro activerecord como atributos del controlador
-	 * @param record ActiveRecord o string registro activerecord a cargar, si es un string este debe corresponder al nombre de un modelo
-	 * Soporta argumento variable
-	 * 
-	 * field: campos a cargar separados por coma
-	 * except: campos que no se cargaran separados por coma
-	 * suffix: sufijo para el atributo en el controlador
-	 * preffix: prefijo para el atributo en el controlador
-	 */
-	protected function load_record($record) 
-    {
-		$params = get_params(func_get_args());
-		if(isset($params['field'])) {
-			$fields = array_map('trim', explode(',', $params['field']));
-		}
-		if(isset($params['except'])) {
-			$excepts = array_map('trim', explode(',', $params['except']));
-		}
-		
-		/**
-		 * Cargo selectivamente por cada registro los atributos correspondientes a los campos
-		 **/
-		if(isset($fields) && isset($excepts)) {
-			for($i=0; isset($params[$i]); $i++) {
-				/**
-				 * Si es un string creo una nueva instancia de modelo
-				 **/
-				if(is_string($params[$i])) {
-					$model = ucfirst(camelize($params[$i]));
-					$record = new $model();
-					$record->dump_model();
-				} else {
-					$record = $params[$i];
-				}
-				
-				foreach($fields as $field) {
-					if(!in_array($field, $excepts)) {
-						$property = $field;
-						if(isset($params['suffix'])) {
-							$property.=$params['suffix']; 
-						}
-						if(isset($params['preffix'])) {
-							$property = $params['preffix'].$property; 
-						}
-						
-						if(isset($record->$field)) {
-							$this->$property = $record->$field;
-						} else {
-							$this->$property = '';
-						}
-					}
-				}
-			}
-		} elseif(isset($fields)) {
-			for($i=0; isset($params[$i]); $i++) {
-				/**
-				 * Si es un string creo una nueva instancia de modelo
-				 **/
-				if(is_string($params[$i])) {
-					$model = ucfirst(camelize($params[$i]));
-					$record = new $model();
-					$record->dump_model();
-				} else {
-					$record = $params[$i];
-				}
-				
-				foreach($fields as $field) {
-					$property = $field;
-					if(isset($params['suffix'])) {
-						$property.=$params['suffix']; 
-					}
-					if(isset($params['preffix'])) {
-						$property = $params['preffix'].$property; 
-					}
-					
-					if(isset($record->$field)) {
-						$this->$property = $record->$field;
-					} else {
-						$this->$property = '';
-					}
-				}
-			}
-		} elseif(isset($excepts)) {
-			for($i=0; isset($params[$i]); $i++) {
-				/**
-				 * Si es un string creo una nueva instancia de modelo
-				 **/
-				if(is_string($params[$i])) {
-					$model = ucfirst(camelize($params[$i]));
-					$record = new $model();
-					$record->dump_model();
-				} else {
-					$record = $params[$i];
-				}
-				
-				foreach($record->fields as $field) {
-					if(!in_array($field, $excepts)) {
-						$property = $field;
-						if(isset($params['suffix'])) {
-							$property.=$params['suffix']; 
-						}
-						if(isset($params['preffix'])) {
-							$property = $params['preffix'].$property; 
-						}
-
-						if(isset($record->$field)) {
-							$this->$property = $record->$field;
-						} else {
-							$this->$property = '';
-						}
-					}
-				}
-			}
-		} else {
-			for($i=0; isset($params[$i]); $i++) {
-				/**
-				 * Si es un string creo una nueva instancia de modelo
-				 **/
-				if(is_string($params[$i])) {
-					$model = ucfirst(camelize($params[$i]));
-					$record = new $model();
-					$record->dump_model();
-				} else {
-					$record = $params[$i];
-				}
-				
-				foreach($record->fields as $field) {
-					$property = $field;
-					if(isset($params['suffix'])) {
-						$property.=$params['suffix']; 
-					}
-					if(isset($params['preffix'])) {
-						$property = $params['preffix'].$property; 
-					}
-					
-					if(isset($record->$field)) {
-						$this->$property = $record->$field;
-					} else {
-						$this->$property = '';
-					}
-				}
-			}
-		}
-	}
 	
 	/**
 	 * Asigna valor null a los atributos indicados en el controlador
@@ -578,19 +395,6 @@ class Controller
 	}
 
 	/**
-	 * Aplica los filtros indicados
-	 *
-	 * @param mixed $s
-	 * @return mixed
-	 */
-	protected function filter($s) 
-    {
-		$filter = Filter::get_instance();
-		$args = func_get_args();
-		return call_user_func_array(array($filter, 'apply_filter'), $args);
-	}
-
-	/**
 	 * Al deserializar asigna 0 a los tiempos del cache
 	 */
 	public function __wakeup()
@@ -598,7 +402,6 @@ class Controller
 		$this->logger = false;
 		$this->cache(false);
 		$this->view = null;
-		$this->load_models();
 	}
 	/**
 	 * Visualiza una vista en el controlador actual
@@ -617,7 +420,7 @@ class Controller
 	 */
 	protected function render_partial(){
 		$params = func_get_args();
-		call_user_func_array('render_partial',$params);
+		call_user_func_array('render_partial', $params);
 	}
     /**
      * BeforeFilter
@@ -655,25 +458,4 @@ class Controller
     {
         return;
     }
-	/**
-	 * Carga el modelo en el controlador
-	 *
-	 * @param string $model
-	 **/
-	public function load_models($model=null)
-	{	    
-		$models = $model ? func_get_args() : $this->models;
-		foreach($models as $model) {
-			if(!isset(Kumbia::$models[$model])) {
-				if(!class_exists($model)) {
-					$model_file = APP_PATH.'models/'.uncamelize(lcfirst($model)).'.php';
-					if(!file_exists($model_file))
-						throw new KumbiaException("No existe el modelo \"$model\"");
-					require_once $model_file;
-				}
-				Kumbia::$models[$model] = new $model();
-			}
-			$this->$model = Kumbia::$models[$model];
-		}
-	}
 }

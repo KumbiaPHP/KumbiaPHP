@@ -258,7 +258,11 @@ class ActiveRecordBase
     /**
      * Persistance Models Meta-data
      */
-    static public $models;
+    protected static $_models = array();
+    /**
+     * Persistance Models Meta-data
+     */
+    public static $models = array();
     /**
      * Constructor del Modelo
      *
@@ -361,71 +365,47 @@ class ActiveRecordBase
             if (!isset($this->$property)) {
                 if (array_key_exists($property, $this->_belongs_to)) {
                     $relation = $this->_belongs_to[$property];
-                    if (isset(kumbia::$models[$relation->model])) {
-                        $assoc_obj = kumbia::$models[$relation->model]->find_first($this->{$relation->fk});
-                        return $assoc_obj;
-                    } else {
-                        ActiveRecordException::display_warning("Propiedad no definida", "Propiedad indefinida '$property' leida de el modelo '$this->source'", $this->source);
-                        return null;
-                    }
+					return self::get($relation->model)->find_first($this->{$relation->fk});
                 } elseif (array_key_exists($property, $this->_has_one)) {
                     $relation = $this->_has_one[$property];
-                    if (isset(kumbia::$models[$relation->model])) {
-                        if ($this->{$this->primary_key[0]}) {
-                            $assoc_obj = kumbia::$models[$relation->model]->find_first("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
-                            return $assoc_obj;
-                        } else {
-                            return null;
-                        }
-                    } else {
-                        ActiveRecordException::display_warning("Propiedad no definida", "Propiedad indefinida '$property' leida de el modelo '$this->source'", $this->source);
-                        return null;
-                    }
+					if ($this->{$this->primary_key[0]}) {
+						return self::get($relation->model)->find_first("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
+					} else {
+						return null;
+					}
                 } elseif (array_key_exists($property, $this->_has_many)) {
                     $relation = $this->_has_many[$property];
-                    if (isset(kumbia::$models[$relation->model])) {
-                        if ($this->{$this->primary_key[0]}) {
-                            $assoc_objs = kumbia::$models[$relation->model]->find("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
-                            return $assoc_objs;
-                        } else {
-                            return array();
-                        }
-                    } else {
-                        ActiveRecordException::display_warning("Propiedad no definida", "Propiedad indefinida '$property' leida de el modelo '$this->source'", $this->source);
-                        return null;
-                    }
+					if ($this->{$this->primary_key[0]}) {
+						return self::get($relation->model)->find("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
+					} else {
+						return array();
+					}
                 } elseif (array_key_exists($property, $this->_has_and_belongs_to_many)) {
                     $relation = $this->_has_and_belongs_to_many[$property];
-                    if (isset(kumbia::$models[$relation->model])) {
-                        $relation_model = kumbia::$models[$relation->model];
-                        $relation_model->dump_model();
-                        $source = $this->source;
-                        $relation_source = $relation_model->source;
-                        /**
-                         * Cargo atraves de que tabla se efectuara la relacion
-                         *
-                         */
-                        if (!isset($relation->through)) {
-                            if ($source > $relation_source) {
-                                $relation->through = "{$this->source}_{$relation_source}";
-                            } else {
-                                $relation->through = "{$relation_source}_{$this->source}";
-                            }
-                        }
-                        if ($this->{$this->primary_key[0]}) {
-                            $assoc_objs = kumbia::$models[$relation->model]->find_all_by_sql("SELECT $relation_source.* FROM $relation_source, {$relation->through}, $source
-									WHERE {$relation->through}.{$relation->key} = {$this->db->add_quotes($this->{$this->primary_key[0]}) }
-									AND {$relation->through}.{$relation->fk} = $relation_source.{$relation_model->primary_key[0]}
-									AND {$relation->through}.{$relation->key} = $source.{$this->primary_key[0]}
-									ORDER BY $relation_source.{$relation_model->primary_key[0]}");
-                            return $assoc_objs;
-                        } else {
-                            return array();
-                        }
-                    } else {
-                        ActiveRecordException::display_warning("Propiedad no definida", "Propiedad indefinida '$property' leida de el modelo '$this->source'", $this->source);
-                        return null;
-                    }
+					$relation_model = self::get($relation->model);
+					$relation_model->dump_model();
+					$source = $this->source;
+					$relation_source = $relation_model->source;
+					/**
+					 * Cargo atraves de que tabla se efectuara la relacion
+					 *
+					 */
+					if (!isset($relation->through)) {
+						if ($source > $relation_source) {
+							$relation->through = "{$this->source}_{$relation_source}";
+						} else {
+							$relation->through = "{$relation_source}_{$this->source}";
+						}
+					}
+					if ($this->{$this->primary_key[0]}) {
+						return self::get($relation->model)->find_all_by_sql("SELECT $relation_source.* FROM $relation_source, {$relation->through}, $source
+							WHERE {$relation->through}.{$relation->key} = {$this->db->add_quotes($this->{$this->primary_key[0]}) }
+							AND {$relation->through}.{$relation->fk} = $relation_source.{$relation_model->primary_key[0]}
+							AND {$relation->through}.{$relation->key} = $source.{$this->primary_key[0]}
+							ORDER BY $relation_source.{$relation_model->primary_key[0]}");
+					} else {
+						return array();
+					}
                 } else {
                     return null;
                 }
@@ -503,61 +483,53 @@ class ActiveRecordBase
         if (array_key_exists($mmodel, $this->_belongs_to)) {
             $has_relation = true;
             $relation = $this->_belongs_to[$mmodel];
-            if (kumbia::$models[$relation->model]) {
-                return kumbia::$models[$relation->model]->find_first($this->{$relation->fk});
-            }
+			return self::get($relation->model)->find_first($this->{$relation->fk});
         }
         if (array_key_exists($mmodel, $this->_has_many)) {
             $has_relation = true;
             $relation = $this->_has_many[$mmodel];
-            if (kumbia::$models[$relation->model]) {
-                if ($this->{$this->primary_key[0]}) {
-                    return kumbia::$models[$relation->model]->find("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
-                } else {
-                    return array();
-                }
-            }
+			if ($this->{$this->primary_key[0]}) {
+				return self::get($relation->model)->find("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
+			} else {
+				return array();
+			}
         }
         if (array_key_exists($mmodel, $this->_has_one)) {
             $has_relation = true;
             $relation = $this->_has_one[$mmodel];
-            if (kumbia::$models[$relation->model]) {
-                if ($this->{$this->primary_key[0]}) {
-                    return kumbia::$models[$relation->model]->find_first("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
-                } else {
-                    return null;
-                }
-            }
+			if ($this->{$this->primary_key[0]}) {
+				return self::get($relation->model)->find_first("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
+			} else {
+				return null;
+			}
         }
         if (array_key_exists($mmodel, $this->_has_and_belongs_to_many)) {
             $has_relation = true;
             $relation = $this->_has_and_belongs_to_many[$mmodel];
-            if (kumbia::$models[$relation->model]) {
-                if ($this->{$this->primary_key[0]}) {
-                    $source = $this->source;
-                    $relation_model = kumbia::$models[$relation->model];
-                    $relation_model->dump_model();
-                    $relation_source = $relation_model->source;
-                    /**
-                     * Cargo atraves de que tabla se efectuara la relacion
-                     *
-                     */
-                    if (!isset($relation->through)) {
-                        if ($source > $relation_source) {
-                            $relation->through = "{$this->source}_{$relation_source}";
-                        } else {
-                            $relation->through = "{$relation_source}_{$this->source}";
-                        }
-                    }
-                    return kumbia::$models[$relation->model]->find_all_by_sql("SELECT $relation_source.* FROM $relation_source, {$relation->through}, $source
-						WHERE {$relation->through}.{$relation->key} = {$this->db->add_quotes($this->{$this->primary_key[0]}) }
-						AND {$relation->through}.{$relation->fk} = $relation_source.{$relation_model->primary_key[0]}
-						AND {$relation->through}.{$relation->key} = $source.{$this->primary_key[0]}
-						ORDER BY $relation_source.{$relation_model->primary_key[0]}");
-                } else {
-                    return array();
-                }
-            }
+			if ($this->{$this->primary_key[0]}) {
+				$source = $this->source;
+				$relation_model = self::get($relation->model);
+				$relation_model->dump_model();
+				$relation_source = $relation_model->source;
+				/**
+				 * Cargo atraves de que tabla se efectuara la relacion
+				 *
+				 */
+				if (!isset($relation->through)) {
+					if ($source > $relation_source) {
+						$relation->through = "{$this->source}_{$relation_source}";
+					} else {
+						$relation->through = "{$relation_source}_{$this->source}";
+					}
+				}
+				return self::get($relation->model)->find_all_by_sql("SELECT $relation_source.* FROM $relation_source, {$relation->through}, $source
+					WHERE {$relation->through}.{$relation->key} = {$this->db->add_quotes($this->{$this->primary_key[0]}) }
+					AND {$relation->through}.{$relation->fk} = $relation_source.{$relation_model->primary_key[0]}
+					AND {$relation->through}.{$relation->key} = $source.{$this->primary_key[0]}
+					ORDER BY $relation_source.{$relation_model->primary_key[0]}");
+			} else {
+				return array();
+			}
         }
         try {
             if (method_exists($this, $method)) {
@@ -2199,7 +2171,7 @@ class ActiveRecordBase
             $relation = uncamelize(lcfirst($params[$i]));
             if (!array_key_exists($relation, $this->_has_one)) {
                 $this->_has_one[$relation] = new stdClass();
-                $this->_has_one[$relation]->model = ucfirst(camelize(isset($params['model']) ? $params['model'] : $relation));
+                $this->_has_one[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
                 $this->_has_one[$relation]->fk = isset($params['fk']) ? $params['fk'] : uncamelize(lcfirst(get_class($this))) . '_id';
             }
         }
@@ -2219,7 +2191,7 @@ class ActiveRecordBase
             $relation = uncamelize(lcfirst($params[$i]));
             if (!array_key_exists($relation, $this->_belongs_to)) {
                 $this->_belongs_to[$relation] = new stdClass();
-                $this->_belongs_to[$relation]->model = ucfirst(camelize(isset($params['model']) ? $params['model'] : $relation));
+                $this->_belongs_to[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
                 $this->_belongs_to[$relation]->fk = isset($params['fk']) ? $params['fk'] : "{$relation}_id";
             }
         }
@@ -2239,7 +2211,7 @@ class ActiveRecordBase
             $relation = uncamelize(lcfirst($params[$i]));
             if (!array_key_exists($relation, $this->_has_many)) {
                 $this->_has_many[$relation] = new stdClass();
-                $this->_has_many[$relation]->model = ucfirst(camelize(isset($params['model']) ? $params['model'] : $relation));
+                $this->_has_many[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
                 $this->_has_many[$relation]->fk = isset($params['fk']) ? $params['fk'] : uncamelize(lcfirst(get_class($this))) . '_id';
             }
         }
@@ -2261,7 +2233,7 @@ class ActiveRecordBase
             $relation = uncamelize(lcfirst($params[$i]));
             if (!array_key_exists($relation, $this->_has_and_belongs_to_many)) {
                 $this->_has_and_belongs_to_many[$relation] = new stdClass();
-                $this->_has_and_belongs_to_many[$relation]->model = ucfirst(camelize(isset($params['model']) ? $params['model'] : $relation));
+                $this->_has_and_belongs_to_many[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
                 $this->_has_and_belongs_to_many[$relation]->fk = isset($params['fk']) ? $params['fk'] : "{$relation}_id";
                 $this->_has_and_belongs_to_many[$relation]->key = isset($params['key']) ? $params['key'] : uncamelize(lcfirst(get_class($this))) . '_id';
                 if (isset($params['through'])) {
@@ -2396,4 +2368,40 @@ class ActiveRecordBase
          **/
         $this->_connect();
     }
+	/**
+	 * Obtiene la instacia de un modelo
+	 *
+	 * @param string $model
+	 * @return ActiveRecord
+	 * @throw KumbiaException
+	 **/
+	public static function get($model) 
+	{
+		if(isset(self::$_models[$model])) {
+			return self::$_models[$model];
+		}
+		
+		/**
+		 * Nombre de la clase
+		 **/
+		$Model = Util::camelcase(basename($model));
+		
+		/**
+		 * Verifico si esta cargada la clase
+		 **/
+		if(!class_exists($Model, false)) {
+			/**
+			 * Carga la clase
+			 **/
+			$file = APP_PATH . "models/$model.php";
+			if(is_file($file)) {
+				include $file;
+			} else {
+				throw new KumbiaException("No existe el modelo ActiveRecord $model");
+			}
+		}
+		
+		self::$_models[$model] = $obj = new $Model();
+		return $obj;
+	}
 }

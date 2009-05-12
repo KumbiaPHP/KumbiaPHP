@@ -1001,8 +1001,7 @@ function select_tag($name, $data=array()){
 		/**
 		 * combo creado a partir de un modelo
 		 **/
-		$model = camelize($params[1]);
-		$m = kumbia::$models[$model];
+		$m = ActiveRecord::get($params[1]);
 		
 		if(isset($params['value'])) {
 			$value = $params['value'];

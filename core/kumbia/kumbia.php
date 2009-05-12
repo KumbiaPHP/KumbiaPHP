@@ -40,17 +40,16 @@ class Kumbia
      * @var string
      */
     static public $content = '';
-    /**
-     * Lista de todos los modelos disponibles en la aplicacion
-     * Es creado por el _init_models
-     * @var array
-     */
-    static public $models = array();
 	/**
 	 * Inicia la aplicacion
 	 *
 	 **/
-    static public function init_application() {
+    public static function init_application() {
+		/**
+		 * Carga del boot.ini
+		 */
+		Load::boot();
+	
 		/**
          * @see Controller
          */
@@ -60,31 +59,6 @@ class Kumbia
          * @see ApplicationController
          */
         include_once APP_PATH . 'application.php';
-
-        /**
-         * La variable kumbia en el apartado modules en config/boot.ini
-         * tiene valores estilo logger... esto hace que Kumbia cargue
-         * automaticamente en el directorio library/kumbia/logger/logger.php.
-         *
-         * Esta variable tambien puede ser utilizada para cargar modulos de
-         * usuario y clases personalizadas, en la variable extensions.
-         *
-         */
-		$boot = Config::read('boot.ini');
-		if($boot['modules']['vendors']){
-			$extensions = explode(',', str_replace(' ', '', $boot['modules']['vendors']));
-			foreach ($extensions as $extension){
-				require_once VENDORS_PATH . "$extension" .'/'.$extension.'.php';
-			}
-			unset($extensions);
-		}
-		if($boot['modules']['extensions']){
-			$extensions = explode(',', str_replace(' ', '', $boot['modules']['extensions']));
-			foreach ($extensions as $extension){
-				require_once CORE_PATH . "extensions/$extension" .'/'.$extension.'.php';
-			}
-			unset($extensions);
-		}
 		
 		$config = Config::read('config.ini');
         /**
@@ -95,6 +69,14 @@ class Kumbia
         } else {
             date_default_timezone_set('America/New_York');
         }
+		
+		/**
+		 * Asigna localizacion
+		 **/
+		if(isset($config['application']['locale']) && $config['application']['locale']) {
+			setlocale(LC_ALL, $config['application']['locale']);
+		}
+		
 		/**
         * Establecer el charset de la app en la constante APP_CHARSET
         */
@@ -106,7 +88,7 @@ class Kumbia
 	 * @params string $url url
      * @return boolean
      */
-    static function main($url) {
+    public static function main($url) {
 		/**
 		 * @see Router
 		 */
@@ -116,138 +98,6 @@ class Kumbia
 		 **/
 		Router::rewrite($url);
 		
-		$application = Config::get('config.application');
-		
-		/**
-		 * Asigna localizacion
-		 **/
-		if(isset($application['locale'])) {
-			setlocale(LC_ALL, $application['locale']);
-		}
-				
-		/**
-		 * Kumbia reinicia las variables de aplicación cuando cambiamos
-		 * entre una aplicación y otra. Init Application define KUMBIA_PATH
-		 */
-		self::init_application();
-
-		/**
-    	 * Incluyendo las librerias del Framework
-    	 */
-    	self::_load_library_kumbia();
-	
-		/**
-		 * Iniciar el buffer de salida
-		 */
-		ob_start();
-
-		/**
-		 * Carga los modelos del directorio models y las clases necesarias
-		 */
-		if(isset($application['database']) && $application['database']){
-			 /**
-			 * @see Db
-			 */
-			require CORE_PATH . 'extensions/db/db.php';
-			/**
-			 * @see ActiveRecordBase
-			 */
-			require CORE_PATH . 'extensions/db/active_record_base/active_record_base.php';
-			/**
-			 * El driver de Kumbia es cargado segun lo que diga en config.ini
-			 */
-			if (!DbLoader::load_driver()) {
-					return false;
-			}
-			/**
-			 * Inicializa los Modelos. model_base es el modelo base
-			 */
-			include_once APP_PATH . 'model_base.php';
-			
-			if($application['models_autoload']) {
-				self::_init_models();
-			}
-		}
-		
-		/**
-		 * Ciclo del enrutador
-		 */
-		$controller = Dispatcher::execute();
-		while (Router::get_routed()) {
-			Router::set_routed(false);
-			$controller = Dispatcher::execute();
-		}
-		
-		$view = self::_get_view($controller, $url);
-		ob_end_clean();
-		echo $view;
-    }
-    /**
-     * Inicializa los modelos en el directorio models
-     *
-     * @param string $models_dir
-     */
-    private static function _init_models() {
-        /**
-         * Path de los modelos incluidos
-         */
-        if ($models = Cache::get('models', 'kumbia')) {
-			$models = unserialize($models);
-			foreach($models as $model) {
-				list($object_model, $m) = $model;
-				require_once $m;
-				self::$models[$object_model] = new $object_model();
-			}
-    	    
-        } else {
-			$models = array();
-            
-			foreach(new DirectoryIterator(APP_PATH . 'models') as $model) {
-                if($model->isDot() || $model->isDir())
-                    continue;
-
-                require_once $model->getPathname();
-                $object_model = str_replace('.php', '', $model->getFilename());
-                $object_model = Util::camelcase($object_model);
-				$models[] = array($object_model,$model->getPathname());
-		    
-				if (!class_exists($object_model)) {
-					throw new KumbiaException("No se encontr&oacute; la Clase \"$object_model\"", "Es necesario definir una clase en el modelo
-							'$model' llamado '$object_model' para que esto funcione correctamente.");
-				} else {
-					self::$models[$object_model] = new $object_model();
-					if (!is_subclass_of(self::$models[$object_model], 'ActiveRecord')) {
-						throw new KumbiaException("Error inicializando modelo \"$object_model\"", "El modelo '$model' debe ser una clase o sub-clase de ActiveRecord");
-					}
-					if (!self::$models[$object_model]->get_source()) {
-						self::$models[$object_model]->set_source($model);
-					}
-				}
-            }
-			
-			Cache::save(serialize($models), Config::get('config.application.metadata_lifetime'), 'models', 'kumbia');
-        }
-
-    }
-    /**
-     * Imprime los CSS cargados mediante stylesheet_link_tag
-     *
-     */
-    public static function stylesheet_link_tags() {
-        $imports = self::$data['KUMBIA_CSS_IMPORTS'];
-        if ($imports && is_array($imports)) {
-            foreach ($imports as $css) {
-                echo $css;
-            }
-        } else {
-            echo $imports;
-        }
-    }
-    /**
-     * Metodo para incluir las librerias de Framework
-     *
-     */
-    private static function _load_library_kumbia(){
     	/**
          * @see Dispatcher
          */
@@ -264,8 +114,75 @@ class Kumbia
          * @see Util
          */
         require CORE_PATH . 'kumbia/util/util.php';
-    }
+		/**
+         * @see Load
+         */
+        require CORE_PATH . 'kumbia/load.php';
+		
+		/**
+		 * Kumbia reinicia las variables de aplicación cuando cambiamos
+		 * entre una aplicación y otra. Init Application define KUMBIA_PATH
+		 */
+		self::init_application();
+	
+		/**
+		 * Iniciar el buffer de salida
+		 */
+		ob_start();
 
+		$application = Config::get('config.application');
+		
+		/**
+		 * Carga los modelos del directorio models y las clases necesarias
+		 */
+		if($application['database']){
+			 /**
+			 * @see Db
+			 */
+			require CORE_PATH . 'extensions/db/db.php';
+			/**
+			 * @see ActiveRecordBase
+			 */
+			require CORE_PATH . 'extensions/db/active_record_base/active_record_base.php';
+			/**
+			 * El driver de Kumbia es cargado segun lo que diga en config.ini
+			 */
+			if (!DbLoader::load_driver()) {
+				return false;
+			}
+			/**
+			 * Inicializa los Modelos. model_base es el modelo base
+			 */
+			include_once APP_PATH . 'model_base.php';
+		}
+		
+		/**
+		 * Ciclo del enrutador
+		 */
+		$controller = Dispatcher::execute();
+		while (Router::get_routed()) {
+			Router::set_routed(false);
+			$controller = Dispatcher::execute();
+		}
+		
+		$view = self::_get_view($controller, $url);
+		ob_end_clean();
+		echo $view;
+    }
+    /**
+     * Imprime los CSS cargados mediante stylesheet_link_tag
+     *
+     */
+    public static function stylesheet_link_tags() {
+        $imports = self::$data['KUMBIA_CSS_IMPORTS'];
+        if ($imports && is_array($imports)) {
+            foreach ($imports as $css) {
+                echo $css;
+            }
+        } else {
+            echo $imports;
+        }
+    }
 	/**
 	 * Obtiene la vista
 	 *
@@ -349,25 +266,5 @@ class Kumbia
 		}
 		
 		return self::$content;
-	}
-	/**
-	 * Obtiene un modelo
-	 *
-	 * @param string $model
-	 * @return ActiveRecord
-	 **/
-	public static function model($model)
-	{
-		if(isset(self::$models[$model])) {
-			return self::$models[$model];
-		}
-		
-		if(!class_exists($model)) {
-			$model_file = APP_PATH . 'models/' . Util::smallcase($model). '.php';
-			include $model_file;
-		}
-		
-		self::$models[$model] = new $model();
-		return self::$models[$model];
 	}
 }

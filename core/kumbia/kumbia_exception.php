@@ -1,23 +1,28 @@
 <?php
 /**
- * KumbiaPHP web & app Framework
+ * Kumbia PHP Framework
  *
  * LICENSE
  *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
+ * This source file is subject to the GNU/GPL that is bundled
+ * with this package in the file docs/LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://wiki.kumbiaphp.com/Licencia
+ * http://www.kumbiaphp.com/
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to license@kumbiaphp.com so we can send you a copy immediately.
+ * to kumbia@kumbiaphp.com so we can send you a copy immediately.
  *
- * Clase principal de Implementacion de Excepciones
+ * @category Kumbia
+ * @package  Exceptions
  * 
- * @category   Kumbia
- * @package    Exception 
- * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
- * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ * @author   Andres Felipe Gutierrez <andresfelipe@vagoogle.net>
+ * @license  http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL
+ * @version  SVN:$id
+ * @see      Object
+ */
+/**
+ * Clase principal de Implementacion de Excepciones
+ *
  */
 class KumbiaException extends Exception {
     /**
@@ -62,7 +67,6 @@ class KumbiaException extends Exception {
 		ob_start();
 		if(!$config['application']['production']) {
 			$show_trace = $e->_show_trace;
-			$models = implode(' ,', array_keys(Kumbia::$models));
 			$boot = Config::read('boot.ini');
 			include CORE_PATH . 'views/errors/exception.phtml';
 		} else {

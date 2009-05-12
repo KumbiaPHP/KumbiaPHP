@@ -36,10 +36,8 @@
         <strong>Informaci&oacute;n Adicional:</strong><br>
         <strong>En producción:</strong> <?php echo $config['application']['production'] ?  'Sí' : 'No' ?><br>
         <strong>Ubicaci&oacute;n actual:</strong> <?php echo $route ?><br>
-        <strong>Modelos Cargados:</strong> <?php echo $models ?><br>
-        <strong>Modulos de Kumbia Cargados:</strong> <?php echo $boot['modules']['kumbia'] ?><br>
-        <strong>Otros Modulos Cargados:</strong> <?php echo $boot['modules']['extensions'] ?><br>
-        <strong>Datos de Session:</strong> <?php if(isset($_SESSION['session_data'])) print_r($_SESSION['session_data']) ?><br>
+        <strong>Extensions:</strong> <?php echo $boot['modules']['extensions'] ?><br>
+        <strong>Vendors:</strong> <?php echo $boot['modules']['vendors'] ?><br>
     </div>
 <?php else: ?>
     <pre style='font-family: Lucida Console; margin: 10px; border:1px solid #969696; background: #fafafa'>

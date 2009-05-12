@@ -64,96 +64,90 @@ class Dispatcher
             $controllers_dir = $controllers_dir . '/' . $module;
         }
 
-        $app_controller = camelize($controller) . 'Controller';
+        $app_controller = Util::camelcase($controller) . 'Controller';
         $file = "$controllers_dir/$controller".'_controller.php';
-        if(include_once $file){
-            /*
-             * incluyendo el controller
-             */
-            //require_once "$controllers_dir/$controller".'_controller.php';
-            if (class_exists($app_controller)) {
-				/**
-				 * Verifica si el controlador esta persistente en la sesion
-				 **/
-                if (isset($_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"])) {
-					$activeController = unserialize($_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"]);
-                } else {
-					$activeController = new $app_controller();
-                    $activeController->module_name = $module;
-                    $activeController->controller_name = $controller;
-                }
+        if(is_file($file)){
+			include_once $file;
+			
+			/**
+			 * Verifica si el controlador esta persistente en la sesion
+			 **/
+			if (isset($_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"])) {
+				$activeController = unserialize($_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"]);
+			} else {
+				$activeController = new $app_controller();
+				$activeController->module_name = $module;
+				$activeController->controller_name = $controller;
+			}
 				
-                $activeController->response = '';
-                $activeController->action_name = $action;
-                $activeController->view = $action;
+			$activeController->response = '';
+			$activeController->action_name = $action;
+			$activeController->view = $action;
 
-                $activeController->id = $id;
-                $activeController->all_parameters = $all_parameters;
-                $activeController->parameters = $parameters;
+			$activeController->id = $id;
+			$activeController->all_parameters = $all_parameters;
+			$activeController->parameters = $parameters;
 				
-				/**
-				 * Asigna el controlador activo
-				 **/
-				self::$controller = $activeController;
+			/**
+			 * Asigna el controlador activo
+			 **/
+			self::$controller = $activeController;
 				
-                try {
-                    /**
-                     * Se ejecutan los filtros before
-                     */
-                    $activeController->initialize();
-                    $activeController->before_filter();
-                    /**
-                     * Se agrega una referencia a los modelos como propiedades del controlador
-                     */
-                    foreach (Kumbia::$models as $model_name => $model) {
-                        $activeController->{$model_name} = $model;
-                    }
-                    /**
-                     * Se ejecuta el metodo con el nombre de la accion
-                     * en la clase
-                     */
-                    if (! method_exists($activeController, $action)) {
-						throw new KumbiaException("No se encontró; la Acción \"$action\". Es necesario definir un método en la clase
-                             controladora '$controller' llamado '{$action}' para que
-                             esto funcione correctamente.", Dispatcher::NOT_FOUND_ACTION);
-                    }
-                    call_user_func_array(array($activeController , $action), $parameters);
-                    /**
-                     * Corre los filtros after
-                     */
-                    $activeController->after_filter();
-                    $activeController->finalize();
-                } catch (Exception $e) {
-                    $cancel_throw_exception = false;
-                    throw $e;
-                }
+			/**
+			 * Carga de modelos
+			 **/
+			if($config['application']['models_autoload']) {
+				Load::all_models();
+			} elseif($activeController->models) {
+				call_user_func_array(array('Load', 'models'), $activeController->models);
+			}
+					
+			/**
+			 * Se ejecutan los filtros before
+			 */
+			$activeController->initialize();
+			$activeController->before_filter();
+                
+			/**
+			 * Se ejecuta el metodo con el nombre de la accion
+			 * en la clase
+			 */
+			if (!method_exists($activeController, $action)) {
+				throw new KumbiaException("No se encontró; la Acción \"$action\". Es necesario definir un método en la clase
+					controladora '$controller' llamado '{$action}' para que
+					esto funcione correctamente.", Dispatcher::NOT_FOUND_ACTION);
+			}
+			call_user_func_array(array($activeController , $action), $parameters);
+				
+			/**
+			 * Corre los filtros after
+			 */
+			$activeController->after_filter();
+			$activeController->finalize();
 
-                try {
-                    foreach (Kumbia::$models as $model_name => $model) {
-                        unset($activeController->{$model_name});
-                    }
+			/**
+			 * Elimino del controlador los modelos inyectados
+			 **/
+			foreach (Load::get_injected_models() as $model) {
+				unset($activeController->$model);
+			}
+			/**
+			 * Limpia el buffer de modelos inyectados
+			 **/
+			Load::reset_injected_models();
 
-					/**
-					 * Verifica si es persistente
-					 *
-					 **/
-					if($activeController->persistent) {
-						$_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"] = serialize($activeController);
-					}
-                } catch (PDOException $e) {
-                    throw new KumbiaException($e->getMessage(), $e->getCode());
-                }
+			/**
+			 * Verifica si es persistente
+			 *
+			 **/
+			if($activeController->persistent) {
+				$_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"] = serialize($activeController);
+			}
 
-                return $activeController;
-            } else {
-                throw new KumbiaException("
-                    No se encontr&oacute; el Clase Controladora \"{$app_controller}\".
-                    Debe definir esta clase para poder trabajar este controlador", self::NOT_FOUND_CONTROLLER);
-            }
+			return $activeController;
         } else {
-			throw new KumbiaException("
-                    No se encontr&oacute; el Clase Controladora \"{$app_controller}\".
-                    Debe definir esta clase para poder trabajar este controlador", self::NOT_FOUND_CONTROLLER);
+			throw new KumbiaException("No se encontr&oacute; la Clase Controladora \"{$app_controller}\".
+				Debe definir esta clase para poder trabajar este controlador", self::NOT_FOUND_CONTROLLER);
         }
     }
     /**
@@ -161,7 +155,7 @@ class Dispatcher
      *
      * @return mixed
      */
-    public static function get_controller ()
+    public static function get_controller()
     {
         return self::$controller;
     }
