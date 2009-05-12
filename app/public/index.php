@@ -99,19 +99,6 @@ require CORE_PATH . 'kumbia/kumbia_exception.php';
 set_exception_handler(array('KumbiaException', 'handle_exception'));
 
 /**
- * Si la url se paso por metodo GET (compatibilidad con Cherokee, etc)
- **/
-if(isset($_GET['url'])) {
-	$url = $_GET['url'];
-} else {
-	/**
-	 * Obtiene la Url partiendo de PHP_SELF (urls bonitas sin rewrite con Apache)
-	 **/
-	preg_match("/^.*index.php\/?(.*)$/", $_SERVER['PHP_SELF'], $url);
-	$url = isset($url[1]) ? $url[1] : '';
-}
-
-/**
  * @see Config
  */
 require CORE_PATH . 'kumbia/config/config.php';
@@ -123,6 +110,11 @@ require CORE_PATH . 'extensions/cache/cache.php';
  * Lee la configuracion
  */
 $config = Config::read('config.ini');
+
+/**
+ * Obtiene la url
+ **/
+$url = isset($_GET['url'])) ? $_GET['url'] : '';
 
 /**
  * Desactiva la cache
