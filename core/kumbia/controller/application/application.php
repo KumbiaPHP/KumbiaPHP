@@ -84,7 +84,7 @@ class Controller
 	 *
 	 * @var string
 	 */
-	protected $logger;
+	public $logger;
 	/**
 	 * Vista a renderizar
 	 *
@@ -392,16 +392,6 @@ class Controller
 		foreach($args as $f) {
 			$this->$f = null;
 		}
-	}
-
-	/**
-	 * Al deserializar asigna 0 a los tiempos del cache
-	 */
-	public function __wakeup()
-    {
-		$this->logger = false;
-		$this->cache(false);
-		$this->view = null;
 	}
 	/**
 	 * Visualiza una vista en el controlador actual

@@ -68,25 +68,27 @@ class Dispatcher
         $file = "$controllers_dir/$controller".'_controller.php';
         if(is_file($file)){
 			include_once $file;
+			$activeController = new $app_controller();
 			
 			/**
 			 * Verifica si el controlador esta persistente en la sesion
 			 **/
-			if (isset($_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"])) {
-				$activeController = unserialize($_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"]);
-			} else {
-				$activeController = new $app_controller();
-				$activeController->module_name = $module;
-				$activeController->controller_name = $controller;
+			if ($activeController->persistent && isset($_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"])) {
+				$data = unserialize($_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"]);
+				foreach($data as $k=>$v) {
+					$activeController->$k = $v;
+				}
+				$activeController->cache(false);
+				$activeController->response = '';
 			}
 				
-			$activeController->response = '';
 			$activeController->action_name = $action;
-			$activeController->view = $action;
-
+			$activeController->module_name = $module;
+			$activeController->controller_name = $controller;
 			$activeController->id = $id;
 			$activeController->all_parameters = $all_parameters;
 			$activeController->parameters = $parameters;
+			$activeController->view = $action;
 				
 			/**
 			 * Asigna el controlador activo
@@ -141,7 +143,7 @@ class Dispatcher
 			 *
 			 **/
 			if($activeController->persistent) {
-				$_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"] = serialize($activeController);
+				$_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"] = serialize(get_object_vars($activeController));
 			}
 
 			return $activeController;
