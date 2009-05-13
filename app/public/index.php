@@ -114,7 +114,7 @@ $config = Config::read('config.ini');
 /**
  * Obtiene la url
  **/
-$url = isset($_GET['url'])) ? $_GET['url'] : '';
+$url = isset($_GET['url']) ? $_GET['url'] : '';
 
 /**
  * Desactiva la cache
