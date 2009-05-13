@@ -113,80 +113,29 @@ class Load
 		$controller = Dispatcher::get_controller();
 		
 		foreach($args as $model) {
-			/**
-			 * Nombre de la clase
-			 **/
-			$Model = Util::camelcase(basename($model));
-		
-			/**
-			 * Verifico si esta cargada la clase
-			 **/
-			if(!class_exists($Model, false)) {
-				$file = APP_PATH . "models/$model.php";
-				if(is_file($file)) {
-					include $file;
-				} else {
-					throw new KumbiaException("Modelo $model no encontrado");
-				}
-			}
-			
-			if($controller) {
-				$controller->$Model = new $Model();
-				self::$_injected_models[] = $Model;
-			}
-		}
-	}
-	/**
-	 * Carga modelos desde un directorio
-	 *
-	 * @param string $dir directorio de modelos
-	 * @param string $model modelo a cargar
-	 * @throw KumbiaException
-	 **/
-	public static function models_dir($dir, $model=null) 
-	{
-		$controller = Dispatcher::get_controller();
-		
-		/**
-		 * Verifica si se indicaron modelos especificos
-		 **/
-		if($model) {
-			$args = func_get_args();
-			
-			while($model = next($args)) {
-				/**
-				 * Nombre de la clase
-				 **/
-				$Model = Util::camelcase(basename($model));
-				
-				/**
-				 * Verifica si esta cargada la clase
-				 **/
-				if(!class_exists($Model, false)) {
-					$file = APP_PATH . "models/$dir/$model.php";
-					if(is_file($file)) {
-						include $file;
-					} else {
-						throw new KumbiaException("Modelo $dir/$model no encontrado");
-					}
-				}
+			$file = APP_PATH . "models/$model.php";
+			if(is_file($file)) {
+				include_once $file;
 				
 				if($controller) {
+					$Model = Util::camelcase(basename($model));
 					$controller->$Model = new $Model();
 					self::$_injected_models[] = $Model;
 				}
-			}
-		} else{
-			foreach(new DirectoryIterator(APP_PATH . "models/$dir") as $file) {
-				if($file->isFile()) {
-					include_once $file->getPathname();
-
-					if($controller) {
-						$Model = Util::camelcase(basename($file->getFilename(), '.php'));
-						$controller->$Model = new $Model();
-						self::$_injected_models[] = $Model;
+			} elseif(is_dir(APP_PATH . "models/$model")) {
+				foreach(new DirectoryIterator(APP_PATH . "models/$model") as $file) {
+					if($file->isFile()) {
+						include_once $file->getPathname();
+						
+						if($controller) {
+							$Model = Util::camelcase(basename($file->getFilename(), '.php'));
+							$controller->$Model = new $Model();
+							self::$_injected_models[] = $Model;
+						}
 					}
 				}
+			} else {
+				throw new KumbiaException("Modelo $model no encontrado");
 			}
 		}
 	}
