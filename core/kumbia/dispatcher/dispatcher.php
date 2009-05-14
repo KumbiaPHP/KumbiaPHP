@@ -74,7 +74,7 @@ class Dispatcher
 			 * Verifica si el controlador esta persistente en la sesion
 			 **/
 			if ($activeController->persistent && isset($_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"])) {
-				$data = unserialize($_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"]);
+				$data = $_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"];
 				foreach($data as $k=>$v) {
 					$activeController->$k = $v;
 				}
@@ -143,7 +143,7 @@ class Dispatcher
 			 *
 			 **/
 			if($activeController->persistent) {
-				$_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"] = serialize(get_object_vars($activeController));
+				$_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"] = get_object_vars($activeController);
 			}
 
 			return $activeController;
