@@ -28,12 +28,6 @@ class Controller
 	 **/
 	public $models = null;
 	/**
-	 * Indica si el controlador es persistente
-	 *
-	 * @var array
-	 **/
-	public $persistent = false;
-	/**
 	 * Indica el tipo de salida generada por el controlador
 	 *
 	 * @var string
@@ -91,7 +85,28 @@ class Controller
 	 * @var string
 	 **/
 	public $view = null;
-
+	/**
+	 * Constructor
+	 **/
+	public function __construct() {
+		extract(Router::get_vars());
+		$this->action_name = $action;
+		$this->module_name = $module;
+		$this->controller_name = $controller;
+		$this->id = $id;
+		$this->all_parameters = $all_parameters;
+		$this->parameters = $parameters;
+		$this->view = $action;
+		
+		/**
+		 * Carga de modelos
+		 **/
+		if(Config::get('application.models_autoload')) {
+			Load::all_models();
+		} elseif($this->models) {
+			call_user_func_array(array('Load', 'models'), $this->models);
+		}
+	}	
 	/**
 	 * Asigna cacheo de vistas o template
 	 *
@@ -419,7 +434,6 @@ class Controller
      */
     public function before_filter()
     {
-        return;
     }
     /**
      * AfterFilter
@@ -428,7 +442,6 @@ class Controller
      */
     public function after_filter()
     {
-        return;
     }
 	/**
      * Initialize
@@ -437,7 +450,6 @@ class Controller
      */
     public function initialize()
     {
-        return;
     }
     /**
      * Finalize
@@ -446,6 +458,31 @@ class Controller
      */
     public function finalize()
     {
-        return;
     }
+	/**
+	 * Persistencia de datos en el controlador
+	 *
+	 * @param string $var
+	 * @param string $value
+	 * @return mixed
+	 *
+	 * Ejemplos:
+	 * Haciendo persistente un dato
+	 *    $this->persistent('data', 'valor');
+	 *
+	 * Leyendo el dato persistente
+	 *    $valor = $this->persistent('data');
+	 **/
+	protected function persistent($var, $value=null)
+	{
+		if(func_num_args()>1) {
+			$_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var] = $value;
+		} else {
+			if(isset($_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var])) {
+				return $_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var];
+			} else {
+				return null;
+			}
+		}
+	}
 }

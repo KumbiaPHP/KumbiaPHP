@@ -26,7 +26,7 @@ class Dispatcher
      *
      * @var mixed
      */
-    private static $controller;
+    private static $_controller;
     /**
      * Directorio de controladores
      *
@@ -57,8 +57,11 @@ class Dispatcher
      */
     static public function execute ()
     {
-        extract(Router::get_vars());
-        $config = Config::read('config.ini');
+        $router_vars = Router::get_vars();
+		$action = $router_vars['action'];
+		$controller = $router_vars['controller'];
+		$module = $router_vars['module'];
+		
         $controllers_dir = APP_PATH . 'controllers';
         if ($module) {
             $controllers_dir = $controllers_dir . '/' . $module;
@@ -68,48 +71,21 @@ class Dispatcher
         $file = "$controllers_dir/$controller".'_controller.php';
         if(is_file($file)){
 			include_once $file;
-			$activeController = new $app_controller();
-			
-			/**
-			 * Verifica si el controlador esta persistente en la sesion
-			 **/
-			if ($activeController->persistent && isset($_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"])) {
-				$data = $_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"];
-				foreach($data as $k=>$v) {
-					$activeController->$k = $v;
-				}
-				$activeController->cache(false);
-				$activeController->response = '';
-			}
-				
-			$activeController->action_name = $action;
-			$activeController->module_name = $module;
-			$activeController->controller_name = $controller;
-			$activeController->id = $id;
-			$activeController->all_parameters = $all_parameters;
-			$activeController->parameters = $parameters;
-			$activeController->view = $action;
-				
 			/**
 			 * Asigna el controlador activo
 			 **/
-			self::$controller = $activeController;
-				
-			/**
-			 * Carga de modelos
-			 **/
-			if($config['application']['models_autoload']) {
-				Load::all_models();
-			} elseif($activeController->models) {
-				call_user_func_array(array('Load', 'models'), $activeController->models);
-			}
-					
+			self::$_controller = $activeController = new $app_controller();
+			
 			/**
 			 * Se ejecutan los filtros before
 			 */
-			$activeController->initialize();
-			$activeController->before_filter();
-                
+			if($activeController->initialize() === false) {
+				return $activeController;
+			}
+			if($activeController->before_filter() === false) {
+				return $activeController;
+			}
+			
 			/**
 			 * Se ejecuta el metodo con el nombre de la accion
 			 * en la clase
@@ -119,7 +95,7 @@ class Dispatcher
 					controladora '$controller' llamado '{$action}' para que
 					esto funcione correctamente.", Dispatcher::NOT_FOUND_ACTION);
 			}
-			call_user_func_array(array($activeController , $action), $parameters);
+			call_user_func_array(array($activeController , $action), $router_vars['parameters']);
 				
 			/**
 			 * Corre los filtros after
@@ -138,14 +114,6 @@ class Dispatcher
 			 **/
 			Load::reset_injected_models();
 
-			/**
-			 * Verifica si es persistente
-			 *
-			 **/
-			if($activeController->persistent) {
-				$_SESSION['KUMBIA_CONTROLLERS'][APP_PATH]["$module/$controller"] = get_object_vars($activeController);
-			}
-
 			return $activeController;
         } else {
 			throw new KumbiaException("No se encontr&oacute; la Clase Controladora \"{$app_controller}\".
@@ -159,6 +127,6 @@ class Dispatcher
      */
     public static function get_controller()
     {
-        return self::$controller;
+        return self::$_controller;
     }
 }
