@@ -30,14 +30,17 @@ class Util
      **/
     public static function camelcase($s, $lower=false)
     {
-        $w = ucwords(preg_replace('/[\s_]+/', ' ', trim($s)));
+		$s = strtr($s, '_', ' ');
+		$s = ucwords($s);
+		$s = str_replace(' ', '', $s);
+
         /**
          * Notacion lowerCamelCase
          **/
         if($lower) {
-            $w = Util::lcfirst($w);
+            $s = self::lcfirst($s);
         }
-        return str_replace(' ', '', $w);
+        return $s;
     }
     /**
      * Convierte la cadena en notacion smallcase
@@ -45,7 +48,7 @@ class Util
      * @return string
      **/
     public static function smallcase($s) {
-        return strtolower(preg_replace('/([A-Z])/', "_\\1", Util::lcfirst(trim($s))));
+        return strtolower(preg_replace('/([A-Z])/', "_\\1", self::lcfirst($s)));
     }
     /**
      * Remplaza en la cadena los espacios por underscores
