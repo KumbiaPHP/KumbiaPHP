@@ -97,15 +97,6 @@ class Controller
 		$this->all_parameters = $all_parameters;
 		$this->parameters = $parameters;
 		$this->view = $action;
-		
-		/**
-		 * Carga de modelos
-		 **/
-		if(Config::get('application.models_autoload')) {
-			Load::all_models();
-		} elseif($this->models) {
-			call_user_func_array(array('Load', 'models'), $this->models);
-		}
 	}	
 	/**
 	 * Asigna cacheo de vistas o template

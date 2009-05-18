@@ -19,7 +19,7 @@
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-class Dispatcher
+final class Dispatcher
 {
     /**
      * Objeto del controlador en ejecución
@@ -28,12 +28,6 @@ class Dispatcher
      */
     private static $_controller;
     /**
-     * Directorio de controladores
-     *
-     * @var string
-     */
-    private static $controllers_dir;
-    /**
      * Codigo de error cuando no encuentra la accion
      */
     const NOT_FOUND_ACTION = 100;
@@ -41,15 +35,6 @@ class Dispatcher
     const NOT_FOUND_FILE_CONTROLLER = 102;
     const NOT_FOUND_INIT_ACTION = 103;
 
-    /**
-     * Establece el directorio de los controladores
-     *
-     * @param string $directory
-     */
-    static public function set_controllers_dir ($directory)
-    {
-        self::$controllers_dir = $directory;
-    }
     /**
      * Realiza el dispatch de una ruta
      *
@@ -75,6 +60,15 @@ class Dispatcher
 			 * Asigna el controlador activo
 			 **/
 			self::$_controller = $activeController = new $app_controller();
+
+			/**
+             * Carga de modelos
+             **/
+            if(Config::get('application.models_autoload')) {
+                Load::all_models();
+            } elseif($activeController->models !== null) {
+                Load::models($activeController->models);
+            }			
 			
 			/**
 			 * Se ejecutan los filtros before
