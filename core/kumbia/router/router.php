@@ -281,9 +281,6 @@ class Router
 			self::$vars['routed'] = true;
 			
 			$app_controller = camelize($url['controller'])."Controller";
-			if(isset($_SESSION['KUMBIA_CONTROLLERS'][KUMBIA_PATH][self::$vars['application']][self::$vars['module']][$app_controller])){
-				unset($_SESSION['KUMBIA_CONTROLLERS'][KUMBIA_PATH][self::$vars['application']][self::$vars['module']][$app_controller]);
-			}
 		}
 		if(isset($url['action'])){
 			if(self::$vars['action']==$url['action']){
