@@ -365,9 +365,6 @@ function javascript_library_tag($src){
  */
 function stylesheet_link_tag($name){
 	$params = is_array($name) ? $name : get_params(func_get_args());
-	$use_variables = isset($params['use_variables']);
-	unset($params['use_variables']);
-	
 	$params['rel'] = 'stylesheet';
 	$params['type'] = 'text/css';
 	
@@ -375,21 +372,13 @@ function stylesheet_link_tag($name){
 	$code = '';
 	for($i=0; isset($params[$i]); $i++){
 		$src = $params[$i];
-		if($use_variables){
-			$params['href'] = PUBLIC_PATH."css.php?c=$src&p=$kb";
-		} else {
-			$params['href'] = PUBLIC_PATH."css/$src.css";
-		}
+		$params['href'] = PUBLIC_PATH."css/$src.css";
 		$code.=xhtml_tag('link',$params);
 	}
 
 	if(!$i){ //$i=0 si no se especificaron hojas de estilo
 		$src = $_REQUEST['action'];
-		if($use_variables){
-			$params['href'] = PUBLIC_PATH."css.php?c=$src&p=$kb";
-		} else {
-			$params['href'] = PUBLIC_PATH."css/$src.css";
-		}
+		$params['href'] = PUBLIC_PATH."css/$src.css";
 		$code.=xhtml_tag('link',$params);
 	}
 	Kumbia::$data['KUMBIA_CSS_IMPORTS'][]=$code;
