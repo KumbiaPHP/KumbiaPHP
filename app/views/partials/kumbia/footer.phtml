@@ -13,6 +13,6 @@
     </div>
     <dir class='clear'></dir>
     <div class='alignleft'><a href='http://wiki.kumbiaphp.com/Team_Development_KumbiaPHP_Framework'>&copy; 2009 KumbiaPHP Team</a></div>
-    <div class='alignright'><p><?php echo 'Tiempo: '.Benchmark::time_execution('kumbia').' seg.'; echo ', Memoria Usada: '.Benchmark::memory_usage('kumbia').' MB';?></p></div>
+    <div class='alignright'><p><?php echo 'Tiempo: '.round((microtime(1)-START_TIME),4).' seg.'; echo ', Memoria Usada: '.number_format(memory_get_usage() / 1048576, 2).' MB';?></p></div>
 </div>
 

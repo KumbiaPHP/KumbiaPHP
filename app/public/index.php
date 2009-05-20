@@ -23,7 +23,7 @@
  * Establece política de informe de errores
  */
 error_reporting(E_ALL ^ E_STRICT);
-
+define('START_TIME', microtime(1));
 /**
  * Define el APP_PATH
  *
@@ -78,16 +78,6 @@ if($_SERVER['QUERY_STRING']) {
  *   y es relativa al DOCUMENT_ROOT del servidor web
  **/
 define('PUBLIC_PATH', URL_PATH);
-
-/**
- * @see Benchmark
- */
-require CORE_PATH . 'extensions/benchmark/benchmark.php';
-
-/**
- * Inicia el benchmark
- */
-Benchmark::start_clock('kumbia');
 
 /**
  * @see KumbiaException
