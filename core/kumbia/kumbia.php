@@ -202,7 +202,7 @@ final class Kumbia
          * Mapea los atributos del controller en el scope
          *
          **/
-        extract(get_object_vars($controller));
+        extract(get_object_vars($controller),EXTR_OVERWRITE);
 		
 		/**
 		 * Intenta cargar la vista desde la cache
