@@ -4,4 +4,3 @@ $Kumbia.path = "<?= urldecode($_REQUEST['path']) ?>";
 $Kumbia.module = "<?= urldecode($_REQUEST['module']) ?>";
 $Kumbia.controller = "<?= $_REQUEST['controller'] ?>";
 $Kumbia.action = "<?= $_REQUEST['action'] ?>";
-$Kumbia.id = "<?= $_REQUEST['id'] ?>";

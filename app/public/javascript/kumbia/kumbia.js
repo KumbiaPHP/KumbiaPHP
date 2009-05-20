@@ -11,7 +11,6 @@ var $Kumbia = {
 	 **/
 	Constant : {
 		KUMBIA_PATH : '',
-		application: '',
 		module: '',
 		controller_name : '',
 		action_name : ''

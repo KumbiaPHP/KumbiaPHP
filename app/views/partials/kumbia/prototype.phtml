@@ -1,45 +1,48 @@
 <?php
 /**
- * Kumbia PHP Framework
- * PHP version 5
+ * KumbiaPHP web & app Framework
+ *
  * LICENSE
  *
- * This source file is subject to the GNU/GPL that is bundled
- * with this package in the file docs/LICENSE.txt.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.kumbiaphp.com/
+ * http://wiki.kumbiaphp.com/Licencia
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to kumbia@kumbiaphp.com so we can send you a copy immediately.
+ * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category  Kumbia
- * @package   Kumbia
- * @author    Andres Felipe Gutierrez <andresfelipe@vagoogle.net>
- * @copyright 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
- * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL
+ * Esta es la clase principal del framework, contiene metodos importantes
+ * para cargar los controladores y ejecutar las acciones en estos ademas
+ * de otras funciones importantes
+ * 
+ * @category   Kumbia
+ * @package    Partials 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
-    extract(Router::get_vars());
-    echo "<script type=\"text/javascript\" src=\"", PUBLIC_PATH, "javascript/scriptaculous/prototype.js\"></script>\r\n";
-    echo "<script type=\"text/javascript\" src=\"", PUBLIC_PATH, "javascript/scriptaculous/effects.js\"></script>\r\n";
-    echo "<script type=\"text/javascript\" src=\"", PUBLIC_PATH, "javascript/scriptaculous/dragdrop.js\"></script>\r\n";
-    echo "<script type=\"text/javascript\" src=\"", PUBLIC_PATH, "javascript/kumbia/base.js\"></script>\r\n";
-    echo "<script type=\"text/javascript\" src=\"", PUBLIC_PATH, "javascript/kumbia/validations.js\"></script>\r\n";
-    echo "<script type=\"text/javascript\" src=\"", PUBLIC_PATH, "javascript/kumbia/main.php?module=$module&amp;path=" . urlencode(PUBLIC_PATH) . "&amp;controller=$controller&amp;action=$action&amp;id=$id\"></script>\r\n";
-    echo "<script type=\"text/javascript\" src=\"", PUBLIC_PATH, "javascript/kumbia/swfobject.js\"></script>\r\n";
-    echo "<script type=\"text/javascript\" src=\"", PUBLIC_PATH, "javascript/kumbia/kumbia.js\"></script>\r\n";
-    echo "<script type=\"text/javascript\" src=\"", PUBLIC_PATH, "javascript/scriptaculous/unittest.js\"></script>\r\n";
-    echo "<script type=\"text/javascript\" src=\"", PUBLIC_PATH, "javascript/scriptaculous/scriptaculous.js\"></script>\r\n";
+    extract(Router::get_vars(), EXTR_OVERWRITE);
+    echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/scriptaculous/prototype.js'></script>"; 
+    echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/scriptaculous/effects.js'></script>"; 
+    echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/scriptaculous/dragdrop.js'></script>"; 
+    echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/kumbia/base.js'></script>"; 
+    echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/kumbia/validations.js'></script>"; 
+    echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/kumbia/main.php?module=$module&amp;path=" . urlencode(PUBLIC_PATH) . "&amp;controller=$controller&amp;action=$action&amp;id=$id'></script>"; 
+    echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/kumbia/swfobject.js'></script>"; 
+    echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/kumbia/kumbia.js'></script>"; 
+    echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/scriptaculous/unittest.js'></script>"; 
+    echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/scriptaculous/scriptaculous.js'></script>"; 
     /**
      * Cargo constantes para el objeto javascript
      *
      */
-    echo "<script type=\"text/javascript\">\r\n";
-    echo "	<!-- <![CDATA[\r\n";
-    echo '$Kumbia.Constant.PUBLIC_PATH = "', PUBLIC_PATH, "\";\r\n";
-    echo '$Kumbia.Constant.module = "', $module, "\";\r\n";
-    echo '$Kumbia.Constant.controller_name = "', $controller, "\";\r\n";
-    echo '$Kumbia.Constant.action_name = "', $action, "\";\r\n";
-    echo "	// ]]> -->\r\n";
-    echo "</script>\r\n";
+    echo "<script type='text/javascript'>"; 
+    echo '	<!-- <![CDATA['; 
+    echo '$Kumbia.Constant.PUBLIC_PATH = "', PUBLIC_PATH, "';"; 
+    echo '$Kumbia.Constant.module = "', $module, "';"; 
+    echo '$Kumbia.Constant.controller_name = "', $controller, "';"; 
+    echo '$Kumbia.Constant.action_name = "', $action, "';"; 
+    echo "	// ]]> -->"; 
+    echo "</script>"; 
 ?>
