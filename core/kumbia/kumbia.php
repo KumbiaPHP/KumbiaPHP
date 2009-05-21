@@ -223,7 +223,7 @@ final class Kumbia
 			 * Renderizar vista
 			 *
 			 **/
-			if($controller->view) {
+			if($view) {
 				ob_start();
 				include "$controller_views_dir/$view.phtml";
 				
@@ -235,7 +235,7 @@ final class Kumbia
 		         * Verifica si se debe renderizar solo la vista
 		         *
 		         **/
-		        if($controller->response == 'view' || $controller->response == 'xml') {
+		        if($response == 'view' || $response == 'xml') {
 			        ob_end_flush();
 			        return;
 		        }
@@ -248,7 +248,7 @@ final class Kumbia
 		 * Renderizar template
 		 *
 		 **/
-		if($controller->template) {
+		if($template) {
 			$template = APP_PATH . "views/templates/$controller->template.phtml";
 		} else {
 			$template = APP_PATH . "views/templates/$controller_name.phtml";
