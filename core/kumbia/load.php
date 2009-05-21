@@ -182,14 +182,14 @@ class Load
 		if($boot['modules']['vendors']){
 			$vendors = explode(',', str_replace(' ', '', $boot['modules']['vendors']));
 			foreach ($vendors as $vendor){
-				require_once VENDORS_PATH . "$vendor.php";
+				require VENDORS_PATH . "$vendor.php";
 			}
 			unset($vendors);
 		}
 		if($boot['modules']['extensions']){
 			$extensions = explode(',', str_replace(' ', '', $boot['modules']['extensions']));
 			foreach ($extensions as $extension){
-				require_once CORE_PATH . "extensions/$extension" .'/'.$extension.'.php';
+				require CORE_PATH . "extensions/$extension/$extension.php";
 			}
 			unset($extensions);
 		}

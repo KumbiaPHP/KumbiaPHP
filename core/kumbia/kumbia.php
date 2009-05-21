@@ -66,8 +66,6 @@ final class Kumbia
          */
         if (isset($config['application']['timezone'])) {
             date_default_timezone_set($config['application']['timezone']);
-        } else {
-            date_default_timezone_set('America/New_York');
         }
 		
 		/**
@@ -165,9 +163,9 @@ final class Kumbia
 			$controller = Dispatcher::execute();
 		}
 		
-		$view = self::_get_view($controller, $url);
-		ob_end_clean();
-		echo $view;
+		self::_get_view($controller, $url);
+		// Fin del request
+		exit(0);
     }
     /**
      * Imprime los CSS cargados mediante stylesheet_link_tag
@@ -196,7 +194,7 @@ final class Kumbia
         /**
          * @see Tags
          */
-        require_once CORE_PATH . 'helpers/tags.php';
+        require CORE_PATH . 'helpers/tags.php';
         
         /**
          * Mapea los atributos del controller en el scope
@@ -213,8 +211,7 @@ final class Kumbia
 			 * Carga el el contenido del buffer de salida
 			 *
 			 **/
-			self::$content = ob_get_contents();
-			ob_clean();
+			self::$content = ob_get_clean();
 				
 			if ($module_name){
 				$controller_views_dir =  APP_PATH . "views/$module_name/$controller_name";
@@ -229,22 +226,24 @@ final class Kumbia
 			if($controller->view) {
 				ob_start();
 				include "$controller_views_dir/$view.phtml";
-				self::$content = ob_get_clean();
-			}
-			
-			if($cache['type'] == 'view') {
-				Cache::save(self::$content, $cache['time'], $url, 'kumbia.views');
+				
+				if($cache['type'] == 'view') {
+				    Cache::save(ob_get_contents(), $cache['time'], $url, 'kumbia.views');
+			    }
+			    
+			    /**
+		         * Verifica si se debe renderizar solo la vista
+		         *
+		         **/
+		        if($controller->response == 'view' || $controller->response == 'xml') {
+			        ob_end_flush();
+			        return;
+		        }
+		        
+		        self::$content = ob_get_clean();
 			}
 		}
 	
-		/**
-		 * Verifica si se debe renderizar solo la vista
-		 *
-		 **/
-		if($controller->response == 'view' || $controller->response == 'xml') {
-			return self::$content;
-		}
-		
 		/**
 		 * Renderizar template
 		 *
@@ -258,13 +257,13 @@ final class Kumbia
 		if(file_exists($template)) {
 			ob_start();
 			include $template;
-			self::$content = ob_get_clean();
 				
 			if($cache['type'] == 'template') {
-				Cache::save(self::$content, $cache['time'], $url, 'kumbia.templates');
+				Cache::save(ob_get_contents(), $cache['time'], $url, 'kumbia.templates');
 			}
+			ob_end_flush();
+			return;
 		}
-		
-		return self::$content;
+		echo self::$content;
 	}
 }

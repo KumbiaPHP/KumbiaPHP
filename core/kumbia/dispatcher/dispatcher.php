@@ -33,7 +33,6 @@ final class Dispatcher
     const NOT_FOUND_ACTION = 100;
     const NOT_FOUND_CONTROLLER = 101;
     const NOT_FOUND_FILE_CONTROLLER = 102;
-    const NOT_FOUND_INIT_ACTION = 103;
 
     /**
      * Realiza el dispatch de una ruta
