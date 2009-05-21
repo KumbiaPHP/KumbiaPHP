@@ -63,7 +63,7 @@ final class Dispatcher
 			/**
              * Carga de modelos
              **/
-            if(Config::get('application.models_autoload')) {
+            if(Config::get('config.application.models_autoload')) {
                 Load::all_models();
             } elseif($activeController->models !== null) {
                 Load::models($activeController->models);
