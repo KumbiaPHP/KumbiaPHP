@@ -61,20 +61,23 @@ final class Kumbia
         include_once APP_PATH . 'application.php';
 		
 		$config = Config::read('config.ini');
+		
+		/**
+		 * Iniciando I18n
+		 **/
+		bindtextdomain('default', APP_PATH . 'locale/'); 
+		textdomain('default'); 
+		if(isset($config['application']['locale']) && $config['application']['locale']) {
+			setlocale(LC_ALL, $config['application']['locale']);
+		}
+		
         /**
          * Establecer el timezone para las fechas y horas
          */
         if (isset($config['application']['timezone'])) {
             date_default_timezone_set($config['application']['timezone']);
         }
-		
-		/**
-		 * Asigna localizacion
-		 **/
-		if(isset($config['application']['locale']) && $config['application']['locale']) {
-			setlocale(LC_ALL, $config['application']['locale']);
-		}
-		
+				
 		/**
         * Establecer el charset de la app en la constante APP_CHARSET
         */
