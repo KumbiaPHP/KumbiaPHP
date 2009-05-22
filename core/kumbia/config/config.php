@@ -43,21 +43,22 @@ final class Config
         $namespaces = explode('.', $var);
         switch(count($namespaces)) {
             case 3:
-                if(isset(self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]]))
-                    $value = self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]];
+                if(isset(self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]])) {
+                    return self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]];
+				}
                 break;
             case 2:
-                if(isset(self::$_vars[$namespaces[0]][$namespaces[1]]))
-                    $value = self::$_vars[$namespaces[0]][$namespaces[1]];
+                if(isset(self::$_vars[$namespaces[0]][$namespaces[1]])) {
+                    return self::$_vars[$namespaces[0]][$namespaces[1]];
+				}
                 break;
             case 1:
-                if(isset(self::$_vars[$namespaces[0]]))
-                    $value = self::$_vars[$namespaces[0]];
+                if(isset(self::$_vars[$namespaces[0]])) {
+                    return self::$_vars[$namespaces[0]];
+				}
                 break;
-            default:
-                $value = false;
         }
-        return $value;
+        return null;
     }
     /**
      * Asigna un atributo de configuracion
@@ -91,8 +92,9 @@ final class Config
     {
         $namespace = basename($file, '.ini');
         
-		if(isset(self::$_vars[$namespace]) && !$force)
+		if(isset(self::$_vars[$namespace]) && !$force) {
 			return self::$_vars[$namespace];
+		}
 		
 		if(!file_exists(APP_PATH."config/$file")){
 			throw new KumbiaException("No existe el archivo de configuraci&oacute;n $file");
