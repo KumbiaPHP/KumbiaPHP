@@ -38,7 +38,7 @@ final class Config
      * @param string $var nombre de variable de configuracion
      * @return mixed
      **/
-    public static function & get($var) 
+    public static function get($var) 
     {
         $namespaces = explode('.', $var);
         switch(count($namespaces)) {
