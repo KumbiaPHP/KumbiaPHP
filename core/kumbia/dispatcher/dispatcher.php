@@ -41,10 +41,7 @@ final class Dispatcher
      */
     static public function execute ()
     {
-        $router_vars = Router::get_vars();
-		$action = $router_vars['action'];
-		$controller = $router_vars['controller'];
-		$module = $router_vars['module'];
+        extract(Router::get_vars(), EXTR_OVERWRITE);
 		
         $controllers_dir = APP_PATH . 'controllers';
         if ($module) {
@@ -88,7 +85,7 @@ final class Dispatcher
 					controladora '$controller' llamado '{$action}' para que
 					esto funcione correctamente.", Dispatcher::NOT_FOUND_ACTION);
 			}
-			call_user_func_array(array($activeController , $action), $router_vars['parameters']);
+			call_user_func_array(array($activeController , $action), $parameters);
 				
 			/**
 			 * Corre los filtros after
