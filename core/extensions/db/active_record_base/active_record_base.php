@@ -2324,8 +2324,10 @@ class ActiveRecordBase
     {
         $args = func_get_args();
         array_unshift($args, $this->source);
-        
-        return call_user_func_array('paginate', $args);
+        if(!class_exists('Paginator')){
+            require CORE_PATH . 'extensions/db/behaviors/paginate.php';
+        }
+        return call_user_func_array(array('Paginator' , 'paginate'), $args);
     }
     /**
      * Paginador para el modelo atraves de consulta sql
@@ -2340,9 +2342,10 @@ class ActiveRecordBase
      */
     public function paginate_by_sql($sql)
     {
-        $args = func_get_args();
-        array_unshift($args, $this->source);
-        return call_user_func_array('paginate_by_sql', $args);
+        if(!class_exists('Paginator')){
+            require CORE_PATH . 'extensions/db/behaviors/paginate.php';
+        }
+        return call_user_func_array(array('Paginator' , 'paginate_by_sql'), $sql);
     }
     /**
      * Operaciones al serializar
