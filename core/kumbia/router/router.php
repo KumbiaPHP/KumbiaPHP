@@ -280,7 +280,7 @@ final class Router
 			self::$vars['action'] = "index";
 			self::$vars['routed'] = true;
 			
-			$app_controller = camelize($url['controller'])."Controller";
+			$app_controller = util::camelcase($url['controller'])."Controller";
 		}
 		if(isset($url['action'])){
 			if(self::$vars['action']==$url['action']){

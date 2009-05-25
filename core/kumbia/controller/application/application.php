@@ -65,7 +65,7 @@ class Controller
      */
     public $template = 'default';
 	/**
-	 * Numero de minutos que ser&aacute; cacheada la vista actual
+	 * Número de minutos que será cacheada la vista actual
 	 *
 	 * type: tipo de cache (view, template)
 	 * time: tiempo de vida de cache
@@ -89,7 +89,7 @@ class Controller
 	 * Constructor
 	 **/
 	public function __construct() {
-		extract(Router::get_vars());
+		extract(Router::get_vars(),EXTR_OVERWRITE);
 		$this->action_name = $action;
 		$this->module_name = $module;
 		$this->controller_name = $controller;
@@ -357,7 +357,7 @@ class Controller
 	 *
 	 * @return Bolean
 	 */
-	public function is_ajax()
+	protected function is_ajax()
     {
 		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
 	}

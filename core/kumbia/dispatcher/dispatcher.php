@@ -64,7 +64,7 @@ final class Dispatcher
                 Load::all_models();
             } elseif($activeController->models !== null) {
                 Load::models($activeController->models);
-            }			
+            }
 			
 			/**
 			 * Se ejecutan los filtros before
@@ -106,7 +106,7 @@ final class Dispatcher
 
 			return $activeController;
         } else {
-			throw new KumbiaException("No se encontr&oacute; la Clase Controladora \"{$app_controller}\".
+			throw new KumbiaException("No se encontró la Clase Controladora \"{$app_controller}\".
 				Debe definir esta clase para poder trabajar este controlador", self::NOT_FOUND_CONTROLLER);
         }
     }

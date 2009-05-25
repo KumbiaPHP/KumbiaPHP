@@ -474,7 +474,7 @@ function form_remote_tag($data){
 		unset($params['sucess']);
 	}
 	if(isset($params['required'])&&$params['required']){
-		$requiredFields = encomillar_lista($params['required']);
+		$requiredFields = Util::encomillar($params['required']);
 		$params['onsubmit'] = "if(validaForm(this,new Array({$requiredFields}))){ return ajaxRemoteForm(this,\"{$update}\",{".join(",",$callbacks)."}); } else{ return false; }";
 		unset($params['required']);
 	} else{

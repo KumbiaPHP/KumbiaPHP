@@ -114,6 +114,7 @@ if(!$config['application']['production']) {
 	Cache::active(false);
 } elseif ($template = Cache::get($url, 'kumbia.templates')) { //verifica cache de template para la url
 	echo $template;
+	echo '<!-- Tiempo: '.round(microtime(1)-START_TIME,4).' seg. -->';
 	exit(0);
 }
 

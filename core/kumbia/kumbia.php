@@ -88,7 +88,7 @@ final class Kumbia
 	 	define('APP_CHARSET', strtoupper($config['application']['charset']));
     }
     /**
-     * Funci&oacute;n Principal donde se ejecutan los controladores
+     * Función Principal donde se ejecutan los controladores
      *
 	 * @params string $url url
      * @return boolean
