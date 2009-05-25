@@ -60,12 +60,13 @@ final class Dispatcher
 			/**
              * Carga de modelos
              **/
-            if(Config::get('config.application.models_autoload')) {
-                Load::all_models();
-            } elseif($activeController->models !== null) {
-                Load::models($activeController->models);
-            }
-			
+			if(Config::get('config.application.database')) {
+				if(Config::get('config.application.models_autoload')) {
+					Load::all_models();
+				} elseif($activeController->models !== null) {
+					Load::models($activeController->models);
+				}
+			}
 			/**
 			 * Se ejecutan los filtros before
 			 */

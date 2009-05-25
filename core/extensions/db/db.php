@@ -26,13 +26,21 @@
 /**
  * @see DbBaseInterface
  */
- include_once CORE_PATH . 'extensions/db/db_base_interface.php';
+require CORE_PATH . 'extensions/db/db_base_interface.php';
 
 /**
  * @see DbLoader
  */
- include_once CORE_PATH . 'extensions/db/loader/loader.php';
+require CORE_PATH . 'extensions/db/loader/loader.php';
+/**
+* @see ActiveRecordBase
+*/
+require CORE_PATH . 'extensions/db/active_record_base/active_record_base.php';
 
+/**
+* Carga el modelo base
+*/
+require APP_PATH . 'model_base.php';		
 /**
  * Clase principal que deben heredar todas las clases driver de KumbiaForms
  * contiene metodos utiles y variables generales
@@ -396,3 +404,4 @@ class DbBase
 		return $connection;
 	}
 }
+return DbLoader::load_driver();
