@@ -44,7 +44,8 @@ final class Kumbia
 	 * Inicia la aplicacion
 	 *
 	 **/
-    public static function init_application() {
+    public static function init_application()
+	{
 		/**
 		 * Carga del boot.ini
 		 */
@@ -60,6 +61,9 @@ final class Kumbia
          */
         include_once APP_PATH . 'application.php';
 		
+		/**
+		 * Lee la configuracion
+		 **/
 		$config = Config::read('config.ini');
 		
 		/**
@@ -77,7 +81,7 @@ final class Kumbia
         if (isset($config['application']['timezone'])) {
             date_default_timezone_set($config['application']['timezone']);
         }
-				
+		
 		/**
         * Establecer el charset de la app en la constante APP_CHARSET
         */
@@ -89,7 +93,8 @@ final class Kumbia
 	 * @params string $url url
      * @return boolean
      */
-    public static function main($url) {
+    public static function main($url)
+	{
 		/**
 		 * @see Router
 		 */
@@ -130,32 +135,6 @@ final class Kumbia
 		 * Iniciar el buffer de salida
 		 */
 		ob_start();
-
-		$application = Config::get('config.application');
-		
-		/**
-		 * Carga los modelos del directorio models y las clases necesarias
-		 */
-		if($application['database']){
-			 /**
-			 * @see Db
-			 */
-			require CORE_PATH . 'extensions/db/db.php';
-			/**
-			 * @see ActiveRecordBase
-			 */
-			require CORE_PATH . 'extensions/db/active_record_base/active_record_base.php';
-			/**
-			 * El driver de Kumbia es cargado segun lo que diga en config.ini
-			 */
-			if (!DbLoader::load_driver()) {
-				return false;
-			}
-			/**
-			 * Inicializa los Modelos. model_base es el modelo base
-			 */
-			include_once APP_PATH . 'model_base.php';
-		}
 		
 		/**
 		 * Ciclo del enrutador
@@ -174,7 +153,8 @@ final class Kumbia
      * Imprime los CSS cargados mediante stylesheet_link_tag
      *
      */
-    public static function stylesheet_link_tags() {
+    public static function stylesheet_link_tags()
+	{
         $imports = self::$data['KUMBIA_CSS_IMPORTS'];
         if ($imports && is_array($imports)) {
             foreach ($imports as $css) {
@@ -257,7 +237,7 @@ final class Kumbia
 			$template = APP_PATH . "views/templates/$controller_name.phtml";
 		}
 		
-		if(file_exists($template)) {
+		if(is_file($template)) {
 			ob_start();
 			include $template;
 				

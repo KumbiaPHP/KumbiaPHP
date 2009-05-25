@@ -100,6 +100,18 @@ class Load
 	 **/
 	public static function models($model) 
 	{
+		/**
+		 * Si se utiliza base de datos
+		 **/
+		if(!class_exists('Db') && Config::get('config.application.database')) {
+			self::init_db();
+		}
+	
+		/**
+		 * Carga el modelo base
+		 */
+		include_once APP_PATH . 'model_base.php';
+	
 	    if(is_array($model)){
 	        $args = $model;
 	    } else {
@@ -140,6 +152,18 @@ class Load
 	 **/
 	public static function all_models()
 	{
+		/**
+		 * Si se utiliza base de datos
+		 **/
+		if(!class_exists('Db') && Config::get('config.application.database')) {
+			self::init_db();
+		}
+	
+		/**
+		 * Carga el modelo base
+		 */
+		include_once APP_PATH . 'model_base.php';
+	
 		$controller = Dispatcher::get_controller();
 		
 		foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator(APP_PATH . 'models')) as $file) {
@@ -193,5 +217,23 @@ class Load
 			}
 			unset($extensions);
 		}
+	}
+	/**
+	 * Carga ORM y ActiveRecord
+	 *
+	 * @return boolean
+	 **/
+	protected static function init_db() 
+	{
+		/**
+		 * @see Db
+		 */
+		require CORE_PATH . 'extensions/db/db.php';
+		/**
+		 * @see ActiveRecordBase
+		 */
+		require CORE_PATH . 'extensions/db/active_record_base/active_record_base.php';
+		
+		return DbLoader::load_driver();
 	}
 }
