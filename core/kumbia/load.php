@@ -155,8 +155,13 @@ class Load
 		}
 	
 		$controller = Dispatcher::get_controller();
-		
-		foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator(APP_PATH . 'models')) as $file) {
+		/**
+		 * solo mira en el dir models/
+		 */
+        foreach(new DirectoryIterator(APP_PATH . 'models') as $file) {
+            if($file->isDot() || $file->isDir()) {
+                continue;
+            }
 			if($file->isFile()) {
 				include_once $file->getPathname();
 				
