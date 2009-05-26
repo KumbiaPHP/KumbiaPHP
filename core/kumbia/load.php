@@ -103,7 +103,7 @@ class Load
         /**
          * Si se utiliza base de datos
          **/
-        if (! class_exists('Db') && Config::get('config.application.database')) {
+        if (! class_exists('Db', false) && Config::get('config.application.database')) {
             require CORE_PATH . 'extensions/db/db.php';
         }
         if (is_array($model)) {
@@ -146,7 +146,7 @@ class Load
         /**
          * Si se utiliza base de datos
          **/
-        if (! class_exists('Db') && Config::get('config.application.database')) {
+        if (! class_exists('Db', false) && Config::get('config.application.database')) {
             require CORE_PATH . 'extensions/db/db.php';
         }
         $controller = Dispatcher::get_controller();
@@ -218,7 +218,7 @@ class Load
         /**
          * Si se utiliza base de datos
          **/
-        if (! class_exists('Db') && Config::get('config.application.database')) {
+        if (! class_exists('Db', false) && Config::get('config.application.database')) {
             require CORE_PATH . 'extensions/db/db.php';
         }
         /**
