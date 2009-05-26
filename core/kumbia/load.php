@@ -215,7 +215,12 @@ class Load
      */
     public static function model ($model)
     {
-        require_once CORE_PATH . 'extensions/db/db.php';
+        /**
+         * Si se utiliza base de datos
+         **/
+        if (! class_exists('Db') && Config::get('config.application.database')) {
+            require CORE_PATH . 'extensions/db/db.php';
+        }
         /**
          * Nombre de la clase
          **/
