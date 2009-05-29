@@ -774,7 +774,7 @@ function use_helper($helper) {
  *
  */
 function content(){
-	echo Kumbia::$content;
+	View::content();
 }
 
 /**
