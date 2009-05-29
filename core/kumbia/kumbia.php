@@ -145,7 +145,16 @@ final class Kumbia
 			$controller = Dispatcher::execute();
 		}
 		
-		self::_get_view($controller, $url);
+		/**
+		 * Renderiza la vista
+		 **/
+		if($controller->view || $controller->template) {
+			require_once CORE_PATH . 'kumbia/view.php';
+			View::render($controller, $url);
+		} else {
+			ob_end_flush();
+		}
+		
 		// Fin del request
 		exit(0);
     }
@@ -164,89 +173,4 @@ final class Kumbia
             echo $imports;
         }
     }
-	/**
-	 * Obtiene la vista
-	 *
-	 * @param string $views_dir directorio de vistas
-	 * @param object $controller controlador
-	 * @param string $url url
-	 * @return string
-	 **/
-	protected static function _get_view($controller, $url)
-	{
-        /**
-         * @see Tags
-         */
-        require CORE_PATH . 'helpers/tags.php';
-        
-        /**
-         * Mapea los atributos del controller en el scope
-         *
-         **/
-        extract(get_object_vars($controller),EXTR_OVERWRITE);
-		
-		/**
-		 * Intenta cargar la vista desde la cache
-		 **/
-		self::$content = $cache['type']=='view' ? Cache::get($url, 'kumbia.views') : '';
-		if(!self::$content) {
-			/**
-			 * Carga el el contenido del buffer de salida
-			 *
-			 **/
-			self::$content = ob_get_clean();
-				
-			if ($module_name){
-				$controller_views_dir =  APP_PATH . "views/$module_name/$controller_name";
-			} else {
-				$controller_views_dir =  APP_PATH . "views/$controller_name";
-			}
-                
-			/**
-			 * Renderizar vista
-			 *
-			 **/
-			if($view) {
-				ob_start();
-				include "$controller_views_dir/$view.phtml";
-				
-				if($cache['type'] == 'view') {
-				    Cache::save(ob_get_contents(), $cache['time'], $url, 'kumbia.views');
-			    }
-			    
-			    /**
-		         * Verifica si se debe renderizar solo la vista
-		         *
-		         **/
-		        if($response == 'view' || $response == 'xml') {
-			        ob_end_flush();
-			        return;
-		        }
-		        
-		        self::$content = ob_get_clean();
-			}
-		}
-	
-		/**
-		 * Renderizar template
-		 *
-		 **/
-		if($template) {
-			$template = APP_PATH . "views/templates/$controller->template.phtml";
-		} else {
-			$template = APP_PATH . "views/templates/$controller_name.phtml";
-		}
-		
-		if(is_file($template)) {
-			ob_start();
-			include $template;
-				
-			if($cache['type'] == 'template') {
-				Cache::save(ob_get_contents(), $cache['time'], $url, 'kumbia.templates');
-			}
-			ob_end_flush();
-			return;
-		}
-		echo self::$content;
-	}
 }
