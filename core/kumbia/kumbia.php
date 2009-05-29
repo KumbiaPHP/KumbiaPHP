@@ -34,12 +34,6 @@ final class Kumbia
      * @var array
      */
     static public $data = array();
-    /**
-     * Cachea la salida al navegador
-     *
-     * @var string
-     */
-    static public $content = '';
 	/**
 	 * Inicia la aplicacion
 	 *
