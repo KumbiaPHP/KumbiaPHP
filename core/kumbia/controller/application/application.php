@@ -415,8 +415,9 @@ class Controller
 	 * @param string $partial parcial a mostrar, soporta formato controller/view
 	 */
 	protected function render_partial(){
+		require_once CORE_PATH . 'kumbia/view.php';
 		$params = func_get_args();
-		call_user_func_array('render_partial', $params);
+		call_user_func_array(array('View', 'partial'), $params);
 	}
     /**
      * BeforeFilter
