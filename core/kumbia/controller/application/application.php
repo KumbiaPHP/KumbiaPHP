@@ -407,17 +407,18 @@ class Controller
 	public function render($view){
 		$this->view = $view;
 	}
-
 	/**
-	 * Visualiza una vista parcial en el controlador actual
+	 * Renderiza una vista parcial
 	 *
-	 * controller: controlador de donde tomara la vista
-	 * @param string $partial parcial a mostrar, soporta formato controller/view
+	 * @param string $partial vista a renderizar
+	 * @param string $time tiempo de cache
+	 * @param array $params
+	 * @return string
+	 * @throw KumbiaException
 	 */
-	protected function render_partial(){
+	protected function render_partial($partial, $time=false, $params=array())
 		require_once CORE_PATH . 'kumbia/view.php';
-		$params = func_get_args();
-		call_user_func_array(array('View', 'partial'), $params);
+		View::partial($partial, $time, $params);
 	}
     /**
      * BeforeFilter

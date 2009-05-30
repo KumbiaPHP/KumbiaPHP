@@ -801,32 +801,9 @@ function truncate($text, $word, $number=0){
  * @param string $partial vista a renderizar
  * @param string $time tiempo de cache
  * @param array $params
- * @return string
  **/
 function render_partial($partial, $time=false, $params=array()) {
-	if($time!==false) {
-		if($data = Cache::start($time, $partial, 'kumbia.partials')) {
-			echo $data;
-			return;
-		}
-	}
-	
-	if(is_string($params)) {
-		$params = get_params(func_get_args());
-	}
-	extract ($params);
-	
-	$partial_file = APP_PATH . "views/partials/$partial.phtml";
-	if(include $partial_file){
-		if($time!==false) {
-			Cache::end();
-		}
-	} else {
-		if($time!==false) {
-			Cache::end(false);
-		}
-		throw new KumbiaException('Kumbia no puede encontrar la vista parcial: "'.$partial_file.'"', 0);
-	}
+	View::partial($partial, $time, $params);
 }
 
 /**
