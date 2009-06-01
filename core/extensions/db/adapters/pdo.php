@@ -26,7 +26,7 @@
 /**
  * @see DbPDOInterface
  */
-require_once CORE_PATH.'library/kumbia/db/adapters/pdo/interface.php';
+require_once CORE_PATH.'extensions/db/adapters/pdo/interface.php';
 
 /**
  * PHP Data Objects
