@@ -22,4 +22,4 @@
 /**
  * Carga el index.php de public
  **/
-include 'idena/public/index.php';
+include 'app/public/index.php';

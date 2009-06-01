@@ -1,6 +1,6 @@
 DirectoryIndex index.php
 <IfModule mod_rewrite.c>
     RewriteEngine on
-    RewriteRule  ^$ idena/public/    [L]
-    RewriteRule  (.*) idena/public/$1 [L]
+    RewriteRule  ^$ app/public/    [L]
+    RewriteRule  (.*) app/public/$1 [L]
 </IfModule>
