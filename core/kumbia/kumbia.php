@@ -143,7 +143,7 @@ final class Kumbia
 		 * Renderiza la vista
 		 **/
 		if($controller->view || $controller->template) {
-			require_once CORE_PATH . 'kumbia/view.php';
+			require CORE_PATH . 'kumbia/view.php';
 			View::render($controller, $url);
 		} else {
 			ob_end_flush();
