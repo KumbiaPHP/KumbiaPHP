@@ -417,6 +417,7 @@ class Controller
 	 * @throw KumbiaException
 	 */
 	protected function render_partial($partial, $time=false, $params=array())
+	{
 		require_once CORE_PATH . 'kumbia/view.php';
 		View::partial($partial, $time, $params);
 	}
