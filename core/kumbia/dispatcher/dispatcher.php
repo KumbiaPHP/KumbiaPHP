@@ -55,7 +55,7 @@ final class Dispatcher
 			/**
 			 * Asigna el controlador activo
 			 **/
-			self::$_controller = $activeController = new $app_controller();
+			self::$_controller = $activeController = new $app_controller($module, $controller, $action, $id, $all_parameters, $parameters);
 
 			/**
              * Carga de modelos

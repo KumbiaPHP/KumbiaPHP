@@ -88,15 +88,13 @@ class Controller
 	/**
 	 * Constructor
 	 **/
-	public function __construct() {
-		extract(Router::get_vars(),EXTR_OVERWRITE);
-		$this->action_name = $action;
+	public function __construct($module=null, $controller=null, $action=null, $id=null, $all_parameters=null, $parameters=null) {
 		$this->module_name = $module;
 		$this->controller_name = $controller;
 		$this->id = $id;
 		$this->all_parameters = $all_parameters;
 		$this->parameters = $parameters;
-		$this->view = $action;
+		$this->view = $this->action_name = $action;
 	}	
 	/**
 	 * Asigna cacheo de vistas o template
