@@ -87,8 +87,15 @@ class Controller
 	public $view = null;
 	/**
 	 * Constructor
+	 *
+	 * @param string $module modulo al que pertenece el controlador
+	 * @param string $controller nombre del controlador
+	 * @param string $action nombre de la accion
+	 * @param string $id primer parametro que se recibe por url
+	 * @param array $all_parameters todos los parametros que componen la url
+	 * @param array $parameters parametros enviados por url
 	 **/
-	public function __construct($module=null, $controller=null, $action=null, $id=null, $all_parameters=null, $parameters=null) {
+	public function __construct($module, $controller, $action, $id, $all_parameters, $parameters) {
 		$this->module_name = $module;
 		$this->controller_name = $controller;
 		$this->id = $id;
@@ -404,20 +411,6 @@ class Controller
 	 */
 	public function render($view){
 		$this->view = $view;
-	}
-	/**
-	 * Renderiza una vista parcial
-	 *
-	 * @param string $partial vista a renderizar
-	 * @param string $time tiempo de cache
-	 * @param array $params
-	 * @return string
-	 * @throw KumbiaException
-	 */
-	protected function render_partial($partial, $time=false, $params=array())
-	{
-		require_once CORE_PATH . 'kumbia/view.php';
-		View::partial($partial, $time, $params);
 	}
     /**
      * BeforeFilter
