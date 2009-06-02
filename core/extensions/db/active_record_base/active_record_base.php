@@ -2342,10 +2342,12 @@ class ActiveRecordBase
      */
     public function paginate_by_sql($sql)
     {
+        $args = func_get_args();
+        array_unshift($args, $this->source);
         if(!class_exists('Paginator')){
             require CORE_PATH . 'extensions/db/behaviors/paginate.php';
         }
-        return call_user_func_array(array('Paginator' , 'paginate_by_sql'), $sql);
+        return call_user_func_array(array('Paginator' , 'paginate_by_sql'), $args);
     }
     /**
      * Operaciones al serializar

@@ -57,7 +57,7 @@ class KumbiaException extends Exception {
 	
 		header('HTTP/1.1 404 Not Found');
 		$config = Config::read('config.ini');
-		extract(Router::get_vars());
+		extract(Router::get_vars(), EXTR_OVERWRITE);
 		
 		ob_start();
 		if(!$config['application']['production']) {
@@ -76,20 +76,20 @@ class KumbiaException extends Exception {
 		if(ob_get_level()) {
 			ob_end_clean();
 		}
-		
+		require_once CORE_PATH . 'kumbia/view.php';
 		/**
 		 * Verifico si se cargo el Dispatcher
 		 **/
 		if(class_exists('Dispatcher')) {
 			$controller = Dispatcher::get_controller();
 			if(!$controller || $controller->response != 'view') {
-				Kumbia::$content = $content;
+				echo $content;
 				include CORE_PATH . 'views/templates/default.phtml';
 			} else {
 				echo $content;
 			}
 		} else {
-			Kumbia::$content = $content;
+			echo $content;
 			include CORE_PATH . 'views/templates/default.phtml';
 		}
 	}
