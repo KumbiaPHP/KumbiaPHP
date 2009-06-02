@@ -48,7 +48,7 @@ final class Kumbia
 		/**
          * @see Controller
          */
-        require CORE_PATH . 'kumbia/controller/application/application.php';
+        require CORE_PATH . 'kumbia/controller.php';
         	
         /**
          * @see ApplicationController
