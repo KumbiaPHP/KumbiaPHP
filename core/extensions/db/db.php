@@ -1,26 +1,24 @@
 <?php
- /**
- * Kumbia PHP Framework
- * PHP version 5
+/**
+ * KumbiaPHP web & app Framework
+ *
  * LICENSE
  *
- * This source file is subject to the GNU/GPL that is bundled
- * with this package in the file docs/LICENSE.txt.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.kumbiaphp.com/
+ * http://wiki.kumbiaphp.com/Licencia
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to kumbia@kumbiaphp.com so we can send you a copy immediately.
+ * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category  Kumbia
- * @package   Db
- * @author    Andres Felipe Gutierrez <andresfelipe@vagoogle.net>
- * @copyright Copyright (C) 2006-2007 Giancarlo Corzo Vigil (www.antartec.com)
- * @copyright Copyright (C) 2008-2008 Emilio Rafael Silveira Tovar <emilio.rst at gmail.com>
- * @copyright Copyright (C) 2007-2009 Deivinson Jose Tejeda Brito <deivinsontejeda at gmail.com>
- * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL
- * @version   SVN:$id
- * @see       Object
+ * Clase principal que deben heredar todas las clases driver de KumbiaPHP
+ * contiene metodos utiles y variables generales
+ * 
+ * @category   Kumbia
+ * @package    Db 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
@@ -42,7 +40,7 @@ require CORE_PATH . 'extensions/db/active_record_base/active_record_base.php';
 */
 require APP_PATH . 'model_base.php';		
 /**
- * Clase principal que deben heredar todas las clases driver de KumbiaForms
+ * Clase principal que deben heredar todas las clases driver de KumbiaPHP
  * contiene metodos utiles y variables generales
  *
  * $debug : Indica si se muestran por pantalla todas las operaciones sql que se
@@ -51,16 +49,7 @@ require APP_PATH . 'model_base.php';
  * se realizen en en driver. $logger = true crea un archivo con la fecha actual
  * en logs/ y $logger="nombre", crea un log con el nombre indicado
  * $display_errors  : Indica si se muestran los errores sql en Pantalla
- *
- * @category  Kumbia
- * @package   Db
- * @author    Andres Felipe Gutierrez <andresfelipe@vagoogle.net>
- * @copyright Copyright (C) 2006-2007 Giancarlo Corzo Vigil (www.antartec.com)
- * @copyright Copyright (C) 2008-2008 Emilio Rafael Silveira Tovar <emilio.rst at gmail.com>
- * @copyright Copyright (C) 2007-2009 Deivinson Jose Tejeda Brito <deivinsontejeda at gmail.com>
- * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL
- * @version   SVN:$id
- * @see       Object
+ * 
  */
 class DbBase 
 {

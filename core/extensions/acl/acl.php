@@ -1,22 +1,24 @@
 <?php
-
 /**
- * Kumbia PHP Framework
+ * KumbiaPHP web & app Framework
  *
  * LICENSE
  *
- * This source file is subject to the GNU/GPL that is bundled
- * with this package in the file docs/LICENSE.txt.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.kumbia.org/license.txt
+ * http://wiki.kumbiaphp.com/Licencia
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to kumbia@kumbia.org so we can send you a copy immediately.
+ * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category Kumbia
- * @package Acl
- * @copyright  Copyright (c) 2005-2007 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
- * @license    http://www.kumbia.org/license.txt GNU/GPL
+ * Cada lista ACL contiene una lista de Roles, unos resources y unas acciones de
+ * acceso;
+ * 
+ * @category   Kumbia
+ * @package    Acl
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
@@ -48,11 +50,6 @@ include CORE_PATH . 'extensions/acl/resource/resource.php';
  * $resource_names = Nombres de Resources
  * $roles_names = Nombres de Resources
  *
- * @category Kumbia
- * @package Acl
- * @copyright Copyright (c) 2005-2007 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
- * @license http://www.kumbia.org/license.txt GNU/GPL
- * @access public
  */
 class Acl {
 

@@ -1,27 +1,24 @@
 <?php
 /**
- * Kumbia PHP Framework
+ * KumbiaPHP web & app Framework
  *
  * LICENSE
  *
- * This source file is subject to the GNU/GPL that is bundled
- * with this package in the file docs/LICENSE.txt.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.kumbia.org/license.txt
+ * http://wiki.kumbiaphp.com/Licencia
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to kumbia@kumbia.org so we can send you a copy immediately.
+ * to license@kumbiaphp.com so we can send you a copy immediately.
  *
+ * ActiveRecordBase Clase para el Mapeo Objeto Relacional
+ * 
  * @category   Kumbia
  * @package    Db
- * @subpackage ActiveRecord
- * @author     Andres Felipe Gutierrez <andresfelipe@vagoogle.net>
- * @copyright  2005-2008 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
- * @copyright  2007-2007 Roger Jose Padilla Camacho (rogerjose81 at gmail.com)
- * @copyright  2007-2008 Emilio Rafael Silveira Tovar (emilio.rst at gmail.com)
- * @copyright  2007-2008 Deivinson Tejeda Brito (deivinsontejeda at gmail.com)
- * @license    http://www.kumbia.org/license.txt GNU/GPL
- * @version    SVN:$id
+ * @subpackage ActiveRecord 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
  * ActiveRecordException
@@ -65,16 +62,6 @@ require_once CORE_PATH . 'extensions/db/active_record_base/exception.php';
  * cambiados (En Desarrollo)
  * $subselect : Permitira crear una entidad ActiveRecord de solo lectura que
  * mapearia los resultados de un select directamente a un Objeto (En Desarrollo)
- *
- * @category   Kumbia
- * @package    Db
- * @subpackage ActiveRecord
- * @author     Andres Felipe Gutierrez <andresfelipe@vagoogle.net>
- * @copyright  2005-2007 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
- * @copyright  2007-2007 Roger Jose Padilla Camacho (rogerjose81 at gmail.com)
- * @copyright  2007-2008 Emilio Rafael Silveira Tovar (emilio.rst at gmail.com)
- * @copyright  2007-2008 Deivinson Tejeda Brito (deivinsontejeda at gmail.com)
- * @license    http://www.kumbia.org/license.txt GNU/GPL
  *
  */
 class ActiveRecordBase

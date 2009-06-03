@@ -1,24 +1,23 @@
 <?php
 /**
- * Kumbia PHP Framework
- * PHP version 5
+ * KumbiaPHP web & app Framework
+ *
  * LICENSE
  *
- * This source file is subject to the GNU/GPL that is bundled
- * with this package in the file docs/LICENSE.txt.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.kumbiaphp.com/
+ * http://wiki.kumbiaphp.com/Licencia
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to kumbia@kumbiaphp.com so we can send you a copy immediately.
+ * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category  Kumbia
- * @package   Logger
- * @author    Andres Felipe Gutierrez <andresfelipe@vagoogle.net>
- * @copyright Copyright (C) 2007-2009 Deivinson Jose Tejeda Brito <deivinsontejeda at gmail.com>
- * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL
- * @version   SVN:$id
- * @see       Object
+ * Permite realizar logs en archivos de texto en la carpeta Logs
+ * 
+ * @category   Kumbia
+ * @package    Flash 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
  * Permite realizar logs en archivos de texto en la carpeta Logs
@@ -52,13 +51,6 @@
  * Logger::close();
  * </code>
  *
- * @category  Kumbia
- * @package   Logger
- * @author    Andres Felipe Gutierrez <andresfelipe@vagoogle.net>
- * @copyright Copyright (C) 2007-2009 Deivinson Jose Tejeda Brito <deivinsontejeda at gmail.com>
- * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL
- * @version   SVN:$id
- * @see       Object
  */
 abstract class Logger {
 

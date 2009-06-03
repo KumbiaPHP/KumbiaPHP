@@ -1,25 +1,23 @@
 <?php
-
 /**
- * Kumbia PHP Framework
+ * KumbiaPHP web & app Framework
  *
  * LICENSE
  *
- * This source file is subject to the GNU/GPL that is bundled
- * with this package in the file docs/LICENSE.txt.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.kumbia.org/license.txt
+ * http://wiki.kumbiaphp.com/Licencia
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to kumbia@kumbia.org so we can send you a copy immediately.
+ * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category Kumbia
- * @package Helpers
- * @copyright Copyright (c) 2005-2007 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
- * @copyright Copyright (C) 2007-2007 Roger Jose Padilla Camacho(rogerjose81 at gmail.com)
- * @copyright Copyright (C) 2007-2008 Deivinson Jose Tejeda Brito(deivinsontejeda at gmail.com)
- * @copyright Copyright (C) 2008-2008 Emilio Rafael Silveira Tovar(emilio.rst at gmail.com)
- * @license http://www.kumbia.org/license.txt GNU/GPL
+ * Helpers HTML
+ * 
+ * @category   Kumbia
+ * @package    Helpers 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**

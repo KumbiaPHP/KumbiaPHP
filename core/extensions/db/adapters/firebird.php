@@ -1,59 +1,24 @@
 <?php
 /**
- * Kumbia PHP Framework
- * PHP version 5
+ * KumbiaPHP web & app Framework
+ *
  * LICENSE
  *
- * This source file is subject to the GNU/GPL that is bundled
- * with this package in the file docs/LICENSE.txt.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.kumbiaphp.com/
+ * http://wiki.kumbiaphp.com/Licencia
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to kumbia@kumbiaphp.com so we can send you a copy immediately.
+ * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category   Kumbia
- * @package    Db
- * @subpackage Adapters
- * @author     Andres Felipe Gutierrez <andresfelipe@vagoogle.net>
- * @copyright  2008-2008 Emilio Rafael Silveira Tovar <emilio.rst at gmail.com>
- * @copyright  2007-2009 Deivinson Jose Tejeda Brito <deivinsontejeda at gmail.com>
- * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL
- * @version    SVN:$id
- * @see        Object
- */
-
-/**
  * Firebird/Interbase Database Support
- *
- * Estas funciones le permiten acceder a servidores de bases de datos Firebird/Interbase.
- *
- * Firebird/InterBase is a relational database offering many ANSI SQL-92
- * features that runs on Linux, Windows, and a variety of Unix platforms.
- * Firebird/InterBase offers excellent concurrency, high performance,
- * and powerful language support for stored procedures and triggers. It
- * has been used in production systems, under a variety of names since 1981.
- *
- * InterBase is the name of the closed-source variant of this RDBMS that
- * was developed by Borland/Inprise. More information about InterBase is
- * available at http://www.borland.com/interbase/.
- *
- * Firebird is a commercially independent project of C and C++ programmers,
- * technical advisors and supporters developing and enhancing a multi-platform relational
- * database management system based on the source code released by Inprise Corp
- * (now known as Borland Software Corp) under the InterBase Public
- * License v.1.0 on 25 July, 2000. More information about Firebird
- * is available at http://www.firebirdsql.org/.
- *
+ * 
  * @category   Kumbia
  * @package    Db
- * @subpackage Adapters
- * @author     Andres Felipe Gutierrez <andresfelipe@vagoogle.net>
- * @copyright  2008-2008 Emilio Rafael Silveira Tovar <emilio.rst at gmail.com>
- * @copyright  2007-2009 Deivinson Jose Tejeda Brito <deivinsontejeda at gmail.com>
- * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL
- * @version    SVN:$id
- * @see        Object
+ * @subpackage Adapters 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 class DbFirebird extends DbBase implements DbBaseInterface  {
 

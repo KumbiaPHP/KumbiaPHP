@@ -1,41 +1,24 @@
 <?php
 /**
- * Kumbia PHP Framework
+ * KumbiaPHP web & app Framework
  *
  * LICENSE
  *
- * This source file is subject to the GNU/GPL that is bundled
- * with this package in the file docs/LICENSE.txt.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.kumbia.org/license.txt
+ * http://wiki.kumbiaphp.com/Licencia
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to kumbia@kumbia.org so we can send you a copy immediately.
+ * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category Kumbia
- * @package Db
- * @subpackage PDOAdapters
- * @copyright Copyright (c) 2005-2007 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
- * @license http://www.kumbia.org/license.txt GNU/GPL
- */
-
-/**
  * PDO MySQL Database Support
- *
- * Estas funciones le permiten acceder a servidores de bases de datos MySQL
- * usando la interfase de PDO.
- * Puede encontrar más información sobre MySQL en http://www.mysql.com/.
- * La documentación de MySQL puede encontrarse en http://dev.mysql.com/doc/.
- *
- * @category Kumbia
- * @package Db
- * @subpackage PDOAdapters
- * @copyright Copyright (c) 2005-2007 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
- * @copyright Copyright (c) 2007-2007 Emilio Rafael Silveira Tovar (emilio.rst at gmail.com)
- * @license http://www.kumbia.org/license.txt GNU/GPL
- * @link http://www.php.net/manual/es/ref.mysql.php
- * @access Public
- *
+ * 
+ * @category   Kumbia
+ * @package    Db
+ * @subpackage Adapters 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 class DbPdoMySQL extends DbPDO {
 

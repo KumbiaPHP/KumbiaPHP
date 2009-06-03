@@ -1,26 +1,24 @@
 <?php
 /**
- * Kumbia PHP Framework
- * PHP version 5
+ * KumbiaPHP web & app Framework
+ *
  * LICENSE
  *
- * This source file is subject to the GNU/GPL that is bundled
- * with this package in the file docs/LICENSE.txt.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.kumbiaphp.com/
+ * http://wiki.kumbiaphp.com/Licencia
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to kumbia@kumbiaphp.com so we can send you a copy immediately.
+ * to license@kumbiaphp.com so we can send you a copy immediately.
  *
+ * PHP Data Objects Support
+ * 
  * @category   Kumbia
  * @package    Db
- * @subpackage Adapters
- * @author     Andres Felipe Gutierrez <andresfelipe@vagoogle.net>
- * @copyright  2008-2008 Emilio Rafael Silveira Tovar <emilio.rst at gmail.com>
- * @copyright  2007-2009 Deivinson Jose Tejeda Brito <deivinsontejeda at gmail.com>
- * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL
- * @version    SVN:$id
- * @see        Object
+ * @subpackage Adapters 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
@@ -28,25 +26,6 @@
  */
 require_once CORE_PATH.'extensions/db/adapters/pdo/interface.php';
 
-/**
- * PHP Data Objects
- *
- * The PHP Data Objects (PDO) extension defines a lightweight, consistent interface
- * for accessing databases in PHP. Each database driver that implements the PDO interface
- * can expose database-specific features as regular extension functions. Note that you cannot
- * perform any database functions using the PDO extension by itself; you must use
- * a database-specific PDO driver to access a database server.
- *
- * @category   Kumbia
- * @package    Db
- * @subpackage Adapters
- * @author     Andres Felipe Gutierrez <andresfelipe@vagoogle.net>
- * @copyright  2008-2008 Emilio Rafael Silveira Tovar <emilio.rst at gmail.com>
- * @copyright  2007-2009 Deivinson Jose Tejeda Brito <deivinsontejeda at gmail.com>
- * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL
- * @version    SVN:$id
- * @see        Object
- */
 abstract class DbPDO extends DbBase implements DbPDOInterface  {
 
 	/**
