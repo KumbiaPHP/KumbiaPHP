@@ -92,7 +92,7 @@ set_exception_handler(array('KumbiaException', 'handle_exception'));
 /**
  * @see Config
  */
-require CORE_PATH . 'kumbia/config/config.php';
+require CORE_PATH . 'kumbia/config.php';
 /**
  * @see Cache
  **/

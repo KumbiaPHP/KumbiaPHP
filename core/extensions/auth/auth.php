@@ -94,7 +94,7 @@ class Auth
             throw new kumbiaException("Adaptador de autenticaci&oacute;n '$adapter' no soportado");
         }
         $this->adapter = Util::camelcase($adapter);
-        require CORE_PATH . "extensions/auth/adapters/{$adapter}_auth.php";
+        require_once CORE_PATH . "extensions/auth/adapters/{$adapter}_auth.php";
         $adapter_class = $this->adapter . 'Auth';
         $this->extra_args = $extra_args;
         $this->adapter_object = new $adapter_class($auth, $extra_args);

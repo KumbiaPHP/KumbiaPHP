@@ -92,7 +92,7 @@ final class Kumbia
 		/**
 		 * @see Router
 		 */
-		require CORE_PATH . 'kumbia/router/router.php';
+		require CORE_PATH . 'kumbia/router.php';
 		/**
 		 * El Router analiza la url
 		 **/
@@ -101,7 +101,7 @@ final class Kumbia
     	/**
          * @see Dispatcher
          */
-        require CORE_PATH . 'kumbia/dispatcher/dispatcher.php';
+        require CORE_PATH . 'kumbia/dispatcher.php';
         /**
          * @see Flash
          */
@@ -109,11 +109,11 @@ final class Kumbia
         /**
          * @see Utils
          */
-        require CORE_PATH . 'kumbia/util/utils.php';
+        require CORE_PATH . 'kumbia/utils.php';
         /**
          * @see Util
          */
-        require CORE_PATH . 'kumbia/util/util.php';
+        require CORE_PATH . 'kumbia/util.php';
 		/**
          * @see Load
          */
