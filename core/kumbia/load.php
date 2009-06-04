@@ -27,6 +27,28 @@ class Load
      * @var array
      **/
     protected static $_injected_models = array();
+	/**
+	 * Carga librerias del core 
+	 *
+	 * @param string $dir directorio ubicado en el core
+	 * @param string $lib libreria a cargar
+	 * @param boolean $convenant utilizar convenio
+	 * @throw 
+	 **/
+	public static function core($dir, $lib, $convenant=false)
+	{
+		if($convenant) {
+			$file = CORE_PATH . "$dir/$lib/$lib.php";
+		} else {
+			$file = CORE_PATH . "$dir/$lib.php";
+		}
+		
+		if (is_file($file)) {
+			include_once $file;
+		} else {
+			throw new KumbiaException("$dir $lib no encontrada");
+		}
+	}
     /**
      * Carga las extensions
      *
@@ -37,12 +59,7 @@ class Load
     {
         $args = func_get_args();
         foreach ($args as $extension) {
-            $file = CORE_PATH . "extensions/$extension/$extension.php";
-            if (is_file($file)) {
-                include_once $file;
-            } else {
-                throw new KumbiaException("Extension $extension no encontrada");
-            }
+			self::core('extensions', $extension, true);
         }
     }
     /**
@@ -55,12 +72,7 @@ class Load
     {
         $args = func_get_args();
         foreach ($args as $vendor) {
-            $file = CORE_PATH . "vendors/$vendor.php";
-            if (is_file($file)) {
-                include_once $file;
-            } else {
-                throw new KumbiaException("Libreria $vendor no encontrada");
-            }
+			self::core('vendors', $vendor, true);
         }
     }
     /**
@@ -74,21 +86,13 @@ class Load
         $args = func_get_args();
         foreach ($args as $helper) {
             /**
-             * Carga helper de kumbia
+             * Carga helper de usuario
              **/
-            $file = CORE_PATH . "helpers/$helper.php";
+            $file = APP_PATH . "helpers/$helper.php";
             if (is_file($file)) {
                 include_once $file;
             } else {
-                /**
-                 * Carga helper de usuario
-                 **/
-                $file = APP_PATH . "helpers/$helper.php";
-                if (is_file($file)) {
-                    include_once $file;
-                } else {
-                    throw new KumbiaException("Helper $helper no encontrado");
-                }
+                self::core('helpers', $helper);
             }
         }
     }
@@ -236,7 +240,7 @@ class Load
             if (is_file($file)) {
                 include $file;
             } else {
-                throw new KumbiaException("No existe el modelo ActiveRecord $model");
+                throw new KumbiaException("No existe el modelo $model");
             }
         }
         return new $Model();
