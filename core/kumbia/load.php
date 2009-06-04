@@ -33,7 +33,7 @@ class Load
 	 * @param string $dir directorio ubicado en el core
 	 * @param string $lib libreria a cargar
 	 * @param boolean $convenant utilizar convenio
-	 * @throw 
+	 * @throw KumbiaException
 	 **/
 	public static function core($dir, $lib, $convenant=false)
 	{
