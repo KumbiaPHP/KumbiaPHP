@@ -453,21 +453,45 @@ class Controller
 	 *
 	 * Ejemplos:
 	 * Haciendo persistente un dato
-	 *    $this->persistent('data', 'valor');
-	 *
-	 * Leyendo el dato persistente
-	 *    $valor = $this->persistent('data');
+	 *    $this->set_persistent('data', 'valor');
 	 **/
-	protected function persistent($var, $value=null)
+	protected function set_persistent($var, $value=null)
 	{
 		if(func_num_args()>1) {
 			$_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var] = $value;
-		} else {
-			if(isset($_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var])) {
-				return $_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var];
-			} else {
-				return null;
-			}
 		}
+	}
+    /**
+     * Obtiene la Persistencia de datos en el controlador
+     *
+     * @param string $var
+     * @return mixed
+     *
+     * Ejemplos:
+     *
+     * Leyendo el dato persistente
+     *    $valor = $this->get_persistent('data');
+     **/
+	protected function get_persistent($var)
+	{
+        if(isset($_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var])) {
+            return $_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var];
+        } 
+        return null;
+	}
+	
+	/**
+	 * Destruye la persistencia de un Dato en el controller
+	 *
+	 * @param string $var
+	 */
+	protected function destroy_persistent($var)
+	{
+	    $args = func_get_args();
+	    foreach ($args as $var) {
+    	    if(isset($_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var])) {
+                unset($_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var]);
+            }
+	    }
 	}
 }
