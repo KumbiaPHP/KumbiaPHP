@@ -62,7 +62,7 @@ final class Dispatcher
              **/
 			if(Config::get('config.application.database')) {
 				if(Config::get('config.application.models_autoload')) {
-					Load::all_models();
+					Load::models();
 				} elseif($activeController->models !== null) {
 					Load::models($activeController->models);
 				}

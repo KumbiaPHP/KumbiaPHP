@@ -102,7 +102,7 @@ class Load
      * @param string $model
      * @throw KumbiaException
      **/
-    public static function models ($model)
+    public static function models ($model=null)
     {
         /**
          * Si se utiliza base de datos
@@ -110,12 +110,18 @@ class Load
         if (! class_exists('Db', false) && Config::get('config.application.database')) {
             require CORE_PATH . 'extensions/db/db.php';
         }
-        if (is_array($model)) {
+		
+		$controller = Dispatcher::get_controller();
+		
+        if(!$model) {
+			self::_all_models($controller);
+			return;
+		} elseif (is_array($model)) {
             $args = $model;
         } else {
             $args = func_get_args();
         }
-        $controller = Dispatcher::get_controller();
+        
         foreach ($args as $model) {
             $file = APP_PATH . "models/$model.php";
             if (is_file($file)) {
@@ -126,16 +132,7 @@ class Load
                     self::$_injected_models[] = $Model;
                 }
             } elseif (is_dir(APP_PATH . "models/$model")) {
-                foreach (new DirectoryIterator(APP_PATH . "models/$model") as $file) {
-                    if ($file->isFile()) {
-                        include_once $file->getPathname();
-                        if ($controller) {
-                            $Model = Util::camelcase(basename($file->getFilename(), '.php'));
-                            $controller->$Model = new $Model();
-                            self::$_injected_models[] = $Model;
-                        }
-                    }
-                }
+                self::_all_models($controller, $dir);
             } else {
                 throw new KumbiaException("Modelo $model no encontrado");
             }
@@ -144,20 +141,12 @@ class Load
     /**
      * Carga todos los modelos
      *
+	 * @param Controller $controller controlador
+	 * @param string $dir directorio a cargar
      **/
-    public static function all_models ()
+    public static function _all_models ($controller, $dir=null)
     {
-        /**
-         * Si se utiliza base de datos
-         **/
-        if (! class_exists('Db', false) && Config::get('config.application.database')) {
-            require CORE_PATH . 'extensions/db/db.php';
-        }
-        $controller = Dispatcher::get_controller();
-        /**
-         * solo mira en el dir models/
-         */
-        foreach (new DirectoryIterator(APP_PATH . 'models') as $file) {
+        foreach (new DirectoryIterator(APP_PATH . "models/$dir") as $file) {
             if ($file->isDot() || $file->isDir()) {
                 continue;
             }
