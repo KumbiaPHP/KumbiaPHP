@@ -952,6 +952,12 @@ function select_tag($name, $data=array()){
 		$selected = $params['selected'];
 		unset($params['selected']);
 	}
+    if(isset($params['separator'])) {
+        $separator = $params['separator'];
+        unset($params['separator']);
+    } else {
+        $separator = '';
+    }
 	
 	$options = '';
 	if(isset($params['include_blank'])) {
@@ -960,26 +966,45 @@ function select_tag($name, $data=array()){
 	}
 
 	if(is_array($params[1])){
-		foreach($params[1] as $k=>$v){
-			if(isset($selected) && $selected==$k) {
-				$options.= option_tag($k, $v, 'selected: selected');
-			} else {
-				$options.= option_tag($k, $v);
-			}
-		}
-	} elseif(is_string($params[1]) && $params[1]) {
+    	 if(isset($params[1][0]) && is_object($params[1][0])){
+           if(isset($params['option'])) {
+                $fields = array_map('trim', explode(',', $params['option']));
+                unset($params['option']);
+            } else {
+                $fields = array('id');
+            }
+            
+            foreach($params[1] as $item) {
+                $value = $item->primary_key[0];
+                $vals = array();
+                foreach($fields as $option) {
+                    array_push($vals, $item->$option);
+                }
+                
+                $k = $item->$value;
+                $v = implode($vals, $separator);
+                
+                if(isset($selected) && $selected==$k) {
+                    $options.="\t".option_tag($k, $v, 'selected: selected');
+                } else {
+                    $options.="\t".option_tag($k, $v);
+                }
+            }
+        } else {
+    		foreach($params[1] as $k=>$v){
+    			if(isset($selected) && $selected==$k) {
+    				$options.= option_tag($k, $v, 'selected: selected');
+    			} else {
+    				$options.= option_tag($k, $v);
+    			}
+    		}
+        }
+	} elseif(is_string($params[1])) {
 		if(isset($params['option'])) {
 			$fields = array_map('trim', explode(',', $params['option']));
 			unset($params['option']);
 		} else {
 			$fields = array('id');
-		}
-			
-		if(isset($params['separator'])) {
-			$separator = $params['separator'];
-			unset($params['separator']);
-		} else {
-			$separator = '';
 		}
 			
 		/**

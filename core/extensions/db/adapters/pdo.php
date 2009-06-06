@@ -91,7 +91,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 		}
 
 		try {
-			$this->pdo = new PDO($this->db_rbdm . ":" . $config['dsn'], $config['username'], $config['password']);
+			$this->pdo = new PDO($config['type'] . ":" . $config['dsn'], $config['username'], $config['password']);
 			if(!$this->pdo){
 				throw new KumbiaException("No se pudo realizar la conexion con $this->db_rbdm", 0, false);
 			}
