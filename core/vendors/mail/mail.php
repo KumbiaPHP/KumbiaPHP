@@ -20,6 +20,6 @@
  * @license http://www.kumbia.org/license.txt GNU/GPL
  */
 
-include_once "library/mail/class.smtp.php";
-include_once "library/mail/class.phpmailer.php";
+include_once CORE_PATH . 'vendors/mail/class.smtp.php';
+include_once CORE_PATH . 'vendors/mail/class.phpmailer.php';
 
