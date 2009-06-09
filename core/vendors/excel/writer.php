@@ -31,7 +31,7 @@
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-require_once 'library/excel/writer/workbook.php';
+require_once CORE_PATH.'vendors/excel/writer/workbook.php';
 
 /**
 * Class for writing Excel Spreadsheets. This class should change COMPLETELY.

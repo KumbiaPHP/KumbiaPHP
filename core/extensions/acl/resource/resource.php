@@ -21,8 +21,7 @@
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-class AclResource
-{
+class AclResource {
     /**
      * Nombre del Recurso
      *
@@ -35,8 +34,7 @@ class AclResource
      * @param string $name
      * @return AclResource
      */
-    function __construct ($name)
-    {
+    function __construct ($name) {
         if ($name == '*') {
             throw new KumbiaException('Nombre invalido "*" para nombre de Resource en Acl_Resoruce::__constuct');
         }
@@ -48,8 +46,7 @@ class AclResource
      * @param string $name
      * @param string $value
      */
-    function __set ($name, $value)
-    {
+    function __set ($name, $value) {
         if ($name != 'name') {
             $this->$name = $value;
         }
