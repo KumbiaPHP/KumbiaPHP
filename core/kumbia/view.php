@@ -62,7 +62,9 @@ class View
 			} else {
 				$controller_views_dir =  APP_PATH . "views/$controller_name";
 			}
-                
+            if($response != 'view'){
+                 $controller_views_dir =  APP_PATH . "views/$module_name/$controller_name/$response/";
+            }
 			/**
 			 * Renderizar vista
 			 *

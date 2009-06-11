@@ -23,7 +23,7 @@
 class DbSQLite extends DbBase implements DbBaseInterface {
 
 	/**
-	 * Resource de la Conexion a PostgreSQL
+	 * Resource de la Conexion a SQLite
 	 *
 	 * @var resource
 	 */
@@ -37,14 +37,14 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 	public $last_result_query;
 
 	/**
-	 * Ultima sentencia SQL enviada a PostgreSQL
+	 * Ultima sentencia SQL enviada a SQLite
 	 *
 	 * @var string
 	 */
 	private $last_query;
 
 	/**
-	 * Ultimo error generado por PostgreSQL
+	 * Ultimo error generado por SQLite
 	 *
 	 * @var string
 	 */
@@ -105,7 +105,7 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 	 */
 	const TYPE_CHAR = 'CHAR';
 	/**
-	 * Hace una conexion a la base de datos de PostgreSQL
+	 * Hace una conexion a la base de datos de SQLite
 	 *
 	 * @param array $config
 	 * @return resource_connection
@@ -290,19 +290,19 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 	}
 
 	/**
-	 * Devuelve el error de PostgreSQL
+	 * Devuelve el error de SQLite
 	 *
 	 * @return string
 	 */
 	function error($err=''){
 		if(!$this->id_connection){
-		    $this->last_error = @sqlite_last_error() ? @sqlite_last_error().$err : "[Error Desconocido en PostgreSQL \"$err\"]";
+		    $this->last_error = @sqlite_last_error() ? @sqlite_last_error().$err : "[Error Desconocido en SQLite \"$err\"]";
             if($this->logger){
                 Logger::error($this->last_error);
             }
 			return $this->last_error;
 		}
-		$this->last_error = @sqlite_last_error() ? @sqlite_last_error().$err : "[Error Desconocido en PostgreSQL: $err]";
+		$this->last_error = @sqlite_last_error() ? @sqlite_last_error().$err : "[Error Desconocido en SQLite: $err]";
 		$this->last_error.= $err;
         if($this->logger){
             Logger::error($this->last_error);
@@ -311,7 +311,7 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 	}
 
 	/**
-	 * Devuelve el no error de PostgreSQL
+	 * Devuelve el no error de SQLite
 	 *
 	 * @return integer
 	 */
@@ -391,12 +391,6 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 
 	/**
 	 * Crea una tabla utilizando SQL nativo del RDBM
-	 *
-	 * TODO:
-	 * - Falta que el parametro index funcione. Este debe listar indices compuestos multipes y unicos
-	 * - Agregar el tipo de tabla que debe usarse (PostgreSQL)
-	 * - Soporte para campos autonumericos
-	 * - Soporte para llaves foraneas
 	 *
 	 * @param string $table
 	 * @param array $definition
