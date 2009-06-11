@@ -57,7 +57,7 @@ class KumbiaException extends Exception {
 	
 		header('HTTP/1.1 404 Not Found');
 		$config = Config::read('config.ini');
-		extract(Router::get_vars(), EXTR_OVERWRITE);
+		extract(Router::get(), EXTR_OVERWRITE);
 		
 		ob_start();
 		if(!$config['application']['production']) {

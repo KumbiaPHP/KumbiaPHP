@@ -40,8 +40,8 @@ class ActiveRecordException extends KumbiaException {
 	 */
 	static function display_warning($title, $message, $source){
 
-		$controller_name = Router::get_controller();
-		$action = Router::get_action();
+		$controller_name = Router::get('controller');
+		$action = Router::get('action');
 
 		Flash::warning("
 		<span style='font-size:16px;color:black'>KumbiaWarning: $title</span><br/>

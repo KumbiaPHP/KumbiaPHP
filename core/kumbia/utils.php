@@ -277,11 +277,12 @@ function camelize($str) {
  * @return string
  */
 function uncamelize($str) {
+		
 	return strtolower(preg_replace('/([A-Z])/', "_\\1", $str));
 }
 
 /**
- * Convierte los parametros de una funcion o metodo a parametros por nombre
+ * Convierte los parametros de una funcion o metodo de parametros por nombre a un array
  *
  * @param array $params 
  * @return array
@@ -296,33 +297,6 @@ function get_params($params){
 		}
 	}
 	return $data;
-}
-
-/**
- * Devuelve una URL adecuada de Kumbia
- *
- * @param string $url
- * @return string
- */
-function get_kumbia_url($url){
-	$return_url = URL_PATH;
-	
-	$action = $url;
-	$module = '';
-	if(is_array($url)){
-		$action = $url[0];
-		if(isset($url['module'])){
-			$module = $url['module'];
-		}
-		if(isset($url['application']) && $url['application']){
-			$application = $url['application'];
-		}
-	}
-	if($module){
-		$return_url.=$module.'/';
-	}
-	$return_url.=$action;
-	return $return_url;
 }
 
 /*

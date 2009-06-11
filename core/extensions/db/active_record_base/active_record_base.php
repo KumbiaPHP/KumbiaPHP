@@ -275,7 +275,7 @@ class ActiveRecordBase
         
         if ($data) {
             if (!is_array($data))
-                $data = get_params(func_get_args());
+                $data = Util::getParams(func_get_args());
             $this->dump_result_self($data);
         }
     }
@@ -286,7 +286,7 @@ class ActiveRecordBase
     protected function _model_name()
     {
         if (!$this->source) {
-            $this->source = uncamelize(lcfirst(get_class($this)));
+            $this->source = Util::uncamelize(get_class($this));
         }
     }
     /**
@@ -466,7 +466,7 @@ class ActiveRecordBase
             return call_user_func_array(array($this, "find"), array_merge($arg, $args));
         }
         $model = ereg_replace("^get", "", $method);
-        $mmodel = uncamelize(lcfirst($model));
+        $mmodel = Util::uncamelize($model);
         if (array_key_exists($mmodel, $this->_belongs_to)) {
             $has_relation = true;
             $relation = $this->_belongs_to[$mmodel];
@@ -726,7 +726,7 @@ class ActiveRecordBase
      */
     public function find_first($what = '')
     {
-        $what = get_params(func_get_args());
+        $what = Util::getParams(func_get_args());
         $select = "SELECT ";
         if (isset($what['columns'])) {
             $select.= ActiveRecord::sql_sanizite($what['columns']);
@@ -772,7 +772,7 @@ class ActiveRecordBase
      */
     public function find($what = '')
     {
-        $what = get_params(func_get_args());
+        $what = Util::getParams(func_get_args());
         $select = "SELECT ";
         if (isset($what['columns'])) {
             $select.= $what['columns'] ? ActiveRecord::sql_sanizite($what['columns']) : join(",", $this->fields);
@@ -810,7 +810,7 @@ class ActiveRecordBase
     }
     /*
     * Arma una consulta SQL con el parametro $what, así:
-    * 	$what = get_params(func_get_args());
+    * 	$what = Util::getParams(func_get_args());
     * 	$select = "SELECT * FROM Clientes";
     *	$select.= $this->convert_params_to_sql($what);
     *
@@ -899,7 +899,7 @@ class ActiveRecordBase
      */
     public function distinct($what = '')
     {
-        $what = get_params(func_get_args());
+        $what = Util::getParams(func_get_args());
         if ($this->schema) {
             $table = $this->schema . "." . $this->source;
         } else {
@@ -956,7 +956,7 @@ class ActiveRecordBase
      */
     public function count($what = '')
     {
-        $what = get_params(func_get_args());
+        $what = Util::getParams(func_get_args());
         if ($this->schema) {
             $table = "{$this->schema}.{$this->source}";
         } else {
@@ -986,7 +986,7 @@ class ActiveRecordBase
      */
     public function average($what = '')
     {
-        $what = get_params(func_get_args());
+        $what = Util::getParams(func_get_args());
         if (isset($what['column'])) {
             if (!$what['column']) {
                 $what['column'] = $what[0];
@@ -1008,7 +1008,7 @@ class ActiveRecordBase
     }
     public function sum($what = '')
     {
-        $what = get_params(func_get_args());
+        $what = Util::getParams(func_get_args());
         if (isset($what['column'])) {
             if (!$what['column']) {
                 $what['column'] = $what[0];
@@ -1036,7 +1036,7 @@ class ActiveRecordBase
      */
     public function maximum($what = '')
     {
-        $what = get_params(func_get_args());
+        $what = Util::getParams(func_get_args());
         if (isset($what['column'])) {
             if (!$what['column']) {
                 $what['column'] = $what[0];
@@ -1064,7 +1064,7 @@ class ActiveRecordBase
      */
     public function minimum($what = '')
     {
-        $what = get_params(func_get_args());
+        $what = Util::getParams(func_get_args());
         if (isset($what['column'])) {
             if (!$what['column']) {
                 $what['column'] = $what[0];
@@ -1197,7 +1197,7 @@ class ActiveRecordBase
     public function create()
     {
         if (func_num_args() > 0) {
-            $params = get_params(func_get_args());
+            $params = Util::getParams(func_get_args());
             $values = (isset($params[0]) && is_array($params[0])) ? $params[0] : $params;
             foreach($this->fields as $field) {
                 if (isset($values[$field])) {
@@ -1255,7 +1255,7 @@ class ActiveRecordBase
     {
         if ($values) {
 			if(!is_array($values))
-				$values = get_params(func_get_args());
+				$values = Util::getParams(func_get_args());
             foreach($this->fields as $field) {
                 if (isset($values[$field])) {
                     $this->$field = $values[$field];
@@ -1760,7 +1760,7 @@ class ActiveRecordBase
     function update()
     {
         if (func_num_args() > 0) {
-            $params = get_params(func_get_args());
+            $params = Util::getParams(func_get_args());
             $values = (isset($params[0]) && is_array($params[0])) ? $params[0] : $params;
             foreach($this->fields as $field) {
                 if (isset($values[$field])) {
@@ -1783,7 +1783,7 @@ class ActiveRecordBase
     public function delete($what = '')
     {
         if (func_num_args() > 1) {
-            $what = get_params(func_get_args());
+            $what = Util::getParams(func_get_args());
         }
         if ($this->schema) {
             $table = $this->schema . "." . $this->source;
@@ -1858,7 +1858,7 @@ class ActiveRecordBase
             $table = $this->source;
         }
         if (func_num_args() > 1) {
-            $params = get_params(func_get_args());
+            $params = Util::getParams(func_get_args());
         }
         if (!isset($params['conditions']) || !$params['conditions']) {
             if (isset($params[1])) {
@@ -1904,7 +1904,7 @@ class ActiveRecordBase
             $table = $this->source;
         }
         if (func_num_args() > 1) {
-            $params = get_params(func_get_args());
+            $params = Util::getParams(func_get_args());
             $limit_args = array($select);
             if (isset($params['limit'])) {
                 array_push($limit_args, "limit: $params[limit]");
@@ -1954,7 +1954,7 @@ class ActiveRecordBase
     protected function validates_presence_of($field, $params=array())
     {
         if (is_string($params))
-            $params = get_params(func_get_args());
+            $params = Util::getParams(func_get_args());
 
         $this->_validates['presence_of'][$field] = $params;
     }
@@ -1974,7 +1974,7 @@ class ActiveRecordBase
     protected function validates_length_of($field, $max, $min=0, $params=array())
     {
         if (is_string($params))
-            $params = get_params(func_get_args());
+            $params = Util::getParams(func_get_args());
 
         $this->_validates['length_of'][$field] = $params;
         $this->_validates['length_of'][$field]['min'] = $min;
@@ -1993,7 +1993,7 @@ class ActiveRecordBase
     protected function validates_inclusion_in($field, $list, $params=array())
     {
         if (is_string($params))
-            $params = get_params(func_get_args());
+            $params = Util::getParams(func_get_args());
 
         $this->_validates['inclusion_in'][$field] = $params;
         $this->_validates['inclusion_in'][$field]['list'] = $list;
@@ -2011,7 +2011,7 @@ class ActiveRecordBase
     protected function validates_exclusion_of($field, $list, $params=array())
     {
         if (is_string($params))
-            $params = get_params(func_get_args());
+            $params = Util::getParams(func_get_args());
 
         $this->_validates['exclusion_of'][$field] = $params;
         $this->_validates['exclusion_of'][$field]['list'] = $list;
@@ -2029,7 +2029,7 @@ class ActiveRecordBase
     protected function validates_format_of($field, $pattern, $params=array())
     {
         if (is_string($params))
-            $params = get_params(func_get_args());
+            $params = Util::getParams(func_get_args());
 
         $this->_validates['format_of'][$field] = $params;
         $this->_validates['format_of'][$field]['pattern'] = $pattern;
@@ -2046,7 +2046,7 @@ class ActiveRecordBase
     protected function validates_numericality_of($field, $params=array())
     {
         if (is_string($params))
-            $params = get_params(func_get_args());
+            $params = Util::getParams(func_get_args());
 
         $this->_validates['numericality_of'][$field] = $params;
     }
@@ -2062,7 +2062,7 @@ class ActiveRecordBase
     protected function validates_email_in($field, $params=array())
     {
         if (is_string($params))
-            $params = get_params(func_get_args());
+            $params = Util::getParams(func_get_args());
 
         $this->_validates['email_in'][$field] = $params;
     }
@@ -2078,7 +2078,7 @@ class ActiveRecordBase
     protected function validates_uniqueness_of($field, $params=array())
     {
         if (is_string($params))
-            $params = get_params(func_get_args());
+            $params = Util::getParams(func_get_args());
 
         $this->_validates['uniqueness_of'][$field] = $params;
     }
@@ -2094,7 +2094,7 @@ class ActiveRecordBase
     protected function validates_date_in($field, $params=array())
     {
         if (is_string($params))
-            $params = get_params(func_get_args());
+            $params = Util::getParams(func_get_args());
 
         $this->_validates['date_in'][$field] = $params;
     }
@@ -2153,13 +2153,13 @@ class ActiveRecordBase
      */
     protected function has_one($relation)
     {
-        $params = get_params(func_get_args());
+        $params = Util::getParams(func_get_args());
         for ($i = 0;isset($params[$i]);$i++) {
-            $relation = uncamelize(lcfirst($params[$i]));
+            $relation = Util::uncamelize($params[$i]);
             if (!array_key_exists($relation, $this->_has_one)) {
                 $this->_has_one[$relation] = new stdClass();
                 $this->_has_one[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
-                $this->_has_one[$relation]->fk = isset($params['fk']) ? $params['fk'] : uncamelize(lcfirst(get_class($this))) . '_id';
+                $this->_has_one[$relation]->fk = isset($params['fk']) ? $params['fk'] : Util::uncamelize(get_class($this)) . '_id';
             }
         }
     }
@@ -2173,9 +2173,9 @@ class ActiveRecordBase
      */
     protected function belongs_to($relation)
     {
-        $params = get_params(func_get_args());
+        $params = Util::getParams(func_get_args());
         for ($i = 0;isset($params[$i]);$i++) {
-            $relation = uncamelize(lcfirst($params[$i]));
+            $relation = Util::uncamelize($params[$i]);
             if (!array_key_exists($relation, $this->_belongs_to)) {
                 $this->_belongs_to[$relation] = new stdClass();
                 $this->_belongs_to[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
@@ -2193,13 +2193,13 @@ class ActiveRecordBase
      */
     protected function has_many($relation)
    	{
-        $params = get_params(func_get_args());
+        $params = Util::getParams(func_get_args());
         for ($i = 0;isset($params[$i]);$i++) {
-            $relation = uncamelize(lcfirst($params[$i]));
+            $relation = Util::uncamelize($params[$i]);
             if (!array_key_exists($relation, $this->_has_many)) {
                 $this->_has_many[$relation] = new stdClass();
                 $this->_has_many[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
-                $this->_has_many[$relation]->fk = isset($params['fk']) ? $params['fk'] : uncamelize(lcfirst(get_class($this))) . '_id';
+                $this->_has_many[$relation]->fk = isset($params['fk']) ? $params['fk'] : Util::uncamelize(get_class($this)) . '_id';
             }
         }
     }
@@ -2215,14 +2215,14 @@ class ActiveRecordBase
      */
     protected function has_and_belongs_to_many($relation)
     {
-        $params = get_params(func_get_args());
+        $params = Util::getParams(func_get_args());
         for ($i = 0;isset($params[$i]);$i++) {
-            $relation = uncamelize(lcfirst($params[$i]));
+            $relation = Util::uncamelize($params[$i]);
             if (!array_key_exists($relation, $this->_has_and_belongs_to_many)) {
                 $this->_has_and_belongs_to_many[$relation] = new stdClass();
                 $this->_has_and_belongs_to_many[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
                 $this->_has_and_belongs_to_many[$relation]->fk = isset($params['fk']) ? $params['fk'] : "{$relation}_id";
-                $this->_has_and_belongs_to_many[$relation]->key = isset($params['key']) ? $params['key'] : uncamelize(lcfirst(get_class($this))) . '_id';
+                $this->_has_and_belongs_to_many[$relation]->key = isset($params['key']) ? $params['key'] : Util::uncamelize(get_class($this)) . '_id';
                 if (isset($params['through'])) {
                     $this->_has_and_belongs_to_many[$relation]->through = $params['through'];
                 }

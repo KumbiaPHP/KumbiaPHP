@@ -28,7 +28,7 @@
  * @return string
  */
 function xhtml_start_tag($tag, $attrs=null) {
-	$params = is_array($tag) ? $tag : get_params(func_get_args());
+	$params = is_array($tag) ? $tag : Util::getParams(func_get_args());
 	$xw = new xmlWriter();
     $xw->openMemory();
 
@@ -61,7 +61,7 @@ function xhtml_start_tag($tag, $attrs=null) {
  * @return string
  **/
 function xhtml_end_tag($tag) {
-	$params = is_array($tag) ? $tag : get_params(func_get_args());
+	$params = is_array($tag) ? $tag : Util::getParams(func_get_args());
 	$tag = $params[0];
 	return "</$tag>";
 }
@@ -82,7 +82,7 @@ function xhtml_end_tag($tag) {
  * @return string
  **/
 function xhtml_tag($tag, $attrs=null) {
-	$params = is_array($tag) ? $tag : get_params(func_get_args());
+	$params = is_array($tag) ? $tag : Util::getParams(func_get_args());
     $xw = new xmlWriter();
     $xw->openMemory();
     
@@ -151,7 +151,7 @@ function xhtml_tag($tag, $attrs=null) {
  * @return string
  */
 function link_to($action, $text=''){
-	$params = is_array($action) ? $action : get_params(func_get_args());
+	$params = is_array($action) ? $action : Util::getParams(func_get_args());
 	
 	if(isset($params['confirm'])&&$params['confirm']){
 		if(isset($params['onclick'])) {
@@ -188,7 +188,7 @@ function link_to($action, $text=''){
  * @return string
  */
 function link_to_action($action, $text=''){
-	$params = is_array($action) ? $action : get_params(func_get_args());
+	$params = is_array($action) ? $action : Util::getParams(func_get_args());
 	
 	if(isset($params['confirm'])&&$params['confirm']){
 		if(isset($params['onclick'])) {
@@ -209,8 +209,8 @@ function link_to_action($action, $text=''){
 		$params[1] = ucwords($text);
 	}
 	
-	$module_name = Router::get_module();
-	$controller_name = Router::get_controller();
+	$module_name = Router::get('module');
+	$controller_name = Router::get('controller');
 	if($module_name) {
 		$path = "$module_name/$controller_name";
 	} else {
@@ -236,7 +236,7 @@ function link_to_action($action, $text=''){
  * @return string
  */
 function link_to_remote($action){
-	$params = is_array($action) ? $action : get_params(func_get_args());
+	$params = is_array($action) ? $action : Util::getParams(func_get_args());
 	
 	if(!isset($params['update'])||!$params['update']){
 		$update = isset($params[2]) ? $params[2] : "";
@@ -309,7 +309,7 @@ function link_to_remote($action){
  * @return string
  */
 function javascript_include_tag($src=''){
-	$params = is_array($src) ? $src : get_params(func_get_args());
+	$params = is_array($src) ? $src : Util::getParams(func_get_args());
 	
 	if(isset($params['cache']) && $params['cache']=='false') {
 		$cache = false;
@@ -319,7 +319,7 @@ function javascript_include_tag($src=''){
 	}
 	
 	if(!isset($params[0])) {
-		$params[0] = Router::get_controller();
+		$params[0] = Router::get('controller');
 	}
 	
 	$code = '';
@@ -342,7 +342,7 @@ function javascript_include_tag($src=''){
  * @return string
  */
 function javascript_library_tag($src){
-	$params = is_array($src) ? $src : get_params(func_get_args());
+	$params = is_array($src) ? $src : Util::getParams(func_get_args());
 	$code = '';
 	foreach($params as $src) {
 		$src = PUBLIC_PATH."javascript/kumbia/$src.js";
@@ -362,7 +362,7 @@ function javascript_library_tag($src){
  * @return string
  */
 function stylesheet_link_tag($name){
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	$params['rel'] = 'stylesheet';
 	$params['type'] = 'text/css';
 	
@@ -395,7 +395,7 @@ function stylesheet_link_tag($name){
  * @return string
  */
 function img_tag($img){
-	$params = is_array($img) ? $img : get_params(func_get_args());
+	$params = is_array($img) ? $img : Util::getParams(func_get_args());
 
 	if(!isset($params['src']) && isset($params[0])){
 		$params['src'] = PUBLIC_PATH."img/{$params[0]}";
@@ -441,7 +441,7 @@ function img_tag($img){
  * @return string
  */
 function form_remote_tag($data){
-	$params = is_array($data) ? $data : get_params(func_get_args());
+	$params = is_array($data) ? $data : Util::getParams(func_get_args());
 	
 	if(!isset($params['action'])||!$params['action']) {
 		$params['action'] = $params[0];
@@ -458,7 +458,7 @@ function form_remote_tag($data){
 	}
 
 	$callbacks = array();
-	$id = Router::get_id();
+	$id = Router::get('id');
 	if(isset($params['complete'])&&$params['complete']){
 		$callbacks[] = " complete: function(){ ".$params['complete']." }";
 		unset($params['complete']);
@@ -494,7 +494,7 @@ function form_remote_tag($data){
  * @return string
  */
 function form_tag($action){
-	$params = is_array($action) ? $action : get_params(func_get_args());
+	$params = is_array($action) ? $action : Util::getParams(func_get_args());
 	if(!isset($params['action']) && isset($params[0])) {
 		$params['action'] = $params[0];
 	}
@@ -534,7 +534,7 @@ function end_form_tag(){
  * @return html code
  */
 function submit_tag($caption){
-	$params = is_array($caption) ? $caption : get_params(func_get_args());
+	$params = is_array($caption) ? $caption : Util::getParams(func_get_args());
 	if(isset($params['caption'])) {
 		$params['value'] = $params['caption'];
 		unset($params['caption']);
@@ -558,7 +558,7 @@ function submit_tag($caption){
  * @return html code
  */
 function submit_remote_tag($caption){
-	$params = is_array($caption) ? $caption : get_params(func_get_args());
+	$params = is_array($caption) ? $caption : Util::getParams(func_get_args());
 	
 	if(isset($params['caption'])) {
 		$params['value'] = $params['caption'];
@@ -607,7 +607,7 @@ function submit_remote_tag($caption){
  * @return html code
  */
 function submit_image_tag($caption, $src=''){
-	$params = is_array($caption) ? $caption : get_params(func_get_args());
+	$params = is_array($caption) ? $caption : Util::getParams(func_get_args());
 	if(isset($params['caption'])) {
 		$params['value'] = $params['caption'];
 		unset($params['caption']);
@@ -629,7 +629,7 @@ function submit_image_tag($caption, $src=''){
  * @return string
  */
 function button_tag($caption=''){
-	$params = is_array($caption) ? $caption : get_params(func_get_args());
+	$params = is_array($caption) ? $caption : Util::getParams(func_get_args());
 	if(isset($params['caption'])) {
 		$params['value'] = $params['caption'];
 		unset($params['caption']);
@@ -694,7 +694,7 @@ function get_id_and_name($value){
  * @return string
  **/
 function input_field_tag($name) {
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	/**
 	 * Obtengo id, name y value
 	 **/
@@ -721,7 +721,7 @@ function input_field_tag($name) {
  * @return string
  */
 function text_field_tag($name){
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	$params['type'] = 'text';
 	return input_field_tag($params);
 }
@@ -733,7 +733,7 @@ function text_field_tag($name){
  * @return string
  */
 function checkbox_field_tag($name){
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	$params['type'] = 'checkbox';
 	return input_field_tag($params);
 }
@@ -745,7 +745,7 @@ function checkbox_field_tag($name){
  * @return string
  */
 function numeric_field_tag($name){
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	if(!isset($params['onkeydown'])) {
 		$params['onkeydown'] = "valNumeric(event)";
 	} else {
@@ -761,7 +761,7 @@ function numeric_field_tag($name){
  * @return string
  */
 function textupper_field_tag($name){
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	if(!isset($params['onblur'])) {
 		$params['onblur'] = "keyUpper2(this)";
 	} else {
@@ -782,7 +782,7 @@ function textupper_field_tag($name){
 
 function date_field_tag($name){
     static $i = false;
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	
 	if(isset($params['format'])){
 		$format = $params['format'];
@@ -833,7 +833,7 @@ function date_field_tag($name){
  * @return string
  */
 function file_field_tag($name){
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	$params['type'] = 'file';
 	return input_field_tag($params);
 }
@@ -845,7 +845,7 @@ function file_field_tag($name){
  * @return string
  */
 function radio_field_tag($name){
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	$params['type'] = 'radio';
 	return input_field_tag($params);
 }
@@ -858,7 +858,7 @@ function radio_field_tag($name){
  * @return string
  */
 function textarea_tag($name, $value=null){
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	/**
 	 * Obtengo id, name y value
 	 **/
@@ -891,7 +891,7 @@ function textarea_tag($name, $value=null){
  * @return string
  */
 function password_field_tag($name){
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	$params['type'] = 'password';
 	return input_field_tag($params);
 }
@@ -903,7 +903,7 @@ function password_field_tag($name){
  * @return string
  */
 function hidden_field_tag($name){
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	$params['type'] = 'hidden';
 	return input_field_tag($params);
 }
@@ -931,7 +931,7 @@ function hidden_field_tag($name){
  * select_tag('sexo', array('M' => 'Masculino', 'F' => 'Femenino'), 'include_blank: Seleccione uno...')
  */
 function select_tag($name, $data=array()){
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	
 	/**
 	 * Obtengo id, name y value
@@ -1099,7 +1099,7 @@ function select_tag($name, $data=array()){
  * @return string
  */
 function option_tag($value, $text=''){
-	$params = is_array($value) ? $value : get_params(func_get_args());
+	$params = is_array($value) ? $value : Util::getParams(func_get_args());
 	
 	$params['value'] = $params[0];
 	if(isset($params[1])) {
@@ -1118,7 +1118,7 @@ function option_tag($value, $text=''){
  * @return string
  */
 function upload_image_tag($name){
-	$opts = is_array($name) ? $name : get_params(func_get_args());
+	$opts = is_array($name) ? $name : Util::getParams(func_get_args());
 	$code = '';
 	
 	if(isset($opts[0])){
@@ -1177,7 +1177,7 @@ function upload_image_tag($name){
  * action: accion a ejecutar al soltar
  **/
 function set_droppable($obj, $action=''){
-	$params = is_array($obj) ? $obj : get_params(func_get_args());
+	$params = is_array($obj) ? $obj : Util::getParams(func_get_args());
 	if(!isset($params['name']) || !$params['name']){
 		$params['name'] = $params[0];
 	}
@@ -1225,7 +1225,7 @@ function br_break($x=''){
 function tr_color(){
 	static $i;
 	if(func_num_args()>1){
-		$params = get_params(func_get_args());
+		$params = Util::getParams(func_get_args());
 	}
 	if(!$i) {
 		$i = 1;
@@ -1258,7 +1258,7 @@ function tr_color_class(){
     static $c = true;
     $id = "";
     $code = "";
-    $params = get_params(func_get_args());
+    $params = Util::getParams(func_get_args());
     if(isset($params['id'])){
 	    $id = " id=\"{$params['id']}\"";
 	} 
@@ -1287,7 +1287,7 @@ function tr_color_class(){
  * @return HTML del Boton
  */
 function button_to_action($caption, $action='', $classCSS=''){
-	$params= is_array($caption) ? $caption : get_params(func_get_args());
+	$params= is_array($caption) ? $caption : Util::getParams(func_get_args());
 	
 	if(isset($params['caption'])) {
 		$caption = $params['caption'];
@@ -1328,7 +1328,7 @@ function button_to_action($caption, $action='', $classCSS=''){
  * @return HTML del Bot�n
  */
 function button_to_remote_action($caption, $action='', $classCSS=''){
-	$opts = is_array($caption) ? $caption : get_params(func_get_args());
+	$opts = is_array($caption) ? $caption : Util::getParams(func_get_args());
 	if(func_num_args()==2){
 		$opts['action'] = $opts[1];
 		$opts['caption'] = $opts[0];
@@ -1384,7 +1384,7 @@ function button_to_remote_action($caption, $action='', $classCSS=''){
  * @return code
  */
 function updater_select($name, $data=array()){
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	
 	/**
 	 * Obtengo id, name y value
@@ -1458,7 +1458,7 @@ function updater_select($name, $data=array()){
  * @return string
  **/
 function text_field_with_autocomplete($name){
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	
 	/**
 	 * Obtengo id, name y value
@@ -1592,7 +1592,7 @@ function tab_tag($tabs, $color='green', $width=800){
 		} else {
 			print "<div id='tab_$p'>";
 		}
-		render_partial($tab['partial']);
+		View::partial($tab['partial']);
 		print "</div>";
 		$p++;
 	}
@@ -1625,7 +1625,7 @@ function js_alert($s) {
  * @return string 
  **/
 function time_field_tag($name='') {
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 
 	$hours = array ('00' => '00', '01' => '01', '02' => '02', '03' => '03', '04' => '04', '05' => '05' , '06' => '06',
 		'07' => '07', '08' => '08', '09' => '09', '10' => '10', '11' => '11', '12' => '12', '13' => '13',
@@ -1739,7 +1739,7 @@ function time_field_tag($name='') {
  * use_month_numbers: usar meses como numeros (true, si, yes)
  **/
 function month_field_tag($name) {
-	$params = is_array($name) ? $name : get_params(func_get_args());
+	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	if(isset($params['use_month_numbers'])) {
 		$meses = array('01'=>'01', '02'=>'02', '03'=>'03', '04'=>'04', '05'=>'05','06'=>'06',
 			'07'=>'07', '08'=>'08', '09'=>'09', '10'=>'10', '11'=>'11', '12'=>'12');
@@ -1764,7 +1764,7 @@ function month_field_tag($name) {
  * @return string
  */
 function swf_tag($data){
-	$params = is_array($data) ? $data : get_params(func_get_args());
+	$params = is_array($data) ? $data : Util::getParams(func_get_args());
 	
 	if(!isset($params['data']) && isset($params[0])){
 		$temp = str_replace(".swf", "", $params[0]);
@@ -1792,4 +1792,30 @@ function swf_tag($data){
 	$code .= xhtml_end_tag('object');
 	
 	return $code;
+}
+/**
+ * Devuelve una URL adecuada de Kumbia
+ *
+ * @param string $url
+ * @return string
+ */
+function get_kumbia_url($url){
+	$return_url = URL_PATH;
+	
+	$action = $url;
+	$module = '';
+	if(is_array($url)){
+		$action = $url[0];
+		if(isset($url['module'])){
+			$module = $url['module'];
+		}
+		if(isset($url['application']) && $url['application']){
+			$application = $url['application'];
+		}
+	}
+	if($module){
+		$return_url.=$module.'/';
+	}
+	$return_url.=$action;
+	return $return_url;
 }

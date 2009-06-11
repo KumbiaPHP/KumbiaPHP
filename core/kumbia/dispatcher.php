@@ -41,7 +41,7 @@ final class Dispatcher
      */
     static public function execute ()
     {
-        extract(Router::get_vars(), EXTR_OVERWRITE);
+        extract(Router::get(), EXTR_OVERWRITE);
 		
         $controllers_dir = APP_PATH . 'controllers';
         if ($module) {

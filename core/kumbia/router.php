@@ -24,7 +24,8 @@ final class Router
 	/**
 	 * Array estatico con las variables del router
 	 */
-	static private $vars = array('route' => '', //Ruta pasada en el GET
+	static private $vars = array(
+					 'route' => '', //Ruta pasada en el GET
 				     'module' => '', //Nombre del modulo actual
 				     'controller' => '', //Nombre del controlador actual
 				     'action' => 'index', //Nombre de la acción actual, por defecto index
@@ -52,7 +53,7 @@ final class Router
 		if (!$url) { $url = '/'; }
 		
 		//Miro si esta routed
-		$url=self::if_routed($url);
+		$url=self::ifRouted($url);
 		
 		// Se limpian los parametros por seguridad
 		$clean = array( '\\', '/../','//');
@@ -128,7 +129,7 @@ final class Router
  	 * para el controlador, accion, id actual
  	 * 
 	 */
-	static function if_routed($url){
+	static function ifRouted($url){
 		$routes = Config::read('routes.ini');
 		$routes = $routes['routes'];
 		
@@ -162,69 +163,15 @@ final class Router
 	 *
 	 * @return boolean
 	 */
-	public static function get_routed(){
+	public static function getRouted(){
 		return self::$vars['routed'];
-	}
-
-	/**
-	 * Devuelve el nombre del modulo actual
-	 *
-	 * @return string
-	 */
-	public static function get_module(){
-		return self::$vars['module'];
-	}
-
-	/**
-	 * Devuelve el nombre del controlador actual
-	 *
-	 * @return string
-	 */
-	public static function get_controller(){
-		return self::$vars['controller'];
-	}
-
-	/**
-	 * Devuelve el nombre del controlador actual
-	 *
-	 * @return string
-	 */
-	public static function get_action(){
-		return self::$vars['action'];
-	}
-
-	/**
-	 * Devuelve el primer parametro (id)
-	 *
-	 * @return mixed
-	 */
-	public static function get_id(){
-		return self::$vars['id'];
-	}
-
-	/**
-	 * Devuelve los parametros de la ruta
-	 *
-	 * @return array
-	 */
-	public static function get_parameters(){
-		return self::$vars['parameters'];
-	}
-
-	/**
-	 * Devuelve los parametros de la ruta
-	 *
-	 * @return array
-	 */
-	public static function get_all_parameters(){
-		return self::$vars['all_parameters'];
 	}
 
 	/**
 	 * Establece el estado del Router
 	 *
 	 */
-	public static function set_routed($value){
+	public static function setRouted($value){
 		self::$vars['routed'] = $value;
 	}
 
@@ -240,7 +187,7 @@ final class Router
 	static public function route_to(){
 		self::$vars['routed'] = false;
 		$cyclic_routing = false;
-		$url = get_params(func_get_args());
+		$url = Util::getParams(func_get_args());
 		//print_r ($url);
 		if(isset($url['module'])){
 			if(self::$vars['module']==$url['module']){
@@ -334,7 +281,7 @@ final class Router
 	 *
 	 * @return array
 	 **/
-	static public function get_vars($var=null) {
+	static public function get($var=null) {
 		if($var){
 			return self::$vars[$var];
 		} else {

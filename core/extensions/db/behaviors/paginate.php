@@ -60,7 +60,7 @@
 class Paginator {
 	
 	public static function paginate() {
-		$params = get_params(func_get_args());
+		$params = Util::getParams(func_get_args());
 		
 		$page_number = isset($params['page']) ? $params['page'] : 1;
 		$per_page = isset($params['per_page']) ? $params['per_page'] : 10;
@@ -84,7 +84,7 @@ class Paginator {
 			 * Si es una cadena, instancio el modelo
 			 **/
 			if(is_string($params[0])) {
-				$m = ucfirst(camelize($params[0]));
+				$m = Util::camelcase($params[0]);
 				$model = ActiveRecord::get($m);
 			} else {
 				$model = $params[0];
@@ -180,7 +180,7 @@ class Paginator {
 	* @return object
 	**/
 	public static function paginate_by_sql($model, $sql) {
-		$params = get_params(func_get_args());
+		$params = Util::getParams(func_get_args());
 		
 		$page_number = isset($params['page']) ? $params['page'] : 1;
 		$per_page = isset($params['per_page']) ? $params['per_page'] : 10;
@@ -190,7 +190,7 @@ class Paginator {
 		 * Si es una cadena, instancio el modelo
 		 **/
 		if(is_string($params[0])) {
-			$m = ucfirst(camelize($params[0]));
+			$m = Util::camelcase($params[0]);
 			$model = ActiveRecord::get($m);
 		}
 	

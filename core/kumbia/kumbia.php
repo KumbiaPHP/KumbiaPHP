@@ -106,10 +106,7 @@ final class Kumbia
          * @see Flash
          */
         require CORE_PATH . 'extensions/messages/flash.php';
-        /**
-         * @see Utils
-         */
-        require CORE_PATH . 'kumbia/utils.php';
+        
         /**
          * @see Util
          */
@@ -134,8 +131,8 @@ final class Kumbia
 		 * Ciclo del enrutador
 		 */
 		$controller = Dispatcher::execute();
-		while (Router::get_routed()) {
-			Router::set_routed(false);
+		while (Router::getRouted()) {
+			Router::setRouted(false);
 			$controller = Dispatcher::execute();
 		}
 		

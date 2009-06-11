@@ -50,7 +50,8 @@ class Util
 	 * @return string
 	 */
 	public static function uncamelize($str) {
-		return strtolower(preg_replace('/([A-Z])/', "_\\1", $str));
+			$str = self::lcfirst($str);
+		return strtolower(preg_replace('/([A-Z])/', '_\\1', $str));
 	}
 	
     /**
@@ -144,7 +145,24 @@ class Util
 		}
 		return $data;
     }
-  
+	/**
+	* Convierte los parametros de una funcion o metodo de parametros por nombre a un array
+	*
+	* @param array $params 
+	* @return array
+	*/
+	public static function getParams($params){
+		$data = array();
+		foreach ($params as $p) {
+		   if(is_string($p) && preg_match('/^(\w+): (.*)/', $p, $match)){
+			   $data[$match[1]] = $match[2];
+		   } else {
+			   $data[] = $p;
+		   }
+		}
+		return $data;
+	}
+
     /**
      * Devuelve una URL adecuada de Kumbia
      *
@@ -234,10 +252,8 @@ class Util
      * @param s string cadena a convertir
      * @return string
      **/
-    public static function lcfirst($s)
-    {
-		$s{0} = strtolower($string{0});
+    public static function lcfirst($s) {
+			$s{0} = strtolower($s{0});
 		return $s;
     }
-
 }

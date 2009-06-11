@@ -102,7 +102,7 @@ class DbPdoMySQL extends DbPDO {
 	 * @return string
 	 */
 	public function limit($sql){
-		$params = get_params(func_get_args());
+		$params = Util::getParams(func_get_args());
 		$sql_new = $sql;
 	
 		if(isset($params['limit']) && is_numeric($params['limit'])){

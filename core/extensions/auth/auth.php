@@ -79,7 +79,7 @@ class Auth
      */
     public function __construct ()
     {
-        $extra_args = get_params(func_get_args());
+        $extra_args = Util::getParams(func_get_args());
         if (isset($extra_args[0])) {
             $adapter = $extra_args[0];
             unset($extra_args[0]);
