@@ -163,33 +163,6 @@ class Util
 		return $data;
 	}
 
-    /**
-     * Devuelve una URL adecuada de Kumbia
-     *
-     * @param string $url
-     * @return string
-     */
-    public static function get_kumbia_url($url)
-    {        
-		$return_url = URL_PATH;
-		
-		$action = $url;
-		$module = '';
-		if(is_array($url)){
-			$action = $url[0];
-			if(isset($url['module'])){
-				$module = $url['module'];
-			}
-			if(isset($url['application']) && $url['application']){
-				$application = $url['application'];
-			}
-		}
-		if($module){
-			$return_url.=$module.'/';
-		}
-		$return_url.=$action;
-		return $return_url;
-    }
     /*
      * Recibe una cadena como: item1,item2,item3 y retorna una como: "item1","item2","item3".
      *

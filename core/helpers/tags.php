@@ -97,7 +97,7 @@ function xhtml_tag($tag, $attrs=null) {
 	/**
 	 * Necesitan estar entre CDATA
 	 **/
-	$need_cdata = array('script', 'style');
+	$need_cdata = array('script', 'style','a');
 
 	$tag = $params[0];
 	unset($params[0]);
@@ -126,12 +126,9 @@ function xhtml_tag($tag, $attrs=null) {
         }
     }
 	if($content || !in_array($tag, $short_close)) {
-		if($content && in_array($tag, $need_cdata)) {
-			$xw->text($content);
-		}
-		if($tag == 'select') {
-            $xw->writeRaw($content);
-        } else {
+		if($tag == 'select' || in_array($tag, $need_cdata)) {
+			$xw->writeRaw($content);
+		} else {
             $xw->text($content);
         }
 	}
