@@ -30,19 +30,5 @@
     echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/kumbia/validations.js'></script>"; 
     echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/kumbia/main.php?module=$module&amp;path=" . urlencode(PUBLIC_PATH) . "&amp;controller=$controller&amp;action=$action&amp;id=$id'></script>"; 
     echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/kumbia/swfobject.js'></script>"; 
-    echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/kumbia/kumbia.js'></script>"; 
     echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/scriptaculous/unittest.js'></script>"; 
-    echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/scriptaculous/scriptaculous.js'></script>"; 
-    /**
-     * Cargo constantes para el objeto javascript
-     *
-     */
-    echo "<script type='text/javascript'>"; 
-    echo '	<!-- <![CDATA['; 
-    echo '$Kumbia.Constant.PUBLIC_PATH = "', PUBLIC_PATH, "';"; 
-    echo '$Kumbia.Constant.module = "', $module, "';"; 
-    echo '$Kumbia.Constant.controller_name = "', $controller, "';"; 
-    echo '$Kumbia.Constant.action_name = "', $action, "';"; 
-    echo "	// ]]> -->"; 
-    echo "</script>"; 
-?>
+    echo "<script type='text/javascript' src='", PUBLIC_PATH, "javascript/scriptaculous/scriptaculous.js'></script>";
