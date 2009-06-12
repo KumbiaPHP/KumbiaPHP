@@ -258,6 +258,7 @@ function link_to_remote($action){
 	if(isset($params['confirm'])){
 		$code.= "if(confirm('{$params['confirm']}')) {";
 	}
+	$action = URL_PATH . $action;
 	$code.= "new AJAX.viewRequest({action: '$action', container: '$update'";
 
 	$call = array();
@@ -441,8 +442,10 @@ function form_remote_tag($data){
 	$params = is_array($data) ? $data : Util::getParams(func_get_args());
 	
 	if(!isset($params['action'])||!$params['action']) {
-		$params['action'] = $params[0];
+		$params['action'] = URL_PATH . $params[0];
 	}
+	$params['action'] = URL_PATH . $params['action'];
+	
 	if(!isset($params['method'])||!$params['method']) {
 		$params['method'] = 'post';
 	}
@@ -590,6 +593,7 @@ function submit_remote_tag($caption){
 	} else {
 		$params['onclick'] = "return ajaxRemoteForm(this.form, \"$update\", { ".join(",", $callbacks)." });";
 	}
+	
 	
 	return xhtml_tag('input', $params, 'type: submit');
 }
@@ -1129,8 +1133,10 @@ function upload_image_tag($name){
 	    $opts['value'] = '';
 	}
 	
+	$path = URL_PATH;
+	
 	$code.="<span id='{$opts['name']}_span_pre'>
-	<select name='{$opts[0]}' id='{$opts[0]}' onchange='show_upload_image(this)'>";
+	<select name='{$opts[0]}' id='{$opts[0]}' onchange='show_upload_image(this, \"$path\")'>";
 	$code.="<option value='@'>Seleccione...\n";
 	foreach(scandir("public/img/upload") as $file){
 		if($file!='index.html'&&$file!='.'&&$file!='..'&&$file!='Thumbs.db'&&$file!='desktop.ini'){
@@ -1337,6 +1343,9 @@ function button_to_remote_action($caption, $action='', $classCSS=''){
 			$opts['caption'] = $opts[0];
 		}
 	}
+	
+	$opts['action'] = URL_PATH . $opts['action'];
+	
 	if(!isset($opts['update'])){
 		$opts['update'] = "";
 	}
@@ -1412,6 +1421,8 @@ function updater_select($name, $data=array()){
 	} else {
 		$action = '';
 	}
+
+	$action = URL_PATH . $action;
 
 	$onchange = "AJAX.viewRequest({action: '$action/'+$(\"{$params['id']}\").value, container: '$update'";
 	$call = array();

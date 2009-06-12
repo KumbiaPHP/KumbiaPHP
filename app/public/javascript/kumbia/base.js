@@ -54,20 +54,7 @@ function $O(obj){
 	return $(obj);
 }
 
-function get_kumbia_url(action){
-	return $Kumbia.get_kumbia_url.apply($Kumbia, arguments);
-}
 
-//Redirecciona la Ventana padre a un accion determinada
-function redirect_parent_to_action(url){
-	redirect_to_action(url, window.parent);
-}
-
-//Redirecciona una ventana a un url definido
-function redirect_to_action(url, win){
-	win = win ? win : window;
-	win.location = get_kumbia_url(url)
-}
 
 // Obtiene una referencia a un objeto del formulario generado
 // o un document.getElementById
@@ -105,7 +92,7 @@ var AJAX = new Object();
 AJAX.xmlRequest = function(params){
 	this.options = $H()
 	if(!params.url && params.action){
-		this.url = get_kumbia_url(params.action)
+		this.url = params.action
 	}
 	if(params.parameters){
 		this.url+= "/&"+params.parameters
@@ -148,7 +135,7 @@ AJAX.viewRequest = function(params){
 		return;
 	}
 
-	this.url = get_kumbia_url(params.action);
+	this.url = params.action;
 	if(params.parameters){
 		this.url+="&"+params.parameters;
 	}
@@ -197,7 +184,7 @@ AJAX.execute = function(params){
 		alert("KumbiaError: AJAX Action is not set!");
 		return;
 	}
-	this.url = get_kumbia_url(params.action);
+	this.url = params.action;
 	if(params.parameters){
 		this.url+="&"+params.parameters;
 	}
@@ -232,7 +219,7 @@ AJAX.execute = function(params){
 
 AJAX.query = function(qaction){
 	var me;
-	new Ajax.Request(get_kumbia_url(qaction), {
+	new Ajax.Request(qaction, {
 			asynchronous: false,
 			onSuccess: function(resp){
 				xml = resp.responseXML
@@ -277,12 +264,11 @@ function cancel_upload_file(file){
 	$(file+"_span_pre").show()
 }
 
-function show_upload_image(file){
+function show_upload_image(file, url_path){
 	if(file.options[file.selectedIndex].value!='@'){
 		$(file.id+"_im").show()
-		$(file.id+"_im").src = $Kumbia.Constant.KUMBIA_PATH + "/img/" + file.options[file.selectedIndex].value
+		$(file.id+"_im").src = url_path + "img/" + file.options[file.selectedIndex].value
 	} else {
 		$(file.id+"_im").hide()
 	}
 }
-
