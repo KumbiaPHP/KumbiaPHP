@@ -407,10 +407,13 @@ class Controller
 	/**
 	 * Visualiza una vista en el controlador actual
 	 *
-	 * @param string $view
+	 * @param string $view nombre del view a utilizar sin .phtml
+	 * @param string $template	opcional nombre del template a utilizar sin .phtml
 	 */
-	public function render($view){
+	public function render($view,$template = false){
 		$this->view = $view;
+		if($template === false) return;
+		$this->template = $template;
 	}
     /**
      * BeforeFilter

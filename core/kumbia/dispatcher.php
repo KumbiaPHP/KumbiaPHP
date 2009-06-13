@@ -27,12 +27,6 @@ final class Dispatcher
      * @var mixed
      */
     private static $_controller;
-    /**
-     * Codigo de error cuando no encuentra la accion
-     */
-    const NOT_FOUND_ACTION = 100;
-    const NOT_FOUND_CONTROLLER = 101;
-    const NOT_FOUND_FILE_CONTROLLER = 102;
 
     /**
      * Realiza el dispatch de una ruta

@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Helper para Tags HTML
+ * Util para uso general del framework
  * 
  * @category   Kumbia
  * @package    Core 
@@ -30,8 +30,8 @@ class Util
      **/
     public static function camelcase($s, $lower=false)
     {
-		$s = strtr($s, '_', ' ');
-		$s = ucwords($s);
+		
+		$s = ucwords(strtolower(strtr($s, '_', ' ')));
 		$s = str_replace(' ', '', $s);
 
         /**
@@ -163,7 +163,7 @@ class Util
 		return $data;
 	}
 
-    /*
+    /**
      * Recibe una cadena como: item1,item2,item3 y retorna una como: "item1","item2","item3".
      *
      * @param string $lista Cadena con Items separados por comas (,).
@@ -222,11 +222,11 @@ class Util
     /**
      * Coloca la primera letra en minuscula
      *
-     * @param s string cadena a convertir
+     * @param $s string cadena a convertir
      * @return string
      **/
     public static function lcfirst($s) {
-			$s{0} = strtolower($s{0});
+			$s[0] = strtolower($s[0]);
 		return $s;
     }
 }

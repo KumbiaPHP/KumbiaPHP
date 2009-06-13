@@ -147,7 +147,7 @@ final class Kumbia
 		}
 		
 		// Fin del request
-		exit(0);
+		exit();
     }
     /**
      * Imprime los CSS cargados mediante stylesheet_link_tag
