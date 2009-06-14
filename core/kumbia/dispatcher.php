@@ -44,66 +44,65 @@ final class Dispatcher
 
         $app_controller = Util::camelcase($controller) . 'Controller';
         $file = "$controllers_dir/$controller".'_controller.php';
-        if(is_file($file)){
-			include_once $file;
-			/**
-			 * Asigna el controlador activo
-			 **/
-			self::$_controller = $activeController = new $app_controller($module, $controller, $action, $id, $all_parameters, $parameters);
-
-			/**
-             * Carga de modelos
-             **/
-			if(Config::get('config.application.database')) {
-				if(Config::get('config.application.models_autoload')) {
-					Load::models();
-				} elseif($activeController->models !== null) {
-					Load::models($activeController->models);
-				}
-			}
-			/**
-			 * Se ejecutan los filtros before
-			 */
-			if($activeController->initialize() === false) {
-				return $activeController;
-			}
-			if($activeController->before_filter() === false) {
-				return $activeController;
-			}
-			
-			/**
-			 * Se ejecuta el metodo con el nombre de la accion
-			 * en la clase
-			 */
-			if (!method_exists($activeController, $action)) {
-				throw new KumbiaException("No se encontró; la Acción \"$action\". Es necesario definir un método en la clase
-					controladora '$controller' llamado '{$action}' para que
-					esto funcione correctamente.", Dispatcher::NOT_FOUND_ACTION);
-			}
-			call_user_func_array(array($activeController , $action), $parameters);
-				
-			/**
-			 * Corre los filtros after
-			 */
-			$activeController->after_filter();
-			$activeController->finalize();
-
-			/**
-			 * Elimino del controlador los modelos inyectados
-			 **/
-			foreach (Load::get_injected_models() as $model) {
-				unset($activeController->$model);
-			}
-			/**
-			 * Limpia el buffer de modelos inyectados
-			 **/
-			Load::reset_injected_models();
-
-			return $activeController;
-        } else {
+        if(!is_file($file)){
 			throw new KumbiaException("No se encontró la Clase Controladora \"{$app_controller}\".
-				Debe definir esta clase para poder trabajar este controlador", self::NOT_FOUND_CONTROLLER);
-        }
+				Debe definir esta clase para poder trabajar este controlador");
+		}
+		include_once $file;
+		/**
+		  * Asigna el controlador activo
+		 **/
+		self::$_controller = $activeController = new $app_controller($module, $controller, $action, $id, $all_parameters, $parameters);
+
+		/**
+         * Carga de modelos
+        **/
+		if(Config::get('config.application.database')) {
+			if(Config::get('config.application.models_autoload')) {
+				Load::models();
+			} elseif($activeController->models !== null) {
+				Load::models($activeController->models);
+			}
+		}
+		/**
+		 * Se ejecutan los filtros before
+		 */
+		if($activeController->initialize() === false) {
+			return $activeController;
+		}
+		if($activeController->before_filter() === false) {
+			return $activeController;
+		}
+			
+		/**
+		 * Se ejecuta el metodo con el nombre de la accion
+		 * en la clase
+		 */
+		if (!method_exists($activeController, $action)) {			
+			throw new KumbiaException("No se encontró; la Acción \"$action\". Es necesario definir un método en la clase
+				controladora '$controller' llamado '{$action}' para que
+				esto funcione correctamente.");
+		}
+		call_user_func_array(array($activeController , $action), $parameters);
+				
+		/**
+		 * Corre los filtros after
+		 */
+		$activeController->after_filter();
+		$activeController->finalize();
+
+		/**
+		 * Elimino del controlador los modelos inyectados
+		 **/
+		foreach (Load::get_injected_models() as $model) {
+			unset($activeController->$model);
+		}
+		/**
+		 * Limpia el buffer de modelos inyectados
+		 **/
+		Load::reset_injected_models();
+
+		return $activeController;
     }
     /**
      * Obtener el controlador en ejecucion
