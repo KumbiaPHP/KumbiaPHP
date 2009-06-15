@@ -99,7 +99,6 @@ class DbBase
 		while($row=$this->fetch_array($q)){
 			$results[] = $row;
 		}
-		var_dump ($results);
 		return $results;
 	}
 

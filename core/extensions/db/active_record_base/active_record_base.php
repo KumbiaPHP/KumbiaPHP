@@ -1882,9 +1882,9 @@ class ActiveRecordBase
             $sql = call_user_func_array(array($this, 'limit'), $limit_args);
         }
         $environment = Config::read('databases.ini');
-        $config = $environment->{$this->get_database() };
+        $config = $environment[$this->get_database()];
         if (!isset($config->pdo) || !$config->pdo) {
-            if ($config->type == "informix") {
+            if ($config['type'] == "informix") {
                 $this->db->set_return_rows(false);
             }
         }
