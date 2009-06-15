@@ -43,11 +43,10 @@ class Load
 			$file = CORE_PATH . "$dir/$lib.php";
 		}
 		
-		if (is_file($file)) {
-			include_once $file;
-		} else {
+		if (!is_file($file)) {
 			throw new KumbiaException("$dir $lib no encontrada");
 		}
+        include_once $file;
 	}
     /**
      * Carga las extensions
@@ -226,11 +225,10 @@ class Load
              * Carga la clase
              **/
             $file = APP_PATH . "models/$model.php";
-            if (is_file($file)) {
-                include $file;
-            } else {
+            if (!is_file($file)) {
                 throw new KumbiaException("No existe el modelo $model");
             }
+            include $file;
         }
         return new $Model();
     }
