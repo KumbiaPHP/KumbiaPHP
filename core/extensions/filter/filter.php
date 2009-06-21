@@ -69,7 +69,7 @@ class Filter
                     return self::_apply_filters($s[$key], $filters, $options);
                 } elseif (is_string($value)) {
                     foreach ($filters as $f) {
-						$filter = Inflector::camelcase($f).'Filter';
+						$filter = Util::camelcase($f).'Filter';
 						if(!class_exists($filter)) {
 							self::_load_filter($f);
 						}
@@ -83,7 +83,7 @@ class Filter
                     return self::_apply_filters($s->$attr, $filters, $options);
                 } elseif (is_string($value)) {
                     foreach ($filters as $f) {
-						$filter = Inflector::camelcase($f).'Filter';
+						$filter = Util::camelcase($f).'Filter';
 						if(!class_exists($filter)) {
 							self::_load_filter($f);
 						}
@@ -93,7 +93,7 @@ class Filter
             }
         } elseif (is_string($s)) {
             foreach ($filters as $f) {
-				$filter = Inflector::camelcase($f).'Filter';
+				$filter = Util::camelcase($f).'Filter';
 				if(!class_exists($filter)) {
 					self::_load_filter($f);
 				}
@@ -110,11 +110,11 @@ class Filter
 	 **/
 	protected static function _load_filter($filter)
 	{
-		$file = CORE_PATH . "extensions/filter/base_filters/$f_filter.php";
+		$file = CORE_PATH . "extensions/filter/base_filters/{$filter}_filter.php";
 		if(!file_exists($file)) {
-			$file = APP_PATH . "filters/$f_filter.php";
+			$file = APP_PATH . "filters/{$filter}_filter.php";
 			if(!file_exists($file)) {
-				throw new KumbiaException("Filtro $f no encontrado");
+				throw new KumbiaException("Filtro $filter no encontrado");
 			}
 		}
 		include $file;
