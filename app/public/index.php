@@ -96,7 +96,7 @@ require CORE_PATH . 'kumbia/config.php';
 /**
  * @see Cache
  **/
-require CORE_PATH . 'extensions/cache/cache.php';
+require CORE_PATH . 'components/extensions/cache/cache.php';
 /**
  * Lee la configuracion
  */
