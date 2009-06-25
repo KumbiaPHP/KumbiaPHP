@@ -35,12 +35,12 @@ class Load
 	 * @param boolean $convenant utilizar convenio
 	 * @throw KumbiaException
 	 **/
-	public static function core($dir, $lib, $convenant=false)
+	public static function components($dir, $lib, $convenant=false)
 	{
 		if($convenant) {
-			$file = CORE_PATH . "$dir/$lib/$lib.php";
+			$file = CORE_PATH . "components/$dir/$lib/$lib.php";
 		} else {
-			$file = CORE_PATH . "$dir/$lib.php";
+			$file = CORE_PATH . "components/$dir/$lib.php";
 		}
 		
 		if (!is_file($file)) {
@@ -58,7 +58,7 @@ class Load
     {
         $args = func_get_args();
         foreach ($args as $extension) {
-			self::core('extensions', $extension, true);
+			self::components('extensions', $extension, true);
         }
     }
     /**
@@ -71,7 +71,7 @@ class Load
     {
         $args = func_get_args();
         foreach ($args as $vendor) {
-			self::core('vendors', $vendor, true);
+			self::components('vendors', $vendor, true);
         }
     }
     /**
@@ -87,11 +87,11 @@ class Load
             /**
              * Carga helper de usuario
              **/
-            $file = APP_PATH . "helpers/$helper.php";
+            $file = APP_PATH . "components/helpers/$helper.php";
             if (is_file($file)) {
                 include_once $file;
             } else {
-                self::core('helpers', $helper);
+                self::components('helpers', $helper);
             }
         }
     }
@@ -107,7 +107,7 @@ class Load
          * Si se utiliza base de datos
          **/
         if (! class_exists('Db', false) && Config::get('config.application.database')) {
-            require CORE_PATH . 'extensions/db/db.php';
+            require CORE_PATH . 'components/extensions/db/db.php';
         }
 		
 		$controller = Dispatcher::get_controller();
@@ -184,19 +184,26 @@ class Load
     public static function boot ()
     {
         $boot = Config::read('boot.ini');
-        if ($boot['modules']['vendors']) {
+        if (isset($boot['modules']['vendors']) && $boot['modules']['vendors']) {
             $vendors = explode(',', str_replace(' ', '', $boot['modules']['vendors']));
             foreach ($vendors as $vendor) {
-                require VENDORS_PATH . "$vendor/$vendor.php";
+                require CORE_PATH . "components/vendors/$vendor/$vendor.php";
             }
             unset($vendors);
         }
-        if ($boot['modules']['extensions']) {
+        if (isset($boot['modules']['extensions']) && $boot['modules']['extensions']) {
             $extensions = explode(',', str_replace(' ', '', $boot['modules']['extensions']));
             foreach ($extensions as $extension) {
-                require CORE_PATH . "extensions/$extension/$extension.php";
+                require CORE_PATH . "components/extensions/$extension/$extension.php";
             }
             unset($extensions);
+        }
+        if (isset($boot['modules']['utils']) && $boot['modules']['utils']) {
+            $components = explode(',', str_replace(' ', '', $boot['modules']['components']));
+            foreach ($components as $component) {
+                require CORE_PATH . "components/utils/$component.php";
+            }
+            unset($components);
         }
     }
     /**
@@ -211,7 +218,7 @@ class Load
          * Si se utiliza base de datos
          **/
         if (! class_exists('Db', false) && Config::get('config.application.database')) {
-            require CORE_PATH . 'extensions/db/db.php';
+            require CORE_PATH . 'components/extensions/db/db.php';
         }
         /**
          * Nombre de la clase
