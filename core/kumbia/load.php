@@ -38,13 +38,21 @@ class Load
 	public static function components($dir, $lib, $convenant=false)
 	{
 		if($convenant) {
-			$file = CORE_PATH . "components/$dir/$lib/$lib.php";
+			$file = APP_PATH . "components/$dir/$lib/$lib.php";
 		} else {
-			$file = CORE_PATH . "components/$dir/$lib.php";
+			$file = APP_PATH . "components/$dir/$lib.php";
 		}
 		
 		if (!is_file($file)) {
-			throw new KumbiaException("$dir $lib no encontrada");
+            if($convenant) {
+                $file = CORE_PATH . "components/$dir/$lib/$lib.php";
+            } else {
+                $file = CORE_PATH . "components/$dir/$lib.php";
+            }
+        
+            if (!is_file($file)) {
+                throw new KumbiaException("$dir $lib no encontrada");
+            }
 		}
         include_once $file;
 	}
