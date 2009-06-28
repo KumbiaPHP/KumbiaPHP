@@ -11,11 +11,7 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
- *
- * Clase para manejar las peticiones de KumbiaPHP Framework
  * 
- * @category   Kumbia
- * @package    Dispatcher 
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
@@ -96,7 +92,7 @@ require CORE_PATH . 'kumbia/config.php';
 /**
  * @see Cache
  **/
-require CORE_PATH . 'components/extensions/cache/cache.php';
+require CORE_PATH . 'modules/extensions/cache/cache.php';
 /**
  * Lee la configuracion
  */
