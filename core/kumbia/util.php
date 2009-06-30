@@ -152,15 +152,20 @@ class Util
 	* @return array
 	*/
 	public static function getParams($params){
-		$data = array();
-		foreach ($params as $p) {
-		   if(is_string($p) && preg_match('/^(\w+): (.*)/', $p, $match)){
-			   $data[$match[1]] = $match[2];
-		   } else {
-			   $data[] = $p;
-		   }
-		}
-		return $data;
+        $data = array();
+        foreach($params as $p) {
+            if(is_string($p)) {
+                $match = explode(': ', $p, 2);
+                if(isset($match[1])) {
+                    $data[$match[0]] = $match[1];
+                } else {
+                    $data[] = $p;
+                }
+            } else {
+                $data[] = $p;
+            }
+        }
+        return $data;
 	}
 
     /**
