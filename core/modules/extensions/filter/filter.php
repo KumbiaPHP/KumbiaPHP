@@ -92,7 +92,7 @@ class Filter
                     }
                 }
             }
-        } elseif (is_string($s)) {
+        } else {
             foreach ($filters as $f) {
 				$filter = Util::camelcase($f).'Filter';
 				if(!class_exists($filter)) {
@@ -111,7 +111,7 @@ class Filter
 	 **/
 	protected static function _load_filter($filter)
 	{
-		$file = CORE_PATH . "modules/extensions/filter/base_filters/{$filter}_filter.php";
+		$file = CORE_PATH . "modules/filters/{$filter}_filter.php";
 		if(!file_exists($file)) {
 			$file = APP_PATH . "modules/filters/{$filter}_filter.php";
 			if(!file_exists($file)) {
@@ -121,4 +121,3 @@ class Filter
 		include $file;
 	}
 }
-
