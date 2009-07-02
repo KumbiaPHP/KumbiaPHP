@@ -92,15 +92,19 @@ class Load
     {
         $args = func_get_args();
         foreach ($args as $helper) {
-            /**
-             * Carga helper de usuario
-             **/
-            $file = APP_PATH . "modules/helpers/$helper.php";
-            if (is_file($file)) {
-                include_once $file;
-            } else {
-                self::modules('helpers', $helper);
-            }
+            self::modules('helpers', $helper);
+        }
+    }
+    /**
+     * Carga un Utils
+     *
+     * @param string $utils
+     */
+    public static function utils($utils)
+    {
+        $args = func_get_args();
+        foreach ($args as $util) {
+            self::modules('utils', $util);
         }
     }
     /**
@@ -195,23 +199,23 @@ class Load
         if (isset($boot['modules']['vendors']) && $boot['modules']['vendors']) {
             $vendors = explode(',', str_replace(' ', '', $boot['modules']['vendors']));
             foreach ($vendors as $vendor) {
-                require CORE_PATH . "modules/vendors/$vendor/$vendor.php";
+                self::modules('vendors', $vendor, true);
             }
             unset($vendors);
         }
         if (isset($boot['modules']['extensions']) && $boot['modules']['extensions']) {
             $extensions = explode(',', str_replace(' ', '', $boot['modules']['extensions']));
             foreach ($extensions as $extension) {
-                require CORE_PATH . "modules/extensions/$extension/$extension.php";
+                self::modules('extensions', $extension, true);
             }
             unset($extensions);
         }
         if (isset($boot['modules']['utils']) && $boot['modules']['utils']) {
-            $modules = explode(',', str_replace(' ', '', $boot['modules']['modules']));
-            foreach ($modules as $component) {
-                require CORE_PATH . "modules/utils/$component.php";
+            $utils = explode(',', str_replace(' ', '', $boot['modules']['utils']));
+            foreach ($utils as $util) {
+                self::modules('utils', $util);
             }
-            unset($modules);
+            unset($utils);
         }
     }
     /**

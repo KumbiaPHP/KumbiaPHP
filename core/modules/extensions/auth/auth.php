@@ -269,6 +269,18 @@ class Auth
         }
     }
     /**
+     * Obtiene un valor de la identidad actual
+     * 
+     * @param string $var 
+     * @return string
+     */
+    public static function get($var = null)
+    {
+        if($var){
+            return $_SESSION['KUMBIA_AUTH_IDENTITY'][$var];
+        }
+    }
+    /**
      * Anula la identidad actual
      *
      */
