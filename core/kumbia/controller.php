@@ -28,6 +28,24 @@ class Controller
 	 **/
 	public $models = null;
 	/**
+	 * Extensions a cargar
+	 *
+	 * @var array
+	 **/
+	public $extensions = null;
+    /**
+	 * Vendors a cargar
+	 *
+	 * @var array
+	 **/
+	public $vendors = null;
+    /**
+	 * Utils a cargar
+	 *
+	 * @var array
+	 **/
+	public $utils = null;
+	/**
 	 * Indica el tipo de salida generada por el controlador
 	 *
 	 * @var string
@@ -102,6 +120,30 @@ class Controller
 		$this->all_parameters = $all_parameters;
 		$this->parameters = $parameters;
 		$this->view = $this->action_name = $action;
+        
+        /**
+         * Carga los utils indicados
+         *
+         **/
+        if($this->utils) {
+            call_user_func_array(array('Load', 'utils'), $this->utils);
+        }
+        
+        /**
+         * Carga las extensiones indicadas
+         *
+         **/
+        if($this->extensions) {
+            call_user_func_array(array('Load', 'extensions'), $this->extensions);
+        }
+        
+        /**
+         * Carga las librerias de terceros indicadas
+         *
+         **/
+        if($this->vendors) {
+            call_user_func_array(array('Load', 'vendors'), $this->vendors);
+        }
 	}	
 	/**
 	 * Asigna cacheo de vistas o template
@@ -300,43 +342,6 @@ class Controller
 	}
 
 	/**
-	 * Sube un archivo al directorio img/upload si esta en $_FILES
-	 *
-	 * @param string $name
-	 * @return string
-	 */
-	protected function upload_image($name, $new_name='')
-    {
-		if(isset($_FILES[$name])){
-			if(!$new_name) {
-				$new_name = $_FILES[$name]['name'];
-			}
-			move_uploaded_file($_FILES[$name]['tmp_name'], htmlspecialchars("public/img/upload/$new_name"));
-			return urlencode(htmlspecialchars("upload/$new_name"));
-		} else {
-			return urlencode($this->request($name));
-		}
-	}
-
-	/**
-	 * Sube un archivo al directorio $dir si esta en $_FILES
-	 *
-	 * @param string $name
-	 * @return string
-	 */
-	protected function upload_file($name, $dir, $new_name='')
-    {
-		if($_FILES[$name]){
-			if(!$new_name) {
-				$new_name = $_FILES[$name]['name'];
-			}
-			return move_uploaded_file($_FILES[$name]['tmp_name'], htmlspecialchars("$dir/$new_name"));
-		} else {
-			return false;
-		}
-	}
-
-	/**
 	 * Redirecciona la ejecución a otro controlador en un
 	 * tiempo de ejecución determinado
 	 *
@@ -396,8 +401,10 @@ class Controller
 	
 	/**
 	 * Asigna valor null a los atributos indicados en el controlador
+     *
+     *  @param string $var
 	 */
-	protected function nullify() 
+	protected function nullify($var) 
     {
 		$args = func_get_args();
 		foreach($args as $f) {
