@@ -443,8 +443,9 @@ function form_remote_tag($data){
 	
 	if(!isset($params['action'])||!$params['action']) {
 		$params['action'] = URL_PATH . $params[0];
+	}else{
+		$params['action'] = URL_PATH . $params['action'];
 	}
-	$params['action'] = URL_PATH . $params['action'];
 	
 	if(!isset($params['method'])||!$params['method']) {
 		$params['method'] = 'post';
