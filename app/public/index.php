@@ -90,6 +90,10 @@ set_exception_handler(array('KumbiaException', 'handle_exception'));
  */
 require CORE_PATH . 'kumbia/config.php';
 /**
+ * @see Util
+ */
+require CORE_PATH . 'kumbia/util.php';
+/**
  * @see Cache
  **/
 require CORE_PATH . 'modules/extensions/cache/cache.php';
@@ -102,6 +106,11 @@ $config = Config::read('config.ini');
  * Obtiene la url
  **/
 $url = isset($_GET['url']) ? $_GET['url'] : '';
+
+/**
+ * Asigna el driver para cache
+ **/
+Cache::set_driver($config['application']['cache_driver']);
 
 /**
  * Desactiva la cache
