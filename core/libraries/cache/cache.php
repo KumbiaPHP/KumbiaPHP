@@ -57,7 +57,7 @@ class Cache
      *
      * @var string
      **/
-    protected static $_driver = null;
+    protected static $_driver = file;
     /**
      * Carga un elemento cacheado
      *
@@ -160,7 +160,7 @@ class Cache
      **/
     public static function set_driver ($driver)
     {
-        require_once CORE_PATH . "modules/extensions/cache/drivers/{$driver}_cache.php";
+        require_once CORE_PATH . "libraries/cache/drivers/{$driver}_cache.php";
         self::$_driver = $driver.'cache';
     }
     /**
