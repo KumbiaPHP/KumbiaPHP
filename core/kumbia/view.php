@@ -157,4 +157,25 @@ class View
 			throw new KumbiaException('Kumbia no puede encontrar la vista parcial: "'.$partial_file.'"', 0);
 		}
 	}
+	
+	/**
+     * Carga los helpers
+     *
+     * @param string $helper
+     * @throw KumbiaException
+     **/
+    public static function helpers ()
+    {
+        $args = func_get_args();
+        foreach ($args as $helper) {
+            $file = APP_PATH . "extensions/helpers/$helper.php";
+            if (! is_file($file)) {
+                $file = CORE_PATH . "extensions/helpers/$helper.php";
+                if (! is_file($file)) {
+                    throw new KumbiaException("Helpers $helper no encontrado");
+                }
+            }
+            include_once $file;
+        }
+    }
 }

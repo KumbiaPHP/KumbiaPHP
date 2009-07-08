@@ -44,26 +44,7 @@ class Load
         }
         include_once $file;
     }
-    /**
-     * Carga los helpers
-     *
-     * @param string $helper
-     * @throw KumbiaException
-     **/
-    public static function helpers ()
-    {
-        $args = func_get_args();
-        foreach ($args as $helper) {
-            $file = APP_PATH . "extensions/helpers/$helper.php";
-            if (! is_file($file)) {
-                $file = CORE_PATH . "extensions/helpers/$helper.php";
-                if (! is_file($file)) {
-                    throw new KumbiaException("Helpers $helper no encontrado");
-                }
-            }
-            include_once $file;
-        }
-    }
+    
     /**
      * Carga modelos
      *
@@ -75,7 +56,7 @@ class Load
         /**
          * Si se utiliza base de datos
          **/
-        if (! class_exists('Db', false) && Config::get('config.application.database')) {
+        if (! class_exists('Db', false)) {
             require CORE_PATH . 'libraries/db/db.php';
         }
         $controller = Dispatcher::get_controller();
@@ -153,7 +134,7 @@ class Load
         if (isset($boot['modules']['vendors']) && $boot['modules']['vendors']) {
             $vendors = explode(',', str_replace(' ', '', $boot['modules']['vendors']));
             foreach ($vendors as $vendor) {
-                require VENDORS_PATH . "$vendor/$vendor.php";
+                require CORE_PATH . "vendors/$vendor/$vendor.php";
             }
             unset($vendors);
         }
@@ -176,7 +157,7 @@ class Load
         /**
          * Si se utiliza base de datos
          **/
-        if (! class_exists('Db', false) && Config::get('config.application.database')) {
+        if (! class_exists('Db', false)) {
             require CORE_PATH . 'libraries/db/db.php';
         }
         /**

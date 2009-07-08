@@ -45,14 +45,6 @@ define('APP', basename(APP_PATH));
 define('CORE_PATH', dirname(APP_PATH) . '/core/');
 
 /**
- * Define el VENDORS_PATH
- *
- * CORE_PATH:
- * - Ruta al directorio que contiene las librerias de terceros
- **/
-define('VENDORS_PATH', dirname(APP_PATH) . '/core/vendors/');
-
-/**
  * Define el URL_PATH
  *
  * URL_PATH:
