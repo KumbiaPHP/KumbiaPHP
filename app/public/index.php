@@ -82,10 +82,6 @@ set_exception_handler(array('KumbiaException', 'handle_exception'));
  */
 require CORE_PATH . 'kumbia/config.php';
 /**
- * @see Util
- */
-require CORE_PATH . 'kumbia/util.php';
-/**
  * @see Cache
  **/
 require CORE_PATH . 'libraries/cache/cache.php';
