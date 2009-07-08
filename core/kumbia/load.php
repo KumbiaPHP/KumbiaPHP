@@ -153,7 +153,7 @@ class Load
         if (isset($boot['modules']['vendors']) && $boot['modules']['vendors']) {
             $vendors = explode(',', str_replace(' ', '', $boot['modules']['vendors']));
             foreach ($vendors as $vendor) {
-                require CORE_PATH . "vendors/$vendor/$vendor.php";
+                require VENDORS_PATH . "$vendor/$vendor.php";
             }
             unset($vendors);
         }
