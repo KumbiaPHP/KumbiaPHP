@@ -25,6 +25,12 @@
     } else {
         $locale = 'No se ha especificado un locale';
     }
+    if(isset($config['application']['timezone'])){
+        $timezone = $config['application']['timezone'];
+    } else {
+        $timezone = 'No se ha especificado un Timezone en el config.ini. Pero el servidor tiene <strong>'.date_default_timezone_get().'</strong>';
+    }
+    
 ?>
         <spam class='title'>config.ini </spam><spam class='app'> de <?php echo APP ?></spam>
  
@@ -85,7 +91,7 @@
         <div class="x-form-item">
             <div class='rows-left'>
                 <div class="form-row">
-                    <div class="field-label"><strong>TimeZone</strong>: <?php echo $config['application']['timezone'] ?></div>
+                    <div class="field-label"><strong>TimeZone</strong>: <?php echo $timezone ?></div>
                     <div class="field-widget">Zona horaria que usará el Framework.</div>
                 </div>
             </div>
