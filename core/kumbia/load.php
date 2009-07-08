@@ -139,7 +139,7 @@ class Load
             unset($vendors);
         }
         if (isset($boot['modules']['libraries']) && $boot['modules']['libraries']) {
-            $libraries = explode(',', str_replace(' ', '', $boot['modules']['library']));
+            $libraries = explode(',', str_replace(' ', '', $boot['modules']['libraries']));
             foreach ($libraries as $library) {
                 require CORE_PATH . "libraries/$library/$library.php";
             }

@@ -1689,7 +1689,7 @@ class ActiveRecordBase
             $this->commit();
         }
         if (!$ex) {
-            $this->db->logger = true;
+            //$this->db->logger = true;
             $m = $this->db->last_insert_id($table, $this->primary_key[0]);
             $this->find_first($m);
         }
