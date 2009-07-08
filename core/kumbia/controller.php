@@ -27,24 +27,12 @@ class Controller
 	 * @var array
 	 **/
 	public $models = null;
-	/**
-	 * Extensions a cargar
-	 *
-	 * @var array
-	 **/
-	public $extensions = null;
     /**
-	 * Vendors a cargar
+	 * Library a cargar
 	 *
 	 * @var array
 	 **/
-	public $vendors = null;
-    /**
-	 * Utils a cargar
-	 *
-	 * @var array
-	 **/
-	public $utils = null;
+	public $libraries = null;
 	/**
 	 * Indica el tipo de salida generada por el controlador
 	 *
@@ -125,25 +113,10 @@ class Controller
          * Carga los utils indicados
          *
          **/
-        if($this->utils) {
-            call_user_func_array(array('Load', 'utils'), $this->utils);
+        if($this->libraries) {
+            call_user_func_array(array('Load', 'library'), $this->libraries);
         }
         
-        /**
-         * Carga las extensiones indicadas
-         *
-         **/
-        if($this->extensions) {
-            call_user_func_array(array('Load', 'extensions'), $this->extensions);
-        }
-        
-        /**
-         * Carga las librerias de terceros indicadas
-         *
-         **/
-        if($this->vendors) {
-            call_user_func_array(array('Load', 'vendors'), $this->vendors);
-        }
 	}	
 	/**
 	 * Asigna cacheo de vistas o template
