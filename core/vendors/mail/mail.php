@@ -22,6 +22,6 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
-include_once CORE_PATH . 'modules/vendors/mail/class.smtp.php';
-include_once CORE_PATH . 'modules/vendors/mail/class.phpmailer.php';
+include_once CORE_PATH . 'vendors/mail/class.smtp.php';
+include_once CORE_PATH . 'vendors/mail/class.phpmailer.php';
 

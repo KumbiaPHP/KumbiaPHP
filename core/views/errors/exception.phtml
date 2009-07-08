@@ -2,7 +2,7 @@
 <?php Flash::error ( get_class($e) . ": {$e->getMessage()} ({$e->getCode() })<br> <span style='font-size:12px'>En el archivo <i>{$e->getFile() }</i> en la l&iacute;nea: <i>{$e->getLine() }</i>", true ) ?>
 
 <?php if ($show_trace): ?>
-    <?php if (isset ( $config['application']['debug'] ) && $config['application']['debug']): ?> 
+    <?php if (!empty ( $config['application']['debug'] )): ?> 
         <div style='font-size:14px; margin: 10px; border:1px solid #333333; background: #676767; font-family: Lucida Console; margin:10px; color: white; padding: 3px' align='left'>
             <?php foreach ($e->getTrace() as $trace): ?>
                 <?php if (isset ( $trace ['file'] )): ?>

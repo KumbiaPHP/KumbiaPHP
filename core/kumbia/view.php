@@ -63,7 +63,7 @@ class View
 				$controller_views_dir =  APP_PATH . "views/$controller_name";
 			}
             if($response != 'view'){
-                 $controller_views_dir =  APP_PATH . "views/$module_name/$controller_name/$response/";
+                 $controller_views_dir = "$controller_views_dir/$response";
             }
 			/**
 			 * Renderizar vista
@@ -95,7 +95,7 @@ class View
 		 *
 		 **/
 		if($template) {
-			$template = APP_PATH . "views/templates/$controller->template.phtml";
+			$template = APP_PATH . "views/templates/$template.phtml";
 		} else {
 			$template = APP_PATH . "views/templates/$controller_name.phtml";
 		}
