@@ -38,7 +38,7 @@ class View
         /**
          * @see Tags
          */
-        require CORE_PATH . 'modules/helpers/tags.php';
+        require CORE_PATH . 'extensions/helpers/tags.php';
         
         /**
          * Mapea los atributos del controller en el scope

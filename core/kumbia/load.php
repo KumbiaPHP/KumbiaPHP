@@ -27,60 +27,22 @@ class Load
      * @var array
      **/
     protected static $_injected_models = array();
-	/**
-	 * Carga librerias del core 
-	 *
-	 * @param string $dir directorio ubicado en el core
-	 * @param string $lib libreria a cargar
-	 * @param boolean $convenant utilizar convenio
-	 * @throw KumbiaException
-	 **/
-	public static function modules($dir, $lib, $convenant=false)
-	{
-		if($convenant) {
-			$file = APP_PATH . "modules/$dir/$lib/$lib.php";
-		} else {
-			$file = APP_PATH . "modules/$dir/$lib.php";
-		}
-		
-		if (!is_file($file)) {
-            if($convenant) {
-                $file = CORE_PATH . "modules/$dir/$lib/$lib.php";
-            } else {
-                $file = CORE_PATH . "modules/$dir/$lib.php";
+    /**
+     * Carga librerias 
+     *
+     * @param string $lib libreria a cargar
+     * @throw KumbiaException
+     **/
+    public static function library ($lib)
+    {
+        $file = APP_PATH . "libraries/$lib.php";
+        if (! is_file($file)) {
+            $file = CORE_PATH . "libraries/$lib/$lib.php";
+            if (! is_file($file)) {
+                throw new KumbiaException("$lib no encontrada");
             }
-        
-            if (!is_file($file)) {
-                throw new KumbiaException("$dir $lib no encontrada");
-            }
-		}
+        }
         include_once $file;
-	}
-    /**
-     * Carga las extensions
-     *
-     * @param string $extension
-     * @throw KumbiaException
-     **/
-    public static function extensions ($extension)
-    {
-        $args = func_get_args();
-        foreach ($args as $extension) {
-			self::modules('extensions', $extension, true);
-        }
-    }
-    /**
-     * Carga librerias de terceros
-     *
-     * @param string $vendor
-     * @throw KumbiaException
-     **/
-    public static function vendors ($vendor)
-    {
-        $args = func_get_args();
-        foreach ($args as $vendor) {
-			self::modules('vendors', $vendor, true);
-        }
     }
     /**
      * Carga los helpers
@@ -88,23 +50,18 @@ class Load
      * @param string $helper
      * @throw KumbiaException
      **/
-    public static function helpers ($helper)
+    public static function helpers ()
     {
         $args = func_get_args();
         foreach ($args as $helper) {
-            self::modules('helpers', $helper);
-        }
-    }
-    /**
-     * Carga un Utils
-     *
-     * @param string $utils
-     */
-    public static function utils($utils)
-    {
-        $args = func_get_args();
-        foreach ($args as $util) {
-            self::modules('utils', $util);
+            $file = APP_PATH . "extensions/helpers/$helper.php";
+            if (! is_file($file)) {
+                $file = CORE_PATH . "extensions/helpers/$helper.php";
+                if (! is_file($file)) {
+                    throw new KumbiaException("Helpers $helper no encontrado");
+                }
+            }
+            include_once $file;
         }
     }
     /**
@@ -113,26 +70,23 @@ class Load
      * @param string $model
      * @throw KumbiaException
      **/
-    public static function models ($model=null)
+    public static function models ($model = null)
     {
         /**
          * Si se utiliza base de datos
          **/
         if (! class_exists('Db', false) && Config::get('config.application.database')) {
-            require CORE_PATH . 'modules/extensions/db/db.php';
+            require CORE_PATH . 'libraries/db/db.php';
         }
-		
-		$controller = Dispatcher::get_controller();
-		
-        if(!$model) {
-			self::_all_models($controller);
-			return;
-		} elseif (is_array($model)) {
+        $controller = Dispatcher::get_controller();
+        if (! $model) {
+            self::_all_models($controller);
+            return;
+        } elseif (is_array($model)) {
             $args = $model;
         } else {
             $args = func_get_args();
         }
-        
         foreach ($args as $model) {
             $file = APP_PATH . "models/$model.php";
             if (is_file($file)) {
@@ -152,10 +106,10 @@ class Load
     /**
      * Carga todos los modelos
      *
-	 * @param Controller $controller controlador
-	 * @param string $dir directorio a cargar
+     * @param Controller $controller controlador
+     * @param string $dir directorio a cargar
      **/
-    public static function _all_models ($controller, $dir=null)
+    public static function _all_models ($controller, $dir = null)
     {
         foreach (new DirectoryIterator(APP_PATH . "models/$dir") as $file) {
             if ($file->isDot() || $file->isDir()) {
@@ -199,23 +153,16 @@ class Load
         if (isset($boot['modules']['vendors']) && $boot['modules']['vendors']) {
             $vendors = explode(',', str_replace(' ', '', $boot['modules']['vendors']));
             foreach ($vendors as $vendor) {
-                self::modules('vendors', $vendor, true);
+                require CORE_PATH . "vendors/$vendor/$vendor.php";
             }
             unset($vendors);
         }
-        if (isset($boot['modules']['extensions']) && $boot['modules']['extensions']) {
-            $extensions = explode(',', str_replace(' ', '', $boot['modules']['extensions']));
-            foreach ($extensions as $extension) {
-                self::modules('extensions', $extension, true);
+        if (isset($boot['modules']['library']) && $boot['modules']['library']) {
+            $libraries = explode(',', str_replace(' ', '', $boot['modules']['library']));
+            foreach ($libraries as $library) {
+                require CORE_PATH . "libraries/$library/$library.php";
             }
-            unset($extensions);
-        }
-        if (isset($boot['modules']['utils']) && $boot['modules']['utils']) {
-            $utils = explode(',', str_replace(' ', '', $boot['modules']['utils']));
-            foreach ($utils as $util) {
-                self::modules('utils', $util);
-            }
-            unset($utils);
+            unset($libraries);
         }
     }
     /**
@@ -230,7 +177,7 @@ class Load
          * Si se utiliza base de datos
          **/
         if (! class_exists('Db', false) && Config::get('config.application.database')) {
-            require CORE_PATH . 'modules/extensions/db/db.php';
+            require CORE_PATH . 'libraries/db/db.php';
         }
         /**
          * Nombre de la clase
@@ -244,7 +191,7 @@ class Load
              * Carga la clase
              **/
             $file = APP_PATH . "models/$model.php";
-            if (!is_file($file)) {
+            if (! is_file($file)) {
                 throw new KumbiaException("No existe el modelo $model");
             }
             include $file;

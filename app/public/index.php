@@ -45,14 +45,6 @@ define('APP', basename(APP_PATH));
 define('CORE_PATH', dirname(APP_PATH) . '/core/');
 
 /**
- * Define el VENDORS_PATH
- *
- * VENDORS_PATH:
- * - Ruta al directorio de librerias compartidas de terceros (por defecto la ruta al directorio core/vendors)
- **/
-define('VENDORS_PATH', CORE_PATH . 'vendors/');
-
-/**
  * Define el URL_PATH
  *
  * URL_PATH:
@@ -96,7 +88,7 @@ require CORE_PATH . 'kumbia/util.php';
 /**
  * @see Cache
  **/
-require CORE_PATH . 'modules/extensions/cache/cache.php';
+require CORE_PATH . 'libraries/cache/cache.php';
 /**
  * Lee la configuracion
  */

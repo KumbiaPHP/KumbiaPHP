@@ -105,7 +105,7 @@ final class Kumbia
         /**
          * @see Flash
          */
-        require CORE_PATH . 'modules/extensions/messages/flash.php';
+        require CORE_PATH . 'libraries/messages/flash.php';
         
         /**
          * @see Util
