@@ -168,9 +168,10 @@ class View
     {
         $args = func_get_args();
         foreach ($args as $helper) {
-            $file = APP_PATH . "extensions/helpers/$helper.php";
+            $path = "extensions/helpers/$helper.php";
+            $file = APP_PATH . $path;
             if (! is_file($file)) {
-                $file = CORE_PATH . "extensions/helpers/$helper.php";
+                $file = CORE_PATH . $path;
                 if (! is_file($file)) {
                     throw new KumbiaException("Helpers $helper no encontrado");
                 }

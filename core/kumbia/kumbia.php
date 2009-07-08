@@ -65,7 +65,7 @@ final class Kumbia
 		 **/
 		bindtextdomain('default', APP_PATH . 'locale/'); 
 		textdomain('default'); 
-		if(isset($config['application']['locale']) && $config['application']['locale']) {
+		if(isset($config['application']['locale'])) {
 			setlocale(LC_ALL, $config['application']['locale']);
 		}
 		
