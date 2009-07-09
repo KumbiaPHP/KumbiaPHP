@@ -131,17 +131,10 @@ class Load
     public static function boot ()
     {
         $boot = Config::read('boot.ini');
-        if (isset($boot['modules']['vendors']) && $boot['modules']['vendors']) {
-            $vendors = explode(',', str_replace(' ', '', $boot['modules']['vendors']));
-            foreach ($vendors as $vendor) {
-                require CORE_PATH . "vendors/$vendor/$vendor.php";
-            }
-            unset($vendors);
-        }
-        if (isset($boot['modules']['libraries']) && $boot['modules']['libraries']) {
+        if (isset($boot['modules']['libraries'])) {
             $libraries = explode(',', str_replace(' ', '', $boot['modules']['libraries']));
-            foreach ($libraries as $library) {
-                require CORE_PATH . "libraries/$library/$library.php";
+            foreach ($libraries as $lib) {
+                self::library($lib);
             }
             unset($libraries);
         }
