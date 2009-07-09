@@ -732,14 +732,7 @@ function get_server_url($route) {
  * @param string $helper nombre del helper a cargar
  **/
 function use_helper($helper) {
-	$helpers = func_get_args();
-	foreach($helpers as $helper) {
-		$file = APP_PATH . "helpers/$helper.php";
-		if(!require_once($file)) {
-			throw new KumbiaException("No se encontr&oacute; el Helper \"$helper\"",
-				"Es necesario definir el archivo $helper.php para que el helper funcione correctamente");
-		}
-	}
+	call_user_func_array(array('view' , 'helpers'), func_get_args());
 }
 
 
