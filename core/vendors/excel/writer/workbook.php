@@ -32,12 +32,12 @@
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-require_once 'library/excel/writer/format.php';
-require_once 'library/excel/writer/BIFFwriter.php';
-require_once 'library/excel/writer/worksheet.php';
-require_once 'library/excel/writer/parser.php';
-require_once 'library/excel/OLE/PPS/root.php';
-require_once 'library/excel/OLE/PPS/file.php';
+require_once CORE_PATH . 'vendors/excel/writer/format.php';
+require_once CORE_PATH . 'vendors/excel/writer/BIFFwriter.php';
+require_once CORE_PATH . 'vendors/excel/writer/worksheet.php';
+require_once CORE_PATH . 'vendors/excel/writer/parser.php';
+require_once CORE_PATH . 'vendors/excel/OLE/PPS/root.php';
+require_once CORE_PATH . 'vendors/excel/OLE/PPS/file.php';
 
 /**
 * Class for generating Excel Spreadsheets

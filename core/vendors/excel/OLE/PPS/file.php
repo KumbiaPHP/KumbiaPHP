@@ -20,7 +20,7 @@
 // $Id: File.php,v 1.8 2003/12/12 21:10:10 xnoguer Exp $
 
 
-require_once 'library/excel/OLE/PPS.php';
+require_once CORE_PATH . 'vendors/excel/OLE/PPS.php';
 
 /**
 * Class for creating File PPS's for OLE containers

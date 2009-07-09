@@ -1147,9 +1147,5 @@ if(!class_exists('PEAR')){
 
 }
 
-include_once "library/excel/reader.php";
-include_once "library/excel/writer.php";
-
-
-
-?>
+include_once CORE_PATH . "vendors/excel/reader.php";
+include_once CORE_PATH . "vendors/excel/writer.php";
