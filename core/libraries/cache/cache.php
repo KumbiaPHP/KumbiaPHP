@@ -57,7 +57,7 @@ class Cache
      *
      * @var string
      **/
-    protected static $_driver = 'file_cache';
+    protected static $_driver = 'filecache';
     /**
      * Carga un elemento cacheado
      *
@@ -161,7 +161,7 @@ class Cache
     public static function set_driver ($driver)
     {
         require_once CORE_PATH . "libraries/cache/drivers/{$driver}_cache.php";
-        self::$_driver = $driver.'_cache';
+        self::$_driver = $driver.'cache';
     }
     /**
      * Activa la cache

@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Cacheo de Archivos
+ * Cache con Sqlite
  * 
  * @category   Kumbia
  * @package    Cache
@@ -34,13 +34,21 @@ class SqliteCache implements CacheInterface
      * @return resource
      * @throw KumbiaException
      **/
-    protected static function _get_db() 
+    protected static function _db() 
     {
         if(self::$_db) {
             return self::$_db;
         }
         
-        self::$_db = $db = new PDO('sqlite:' . APP_PATH . 'temp/cache.sq3');;
+        $db = sqlite_open(APP_PATH . 'temp/cache.db');
+        $result = sqlite_query($db, "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND tbl_name='cache' ");
+        $count = sqlite_fetch_single($result);
+       
+        if(!$count) {
+            sqlite_exec($db, ' CREATE TABLE cache (id TEXT, "group" TEXT, value TEXT, lifetime TEXT) ');
+        }
+        self::$_db = $db;
+        
         return $db;
     }
 	/**
@@ -59,13 +67,8 @@ class SqliteCache implements CacheInterface
         $group = addslashes($group);
         $lifetime = time();
         
-        $db = self::_get_db();
-        $query = $db->query(" SELECT value FROM cache WHERE id='$id' AND \"group\"='$group' AND lifetime>'$lifetime' OR lifetime='undefined' ");
-        if($row = $query->fetch(PDO::FETCH_NUM)) {
-            return $row[0];
-        }
-        
-        return null;
+        $result = sqlite_query(self::_db(), " SELECT value FROM cache WHERE id='$id' AND \"group\"='$group' AND lifetime>'$lifetime' OR lifetime='undefined' ");
+        return sqlite_fetch_single($result);
     }
 	/**
 	 * Guarda un elemento en la cache con nombre $id y valor $value
@@ -86,21 +89,19 @@ class SqliteCache implements CacheInterface
         $group = addslashes($group);
         $value = addslashes($value);
         
-        $db = self::_get_db();
-        $query = $db->query(" SELECT COUNT(*) FROM cache WHERE id='$id' AND \"group\"='$group' ");
-        $row = $query->fetch(PDO::FETCH_NUM);
+        $db = self::_db();
+        $result = sqlite_query($db, " SELECT COUNT(*) FROM cache WHERE id='$id' AND \"group\"='$group' ");
+        $count = sqlite_fetch_single($result);
         
         /**
          * Ya existe el elemento cacheado
          *
          **/
-        if($row[0]) {
-            $db->exec(" UPDATE cache SET value='$value', lifetime='$lifetime' WHERE id='$id' AND \"group\"='$group' ");
-        } else {
-            $db->exec(" INSERT INTO cache (id, \"group\", value, lifetime) VALUES ('$id','$group','$value','$lifetime') ");
+        if($count) {
+            return sqlite_exec($db, " UPDATE cache SET value='$value', lifetime='$lifetime' WHERE id='$id' AND \"group\"='$group' ");
         }
-    
-        return true;
+        
+        return sqlite_exec($db, " INSERT INTO cache (id, \"group\", value, lifetime) VALUES ('$id','$group','$value','$lifetime') ");
     }
     
 	/**
@@ -111,15 +112,12 @@ class SqliteCache implements CacheInterface
 	 */
 	public static function clean($group=false)
     {
-        $db = self::_get_db();
+        $db = self::_db();
         if($group) {
             $group = addslashes($group);
-            $db->exec(" DELETE FROM cache WHERE \"group\"='$group' ");
-        } else {
-            $db->exec(" DELETE FROM cache ");
+            return sqlite_exec(self::_db(), " DELETE FROM cache WHERE \"group\"='$group' ");
         }
-        
-        return true;
+        return sqlite_exec(self::_db(), " DELETE FROM cache ");
     }
 	/**
 	 * Elimina un elemento de la cache
@@ -133,9 +131,6 @@ class SqliteCache implements CacheInterface
         $id = addslashes($id);
         $group = addslashes($group);
         
-        $db = self::_get_db();
-        $db->exec(" DELETE FROM cache WHERE id='$id' AND \"group\"='$group' ");
-        
-        return true;
+        return sqlite_exec(self::_db(), " DELETE FROM cache WHERE id='$id' AND \"group\"='$group' ");
     }
 }
