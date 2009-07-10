@@ -30,6 +30,11 @@
     } else {
         $timezone = 'No se ha especificado un Timezone en el config.ini. Pero el servidor tiene <strong>'.date_default_timezone_get().'</strong>';
     }
+    if(isset($config['application']['cache_driver'])){
+        $cahe_driver = $config['application']['cache_driver'];
+    } else {
+        $cache_driver = 'No ha seleccionado un driver para la cache';
+    }
     
 ?>
         <spam class='title'>config.ini </spam><spam class='app'> de <?php echo APP ?></spam>
@@ -93,6 +98,15 @@
                 <div class="form-row">
                     <div class="field-label"><strong>TimeZone</strong>: <?php echo $timezone ?></div>
                     <div class="field-widget">Zona horaria que usará el Framework.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="x-form-item">
+            <div class='rows-left'>
+                <div class="form-row">
+                    <div class="field-label"><strong>Cache Driver</strong>: <?php echo $cahe_driver ?></div>
+                    <div class="field-widget">Driver que se utilizara para realizar las operaciones de cache.</div>
                 </div>
             </div>
         </div>
