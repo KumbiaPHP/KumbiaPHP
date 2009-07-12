@@ -33,11 +33,10 @@
     <?php endif; ?>
 
     <div style='font-size:12px; margin: 0px 15px 0px 15px; padding: 5px; border:1px solid #333333; background: #f2f2f2;' align='left'>
-        <strong>Informaci&oacute;n Adicional:</strong><br>
+        <strong>Información Adicional:</strong><br>
         <strong>En producción:</strong> <?php echo $config['application']['production'] ?  'Sí' : 'No' ?><br>
-        <strong>Ubicaci&oacute;n actual:</strong> <?php echo $route ?><br>
-        <strong>Extensions:</strong> <?php echo $boot['modules']['extensions'] ?><br>
-        <strong>Vendors:</strong> <?php echo $boot['modules']['vendors'] ?><br>
+        <strong>Ubicación actual:</strong> <?php echo $route ?><br>
+        <strong>Librerías:</strong> <?php echo $boot['modules']['libraries'] ?><br>
     </div>
 <?php else: ?>
     <pre style='font-family: Lucida Console; margin: 10px; border:1px solid #969696; background: #fafafa'>
