@@ -61,10 +61,8 @@ final class Kumbia
 		$config = Config::read('config.ini');
 		
 		/**
-		 * Iniciando I18n
+		 * Asignando locale
 		 **/
-		bindtextdomain('default', APP_PATH . 'locale/'); 
-		textdomain('default'); 
 		if(isset($config['application']['locale'])) {
 			setlocale(LC_ALL, $config['application']['locale']);
 		}
