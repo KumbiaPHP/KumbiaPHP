@@ -111,9 +111,9 @@ class Filter
 	 **/
 	protected static function _load_filter($filter)
 	{
-		$file = CORE_PATH . "libraries/filter/base_filter/{$filter}_filter.php";
+		$file = APP_PATH . "extensions/filters/{$filter}_filter.php";
 		if(!file_exists($file)) {
-			$file = APP_PATH . "extensions/filters/{$filter}_filter.php";
+			$file = CORE_PATH . "libraries/filter/base_filter/{$filter}_filter.php";
 			if(!file_exists($file)) {
 				throw new KumbiaException("Filtro $filter no encontrado");
 			}
