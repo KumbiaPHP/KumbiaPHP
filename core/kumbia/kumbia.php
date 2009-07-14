@@ -21,6 +21,42 @@
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
+ 
+/**
+ * @see Dispatcher
+ */
+require CORE_PATH . 'kumbia/dispatcher.php';
+/**
+ * @see Flash
+ */
+require CORE_PATH . 'libraries/flash/flash.php';
+/**
+ * @see Util
+ */
+require CORE_PATH . 'kumbia/util.php';
+/**
+ * @see Controller
+ */
+require CORE_PATH . 'kumbia/controller.php';
+/**
+ * @see ApplicationController
+ */
+require APP_PATH . 'application.php';    
+/**
+ * @see Router
+ */
+require CORE_PATH . 'kumbia/router.php';
+ 
+/**
+ * Esta es la clase principal del framework, contiene metodos importantes
+ * para cargar los controladores y ejecutar las acciones en estos ademas
+ * de otras funciones importantes
+ * 
+ * @category   Kumbia
+ * @package    Core 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
 final class Kumbia
 {
     /**
@@ -34,51 +70,6 @@ final class Kumbia
      * @var array
      */
     static public $data = array();
-	/**
-	 * Inicia la aplicacion
-	 *
-	 **/
-    public static function init_application()
-	{
-		/**
-		 * Carga del boot.ini
-		 */
-		Load::boot();
-	
-		/**
-         * @see Controller
-         */
-        require CORE_PATH . 'kumbia/controller.php';
-        	
-        /**
-         * @see ApplicationController
-         */
-        include_once APP_PATH . 'application.php';
-		
-		/**
-		 * Lee la configuracion
-		 **/
-		$config = Config::read('config.ini');
-		
-		/**
-		 * Asignando locale
-		 **/
-		if(isset($config['application']['locale'])) {
-			setlocale(LC_ALL, $config['application']['locale']);
-		}
-		
-        /**
-         * Establecer el timezone para las fechas y horas
-         */
-        if (isset($config['application']['timezone'])) {
-            date_default_timezone_set($config['application']['timezone']);
-        }
-		
-		/**
-        * Establecer el charset de la app en la constante APP_CHARSET
-        */
-	 	define('APP_CHARSET', strtoupper($config['application']['charset']));
-    }
     /**
      * Función Principal donde se ejecutan los controladores
      *
@@ -86,40 +77,12 @@ final class Kumbia
      * @return boolean
      */
     public static function main($url)
-	{
-		/**
-		 * @see Router
-		 */
-		require CORE_PATH . 'kumbia/router.php';
+	{   
 		/**
 		 * El Router analiza la url
 		 **/
 		Router::rewrite($url);
-		
-    	/**
-         * @see Dispatcher
-         */
-        require CORE_PATH . 'kumbia/dispatcher.php';
-        /**
-         * @see Flash
-         */
-        require CORE_PATH . 'libraries/messages/flash.php';
         
-        /**
-         * @see Util
-         */
-        require CORE_PATH . 'kumbia/util.php';
-		/**
-         * @see Load
-         */
-        require CORE_PATH . 'kumbia/load.php';
-		
-		/**
-		 * Kumbia reinicia las variables de aplicación cuando cambiamos
-		 * entre una aplicación y otra. Init Application define KUMBIA_PATH
-		 */
-		self::init_application();
-	
 		/**
 		 * Iniciar el buffer de salida
 		 */
