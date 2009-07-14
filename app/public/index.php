@@ -69,47 +69,9 @@ if($_SERVER['QUERY_STRING']) {
 define('PUBLIC_PATH', URL_PATH);
 
 /**
- * @see KumbiaException
- */
-require CORE_PATH . 'kumbia/kumbia_exception.php';
-/**
- * Inicializar el ExceptionHandler
- */
-set_exception_handler(array('KumbiaException', 'handle_exception'));
-
-/**
- * @see Config
- */
-require CORE_PATH . 'kumbia/config.php';
-/**
- * @see Cache
- **/
-require CORE_PATH . 'libraries/cache/cache.php';
-/**
- * Lee la configuracion
- */
-$config = Config::read('config.ini');
-
-/**
  * Obtiene la url
  **/
 $url = isset($_GET['url']) ? $_GET['url'] : '';
-
-/**
- * Asigna el driver para cache
- **/
-Cache::set_driver($config['application']['cache_driver']);
-
-/**
- * Desactiva la cache
- **/
-if(!$config['application']['production']) {
-	Cache::active(false);
-} elseif ($template = Cache::get($url, 'kumbia.templates')) { //verifica cache de template para la url
-	echo $template;
-	echo '<!-- Tiempo: '.round(microtime(1)-START_TIME,4).' seg. -->';
-	exit(0);
-}
 
 /**
  * Inicia la sesion
@@ -117,10 +79,13 @@ if(!$config['application']['production']) {
 session_start();
 
 /**
- * @see Kumbia
- */
-require CORE_PATH . 'kumbia/kumbia.php';
+ * Carga el gestor de arranque
+ *
+ * @see Bootstrap
+ **/
+require CORE_PATH . 'kumbia/bootstrap.php';
 /**
- * Atender la petición
- */
-Kumbia::main($url);
+ * Arranca kumbia y la aplicacion
+ *
+ **/
+Bootstrap::boot($url);
