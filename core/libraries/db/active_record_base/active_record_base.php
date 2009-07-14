@@ -1769,7 +1769,21 @@ class ActiveRecordBase
             }
         }
         if ($this->exists()) {
-            return $this->save();
+            if (method_exists($this, 'before_change')) {
+                $obj = clone $this;
+                if($this->before_change($obj->find($this->id)) == 'cancel'){
+                    return false;
+                }
+                unset($obj);
+            }
+            if($this->save()){
+                if (method_exists($this, 'after_change')) {
+                    if ($this->after_change($this) == 'cancel') {
+                        return false;
+                    }
+                }
+                return true;
+            }
         } else {
             Flash::error('No se puede actualizar porque el registro no existe');
             return false;
