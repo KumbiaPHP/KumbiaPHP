@@ -80,7 +80,7 @@ class Event
         if(!isset(self::$_events[$event])) {
             self::$_events[$event] = array();
 		}
-        $i = array_search($handler, self::$_events[$event]);
+        $i = array_search($handler1, self::$_events[$event]);
         if($i===false) {
             self::$_events[$event][] = $handler2;
         } else {
@@ -99,7 +99,7 @@ class Event
         if(!isset(self::$_events[$event])) {
             self::$_events[$event] = array();
 		}
-        $i = array_search($handler, self::$_events[$event]);
+        $i = array_search($handler1, self::$_events[$event]);
         if($i===false) {
             self::$_events[$event][] = $handler2;
         } else {
