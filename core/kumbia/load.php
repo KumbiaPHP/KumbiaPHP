@@ -90,7 +90,7 @@ class Load
      * @param Controller $controller controlador
      * @param string $dir directorio a cargar
      **/
-    public static function _all_models ($controller, $dir = null)
+    private static function _all_models ($controller, $dir = null)
     {
         foreach (new DirectoryIterator(APP_PATH . "models/$dir") as $file) {
             if ($file->isDot() || $file->isDir()) {

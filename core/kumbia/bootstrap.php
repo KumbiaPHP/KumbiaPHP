@@ -105,7 +105,7 @@ final class Bootstrap
          */
         require CORE_PATH . 'kumbia/kumbia.php';
         /**
-         * Atender la petición
+         * Atender la peticiÃ³n
          */
         Kumbia::main($url);
     }
