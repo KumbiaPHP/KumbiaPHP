@@ -53,7 +53,7 @@ class KumbiaException extends Exception {
 		/**
 		 * @see Flash
 		 */
-		require_once CORE_PATH . 'libraries/messages/flash.php';
+		require_once CORE_PATH . 'libraries/flash/flash.php';
 	
 		header('HTTP/1.1 404 Not Found');
 		$config = Config::read('config.ini');
