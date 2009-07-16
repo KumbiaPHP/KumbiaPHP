@@ -24,10 +24,30 @@ final class Bootstrap
     /**
      * Arranca la aplicacion
      *
-     * @param string $url ruta a acceder
      **/
-    public static function boot($url)
+    public static function boot ()
     {
+        /**
+         * Define el PUBLIC_PATH
+         *
+         * PUBLIC_PATH:
+         * - Path para generar la Url en los links a acciones y controladores
+         * - Esta ruta la utiliza Kumbia como base para generar las Urls para acceder de lado de
+         *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
+         **/
+        if ($_SERVER['QUERY_STRING']) {
+            define('PUBLIC_PATH', substr($_SERVER['REQUEST_URI'], 0, - strlen($_SERVER['QUERY_STRING']) + 4));
+        } else {
+            define('PUBLIC_PATH', $_SERVER['REQUEST_URI']);
+        }
+        /**
+         * Obtiene la url
+         **/
+        $url = isset($_GET['url']) ? $_GET['url'] : '';
+        /**
+         * Inicia la sesion
+         **/
+        session_start();
         /**
          * @see KumbiaException
          */
@@ -35,8 +55,7 @@ final class Bootstrap
         /**
          * Inicializar el ExceptionHandler
          */
-        set_exception_handler(array('KumbiaException', 'handle_exception'));
-
+        set_exception_handler(array('KumbiaException' , 'handle_exception'));
         /**
          * @see Config
          */
@@ -45,7 +64,6 @@ final class Bootstrap
          * Lee la configuracion
          */
         $config = Config::read('config.ini');
-        
         /**
          * @see Cache
          **/
@@ -53,53 +71,47 @@ final class Bootstrap
         /**
          * Asigna el driver para cache
          **/
-        if(isset($config['application']['cache_driver'])) {
+        if (isset($config['application']['cache_driver'])) {
             Cache::set_driver($config['application']['cache_driver']);
         }
-
         /**
          * Desactiva la cache
          **/
-        if(!$config['application']['production']) {
+        if (! $config['application']['production']) {
             Cache::active(false);
         } elseif ($template = Cache::get($url, 'kumbia.templates')) { //verifica cache de template para la url
             echo $template;
-            echo '<!-- Tiempo: '.round(microtime(1)-START_TIME,4).' seg. -->';
+            echo '<!-- Tiempo: ' . round(microtime(1) - START_TIME, 4) . ' seg. -->';
             exit(0);
         }
-        
-		/**
-		 * Asignando locale
-		 **/
-		if(isset($config['application']['locale'])) {
-			setlocale(LC_ALL, $config['application']['locale']);
-		}
-		
+        /**
+         * Asignando locale
+         **/
+        if (isset($config['application']['locale'])) {
+            setlocale(LC_ALL, $config['application']['locale']);
+        }
         /**
          * Establecer el timezone para las fechas y horas
          */
         if (isset($config['application']['timezone'])) {
             date_default_timezone_set($config['application']['timezone']);
         }
-		
         /**
          * Establecer el charset de la app en la constante APP_CHARSET
          */
-        if(isset($config['application']['charset'])) {
+        if (isset($config['application']['charset'])) {
             define('APP_CHARSET', strtoupper($config['application']['charset']));
         } else {
             define('APP_CHARSET', 'UTF-8');
         }
-
-		/**
+        /**
          * @see Load
          */
         require CORE_PATH . 'kumbia/load.php';
-		/**
-		 * Carga del boot.ini
-		 */
-		Load::boot();
-
+        /**
+         * Carga del boot.ini
+         */
+        Load::boot();
         /**
          * @see Kumbia
          */

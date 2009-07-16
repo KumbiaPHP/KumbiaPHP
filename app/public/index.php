@@ -45,47 +45,13 @@ define('APP', basename(APP_PATH));
 define('CORE_PATH', dirname(APP_PATH) . '/core/');
 
 /**
- * Define el URL_PATH
- *
- * URL_PATH:
- * - Path para generar la Url en los links a acciones y controladores
- * - Esta ruta la utiliza Kumbia como base para generar las Urls para acceder de lado de
- *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
- **/
-if($_SERVER['QUERY_STRING']) {
-	define('URL_PATH', substr($_SERVER['REQUEST_URI'], 0, -strlen($_SERVER['QUERY_STRING']) + 4));
-} else {
-	define('URL_PATH', $_SERVER['REQUEST_URI']);
-}
-
-/**
- * Define el PUBLIC_PATH
- *
- * PUBLIC_PATH:
- * - Ruta al directorio public de la aplicación (por defecto ruta al directorio app/public)
- * - Esta ruta la utiliza el cliente (el navegador web) para acceder a los recursos
- *   y es relativa al DOCUMENT_ROOT del servidor web
- **/
-define('PUBLIC_PATH', URL_PATH);
-
-/**
- * Obtiene la url
- **/
-$url = isset($_GET['url']) ? $_GET['url'] : '';
-
-/**
- * Inicia la sesion
- **/
-session_start();
-
-/**
  * Carga el gestor de arranque
  *
  * @see Bootstrap
  **/
 require CORE_PATH . 'kumbia/bootstrap.php';
 /**
- * Arranca kumbia y la aplicacion
+ * Arranca kumbiaPHP y la aplicación
  *
  **/
-Bootstrap::boot($url);
+Bootstrap::boot();

@@ -327,10 +327,10 @@ class Controller
 		if(headers_sent()){
 			print "
 				<script type='text/javascript'>
-					window.setTimeout(\"window.location='".URL_PATH."$controller'\", $seconds);
+					window.setTimeout(\"window.location='".PUBLIC_PATH."$controller'\", $seconds);
 				</script>\n";
 		} else {
-			header('Location: '.URL_PATH."$controller");
+			header('Location: '.PUBLIC_PATH."$controller");
 		}
 	}
 

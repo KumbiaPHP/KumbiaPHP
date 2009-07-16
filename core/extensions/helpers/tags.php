@@ -258,7 +258,7 @@ function link_to_remote($action){
 	if(isset($params['confirm'])){
 		$code.= "if(confirm('{$params['confirm']}')) {";
 	}
-	$action = URL_PATH . $action;
+	$action = PUBLIC_PATH . $action;
 	$code.= "new AJAX.viewRequest({action: '$action', container: '$update'";
 
 	$call = array();
@@ -442,9 +442,9 @@ function form_remote_tag($data){
 	$params = is_array($data) ? $data : Util::getParams(func_get_args());
 	
 	if(!isset($params['action'])||!$params['action']) {
-		$params['action'] = URL_PATH . $params[0];
+		$params['action'] = PUBLIC_PATH . $params[0];
 	}else{
-		$params['action'] = URL_PATH . $params['action'];
+		$params['action'] = PUBLIC_PATH . $params['action'];
 	}
 	
 	if(!isset($params['method'])||!$params['method']) {
@@ -1134,7 +1134,7 @@ function upload_image_tag($name){
 	    $opts['value'] = '';
 	}
 	
-	$path = URL_PATH;
+	$path = PUBLIC_PATH;
 	
 	$code.="<span id='{$opts['name']}_span_pre'>
 	<select name='{$opts[0]}' id='{$opts[0]}' onchange='show_upload_image(this, \"$path\")'>";
@@ -1345,7 +1345,7 @@ function button_to_remote_action($caption, $action='', $classCSS=''){
 		}
 	}
 	
-	$opts['action'] = URL_PATH . $opts['action'];
+	$opts['action'] = PUBLIC_PATH . $opts['action'];
 	
 	if(!isset($opts['update'])){
 		$opts['update'] = "";
@@ -1423,7 +1423,7 @@ function updater_select($name, $data=array()){
 		$action = '';
 	}
 
-	$action = URL_PATH . $action;
+	$action = PUBLIC_PATH . $action;
 
 	$onchange = "AJAX.viewRequest({action: '$action/'+$(\"{$params['id']}\").value, container: '$update'";
 	$call = array();
@@ -1809,7 +1809,7 @@ function swf_tag($data){
  * @return string
  */
 function get_kumbia_url($url){
-	$return_url = URL_PATH;
+	$return_url = PUBLIC_PATH;
 	
 	$action = $url;
 	$module = '';
