@@ -116,13 +116,15 @@ final class Kumbia
      */
     public static function stylesheet_link_tags()
 	{
-        $imports = self::$data['KUMBIA_CSS_IMPORTS'];
-        if ($imports && is_array($imports)) {
-            foreach ($imports as $css) {
-                echo $css;
-            }
-        } else {
-            echo $imports;
-        }
+		if(isset(self::$data['KUMBIA_CSS_IMPORTS'])){
+			$imports = self::$data['KUMBIA_CSS_IMPORTS'];
+			if (is_array($imports)) {
+				foreach ($imports as $css) {
+					echo $css;
+				}
+			} else {
+				echo $imports;
+			}
+		}
     }
 }
