@@ -34,10 +34,6 @@ final class Router
 				     'all_parameters' => array(), //Lista de Todos los parametros de la URL
 				     'routed' => false //Indica si esta pendiente la ejecución de una ruta por parte del dispatcher
 				     );
-	/**
-	 * Detector de enrutamiento ciclico
-	 */
-	static private $routed_cyclic;
 	
 	/**
 	 * Toma $url y la descompone en aplicacion, (modulo), controlador, accion y argumentos
@@ -45,9 +41,7 @@ final class Router
 	 * @param string $url
 	 */
 	static function rewrite($url){
-		/**
-		 * Valor por defecto
-		 */
+		//Valor por defecto
 		self::$vars['route'] = $url;
 		 //Si esta vacio (es root)
 		if (!$url) { $url = '/'; }
@@ -61,24 +55,16 @@ final class Router
 		// Si hay intento de hack TODO: añadir la ip y referer en el log
 		if($errors) throw new KumbiaException("Posible intento de hack en URL: '$url'");
 		
-		/**
-		 * Limpio la url en caso de que la hallan escrito con el 
-		 * ultimo parametro sin valor es decir controller/action/
-		 **/
+		//Limpio la url en caso de que la hallan escrito con el ultimo parametro sin valor es decir controller/action/
 		$url = trim($url,'/');
 
-		/**
-		 * Obtengo y asigno todos los parametros de la url
-		 **/
+		// Obtengo y asigno todos los parametros de la url
 		$url_items = explode ('/', $url);
-		/**
-		* Asigna todos los parametros
-		**/
+		
+		// Asigna todos los parametros
 		self::$vars['all_parameters'] = $url_items;
 		
-		/**
-		* El siguiente parametro de la url es un modulo?
-		**/
+		// El siguiente parametro de la url es un modulo?
 		$item = current($url_items);
 		if(is_dir(APP_PATH . "controllers/$item")) {
 			self::$vars['module'] = current($url_items);
@@ -90,32 +76,25 @@ final class Router
 			}       
 		}       
 		       
-		/**
-		 * Controlador
-		 */
+		// Controlador
 		self::$vars['controller'] = current($url_items);
 		// Si no hay mas parametros sale
 		if (next($url_items) === FALSE) {
 			return;
 		}       
 			
-		/**
-		* Accion
-		*/
+		// Accion
 		self::$vars['action'] = current($url_items);
+
 		// Si no hay mas parametros sale
 		if (next($url_items) === FALSE) {
 			return;
 		}
 		
-		/**
-		*  id
-		*/
+		// id
 		self::$vars['id'] = current($url_items);
 		
-		/**
-		*  Creo los parametros y los paso, depues elimino el $url_items
-		*/
+		// Crea los parametros y los pasa, depues elimina el $url_items
 		$key = key($url_items);
 		$rest = count($url_items) - $key;
 		$parameters = array_slice($url_items, $key, $rest);
@@ -133,16 +112,12 @@ final class Router
 		$routes = Config::read('routes.ini');
 		$routes = $routes['routes'];
 		
-		/**
-		 * Si existe una ruta exacta la devuelve
-		 **/
+		// Si existe una ruta exacta la devuelve
 		if(isset($routes[$url])){
 			return $routes[$url];
 		}
 
-		/**
-		 * Si existe una ruta con el comodin * al final
-		 **/
+		// Si existe una ruta con el comodin * crea la nueva ruta
 		foreach ($routes as $key => $val) {
 			if (strripos($key,'*',-1)){
 				$key = substr($key, 0, -1);
@@ -176,7 +151,7 @@ final class Router
 	}
 
 	/**
-	 * Enruta el controlador actual a otro controlador, &oacute; a otra acción
+	 * Enruta el controlador actual a otro controlador, o a otra acción
 	 * Ej:
 	 * <code>
 	 * kumbia::route_to(["module: modulo"], "controller: nombre", ["action: accion"], ["id: id"])
@@ -185,18 +160,17 @@ final class Router
 	 * @return null
 	 */
 	static public function route_to(){
+		
+		static $cyclic = 0;
 		self::$vars['routed'] = false;
+
 		$cyclic_routing = false;
 		$url = Util::getParams(func_get_args());
 		//print_r ($url);
 		if(isset($url['module'])){
-			if(self::$vars['module']==$url['module']){
-				$cyclic_routing = true;
-			}
-			/**
-			 * Verifico para asignar correctamente los parametros en all_parameters,
-			 * efectuando los debidos corrimientos de ser necesario
-			 **/
+			
+			// Verifica para asignar correctamente los parametros en all_parameters,
+			// efectuando los debidos corrimientos de ser necesario
 			if(self::$vars['module']) {
 				self::$vars['all_parameters'][0] = $url['module'];
 			} else {
@@ -209,15 +183,11 @@ final class Router
 			self::$vars['routed'] = true;
 		}
 		if(isset($url['controller'])){
-			if(self::$vars['controller']==$url['controller']){
-				$cyclic_routing = true;
-			}
+			
 			self::$vars['controller'] = $url['controller'];
 			
-			/**
-			 * Verifico para asignar correctamente los parametros en all_parameters,
-			 * efectuando los debidos corrimientos de ser necesario
-			 **/
+			// Verifica para asignar correctamente los parametros en all_parameters,
+			// efectuando los debidos corrimientos de ser necesario
 			if(self::$vars['module']) {
 				self::$vars['all_parameters'][1] = $url['controller'];
 			} else {
@@ -230,14 +200,10 @@ final class Router
 			$app_controller = util::camelcase($url['controller'])."Controller";
 		}
 		if(isset($url['action'])){
-			if(self::$vars['action']==$url['action']){
-				$cyclic_routing = true;
-			}
+			
 			self::$vars['action'] = $url['action'];
-			/**
-			 * Verifico para asignar correctamente los parametros en all_parameters,
-			 * efectuando los debidos corrimientos de ser necesario
-			 **/
+			// Verifica para asignar correctamente los parametros en all_parameters,
+			// efectuando los debidos corrimientos de ser necesario
 			if(self::$vars['module']) {
 				self::$vars['all_parameters'][2] = $url['action'];
 			} else {
@@ -247,9 +213,7 @@ final class Router
 			self::$vars['routed'] = true;
 		}
 		if(isset($url['id'])){
-			if(self::$vars['id']==$url['id']){
-				$cyclic_routing = true;
-			}
+			
 			self::$vars['id'] = $url['id'];
 			/**
 			 * Verifico para asignar correctamente los parametros en all_parameters,
@@ -265,15 +229,12 @@ final class Router
 			self::$vars['routed'] = true;
 		}
 		
-		if($cyclic_routing){
-			self::$routed_cyclic++;
-			if(self::$routed_cyclic>=1000){
-				throw new KumbiaException("Se ha detectado un enrutamiento ciclico. Esto puede causar problemas de estabilidad", 1000);
-			}
-		} else {
-			self::$routed_cyclic = 0;
+		$cyclic++;
+		if($cyclic>=1000){
+			throw new KumbiaException("Se ha detectado un enrutamiento cíclico. Esto puede causar problemas de estabilidad", 1000);
 		}
-		return null;
+		
+		//return null;
 	}
 
 	/**
