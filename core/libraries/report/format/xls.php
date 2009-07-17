@@ -43,7 +43,7 @@ function xls($result, $sumArray, $title, $weightArray, $headerArray){
 	error_reporting(0);
 
 	$file = md5(uniqid());
-	$config = Config::read("config.ini");
+	$config = Config::read('config');
 	$active_app = Router::get_application();
 
 	$workbook = new Spreadsheet_Excel_Writer("public/temp/$file.xls");

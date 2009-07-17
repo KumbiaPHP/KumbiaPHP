@@ -476,7 +476,7 @@ function age(){
 	$active_app = Router::get_application();
 	
 	if(!isset($params['order'])){
-		if($kumbia_config = Config::read('config.ini')){
+		if($kumbia_config = Config::read('config')){
 			if(preg_match('/^DD[^DMY]MM[^DMY]YYYY$/', $kumbia_config->$active_app->dbdate)){
 				$params['order'] = 'd-m-Y';
 			} elseif(preg_match('/^DD[^DMY]YYYY[^DMY]MM$/', $kumbia_config->$active_app->dbdate)){

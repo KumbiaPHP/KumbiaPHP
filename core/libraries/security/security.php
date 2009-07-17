@@ -38,7 +38,7 @@ abstract class Security {
 	}
 
 	public static function createSecureRSAKey($kumbia=true){
-		$config = Config::read('config.ini');
+		$config = Config::read('config');
 		if($config->kumbia->secure_ajax){
 			if($_SESSION['rsa_key']){
 				if((time()%8)==0){

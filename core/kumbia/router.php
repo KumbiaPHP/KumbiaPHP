@@ -109,7 +109,7 @@ final class Router
  	 * 
 	 */
 	static function ifRouted($url){
-		$routes = Config::read('routes.ini');
+		$routes = Config::read('routes');
 		$routes = $routes['routes'];
 		
 		// Si existe una ruta exacta la devuelve

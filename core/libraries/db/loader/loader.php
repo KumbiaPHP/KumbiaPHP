@@ -33,7 +33,7 @@ class DbLoader
          * Cargo el mode para mi aplicacion
          */
         $database = Config::get('config.application.database');
-        $databases = Config::read('databases.ini');
+        $databases = Config::read('databases');
         $config = $databases[$database];
         if (isset($config['type']) && $config['type']) {
             if (isset($config['pdo']) && $config['pdo']) {

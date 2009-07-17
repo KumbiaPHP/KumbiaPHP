@@ -56,13 +56,13 @@ class KumbiaException extends Exception {
 		require_once CORE_PATH . 'libraries/flash/flash.php';
 	
 		header('HTTP/1.1 404 Not Found');
-		$config = Config::read('config.ini');
+		$config = Config::read('config');
 		extract(Router::get(), EXTR_OVERWRITE);
 		
 		ob_start();
 		if(!$config['application']['production']) {
 			$show_trace = $e->_show_trace;
-			$boot = Config::read('boot.ini');
+			$boot = Config::read('boot');
 			include CORE_PATH . 'views/errors/exception.phtml';
 		} else {
 			include APP_PATH . 'views/errors/404.phtml';

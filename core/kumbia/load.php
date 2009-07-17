@@ -130,7 +130,7 @@ class Load
      **/
     public static function boot ()
     {
-        $boot = Config::read('boot.ini');
+        $boot = Config::read('boot');
         if (isset($boot['modules']['libraries'])) {
             $libraries = explode(',', str_replace(' ', '', $boot['modules']['libraries']));
             foreach ($libraries as $lib) {

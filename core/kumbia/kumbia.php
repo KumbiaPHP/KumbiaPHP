@@ -77,12 +77,12 @@ final class Kumbia
      * @return boolean
      */
     public static function main($url)
-	{   
+	{
 		/**
 		 * El Router analiza la url
 		 **/
 		Router::rewrite($url);
-        
+
 		/**
 		 * Iniciar el buffer de salida
 		 */

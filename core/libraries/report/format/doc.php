@@ -31,7 +31,7 @@
 
 function doc($result, $sumArray, $title, $weighArray, $headerArray){
 
-	$config = Config::read("config.ini");
+	$config = Config::read('config');
 	$active_app = Router::get_application();
 	$file = md5(uniqid());
 

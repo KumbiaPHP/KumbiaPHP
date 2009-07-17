@@ -90,17 +90,11 @@ final class Config
 	 */
 	public static function & read($file, $force=false)
     {
-        $namespace = basename($file, '.ini');
-        
-		if(isset(self::$_vars[$namespace]) && !$force) {
-			return self::$_vars[$namespace];
+		if(isset(self::$_vars[$file]) && !$force) {
+			return self::$_vars[$file];
 		}
 		
-		if(!file_exists(APP_PATH."config/$file")){
-			throw new KumbiaException("No existe el archivo de configuraci&oacute;n $file");
-		}
-
-        self::$_vars[$namespace] = parse_ini_file(APP_PATH . "config/$file", true);
-		return self::$_vars[$namespace];
+        self::$_vars[$file] = parse_ini_file(APP_PATH . "config/$file.ini", true);
+		return self::$_vars[$file];
 	}
 }

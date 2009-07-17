@@ -46,7 +46,7 @@ class PDF extends FPDF
 	function Footer()
 	{
 
-		$config = Config::read("config.ini");
+		$config = Config::read('config');
 		$active_app = Router::get_application();
 		//Posición: a 1,5 cm del final
 		$this->SetY(-21);
@@ -82,7 +82,7 @@ class PDF extends FPDF
  */
 function pdf($result, $sumArray, $title, $weightArray, $headerArray){
 
-	$config = Config::read("config.ini");
+	$config = Config::read('config');
 	$active_app = Router::get_application();
 
 	//Orientación

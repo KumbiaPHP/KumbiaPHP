@@ -63,7 +63,7 @@ final class Bootstrap
         /**
          * Lee la configuracion
          */
-        $config = Config::read('config.ini');
+        $config = Config::read('config');
         /**
          * @see Cache
          **/

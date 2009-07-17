@@ -326,7 +326,7 @@ class ActiveRecordBase
         if ($this->database) {
             return $this->database;
         } else {
-            $core = Config::read('config.ini');
+            $core = Config::read('config');
             return $core['application']['database'];
         }
     }
@@ -1590,7 +1590,7 @@ class ActiveRecordBase
         		}
         	}
         }
-        $environment = Config::read('databases.ini');
+        $environment = Config::read('databases');
         $config = $environment[$this->get_database()];
         if ($ex) {
             $fields = array();
@@ -1895,7 +1895,7 @@ class ActiveRecordBase
         if (count($limit_args) > 1) {
             $sql = call_user_func_array(array($this, 'limit'), $limit_args);
         }
-        $environment = Config::read('databases.ini');
+        $environment = Config::read('databases');
         $config = $environment[$this->get_database()];
         if (!isset($config->pdo) || !$config->pdo) {
             if ($config['type'] == "informix") {

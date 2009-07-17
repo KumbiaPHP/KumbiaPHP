@@ -21,7 +21,7 @@
  * @license http://www.kumbia.org/license.txt GNU/GPL
  */
 
-	$config = Config::read("environment.ini");
+	$config = Config::read('databases');
 
 	$user = "root";
 	$password = "hea101";

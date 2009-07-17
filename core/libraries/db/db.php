@@ -328,7 +328,7 @@ class DbBase
 			$database = Config::get('config.application.database');
 		}
 		
-		$databases = Config::read('databases.ini');
+		$databases = Config::read('databases');
 		$config = $databases[$database];
 		
 		/**
