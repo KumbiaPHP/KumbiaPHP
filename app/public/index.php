@@ -45,6 +45,35 @@ define('APP', basename(APP_PATH));
 define('CORE_PATH', dirname(APP_PATH) . '/core/');
 
 /**
+ * Define el PUBLIC_PATH
+ *
+ * PUBLIC_PATH:
+ * - Path para generar la Url en los links a acciones y controladores
+ * - Esta ruta la utiliza Kumbia como base para generar las Urls para acceder de lado de
+ *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
+ **/
+if ($_SERVER['QUERY_STRING']) {
+    define('PUBLIC_PATH', substr($_SERVER['REQUEST_URI'], 0, - strlen($_SERVER['QUERY_STRING']) + 4));
+} else {
+    define('PUBLIC_PATH', $_SERVER['REQUEST_URI']);
+}
+
+/**
+ * Define el URL_PATH
+ *
+ * URL_PATH:
+ * - Path utilizado para generar correctamente la url para acceder los controladores y acciones
+ * - Este path puede modificarse para poder utilizar KumbiaPHP sin mod_rewrite.
+ *
+ *   Considerando que tu aplicacion se encuentre en /var/www/app
+ *     Ejemplo:  define('URL_PATH', '/app/index.php?url=')
+ *
+ *   Para este caso falta tambien definir el PUBLIC_PATH como:
+ *     Ejemplo: define('PUBLIC_PATH', '/app/public/')   
+ **/
+define('URL_PATH', PUBLIC_PATH);
+
+/**
  * Carga el gestor de arranque
  *
  * @see Bootstrap

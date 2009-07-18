@@ -28,19 +28,6 @@ final class Bootstrap
     public static function boot ()
     {
         /**
-         * Define el PUBLIC_PATH
-         *
-         * PUBLIC_PATH:
-         * - Path para generar la Url en los links a acciones y controladores
-         * - Esta ruta la utiliza Kumbia como base para generar las Urls para acceder de lado de
-         *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
-         **/
-        if ($_SERVER['QUERY_STRING']) {
-            define('PUBLIC_PATH', substr($_SERVER['REQUEST_URI'], 0, - strlen($_SERVER['QUERY_STRING']) + 4));
-        } else {
-            define('PUBLIC_PATH', $_SERVER['REQUEST_URI']);
-        }
-        /**
          * Obtiene la url
          **/
         $url = isset($_GET['url']) ? $_GET['url'] : '';
