@@ -1809,7 +1809,7 @@ function swf_tag($data){
  * @return string
  */
 function get_kumbia_url($url){
-	$return_url = PUBLIC_PATH;
+	$return_url = URL_PATH;
 	
 	$action = $url;
 	$module = '';
