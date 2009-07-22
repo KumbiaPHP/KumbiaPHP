@@ -1,0 +1,70 @@
+<?php 
+/**
+ * KumbiaPHP web & app Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://wiki.kumbiaphp.com/Licencia
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@kumbiaphp.com so we can send you a copy immediately.
+ *
+ * Paginador "punbb" para aplicaciones
+ *
+ * Parametros del paginador:
+ *   page: objeto obtenido al invocar al paginador
+ *   show: numero de paginas que se mostraran en el paginador
+ *   url: url para la accion que efectua la paginacion, por defecto "module/controller/page/"
+ *        y se envia por parametro el numero de pagina
+ * 
+ * @category   Kumbia
+ * @package    Partials 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
+ 
+if(!isset($url)) {
+    extract(Router::get());
+    $url = "$controller/page";
+    if($module) {
+        $url = "$module/$url";
+    }
+}
+    
+if(!isset($show)) {
+    $show = 10;
+}
+    
+$half = (int)($show/2);
+    
+/**
+ * Calculando el inicio de paginador centrado
+ **/
+if ($page->current <= $half) {
+    $start = 1;
+} elseif (($page->total - $page->current)<$half) {
+    $start = $page->total - $show + 1;
+} else {
+    $start = $page->current - $half;
+}
+?>
+
+<div class="paginator">
+    <?php if($page->prev) echo link_to("$url/$page->prev", 'Anterior'); ?>
+
+    <?php for($i=$start; $i<=$page->total && $i<($start + $show); $i++): ?>
+        <?php echo $i==$page->current ? "<b>$i</b>" : link_to("$url/$i", $i); ?>
+    <?php endfor; ?>
+
+    <?php if ($page->total > $i): ?>
+        ...
+        <?php echo link_to("$url/$page->total", $page->total); ?>
+    <?php elseif ($i == $page->total): ?>
+        <?php echo link_to("$url/$i", $i); ?>
+    <?php endif; ?>
+
+    <?php if($page->next) echo link_to("$url/$page->next", 'Siguiente'); ?>
+</div>
