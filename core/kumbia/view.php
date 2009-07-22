@@ -143,19 +143,26 @@ class View
 		}
 		extract ($params);
 		
-		$partial_file = APP_PATH . "views/partials/$partial.phtml";
+		$path = "views/partials/$partial.phtml";
 		
-		if(is_file($partial_file)){
-			include $partial_file;
-			if($time!==false) {
-				Cache::end();
+		//Verificando el partials en el dir app 
+		$file = APP_PATH . $path;
+		
+		if(!is_file($file)){
+		    //Verificando el partials en el dir core
+			$file = CORE_PATH . $path;
+			if(!is_file($file)){
+                if($time!==false) {
+                    Cache::end(false);
+                }
+                throw new KumbiaException('Kumbia no puede encontrar la vista parcial: "'.$file.'"', 0);
 			}
-		} else {
-			if($time!==false) {
-				Cache::end(false);
-			}
-			throw new KumbiaException('Kumbia no puede encontrar la vista parcial: "'.$partial_file.'"', 0);
 		}
+		include $file;
+        if($time!==false) {
+            Cache::end();
+        }
+		
 	}
 	
 	/**
