@@ -47,6 +47,7 @@
 *  total: total de paginas que se pueden mostrar
 *  items: array de items de la pagina
 *  count: Total de registros
+*  per_page: cantidad de elementos por pagina
 *
 * Ejemplos:
 *  $page = paginate($array, 'per_page: 5', "page: $page_num");
@@ -152,6 +153,7 @@ class Paginator {
 		$page->current = $page_number;
 		$page->total = ($n % $per_page) ? ((int)($n/$per_page) + 1):($n/$per_page);
 		$page->count = $n;
+        $page->per_page = $per_page;
 		
 		return $page;
 	}
@@ -213,6 +215,7 @@ class Paginator {
 		$page->current = $page_number;
 		$page->total = ($n % $per_page) ? ((int)($n/$per_page) + 1):($n/$per_page);
 		$page->count = $n;
+        $page->per_page = $per_page;
 		
 		return $page;
 	}
