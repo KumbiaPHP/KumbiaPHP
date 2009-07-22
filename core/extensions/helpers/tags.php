@@ -1828,3 +1828,21 @@ function get_kumbia_url($url){
 	$return_url.=$action;
 	return $return_url;
 }
+/**
+ * Imprime los CSS cargados mediante stylesheet_link_tag
+ * en el <head>
+ *
+ */
+function stylesheet_link_tags()
+{
+    if(isset(Kumbia::$data['KUMBIA_CSS_IMPORTS'])){
+        $imports = Kumbia::$data['KUMBIA_CSS_IMPORTS'];
+        if (is_array($imports)) {
+            foreach ($imports as $css) {
+                echo $css;
+            }
+        } else {
+            echo $imports;
+        }
+    }
+}

@@ -110,21 +110,4 @@ final class Kumbia
 		// Fin del request
 		exit();
     }
-    /**
-     * Imprime los CSS cargados mediante stylesheet_link_tag
-     *
-     */
-    public static function stylesheet_link_tags()
-	{
-		if(isset(self::$data['KUMBIA_CSS_IMPORTS'])){
-			$imports = self::$data['KUMBIA_CSS_IMPORTS'];
-			if (is_array($imports)) {
-				foreach ($imports as $css) {
-					echo $css;
-				}
-			} else {
-				echo $imports;
-			}
-		}
-    }
 }
