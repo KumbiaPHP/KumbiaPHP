@@ -82,11 +82,6 @@ final class Kumbia
 		 * El Router analiza la url
 		 **/
 		Router::rewrite($url);
-
-		/**
-		 * Iniciar el buffer de salida
-		 */
-		ob_start();
 		
 		/**
 		 * Ciclo del enrutador
