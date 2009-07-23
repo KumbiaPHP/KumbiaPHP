@@ -36,7 +36,7 @@ require_once CORE_PATH . 'libraries/filter/filter_interface.php';
 class Filter
 {
     /**
-     * Aplica filtro pero de manera estatica
+     * Aplica filtro de manera estatica
      *
      * @param mixed $s variable a filtrar
      * @param string $filter filtro
@@ -47,61 +47,65 @@ class Filter
     {
 		if(is_string($options)) {
 			$filters = func_get_args();
-			unset($filters[0]);
-			$options = array();
+            unset($filters[0]);
+            
+            $options = array();
+			foreach($filters as $f) {
+                $filter_class = Util::camelcase($f).'Filter';
+                if(!class_exists($filter_class, false)) {
+                    self::_load_filter($f);
+                }
+                
+                $s = call_user_func(array($filter_class, 'execute'), $s, $options);
+            }
 		} else {
-			$filters = array($filter);
+            $filter_class = Util::camelcase($filter).'Filter';
+            if(!class_exists($filter_class, false)) {
+                self::_load_filter($filter);
+            }
+            $s = call_user_func(array($filter_class, 'execute'), $s, $options);
 		}
         
-        return self::_apply_filters($s, $filters, $options);
-    }
-    /**
-     * Aplica filtros recursivamente de manera estatica
-     * 
-     * @param mixed $s
-     * @param array $options
-     * @return mixed
-     **/
-    protected static function _apply_filters($s, $filters, $options)
-    {
-       if (is_array($s)) {
-            foreach ($s as $key => $value) {
-                if (is_array($value) || is_object($value)) {
-                    return self::_apply_filters($s[$key], $filters, $options);
-                } elseif (is_string($value)) {
-                    foreach ($filters as $f) {
-						$filter = Util::camelcase($f).'Filter';
-						if(!class_exists($filter)) {
-							self::_load_filter($f);
-						}
-                        $s[$key] = call_user_func(array($filter , 'execute'), $value, $options);
-                    }
-                }
-            }
-        } elseif (is_object($s)) {
-            foreach (get_object_vars($s) as $attr => $value) {
-                if (is_array($value) || is_object($value)) {
-                    return self::_apply_filters($s->$attr, $filters, $options);
-                } elseif (is_string($value)) {
-                    foreach ($filters as $f) {
-						$filter = Util::camelcase($f).'Filter';
-						if(!class_exists($filter)) {
-							self::_load_filter($f);
-						}
-                        $s->$attr = call_user_func(array($filter, 'execute'), $value, $options);
-                    }
-                }
-            }
-        } else {
-            foreach ($filters as $f) {
-				$filter = Util::camelcase($f).'Filter';
-				if(!class_exists($filter)) {
-					self::_load_filter($f);
-				}
-                $s = call_user_func(array($filter, 'execute'), $s, $options);
-            }
-        }
         return $s;
+    }
+    
+    /**
+     * Aplica los filtros a un array
+     *
+     * @param array $s variable a filtrar
+     * @param string $filter filtro
+	 * @param array $options
+     * @return array
+     **/
+    public static function get_array($array, $filter, $options=array()) 
+    {
+        $args = func_get_args();
+
+        foreach($array as $k => $v) {
+            $args[0] = $v;
+            $array[$k] = call_user_func_array(array('self', 'get'), $args);
+        }
+        
+        return $array;
+    }
+    
+    /**
+     * Aplica filtros a un objeto
+     * 
+     * @param mixed $object
+     * @param array $options
+     * @return object
+     **/
+    public static function get_object($object, $filter, $options=array())
+    {
+        $args = func_get_args();
+
+        foreach($object as $k => $v) {
+            $args[0] = $v;
+            $object->$k = call_user_func_array(array('self', 'get'), $args);
+        }
+        
+        return $object;
     }
 	/**
 	 * Carga un Filtro
@@ -112,12 +116,13 @@ class Filter
 	protected static function _load_filter($filter)
 	{
 		$file = APP_PATH . "extensions/filters/{$filter}_filter.php";
-		if(!file_exists($file)) {
+		if(!is_file($file)) {
 			$file = CORE_PATH . "libraries/filter/base_filter/{$filter}_filter.php";
-			if(!file_exists($file)) {
+			if(!include $file) {
 				throw new KumbiaException("Filtro $filter no encontrado");
 			}
-		}
-		include $file;
+		} else {
+            include $file;
+        }
 	}
 }

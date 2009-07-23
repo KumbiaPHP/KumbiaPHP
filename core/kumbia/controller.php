@@ -173,7 +173,12 @@ class Controller
 		if(func_num_args()>1){
 			$args = func_get_args();
 			$args[0] = $value;
-			return call_user_func_array(array('Filter', 'get'), $args);
+            
+            if(is_string($value)) {
+                return call_user_func_array(array('Filter', 'get'), $args);
+            } else {
+                return call_user_func_array(array('Filter', 'get_array'), $args);
+            }
 		}
 		return $value;
 	}
@@ -202,7 +207,12 @@ class Controller
 		if(func_num_args()>1){
 			$args = func_get_args();
 			$args[0] = $value;
-			return call_user_func_array(array('Filter', 'get'), $args);
+            
+            if(is_string($value)) {
+                return call_user_func_array(array('Filter', 'get'), $args);
+            } else {
+                return call_user_func_array(array('Filter', 'get_array'), $args);
+            }
 		}
 		return $value;
 	}
@@ -231,7 +241,12 @@ class Controller
 		if(func_num_args()>1){
 			$args = func_get_args();
 			$args[0] = $value;
-			return call_user_func_array(array('Filter', 'get'), $args);
+
+            if(is_string($value)) {
+                return call_user_func_array(array('Filter', 'get'), $args);
+            } else {
+                return call_user_func_array(array('Filter', 'get_array'), $args);
+            }
 		}
 		return $value;
 	}
