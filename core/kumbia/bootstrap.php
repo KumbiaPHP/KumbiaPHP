@@ -54,25 +54,32 @@ $config = Config::read('config');
 define('PRODUCTION', $config['application']['production']);
 
 /**
- * @see Cache
+ * Carga la cache y verifica si esta cacheado el template, al 
+ * estar en produccion
+ *
  **/
-require CORE_PATH . 'libraries/cache/cache.php';
-/**
- * Asigna el driver para cache
- **/
-if (isset($config['application']['cache_driver'])) {
-    Cache::set_driver($config['application']['cache_driver']);
+if(PRODUCTION) {
+    /**
+     * @see Cache
+     **/
+    require CORE_PATH . 'libraries/cache/cache.php';
+    /**
+     * Asigna el driver para cache
+     **/
+    if (isset($config['application']['cache_driver'])) {
+        Cache::set_driver($config['application']['cache_driver']);
+    }
+
+    /**
+     * Verifica si esta cacheado
+     **/
+    if ($template = Cache::get($url, 'kumbia.templates')) { //verifica cache de template para la url
+        echo $template;
+        echo '<!-- Tiempo: ' . round(microtime(1) - START_TIME, 4) . ' seg. -->';
+        exit(0);
+    }
 }
-/**
- * Desactiva la cache
- **/
-if (PRODUCTION) {
-    Cache::active(false);
-} elseif ($template = Cache::get($url, 'kumbia.templates')) { //verifica cache de template para la url
-    echo $template;
-    echo '<!-- Tiempo: ' . round(microtime(1) - START_TIME, 4) . ' seg. -->';
-    exit(0);
-}
+
 /**
  * Asignando locale
  **/
