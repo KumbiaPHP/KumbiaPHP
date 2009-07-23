@@ -43,8 +43,6 @@ final class Router
 	static function rewrite($url){
 		//Valor por defecto
 		self::$vars['route'] = $url;
-		 //Si esta vacio (es root)
-		if (!$url) { $url = '/'; }
 		
 		//Miro si esta routed
 		$url=self::ifRouted($url);
