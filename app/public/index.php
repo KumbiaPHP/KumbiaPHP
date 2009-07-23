@@ -45,12 +45,6 @@ define('APP', basename(APP_PATH));
 define('CORE_PATH', dirname(APP_PATH) . '/core/');
 
 /**
-* Indica si no se usa mod_rewrite
-*
-**/
-//$no_rewrite = true;
-
-/**
  * Carga el gestor de arranque
  *
  * @see Bootstrap

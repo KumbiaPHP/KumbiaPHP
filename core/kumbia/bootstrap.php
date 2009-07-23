@@ -21,53 +21,49 @@
  */
 
 /**
+ * Define el PUBLIC_PATH
+ *
+ * PUBLIC_PATH:
+ * - Path para generar la Url en los links a acciones y controladores
+ * - Esta ruta la utiliza Kumbia como base para generar las Urls para acceder de lado de
+ *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
+ **/
+if ($_SERVER['QUERY_STRING']) {
+    define('PUBLIC_PATH', substr($_SERVER['REQUEST_URI'], 0, - strlen($_SERVER['QUERY_STRING']) + 4));
+} else {
+    define('PUBLIC_PATH', $_SERVER['REQUEST_URI']);
+}
+
+/**
+ * Define el URL_PATH
+ *
+ * URL_PATH:
+ * - Path utilizado para generar correctamente la url para acceder los controladores y acciones
+ * - Este path puede modificarse para poder utilizar KumbiaPHP sin mod_rewrite.
+ *
+ *   Considerando que tu aplicacion se encuentre en /var/www/app
+ *     Ejemplo:  define('URL_PATH', '/app/index.php?url=')
+ *
+ *   Para este caso falta tambien definir el PUBLIC_PATH como:
+ *     Ejemplo: define('PUBLIC_PATH', '/app/public/')   
+ **/
+define('URL_PATH', PUBLIC_PATH);
+
+/**
+ * Inicia la sesion
+ **/
+session_start();
+
+/**
  * Iniciar el buffer de salida
  */
 ob_start();
 
 /**
- * En este caso se usa rewrite
- *
- **/
-if(!isset($no_rewrite)) {
-    /**
-     * Define el PUBLIC_PATH
-     *
-     * PUBLIC_PATH:
-     * - Path para generar la Url en los links a acciones y controladores
-     * - Esta ruta la utiliza Kumbia como base para generar las Urls para acceder de lado de
-     *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
-     **/
-    if ($_SERVER['QUERY_STRING']) {
-        define('PUBLIC_PATH', substr($_SERVER['REQUEST_URI'], 0, - strlen($_SERVER['QUERY_STRING']) + 4));
-    } else {
-        define('PUBLIC_PATH', $_SERVER['REQUEST_URI']);
-    }
-
-    /**
-     * Define el URL_PATH
-     *
-     * URL_PATH:
-     * - Path utilizado para generar correctamente la url para acceder los controladores y acciones
-     * - Este path puede modificarse para poder utilizar KumbiaPHP sin mod_rewrite.
-     *
-     *   Considerando que tu aplicacion se encuentre en /var/www/app
-     *     Ejemplo:  define('URL_PATH', '/app/index.php?url=')
-     *
-     *   Para este caso falta tambien definir el PUBLIC_PATH como:
-     *     Ejemplo: define('PUBLIC_PATH', '/app/public/')   
-     **/
-    define('URL_PATH', PUBLIC_PATH);
-}
-
-/**
  * Obtiene la url
  **/
 $url = isset($_GET['url']) ? $_GET['url'] : '';
-/**
- * Inicia la sesion
- **/
-session_start();
+
 /**
  * @see KumbiaException
  */
@@ -84,6 +80,13 @@ require CORE_PATH . 'kumbia/config.php';
  * Lee la configuracion
  */
 $config = Config::read('config');
+
+/**
+ * Constante que indica si la aplicacion se encuentra en produccion
+ *
+ **/
+define('PRODUCTION', $config['application']['production']);
+
 /**
  * @see Cache
  **/
@@ -97,7 +100,7 @@ if (isset($config['application']['cache_driver'])) {
 /**
  * Desactiva la cache
  **/
-if (! $config['application']['production']) {
+if (PRODUCTION) {
     Cache::active(false);
 } elseif ($template = Cache::get($url, 'kumbia.templates')) { //verifica cache de template para la url
     echo $template;
