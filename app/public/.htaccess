@@ -13,5 +13,5 @@
 
     # Para peticiones que no son archivos ni directorios
     # Reescribe a index.php?url=URL
-	RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+	RewriteRule ^(.*)$ index.php?url=/$1 [QSA,L]
 </IfModule>
