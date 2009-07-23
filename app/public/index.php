@@ -75,6 +75,11 @@ if ($_SERVER['QUERY_STRING']) {
 define('URL_PATH', PUBLIC_PATH);
 
 /**
+ * Obtiene la url
+ **/
+$url = isset($_GET['url']) ? $_GET['url'] : '/';
+
+/**
  * Carga el gestor de arranque
  *
  * @see Bootstrap

@@ -31,11 +31,6 @@ session_start();
 ob_start();
 
 /**
- * Obtiene la url
- **/
-$url = isset($_GET['url']) ? $_GET['url'] : '';
-
-/**
  * @see KumbiaException
  */
 require CORE_PATH . 'kumbia/kumbia_exception.php';
