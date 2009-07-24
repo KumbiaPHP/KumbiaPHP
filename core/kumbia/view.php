@@ -47,10 +47,11 @@ class View
         extract(get_object_vars($controller), EXTR_OVERWRITE);
 		
 		/**
-		 * Intenta cargar la vista desde la cache
+		 * Intenta cargar la vista desde la cache si esta en producion,
+         * si no renderiza
+         *
 		 **/
-		self::$_content = $cache['type']=='view' ? Cache::get($_url, 'kumbia.views') : '';
-		if(!self::$_content) {
+		if(!PRODUCTION || $cache['type']!='view' || !(self::$_content = Cache::get($_url, 'kumbia.views'))) {
 			/**
 			 * Carga el el contenido del buffer de salida
 			 *
@@ -62,18 +63,25 @@ class View
 			} else {
 				$controller_views_dir =  APP_PATH . "views/$controller_name";
 			}
-            if($response != 'view'){
+            if($response && $response != 'view'){
                  $controller_views_dir = "$controller_views_dir/$response";
             }
+            
 			/**
 			 * Renderizar vista
 			 *
 			 **/
 			if($view) {
 				ob_start();
-				include "$controller_views_dir/$view.phtml";
+                
+                $file = "$controller_views_dir/$view.phtml";
+                if(!is_file($file)) {
+                    throw new KumbiaException("Vista $view.phtml no encontrada");
+                }
+                
+                include $file;
 				
-				if($cache['type'] == 'view') {
+				if(PRODUCTION && $cache['type'] == 'view') {
 				    Cache::save(ob_get_contents(), $cache['time'], $_url, 'kumbia.views');
 			    }
 			    
@@ -88,7 +96,9 @@ class View
 		        
 		        self::$_content = ob_get_clean();
 			}
-		}
+		} else {
+            ob_clean();
+        }
 	
 		/**
 		 * Renderizar template
@@ -104,7 +114,7 @@ class View
 			ob_start();
 			include $template;
 				
-			if($cache['type'] == 'template') {
+			if(PRODUCTION && $cache['type'] == 'template') {
 				Cache::save(ob_get_contents(), $cache['time'], $_url, 'kumbia.templates');
 			}
 			ob_end_flush();
@@ -131,7 +141,7 @@ class View
 	 */
 	public static function partial($partial, $time=false, $params=array())
 	{
-		if($time!==false) {
+		if(PRODUCTION && $time!==false) {
 			if($data = Cache::start($time, $partial, 'kumbia.partials')) {
 				echo $data;
 				return;
@@ -152,7 +162,7 @@ class View
 		    //Verificando el partials en el dir core
 			$file = CORE_PATH . $path;
 			if(!is_file($file)){
-                if($time!==false) {
+                if(PRODUCTION && $time!==false) {
                     Cache::end(false);
                 }
                 throw new KumbiaException('Kumbia no puede encontrar la vista parcial: "'.$file.'"', 0);

@@ -17,7 +17,7 @@
  */
 
 /**
- * Establece política de informe de errores
+ * Establece polÃ­tica de informe de errores
  */
 error_reporting(E_ALL ^ E_STRICT);
 define('START_TIME', microtime(1));
@@ -26,8 +26,8 @@ define('START_TIME', microtime(1));
  * Define el APP_PATH
  *
  * APP_PATH:
- * - Ruta al directorio de la aplicación (por defecto la ruta al directorio app)
- * - Esta ruta se utiliza para cargar los archivos de la aplicación
+ * - Ruta al directorio de la aplicaciÃ³n (por defecto la ruta al directorio app)
+ * - Esta ruta se utiliza para cargar los archivos de la aplicaciÃ³n
  **/
 define('APP_PATH', dirname(dirname(__FILE__)) . '/');
 
@@ -41,7 +41,7 @@ define('APP', basename(APP_PATH));
  * Define el CORE_PATH
  *
  * CORE_PATH:
- * - Ruta al directorio que contiene el núcleo de Kumbia (por defecto la ruta al directorio core/kumbia)
+ * - Ruta al directorio que contiene el nÃºcleo de Kumbia (por defecto la ruta al directorio core/kumbia)
  **/
 define('CORE_PATH', dirname(APP_PATH) . '/core/');
 
@@ -54,7 +54,7 @@ define('CORE_PATH', dirname(APP_PATH) . '/core/');
  *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
  **/
 if ($_SERVER['QUERY_STRING']) {
-    define('PUBLIC_PATH', substr($_SERVER['REQUEST_URI'], 0, - strlen($_SERVER['QUERY_STRING']) + 4));
+    define('PUBLIC_PATH', substr($_SERVER['REQUEST_URI'], 0, - strlen($_SERVER['QUERY_STRING']) + 5));
 } else {
     define('PUBLIC_PATH', $_SERVER['REQUEST_URI']);
 }

@@ -47,12 +47,6 @@ class Cache
      */
     protected static $_lifetime = null;
     /**
-     * Indica si la cache esta activa 
-     *
-     * @var boolean
-     **/
-    protected static $_active = true;
-    /**
      * Driver para cache
      *
      * @var string
@@ -67,9 +61,6 @@ class Cache
      */
     public static function get ($id, $group = 'default')
     {
-        if (! self::$_active) {
-            return null;
-        }
         self::$_id = $id;
         self::$_group = $group;
         return call_user_func(array(self::$_driver , 'get'), $id, $group);
@@ -85,9 +76,6 @@ class Cache
      */
     public static function save ($value, $lifetime = null, $id = false, $group = 'default')
     {
-        if (! self::$_active) {
-            return false;
-        }
         /**
          * Verifica si se ha pasado un id
          **/
@@ -162,14 +150,5 @@ class Cache
     {
         require_once CORE_PATH . "libraries/cache/drivers/{$driver}_cache.php";
         self::$_driver = $driver.'cache';
-    }
-    /**
-     * Activa la cache
-     *
-     * @param boolean $active
-     **/
-    public static function active ($active)
-    {
-        self::$_active = $active;
     }
 }
