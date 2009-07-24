@@ -19,15 +19,23 @@
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
+ 
 /**
  * @see CacheInterface
  */
 include CORE_PATH . 'libraries/cache/cache_interface.php';
+
 /**
  * Clase que implementa un componente de cacheo
  */
 class Cache
 {
+    /**
+     * Pool de drivers para cache
+     *
+     * @var array
+     **/
+    protected static $_drivers = array();
     /**
      * Id de ultimo elemento solicitado
      *
@@ -51,7 +59,7 @@ class Cache
      *
      * @var string
      **/
-    protected static $_driver = 'filecache';
+    protected static $_driver = null;
     /**
      * Carga un elemento cacheado
      *
@@ -63,7 +71,7 @@ class Cache
     {
         self::$_id = $id;
         self::$_group = $group;
-        return call_user_func(array(self::$_driver , 'get'), $id, $group);
+        return self::$_driver->get($id, $group);
     }
     /**
      * Guarda un elemento en la cache con nombre $id y valor $value
@@ -86,7 +94,8 @@ class Cache
         if ($lifetime) {
             $lifetime = strtotime($lifetime);
         }
-        return call_user_func(array(self::$_driver , 'save'), $id, $group, $value, $lifetime);
+        
+        return self::$_driver->save($id, $group, $value, $lifetime);
     }
     /**
      * Inicia el cacheo del buffer de salida hasta que se llame a end
@@ -128,7 +137,7 @@ class Cache
      */
     public static function clean ($group = false)
     {
-        return call_user_func(array(self::$_driver , 'clean'), $group);
+        return self::$_driver->clean($group);
     }
     /**
      * Elimina un elemento de la cache
@@ -139,16 +148,21 @@ class Cache
      */
     public static function remove ($id, $group = 'default')
     {
-        return call_user_func(array(self::$_driver , 'remove'), $id, $group);
+        return self::$_driver->remove($id, $group);
     }
     /**
      * Asigna el driver para cache
      *
-     * @param string $driver
+     * @param string $driver (file, sqlite, memsqlite)
      **/
     public static function set_driver ($driver)
     {
-        require_once CORE_PATH . "libraries/cache/drivers/{$driver}_cache.php";
-        self::$_driver = $driver.'cache';
+        if(!isset(self::$_drivers[$driver])) {
+            require_once CORE_PATH . "libraries/cache/drivers/{$driver}_cache.php";
+            $class = $driver.'cache';
+            self::$_drivers[$driver] = new $class();
+        }
+        
+        self::$_driver = self::$_drivers[$driver];
     }
 }

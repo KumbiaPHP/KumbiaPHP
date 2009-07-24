@@ -68,6 +68,8 @@ if(PRODUCTION) {
      **/
     if (isset($config['application']['cache_driver'])) {
         Cache::set_driver($config['application']['cache_driver']);
+    } else {
+        Cache::set_driver('file');
     }
 
     /**

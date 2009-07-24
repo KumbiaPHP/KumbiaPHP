@@ -28,7 +28,7 @@ interface CacheInterface
 	 * @param string $group
 	 * @return mixed
 	 */
-	public static function get($id, $group);
+	public function get($id, $group);
 	/**
 	 * Guarda un elemento en la cache con nombre $id y valor $value
 	 *
@@ -38,14 +38,14 @@ interface CacheInterface
 	 * @param int $lifetime tiempo de vida en forma timestamp de unix
 	 * @return boolean
 	 */
-	public static function save($id, $group, $value, $lifetime);
+	public function save($id, $group, $value, $lifetime);
 	/**
 	 * Limpia la cache
 	 *
 	 * @param string $group
 	 * @return boolean
 	 */
-	public static function clean($group=false);
+	public function clean($group=false);
 	/**
 	 * Elimina un elemento de la cache
 	 *
@@ -53,5 +53,5 @@ interface CacheInterface
 	 * @param string $group
 	 * @return string
 	 */
-	public static function remove($id, $group);
+	public function remove($id, $group);
 }

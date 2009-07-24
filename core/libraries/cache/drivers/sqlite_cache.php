@@ -27,29 +27,26 @@ class SqliteCache implements CacheInterface
      *
      * @var resource
      **/
-    protected static $_db = null;
+    protected $_db = null;
     /**
-     * Abre una conexión SqLite a la base de datos cache
+     * Constructor
      *
-     * @return resource
-     * @throw KumbiaException
      **/
-    protected static function _db() 
+    public function __construct() 
     {
-        if(self::$_db) {
-            return self::$_db;
-        }
-        
-        $db = sqlite_open(APP_PATH . 'temp/cache.db');
-        $result = sqlite_query($db, "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND tbl_name='cache' ");
+        /**
+         * Abre una conexión SqLite a la base de datos cache
+         *
+         */
+        $this->_db = sqlite_open(APP_PATH . 'temp/cache.db');
+        $result = sqlite_query($this->_db, "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND tbl_name='cache' ");
         $count = sqlite_fetch_single($result);
        
         if(!$count) {
-            sqlite_exec($db, ' CREATE TABLE cache (id TEXT, "group" TEXT, value TEXT, lifetime TEXT) ');
+            sqlite_exec($this->_db, ' CREATE TABLE cache (id TEXT, "group" TEXT, value TEXT, lifetime TEXT) ');
         }
-        self::$_db = $db;
         
-        return $db;
+        return $this->_db;
     }
 	/**
 	 * Carga un elemento cacheado
@@ -58,7 +55,7 @@ class SqliteCache implements CacheInterface
 	 * @param string $group
 	 * @return string
 	 */
-	public static function get($id, $group) 
+	public function get($id, $group) 
     {
         $id = addslashes($id);
         $group = addslashes($group);
@@ -67,7 +64,7 @@ class SqliteCache implements CacheInterface
         $group = addslashes($group);
         $lifetime = time();
         
-        $result = sqlite_query(self::_db(), " SELECT value FROM cache WHERE id='$id' AND \"group\"='$group' AND lifetime>'$lifetime' OR lifetime='undefined' ");
+        $result = sqlite_query($this->_db, " SELECT value FROM cache WHERE id='$id' AND \"group\"='$group' AND lifetime>'$lifetime' OR lifetime='undefined' ");
         return sqlite_fetch_single($result);
     }
 	/**
@@ -79,7 +76,7 @@ class SqliteCache implements CacheInterface
 	 * @param int $lifetime tiempo de vida en forma timestamp de unix
 	 * @return boolean
 	 */
-	public static function save($id, $group, $value, $lifetime)
+	public function save($id, $group, $value, $lifetime)
     {
         if($lifetime == null) {
             $lifetime = 'undefined';
@@ -89,8 +86,7 @@ class SqliteCache implements CacheInterface
         $group = addslashes($group);
         $value = addslashes($value);
         
-        $db = self::_db();
-        $result = sqlite_query($db, " SELECT COUNT(*) FROM cache WHERE id='$id' AND \"group\"='$group' ");
+        $result = sqlite_query($this->_db, " SELECT COUNT(*) FROM cache WHERE id='$id' AND \"group\"='$group' ");
         $count = sqlite_fetch_single($result);
         
         /**
@@ -98,10 +94,10 @@ class SqliteCache implements CacheInterface
          *
          **/
         if($count) {
-            return sqlite_exec($db, " UPDATE cache SET value='$value', lifetime='$lifetime' WHERE id='$id' AND \"group\"='$group' ");
+            return sqlite_exec($this->_db, " UPDATE cache SET value='$value', lifetime='$lifetime' WHERE id='$id' AND \"group\"='$group' ");
         }
         
-        return sqlite_exec($db, " INSERT INTO cache (id, \"group\", value, lifetime) VALUES ('$id','$group','$value','$lifetime') ");
+        return sqlite_exec($this->_db, " INSERT INTO cache (id, \"group\", value, lifetime) VALUES ('$id','$group','$value','$lifetime') ");
     }
     
 	/**
@@ -110,14 +106,13 @@ class SqliteCache implements CacheInterface
 	 * @param string $group
 	 * @return boolean
 	 */
-	public static function clean($group=false)
+	public function clean($group=false)
     {
-        $db = self::_db();
         if($group) {
             $group = addslashes($group);
-            return sqlite_exec(self::_db(), " DELETE FROM cache WHERE \"group\"='$group' ");
+            return sqlite_exec($this->_db, " DELETE FROM cache WHERE \"group\"='$group' ");
         }
-        return sqlite_exec(self::_db(), " DELETE FROM cache ");
+        return sqlite_exec($this->_db, " DELETE FROM cache ");
     }
 	/**
 	 * Elimina un elemento de la cache
@@ -126,11 +121,11 @@ class SqliteCache implements CacheInterface
 	 * @param string $group
 	 * @return boolean
 	 */
-	public static function remove($id, $group)
+	public function remove($id, $group)
     {
         $id = addslashes($id);
         $group = addslashes($group);
         
-        return sqlite_exec(self::_db(), " DELETE FROM cache WHERE id='$id' AND \"group\"='$group' ");
+        return sqlite_exec($this->_db, " DELETE FROM cache WHERE id='$id' AND \"group\"='$group' ");
     }
 }

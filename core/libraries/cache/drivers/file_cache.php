@@ -40,17 +40,18 @@ class FileCache implements CacheInterface
 	 * @param string $group
 	 * @return string
 	 */
-	public static function get($id, $group) 
+	public function get($id, $group) 
     {
         $filename = APP_PATH . 'temp/cache/'.self::_get_filename($id, $group);
 		if(file_exists($filename)){
             $fh = fopen($filename, 'r');
             
             $lifetime = trim(fgets($fh));
-			if($lifetime == 'undefined' || $lifetime >= time())
+			if($lifetime == 'undefined' || $lifetime >= time()) {
                 $data = stream_get_contents($fh);
-            else
+            } else{
                 $data = null;
+            }
             
             fclose($fh);
 			return $data;
@@ -66,10 +67,11 @@ class FileCache implements CacheInterface
 	 * @param int $lifetime tiempo de vida en forma timestamp de unix
 	 * @return boolean
 	 */
-	public static function save($id, $group, $value, $lifetime)
+	public function save($id, $group, $value, $lifetime)
     {
-        if($lifetime == null)
+        if($lifetime == null) {
             $lifetime = 'undefined';
+        }
         return file_put_contents(APP_PATH . 'temp/cache/'.self::_get_filename($id, $group), "$lifetime\n$value");
     }
 	/**
@@ -78,7 +80,7 @@ class FileCache implements CacheInterface
 	 * @param string $group
 	 * @return boolean
 	 */
-	public static function clean($group=false)
+	public function clean($group=false)
     {
         $pattern = $group ? APP_PATH . 'temp/cache/'.'*.'.md5($group) : APP_PATH . 'temp/cache/'.'*';
         foreach (glob($pattern) as $filename) {
@@ -94,7 +96,7 @@ class FileCache implements CacheInterface
 	 * @param string $group
 	 * @return string
 	 */
-	public static function remove($id, $group)
+	public function remove($id, $group)
     {
         return unlink(APP_PATH . 'temp/cache/'.self::_get_filename($id, $group));
     }
