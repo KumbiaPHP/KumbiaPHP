@@ -1,34 +1,34 @@
-.excepcion, .excepcion_informacion { margin: 0.5em; background-color:#F3F3F3; border: 1px solid gray; }
+.exception, .exception_information { margin: 0.5em; background-color:#F3F3F3; border: 1px solid gray; }
 
-.excepcion {
+.exception {
 	color: red;
 	background-image: url('../img/default/exception.png');
-	padding: 25px 5px 25px 90px;
+	padding: 25px 10px 25px 90px;
 	background-repeat: no-repeat;
 	background-position: 10px center;
 }
 
-.excepcion_informacion {	
+.exception_information {	
 	color: black;
 	font-size: 0.8em;
 	padding: 0.6em 0.8em;
 }
 
-.excepcion_archivo { font-size: 0.9em; color: black; }
+.exception_file { font-size: 0.9em; color: black; }
 
-.excepcion_titulo {margin: 1em 0.5em 0.5em 0.5em; font-weight: bold; text-align: left; font-size: 0.8em;}
+.exception_title {margin: 1em 0.5em 0.5em 0.5em; font-weight: bold; text-align: left; font-size: 0.8em;}
 
-.excepcion_trazado { 
+.exception_trace { 
 	border-collapse: collapse; 
 	background-color: white; 
 	border: solid gray 1px;
 	font-size: 1em;
 }
 
-.excepcion_trazado_numero, .excepcion_resaltar { font-weight: bold;}
+.exception_trace_number, .exception_highlight { font-weight: bold;}
 
-.excepcion_trazado_numero { background-color: #C0C0C0; }
+.exception_trace_number { background-color: #C0C0C0; }
 
-.excepcion_linea { padding-left: 1em; }
+.exception_line { padding-left: 1em; }
 
-.excepcion_resaltar { background-color: #ffdddd; width: 100%; }
+.exception_highlight { background-color: #ffdddd; width: 100%; }
