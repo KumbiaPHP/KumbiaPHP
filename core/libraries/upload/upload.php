@@ -45,11 +45,10 @@ class Upload
 	 * Sube un archivo al directorio app/public/files/upload si esta en $_FILES
 	 *
 	 * @param string $name nombre del archivo en el formulario
-     * @param string $path ruta donde se subira. Ejemplo: /var/www/public/app/temp/files/
      * @param string $new_name indica el nuevo nombre para el archivo 
 	 * @return string
 	 */
-	public static function file($name, $path, $new_name=null)
+	public static function file($name, $new_name=null)
     {
 		return self::file_in_path($name, APP_PATH . 'public/files/upload/', $new_name);
 	}
