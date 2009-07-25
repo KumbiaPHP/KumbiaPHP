@@ -97,3 +97,7 @@ div.autocomplete ul li {
       cursor: pointer;
       font-size: 10px;
 }
+
+.italic { font-style: italic; }
+
+.bold { font-weight: bold; }
