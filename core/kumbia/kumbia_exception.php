@@ -22,75 +22,66 @@
 class KumbiaException extends Exception {
     /**
      * Codigo de error de la Excepcion
-     */
-    protected $error_code = 0;
-    /**
-     * Mostrar Trace o no
      *
-     * @var boolean
+     * @var string
      */
-    protected $_show_trace = true;
+    protected $_view = null;
+    
     /**
      * Constructor de la clase;
      *
+     * @param string $message mensaje
+     * @param string $view vista que se mostrara
      */
-    public function __construct($message, $error_code = 0, $show_trace = true) {
-        $this->show_trace = $show_trace;
-        if (is_numeric($error_code)) {
-            parent::__construct($message, $error_code);
-        } else {
-            $this->error_code = $error_code;
-            parent::__construct($message, 0);
-        }
+    public function __construct($message, $view = 'exception') {
+        $this->_view = $view;
+        parent::__construct($message);
     }
     	
 	/**
 	 * Maneja las excepciones no capturadas
 	 *
+     * @param Exception $e
 	 **/
 	public static function handle_exception($e)
 	{
-		/**
-		 * @see Flash
-		 */
-		require_once CORE_PATH . 'libraries/flash/flash.php';
-	
-		header('HTTP/1.1 404 Not Found');
-		$config = Config::read('config');
+        if(isset($e->_view) && ($e->_view == 'no_controller' || $e->_view == 'no_action')) {
+            header('HTTP/1.1 404 Not Found');
+        } else {
+            header('HTTP/1.1 500 Internal Server Error');
+        }
+        
 		extract(Router::get(), EXTR_OVERWRITE);
 		
 		ob_start();
-		if(!$config['application']['production']) {
-			$show_trace = $e->_show_trace;
+		if(!PRODUCTION) {
 			$boot = Config::read('boot');
-			include CORE_PATH . 'views/errors/exception.phtml';
+            if(isset($e->_view)) {
+                include CORE_PATH . "views/errors/{$e->_view}.phtml";
+            } else {
+                include CORE_PATH . "views/errors/exception.phtml";
+            }
 		} else {
 			include APP_PATH . 'views/errors/404.phtml';
 		}
 		$content = ob_get_clean();
 		
-		/**
-		 * Verifica si ya se habia iniciado captura del buffer
-		 * y en ese caso la termina
-		 **/
-		if(ob_get_level()) {
+		// termina los buffers abiertos
+		while(ob_get_level()) {
 			ob_end_clean();
 		}
-		require_once CORE_PATH . 'kumbia/view.php';
-		/**
-		 * Verifico si se cargo el Dispatcher
-		 **/
+        
+		// verifica si esta cargado el dispatcher
 		if(class_exists('Dispatcher')) {
 			$controller = Dispatcher::get_controller();
 			if(!$controller || $controller->response != 'view') {
-				echo $content;
-				include CORE_PATH . 'views/templates/default.phtml';
+				include CORE_PATH . 'views/templates/exception.phtml';
 			} else {
 				echo $content;
 			}
 		} else {
 			echo $content;
-			include CORE_PATH . 'views/templates/default.phtml';
+			include CORE_PATH . 'views/templates/exception.phtml';
 		}
 	}
 }

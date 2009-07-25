@@ -1,46 +1,51 @@
-<div style='background: #FFFFFF; padding: 5px'>
-<?php Flash::error ( get_class($e) . ": {$e->getMessage()} ({$e->getCode() })<br> <span style='font-size:12px'>En el archivo <i>{$e->getFile() }</i> en la l&iacute;nea: <i>{$e->getLine() }</i>", true ) ?>
+<div class="exception">
+    <span class="bold">
+        <?php echo get_class($e) ?>: <?php echo htmlspecialchars("{$e->getMessage()} ({$e->getCode() })",  ENT_NOQUOTES, 'UTF-8') ?>
+    </span>
+    <br>
+    <span class="exception_file">
+        En el archivo <span class="italic"><?php echo htmlspecialchars($e->getFile(), ENT_NOQUOTES, 'UTF-8') ?></span> en la l&iacute;nea: <span class="italic"><?php echo $e->getLine() ?></span>
+    </span>
+</div>
 
-<?php if ($show_trace): ?>
-    <?php if (!empty ( $config['application']['debug'] )): ?> 
-        <div style='font-size:14px; margin: 10px; border:1px solid #333333; background: #676767; font-family: Lucida Console; margin:10px; color: white; padding: 3px' align='left'>
-            <?php foreach ($e->getTrace() as $trace): ?>
-                <?php if (isset ( $trace ['file'] )): ?>
-                    <?php echo $trace ['file'] . "(" . $trace ['line'] . ")" ?><br>
-                        <?php if (strpos ( $trace ['file'], basename(APP_PATH) )): ?>
-                            <strong>La excepción se ha generado en el archivo '<?php echo $trace ['file'] ?>' en la línea '<?php echo $trace ['line'] ?>':</strong><br>
-                            <div style='color: #000000; margin: 10px; border: 1px solid #333333; background: #FFFFFF; padding:0px'>
-                                <table cellspacing='0' cellpadding='0'>
-                                <?php
-                                    $lines = file ( $trace ['file'] );
-                                    $eline = $trace ['line'];
-                                ?>
-                                
-                                <?php for($i = (($eline - 4) < 0 ? 0 : $eline - 4); $i <= ($eline + 2 > count ( $lines ) - 1 ? count ( $lines ) - 1 : $eline + 2); $i ++): ?>
-                                    <?php if ($i == $eline - 1): ?>
-                                        <tr><td style='background:#c0c0c0; font-size:13px'><strong><?php echo ($i + 1) ?></strong></td><td>&nbsp;<span style='background: #FFDDDD;font-family: Lucida Console; font-size:13px;'><strong>&nbsp;<?php echo htmlentities ( $lines [$i], ENT_NOQUOTES ) ?></strong></span></td></tr>
-                                    <?php else: ?>
-                                        <tr><td style='background:#c0c0c0; font-size:13px'><strong><?php echo ($i + 1) ?></strong></td><td style='font-family: Lucida Console; font-size:13px;'>&nbsp;<?php echo htmlentities ( $lines [$i], ENT_NOQUOTES ) ?></td></tr>
-                                    <?php endif;?>
-                                <?php endfor; ?>
-                                </table>
-                            </div>
-                            <pre style='font-family: Lucida Console; margin:10px; color: white;'>
-                        <?php endif; ?>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </div>  
-    <?php endif; ?>
+<h1 class="titulo">Trazado:</h1>
 
-    <div style='font-size:12px; margin: 0px 15px 0px 15px; padding: 5px; border:1px solid #333333; background: #f2f2f2;' align='left'>
-        <strong>Información Adicional:</strong><br>
-        <strong>En producción:</strong> <?php echo $config['application']['production'] ?  'Sí' : 'No' ?><br>
-        <strong>Ubicación actual:</strong> <?php echo $route ?><br>
-        <strong>Librerías:</strong> <?php echo $boot['modules']['libraries'] ?><br>
-    </div>
-<?php else: ?>
-    <pre style='font-family: Lucida Console; margin: 10px; border:1px solid #969696; background: #fafafa'>
-        <?php echo $e->getTraceAsString () ?>
-    </pre>
-<?php endif; ?>
+<div class="informacion">
+    <?php foreach ($e->getTrace() as $trace): ?>
+        <?php if (isset ( $trace ['file'] ) && strpos ( $trace ['file'], basename(APP_PATH) )): ?>
+            <span class="bold"><?php echo htmlspecialchars($trace['file'], ENT_NOQUOTES, 'UTF-8') . "(" . $trace ['line'] . ")" ?></span>
+            <br>
+            La excepción se ha generado en el archivo <span class="italic"><?php echo $trace['file'] ?></span> en la línea: <span class="italic"><?php echo $trace['line'] ?></span>:<br>
+            
+            <table class="trazado">
+                <?php 
+                    $lines = file ( $trace ['file'] ); 
+                    $start = ($trace ['line'] - 4) < 0 ? 0 : $trace ['line'] - 4;
+                    $end = ($trace ['line'] + 2) > count ( $lines ) - 1 ? count ( $lines ) - 1 : $trace ['line'] + 2;
+                ?>
+                
+                <?php for($i = $start; $i <= $end; $i ++): ?>
+                    <tr>
+                        <td class="trazado_numero"><?php echo ($i + 1) ?></td>
+                        <td class="linea <?php if ($i == $trace ['line'] - 1): ?> resaltar <?php endif; ?>"><?php echo htmlspecialchars($lines [$i], ENT_NOQUOTES, 'UTF-8') ?></td>
+                    </tr>
+                <?php endfor; ?>
+            </table>
+            
+            <br>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>  
+
+<div class="informacion">
+    <?php echo nl2br(htmlspecialchars($e->getTraceAsString())) ?>
+</div>
+
+
+<h1 class="titulo">Información Adicional:</h1>
+
+<div class="informacion">
+    <span class="bold">En producción:</span> <?php echo PRODUCTION ?  'Sí' : 'No' ?><br>
+    <span class="bold">Ubicación actual:</span> <?php echo $route ?><br>
+    <span class="bold">Librerías:</span> <?php echo $boot['modules']['libraries'] ?><br>
 </div>

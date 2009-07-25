@@ -1,0 +1,38 @@
+.italic { font-style:italic }
+
+.bold { font-weight: bold; }
+
+.exception, .informacion { margin: 0.5em; background-color:#F3F3F3; border: 1px solid gray;}
+
+.exception {
+	color: red;
+	background-image: url('../img/default/exception.png');
+	padding: 25px 5px 25px 90px;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+}
+
+.informacion {	
+	color: black;
+	font-size: 0.8em;
+	padding: 0.6em 0.8em;
+}
+
+.exception_file { font-size: 0.9em; color: black; }
+
+.titulo {margin: 1em 0.5em 0.5em 0.5em; font-weight: bold; text-align: left; font-size: 0.8em;}
+
+.trazado { 
+	border-collapse: collapse; 
+	background-color: white; 
+	border: solid gray 1px;
+	font-size: 1em;
+}
+
+.trazado_numero, .resaltar { font-weight: bold;}
+
+.trazado_numero { background-color: #C0C0C0; }
+
+.linea { padding-left: 1em; }
+
+.resaltar { background-color: #ffdddd; 	width: 100%;}
