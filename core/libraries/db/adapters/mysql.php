@@ -123,12 +123,12 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 		if($this->id_connection = mysql_connect("{$config['host']}:{$config['port']}", $config['username'], $config['password'], true)){
 			if($config['name']!=='') {
 				if(!mysql_select_db($config['name'], $this->id_connection)){
-					throw new KumbiaException($this->error(), $this->no_error(), false);
+					throw new KumbiaException($this->error());
 				}
 			}
 			return true;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error(), false);
+			throw new KumbiaException($this->error());
 		}
 	}
 
@@ -219,7 +219,7 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 		if(($number_rows = mysql_num_rows($result_query))!==false){
 			return $number_rows;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
+			throw new KumbiaException($this->error());
 			return false;
 		}
 		return false;
@@ -245,7 +245,7 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 		if(($fieldName = mysql_field_name($result_query, $number))!==false){
 			return $fieldName;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
+			throw new KumbiaException($this->error());
 			return false;
 		}
 		return false;
@@ -269,7 +269,7 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 		if(($success = mysql_data_seek($result_query, $number))!==false){
 			return $success;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
+			throw new KumbiaException($this->error());
 			return false;
 		}
 		return false;
@@ -286,7 +286,7 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 			return $numberRows;
 		} else {
 			$this->lastError = $this->error();
-			throw new KumbiaException($this->error(), $this->no_error());
+			throw new KumbiaException($this->error());
 			return false;
 		}
 		return false;
