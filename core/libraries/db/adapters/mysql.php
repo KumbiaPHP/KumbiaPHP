@@ -114,7 +114,6 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 	
 		if(!extension_loaded('mysql')){
 			throw new KumbiaException('Debe cargar la extensión de PHP llamada php_mysql');
-			return false;
 		}
 		if(!isset($config['port']) || !$config['port']) {
 			$config['port'] = 3306;
@@ -156,8 +155,7 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 			return $result_query;
 		} else {
 			$this->last_result_query = false;
-			throw new KumbiaException($this->error(" al ejecutar <i>\"$sql_query\"</i>"), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
 		}
 	}
 
@@ -175,7 +173,7 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 	 * Devuelve fila por fila el contenido de un select
 	 *
 	 * @param resource $result_query
-	 * @param integer $opt
+	 * @param int $opt
 	 * @return array
 	 */
 	public function fetch_array($result_query='', $opt=''){
@@ -220,7 +218,6 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 			return $number_rows;
 		} else {
 			throw new KumbiaException($this->error());
-			return false;
 		}
 		return false;
 	}
@@ -228,7 +225,7 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 	/**
 	 * Devuelve el nombre de un campo en el resultado de un select
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @param resource $result_query
 	 * @return string
 	 */
@@ -246,7 +243,6 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 			return $fieldName;
 		} else {
 			throw new KumbiaException($this->error());
-			return false;
 		}
 		return false;
 	}
@@ -255,7 +251,7 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 	/**
 	 * Se Mueve al resultado indicado por $number en un select
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @param resource $result_query
 	 * @return boolean
 	 */
@@ -270,7 +266,6 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 			return $success;
 		} else {
 			throw new KumbiaException($this->error());
-			return false;
 		}
 		return false;
 	}
@@ -279,7 +274,7 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 	 * Numero de Filas afectadas en un insert, update o delete
 	 *
 	 * @param resource $result_query
-	 * @return integer
+	 * @return int
 	 */
 	public function affected_rows($result_query=''){
 		if(($numberRows = mysql_affected_rows())!==false){
@@ -287,7 +282,6 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 		} else {
 			$this->lastError = $this->error();
 			throw new KumbiaException($this->error());
-			return false;
 		}
 		return false;
 	}
@@ -316,7 +310,7 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 	/**
 	 * Devuelve el no error de MySQL
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function no_error(){
 		if(!$this->id_connection){
@@ -328,7 +322,7 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 	/**
 	 * Devuelve el ultimo id autonumerico generado en la BD
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function last_insert_id($table='', $primary_key=''){
 		if(!$this->id_connection){
@@ -405,8 +399,7 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 	public function create_table($table, $definition, $index=array()){
 		$create_sql = "CREATE TABLE $table (";
 		if(!is_array($definition)){
-			new KumbiaException("Definici&oacute;n invalida para crear la tabla '$table'");
-			return false;
+			throw new KumbiaException("Definición invalida para crear la tabla '$table'");
 		}
 		$create_lines = array();
 		$index = array();

@@ -128,7 +128,6 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 
 		if(!extension_loaded('oci8')){
 			throw new KumbiaException('Debe cargar la extensión de PHP llamada php_oci8');
-			return false;
 		}
 
 		if($this->id_connection = @oci_pconnect($config['username'], $config['password'], "//{$config['host']}/{$config['name']}")){
@@ -138,7 +137,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 			$this->query("alter session set nls_date_format = 'YYYY-MM-DD'");
 			return true;
 		} else {
-			throw new KumbiaException($this->error($php_errormsg), false);
+			throw new KumbiaException($this->error($php_errormsg));
 		}
 	}
 
@@ -166,8 +165,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 			$this->last_result_query = $resultQuery;
 		} else {
 			$this->last_result_query = false;
-			throw new KumbiaException($this->error($php_errormsg), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error($php_errormsg));
 		}
 		if($this->autocommit){
 			$commit = OCI_COMMIT_ON_SUCCESS;
@@ -177,8 +175,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 
 		if(!@oci_execute($resultQuery, $commit)){
 			$this->last_result_query = false;
-			throw new KumbiaException($this->error($php_errormsg), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error($php_errormsg));
 		}
 		return $resultQuery;
 	}
@@ -196,7 +193,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 	 * Devuelve fila por fila el contenido de un select
 	 *
 	 * @param resource $resultQuery
-	 * @param integer $opt
+	 * @param int $opt
 	 * @return array
 	 */
 	function fetch_array($resultQuery='', $opt=''){
@@ -242,13 +239,12 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 		if(!$resultQuery){
 			$resultQuery = $this->last_result_query;
 			if(!$resultQuery){
-				throw new KumbiaException($this->error('Resource invalido para db::num_rows'), $this->no_error());
-				return false;
+				throw new KumbiaException($this->error('Resource invalido para db::num_rows'));
 			}
 		}
-		/**
-		 * El Adaptador cachea la ultima llamada a num_rows por razones de performance
-		 */
+		
+        // El Adaptador cachea la ultima llamada a num_rows por razones de performance
+        
 		/*if($resultQuery==$this->last_result_query){
 			if($this->num_rows!==false){
 				return $this->num_rows;
@@ -261,7 +257,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 		}
 		if(!@oci_execute($resultQuery, $commit)){
 			$this->last_result_query = false;
-			throw new KumbiaException($this->error($php_errormsg." al ejecutar <i>'{$this->lastQuery}'</i>"), $this->no_error());
+			throw new KumbiaException($this->error($php_errormsg." al ejecutar <em>'{$this->lastQuery}'</em>"));
 			return false;
 		}
 		$tmp = array();
@@ -274,7 +270,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 	/**
 	 * Devuelve el nombre de un campo en el resultado de un select
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @param resource $resultQuery
 	 * @return string
 	 */
@@ -285,16 +281,14 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 		if(!$resultQuery){
 			$resultQuery = $this->last_result_query;
 			if(!$resultQuery){
-				throw new KumbiaException($this->error('Resource invalido para db::field_name'), $this->no_error());
-				return false;
+				throw new KumbiaException($this->error('Resource invalido para db::field_name'));
 			}
 		}
 
 		if(($fieldName = oci_field_name($resultQuery, $number+1))!==false){
 			return strtolower($fieldName);
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error());
 		}
 		return false;
 	}
@@ -303,7 +297,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 	/**
 	 * Se Mueve al resultado indicado por $number en un select
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @param resource $resultQuery
 	 * @return boolean
 	 */
@@ -311,8 +305,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 		if(!$resultQuery){
 			$resultQuery = $this->last_result_query;
 			if(!$resultQuery){
-				throw new KumbiaException($this->error('Resource invalido para db::data_seek'), $this->no_error());
-				return false;
+				throw new KumbiaException($this->error('Resource invalido para db::data_seek'));
 			}
 		}
 		if($this->autocommit){
@@ -321,8 +314,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 			$commit = OCI_DEFAULT;
 		}
 		if(!@oci_execute($resultQuery, $commit)){
-			throw new KumbiaException($this->error($php_errormsg." al ejecutar <i>'{$this->lastQuery}'</i>"), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error($php_errormsg." al ejecutar <em>'{$this->lastQuery}'</em>"));
 		}
 		if($number){
 			for($i=0;$i<=$number-1;$i++){
@@ -340,7 +332,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 	 * Número de Filas afectadas en un insert, update ó delete
 	 *
 	 * @param resource $resultQuery
-	 * @return integer
+	 * @return int
 	 */
 	function affected_rows($resultQuery=''){
 		if(!$this->id_connection){
@@ -355,8 +347,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 		if(($numberRows = oci_num_rows($resultQuery))!==false){
 			return $numberRows;
 		} else {
-			throw new KumbiaException($this->error('Resource invalido para db::affected_rows'), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error('Resource invalido para db::affected_rows'));
 		}
 		return false;
 	}
@@ -389,7 +380,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 	/**
 	 * Devuelve el no error de Oracle
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	function no_error(){
 		if(!$this->id_connection){
@@ -407,7 +398,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 	/**
 	 * Devuelve un LIMIT valido para un SELECT del RBDM
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @return string
 	 */
 	public function limit($sql, $number){
@@ -463,8 +454,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 	public function create_table($table, $definition, $index=array()){
 		$create_sql = "CREATE TABLE $table (";
 		if(!is_array($definition)){
-			new KumbiaException("Definici&oacute;n invalida para crear la tabla '$table'");
-			return false;
+			throw new KumbiaException("Definición invalida para crear la tabla '$table'");
 		}
 		$create_lines = array();
 		$index = array();
@@ -541,7 +531,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 	/**
 	 * Devuelve el ultimo id autonumerico generado en la BD
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function last_insert_id($table='', $primary_key=''){
 		if(!$this->id_connection){
@@ -597,7 +587,7 @@ class DbOracle extends DbBase implements DbBaseInterface  {
 	 *
 	 */
 	public function begin(){
-		//Simpre hay una transaccion
+		//Siempre hay una transaccion
 		//return $this->query("BEGIN WORK");
 		return true;
 	}

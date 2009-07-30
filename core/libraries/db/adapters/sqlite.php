@@ -114,12 +114,11 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 
 		if(!extension_loaded('sqlite')){
 			throw new KumbiaException('Debe cargar la extensión de PHP llamada sqlite');
-			return false;
 		}
 		if($this->id_connection = sqlite_open(APP_PATH.'config/sql/'.$config['name'])){
 			return true;
 		} else {
-			throw new KumbiaException($this->error("No se puede conectar a la base de datos"), $this->no_error(), false);
+			throw new KumbiaException($this->error('No se puede conectar a la base de datos'));
 		}
 	}
 
@@ -145,8 +144,7 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 			$this->last_result_query = $resultQuery;
 			return $resultQuery;
 		} else {
-			throw new KumbiaException($this->error(" al ejecutar <i>'$sqlQuery'</i>"), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error(" al ejecutar <em>'$sqlQuery'</em>"));
 		}
 	}
 
@@ -165,7 +163,7 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 	 * Devuelve fila por fila el contenido de un select
 	 *
 	 * @param resource $resultQuery
-	 * @param integer $opt
+	 * @param int $opt
 	 * @return array
 	 */
 	function fetch_array($resultQuery='', $opt=''){
@@ -208,8 +206,7 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 		if(($numberRows = sqlite_num_rows($resultQuery))!==false){
 			return $numberRows;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error());
 		}
 		return false;
 	}
@@ -217,7 +214,7 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 	/**
 	 * Devuelve el nombre de un campo en el resultado de un select
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @param resource $resultQuery
 	 * @return string
 	 */
@@ -234,8 +231,7 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 		if(($fieldName = sqlite_field_name($resultQuery, $number))!==false){
 			return $fieldName;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error());
 		}
 		return false;
 	}
@@ -244,7 +240,7 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 	/**
 	 * Se Mueve al resultado indicado por $number en un select
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @param resource $resultQuery
 	 * @return boolean
 	 */
@@ -258,8 +254,7 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 		if(($success = sqlite_rewind($resultQuery, $number))!==false){
 			return $success;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error());
 		}
 		return false;
 	}
@@ -268,7 +263,7 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 	 * Numero de Filas afectadas en un insert, update o delete
 	 *
 	 * @param resource $resultQuery
-	 * @return integer
+	 * @return int
 	 */
 	function affected_rows($resultQuery=''){
 		if(!$this->id_connection){
@@ -283,8 +278,7 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 		if(($numberRows = pg_affected_rows($resultQuery))!==false){
 			return $numberRows;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error());
 		}
 		return false;
 	}
@@ -313,7 +307,7 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 	/**
 	 * Devuelve el no error de SQLite
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	function no_error(){
 		if(!$this->id_connection){
@@ -325,7 +319,7 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 	/**
 	 * Devuelve el ultimo id autonumerico generado en la BD
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function last_insert_id($table='', $primary_key=''){
 		if(!$this->id_connection){

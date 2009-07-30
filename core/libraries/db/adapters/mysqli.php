@@ -114,14 +114,12 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 
 		if(!extension_loaded('mysqli')){
 			throw new KumbiaException('Debe cargar la extensión de PHP llamada php_mysqli');
-			return false;
 		}
 
 		if($this->id_connection = mysqli_connect($config['host'], $config['username'], $config['password'], $config['name'], $config['port'])){
 			return true;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error(), false);
-			return false;
+			throw new KumbiaException($this->error());
 		}
 
 	}
@@ -149,8 +147,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 			return $result_query;
 		} else {
 			$this->last_result_query = false;
-			throw new KumbiaException($this->error(" al ejecutar <i>\"$sql_query\"</i>"), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
 		}
 	}
 
@@ -169,7 +166,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 	 * Devuelve fila por fila el contenido de un select
 	 *
 	 * @param resource $result_query
-	 * @param integer $opt
+	 * @param int $opt
 	 * @return array
 	 */
 	public function fetch_array($result_query='', $opt=''){
@@ -211,8 +208,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 		if(($number_rows = mysqli_num_rows($result_query))!==false){
 			return $number_rows;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error());
 		}
 		return false;
 	}
@@ -220,7 +216,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 	/**
 	 * Devuelve el nombre de un campo en el resultado de un select
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @param resource $result_query
 	 * @return string
 	 */
@@ -238,8 +234,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 			$field = mysqli_fetch_field($result_query);
 			return $field->name;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error());
 		}
 		return false;
 	}
@@ -248,7 +243,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 	/**
 	 * Se Mueve al resultado indicado por $number en un select
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @param resource $result_query
 	 * @return boolean
 	 */
@@ -262,8 +257,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 		if(($success = mysqli_data_seek($result_query, $number))!==false){
 			return $success;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error());
 		}
 		return false;
 	}
@@ -272,14 +266,13 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 	 * Numero de Filas afectadas en un insert, update o delete
 	 *
 	 * @param resource $result_query
-	 * @return integer
+	 * @return int
 	 */
 	public function affected_rows($result_query=''){
 		if(($numberRows = mysqli_affected_rows($this->id_connection))!==false){
 			return $numberRows;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error());
 		}
 		return false;
 	}
@@ -301,7 +294,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 	/**
 	 * Devuelve el no error de MySQL
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function no_error(){
 		return mysqli_errno($this->id_connection);
@@ -310,7 +303,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 	/**
 	 * Devuelve el ultimo id autonumerico generado en la BD
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function last_insert_id($table='', $primary_key=''){
 		if(!$this->id_connection){
@@ -387,8 +380,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 	public function create_table($table, $definition, $index=array()){
 		$create_sql = "CREATE TABLE $table (";
 		if(!is_array($definition)){
-			new KumbiaException("Definici&oacute;n invalida para crear la tabla '$table'");
-			return false;
+			throw new KumbiaException("Definición invalida para crear la tabla '$table'");
 		}
 		$create_lines = array();
 		$index = array();

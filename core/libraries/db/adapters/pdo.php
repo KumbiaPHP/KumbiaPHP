@@ -87,13 +87,12 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 
 		if(!extension_loaded('pdo')){
 			throw new KumbiaException('Debe cargar la extensión de PHP llamada php_pdo');
-			return false;
 		}
 
 		try {
 			$this->pdo = new PDO($config['type'] . ":" . $config['dsn'], $config['username'], $config['password']);
 			if(!$this->pdo){
-				throw new KumbiaException("No se pudo realizar la conexion con $this->db_rbdm", 0, false);
+				throw new KumbiaException("No se pudo realizar la conexion con $this->db_rbdm");
 			}
 			if($this->db_rbdm!='odbc'){
 				$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -103,7 +102,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 			$this->initialize();
 			return true;
 		} catch(PDOException $e) {
-			throw new KumbiaException($this->error($e->getMessage()), $this->no_error($e->getCode()), false);
+			throw new KumbiaException($this->error($e->getMessage()));
 		}
 
 	}
@@ -120,7 +119,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
             Logger::debug($sql_query);
         }
 		if(!$this->pdo){
-			throw new KumbiaException("No hay conexi&oacute;n para realizar esta acci&oacute;n:", 0);
+			throw new KumbiaException('No hay conexión para realizar esta acción');
 		}
 		$this->last_query = $sql_query;
 		$this->pdo_statement = null;
@@ -133,7 +132,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 			}
 		}
 		catch(PDOException $e) {
-			throw new KumbiaException($this->error($e->getMessage()." al ejecutar <i>\"$sql_query\"</i>"), $this->no_error($e->getCode()));
+			throw new KumbiaException($this->error($e->getMessage()." al ejecutar <em>\"$sql_query\"</em>"));
 		}
 	}
 
@@ -149,7 +148,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
             Logger::debug($sql_query);
         }
 		if(!$this->pdo){
-			throw new KumbiaException("No hay conexi&oacute;n para realizar esta acci&oacute;n:", 0);
+			throw new KumbiaException('No hay conexión para realizar esta acción');
 		}
 		$this->last_query = $sql_query;
 		$this->pdo_statement = null;
@@ -157,17 +156,18 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 			$result = $this->pdo->exec($sql_query);
 			$this->affected_rows = $result;
 			if($result===false){
-				throw new KumbiaException($this->error(" al ejecutar <i>\"$sql_query\"</i>"), $this->no_error());
+				throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
 			}
 			return $result;
 		}
 		catch(PDOException $e) {
-			throw new KumbiaException($this->error(" al ejecutar <i>\"$sql_query\"</i>"), $this->no_error());
+			throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
 		}
 	}
 
 	/**
 	 * Cierra la Conexión al Motor de Base de datos
+     *
 	 */
 	public function close(){
 		if($this->pdo) {
@@ -181,7 +181,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 	 * Devuelve fila por fila el contenido de un select
 	 *
 	 * @param resource $result_query
-	 * @param integer $opt
+	 * @param int $opt
 	 * @return array
 	 */
 	public function fetch_array($pdo_statement='', $opt=''){
@@ -189,8 +189,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 			$opt = db::DB_BOTH;
 		}
 		if(!$this->pdo){
-			throw new KumbiaException("No hay conexi&oacute;n para realizar esta acci&oacute;n:", 0);
-			return false;
+			throw new KumbiaException('No hay conexión para realizar esta acción');
 		}
 		if(!$pdo_statement){
 			$pdo_statement = $this->pdo_statement;
@@ -203,7 +202,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 			return $pdo_statement->fetch();
 		}
 		catch(PDOException $e) {
-			throw new KumbiaException($this->error($e->getMessage()), $this->no_error($e->getCode()));
+			throw new KumbiaException($this->error($e->getMessage()));
 		}
 	}
 
@@ -221,7 +220,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 	 *
 	 * @param PDOStatement $pdo_statement
 	 * @deprecated
-	 * @return integer
+	 * @return int
 	 */
 	public function num_rows($pdo_statement=''){
 		if($pdo_statement){
@@ -235,14 +234,13 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 	/**
 	 * Devuelve el nombre de un campo en el resultado de un select
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @param resource $result_query
 	 * @return string
 	 */
 	public function field_name($number, $pdo_statement=''){
 		if(!$this->pdo){
-			throw new KumbiaException("No hay conexi&oacute;n para realizar esta acci&oacute;n:", 0);
-			return false;
+			throw new KumbiaException('No hay conexión para realizar esta acción');
 		}
 		if(!$pdo_statement){
 			$pdo_statement = $this->pdo_statement;
@@ -255,7 +253,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 			return $meta['name'];
 		}
 		catch(PDOException $e) {
-			throw new KumbiaException($this->error($e->getMessage()), $this->no_error($e->getCode()));
+			throw new KumbiaException($this->error($e->getMessage()));
 		}
 		return false;
 	}
@@ -264,7 +262,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 	/**
 	 * Se Mueve al resultado indicado por $number en un select (No soportado por PDO)
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @param PDOStatement $result_query
 	 * @return boolean
 	 */
@@ -277,23 +275,22 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 	 *
 	 * @param resource $result_query
 	 * @deprecated
-	 * @return integer
+	 * @return int
 	 */
 	public function affected_rows($pdo_statement=''){
 		if(!$this->pdo){
-			throw new KumbiaException("No hay conexi&oacute;n para realizar esta acci&oacute;n:", 0);
-			return false;
+			throw new KumbiaException('No hay conexión para realizar esta acción');
 		}
 		if($pdo_statement){
 			try {
 				$row_count = $pdo_statement->rowCount();
 				if($row_count===false){
-					throw new KumbiaException($this->error(" al ejecutar <i>\"$sql_query\"</i>"), $this->no_error());
+					throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
 				}
 				return $row_count;
 			}
 			catch(PDOException $e) {
-				throw new KumbiaException($this->error($e->getMessage()), $this->no_error($e->getCode()));
+				throw new KumbiaException($this->error($e->getMessage()));
 			}
 		} else {
 			return $this->affected_rows;
@@ -323,7 +320,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 	/**
 	 * Devuelve el no error de MySQL
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function no_error($number=0){
 		if($this->pdo){
@@ -336,7 +333,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 	/**
 	 * Devuelve el ultimo id autonumerico generado en la BD
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function last_insert_id($table='', $primary_key=''){
 		if(!$this->pdo){
@@ -391,7 +388,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 		$insert_sql = "";
 		if(is_array($values)){
 			if(!count($values)){
-				new KumbiaException("Imposible realizar inserci&oacute;n en $table sin datos");
+				throw new KumbiaException("Imposible realizar inserción en $table sin datos");
 			}
 			if(is_array($fields)){
 				$insert_sql = "INSERT INTO $table (".join(",", $fields).") VALUES (".join(",", $values).")";
@@ -400,7 +397,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 			}
 			return $this->exec($insert_sql);
 		} else{
-			throw new KumbiaException("El segundo parametro para insert no es un Array");
+			throw new KumbiaException('El segundo parametro para insert no es un Array');
 		}
 	}
 
@@ -416,7 +413,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 	public function update($table, $fields, $values, $where_condition=null){
 		$update_sql = "UPDATE $table SET ";
 		if(count($fields)!=count($values)){
-			throw new KumbiaException('Los n&uacute;mero de valores a actualizar no es el mismo de los campos');
+			throw new KumbiaException('El número de valores a actualizar no es el mismo de los campos');
 		}
 		$i = 0;
 		$update_values = array();

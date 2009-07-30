@@ -113,7 +113,6 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 
 		if(!extension_loaded('interbase')){
 			throw new KumbiaException('Debe cargar la extensión de PHP llamada php_interbase');
-			return false;
 		}
 		
 		if(isset($config['host']) && $config['host']){
@@ -125,7 +124,7 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 		if($this->id_connection = $id_con){
 			return true;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error(), false);
+			throw new KumbiaException($this->error());
 		}
 	}
 
@@ -152,13 +151,13 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 			return $result_query;
 		} else {
 			$this->last_result_query = false;
-			throw new KumbiaException($this->error(" al ejecutar <i>\"$sql_query\"</i>"), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
 		}
 	}
 
 	/**
 	 * Cierra la Conexión al Motor de Base de datos
+	 *
 	 */
 	public function close(){
 		if($this->id_connection) {
@@ -171,7 +170,7 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 	 * Devuelve fila por fila el contenido de un select
 	 *
 	 * @param resource $result_query
-	 * @param integer $opt
+	 * @param int $opt
 	 * @return array
 	 */
 	public function fetch_array($result_query='', $opt=''){
@@ -220,16 +219,14 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 	 * Devuelve el numero de filas de un select
 	 */
 	public function num_rows($result_query=''){
-		/**
-		 * GDS Interbase no soporta esta funcion (No debe ser usada)
-		 */
+		 // GDS Interbase no soporta esta funcion (No debe ser usada)
 		return false;
 	}
 
 	/**
 	 * Devuelve el nombre de un campo en el resultado de un select
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @param resource $result_query
 	 * @return string
 	 */
@@ -246,8 +243,7 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 		if(($fieldName = ibase_field_name($result_query, $number))!==false){
 			return $fieldName;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error());
 		}
 		return false;
 	}
@@ -256,7 +252,7 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 	/**
 	 * Se Mueve al resultado indicado por $number en un select
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @param resource $result_query
 	 * @return boolean
 	 */
@@ -270,8 +266,7 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 		if(($success = ibase_data_seek($result_query, $number))!==false){
 			return $success;
 		} else {
-			throw new KumbiaException($this->error(), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error());
 		}
 		return false;
 	}
@@ -280,15 +275,14 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 	 * Numero de Filas afectadas en un insert, update o delete
 	 *
 	 * @param resource $result_query
-	 * @return integer
+	 * @return int
 	 */
 	public function affected_rows($result_query=''){
 		if(($numberRows = ibase_affected_rows())!==false){
 			return $numberRows;
 		} else {
 			$this->lastError = $this->error();
-			throw new KumbiaException($this->error(), $this->no_error());
-			return false;
+			throw new KumbiaException($this->error());
 		}
 		return false;
 	}
@@ -333,7 +327,7 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 	/**
 	 * Devuelve el no error de Firebird
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function no_error(){
 		return ibase_errcode();
@@ -342,7 +336,7 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 	/**
 	 * Devuelve el ultimo id autonumerico generado en la BD
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function last_insert_id($table='', $primary_key=''){
 		if(!$this->id_connection){
@@ -359,7 +353,7 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 	 */
 	public function table_exists($table, $schema=''){
 		$table = strtoupper(addslashes("$table"));
-		//NOT LIKE 'RDB\$%'
+		// NOT LIKE 'RDB\$%'
 		$num = $this->fetch_one("SELECT COUNT(*) FROM rdb\$relations WHERE rdb\$relation_name = '$table'");
 		return $num[0];
 	}
@@ -419,8 +413,7 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 	public function create_table($table, $definition, $index=array()){
 		$create_sql = "CREATE TABLE $table (";
 		if(!is_array($definition)){
-			new KumbiaException("Definici&oacute;n invalida para crear la tabla '$table'");
-			return false;
+			throw new KumbiaException("Definición invalida para crear la tabla '$table'");
 		}
 		$create_lines = array();
 		$index = array();
