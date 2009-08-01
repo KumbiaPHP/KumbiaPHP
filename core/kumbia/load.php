@@ -134,7 +134,7 @@ class Load
         if (isset($boot['modules']['libs'])) {
             $libs = explode(',', str_replace(' ', '', $boot['modules']['libs']));
             foreach ($libs as $lib) {
-                self::library($lib);
+                self::lib($lib);
             }
             unset($libs);
         }

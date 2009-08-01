@@ -28,7 +28,7 @@ class Controller
 	 **/
 	public $models = null;
     /**
-	 * Library a cargar
+	 * Libs a cargar
 	 *
 	 * @var array
 	 **/
