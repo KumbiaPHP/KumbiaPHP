@@ -21,7 +21,7 @@
 /**
  * @see Hook
  */
-require CORE_PATH . 'libraries/event/hook.php';
+require CORE_PATH . 'libs/event/hook.php';
  
 /**
  * Implementación de Eventos

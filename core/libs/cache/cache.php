@@ -23,7 +23,7 @@
 /**
  * @see CacheInterface
  */
-include CORE_PATH . 'libraries/cache/cache_interface.php';
+include CORE_PATH . 'libs/cache/cache_interface.php';
 
 /**
  * Clase que implementa un componente de cacheo
@@ -158,7 +158,7 @@ class Cache
     public static function set_driver ($driver)
     {
         if(!isset(self::$_drivers[$driver])) {
-            require_once CORE_PATH . "libraries/cache/drivers/{$driver}_cache.php";
+            require_once CORE_PATH . "libs/cache/drivers/{$driver}_cache.php";
             $class = $driver.'cache';
             self::$_drivers[$driver] = new $class();
         }

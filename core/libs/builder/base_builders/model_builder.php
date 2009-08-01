@@ -55,7 +55,7 @@ class ModelBuilder implements BuilderInterface
             echo "\r\n-- Generando model: $model\r\n$__file__\r\n";
             ob_start();
             echo "<?php\n";
-            include CORE_PATH . 'libraries/builder/base_builders/templates/model.php';
+            include CORE_PATH . 'libs/builder/base_builders/templates/model.php';
             $code = ob_get_contents();
             ob_end_clean();
             if (! file_put_contents($__file__, $code)) {

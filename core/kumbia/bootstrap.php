@@ -62,7 +62,7 @@ if(PRODUCTION) {
     /**
      * @see Cache
      **/
-    require CORE_PATH . 'libraries/cache/cache.php';
+    require CORE_PATH . 'libs/cache/cache.php';
     /**
      * Asigna el driver para cache
      **/

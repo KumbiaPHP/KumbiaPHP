@@ -55,7 +55,7 @@ class ControllerBuilder implements BuilderInterface
             echo "\r\n-- Generando controller: $controller\r\n$__file__\r\n";
             ob_start();
             echo "<?php\n";
-            include CORE_PATH . 'libraries/builder/base_builders/templates/controller.php';
+            include CORE_PATH . 'libs/builder/base_builders/templates/controller.php';
             $code = ob_get_contents();
             ob_end_clean();
             if (! file_put_contents($__file__, $code)) {

@@ -23,7 +23,7 @@
 /**
  * ActiveRecordException
  */
-require_once CORE_PATH . 'libraries/db/active_record_base/exception.php';
+require_once CORE_PATH . 'libs/db/active_record_base/exception.php';
 /**
  * ActiveRecordBase Clase para el Mapeo Objeto Relacional
  *
@@ -2328,7 +2328,7 @@ class ActiveRecordBase
         $args = func_get_args();
         array_unshift($args, $this->source);
         if(!class_exists('Paginator')){
-            require CORE_PATH . 'libraries/db/behaviors/paginate.php';
+            require CORE_PATH . 'libs/db/behaviors/paginate.php';
         }
         return call_user_func_array(array('Paginator' , 'paginate'), $args);
     }
@@ -2348,7 +2348,7 @@ class ActiveRecordBase
         $args = func_get_args();
         array_unshift($args, $this->source);
         if(!class_exists('Paginator')){
-            require CORE_PATH . 'libraries/db/behaviors/paginate.php';
+            require CORE_PATH . 'libs/db/behaviors/paginate.php';
         }
         return call_user_func_array(array('Paginator' , 'paginate_by_sql'), $args);
     }

@@ -24,7 +24,7 @@
 /**
  * @see DbPDOInterface
  */
-require_once CORE_PATH.'libraries/db/adapters/pdo/interface.php';
+require_once CORE_PATH.'libs/db/adapters/pdo/interface.php';
 
 abstract class DbPDO extends DbBase implements DbPDOInterface  {
 

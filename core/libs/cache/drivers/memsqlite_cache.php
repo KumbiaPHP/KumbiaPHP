@@ -24,7 +24,7 @@
 /**
  * @see SqliteCache
  **/
-require_once CORE_PATH . 'libraries/cache/drivers/sqlite_cache.php';
+require_once CORE_PATH . 'libs/cache/drivers/sqlite_cache.php';
 
 class MemSqliteCache extends SqliteCache
 {

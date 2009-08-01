@@ -24,16 +24,16 @@
 /**
  * @see DbBaseInterface
  */
-require CORE_PATH . 'libraries/db/db_base_interface.php';
+require CORE_PATH . 'libs/db/db_base_interface.php';
 
 /**
  * @see DbLoader
  */
-require CORE_PATH . 'libraries/db/loader/loader.php';
+require CORE_PATH . 'libs/db/loader/loader.php';
 /**
 * @see ActiveRecordBase
 */
-require CORE_PATH . 'libraries/db/active_record_base/active_record_base.php';
+require CORE_PATH . 'libs/db/active_record_base/active_record_base.php';
 
 /**
 * Carga el modelo base
@@ -65,7 +65,7 @@ class DbBase
 	 *
 	 * @var mixed
 	 */
-	public $logger;
+	public $logger = false;
 
 	/**
 	 * Singleton de la conexi&oacute;n a la base de datos
@@ -367,13 +367,13 @@ class DbBase
 				/**
 				 * @see DbPDO
 				 */
-				require_once CORE_PATH . 'libraries/db/adapters/pdo.php';
-				require_once CORE_PATH . 'libraries/db/adapters/pdo/' . $config['type'] . '.php';
+				require_once CORE_PATH . 'libs/db/adapters/pdo.php';
+				require_once CORE_PATH . 'libs/db/adapters/pdo/' . $config['type'] . '.php';
 			}
 		} else {
 			$dbclass = "Db{$config['type']}";
 			if(!class_exists($dbclass)) {
-				require_once CORE_PATH . 'libraries/db/adapters/' . $config['type'] . '.php';
+				require_once CORE_PATH . 'libs/db/adapters/' . $config['type'] . '.php';
 			}
 		}
 		if(!class_exists($dbclass)){

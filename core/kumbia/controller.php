@@ -32,7 +32,7 @@ class Controller
 	 *
 	 * @var array
 	 **/
-	public $libraries = null;
+	public $libs = null;
 	/**
 	 * Indica el tipo de salida generada por el controlador
 	 *
@@ -113,8 +113,8 @@ class Controller
          * Carga los utils indicados
          *
          **/
-        if($this->libraries) {
-            call_user_func_array(array('Load', 'library'), $this->libraries);
+        if($this->libs) {
+            call_user_func_array(array('Load', 'lib'), $this->libs);
         }
         
 	}	

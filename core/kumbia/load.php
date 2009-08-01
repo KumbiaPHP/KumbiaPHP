@@ -33,11 +33,11 @@ class Load
      * @param string $lib libreria a cargar
      * @throw KumbiaException
      **/
-    public static function library ($lib)
+    public static function lib ($lib)
     {
-        $file = APP_PATH . "libraries/$lib.php";
+        $file = APP_PATH . "libs/$lib.php";
         if (! is_file($file)) {
-            $file = CORE_PATH . "libraries/$lib/$lib.php";
+            $file = CORE_PATH . "libs/$lib/$lib.php";
             if (! is_file($file)) {
                 throw new KumbiaException("$lib no encontrada");
             }
@@ -57,7 +57,7 @@ class Load
          * Si se utiliza base de datos
          **/
         if (! class_exists('Db', false)) {
-            require CORE_PATH . 'libraries/db/db.php';
+            require CORE_PATH . 'libs/db/db.php';
         }
         $controller = Dispatcher::get_controller();
         if (! $model) {
@@ -131,12 +131,12 @@ class Load
     public static function boot ()
     {
         $boot = Config::read('boot');
-        if (isset($boot['modules']['libraries'])) {
-            $libraries = explode(',', str_replace(' ', '', $boot['modules']['libraries']));
-            foreach ($libraries as $lib) {
+        if (isset($boot['modules']['libs'])) {
+            $libs = explode(',', str_replace(' ', '', $boot['modules']['libs']));
+            foreach ($libs as $lib) {
                 self::library($lib);
             }
-            unset($libraries);
+            unset($libs);
         }
     }
     /**
@@ -151,7 +151,7 @@ class Load
          * Si se utiliza base de datos
          **/
         if (! class_exists('Db', false)) {
-            require CORE_PATH . 'libraries/db/db.php';
+            require CORE_PATH . 'libs/db/db.php';
         }
         /**
          * Nombre de la clase
@@ -172,4 +172,5 @@ class Load
         }
         return new $Model();
     }
+    
 }

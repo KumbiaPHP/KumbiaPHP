@@ -23,7 +23,7 @@
 /**
  * @see FilterInterface
  **/
-require_once CORE_PATH . 'libraries/filter/filter_interface.php';
+require_once CORE_PATH . 'libs/filter/filter_interface.php';
  
 /**
  * Implementación de Filtros para Kumbia
@@ -117,7 +117,7 @@ class Filter
 	{
 		$file = APP_PATH . "extensions/filters/{$filter}_filter.php";
 		if(!is_file($file)) {
-			$file = CORE_PATH . "libraries/filter/base_filter/{$filter}_filter.php";
+			$file = CORE_PATH . "libs/filter/base_filter/{$filter}_filter.php";
 			if(!is_file($file)) {
 				throw new KumbiaException("Filtro $filter no encontrado");
 			}

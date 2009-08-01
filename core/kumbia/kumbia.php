@@ -29,7 +29,7 @@ require CORE_PATH . 'kumbia/dispatcher.php';
 /**
  * @see Flash
  */
-require CORE_PATH . 'libraries/flash/flash.php';
+require CORE_PATH . 'libs/flash/flash.php';
 /**
  * @see Util
  */

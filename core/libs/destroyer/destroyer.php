@@ -23,23 +23,23 @@
 /**
  * @see DestroyerInterface
  */
-require_once CORE_PATH . 'libraries/destroyer/destroyer_interface.php';
+require_once CORE_PATH . 'libs/destroyer/destroyer_interface.php';
 /**
  * @see ModelDestroyer
  */
-require_once CORE_PATH . 'libraries/destroyer/base_destroyers/model_destroyer.php';
+require_once CORE_PATH . 'libs/destroyer/base_destroyers/model_destroyer.php';
 /**
  * @see ControllerDestroyer
  */
-require_once CORE_PATH . 'libraries/destroyer/base_destroyers/controller_destroyer.php';
+require_once CORE_PATH . 'libs/destroyer/base_destroyers/controller_destroyer.php';
 /**
  * @see HelperDestroyer
  */
-require_once CORE_PATH . 'libraries/destroyer/base_destroyers/helper_destroyer.php';
+require_once CORE_PATH . 'libs/destroyer/base_destroyers/helper_destroyer.php';
 /**
  * @see FilterDestroyer
  */
-require_once CORE_PATH . 'libraries/destroyer/base_destroyers/filter_destroyer.php';
+require_once CORE_PATH . 'libs/destroyer/base_destroyers/filter_destroyer.php';
 
 /**
  * Manejador de Destroyers

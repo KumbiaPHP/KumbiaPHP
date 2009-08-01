@@ -24,12 +24,12 @@
 /**
  * @see AclRole
  */
-include CORE_PATH . 'libraries/acl/role/role.php';
+include CORE_PATH . 'libs/acl/role/role.php';
 
 /**
  * @see AclResource
  */
-include CORE_PATH . 'libraries/acl/resource/resource.php';
+include CORE_PATH . 'libs/acl/resource/resource.php';
 
 /**
  * Listas ACL (Access Control List)
