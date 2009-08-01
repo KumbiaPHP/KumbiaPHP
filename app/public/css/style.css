@@ -1,19 +1,4 @@
-
-/* Implements All Control Buttons */
-.controlButton {
-
-}
-.requerido{
-	color: #F00;
-}
-
-/* Cambia el Estilo las opciones de reportes en StandardForm */
-.report_options {
-	background: #F2F2F2;
-	border: 1px solid #969696;
-}
-
-/* Formatea los mensajes de Kumbia */
+/* Formatea los mensajes de KumbiaPHP */
 .notice_message, .success_message, .warning_message, .error_message, .validation_message {
 	border: 1px solid;
 	margin: 1px 0;
@@ -54,24 +39,6 @@
 
 .highlight {
 	background: #FFFFDF;
-}
-
-
-/* Cambia los colores del Browse en StandardForm */
-.browse_primary {
-	background: #AEB9FF;
-}
-
-.browse_primary_active {
-	background: #AEB9FF;
-}
-
-.browse_secondary {
-	background: #FFF;
-}
-
-.browse_secondary_active {
-	background: #F2F2F2;
 }
 
 div.autocomplete {
