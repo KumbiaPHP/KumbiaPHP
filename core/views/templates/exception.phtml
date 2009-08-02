@@ -66,7 +66,7 @@
 <th><h3><?php echo round((microtime(1)-START_TIME),4),' seg.'?></h3>Tiempo</th><th><h3><?php echo number_format(memory_get_usage() / 1048576, 2),' MB';?></h3>Memoria Usada</th><th><h3><?php echo count($files) ?> ficheros</h3>Includes</th>
 </tr>
 <tr>
-<th><h3><?php echo ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</th><th><h3><?php echo ini_get('memory_limit'),' MB';?></h3>Memoria PHP</th><th></th>
+<th><h3><?php echo ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</th><th><h3><?php echo ini_get('memory_limit');?></h3>Memoria PHP</th><th></th>
 </tr>
 </thead>
 </table>
