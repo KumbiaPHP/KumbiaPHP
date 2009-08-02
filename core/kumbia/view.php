@@ -141,7 +141,7 @@ class View
 	 */
 	public static function partial($partial, $time=false, $params=array())
 	{
-		if(PRODUCTION && $time!==false) {
+		if(PRODUCTION && $time) {
 			if($data = Cache::start($time, $partial, 'kumbia.partials')) {
 				echo $data;
 				return;
@@ -169,7 +169,7 @@ class View
 			}
 		}
 		include $file;
-        if($time!==false) {
+        if(PRODUCTION && $time) {
             Cache::end();
         }
 		
