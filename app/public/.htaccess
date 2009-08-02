@@ -1,3 +1,6 @@
+# Descomentar la linea si carga el index.html
+#DirectoryIndex index.php
+
 # Si esta mod_rewrite habilitado
 <IfModule mod_rewrite.c>
     # Activar modo de reescritura
