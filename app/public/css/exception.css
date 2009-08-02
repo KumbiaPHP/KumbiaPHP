@@ -1,6 +1,6 @@
-.exception, .exception_information { margin: 0.5em; background-color:#F3F3F3; border: 1px solid gray; }
+//.exception, .exception_information { margin: 0.5em; background-color:#F3F3F3; border: 1px solid gray; }
 
-.exception {
+//.exception {
 	color: red;
 	background-image: url('../img/default/exception.png');
 	padding: 25px 10px 25px 90px;
@@ -8,7 +8,7 @@
 	background-position: 10px center;
 }
 
-.exception_information {	
+//.exception_information {	
 	color: black;
 	font-size: 0.8em;
 	padding: 0.6em 0.8em;
@@ -32,3 +32,48 @@
 .exception_line { padding-left: 1em; }
 
 .exception_highlight { background-color: #ffdddd; width: 100%; }
+
+
+
+.exception{
+padding:1em;
+}
+.round{
+border-radius: 5px;
+}
+.exception h2 {
+background-color: #D1C2A3;
+padding:.2em;
+margin: 1em 0 .3em;
+color:rgb(138, 111, 92);
+border-radius: 5px;
+}
+.exception em {
+color: black;
+}
+.solution {
+background-color: lime;
+}
+pre {
+background-color: #eee;
+padding: 1em;
+border:1px solid #ccc;
+color: #000;
+margin: 1em 0;
+
+}
+.exception table {
+width: 100%;
+//border-collapse: collapse;
+border-spacing: 2px 2px;
+color: rgb(138, 111, 92);
+}
+.exception thead {
+background-color: #D1C2A3;
+}
+.exception tr {
+border-bottom:1px solid #D1C2A3;
+}
+.exception td{
+padding: .2em .2em;
+}

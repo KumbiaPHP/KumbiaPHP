@@ -45,8 +45,7 @@ final class Dispatcher
         $app_controller = Util::camelcase($controller) . 'Controller';
         $file = "$controllers_dir/$controller".'_controller.php';
         if(!is_file($file)){
-			throw new KumbiaException("No se encontró la Clase Controladora \"{$app_controller}\".
-				Debe definir esta clase para poder trabajar este controlador");
+			throw new KumbiaException(null,'no_controller');
 		}
 		include_once $file;
 		/**

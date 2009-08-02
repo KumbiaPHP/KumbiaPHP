@@ -1,0 +1,18 @@
+
+<div  class="error_message round">
+<h1>Controlador no encontrado</h1>
+<p><strong>Error: </strong><em><?php echo $Controller,'Controller</em> no existe o no se puede encontrar.'?></p>
+</div>
+<div class="success_message round">
+<h1>Solución</h1>
+    <h3><strong>Crea la clase <em><?php echo $Controller?>Controller</em> de abajo en el fichero : <em><?php echo APP_PATH,'controllers/',$controller,'_controller.php'?></em></strong></h3>
+        
+<pre>
+&lt;?php
+class <?php echo $Controller,'Controller';?> extends ApplicationController {
+
+	
+}
+</pre>
+</div>
+

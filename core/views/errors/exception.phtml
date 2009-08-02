@@ -1,51 +1,6 @@
-<div class="exception">
-    <span class="bold">
+<div class="error_message round">
+    <p><strong>
         <?php echo get_class($e) ?>: <?php echo htmlspecialchars("{$e->getMessage()} ({$e->getCode() })",  ENT_NOQUOTES, 'UTF-8') ?>
-    </span>
-    <br>
-    <span class="exception_file">
-        En el archivo <span class="italic"><?php echo htmlspecialchars($e->getFile(), ENT_NOQUOTES, 'UTF-8') ?></span> en la l&iacute;nea: <span class="italic"><?php echo $e->getLine() ?></span>
-    </span>
-</div>
-
-<h1 class="exception_title">Trazado:</h1>
-
-<div class="exception_information">
-    <?php foreach ($e->getTrace() as $trace): ?>
-        <?php if (isset ( $trace ['file'] ) && strpos ( $trace ['file'], basename(APP_PATH) )): ?>
-            <span class="bold"><?php echo htmlspecialchars($trace['file'], ENT_NOQUOTES, 'UTF-8') . "(" . $trace ['line'] . ")" ?></span>
-            <br>
-            La excepción se ha generado en el archivo <span class="italic"><?php echo $trace['file'] ?></span> en la línea: <span class="italic"><?php echo $trace['line'] ?></span>:<br>
-            
-            <table class="exception_trace">
-                <?php 
-                    $lines = file ( $trace ['file'] ); 
-                    $start = ($trace ['line'] - 4) < 0 ? 0 : $trace ['line'] - 4;
-                    $end = ($trace ['line'] + 2) > count ( $lines ) - 1 ? count ( $lines ) - 1 : $trace ['line'] + 2;
-                ?>
-                
-                <?php for($i = $start; $i <= $end; $i ++): ?>
-                    <tr>
-                        <td class="exception_trace_number"><?php echo ($i + 1) ?></td>
-                        <td class="exception_line <?php if ($i == $trace ['line'] - 1): ?> exception_highlight <?php endif; ?>"><?php echo htmlspecialchars($lines [$i], ENT_NOQUOTES, 'UTF-8') ?></td>
-                    </tr>
-                <?php endfor; ?>
-            </table>
-            
-            <br>
-        <?php endif; ?>
-    <?php endforeach; ?>
-</div>  
-
-<div class="exception_information">
-    <?php echo nl2br(htmlspecialchars($e->getTraceAsString())) ?>
-</div>
-
-
-<h1 class="exception_title">Información Adicional:</h1>
-
-<div class="exception_information">
-    <span class="bold">En producción:</span> <?php echo PRODUCTION ?  'Sí' : 'No' ?><br>
-    <span class="bold">Ubicación actual:</span> <?php echo $route ?><br>
-    <span class="bold">Librerías:</span> <?php echo $boot['modules']['libs'] ?><br>
+    </strong></p>
+    <p>En el archivo <em><?php echo htmlspecialchars($e->getFile(), ENT_NOQUOTES, 'UTF-8') ?></em> en la línea: <em><?php echo $e->getLine() ?></em></p>
 </div>

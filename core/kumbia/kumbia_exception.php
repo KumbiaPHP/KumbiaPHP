@@ -53,6 +53,7 @@ class KumbiaException extends Exception {
         
 		extract(Router::get(), EXTR_OVERWRITE);
 		
+		$Controller = Util::camelcase($controller);
 		ob_start();
 		if(!PRODUCTION) {
 			$boot = Config::read('boot');
