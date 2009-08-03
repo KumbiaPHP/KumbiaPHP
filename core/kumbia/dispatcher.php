@@ -78,9 +78,7 @@ final class Dispatcher
 		 * en la clase
 		 */
 		if (!method_exists($activeController, $action)) {			
-			throw new KumbiaException("No se encontró; la Acción \"$action\". Es necesario definir un método en la clase
-				controladora '$controller' llamado '{$action}' para que
-				esto funcione correctamente.");
+			throw new KumbiaException(null,'no_action');	
 		}
 		call_user_func_array(array($activeController , $action), $parameters);
 				

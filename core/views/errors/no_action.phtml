@@ -1,0 +1,19 @@
+<div  class="error_message round">
+<h1>Acción no encontrada</h1>
+<p><strong>Error: </strong>No se encontró la Acción <em><?php echo $action?></em>. Es necesario definir un método en la clase controladora <em><?php echo $Controller?></em> llamado <em><?php echo $action?></em> para que esto funcione correctamente.<em></p>
+</div>
+<div class="success_message round">
+<h1>Solución</h1>
+    <h3><strong>Crea el método <em><?php echo $action?></em> de abajo en la clase <em><?php echo $Controller?></em> del fichero : <em><?php echo APP_PATH,'controllers/',$controller,'_controller.php'?></em></strong></h3>
+        
+<pre>
+&lt;?php
+class <?php echo $Controller,'Controller';?> extends ApplicationController {
+
+    public function <?php echo $action?>() {
+    
+    }
+	
+}
+</pre>
+</div>
