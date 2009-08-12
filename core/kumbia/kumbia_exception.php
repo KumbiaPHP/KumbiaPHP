@@ -76,7 +76,9 @@ class KumbiaException extends Exception {
 		if(class_exists('Dispatcher')) {
 			$controller = Dispatcher::get_controller();
 			if(!$controller || $controller->response != 'view') {
-				include CORE_PATH . 'views/templates/exception.phtml';
+				$template = 'views/templates/exception.phtml';
+				if(PRODUCTION) $template= 'views/templates/default.phtml';
+				include CORE_PATH . $template;
 			} else {
 				echo $content;
 			}
