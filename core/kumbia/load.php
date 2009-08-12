@@ -131,7 +131,7 @@ class Load
     public static function boot ()
     {
         $boot = Config::read('boot');
-        if (isset($boot['modules']['libs'])) {
+        if (!empty($boot['modules']['libs'])) {
             $libs = explode(',', str_replace(' ', '', $boot['modules']['libs']));
             foreach ($libs as $lib) {
                 self::lib($lib);
