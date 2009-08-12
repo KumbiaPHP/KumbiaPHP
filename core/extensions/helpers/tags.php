@@ -617,7 +617,7 @@ function submit_image_tag($caption, $src=''){
 		$params['value'] = $params[0];
 	}
 	if(!isset($params['src']) && isset($params[1])) {
-		$params['src'] = PUBLIC_PATH.'/'.$params[1];
+		$params['src'] = PUBLIC_PATH."img/{$params[1]}";
 	}
 	return xhtml_tag('input', $params, 'type: image');
 }
