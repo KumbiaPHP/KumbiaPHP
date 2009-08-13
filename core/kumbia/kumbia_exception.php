@@ -77,7 +77,7 @@ class KumbiaException extends Exception {
 		// verifica si esta cargado el dispatcher
 		if(class_exists('Dispatcher')) {
 			$controller = Dispatcher::get_controller();
-			if($controller && $controller->response = 'view') {
+			if($controller && $controller->response == 'view') {
 				echo $content;
 				exit;
 			} 
