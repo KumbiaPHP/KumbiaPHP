@@ -63,7 +63,7 @@ final class Kumbia
      * Almacena la version actual del Framework
      *
      */
-    const KUMBIA_VERSION = '1.0';
+    const KUMBIA_VERSION = '1.0 Beta 1';
     /**
      * Almacena datos compartidos en la aplicacion
      *
