@@ -78,7 +78,7 @@ class Load
                     self::$_injected_models[] = $Model;
                 }
             } elseif (is_dir(APP_PATH . "models/$model")) {
-                self::_all_models($controller, $dir);
+                self::_all_models($controller, $model);
             } else {
                 throw new KumbiaException("Modelo $model no encontrado");
             }
