@@ -229,16 +229,31 @@ final class Router
 		
 		$cyclic++;
 		if($cyclic>=1000){
-			throw new KumbiaException("Se ha detectado un enrutamiento cíclico. Esto puede causar problemas de estabilidad", 1000);
+			throw new KumbiaException("Se ha detectado un enrutamiento cíclico. Esto puede causar problemas de estabilidad");
 		}
 		
 		//return null;
 	}
 
 	/**
-	 * Envia el array con todas las variables del router
+	 * Envia el valor de una variable o el array con todas las variables y sus valores del router
+	 * Mirar el atributo vars del router
+	 * ej.
+	 * <code>
+	 * kumbia::get()
+	 * </code>
+	 * 
+	 * @param ninguno
+	 * @return array con todas las variables y sus valores
 	 *
-	 * @return array
+	 * o
+	 * ej.
+	 * <code>
+	 * kumbia::get('controller')
+	 * </code>
+	 * 
+	 * @param string  una variable: route, module, controller, action, id, parameters, all_parameters o routed
+	 * @return string con el valor de la variable
 	 **/
 	static public function get($var=null) {
 		if($var){
