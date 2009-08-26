@@ -53,10 +53,10 @@ if ($page->current <= $half) {
 ?>
 
 <div class="paginator">
-    <?php if($page->prev) echo link_to("$url/$page->prev/", 'Anterior'); ?>
+    <?php if($page->prev) echo link_to("$url/$page->prev/", 'Anterior', 'title: Ir a la pág. anterior', 'class: nextprev'); ?>
 
     <?php for($i=$start; $i<=$page->total && $i<($start + $show); $i++): ?>
-        <?php echo $i==$page->current ? "<strong>$i</strong>" : link_to("$url/$i/", $i); ?>
+        <?php echo $i==$page->current ? "<strong>$i</strong>" : link_to("$url/$i/", $i, "title: Ir a la pág. $i"); ?>
     <?php endfor; ?>
 
     <?php if ($page->total > $i): ?>
@@ -71,5 +71,5 @@ if ($page->current <= $half) {
         <?php echo link_to("$url/$i/", $i) ?>
     <?php endif; ?>
 
-    <?php if($page->next) echo link_to("$url/$page->next/", 'Siguiente'); ?>
+    <?php if($page->next) echo link_to("$url/$page->next/", 'Siguiente', 'title: Ir a la pág. siguiente','class: nextprev'); ?>
 </div>
