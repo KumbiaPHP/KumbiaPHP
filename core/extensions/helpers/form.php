@@ -22,7 +22,7 @@
 /**
  * @see Tag
  **/
-require_once CORE_PATH . 'extensions/helpers/Tag.php';
+require_once CORE_PATH . 'extensions/helpers/tag.php';
 
 class Form extends Tag
 {
@@ -243,7 +243,7 @@ class Form extends Tag
     }
     
     /**
-     * Campo text
+     * Campo Select
      *
      * @param string $name nombre de campo
      * @param string $data array de valores para la lista desplegable
@@ -343,5 +343,28 @@ class Form extends Tag
             $attrs = self::getAttrs($attrs);
         }
         echo "<input type=\"image\" src=\"$src\" $attrs/>";
+    }
+    
+    /**
+     * Campo hidden
+     *
+     * @param string $name nombre de campo
+     * @param string|array $attrs atributos de campo
+     * @param string $value
+     **/
+    public static function hidden ($name, $attrs=null, $value=null)
+    {
+        if($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        
+        $field = self::getFormField($name);
+        $id_name = self::getIdAndName($field);
+        
+        if(is_null($value)) {
+            $value = htmlspecialchars(self::getValueFromAction($field), ENT_COMPAT, APP_CHARSET);
+        }
+        
+        echo "<input $id_name type=\"hidden\" value=\"$value\" $attrs/>";
     }
 }

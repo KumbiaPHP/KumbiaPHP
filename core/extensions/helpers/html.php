@@ -23,7 +23,7 @@
 /**
  * @see Tag
  **/
-require_once CORE_PATH . 'extensions/helpers/Tag.php';
+require_once CORE_PATH . 'extensions/helpers/tag.php';
 
 class Html extends Tag
 {
