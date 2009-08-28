@@ -133,7 +133,7 @@ class ActiveRecordBase
      *
      * @var array
      */
-    public $attributes_names = array();
+    protected $alias = array();
     /**
      * Indica si la clase corresponde a un mapeo de una vista
      * en la base de datos
@@ -617,8 +617,10 @@ class ActiveRecordBase
         }
         foreach(self::get_meta_data($table) as $field) {
             $this->fields[] = $field['Field'];
+            $aliasAux = $field['Field'];
             if ($field['Key'] == 'PRI') {
                 $this->primary_key[] = $field['Field'];
+                $this->alias[$field['Field']] = 'Código';
             } else $this->non_primary[] = $field['Field'];
             /**
              * Si se indica que no puede ser nulo, pero se indica un
@@ -637,14 +639,50 @@ class ActiveRecordBase
             }
             if (substr($field['Field'], strlen($field['Field']) - 3, 3) == '_at') {
                 $this->_at[] = $field['Field'];
+                $aliasAux = substr($field['Field'], 0, -3);
             }
             if (substr($field['Field'], strlen($field['Field']) - 3, 3) == '_in') {
                 $this->_in[] = $field['Field'];
+                $aliasAux = substr($field['Field'], 0, -3);
             }
+            if (substr($field['Field'], strlen($field['Field']) - 3, 3) == '_id') {
+                $aliasAux = substr($field['Field'], 0, -3);
+            }
+            //humanizando el alias
+            $this->alias[$field['Field']] = ucwords(strtr($aliasAux,'_-','  '));
         }
-        $this->attributes_names = $this->fields;
         $this->_dump_lock = false;
         return true;
+    }
+    /**
+     * Retorna un array de los campos (fields) de una tabla Humanizados
+     * 
+     * @param $key
+     * @return array
+     */
+    public function get_alias($key=null)
+    {
+        if($key && array_key_exists($key, $this->alias)){
+            return $this->alias[$key];
+        } else {
+            throw new ActiveRecordException("No se pudo obtener el Alias, porque el key: \"$key\" no existe.");
+        }
+        return $this->alias;
+    }
+    /**
+     * Asigna un nuevo valor al alias dado un key
+     *
+     * @param string $key
+     * @param string $value
+     */
+    public function set_alias($key=null, $value=null)
+    {
+        if($key && array_key_exists($key, $this->alias)){
+            $this->alias[$key] = $value;
+        } else {
+            throw new ActiveRecordException("No se pudo asignar el nuevo valor al Alias, porque el key: \"$key\" no existe.");
+        }
+        
     }
     /**
      * Commit a Transaction
@@ -2405,7 +2443,7 @@ class ActiveRecordBase
 			if(is_file($file)) {
 				include $file;
 			} else {
-				throw new KumbiaException("No existe el modelo ActiveRecord $model");
+				throw new KumbiaException(null, 'no_model');
 			}
 		}
 		
