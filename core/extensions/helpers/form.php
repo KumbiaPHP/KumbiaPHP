@@ -1,0 +1,347 @@
+<?php
+/**
+ * KumbiaPHP web & app Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://wiki.kumbiaphp.com/Licencia
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@kumbiaphp.com so we can send you a copy immediately.
+ *
+ * Helper para Form
+ * 
+ * @category   KumbiaPHP
+ * @package    Helpers 
+ * @copyright  Copyright (c) 2005-2009 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
+/**
+ * @see Tag
+ **/
+require_once CORE_PATH . 'extensions/helpers/Tag.php';
+
+class Form extends Tag
+{
+    /**
+     * Utilizado para generar los id de los radio button,
+     * lleva un conteo interno
+     *
+     * @var array
+     **/
+    protected static $_radios = array();
+
+    /**
+     * Obtiene el nombre de formulario y campo
+     *
+     * @param string $name nombre de campo con formato model.field
+     * @return array
+     **/
+    public static function getFormField($name)
+    {
+        $buff = explode('.', $name, 2);
+        if(isset($buff[1])) {
+            $data['form'] = $buff[0];
+            $data['field'] = $buff[1]; 
+        } else {
+            $data['form'] = null;
+            $data['field'] = $buff[0];
+        }
+        return $data;
+    }
+    /**
+     * Genera un string con atributos id y name 
+     *
+     * @param array $field
+     * @param boolean $radio indica si es radio button
+     * @return string
+     **/
+    public static function getIdAndName($field, $radio=false)
+    {
+        if($field['form']) {
+            $id = "{$field['form']}_{$field['field']}";
+            $name = "{$field['form']}[{$field['field']}]";
+        } else {
+            $id = $name = $field['field'];
+        }
+        
+        if($radio) {
+            if(isset(self::$_radios[$name])) {
+                self::$_radios[$name]++;
+            } else {
+                self::$_radios[$name] = 0;
+            }
+            $id .= self::$_radios[$name];
+        }
+        
+        return " id=\"$id\" name=\"$name\"";
+    }
+    /**
+     * Obtiene el valor de un componente tomado
+     * del mismo valor del nombre del campo y formulario
+     * que corresponda a un atributo del mismo nombre
+     * que sea un string, objeto o array.
+     *
+     * @param array $field
+     * @return mixed
+     */
+    public static function getValueFromAction ($field)
+    {
+        $controller = Dispatcher::get_controller();
+        $form = $field['form'];
+        $field = $field['field'];
+        if ($form) {
+            if (isset($controller->$form)) {
+                $v = $controller->$form;
+                if (is_object($v) && isset($v->$field)) {
+                    return $v->$field;
+                } elseif (is_array($v) && isset($v[$field])) {
+                    return $v[$field];
+                } else {
+                    return null;
+                }
+            }
+        } elseif (isset($controller->$field)) {
+            return $controller->$field;
+        }
+        return null;
+    }
+    /**
+     * Crea campo input
+     *
+     * @param string $content contenido interno
+     * @param string $attrs atributos para el tag
+     * @return string
+     **/
+    public static function input ($content = null, $attrs = null)
+    {
+        if ($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        if (is_null($content)) {
+            return "<input $attrs/>";
+        }
+        echo "<input $attrs>$content</input>";
+    }
+    /**
+     * Crea una etiqueta de formulario
+     *
+     * @param string $action
+     * @param string $method
+     * @param array $attrs
+     * @return Html
+     */
+    public static function open ($action = null, $method = 'post', $attrs = null)
+    {
+        if ($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        if ($action) {
+            $action = URL_PATH . $action;
+        } else {
+            $action = URL_PATH . substr(Router::get('route'), 1);
+        }
+        echo "<form action=\"$action\" method=\"$method\" $attrs>";
+    }
+    
+    /**
+     * Crea una etiqueta de formulario multipart
+     *
+     * @param string $action
+     * @param array $attrs
+     * @return Html
+     */
+    public static function openMultipart($action = null, $attrs = null)
+    {
+        if ($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        if ($action) {
+            $action = URL_PATH . $action;
+        } else {
+            $action = URL_PATH . substr(Router::get('route'), 1);
+        }
+        echo "<form action=\"$action\" method=\"post\" enctype=\"multipart/form-data\" $attrs>";
+    }
+    
+    /**
+     * Etiqueta para cerrar un formulario
+     *
+     * @return string
+     */
+    public static function close ()
+    {
+        echo '</form>';
+    }
+    /**
+     * Crea un boton de submit para el formulario actual
+     *
+     * @param string $text
+     * @param array $attrs
+     * @return string
+     */
+    public static function submit ($text, $attrs = null)
+    {
+        if ($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        echo "<input type=\"submit\" value=\"$text\" $attrs />";
+    }
+    /**
+     * Crea un boton reset
+     *
+     * @param string $text
+     * @param array $attrs
+     * @return string
+     */
+    public static function reset ($text, $attrs = null)
+    {
+        if ($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        echo "<input type=\"reset\" value=\"$text\" $attrs />";
+    }
+    /**
+     * Crea un boton
+     *
+     * @param string $text
+     * @param array $attrs
+     * @return string
+     */
+    public static function button ($text, $attrs = null)
+    {
+        if ($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        echo "<input type=\"button\" value=\"$text\" $attrs />";
+    }
+        
+    /**
+     * Campo text
+     *
+     * @param string $name nombre de campo
+     * @param string|array $attrs atributos de campo
+     * @param string $value
+     **/
+    public static function text($name, $attrs=null, $value=null)
+    {
+        if($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        
+        $field = self::getFormField($name);
+        $id_name = self::getIdAndName($field);
+        
+        if(is_null($value)) {
+            $value = htmlspecialchars(self::getValueFromAction($field), ENT_COMPAT, APP_CHARSET);
+        }
+        
+        echo "<input $id_name type=\"text\" value=\"$value\" $attrs/>";
+    }
+    
+    /**
+     * Campo text
+     *
+     * @param string $name nombre de campo
+     * @param string $data array de valores para la lista desplegable
+     * @param string|array $attrs atributos de campo
+     * @param string $value
+     **/
+    public static function select($name, $data, $attrs=null, $value=null)
+    {
+        if($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        
+        $field = self::getFormField($name);
+        $id_name = self::getIdAndName($field);
+        if(is_null($value)) {
+            $value = self::getValueFromAction($field);
+        }
+        
+        $options = '';
+        foreach($data as $k => $v) {
+            $options .= '<option value="' . htmlspecialchars($k, ENT_COMPAT, APP_CHARSET) . '"';
+            if($k == $value) {
+                $options .= ' selected="selected"';
+            }
+            $options .= '>' . htmlspecialchars($v, ENT_COMPAT, APP_CHARSET) . '</option>';
+        }
+        
+        echo "<select $id_name $attrs>$options</select>";
+    }
+    
+    /**
+     * Campo checkbox
+     *
+     * @param string $name nombre de campo
+     * @param string $value valor en el checkbox
+     * @param string|array $attrs atributos de campo
+     * @param string $checked indica si se marca el campo
+     **/
+    public static function check($name, $value, $attrs=null, $checked=null)
+    {
+        if($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        
+        $field = self::getFormField($name);
+        $id_name = self::getIdAndName($field);
+        
+        if(is_null($checked)) {
+            $checked = self::getValueFromAction($field) == $value;
+        }
+        
+        if($checked) {
+            $checked = 'checked="checked"';
+        }
+        
+        echo "<input $id_name type=\"checkbox\" value=\"$value\" $attrs $checked/>";
+    }
+    
+    /**
+     * Campo radio button
+     *
+     * @param string $name nombre de campo
+     * @param string $value valor en el radio
+     * @param string|array $attrs atributos de campo
+     * @param string $checked indica si se marca el campo
+     **/
+    public static function radio ($name, $value, $attrs=null, $checked=null)
+    {
+        if($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        
+        $field = self::getFormField($name);
+        $id_name = self::getIdAndName($field, true);
+        
+        if(is_null($checked)) {
+            $checked = self::getValueFromAction($field) == $value;
+        }
+        
+        if($checked) {
+            $checked = 'checked="checked"';
+        }
+        
+        echo "<input $id_name type=\"radio\" value=\"$value\" $attrs $checked/>";
+    }
+    
+    /**
+     * Crea un boton de submit tipo imagen para el formulario actual
+     *
+     * @param string $text
+     * @param array $attrs
+     * @return string
+     */
+    public static function submitImage ($text, $src, $attrs = null)
+    {
+        if ($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        echo "<input type=\"image\" src=\"$src\" $attrs/>";
+    }
+}
