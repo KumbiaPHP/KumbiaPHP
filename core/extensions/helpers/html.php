@@ -56,4 +56,23 @@ class Html extends Tag
         }
         return '<img src="' . PUBLIC_PATH . "img/$src\" $attrs/>";
     }
+    /**
+     * Crea un link con imagen
+     *
+     * @param string $action ruta a la accion
+     * @param string $src
+     * @param string | array $attrslink atributos adicionales del link
+     * @param string | array $attrsImg atributos adicionales de la imagen
+     * @return unknown
+     */
+    public static function linkImg ($action, $src, $attrsLink=null, $attrsImg = null)
+    {
+        if ($attrsLink) {
+            $attrsLink = self::getAttrs($attrsLink);
+        }
+        if($attrsImg){
+            $attrsImg = self::getAttrs($attrsImg);
+        }
+        echo "<a href=\"" . URL_PATH . "$action\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" $attrsImg /></a>";
+    }
 }

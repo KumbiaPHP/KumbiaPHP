@@ -342,7 +342,7 @@ class Form extends Tag
         if ($attrs) {
             $attrs = self::getAttrs($attrs);
         }
-        echo "<input type=\"image\" src=\"".URL_PATH."img/$img\" $attrs/>";
+        echo "<input type=\"image\" src=\"".PUBLIC_PATH."img/$img\" $attrs/>";
     }
     
     /**
