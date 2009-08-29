@@ -389,4 +389,37 @@ class Form extends Tag
         
         echo "<input $id_name type=\"password\" value=\"$value\" $attrs/>";
     }
+    
+    /**
+     * Campo Select que toma los valores de un array de objetos
+     *
+     * @param string $name nombre de campo
+     * @param string $data array de valores para la lista desplegable
+     * @param string $field campo que se mostrara
+     * @param string|array $attrs atributos de campo
+     * @param string $value
+     **/
+    public static function ormSelect($name, $data, $field, $attrs=null, $value=null)
+    {
+        if($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        
+        $field_data = self::getFormField($name);
+        $id_name = self::getIdAndName($field_data);
+        if(is_null($value)) {
+            $value = self::getValueFromAction($field_data);
+        }
+        
+        $options = '';
+        foreach($data as $p) {
+            $options .= "<option value=\"$p->id\"";
+            if($p->id == $value) {
+                $options .= ' selected="selected"';
+            }
+            $options .= '>' . htmlspecialchars($p->$field, ENT_COMPAT, APP_CHARSET) . '</option>';
+        }
+        
+        echo "<select $id_name $attrs>$options</select>";
+    }
 }
