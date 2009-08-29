@@ -331,18 +331,18 @@ class Form extends Tag
     }
     
     /**
-     * Crea un boton de submit tipo imagen para el formulario actual
-     *
-     * @param string $text
+     * Crea un boton de tipo imagen
+     *  
+     * @param string $img
      * @param array $attrs
      * @return string
      */
-    public static function submitImage ($text, $src, $attrs = null)
+    public static function submitImage ($img, $attrs = null)
     {
         if ($attrs) {
             $attrs = self::getAttrs($attrs);
         }
-        echo "<input type=\"image\" src=\"$src\" $attrs/>";
+        echo "<input type=\"image\" src=\"".URL_PATH."img/$img\" $attrs/>";
     }
     
     /**
@@ -366,5 +366,27 @@ class Form extends Tag
         }
         
         echo "<input $id_name type=\"hidden\" value=\"$value\" $attrs/>";
+    }
+    /**
+     * Campo Password
+     *
+     * @param string $name nombre de campo
+     * @param string|array $attrs atributos de campo
+     * @param string $value
+     **/
+    public static function pass($name, $attrs=null, $value=null)
+    {
+        if($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        
+        $field = self::getFormField($name);
+        $id_name = self::getIdAndName($field);
+        
+        if(is_null($value)) {
+            $value = htmlspecialchars(self::getValueFromAction($field), ENT_COMPAT, APP_CHARSET);
+        }
+        
+        echo "<input $id_name type=\"password\" value=\"$value\" $attrs/>";
     }
 }
