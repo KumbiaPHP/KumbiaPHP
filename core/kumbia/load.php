@@ -39,7 +39,7 @@ class Load
         if (! is_file($file)) {
             $file = CORE_PATH . "libs/$lib/$lib.php";
             if (! is_file($file)) {
-                throw new KumbiaException("$lib no encontrada");
+                throw new KumbiaException("Librería: \"$lib\" no encontrada");
             }
         }
         include_once $file;
@@ -53,9 +53,7 @@ class Load
      **/
     public static function models ($model = null)
     {
-        /**
-         * Si se utiliza base de datos
-         **/
+        //Si se utiliza base de datos
         if (! class_exists('Db', false)) {
             require CORE_PATH . 'libs/db/db.php';
         }
@@ -147,23 +145,16 @@ class Load
      */
     public static function model ($model)
     {
-        /**
-         * Si se utiliza base de datos
-         **/
+        //Si se utiliza base de datos
         if (! class_exists('Db', false)) {
             require CORE_PATH . 'libs/db/db.php';
         }
-        /**
-         * Nombre de la clase
-         **/
+        
+        //Nombre de la clase
         $Model = Util::camelcase(basename($model));
-        /**
-         * Carga la clase
-         **/
+        //Carga la clase
         if (! class_exists($Model, false)) {
-            /**
-             * Carga la clase
-             **/
+            //Carga la clase
             $file = APP_PATH . "models/$model.php";
             if (! is_file($file)) {
                 throw new KumbiaException("No existe el modelo $model");
