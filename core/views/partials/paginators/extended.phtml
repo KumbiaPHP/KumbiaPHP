@@ -38,11 +38,11 @@ $e_item = $s_item + count($page->items) - 1;
 ?>
 
 <div class="paginator">
-    <?php if($page->prev) echo link_to("$url/$page->prev/", 'Anterior'); ?>
+    <?php if($page->prev) echo link_to("$url/$page->prev/", 'Anterior', 'title: Ir a la pág. anterior', 'class: nextprev'); ?>
 
     pag. <?php echo $page->current ?> de <?php echo $page->total ?>
     |
     items <?php echo $s_item ?>-<?php echo $e_item ?>
 
-    <?php if($page->next) echo link_to("$url/$page->next/", 'Siguiente'); ?>
+    <?php if($page->next) echo link_to("$url/$page->next/", 'Siguiente', 'title: Ir a la pág. siguiente','class: nextprev'); ?>
 </div>
