@@ -367,6 +367,7 @@ class Form extends Tag
         
         echo "<input $id_name type=\"hidden\" value=\"$value\" $attrs/>";
     }
+    
     /**
      * Campo Password
      *
@@ -421,5 +422,23 @@ class Form extends Tag
         }
         
         echo "<select $id_name $attrs>$options</select>";
+    }
+    
+    /**
+     * Campo File
+     *
+     * @param string $name nombre de campo
+     * @param string|array $attrs atributos de campo
+     **/
+    public static function file($name, $attrs=null)
+    {
+        if($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        
+        $field = self::getFormField($name);
+        $id_name = self::getIdAndName($field);
+        
+        echo "<input $id_name type=\"file\" $attrs/>";
     }
 }
