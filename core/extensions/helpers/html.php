@@ -41,7 +41,7 @@ class Html extends Tag
         if ($attrs) {
             $attrs = self::getAttrs($attrs);
         }
-        return '<a href="' . URL_PATH . "$action\" $attrs>$text</a>";
+        echo '<a href="' . URL_PATH . "$action\" $attrs>$text</a>";
     }
     /**
      * Permite incluir una imagen
@@ -54,7 +54,7 @@ class Html extends Tag
         if ($attrs) {
             $attrs = self::getAttrs($attrs);
         }
-        return '<img src="' . PUBLIC_PATH . "img/$src\" $attrs/>";
+        echo '<img src="' . PUBLIC_PATH . "img/$src\" $attrs/>";
     }
     /**
      * Crea un link con imagen
