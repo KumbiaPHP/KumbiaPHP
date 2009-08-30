@@ -75,4 +75,47 @@ class Html extends Tag
         }
         echo "<a href=\"" . URL_PATH . "$action\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" $attrsImg /></a>";
     }
+    /**
+     * Aplica estilo zebra a una tabla.
+     *
+     * @param string $class class css
+     * @param string | array $attrs
+     * @param unknown_type $start
+     */
+    public static function trClass ($class, $attrs = null)
+    {
+        static $c = true;
+        if ($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        if($c){
+            echo "<tr class='$class' $attrs>";
+            $c = false;
+        } else {
+            echo "<tr $attrs>";
+            $c = true;
+        }
+    }
+    
+    /**
+     * Aplica estilo zebra a una tabla. Aplica para cuando hay dos tabla en el mismo XHTML
+     *
+     * @param string $class class css
+     * @param string | array $attrs
+     * @param unknown_type $start
+     */
+    public static function trClassStart ($class, $attrs = null)
+    {
+        static $c = true;
+        if ($attrs) {
+            $attrs = self::getAttrs($attrs);
+        }
+        if($c){
+            echo "<tr class='$class' $attrs>";
+            $c = false;
+        } else {
+            echo "<tr $attrs>";
+            $c = true;
+        }
+    }
 }

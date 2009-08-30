@@ -68,10 +68,10 @@ class Tag
         }
         
         if(is_null($content)) { 
-            return "<$tag $attrs />"; 
+            echo "<$tag $attrs />"; 
         }
         
-        return "<$tag $attrs>$content</$tag>";
+        echo "<$tag $attrs>$content</$tag>";
     }
     /**
      * Incluye un archivo javascript
@@ -109,7 +109,7 @@ class Tag
             }
             $code .= '<script type="text/javascript" src="' . PUBLIC_PATH . $src . '"></script>';
         }
-        return $code;
+        echo $code;
     }
     /**
      * Incluye los archivos css
@@ -127,6 +127,6 @@ class Tag
             }
             $code .= '/>';
         }
-        return $code;
+        echo $code;
     }
 }
