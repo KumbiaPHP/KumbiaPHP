@@ -165,7 +165,7 @@ class View
                 if(PRODUCTION && $time!==false) {
                     Cache::end(false);
                 }
-                throw new KumbiaException('Kumbia no puede encontrar la vista parcial: "'.$file.'"', 0);
+                throw new KumbiaException('Vista Parcial "'.$file.'" no se encontro');
 			}
 		}
 		include $file;
