@@ -118,8 +118,8 @@ class Form extends Tag
      **/
     public static function input ($content = null, $attrs = null)
     {
-        if ($attrs) {
-            $attrs = self::getAttrs($attrs);
+        if(is_array($attrs)) { 
+            $attrs = self::getAttrs($attrs); 
         }
         if (is_null($content)) {
             return "<input $attrs/>";
@@ -136,7 +136,7 @@ class Form extends Tag
      */
     public static function open ($action = null, $method = 'post', $attrs = null)
     {
-        if ($attrs) {
+        if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         if ($action) {
@@ -156,7 +156,7 @@ class Form extends Tag
      */
     public static function openMultipart($action = null, $attrs = null)
     {
-        if ($attrs) {
+        if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         if ($action) {
@@ -185,7 +185,7 @@ class Form extends Tag
      */
     public static function submit ($text, $attrs = null)
     {
-        if ($attrs) {
+        if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         echo "<input type=\"submit\" value=\"$text\" $attrs />";
@@ -199,7 +199,7 @@ class Form extends Tag
      */
     public static function reset ($text, $attrs = null)
     {
-        if ($attrs) {
+        if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         echo "<input type=\"reset\" value=\"$text\" $attrs />";
@@ -213,7 +213,7 @@ class Form extends Tag
      */
     public static function button ($text, $attrs = null)
     {
-        if ($attrs) {
+        if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         echo "<input type=\"button\" value=\"$text\" $attrs />";
@@ -228,7 +228,7 @@ class Form extends Tag
      **/
     public static function text($name, $attrs=null, $value=null)
     {
-        if($attrs) {
+        if(is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         
@@ -252,7 +252,7 @@ class Form extends Tag
      **/
     public static function select($name, $data, $attrs=null, $value=null)
     {
-        if($attrs) {
+        if(is_array($attrs)){
             $attrs = self::getAttrs($attrs);
         }
         
@@ -284,7 +284,7 @@ class Form extends Tag
      **/
     public static function check($name, $value, $attrs=null, $checked=null)
     {
-        if($attrs) {
+        if(is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         
@@ -312,7 +312,7 @@ class Form extends Tag
      **/
     public static function radio ($name, $value, $attrs=null, $checked=null)
     {
-        if($attrs) {
+        if(is_array($attrs)){
             $attrs = self::getAttrs($attrs);
         }
         
@@ -339,7 +339,7 @@ class Form extends Tag
      */
     public static function submitImage ($img, $attrs = null)
     {
-        if ($attrs) {
+        if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         echo "<input type=\"image\" src=\"".PUBLIC_PATH."img/$img\" $attrs/>";
@@ -354,7 +354,7 @@ class Form extends Tag
      **/
     public static function hidden ($name, $attrs=null, $value=null)
     {
-        if($attrs) {
+        if(is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         
@@ -377,7 +377,7 @@ class Form extends Tag
      **/
     public static function pass($name, $attrs=null, $value=null)
     {
-        if($attrs) {
+        if(is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         
@@ -402,7 +402,7 @@ class Form extends Tag
      **/
     public static function ormSelect($name, $data, $field, $attrs=null, $value=null)
     {
-        if($attrs) {
+        if(is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         
@@ -432,7 +432,7 @@ class Form extends Tag
      **/
     public static function file($name, $attrs=null)
     {
-        if($attrs) {
+        if(is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         

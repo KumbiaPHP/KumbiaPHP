@@ -38,7 +38,7 @@ class Html extends Tag
      */
     public static function link ($action, $text, $attrs = null)
     {
-        if ($attrs) {
+        if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         echo '<a href="' . URL_PATH . "$action\" $attrs>$text</a>";
@@ -51,7 +51,7 @@ class Html extends Tag
      */
     public static function img ($src, $attrs = null)
     {
-        if ($attrs) {
+        if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         echo '<img src="' . PUBLIC_PATH . "img/$src\" $attrs/>";
@@ -67,10 +67,10 @@ class Html extends Tag
      */
     public static function linkImg ($action, $src, $attrsLink=null, $attrsImg = null)
     {
-        if ($attrsLink) {
+        if (is_array($attrsLink)) {
             $attrsLink = self::getAttrs($attrsLink);
         }
-        if($attrsImg){
+        if(is_array($attrsImg)){
             $attrsImg = self::getAttrs($attrsImg);
         }
         echo "<a href=\"" . URL_PATH . "$action\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" $attrsImg /></a>";
@@ -85,7 +85,7 @@ class Html extends Tag
     public static function trClass ($class, $attrs = null)
     {
         static $c = true;
-        if ($attrs) {
+        if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         if($c){
@@ -107,7 +107,7 @@ class Html extends Tag
     public static function trClassStart ($class, $attrs = null)
     {
         static $c = true;
-        if ($attrs) {
+        if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
         if($c){
