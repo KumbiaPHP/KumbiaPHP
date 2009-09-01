@@ -29,7 +29,14 @@ session_start();
  * Iniciar el buffer de salida
  */
 ob_start();
-
+/**
+ * @see Router
+ */
+require CORE_PATH . 'kumbia/router.php';
+/**
+ * @see Util
+ */
+require CORE_PATH . 'kumbia/util.php';
 /**
  * @see KumbiaException
  */

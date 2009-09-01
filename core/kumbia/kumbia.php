@@ -31,21 +31,13 @@ require CORE_PATH . 'kumbia/dispatcher.php';
  */
 require CORE_PATH . 'libs/flash/flash.php';
 /**
- * @see Util
- */
-require CORE_PATH . 'kumbia/util.php';
-/**
  * @see Controller
  */
 require CORE_PATH . 'kumbia/controller.php';
 /**
  * @see ApplicationController
  */
-require APP_PATH . 'application.php';    
-/**
- * @see Router
- */
-require CORE_PATH . 'kumbia/router.php';
+require APP_PATH . 'application.php';
  
 /**
  * Esta es la clase principal del framework, contiene metodos importantes
