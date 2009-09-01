@@ -90,24 +90,44 @@ class Form extends Tag
      */
     public static function getValueFromAction ($field)
     {
-        $controller = Dispatcher::get_controller();
         $form = $field['form'];
         $field = $field['field'];
+        
+        $value = null;
+        
+        // si es formato especial para formulario
         if ($form) {
-            if (isset($controller->$form)) {
-                $v = $controller->$form;
-                if (is_object($v) && isset($v->$field)) {
-                    return $v->$field;
-                } elseif (is_array($v) && isset($v[$field])) {
-                    return $v[$field];
-                } else {
-                    return null;
+            // verifica si se ha pasado por POST
+            if (isset($POST[$form][$field])) {
+                $value = $POST[$form][$field];
+            } else {
+                // verifica si el usuario lo ha pasado por el controller
+                $controller = Dispatcher::get_controller();
+                if (isset($controller->$form)) {
+                    $v = $controller->$form;
+                    if (is_object($v) && isset($v->$field)) {
+                        $value = $v->$field;
+                    } elseif (is_array($v) && isset($v[$field])) {
+                        $value = $v[$field];
+                    }
                 }
             }
-        } elseif (isset($controller->$field)) {
-            return $controller->$field;
+        } elseif (isset($_POST[$field])) { // verifica si se ha pasado por POST
+            $value = $_POST[$field];
+        } else {
+            // verifica si el usuario lo ha pasado por el controller
+            $controller = Dispatcher::get_controller();
+            if (isset($controller->$field)) {
+                $value = $controller->$field;
+            }
         }
-        return null;
+        
+        // filtrar caracteres especiales
+        if($value) {
+            $value = htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
+        }
+        
+        return $value;
     }
     /**
      * Crea campo input
@@ -236,7 +256,7 @@ class Form extends Tag
         $id_name = self::getIdAndName($field);
         
         if(is_null($value)) {
-            $value = htmlspecialchars(self::getValueFromAction($field), ENT_COMPAT, APP_CHARSET);
+            $value = self::getValueFromAction($field);
         }
         
         echo "<input $id_name type=\"text\" value=\"$value\" $attrs/>";
@@ -264,7 +284,8 @@ class Form extends Tag
         
         $options = '';
         foreach($data as $k => $v) {
-            $options .= '<option value="' . htmlspecialchars($k, ENT_COMPAT, APP_CHARSET) . '"';
+            $k = htmlspecialchars($k, ENT_COMPAT, APP_CHARSET);
+            $options .= "<option value=\"$k\"";
             if($k == $value) {
                 $options .= ' selected="selected"';
             }
@@ -362,7 +383,7 @@ class Form extends Tag
         $id_name = self::getIdAndName($field);
         
         if(is_null($value)) {
-            $value = htmlspecialchars(self::getValueFromAction($field), ENT_COMPAT, APP_CHARSET);
+            $value = self::getValueFromAction($field);
         }
         
         echo "<input $id_name type=\"hidden\" value=\"$value\" $attrs/>";
@@ -385,7 +406,7 @@ class Form extends Tag
         $id_name = self::getIdAndName($field);
         
         if(is_null($value)) {
-            $value = htmlspecialchars(self::getValueFromAction($field), ENT_COMPAT, APP_CHARSET);
+            $value = self::getValueFromAction($field);
         }
         
         echo "<input $id_name type=\"password\" value=\"$value\" $attrs/>";
@@ -400,7 +421,7 @@ class Form extends Tag
      * @param string|array $attrs atributos de campo
      * @param string $value
      **/
-    public static function ormSelect($name, $data, $field, $attrs=null, $value=null)
+    public static function dbSelect($name, $data, $field, $attrs=null, $value=null)
     {
         if(is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
