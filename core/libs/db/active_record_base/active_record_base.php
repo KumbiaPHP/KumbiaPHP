@@ -1185,18 +1185,23 @@ class ActiveRecordBase
         $this->_dump_lock = false;
     }
     /**
-     * Create a new Row using values from $_REQUEST
+     * Crea un nuevo registro utilizando los datos del $_REQUEST
      *
-     * @param string $form form name for request, equivalent to $_REQUEST[$form]
+     * @param string $form, equivalente a $_REQUEST[$form]
      * @return boolean success
      */
-    public function create_from_request($form = '')
+    public function create_from_request($form = null)
     {
-        if ($form) {
-            return $this->create($_REQUEST[$form]);
-        } else {
-            return $this->create($_REQUEST);
+        if(!$form){
+            $form = $this->source;
         }
+        $result = $this->create($_REQUEST[$form]);
+        if(!$result) {
+            if($controller = Dispatcher::get_controller()) {
+                $controller->$form = $_REQUEST[$form];
+            }
+        }
+        return $result;
     }
     /**
      * Saves a new Row using values from $_REQUEST
@@ -1204,13 +1209,18 @@ class ActiveRecordBase
      * @param string $form form name for request, equivalent to $_REQUEST[$form]
      * @return boolean success
      */
-    public function save_from_request($form = '')
+    public function save_from_request($form = null)
     {
-        if ($form) {
-            return $this->save($_REQUEST[$form]);
-        } else {
-            return $this->save($_REQUEST);
+        if(!$form){
+            $form = $this->source;
         }
+        $result = $this->save($_REQUEST[$form]);
+        if(!$result) {
+            if($controller = Dispatcher::get_controller()) {
+                $controller->$form = $_REQUEST[$form];
+            }
+        }
+        return $result;
     }
     /**
      * Updates a Row using values from $_REQUEST
@@ -1218,13 +1228,18 @@ class ActiveRecordBase
      * @param string $form form name for request, equivalent to $_REQUEST[$form]
      * @return boolean success
      */
-    public function update_from_request($form = '')
+    public function update_from_request($form = null)
     {
-        if ($form) {
-            return $this->update($_REQUEST[$form]);
-        } else {
-            return $this->update($_REQUEST);
+        if(!$form){
+            $form = $this->source;
         }
+        $result = $this->update($_REQUEST[$form]);
+        if(!$result) {
+            if($controller = Dispatcher::get_controller()) {
+                $controller->$form = $_REQUEST[$form];
+            }
+        }
+        return $result;
     }
     /**
      * Creates a new Row in map table
