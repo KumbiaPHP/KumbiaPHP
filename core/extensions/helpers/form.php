@@ -93,33 +93,21 @@ class Form extends Tag
         $form = $field['form'];
         $field = $field['field'];
         
+        // obtiene el controller
+        $controller = Dispatcher::get_controller();
+        
         $value = null;
         
-        // si es formato especial para formulario
-        if ($form) {
-            // verifica si se ha pasado por POST
-            if (isset($POST[$form][$field])) {
-                $value = $POST[$form][$field];
-            } else {
-                // verifica si el usuario lo ha pasado por el controller
-                $controller = Dispatcher::get_controller();
-                if (isset($controller->$form)) {
-                    $v = $controller->$form;
-                    if (is_object($v) && isset($v->$field)) {
-                        $value = $v->$field;
-                    } elseif (is_array($v) && isset($v[$field])) {
-                        $value = $v[$field];
-                    }
-                }
+        // si es formato especial para formulario y se ha pasado dato por el controller
+        if ($form && isset($controller->$form)) {
+            $v = $controller->$form;
+            if (is_object($v) && isset($v->$field)) {
+                $value = $v->$field;
+            } elseif (is_array($v) && isset($v[$field])) {
+                $value = $v[$field];
             }
-        } elseif (isset($_POST[$field])) { // verifica si se ha pasado por POST
-            $value = $_POST[$field];
-        } else {
-            // verifica si el usuario lo ha pasado por el controller
-            $controller = Dispatcher::get_controller();
-            if (isset($controller->$field)) {
-                $value = $controller->$field;
-            }
+        } elseif (isset($controller->$field)) { // verifica si el usuario lo ha pasado por el como campo simple
+            $value = $controller->$field;
         }
         
         // filtrar caracteres especiales
