@@ -831,7 +831,8 @@ class ActiveRecordBase
         foreach($all_results AS $result) {
             $results[] = $this->dump_result($result);
         }
-        $this->count = count($results);
+        
+        $this->count = count($results, COUNT_NORMAL);
         if (isset($what[0]) && is_numeric($what[0])) {
             if (!isset($results[0])) {
                 $this->count = 0;
@@ -842,7 +843,7 @@ class ActiveRecordBase
                 return $results[0];
             }
         } else {
-            $this->count = count($results);
+            $this->count = count($results, COUNT_NORMAL);
             return $results;
         }
     }
