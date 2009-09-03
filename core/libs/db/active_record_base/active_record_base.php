@@ -1198,9 +1198,7 @@ class ActiveRecordBase
         }
         $result = $this->create($_REQUEST[$form]);
         if(!$result) {
-            if($controller = Dispatcher::get_controller()) {
-                $controller->$form = $_REQUEST[$form];
-            }
+            Dispatcher::get_controller()->$form = $_REQUEST[$form];
         }
         return $result;
     }
@@ -1217,9 +1215,7 @@ class ActiveRecordBase
         }
         $result = $this->save($_REQUEST[$form]);
         if(!$result) {
-            if($controller = Dispatcher::get_controller()) {
-                $controller->$form = $_REQUEST[$form];
-            }
+            Dispatcher::get_controller()->$form = $_REQUEST[$form];
         }
         return $result;
     }
@@ -1236,9 +1232,7 @@ class ActiveRecordBase
         }
         $result = $this->update($_REQUEST[$form]);
         if(!$result) {
-            if($controller = Dispatcher::get_controller()) {
-                $controller->$form = $_REQUEST[$form];
-            }
+            Dispatcher::get_controller()->$form = $_REQUEST[$form];
         }
         return $result;
     }
