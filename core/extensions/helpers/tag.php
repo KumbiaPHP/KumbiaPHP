@@ -24,12 +24,6 @@
 class Tag 
 {
     /**
-     * Archivos javascript a incluir
-     *
-     * @var array
-     **/
-    protected static $_js = array();
-    /**
      * Archivos css a incluir
      *
      * @var array
@@ -77,7 +71,12 @@ class Tag
      */
     public static function js($src, $cache=true)
     {
-        self::$_js[] = array('src' => $src, 'cache' => $cache);
+        $src = "javascript/$src.js";
+        if(!$cache) {
+            $src .= '?nocache=' . uniqid();
+        }
+        $code .= '<script type="text/javascript" src="' . PUBLIC_PATH . $src . '"></script>';
+        echo $code;
     }
     /**
      * Incluye un archivo de css
@@ -88,24 +87,6 @@ class Tag
     public static function css($src, $media=null)
     {
         self::$_css[] = array('src' => $src,'media' => $media);
-    }
-    /**
-     * Incluye los archivos javascript
-     *
-     * @return string
-     **/
-    public static function includeJs()
-    {
-        $code = '';
-        $files = array_unique(self::$_js);
-        foreach($files as $js) {
-            $src = "javascript/{$js['src']}.js";
-            if(!$js['cache']) {
-                $src .= '?nocache=' . uniqid();
-            }
-            $code .= '<script type="text/javascript" src="' . PUBLIC_PATH . $src . '"></script>';
-        }
-        echo $code;
     }
     /**
      * Incluye los archivos css
