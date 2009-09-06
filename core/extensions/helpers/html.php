@@ -28,6 +28,13 @@ require_once CORE_PATH . 'extensions/helpers/tag.php';
 class Html extends Tag
 {
     /**
+     * Alternador para tabla zebra
+     *
+     * @var boolean
+     **/
+    protected static $_trClassAlternate = true;
+
+    /**
      * Crea un enlace en una Aplicacion respetando
      * las convenciones de Kumbia
      *
@@ -84,38 +91,24 @@ class Html extends Tag
      */
     public static function trClass ($class, $attrs = null)
     {
-        static $c = true;
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
-        if($c){
+        if(self::$_trClassAlternate){
             echo "<tr class='$class' $attrs>";
-            $c = false;
+            self::$_trClassAlternate = false;
         } else {
             echo "<tr $attrs>";
-            $c = true;
+            self::$_trClassAlternate = true;
         }
     }
     
     /**
-     * Aplica estilo zebra a una tabla. Aplica para cuando hay dos tabla en el mismo XHTML
+     * Inicia el alternador de clase para tabla zebra
      *
-     * @param string $class class css
-     * @param string | array $attrs
-     * @param unknown_type $start
      */
-    public static function trClassStart ($class, $attrs = null)
+    public static function trClassStart ()
     {
-        static $c = true;
-        if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
-        }
-        if($c){
-            echo "<tr class='$class' $attrs>";
-            $c = false;
-        } else {
-            echo "<tr $attrs>";
-            $c = true;
-        }
+        self::$_trClassAlternate = true;
     }
 }
