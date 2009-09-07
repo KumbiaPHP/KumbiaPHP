@@ -1,3 +1,22 @@
+/**
+ * KumbiaPHP web & app Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://wiki.kumbiaphp.com/Licencia
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@kumbiaphp.com so we can send you a copy immediately.
+ * 
+ * Plugin para jQuery que incluye los callbacks basicos para los Helpers
+ *
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
+ 
 (function($) {
     /**
      * Objeto KumbiaPHP
@@ -9,8 +28,9 @@
          *
          **/
         cConfirm: function(event) {
-            event.preventDefault();
-            return confirm(this.title);
+            if(!confirm(this.title)) {
+                event.preventDefault();
+            }
         },
         /**
          * Muestra un elemento
@@ -42,7 +62,17 @@
          **/
         cRemote: function(event) {
             event.preventDefault();
-            $(this.rel).load(this.href)
+            $(this.rel).load(this.href);
+        },
+        /**
+         * Carga con AJAX y Confirmacion
+         *
+         **/
+        cRemoteConfirm: function(event) {
+            event.preventDefault();
+            if(confirm(this.title)) {
+                $(this.rel).load(this.href);
+            }
         },
         /**
          * Enlaza a las clases por defecto
@@ -54,6 +84,7 @@
             $("a.jsHide").live('click', this.cHide);
             $("a.jsToggle").live('click', this.cToggle);
             $("a.jsRemote").live('click', this.cRemote);
+            $("a.jsRemoteConfirm").live('click', this.cRemoteConfirm);
         }
     }
 
