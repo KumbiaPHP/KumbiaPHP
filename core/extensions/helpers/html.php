@@ -72,7 +72,7 @@ class Html extends Tag
      * @param string | array $attrsImg atributos adicionales de la imagen
      * @return unknown
      */
-    public static function linkImg ($action, $src, $attrsLink=null, $attrsImg = null)
+    public static function imgLink ($action, $src, $attrsLink=null, $attrsImg = null)
     {
         if (is_array($attrsLink)) {
             $attrsLink = self::getAttrs($attrsLink);
