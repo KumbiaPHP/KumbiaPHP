@@ -61,9 +61,8 @@ final class Dispatcher
 				Load::models(self::$_controller->models);
 			}
 		}
-		/**
-		 * Se ejecutan los filtros before
-		 */
+		
+		// Se ejecutan los filtros before
 		if(self::$_controller->initialize() === false) {
 			return self::$_controller;
 		}
@@ -87,10 +86,8 @@ final class Dispatcher
 		
 		//se verifica que los parametros que recibe 
 		//la action sea la cantidad correcta
-		if(self::$_controller->limit_params){
-    		if($reflectionMethod->getNumberOfParameters() <= count($parameters)){
-    		    throw new KumbiaException('Parametros no cuadran');
-    		}
+		if(self::$_controller->limit_params && $reflectionMethod->getNumberOfParameters() <= count($parameters)){
+			throw new KumbiaException('Parametros no cuadran');
 		}
 		$reflectionMethod->invokeArgs(self::$_controller, $parameters);
 

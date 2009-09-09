@@ -108,3 +108,19 @@ class Tag
         echo $code;
     }
 }
+
+
+/**
+ * Atajo para htmlspecialchars, por defecto toma el charset de la
+ * aplicacion
+ *
+ * @param string $s
+ * @param string $charset
+ * @return string
+ **/
+function h($s, $charset=null) {
+    if(!$charset) {
+        $charset = APP_CHARSET;
+    }
+    return htmlspecialchars($s, ENT_QUOTES, $charset);
+}
