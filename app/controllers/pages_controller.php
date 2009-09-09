@@ -36,7 +36,7 @@ class PagesController extends ApplicationController
 		}
     }
 	
-	public function show_action()
+	final function show()
 	{
 		$page = implode('/', $this->parameters);
 		$this->render($page);

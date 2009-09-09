@@ -92,6 +92,13 @@ class Controller
 	 **/
 	public $view = null;
 	/**
+	 * Limita la cantidad correcta de 
+	 * parametros de una action
+	 *
+	 * @var bool
+	 */
+	public $limit_params = true;
+	/**
 	 * Constructor
 	 *
 	 * @param string $module modulo al que pertenece el controlador
