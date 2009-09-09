@@ -75,8 +75,9 @@ final class Dispatcher
 			
 		/**
 		 * Se ejecuta el metodo con el nombre de la accion
-		 * en la clase
+		 * en la clase de acuerdo al convenio
 		 */
+        $action .= '_action';
 		if (!method_exists($activeController, $action)) {			
 			throw new KumbiaException(null,'no_action');	
 		}
