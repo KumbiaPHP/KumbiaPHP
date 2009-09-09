@@ -450,4 +450,27 @@ class Form extends Tag
         
         echo "<input $id_name type=\"file\" $attrs/>";
     }
+
+    /**
+     * Campo textarea
+     *
+     * @param string $name nombre de campo
+     * @param string|array $attrs atributos de campo
+     * @param string $value
+     **/
+    public static function textarea($name, $attrs=null, $value=null)
+    {
+        if(is_array($attrs)) {
+            $attrs = self::getAttrs($attrs);
+        }
+        
+        $field = self::getFormField($name);
+        $id_name = self::getIdAndName($field);
+        
+        if(is_null($value)) {
+            $value = self::getValueFromAction($field);
+        }
+        
+        echo "<textarea $id_name $attrs>$value</textarea>";
+    }
 }
