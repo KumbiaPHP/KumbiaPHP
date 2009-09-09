@@ -40,22 +40,18 @@ class View
          */
         require CORE_PATH . 'extensions/helpers/tags.php';
         
-        /**
-         * Mapea los atributos del controller en el scope
-         *
-         **/
+        
+        // Carga los helpers desde el boot
+        if($helpers = Config::get('boot.modules.helpers')) {
+            call_user_func_array(array('self', 'helpers'), explode(',', str_replace(' ', '', $helpers)));
+        }
+        
+        // Mapea los atributos del controller en el scope
         extract(get_object_vars($controller), EXTR_OVERWRITE);
 		
-		/**
-		 * Intenta cargar la vista desde la cache si esta en producion,
-         * si no renderiza
-         *
-		 **/
-		if(!PRODUCTION || $cache['type']!='view' || !(self::$_content = Cache::get($_url, 'kumbia.views'))) {
-			/**
-			 * Carga el el contenido del buffer de salida
-			 *
-			 **/
+        // Intenta cargar la vista desde la cache si esta en producion, si no renderiza
+        if(!PRODUCTION || $cache['type']!='view' || !(self::$_content = Cache::get($_url, 'kumbia.views'))) {
+            // Carga el el contenido del buffer de salida
 			self::$_content = ob_get_clean();
 				
 			if ($module_name){
@@ -67,10 +63,7 @@ class View
                  $controller_views_dir = "$controller_views_dir/$response";
             }
             
-			/**
-			 * Renderizar vista
-			 *
-			 **/
+            // Renderizar vista
 			if($view) {
 				ob_start();
                 
@@ -85,10 +78,7 @@ class View
 				    Cache::save(ob_get_contents(), $cache['time'], $_url, 'kumbia.views');
 			    }
 			    
-			    /**
-		         * Verifica si se debe renderizar solo la vista
-		         *
-		         **/
+                // Verifica si se debe renderizar solo la vista
 		        if($response == 'view' || $response == 'xml') {
 			        ob_end_flush();
 			        return;
@@ -100,10 +90,7 @@ class View
             ob_clean();
         }
 	
-		/**
-		 * Renderizar template
-		 *
-		 **/
+        // Renderizar template
 		if($template) {
 			$template = APP_PATH . "views/templates/$template.phtml";
 		} else {
@@ -181,7 +168,7 @@ class View
      * @param string $helper
      * @throw KumbiaException
      **/
-    public static function helpers ()
+    public static function helpers ($helper)
     {
         $args = func_get_args();
         foreach ($args as $helper) {
