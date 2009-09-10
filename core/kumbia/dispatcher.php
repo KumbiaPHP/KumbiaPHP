@@ -48,10 +48,9 @@ final class Dispatcher
 			throw new KumbiaException(null,'no_controller');
 		}
 		include_once $file;
-		$activeController = new ReflectionClass($app_controller);
 
 		//Asigna el controlador activo
-		self::$_controller = $activeController->newInstance($module, $controller, $action, $id, $all_parameters, $parameters);
+		self::$_controller = new $app_controller($module, $controller, $action, $id, $all_parameters, $parameters);
 
         //Carga de modelos
 		if(Config::get('config.application.database')) {
@@ -63,24 +62,29 @@ final class Dispatcher
 		}
 		
 		// Se ejecutan los filtros before
-		if(self::$_controller->initialize() === false) {
+		if(self::$_controller->k_callback('initialize') === false) {
 			return self::$_controller;
 		}
-		if(self::$_controller->before_filter() === false) {
+		if(self::$_controller->k_callback('before_filter')=== false) {
 			return self::$_controller;
 		}
 
 		//Se ejecuta el metodo con el nombre de la accion
 		//en la clase de acuerdo al convenio
-		if(!$activeController->hasMethod($action)){			
+		if(!method_exists(self::$_controller, $action)){			
 			throw new KumbiaException(null,'no_action');	
 		}
 		
 		//Obteniendo el metodo
-		$reflectionMethod = $activeController->getMethod($action);
-		
+		$reflectionMethod = new ReflectionMethod(self::$_controller, $action);
+        
+		//k_callback metodo reservado
+		if($reflectionMethod->name == 'k_callback'){
+            throw new KumbiaException('Esta intentando ejecutar un método reservado de KumbiaPHP');
+        }
+        
 		//se verifica que el metodo sea tenga modificador de acceso final
-		if(!$reflectionMethod->isFinal()){
+		if(!$reflectionMethod->isPublic()){
 		    throw new KumbiaException(null,'no_action');
 		}
 		
@@ -95,8 +99,8 @@ final class Dispatcher
 		$reflectionMethod->invokeArgs(self::$_controller, $parameters);
 
         //Corre los filtros after
-		self::$_controller->after_filter();
-		self::$_controller->finalize();
+		self::$_controller->k_callback('after_filter');
+		self::$_controller->k_callback('finalize');
 
 		//Elimino del controlador los modelos inyectados
 		foreach (Load::get_injected_models() as $model) {

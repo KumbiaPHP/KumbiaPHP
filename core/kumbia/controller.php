@@ -131,7 +131,7 @@ class Controller
 	 * @param $time tiempo de vida de cache
 	 * @param $type tipo de cache (view, template)
 	 */
-	public function cache($time, $type='view')
+	protected function cache($time, $type='view')
     {
 		if($time !== false) {
 			$this->cache['type'] = $type;
@@ -150,7 +150,7 @@ class Controller
 	 * </code>
 	 *
 	 */
-	public function route_to()
+	protected function route_to()
     {
 		$args = func_get_args();
     	return call_user_func_array(array('Router', 'route_to'), $args);
@@ -412,7 +412,7 @@ class Controller
 	 * @param string $view nombre del view a utilizar sin .phtml
 	 * @param string $template	opcional nombre del template a utilizar sin .phtml
 	 */
-	public function render($view,$template = false){
+	protected function render($view,$template = false){
 		$this->view = $view;
 		if($template === false) return;
 		$this->template = $template;
@@ -422,7 +422,7 @@ class Controller
      * 
      * @return bool
      */
-    public function before_filter()
+    protected function before_filter()
     {
     }
     /**
@@ -430,7 +430,7 @@ class Controller
      * 
      * @return bool
      */
-    public function after_filter()
+    protected function after_filter()
     {
     }
 	/**
@@ -438,7 +438,7 @@ class Controller
      * 
      * @return bool
      */
-    public function initialize()
+    protected function initialize()
     {
     }
     /**
@@ -446,7 +446,7 @@ class Controller
      * 
      * @return bool
      */
-    public function finalize()
+    protected function finalize()
     {
     }
 	/**
@@ -499,4 +499,14 @@ class Controller
             }
 	    }
 	}
+	/**
+	 * ejecuta los callback filter
+	 *
+	 * @param string $method
+	 * @return void
+	 */
+    final public function k_callback($method) 
+    { 
+        return $this->$method(); 
+    }
 }
