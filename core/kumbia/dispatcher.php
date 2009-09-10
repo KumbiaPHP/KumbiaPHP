@@ -78,8 +78,8 @@ final class Dispatcher
 		//Obteniendo el metodo
 		$reflectionMethod = new ReflectionMethod(self::$_controller, $action);
         
-		//k_callback metodo reservado
-		if($reflectionMethod->name == 'k_callback'){
+		//k_callback y __constructor metodo reservado
+		if($reflectionMethod->name == 'k_callback' || $reflectionMethod->isConstructor()){
             throw new KumbiaException('Esta intentando ejecutar un método reservado de KumbiaPHP');
         }
         
