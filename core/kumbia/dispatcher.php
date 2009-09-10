@@ -86,7 +86,10 @@ final class Dispatcher
 		
 		//se verifica que los parametros que recibe 
 		//la action sea la cantidad correcta
-		if(self::$_controller->limit_params && $reflectionMethod->getNumberOfParameters() <= count($parameters)){
+        $num_params = count($parameters);
+		if(self::$_controller->limit_params && ($num_params < $reflectionMethod->getNumberOfRequiredParameters()
+            ||  $num_params > $reflectionMethod->getNumberOfParameters())){
+            
 			throw new KumbiaException('Parametros no cuadran');
 		}
 		$reflectionMethod->invokeArgs(self::$_controller, $parameters);
