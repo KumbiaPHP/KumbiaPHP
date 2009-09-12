@@ -57,7 +57,7 @@ class Html extends Tag
      * @params string $alt
      * @param string | array $attrs atributos adicionales
      */
-    public static function img ($src, $alt=null; $attrs = null)
+    public static function img ($src, $alt=null, $attrs = null)
     {
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
