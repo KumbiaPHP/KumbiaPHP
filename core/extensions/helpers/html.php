@@ -54,25 +54,27 @@ class Html extends Tag
      * Permite incluir una imagen
      *
      * @param string $src
+     * @params string $alt
      * @param string | array $attrs atributos adicionales
      */
-    public static function img ($src, $attrs = null)
+    public static function img ($src, $alt=null; $attrs = null)
     {
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
-        echo '<img src="' . PUBLIC_PATH . "img/$src\" $attrs/>";
+        echo '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" $attrs/>";
     }
     /**
      * Crea un link con imagen
      *
      * @param string $action ruta a la accion
      * @param string $src
+     * @param string $alt
      * @param string | array $attrslink atributos adicionales del link
      * @param string | array $attrsImg atributos adicionales de la imagen
      * @return unknown
      */
-    public static function imgLink ($action, $src, $attrsLink=null, $attrsImg = null)
+    public static function imgLink ($action, $src, $alt=null, $attrsLink=null, $attrsImg = null)
     {
         if (is_array($attrsLink)) {
             $attrsLink = self::getAttrs($attrsLink);
@@ -80,7 +82,7 @@ class Html extends Tag
         if(is_array($attrsImg)){
             $attrsImg = self::getAttrs($attrsImg);
         }
-        echo "<a href=\"" . URL_PATH . "$action\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" $attrsImg /></a>";
+        echo "<a href=\"" . URL_PATH . "$action\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
     }
     /**
      * Aplica estilo zebra a una tabla.

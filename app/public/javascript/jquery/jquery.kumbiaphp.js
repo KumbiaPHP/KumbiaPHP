@@ -26,6 +26,7 @@
         /**
          * Muestra mensaje de confirmacion
          *
+         * @param Object event
          **/
         cConfirm: function(event) {
             if(!confirm(this.title)) {
@@ -33,32 +34,20 @@
             }
         },
         /**
-         * Muestra un elemento
+         * Aplica un efecto a un elemento
          *
+         * @param String fx
          **/
-        cShow: function(event) {
-            event.preventDefault();
-            $(this.rel).show();
-        },
-        /**
-         * Oculta un elemento
-         *
-         **/
-        cHide: function(event) {
-            event.preventDefault();
-            $(this.rel).hide();
-        },
-        /**
-         * Toggle de elemento
-         *
-         **/
-        cToggle: function(event) {
-            event.preventDefault();
-            $(this.rel).toggle();
+        cFx: function(fx) {
+            return function(event) {
+                event.preventDefault();
+                (($(this.rel))[fx])();
+            }
         },
         /**
          * Carga con AJAX
          *
+         * @param Object event
          **/
         cRemote: function(event) {
             event.preventDefault();
@@ -67,6 +56,7 @@
         /**
          * Carga con AJAX y Confirmacion
          *
+         * @param Object event
          **/
         cRemoteConfirm: function(event) {
             event.preventDefault();
@@ -79,12 +69,14 @@
          *
          **/
         bind : function() {
-            $("a.jsConfirm").live('click', this.cConfirm);
-            $("a.jsShow").live('click', this.cShow);
-            $("a.jsHide").live('click', this.cHide);
-            $("a.jsToggle").live('click', this.cToggle);
-            $("a.jsRemote").live('click', this.cRemote);
-            $("a.jsRemoteConfirm").live('click', this.cRemoteConfirm);
+            $("a.js-confirm").live('click', this.cConfirm);
+            $("a.js-remote").live('click', this.cRemote);
+            $("a.js-remote-confirm").live('click', this.cRemoteConfirm);
+            $("a.js-show").live('click', this.cFx('show'));
+            $("a.js-hide").live('click', this.cFx('hide'));
+            $("a.js-toggle").live('click', this.cFx('toggle'));
+            $("a.js-fade-in").live('click', this.cFx('fadeIn'));
+            $("a.js-fade-out").live('click', this.cFx('fadeOut'));
         }
     }
 
