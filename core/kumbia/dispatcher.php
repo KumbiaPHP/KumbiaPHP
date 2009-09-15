@@ -83,7 +83,7 @@ final class Dispatcher
             throw new KumbiaException('Esta intentando ejecutar un método reservado de KumbiaPHP');
         }
         
-		//se verifica que el metodo sea tenga modificador de acceso final
+		//se verifica que el metodo sea public
 		if(!$reflectionMethod->isPublic()){
 		    throw new KumbiaException(null,'no_action');
 		}
@@ -94,7 +94,8 @@ final class Dispatcher
 		if(self::$_controller->limit_params && ($num_params < $reflectionMethod->getNumberOfRequiredParameters()
             ||  $num_params > $reflectionMethod->getNumberOfParameters())){
             
-			throw new KumbiaException('Parametros no cuadran');
+			throw new KumbiaException("Número de parametros erroneo para ejecutar la acción \"$action\" en 
+                el controlador \"$controller\"");
 		}
 		$reflectionMethod->invokeArgs(self::$_controller, $parameters);
 
