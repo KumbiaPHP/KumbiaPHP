@@ -68,8 +68,6 @@ class ModelAuth implements AuthInterface
                 throw new AuthException("Debe especificar el parametro '$param' en los par&aacute;metros");
             }
         }
-
-        Load::models($extra_args['class']);
         unset($extra_args[0]);
         unset($extra_args['class']);
         $this->compare_attributes = $extra_args;
