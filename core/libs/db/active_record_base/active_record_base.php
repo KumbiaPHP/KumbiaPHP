@@ -977,15 +977,6 @@ class ActiveRecordBase
         $num = $this->db->fetch_one($sql);
         return $num[0];
     }
-    static public function static_select_one($sql)
-    {
-        $db = db::raw_connect();
-        if (substr(ltrim($sql), 0, 7) != "SELECT") {
-            $sql = "SELECT " . $sql;
-        }
-        $num = $db->fetch_one($sql);
-        return $num[0];
-    }
     /**
      * Realiza un conteo de filas
      *
