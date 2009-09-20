@@ -542,11 +542,10 @@ class ActiveRecordBase
     protected function _connect($new_connection = false)
     {
         if (!is_object($this->db) || $new_connection) {
-            if ($this->database) {
-                $this->db = DbBase::raw_connect($new_connection, $this->database);
-            } else {
-                $this->db = DbBase::raw_connect($new_connection);
+            if (!$this->database) {
+                $this->database = Config::get('config.application.database');
             }
+            $this->db = Db::factory($this->database, $new_connection);
         }
         $this->db->debug = $this->debug;
         $this->db->logger = $this->logger;
