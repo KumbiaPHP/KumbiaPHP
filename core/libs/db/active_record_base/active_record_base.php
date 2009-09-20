@@ -159,6 +159,7 @@ class ActiveRecordBase
      * @var boolean
      */
     public $persistent = false;
+    protected static $_rawConnections = array();
     /**
      * Validaciones
 	 *
@@ -545,7 +546,7 @@ class ActiveRecordBase
             if (!$this->database) {
                 $this->database = Config::get('config.application.database');
             }
-            $this->db = Db::factory($this->database, $new_connection);
+            $this->db = self::factory($this->database, $new_connection);
         }
         $this->db->debug = $this->debug;
         $this->db->logger = $this->logger;
@@ -969,12 +970,13 @@ class ActiveRecordBase
      * @param string $sql
      * @return resource
      */
-    public function select_one($sql)
+    static public function static_select_one($sql)
     {
+        $db = self::factory($this->database);
         if (substr(ltrim($sql), 0, 7) != "SELECT") {
             $sql = "SELECT " . $sql;
         }
-        $num = $this->db->fetch_one($sql);
+        $num = $db->fetch_one($sql);
         return $num[0];
     }
     /**
@@ -2450,4 +2452,72 @@ class ActiveRecordBase
 		self::$_models[$model] = $obj = new $Model();
 		return $obj;
 	}
+	
+        /**
+     * Realiza una conexión directa al motor de base de datos
+     * usando el driver de Kumbia
+     *
+     * @param boolean $new nueva conexion
+     * @param string $database base de datos a donde conectar
+     * @return db
+     */
+    public static function factory ($database = null, $new = false)
+    {
+        /**
+         * Cargo el mode para mi aplicacion
+         **/
+        if (! $database) {
+            $database = Config::get('config.application.database');
+        }
+        $databases = Config::read('databases');
+        $config = $databases[$database];
+        /**
+         * Cargo valores por defecto para la conexion
+         * en caso de que no existan
+         **/
+        if (! isset($config['port'])) {
+            $config['port'] = 0;
+        }
+        if (! isset($config['dsn'])) {
+            $config['dsn'] = '';
+        }
+        if (! isset($config['host'])) {
+            $config['host'] = '';
+        }
+        if (! isset($config['username'])) {
+            $config['username'] = '';
+        }
+        if (! isset($config['password'])) {
+            $config['password'] = '';
+        }
+        //Si no es una conexion nueva y existe la conexion singleton
+        if (! $new && isset(self::$_rawConnections[$database])) {
+            return self::$_rawConnections[$database];
+        }
+        //Cargo la clase adaptadora necesaria
+        if (isset($config['pdo'])) {
+            $dbclass = "DbPDO{$config['type']}";
+            if (! class_exists($dbclass)) {
+                /**
+                 * @see DbPDO
+                 */
+                require_once CORE_PATH . 'libs/db/adapters/pdo.php';
+                require_once CORE_PATH . 'libs/db/adapters/pdo/' . $config['type'] . '.php';
+            }
+        } else {
+            $dbclass = "Db{$config['type']}";
+            if (! class_exists($dbclass)) {
+                require_once CORE_PATH . 'libs/db/adapters/' . $config['type'] . '.php';
+            }
+        }
+        if (! class_exists($dbclass)) {
+            throw new KumbiaException("No existe la clase $dbclass, necesaria para iniciar el adaptador");
+        }
+        $connection = new $dbclass($config);
+        //Si no es para conexion nueva, la cargo en el singleton
+        if (! $new) {
+            self::$_rawConnections[$database] = $connection;
+        }
+        return $connection;
+    }
 }

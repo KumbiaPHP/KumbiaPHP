@@ -25,11 +25,6 @@
  * @see DbBaseInterface
  */
 require CORE_PATH . 'libs/db/db_base_interface.php';
-
-/**
- * @see DbLoader
- */
-require CORE_PATH . 'libs/db/loader/loader.php';
 /**
 * @see ActiveRecordBase
 */
@@ -110,11 +105,11 @@ class DbBase
 	 * @param integer $type
 	 * @return array
 	 */
-	public function in_query($sql, $type=db::DB_BOTH){
+	public function in_query($sql){
 		$q = $this->query($sql);
 		$results = array();
 		if($q){
-			while($row=$this->fetch_array($q, $type)){
+			while($row=$this->fetch_array($q)){
 				$results[] = $row;
 			}
 		}
@@ -129,8 +124,8 @@ class DbBase
 	 * @param integer $type
 	 * @return array
 	 */
-	public function fetch_all($sql, $type=db::DB_BOTH){
-		return $this->in_query($sql, $type);
+	public function fetch_all($sql){
+		return $this->in_query($sql);
 	}
 
 	/**
@@ -311,85 +306,4 @@ class DbBase
 			Flash::notice($sql);
 		}
 	}
-
-	/**
-	 * Realiza una conexión directa al motor de base de datos
-	 * usando el driver de Kumbia
-	 *
-	 * @param boolean $new_connection nueva conexion
-	 * @param string $database base de datos a donde conectar
-	 * @return db
-	 */
-	public static function raw_connect($new_connection=false, $database = null){
-		/**
-		 * Cargo el mode para mi aplicacion
-		 **/
-		if(!$database) {
-			$database = Config::get('config.application.database');
-		}
-		
-		$databases = Config::read('databases');
-		$config = $databases[$database];
-		
-		/**
-		 * Cargo valores por defecto para la conexion
-		 * en caso de que no existan
-		 **/
-		if(!isset($config['port'])){
-			$config['port'] = 0;
-		}
-		if(!isset($config['dsn'])){
-			$config['dsn'] = '';
-		}
-		if(!isset($config['host'])){
-			$config['host'] = '';
-		}
-		if(!isset($config['username'])){
-			$config['username'] = '';
-		}
-		if(!isset($config['password'])){
-			$config['password'] = '';
-		}
-
-		/**
-		 * Si no es una conexion nueva y existe la conexion singleton
-		 **/
-		if(!$new_connection && isset(self::$raw_connections[$database])) {
-			return self::$raw_connections[$database];
-		}
-
-		/**
-		 * Cargo la clase adaptadora necesaria
-		 **/
-		if(isset($config['pdo'])){
-			$dbclass = "DbPDO{$config['type']}";
-			if(!class_exists($dbclass)) {
-				/**
-				 * @see DbPDO
-				 */
-				require_once CORE_PATH . 'libs/db/adapters/pdo.php';
-				require_once CORE_PATH . 'libs/db/adapters/pdo/' . $config['type'] . '.php';
-			}
-		} else {
-			$dbclass = "Db{$config['type']}";
-			if(!class_exists($dbclass)) {
-				require_once CORE_PATH . 'libs/db/adapters/' . $config['type'] . '.php';
-			}
-		}
-		if(!class_exists($dbclass)){
-			throw new KumbiaException("No existe la clase {$dbclass}, necesaria para iniciar el adaptador", 0);
-		}
-		
-		$connection = new $dbclass($config);
-		
-		/**
-		 * Si no es para conexion nueva, la cargo en el singleton
-		 **/
-		if(!$new_connection) {
-			self::$raw_connections[$database] = $connection;
-		} 
-		
-		return $connection;
-	}
 }
-return DbLoader::load_driver();

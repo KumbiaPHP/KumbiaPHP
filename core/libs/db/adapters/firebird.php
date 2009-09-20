@@ -173,10 +173,7 @@ class DbFirebird extends DbBase implements DbBaseInterface  {
 	 * @param int $opt
 	 * @return array
 	 */
-	public function fetch_array($result_query='', $opt=''){
-		if($opt==='') {
-			$opt = db::DB_BOTH;
-		}
+	public function fetch_array($result_query='', $opt=MYSQL_BOTH){
 		if(!$this->id_connection){
 			return false;
 		}

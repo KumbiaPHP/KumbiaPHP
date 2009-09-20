@@ -171,8 +171,7 @@ class DbPgSQL extends DbBase implements DbBaseInterface {
 	 * @param int $opt
 	 * @return array
 	 */
-	function fetch_array($resultQuery='', $opt=''){
-		if($opt==='') $opt = db::DB_BOTH;
+	function fetch_array($resultQuery='', $opt=PGSQL_BOTH){
 		if(!$this->id_connection){
 			return false;
 		}
