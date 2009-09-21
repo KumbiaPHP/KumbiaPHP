@@ -525,10 +525,6 @@ class DbPgSQL extends DbBase implements DbBaseInterface {
 		if(!$queryResult){
 			$queryResult = $this->last_result_query;
 		}
-		$arrayObj = array();
-		while ($row = pg_fetch_object($queryResult, NULL, $class)) {
-			$arrayObj[] = $row;
-		}
-		return $arrayObj;
+		return pg_fetch_object($queryResult, null, $class);
 	}
 }
