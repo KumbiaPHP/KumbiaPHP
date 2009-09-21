@@ -482,4 +482,18 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 			return $this->fetch_all("DESCRIBE `$schema`.`$table`");
 		}
 	}
+    
+	/**
+	 * Devuelve fila por fila el contenido de un select
+	 *
+	 * @param resource $result_query
+	 * @param string $class clase de objeto
+	 * @return object 
+	 */
+	public function fetch_object($result_query=null, $class='stdClass'){
+		if(!$result_query){
+			$result_query = $this->last_result_query;
+		}
+		return mysql_fetch_object($result_query, $class);
+	}
 }
