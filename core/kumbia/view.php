@@ -50,7 +50,7 @@ class View
         extract(get_object_vars($controller), EXTR_OVERWRITE);
 		
         // Intenta cargar la vista desde la cache si esta en producion, si no renderiza
-        if(!PRODUCTION || $cache['type']!='view' || !(self::$_content = Cache::get($_url, 'kumbia.views'))) {
+        if(!PRODUCTION || $cache['type']!='view' || !(self::$_content = Cache::get($_url, "$controller_name.$action_name.$id"))) {
             // Carga el el contenido del buffer de salida
 			self::$_content = ob_get_clean();
 				
@@ -73,9 +73,12 @@ class View
                 }
                 
                 include $file;
-				
+                //verifica si no se ha especificado un grupo para la cache
+				if(!$cache['group']){
+				    $cache['group'] = "$controller_name.$action_name.$id";
+                }
 				if(PRODUCTION && $cache['type'] == 'view') {
-				    Cache::save(ob_get_contents(), $cache['time'], $_url, 'kumbia.views');
+				    Cache::save(ob_get_contents(), $cache['time'], $_url, $cache['group']);
 			    }
 			    
                 // Verifica si se debe renderizar solo la vista
@@ -102,7 +105,7 @@ class View
 			include $template;
 				
 			if(PRODUCTION && $cache['type'] == 'template') {
-				Cache::save(ob_get_contents(), $cache['time'], $_url, 'kumbia.templates');
+				Cache::save(ob_get_contents(), $cache['time'], $_url, "kumbia.templates");
 			}
 			ob_end_flush();
 			return;

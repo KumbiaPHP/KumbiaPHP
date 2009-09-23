@@ -78,7 +78,7 @@ class Controller
 	 *
 	 * @var array
 	 */
-	public $cache = array('type' => false, 'time' => false);
+	public $cache = array('type' => false, 'time' => false, 'group'=>false);
 	/**
 	 * Logger implicito del controlador
 	 *
@@ -131,11 +131,12 @@ class Controller
 	 * @param $time tiempo de vida de cache
 	 * @param $type tipo de cache (view, template)
 	 */
-	protected function cache($time, $type='view')
+	protected function cache($time, $type='view', $group=false)
     {
 		if($time !== false) {
 			$this->cache['type'] = $type;
 			$this->cache['time'] = $time;
+			$this->cache['group'] = $group;
 		} else {
 			$this->cache['type'] = false;
 		}
