@@ -35,14 +35,17 @@ class Load
      **/
     public static function lib ($lib)
     {
-        $file = APP_PATH . "libs/$lib.php";
-        if (! is_file($file)) {
-            $file = CORE_PATH . "libs/$lib/$lib.php";
+        $args = func_get_args();
+        foreach($args as $lib) {
+            $file = APP_PATH . "libs/$lib.php";
             if (! is_file($file)) {
-                throw new KumbiaException("Librería: \"$lib\" no encontrada");
+                $file = CORE_PATH . "libs/$lib/$lib.php";
+                if (! is_file($file)) {
+                    throw new KumbiaException("Librería: \"$lib\" no encontrada");
+                }
             }
+            include_once $file;
         }
-        include_once $file;
     }
     
     /**
@@ -131,9 +134,7 @@ class Load
         $boot = Config::read('boot');
         if (!empty($boot['modules']['libs'])) {
             $libs = explode(',', str_replace(' ', '', $boot['modules']['libs']));
-            foreach ($libs as $lib) {
-                self::lib($lib);
-            }
+            call_user_func_array(array('self', 'lib'), $libs);
             unset($libs);
         }
     }
