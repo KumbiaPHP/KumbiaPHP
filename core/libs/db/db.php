@@ -94,24 +94,22 @@ class Db
         }
         //Cargo la clase adaptadora necesaria
         if (isset($config['pdo'])) {
-            $dbclass = "DbPDO{$config['type']}";
-            if (! class_exists($dbclass)) {
-                /**
-                 * @see DbPDO
-                 */
-                require_once CORE_PATH . 'libs/db/adapters/pdo.php';
-                require_once CORE_PATH . 'libs/db/adapters/pdo/' . $config['type'] . '.php';
-            }
+            $connection = new PDO($config['type'] . ":" . $config['dsn'], $config['username'], $config['password']);
+            if(!$connection){
+				throw new KumbiaException("No se pudo realizar la conexion con {$config['type']}");
+			}
         } else {
             $dbclass = "Db{$config['type']}";
             if (! class_exists($dbclass)) {
                 require_once CORE_PATH . 'libs/db/adapters/' . $config['type'] . '.php';
             }
+            
+            if (! class_exists($dbclass)) {
+                throw new KumbiaException("No existe la clase $dbclass, necesaria para iniciar el adaptador");
+            }
+            $connection = new $dbclass($config);
         }
-        if (! class_exists($dbclass)) {
-            throw new KumbiaException("No existe la clase $dbclass, necesaria para iniciar el adaptador");
-        }
-        $connection = new $dbclass($config);
+
         //Si no es para conexion nueva, la cargo en el singleton
         if (! $new) {
             self::$_connections[$database] = $connection;
