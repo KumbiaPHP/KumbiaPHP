@@ -30,16 +30,14 @@ class Util
      **/
     public static function camelcase($s, $lower=false)
     {
-		
 		$s = ucwords(strtolower(strtr($s, '_', ' ')));
 		$s = str_replace(' ', '', $s);
 
-        /**
-         * Notacion lowerCamelCase
-         **/
+        // Notacion lowerCamelCase
         if($lower) {
             $s = self::lcfirst($s);
         }
+        
         return $s;
     }
 	
@@ -50,8 +48,7 @@ class Util
 	 * @return string
 	 */
 	public static function uncamelize($str) {
-			$str = self::lcfirst($str);
-		return strtolower(preg_replace('/([A-Z])/', '_\\1', $str));
+		return self::smallcase($str);
 	}
 	
     /**
@@ -60,7 +57,7 @@ class Util
      * @return string
      **/
     public static function smallcase($s) {
-	        return strtolower(preg_replace('/([A-Z])/', "_\\1", $s));
+        return strtolower(preg_replace('/([A-Z])/', "_\\1", self::lcfirst($s)));
     }
     /**
      * Remplaza en la cadena los espacios por guiónes bajos (underscores)
@@ -201,18 +198,11 @@ class Util
      */
     public static function removedir($dir)
     {
- 
-        /**
-            Obtengo los archivos en el directorio a eliminar
-        **/
+        // Obtengo los archivos en el directorio a eliminar
         if($files = array_merge(glob("$dir/*"), glob("$dir/.*"))) {
-            /**
-                Elimino cada subdirectorio o archivo
-            **/
+            // Elimino cada subdirectorio o archivo
             foreach($files as $file) {
-                /**
-                    Si no son los directorios "." o ".." 
-                **/
+                // Si no son los directorios "." o ".." 
                 if(!preg_match("/^.*\/?[\.]{1,2}$/",$file)) {
                     if(is_dir($file)) {
                         return self::removeDir($file);
@@ -231,7 +221,7 @@ class Util
      * @return string
      **/
     public static function lcfirst($s) {
-			$s[0] = strtolower($s[0]);
+        $s[0] = strtolower($s[0]);
 		return $s;
     }
 }
