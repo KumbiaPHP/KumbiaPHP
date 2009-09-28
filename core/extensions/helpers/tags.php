@@ -442,9 +442,9 @@ function form_remote_tag($data){
 	$params = is_array($data) ? $data : Util::getParams(func_get_args());
 	
 	if(!isset($params['action'])||!$params['action']) {
-		$params['action'] = URL_PATH . $params[0];
+		$params['action'] = $params[0];
 	}else{
-		$params['action'] = URL_PATH . $params['action'];
+		$params['action'] = $params['action'];
 	}
 	
 	if(!isset($params['method'])||!$params['method']) {
