@@ -177,7 +177,7 @@ final class Router
 			
 			self::$vars['module'] = $url['module'];
 			self::$vars['controller'] = 'index';
-			self::$vars['action'] = "index";
+			self::$vars['action'] = 'index';
 			self::$vars['routed'] = true;
 		}
 		if(isset($url['controller'])){

@@ -94,9 +94,9 @@ class View
 	
         // Renderizar template
 		if($template) {
-			$template = APP_PATH . "views/_share/templates/$template.phtml";
+			$template = APP_PATH . "views/_shared/templates/$template.phtml";
 		} else {
-			$template = APP_PATH . "views/_share/templates/$controller_name.phtml";
+			$template = APP_PATH . "views/_shared/templates/$controller_name.phtml";
 		}
 		
 		if(is_file($template)) {
@@ -143,7 +143,7 @@ class View
 		}
 		extract ($params);
 		
-		$path = "views/_share/partials/$partial.phtml";
+		$path = "views/_shared/partials/$partial.phtml";
 		
 		//Verificando el partials en el dir app 
 		$file = APP_PATH . $path;
