@@ -305,7 +305,7 @@ function get_params($params){
  * @return string $listaEncomillada Cadena con Items encerrados en doblecomillas y separados por comas (,).
  */
 function encomillar_lista($lista){
-	$arrItems = split(',', $lista);
+	$arrItems explode(',', $lista);
 	$n = count($arrItems);
 	$listaEncomillada = '';
 	for ($i=0; $i<$n-1; $i++) {

@@ -28,7 +28,7 @@
  */
 class PagesController extends ApplicationController 
 {
-	public function before_filter()
+	protected function before_filter()
 	{
 	    $this->limit_params = false;
 		// Si es AJAX enviar solo el view
