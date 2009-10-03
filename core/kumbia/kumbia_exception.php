@@ -64,8 +64,8 @@ class KumbiaException extends Exception {
                 include CORE_PATH . "views/errors/exception.phtml";
             }
 		} else {
-			include APP_PATH . 'views/errors/404.phtml';
-			$Template= 'views/templates/error.phtml';
+			include APP_PATH . 'views/_share/errors/404.phtml';
+			$Template= 'views/_share/templates/error.phtml';
 		}
 		$content = ob_get_clean();
 		
