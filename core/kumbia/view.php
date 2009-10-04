@@ -173,8 +173,7 @@ class View
      **/
     public static function helpers ($helper)
     {
-        $args = func_get_args();
-        foreach ($args as $helper) {
+        foreach (func_get_args() as $helper) {
             $path = "extensions/helpers/$helper.php";
             $file = APP_PATH . $path;
             if (! is_file($file)) {

@@ -53,14 +53,10 @@ final class Dispatcher
 		self::$_controller = new $app_controller($module, $controller, $action, $id, $all_parameters, $parameters);
 
         //Carga de modelos
-		if(Config::get('config.application.database')) {
-			if(Config::get('config.application.models_autoload')) {
-				Load::models();
-			} elseif(self::$_controller->models !== null) {
-				Load::models(self::$_controller->models);
-			}
+		if(self::$_controller->models) {
+			Load::models(self::$_controller->models);
 		}
-		
+				
 		// Se ejecutan los filtros before
 		if(self::$_controller->k_callback('initialize') === false) {
 			return self::$_controller;
