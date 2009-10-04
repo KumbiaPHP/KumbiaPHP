@@ -17,7 +17,6 @@
     $config = Config::read('config');
     
     $databases = ($config['application']['database']) ? 'On' : 'Off';
-    $models_autoload = ($config['application']['models_autoload']) ? 'On' : 'Off';
     $status = ($config['application']['production']) ? 'Production' : 'Development';
     
     if(isset($config['application']['locale'])){
@@ -78,7 +77,7 @@
         <div class="x-form-item">
             <div class='rows-left'>
                 <div class="form-row">
-                    <div class="field-label"><strong>Autocarga de Modelos</strong>: <?php echo $models_autoload ?></div>
+                    <div class="field-label"><strong>Carga de Modelos</strong>: </div>
                     <div class="field-widget">Ver <a href="http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#Carga_selectiva_de_modelos">Carga Selectiva de Modelos</a>.</div>
                 </div>
             </div>
