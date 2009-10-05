@@ -29,9 +29,7 @@ final class Router
 				     'module' => '', //Nombre del modulo actual
 				     'controller' => '', //Nombre del controlador actual
 				     'action' => 'index', //Nombre de la acción actual, por defecto index
-				     'id' => '', //Nombre del primer parametro despues de action
 				     'parameters' => array(), //Lista los parametros adicionales de la URL
-				     'all_parameters' => array(), //Lista de Todos los parametros de la URL
 				     'routed' => false //Indica si esta pendiente la ejecución de una ruta por parte del dispatcher
 				     );
 	
@@ -59,10 +57,7 @@ final class Router
 		// Obtengo y asigno todos los parametros de la url
 		$url_items = explode ('/', $url);
 		
-		// Asigna todos los parametros
-		self::$vars['all_parameters'] = $url_items;
-		
-		// El siguiente parametro de la url es un modulo?
+		// El primer parametro de la url es un modulo?
 		$item = current($url_items);
 		if(is_dir(APP_PATH . "controllers/$item")) {
 			self::$vars['module'] = current($url_items);
@@ -90,7 +85,7 @@ final class Router
 		}
 		
 		// id
-		self::$vars['id'] = current($url_items);
+		//self::$vars['id'] = current($url_items);
 		
 		// Crea los parametros y los pasa, depues elimina el $url_items
 		$key = key($url_items);
@@ -106,7 +101,7 @@ final class Router
  	 * para el controlador, accion, id actual
  	 * 
 	 */
-	static function ifRouted($url){
+	static private function ifRouted($url){
 		$routes = Config::read('routes');
 		$routes = $routes['routes'];
 		
@@ -149,11 +144,9 @@ final class Router
 	}
 
 	/**
-	 * Enruta el controlador actual a otro controlador, o a otra acción
+	 * Enruta el controlador actual a otro módulo, controlador, o a otra acción
 	 * Ej:
-	 * <code>
-	 * kumbia::route_to(["module: modulo"], "controller: nombre", ["action: accion"], ["id: id"])
-	 * </code>
+	 * <code>kumbia::route_to(["module: modulo"], "controller: nombre", ["action: accion"], ["parameters: xxx/xxx/..."])</code>
 	 *
 	 * @return null
 	 */
@@ -166,64 +159,28 @@ final class Router
 		$url = Util::getParams(func_get_args());
 		//print_r ($url);
 		if(isset($url['module'])){
-			
-			// Verifica para asignar correctamente los parametros en all_parameters,
-			// efectuando los debidos corrimientos de ser necesario
-			if(self::$vars['module']) {
-				self::$vars['all_parameters'][0] = $url['module'];
-			} else {
-				array_unshift(self::$vars['all_parameters'], $url['module']);
-			}
-			
 			self::$vars['module'] = $url['module'];
 			self::$vars['controller'] = 'index';
 			self::$vars['action'] = 'index';
 			self::$vars['routed'] = true;
 		}
 		if(isset($url['controller'])){
-			
 			self::$vars['controller'] = $url['controller'];
-			
-			// Verifica para asignar correctamente los parametros en all_parameters,
-			// efectuando los debidos corrimientos de ser necesario
-			if(self::$vars['module']) {
-				self::$vars['all_parameters'][1] = $url['controller'];
-			} else {
-				self::$vars['all_parameters'][0] = $url['controller'];
-			}
-			
 			self::$vars['action'] = "index";
 			self::$vars['routed'] = true;
 			
-			$app_controller = util::camelcase($url['controller'])."Controller";
+			//$app_controller = util::camelcase($url['controller'])."Controller";
 		}
 		if(isset($url['action'])){
-			
 			self::$vars['action'] = $url['action'];
-			// Verifica para asignar correctamente los parametros en all_parameters,
-			// efectuando los debidos corrimientos de ser necesario
-			if(self::$vars['module']) {
-				self::$vars['all_parameters'][2] = $url['action'];
-			} else {
-				self::$vars['all_parameters'][1] = $url['action'];
-			}
-
 			self::$vars['routed'] = true;
 		}
-		if(isset($url['id'])){
-			
-			self::$vars['id'] = $url['id'];
-			/**
-			 * Verifico para asignar correctamente los parametros en all_parameters,
-			 * efectuando los debidos corrimientos de ser necesario
-			 **/
-			if(self::$vars['module']) {
-				self::$vars['all_parameters'][3] = $url['action'];
-			} else {
-				self::$vars['all_parameters'][2] = $url['action'];
-			}
-
-			self::$vars['parameters'][0] = $url['id'];
+		if(isset($url['parameters'])){
+			self::$vars['parameters'] = explode('/',$url['parameters']);
+			self::$vars['routed'] = true;
+		}elseif (isset($url['id'])){
+			// Deprecated
+			self::$vars['parameters'] = $url['id'];
 			self::$vars['routed'] = true;
 		}
 		
@@ -236,30 +193,44 @@ final class Router
 	}
 
 	/**
-	 * Envia el valor de una variable o el array con todas las variables y sus valores del router
+	 * Envia el valor de un atributo o el array con todos los atributos y sus valores del router
 	 * Mirar el atributo vars del router
 	 * ej.
-	 * <code>
-	 * kumbia::get()
-	 * </code>
+	 * <code>kumbia::get()</code>
 	 * 
 	 * @param ninguno
-	 * @return array con todas las variables y sus valores
+	 * @return array con todas los atributos y sus valores
 	 *
-	 * o
 	 * ej.
-	 * <code>
-	 * kumbia::get('controller')
-	 * </code>
+	 * <code>kumbia::get('controller')</code>
 	 * 
-	 * @param string  una variable: route, module, controller, action, id, parameters, all_parameters o routed
-	 * @return string con el valor de la variable
+	 * @param string  un atributo: route, module, controller, action, parameters o routed
+	 * @return string con el valor del atributo
 	 **/
 	static public function get($var=null) {
 		if($var){
 			return self::$vars[$var];
 		} else {
 			return self::$vars;
+		}
+	}
+
+	/**
+	 * Redirecciona la ejecución a otro controlador en un
+	 * tiempo de ejecución determinado
+	 *
+	 * @param string $route
+	 * @param integer $seconds
+	 */
+	static public function redirect($route, $seconds=null)
+    {
+		if(headers_sent() || ($seconds)){
+			echo "
+				<script type='text/javascript'>
+					window.setTimeout(\"window.location='".PUBLIC_PATH."$route'\", $seconds*1000);
+				</script>\n";
+		} else {
+			header('Location: '.PUBLIC_PATH."$route");
 		}
 	}
 }

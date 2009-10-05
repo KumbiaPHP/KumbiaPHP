@@ -104,15 +104,11 @@ class Controller
 	 * @param string $module modulo al que pertenece el controlador
 	 * @param string $controller nombre del controlador
 	 * @param string $action nombre de la accion
-	 * @param string $id primer parametro que se recibe por url
-	 * @param array $all_parameters todos los parametros que componen la url
 	 * @param array $parameters parametros enviados por url
 	 **/
-	public function __construct($module, $controller, $action, $id, $all_parameters, $parameters) {
+	public function __construct($module, $controller, $action, $parameters) {
 		$this->module_name = $module;
 		$this->controller_name = $controller;
-		$this->id = $id;
-		$this->all_parameters = $all_parameters;
 		$this->parameters = $parameters;
 		$this->view = $this->action_name = $action;
         
@@ -340,21 +336,13 @@ class Controller
 	/**
 	 * Redirecciona la ejecución a otro controlador en un
 	 * tiempo de ejecución determinado
-	 *
+	 * DEPRECATED
 	 * @param string $controller
 	 * @param integer $seconds
 	 */
-	protected function redirect($controller, $seconds=0.5)
+	protected function redirect($controller, $seconds=null)
     {
-		$seconds*=1000;
-		if(headers_sent()){
-			print "
-				<script type='text/javascript'>
-					window.setTimeout(\"window.location='".PUBLIC_PATH."$controller'\", $seconds);
-				</script>\n";
-		} else {
-			header('Location: '.PUBLIC_PATH."$controller");
-		}
+		Router::redirect($controller,$seconds);
 	}
 
 	/**
