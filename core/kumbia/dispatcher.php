@@ -50,7 +50,7 @@ final class Dispatcher
 		include_once $file;
 
 		//Asigna el controlador activo
-		self::$_controller = new $app_controller($module, $controller, $action, $id, $all_parameters, $parameters);
+		self::$_controller = new $app_controller($module, $controller, $action, $parameters);
 
         //Carga de modelos
 		if(self::$_controller->models) {
