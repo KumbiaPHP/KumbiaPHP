@@ -1,0 +1,33 @@
+<div id="scaffold">
+<?php View::content();
+$model= get_class($results)// no hara falta?>
+<h1><?php echo ucwords("$controller_name: $action_name") ?></h1>
+<table>
+    <thead><tr>
+        <?php foreach (current($results->items)->fields as $field) : ?>
+        <th><?echo (current($results->items)->get_alias($field))?></th>
+		<?php endforeach?>
+		<th>Acciones</th>
+    </tr></thead>
+	<tbody>
+    <?php foreach ($results->items as $item) : $mo ?>
+        <tr>
+            <?php foreach ($item->fields as $field) : ?>
+            <td><?php eh($item->$field)?></td>
+            <?php endforeach?>
+			<td><a href="<?php echo URL_PATH.$controller_name?>/ver/<?echo $item->id?>">Ver</a> |
+			<a href="<?php echo URL_PATH.$controller_name?>/editar/<?echo $item->id?>">Editar</a> |
+			<a title="¿Seguro que quiere borrar?" href="<?php echo URL_PATH.$controller_name?>/borrar/<?echo $item->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
+			</td>
+        </tr>
+    <?php endforeach?>
+	</tbody>
+</table>
+<?php View::partial('paginators/digg', false, array('page' => $results ,'url' => "$controller_name/index")); ?>
+</div>
+<div class="links">
+	<a href="<?php echo URL_PATH.$controller_name?>/create/">Crear registro</a>
+	
+</div>
+</div>
+<?php //var_dump($results)?>

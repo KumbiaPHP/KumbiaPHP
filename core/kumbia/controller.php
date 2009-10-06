@@ -57,13 +57,6 @@ class Controller
 	 * @var string
 	 */
 	public $action_name;
-	/**
-	 * Nombre del primer parametro despues de action
-	 * en la URL
-	 *
-	 * @var string
-	 */
-	public $id;
     /**
      * Template
      *
@@ -98,6 +91,12 @@ class Controller
 	 * @var bool
 	 */
 	public $limit_params = true;
+	/**
+	 * Nombre del scaffold a usar
+	 *
+	 * @var string
+	 */
+	public $scaffold = null;
 	/**
 	 * Constructor
 	 *
@@ -343,6 +342,7 @@ class Controller
 	protected function redirect($controller, $seconds=null)
     {
 		Router::redirect($controller,$seconds);
+		//if(!$seconds) self::render(null,null);
 	}
 
 	/**

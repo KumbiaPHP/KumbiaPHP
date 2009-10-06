@@ -1,0 +1,20 @@
+<div id="scaffold">
+<?php View::content();
+//$model= get_class($result)// no hara falta?>
+<h1><?php echo ucwords("$controller_name: $action_name") ?></h1>
+<ul>
+<?php foreach ($result->fields as $field) : ?>
+
+	<li><strong><?php echo $result->alias[$field]?> :</strong>  <?php eh($result->$field) ?></li>
+
+<?php endforeach?>
+</ul>
+</div>
+<div class="links">
+	<a href="<?php echo URL_PATH.$controller_name?>/">Listado</a>
+	<a href="<?php echo URL_PATH.$controller_name?>/create/">Crear registro</a>
+	<a href="<?php echo URL_PATH.$controller_name?>/editar/<?echo $result->id?>">Editar</a>
+	<a class="del" title="¿Seguro que quiere borrar?" href="<?php echo URL_PATH?>scaffold/borrar/<?echo $result->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
+</div>
+<pre>
+<?php //var_dump($result)?></pre>

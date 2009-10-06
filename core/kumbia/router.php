@@ -34,7 +34,7 @@ final class Router
 				     );
 	
 	/**
-	 * Toma $url y la descompone en aplicacion, (modulo), controlador, accion y argumentos
+	 * Toma $url y la descompone en (modulo), controlador, accion y argumentos
 	 *
 	 * @param string $url
 	 */
@@ -224,13 +224,15 @@ final class Router
 	 */
 	static public function redirect($route, $seconds=null)
     {
+		$route = PUBLIC_PATH . ltrim($route,'/');
 		if(headers_sent() || ($seconds)){
 			echo "
 				<script type='text/javascript'>
-					window.setTimeout(\"window.location='".PUBLIC_PATH."$route'\", $seconds*1000);
+					window.setTimeout(\"window.location=\"$route\", $seconds*1000);
 				</script>\n";
 		} else {
-			header('Location: '.PUBLIC_PATH."$route");
+			header("Location: $route");
+			echo 'Redirect to ', $route;
 		}
 	}
 }

@@ -50,7 +50,7 @@ class View
         extract(get_object_vars($controller), EXTR_OVERWRITE);
 
         // Intenta cargar la vista desde la cache si esta en producion, si no renderiza
-        if(!PRODUCTION || $cache['type']!='view' || !(self::$_content = Cache::get($_url, "$controller_name.$action_name.$id"))) {
+        if(!PRODUCTION || ($scaffold) || $cache['type']!='view' || !(self::$_content = Cache::get($_url, "$controller_name.$action_name.$id"))) {
             // Carga el el contenido del buffer de salida
 			self::$_content = ob_get_clean();
 				
@@ -69,12 +69,17 @@ class View
                 
                 $file = "$controller_views_dir/$view.phtml";
                 if(!is_file($file)) {
-                    throw new KumbiaException("Vista $view.phtml no encontrada");
+					if($scaffold) {
+						$file = APP_PATH . "views/_shared/scaffolds/$scaffold/$view.phtml";
+							if(!is_file($file)) throw new KumbiaException("Vista $view.phtml no encontrada");
+					} else {
+						throw new KumbiaException("Vista $view.phtml no encontrada");
+						}
                 }
                 include $file;
                 //verifica si no se ha especificado un grupo para la cache
 				if(!$cache['group']){
-				    $cache['group'] = "$controller_name.$action_name.$id";
+				    $cache['group'] = "$controller_name.$action_name";//.$id";
                 }
 				if(PRODUCTION && $cache['type'] == 'view') {
 				    Cache::save(ob_get_contents(), $cache['time'], $_url, $cache['group']);
