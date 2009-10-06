@@ -21,10 +21,6 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
- * ActiveRecordException
- */
-require_once CORE_PATH . 'libs/db/active_record_base/exception.php';
-/**
  * ActiveRecordBase Clase para el Mapeo Objeto Relacional
  *
  * Active Record es un enfoque al problema de acceder a los datos de una
@@ -524,9 +520,9 @@ class ActiveRecordBase
                 call_user_func_array(array($this, $method), $args);
             } else {
                 if ($has_relation) {
-                    throw new ActiveRecordException("No existe el modelo '$model' para relacionar con ActiveRecord::{$this->source}");
+                    throw new KumbiaException("No existe el modelo '$model' para relacionar con ActiveRecord::{$this->source}");
                 } else {
-                    throw new ActiveRecordException("No existe el m&eacute;todo '$method' en ActiveRecord::" . get_class($this));
+                    throw new KumbiaException("No existe el método '$method' en ActiveRecord::" . get_class($this));
                 }
             }
         }
@@ -584,7 +580,7 @@ class ActiveRecordBase
             $this->_dump_info($table, $schema);
             if (!count($this->primary_key)) {
                 if (!$this->is_view) {
-                    throw new ActiveRecordException("No se ha definido una llave primaria para la tabla '$table' esto imposibilita crear el ActiveRecord para esta entidad");
+                    throw new KumbiaException("No se ha definido una llave primaria para la tabla '$table' esto imposibilita crear el ActiveRecord para esta entidad");
                     return false;
                 }
             }
@@ -662,7 +658,7 @@ class ActiveRecordBase
         if($key && array_key_exists($key, $this->alias)){
             return $this->alias[$key];
         } else {
-            throw new ActiveRecordException("No se pudo obtener el Alias, porque el key: \"$key\" no existe.");
+            throw new KumbiaException("No se pudo obtener el Alias, porque el key: \"$key\" no existe.");
         }
         return $this->alias;
     }
@@ -677,7 +673,7 @@ class ActiveRecordBase
         if($key && array_key_exists($key, $this->alias)){
             $this->alias[$key] = $value;
         } else {
-            throw new ActiveRecordException("No se pudo asignar el nuevo valor al Alias, porque el key: \"$key\" no existe.");
+            throw new KumbiaException("No se pudo asignar el nuevo valor al Alias, porque el key: \"$key\" no existe.");
         }
         
     }
@@ -2311,7 +2307,7 @@ class ActiveRecordBase
         if ($sql_item !== '' && $sql_item !== null) {
             $sql_item = ereg_replace("[ ]+", "", $sql_item);
             if (!ereg("^[a-zA-Z0-9_\.]+$", $sql_item)) {
-                throw new ActiveRecordException("Se esta tratando de ejecutar una operacion maliciosa!");
+                throw new KumbiaException("Se esta tratando de ejecutar una operacion maliciosa!");
             }
         }
         return $sql_item;
@@ -2328,7 +2324,7 @@ class ActiveRecordBase
         if ($sql_item !== '' && $sql_item !== null) {
             $sql_item = ereg_replace("[ ]+", "", $sql_item);
             if (!ereg("^[a-zA-Z_0-9\,\(\)\.\*]+$", $sql_item)) {
-                throw new ActiveRecordException("Se esta tratando de ejecutar una operacion maliciosa!");
+                throw new KumbiaException("Se esta tratando de ejecutar una operacion maliciosa!");
             }
         }
         return $sql_item;

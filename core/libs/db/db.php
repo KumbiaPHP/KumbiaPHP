@@ -94,10 +94,11 @@ class Db
         }
         //Cargo la clase adaptadora necesaria
         if (isset($config['pdo'])) {
-            $connection = new PDO($config['type'] . ":" . $config['dsn'], $config['username'], $config['password']);
-            if(!$connection){
-				throw new KumbiaException("No se pudo realizar la conexion con {$config['type']}");
-			}
+            try {
+            	$connection = new PDO($config['type'] . ":" . $config['dsn'], $config['username'], $config['password']);
+            } catch (PDOException $e) {
+                throw new KumbiaException($e->getMessage());
+            }
         } else {
             $dbclass = "Db{$config['type']}";
             if (! class_exists($dbclass)) {
