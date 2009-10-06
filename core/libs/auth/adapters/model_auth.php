@@ -92,7 +92,7 @@ class ModelAuth implements AuthInterface
             $value = addslashes($value);
             $where_condition[] = "$field = '$value'";
         }
-        $result = ActiveRecord::get($this->class)->count(join(" AND ", $where_condition));
+        $result = Load::model($this->class)->count(join(" AND ", $where_condition));
         if ($result) {
             $model = ActiveRecord::get($this->class)->find_first(join(" AND ", $where_condition));
             $identity = array();
