@@ -35,11 +35,6 @@ class View
 	 */
 	public static function render($controller, $_url)
 	{
-        /**
-         * @see Tags
-         */
-        require CORE_PATH . 'extensions/helpers/tags.php';
-        
         // Carga los helpers desde el boot
         $helpers = Config::get('boot.modules.helpers');
         if($helpers) {
