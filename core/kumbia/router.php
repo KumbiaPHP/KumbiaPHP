@@ -23,8 +23,10 @@ final class Router
 {
 	/**
 	 * Array estatico con las variables del router
+     *
+     * @var array
 	 */
-	static private $vars = array(
+	private static $_vars = array(
 					 'route' => '', //Ruta pasada en el GET
 				     'module' => '', //Nombre del modulo actual
 				     'controller' => '', //Nombre del controlador actual
@@ -38,16 +40,18 @@ final class Router
 	 *
 	 * @param string $url
 	 */
-	static function rewrite($url){
+	public static function rewrite($url)
+    {
 		//Valor por defecto
-		self::$vars['route'] = $url;
+		self::$_vars['route'] = $url;
 		
 		//Miro si esta routed
-		$url=self::ifRouted($url);
+		$url = self::ifRouted($url);
 		
 		// Se limpian los parametros por seguridad
 		$clean = array( '\\', '/../','//');
 		$url_sanitize = str_replace($clean,  '', $url, $errors);
+        
 		// Si hay intento de hack TODO: añadir la ip y referer en el log
 		if($errors) throw new KumbiaException("Posible intento de hack en URL: '$url'");
 		
@@ -60,24 +64,24 @@ final class Router
 		// El primer parametro de la url es un modulo?
 		$item = current($url_items);
 		if(is_dir(APP_PATH . "controllers/$item")) {
-			self::$vars['module'] = current($url_items);
+			self::$_vars['module'] = current($url_items);
 			
 		    // Si no hay mas parametros sale y pone index como controlador
 			if (next($url_items) === FALSE) {
-				self::$vars['controller'] = 'index';
+				self::$_vars['controller'] = 'index';
 				return;
 			}       
 		}       
 		       
 		// Controlador
-		self::$vars['controller'] = current($url_items);
+		self::$_vars['controller'] = current($url_items);
 		// Si no hay mas parametros sale
 		if (next($url_items) === FALSE) {
 			return;
 		}       
 			
 		// Accion
-		self::$vars['action'] = current($url_items);
+		self::$_vars['action'] = current($url_items);
 
 		// Si no hay mas parametros sale
 		if (next($url_items) === FALSE) {
@@ -85,14 +89,14 @@ final class Router
 		}
 		
 		// id
-		//self::$vars['id'] = current($url_items);
+		//self::$_vars['id'] = current($url_items);
 		
 		// Crea los parametros y los pasa, depues elimina el $url_items
 		$key = key($url_items);
 		$rest = count($url_items) - $key;
 		$parameters = array_slice($url_items, $key, $rest);
 		
-		self::$vars['parameters'] = $parameters;
+		self::$_vars['parameters'] = $parameters;
 		unset ($url_items);
 	}
 	
@@ -101,7 +105,8 @@ final class Router
  	 * para el controlador, accion, id actual
  	 * 
 	 */
-	static private function ifRouted($url){
+	private static function ifRouted($url)
+    {
 		$routes = Config::read('routes');
 		$routes = $routes['routes'];
 		
@@ -116,13 +121,14 @@ final class Router
 				$key = substr($key, 0, -1);
 				$key = str_replace('/','\/',$key);
 				$pattern = '/^'.$key.'(.*)/';
+                
 				if (preg_match($pattern, $url, $match)){
-				$url = str_replace('*', $match[1], $val);
-
-				return $url ;	
+                    $url = str_replace('*', $match[1], $val);
+                    return $url ;	
 				}
 			}			
 		}
+        
 		return $url;
 	}
 
@@ -131,8 +137,9 @@ final class Router
 	 *
 	 * @return boolean
 	 */
-	public static function getRouted(){
-		return self::$vars['routed'];
+	public static function getRouted()
+    {
+		return self::$_vars['routed'];
 	}
 
 	/**
@@ -140,7 +147,7 @@ final class Router
 	 *
 	 */
 	public static function setRouted($value){
-		self::$vars['routed'] = $value;
+		self::$_vars['routed'] = $value;
 	}
 
 	/**
@@ -148,40 +155,40 @@ final class Router
 	 * Ej:
 	 * <code>kumbia::route_to(["module: modulo"], "controller: nombre", ["action: accion"], ["parameters: xxx/xxx/..."])</code>
 	 *
-	 * @return null
 	 */
-	static public function route_to(){
+	public static function route_to()
+    {
 		
 		static $cyclic = 0;
-		self::$vars['routed'] = false;
+		self::$_vars['routed'] = false;
 
 		$cyclic_routing = false;
 		$url = Util::getParams(func_get_args());
 		//print_r ($url);
 		if(isset($url['module'])){
-			self::$vars['module'] = $url['module'];
-			self::$vars['controller'] = 'index';
-			self::$vars['action'] = 'index';
-			self::$vars['routed'] = true;
+			self::$_vars['module'] = $url['module'];
+			self::$_vars['controller'] = 'index';
+			self::$_vars['action'] = 'index';
+			self::$_vars['routed'] = true;
 		}
 		if(isset($url['controller'])){
-			self::$vars['controller'] = $url['controller'];
-			self::$vars['action'] = "index";
-			self::$vars['routed'] = true;
+			self::$_vars['controller'] = $url['controller'];
+			self::$_vars['action'] = "index";
+			self::$_vars['routed'] = true;
 			
 			//$app_controller = util::camelcase($url['controller'])."Controller";
 		}
 		if(isset($url['action'])){
-			self::$vars['action'] = $url['action'];
-			self::$vars['routed'] = true;
+			self::$_vars['action'] = $url['action'];
+			self::$_vars['routed'] = true;
 		}
 		if(isset($url['parameters'])){
-			self::$vars['parameters'] = explode('/',$url['parameters']);
-			self::$vars['routed'] = true;
+			self::$_vars['parameters'] = explode('/',$url['parameters']);
+			self::$_vars['routed'] = true;
 		}elseif (isset($url['id'])){
 			// Deprecated
-			self::$vars['parameters'] = $url['id'];
-			self::$vars['routed'] = true;
+			self::$_vars['parameters'] = $url['id'];
+			self::$_vars['routed'] = true;
 		}
 		
 		$cyclic++;
@@ -207,11 +214,12 @@ final class Router
 	 * @param string  un atributo: route, module, controller, action, parameters o routed
 	 * @return string con el valor del atributo
 	 **/
-	static public function get($var=null) {
+	public static function get($var=null) 
+    {
 		if($var){
-			return self::$vars[$var];
+			return self::$_vars[$var];
 		} else {
-			return self::$vars;
+			return self::$_vars;
 		}
 	}
 
@@ -222,7 +230,7 @@ final class Router
 	 * @param string $route
 	 * @param integer $seconds
 	 */
-	static public function redirect($route, $seconds=null)
+	public static function redirect($route, $seconds=null)
     {
 		$route = PUBLIC_PATH . ltrim($route,'/');
 		if(headers_sent() || ($seconds)){
