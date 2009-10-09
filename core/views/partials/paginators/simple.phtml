@@ -36,7 +36,8 @@ if(!isset($url)) {
 ?>
 
 <div class="paginator">
-    <?php if($page->prev) echo link_to("$url/$page->prev/", 'Anterior', 'title: Ir a la pág. anterior', 'class: nextprev') ?>
+    <?php if($page->prev==1) echo link_to("$url/", 'Anterior', 'title: Ir a la pág. anterior', 'class: nextprev'); //se coloca el link sin numero de pagina para la pagina 1
+        elseif($page->prev) echo link_to("$url/$page->prev/", 'Anterior', 'title: Ir a la pág. anterior', 'class: nextprev'); ?>
 
     pag. <?php echo $page->current ?>/<?php echo $page->total ?>
 

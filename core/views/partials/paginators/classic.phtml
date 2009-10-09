@@ -38,7 +38,7 @@ if(!isset($show)) {
     $show = 10;
 }
     
-$half = (int)($show/2);
+$half = floor($show/2);
     
 // Calculando el inicio de paginador centrado
 if ($page->current <= $half) {
