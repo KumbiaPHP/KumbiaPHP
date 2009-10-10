@@ -72,15 +72,14 @@ class Paginator
         //Instancia del objeto contenedor de pagina
 		$page = new stdClass();
 		
-		
         //Si es un array, se hace paginacion de array
 		if(is_array($params[0])) {
 			$items = $params[0];
 			$n = count($items);
             
             //si el inicio es superior o igual al conteo de elementos,
-            //entonces la página no existe
-            if($start>=$n) {
+            //entonces la página no existe, exceptuando cuando $start=0
+            if($start && $start>=$n) {
                 throw new KumbiaException("La página $page_number no existe en el paginador");
             }
             
@@ -132,8 +131,8 @@ class Paginator
 			$n = call_user_func_array(array($model, 'count'), $conditions);
 			
             //si el inicio es superior o igual al conteo de elementos,
-            //entonces la página no existe
-            if($start>=$n) {
+            //entonces la página no existe, exceptuando cuando $start=0
+            if($start && $start>=$n) {
                 throw new KumbiaException("La página $page_number no existe en el paginador");
             }
             
@@ -200,8 +199,8 @@ class Paginator
 		$n = $model->count_by_sql("SELECT COUNT(*) FROM ($sql) AS t");
         
         //si el inicio es superior o igual al conteo de elementos,
-        //entonces la página no existe
-        if($start>=$n) {
+        //entonces la página no existe, exceptuando cuando $start=0
+        if($start && $start>=$n) {
             throw new KumbiaException("La página $page_number no existe en el paginador");
         }
         
