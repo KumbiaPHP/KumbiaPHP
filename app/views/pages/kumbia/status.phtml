@@ -36,87 +36,34 @@
     }
     
 ?>
-        <span class='title'>config.ini </span><span class='app'> de <?php echo APP ?></span>
- 
-         <div class="x-form-item">
-            <div class='rows-left'>
-                <div class="form-row">
-                    <div class="field-label"><strong>Directorio temp/</strong>:</div>
-                    <div class="field-widget"><?php echo $tmp ?></div>
-                </div>
-            </div>
-        </div>
+        <h2>config.ini <span class='app'> de <?php echo APP ?></span></h2>
+        
+        <div id="conf">
+        <h4>Directorio temp/:</h4>
+        <p><?php echo $tmp ?></p>
 
-        <div class="x-form-item">
-            <div class='rows-left'>
-                <div class="form-row">
-                    <div class="field-label"><strong>Estado Actual del Framework</strong>: <?php echo $status ?></div>
-                    <div class="field-widget">Ver <a href='http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#Modos_de_una_Aplicaci.C3.B3n'>Modos de ejecución</a></div>
-                </div>
-            </div>
-        </div>
+        <h4>Estado Actual del Framework: <span><?php echo $status ?></span></h4>
+        <p>Ver <a href='http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#Modos_de_una_Aplicaci.C3.B3n'>Modos de ejecución</a></p>
         
-        <div class="x-form-item">
-            <div class='rows-left'>
-                <div class="form-row">
-                    <div class="field-label"><strong>Carga Automática de Modelos</strong>: <?php echo $databases?></div>
-                    <div class="field-widget">Habilita la carga de modelos automática.</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="x-form-item">
-            <div class='rows-left'>
-                <div class="form-row">
-                    <div class="field-label"><strong>Base de Datos</strong>: <?php echo $config['application']['database'] ?></div>
-                    <div class="field-widget">Datos de la conexión a la BD que será utilizada, ver configuración <a href="http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#databases.ini">databases.ini</a>.</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="x-form-item">
-            <div class='rows-left'>
-                <div class="form-row">
-                    <div class="field-label"><strong>Carga de Modelos</strong>: </div>
-                    <div class="field-widget">Ver <a href="http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#Carga_selectiva_de_modelos">Carga Selectiva de Modelos</a>.</div>
-                </div>
-            </div>
-        </div>
+        <h4>Carga Automática de Modelos: <span><?php echo $databases?></span></h4>
+        <p>Habilita la carga de modelos automática.</p>
 
-        <div class="x-form-item">
-            <div class='rows-left'>
-                <div class="form-row">
-                    <div class="field-label"><strong>Charset</strong>: <?php echo $config['application']['charset'] ?></div>
-                    <div class="field-widget">Codificación de caracteres. Recomendado UTF-8</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="x-form-item">
-            <div class='rows-left'>
-                <div class="form-row">
-                    <div class="field-label"><strong>TimeZone</strong>: <?php echo $timezone ?></div>
-                    <div class="field-widget">Zona horaria que usará el Framework.</div>
-                </div>
-            </div>
-        </div>
+        <h4>Base de Datos: <span><?php echo $config['application']['database'] ?></span></h4>
+        <p>Datos de la conexión a la BD que será utilizada, ver configuración <a href="http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#databases.ini">databases.ini</a>.</p>
+       
+        <h4>Carga de Modelos:</h4>
+        <p>Ver <a href="http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#Carga_selectiva_de_modelos">Carga Selectiva de Modelos</a>.</p>
 
-        <div class="x-form-item">
-            <div class='rows-left'>
-                <div class="form-row">
-                    <div class="field-label"><strong>Cache Driver</strong>: <?php echo $cahe_driver ?></div>
-                    <div class="field-widget">Driver que se utilizara para realizar las operaciones de cache.</div>
-                </div>
-            </div>
-        </div>
+        <h4>Charset: <span><?php echo $config['application']['charset'] ?></span></h4>
+        <p>Codificación de caracteres. Recomendado UTF-8</p>
         
-        <div class="x-form-item">
-            <div class='rows-left'>
-                <div class="form-row">
-                    <div class="field-label"><strong>Locale</strong>: <?php echo $locale ?></div>
-                    <div class="field-widget">Localización. Característica que depende de los locale instalado en el servidor.</div>
-                </div>
-            </div>
-        </div>
+        <h4>TimeZone: <span><?php echo $timezone ?></span></h4>
+        <p>Zona horaria que usará el Framework.</p>
+
+        <h4>Cache Driver: <span><?php echo $cahe_driver ?></span></h4>
+        <p>Driver que se utilizara para realizar las operaciones de cache.</p>
         
+        <h4>Locale: <span><?php echo $locale ?></span></h4>
+        <p>Localización. Característica que depende de los locale instalado en el servidor.</p>
+        </div>
 </div>
