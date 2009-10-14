@@ -77,9 +77,9 @@ class Paginator
 			$items = $params[0];
 			$n = count($items);
             
-            //si el inicio es superior o igual al conteo de elementos,
-            //entonces la página no existe, exceptuando cuando es la pagina 1
-            if($page_number>1 && $start>=$n) {
+            //si la pagina es menor que 1, o el inicio es superior o igual al conteo de elementos,
+            //entonces la página no existe (exceptuando cuando es la pagina 1, ya que esta siempre existe asi este vacia)
+            if($page_number<1 || ($page_number>1 && $start>=$n)) {
                 throw new KumbiaException("La página $page_number no existe en el paginador");
             }
             
@@ -198,9 +198,9 @@ class Paginator
         //Cuento las apariciones atraves de una tabla derivada
 		$n = $model->count_by_sql("SELECT COUNT(*) FROM ($sql) AS t");
         
-        //si el inicio es superior o igual al conteo de elementos,
-        //entonces la página no existe, exceptuando cuando es la pagina 1
-        if($page_number>1 && $start>=$n) {
+        //si la pagina es menor que 1, o el inicio es superior o igual al conteo de elementos,
+        //entonces la página no existe (exceptuando cuando es la pagina 1, ya que esta siempre existe asi este vacia)
+        if($page_number<1 || ($page_number>1 && $start>=$n)) {
             throw new KumbiaException("La página $page_number no existe en el paginador");
         }
         
