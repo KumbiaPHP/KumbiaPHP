@@ -164,6 +164,7 @@ final class Router
 
 		$cyclic_routing = false;
 		$url = Util::getParams(func_get_args());
+		
 		//print_r ($url);
 		if(isset($url['module'])){
 			self::$_vars['module'] = $url['module'];
@@ -171,6 +172,7 @@ final class Router
 			self::$_vars['action'] = 'index';
 			self::$_vars['routed'] = true;
 		}
+		
 		if(isset($url['controller'])){
 			self::$_vars['controller'] = $url['controller'];
 			self::$_vars['action'] = "index";
@@ -178,16 +180,21 @@ final class Router
 			
 			//$app_controller = util::camelcase($url['controller'])."Controller";
 		}
+		
 		if(isset($url['action'])){
 			self::$_vars['action'] = $url['action'];
 			self::$_vars['routed'] = true;
 		}
+		
 		if(isset($url['parameters'])){
 			self::$_vars['parameters'] = explode('/',$url['parameters']);
 			self::$_vars['routed'] = true;
 		}elseif (isset($url['id'])){
 			// Deprecated
-			self::$_vars['parameters'] = $url['id'];
+			self::$_vars['parameters'] = array($url['id']);
+			self::$_vars['routed'] = true;
+		} else {
+			self::$_vars['parameters'] = array();
 			self::$_vars['routed'] = true;
 		}
 		
