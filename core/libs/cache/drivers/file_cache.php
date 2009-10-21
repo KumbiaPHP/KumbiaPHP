@@ -82,12 +82,13 @@ class FileCache implements CacheInterface
 	 */
 	public function clean($group=false)
     {
-        $pattern = $group ? APP_PATH . 'temp/cache/'.'*.'.md5($group) : APP_PATH . 'temp/cache/'.'*';
+        $pattern = $group ? APP_PATH . 'temp/cache/'.'*.'.md5($group) : APP_PATH . 'temp/cache/*';
         foreach (glob($pattern) as $filename) {
             if(!unlink($filename)) {
                 return false;
             }
         }
+		return true;
     }
 	/**
 	 * Elimina un elemento de la cache
