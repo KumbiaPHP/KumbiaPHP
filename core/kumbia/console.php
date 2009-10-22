@@ -37,6 +37,14 @@ require CORE_PATH . 'kumbia/config.php';
  */
 require CORE_PATH . 'kumbia/load.php';
 
+/**
+ * Clase que se encarga de manejar las consolas
+ * 
+ * @category   Kumbia
+ * @package    Core 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
 class Console
 {
     /**
