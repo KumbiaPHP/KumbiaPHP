@@ -186,4 +186,30 @@ class Console
         // ejecuta el comando
         call_user_func_array(array($console, $command), $args);
     }
+    
+    /**
+     * Lee un dato de entrada desde la consola
+     *
+     * @param string $message mensaje a mostrar
+     * @param array $values array de valores validos para entrada
+     * @return valor leido desde la consola
+     **/
+    public static function input($message, $values=null)
+    {
+        // abre la entrada
+        $stdin = fopen('php://stdin', 'r');
+        
+        do {
+            // imprime el mensaje
+            echo $message;
+            
+            // lee la linea desde el terminal
+            $data = str_replace(array("\n", "\r"), '', fgets($stdin));
+        } while($values && !in_array($data, $values));
+        
+        // cierra el recurso
+        fclose($stdin);
+        
+        return $data;
+    }
 }
