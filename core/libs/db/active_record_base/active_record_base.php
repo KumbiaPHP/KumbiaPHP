@@ -2454,4 +2454,15 @@ class ActiveRecordBase
 	{
 		return json_encode($this);
 	}
+    /**
+	 * Devuelve un PHP serial de este modelo
+	 * Usarlo con cuidado, ya que pasa todos los atributos, no sólo los publicos
+	 *
+	 * @return string  Serial de PHP del modelo
+	 */
+	public function serialize()
+	{
+		return serialize($this);
+	}
+    
 }
