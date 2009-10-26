@@ -69,7 +69,7 @@ class ActiveRecordBase
      *
      * @var DbBase
      */
-    public $db;
+    protected $db;
     /**
      * Base de datos a la que se conecta
      *
@@ -93,31 +93,31 @@ class ActiveRecordBase
      *
      * @var integer
      */
-    public $count;
+    protected $count;
     /**
      * Nombres de los atributos de la entidad
      *
      * @var array
      */
-    public $fields = array();
+    protected $fields = array();
     /**
      * LLaves primarias de la entidad
      *
      * @var array
      */
-    public $primary_key = array();
+    protected $primary_key = array();
     /**
      * Campos que no son llave primaria
      *
      * @var array
      */
-    public $non_primary = array();
+    protected $non_primary = array();
     /**
      * Campos que no permiten nulos
      *
      * @var array
      */
-    public $not_null = array();
+    protected $not_null = array();
     /**
      * Campos que tienen valor por defecto
      *
@@ -136,25 +136,25 @@ class ActiveRecordBase
      *
      * @var boolean
      */
-    public $is_view = false;
+    protected$is_view = false;
     /**
      * Indica si el modelo esta en modo debug
      *
      * @var boolean
      */
-    public $debug = false;
+    protected $debug = false;
     /**
      * Indica si se logearan los mensajes generados por la clase
      *
      * @var mixed
      */
-    public $logger = false;
+    protected $logger = false;
     /**
      * Indica si los datos del modelo deben ser persistidos
      *
      * @var boolean
      */
-    public $persistent = false;
+    protected $persistent = false;
 
     /**
      * Validaciones
@@ -238,7 +238,7 @@ class ActiveRecordBase
      *
      * @var array
      */
-    public $parent_of = array();
+    protected $parent_of = array();
     /**
      * Persistance Models Meta-data
      */
@@ -246,7 +246,7 @@ class ActiveRecordBase
     /**
      * Persistance Models Meta-data
      */
-    public static $models = array();
+    protected static $models = array();
     /**
      * Constructor del Modelo
      *
