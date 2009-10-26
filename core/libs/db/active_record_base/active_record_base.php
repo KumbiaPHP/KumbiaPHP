@@ -2445,4 +2445,13 @@ class ActiveRecordBase
 		self::$_models[$model] = $obj = new $Model();
 		return $obj;
 	}
+    /**
+	 * Devuelve un JSON de este modelo
+	 *
+	 * @return string JSON del modelo
+	 */
+	public function to_json()
+	{
+		return json_encode($this);
+	}
 }
