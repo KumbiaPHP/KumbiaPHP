@@ -43,7 +43,7 @@ class Js extends Tag
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
-        echo '<a href="' . URL_PATH . "$action\" title=\"$confirm\" class=\"js-confirm $class\" $attrs>$text</a>";
+        return '<a href="' . URL_PATH . "$action\" title=\"$confirm\" class=\"js-confirm $class\" $attrs>$text</a>";
     }
     /**
      * Crea un link con imagen con mensaje de confirmacion
@@ -65,7 +65,7 @@ class Js extends Tag
         if(is_array($attrsImg)){
             $attrsImg = self::getAttrs($attrsImg);
         }
-        echo "<a href=\"" . URL_PATH . "$action\" title=\"$confirm\" class=\"js-confirm $class\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
+        return "<a href=\"" . URL_PATH . "$action\" title=\"$confirm\" class=\"js-confirm $class\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
     }
     /**
      * Crea un enlace en una Aplicacion actualizando la capa con ajax
@@ -82,7 +82,7 @@ class Js extends Tag
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
-        echo '<a href="' . URL_PATH . "$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrs>$text</a>";
+        return '<a href="' . URL_PATH . "$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrs>$text</a>";
     }
     /**
      * Crea un link con imagen y actualiza la capa con ajax
@@ -104,7 +104,7 @@ class Js extends Tag
         if(is_array($attrsImg)){
             $attrsImg = self::getAttrs($attrsImg);
         }
-        echo "<a href=\"" . URL_PATH . "$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
+        return "<a href=\"" . URL_PATH . "$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
     }
     /**
      * Crea un enlace en una Aplicacion actualizando la capa con ajax con mensaje
@@ -123,7 +123,7 @@ class Js extends Tag
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
-        echo '<a href="' . URL_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
+        return '<a href="' . URL_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
     }
     /**
      * Crea un link con imagen y actualiza la capa con ajax, e incluye mensaje de confirmacion
@@ -146,6 +146,6 @@ class Js extends Tag
         if(is_array($attrsImg)){
             $attrsImg = self::getAttrs($attrsImg);
         }
-        echo "<a href=\"" . URL_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
+        return "<a href=\"" . URL_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
     }
 }

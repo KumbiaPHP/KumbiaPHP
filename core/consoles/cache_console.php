@@ -55,9 +55,9 @@ class CacheConsole
         
         // limpia la cache
         if(Cache::clean($group)) {
-            echo "Operación Exitosa\n";
+            echo 'Operación Exitosa'.PHP_EOL;
         } else {
-            echo "No se ha logrado eliminar el contenido\n";
+            echo 'No se ha logrado eliminar el contenido'.PHP_EOL;
         }
     }
     
@@ -77,9 +77,9 @@ class CacheConsole
         
         // elimina el elemento
         if(Cache::remove($id, $group)) {
-            echo "Operación Exitosa\n";
+            echo 'Operación Exitosa'.PHP_EOL;
         } else {
-            echo "No se ha logrado eliminar el elemento\n";
+            echo 'No se ha logrado eliminar el elemento'.PHP_EOL;
         }
     }
 }
