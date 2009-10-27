@@ -48,7 +48,7 @@ class Html extends Tag
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
-        echo '<a href="' . URL_PATH . "$action\" $attrs>$text</a>";
+        return '<a href="' . URL_PATH . "$action\" $attrs>$text</a>";
     }
     /**
      * Permite incluir una imagen
@@ -62,7 +62,7 @@ class Html extends Tag
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
-        echo '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" $attrs/>";
+        return '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" $attrs/>";
     }
     /**
      * Crea un link con imagen
@@ -82,7 +82,7 @@ class Html extends Tag
         if(is_array($attrsImg)){
             $attrsImg = self::getAttrs($attrsImg);
         }
-        echo "<a href=\"" . URL_PATH . "$action\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
+        return "<a href=\"" . URL_PATH . "$action\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
     }
     /**
      * Aplica estilo zebra a una tabla.
