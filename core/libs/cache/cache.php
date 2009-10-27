@@ -153,7 +153,7 @@ class Cache
     /**
      * Asigna el driver para cache
      *
-     * @param string $driver (file, sqlite, memsqlite)
+     * @param string $driver (file, sqlite, memsqlite, APC)
      **/
     public static function set_driver ($driver)
     {
