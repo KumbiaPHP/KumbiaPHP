@@ -870,19 +870,19 @@ class ActiveRecordBase
                     }
                 }
             }
-            if (isset($what['join']) && $what['join']) {
+            if (isset($what['join'])) {
                 $select.= " {$what['join']}";
             }
-            if (isset($what['conditions']) && $what['conditions']) {
+            if (isset($what['conditions'])) {
                 $select.= " WHERE {$what['conditions']}";
             }
-            if (isset($what['group']) && $what['group']) {
+            if (isset($what['group'])) {
                 $select.= " GROUP BY {$what['group']}";
             }
-            if (isset($what['having']) && $what['having']) {
+            if (isset($what['having'])) {
                 $select.= " HAVING {$what['having']}";
             }
-            if (isset($what['order']) && $what['order']) {
+            if (isset($what['order'])) {
                 ActiveRecord::sql_sanizite($what['order']);
                 $select.= " ORDER BY {$what['order']}";
             }
@@ -2453,6 +2453,15 @@ class ActiveRecordBase
 	public function to_json()
 	{
 		return json_encode($this);
+	}
+    /**
+	 * Devuelve un array de este modelo
+	 *
+	 * @return array Array del modelo
+	 */
+	public function to_array()
+	{   
+		return ((array) $this);
 	}
     /**
 	 * Devuelve un PHP serial de este modelo
