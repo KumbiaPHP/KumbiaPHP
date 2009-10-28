@@ -204,7 +204,7 @@ class Console
             echo $message;
             
             // lee la linea desde el terminal
-            $data = str_replace(array("\n", "\r"), '', fgets($stdin));
+            $data = str_replace(PHP_EOL, '', fgets($stdin));
         } while($values && !in_array($data, $values));
         
         // cierra el recurso

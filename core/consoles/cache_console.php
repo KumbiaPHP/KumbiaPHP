@@ -45,6 +45,7 @@ class CacheConsole
      *
      * @param array $params parametros nombrados de la consola
      * @param string $group nombre de grupo
+	 * @throw KumbiaException
      **/
     public function clean($params, $group=false)
     {
@@ -55,9 +56,14 @@ class CacheConsole
         
         // limpia la cache
         if(Cache::clean($group)) {
-            echo 'Operación Exitosa'.PHP_EOL;
+            echo "Operación Exitosa\n";
+            if($group) {
+                echo "-> Se ha limpiado el grupo $group\n";
+            } else {
+                echo "-> Se ha limpiado la cache\n";
+            }
         } else {
-            echo 'No se ha logrado eliminar el contenido'.PHP_EOL;
+            throw new KumbiaException("No se ha logrado eliminar el contenido\n");
         }
     }
     
@@ -67,6 +73,7 @@ class CacheConsole
      * @param array $params parametros nombrados de la consola
      * @param string $id id del elemento
      * @param string $group nombre de grupo
+	 * @throw KumbiaException
      **/
     public function remove($params, $id, $group='default')
     {
@@ -77,9 +84,9 @@ class CacheConsole
         
         // elimina el elemento
         if(Cache::remove($id, $group)) {
-            echo 'Operación Exitosa'.PHP_EOL;
+            echo "-> Se ha eliminado el elemento de la cache\n";
         } else {
-            echo 'No se ha logrado eliminar el elemento'.PHP_EOL;
+            throw new KumbiaException("No se ha logrado eliminar el elemento \"$id\" del grupo \"$group\"\n");
         }
     }
 }

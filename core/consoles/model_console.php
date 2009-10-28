@@ -26,6 +26,7 @@ class ModelConsole
      *
      * @param array $params parametros nombrados de la consola
      * @param string $model modelo
+	 * @throw KumbiaException
      **/
     public function create($params, $model)
     {   
@@ -47,11 +48,15 @@ class ModelConsole
         }
         $file .= "/$model_name.php";
         
-        // nombre de clase
-        $class = Util::camelcase($model_name);
-        
-        // codigo de modelo
-        $code = <<<EOT
+		// si no existe o se sobreescribe
+		if(!is_file($file) || 
+			Console::input("El modelo existe, �desea sobrescribirlo? (s/n): ", array('s', 'n')) == 's') {
+		
+			// nombre de clase
+			$class = Util::camelcase($model_name);
+			
+			// codigo de modelo
+			$code = <<<EOT
 <?php
 /**
  * Modelo $class
@@ -65,12 +70,13 @@ class $class extends ActiveRecord
 }
 EOT;
 
-        // genera el archivo
-        if(file_put_contents($file, $code)) {
-            echo "-> Creado modelo $model_name en: $file\n";
-        } else {
-            echo "Operación Fallida\n";
-        }
+			// genera el archivo
+			if(file_put_contents($file, $code)) {
+				echo "-> Creado modelo $model_name en: $file" . PHP_EOL;
+			} else {
+				throw new KumbiaException("No se ha logrado crear el archivo \"$file\"");
+			}
+		}
     }
     
     /**
@@ -78,6 +84,7 @@ EOT;
      *
      * @param array $params parametros nombrados de la consola
      * @param string $model modelo
+	 * @throw KumbiaException
      **/
     public function delete($params, $model)
     {
@@ -95,9 +102,9 @@ EOT;
         
         // mensaje
         if($success) {
-            echo "-> Eliminado: $file\n";
+            echo "-> Eliminado: $file" . PHP_EOL;
         } else {
-            echo "Operación Fallida\n";
+            throw new KumbiaException("No se ha logrado eliminar \"$file\"");
         }
     }
 }
