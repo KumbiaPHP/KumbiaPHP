@@ -132,7 +132,7 @@ class Form extends Tag
         if (is_null($content)) {
             return "<input $attrs/>";
         }
-        echo "<input $attrs>$content</input>";
+        return "<input $attrs>$content</input>";
     }
     /**
      * Crea una etiqueta de formulario
@@ -152,7 +152,7 @@ class Form extends Tag
         } else {
             $action = URL_PATH . substr(Router::get('route'), 1);
         }
-        echo "<form action=\"$action\" method=\"$method\" $attrs>";
+        return "<form action=\"$action\" method=\"$method\" $attrs>";
     }
     
     /**
@@ -172,7 +172,7 @@ class Form extends Tag
         } else {
             $action = URL_PATH . substr(Router::get('route'), 1);
         }
-        echo "<form action=\"$action\" method=\"post\" enctype=\"multipart/form-data\" $attrs>";
+        return "<form action=\"$action\" method=\"post\" enctype=\"multipart/form-data\" $attrs>";
     }
     
     /**
@@ -196,7 +196,7 @@ class Form extends Tag
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
-        echo "<input type=\"submit\" value=\"$text\" $attrs />";
+        return "<input type=\"submit\" value=\"$text\" $attrs />";
     }
     /**
      * Crea un boton reset
@@ -210,7 +210,7 @@ class Form extends Tag
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
-        echo "<input type=\"reset\" value=\"$text\" $attrs />";
+        return "<input type=\"reset\" value=\"$text\" $attrs />";
     }
     /**
      * Crea un boton
@@ -224,7 +224,7 @@ class Form extends Tag
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
-        echo "<input type=\"button\" value=\"$text\" $attrs />";
+        return "<input type=\"button\" value=\"$text\" $attrs />";
     }
         
     /**
@@ -247,7 +247,7 @@ class Form extends Tag
             $value = self::getValueFromAction($field);
         }
         
-        echo "<input $id_name type=\"text\" value=\"$value\" $attrs/>";
+        return "<input $id_name type=\"text\" value=\"$value\" $attrs/>";
     }
     
     /**
@@ -280,7 +280,7 @@ class Form extends Tag
             $options .= '>' . htmlspecialchars($v, ENT_COMPAT, APP_CHARSET) . '</option>';
         }
         
-        echo "<select $id_name $attrs>$options</select>";
+        return "<select $id_name $attrs>$options</select>";
     }
     
     /**
@@ -308,7 +308,7 @@ class Form extends Tag
             $checked = 'checked="checked"';
         }
         
-        echo "<input $id_name type=\"checkbox\" value=\"$value\" $attrs $checked/>";
+        return "<input $id_name type=\"checkbox\" value=\"$value\" $attrs $checked/>";
     }
     
     /**
@@ -336,7 +336,7 @@ class Form extends Tag
             $checked = 'checked="checked"';
         }
         
-        echo "<input $id_name type=\"radio\" value=\"$value\" $attrs $checked/>";
+        return "<input $id_name type=\"radio\" value=\"$value\" $attrs $checked/>";
     }
     
     /**
@@ -351,7 +351,7 @@ class Form extends Tag
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
-        echo "<input type=\"image\" src=\"".PUBLIC_PATH."img/$img\" $attrs/>";
+        return "<input type=\"image\" src=\"".PUBLIC_PATH."img/$img\" $attrs/>";
     }
     
     /**
@@ -374,7 +374,7 @@ class Form extends Tag
             $value = self::getValueFromAction($field);
         }
         
-        echo "<input $id_name type=\"hidden\" value=\"$value\" $attrs/>";
+        return "<input $id_name type=\"hidden\" value=\"$value\" $attrs/>";
     }
     
     /**
@@ -397,7 +397,7 @@ class Form extends Tag
             $value = self::getValueFromAction($field);
         }
         
-        echo "<input $id_name type=\"password\" value=\"$value\" $attrs/>";
+        return "<input $id_name type=\"password\" value=\"$value\" $attrs/>";
     }
     
     /**
@@ -430,7 +430,7 @@ class Form extends Tag
             $options .= '>' . htmlspecialchars($p->$field, ENT_COMPAT, APP_CHARSET) . '</option>';
         }
         
-        echo "<select $id_name $attrs>$options</select>";
+        return "<select $id_name $attrs>$options</select>";
     }
     
     /**
@@ -448,7 +448,7 @@ class Form extends Tag
         $field = self::getFormField($name);
         $id_name = self::getIdAndName($field);
         
-        echo "<input $id_name type=\"file\" $attrs/>";
+        return "<input $id_name type=\"file\" $attrs/>";
     }
 
     /**
@@ -471,6 +471,6 @@ class Form extends Tag
             $value = self::getValueFromAction($field);
         }
         
-        echo "<textarea $id_name $attrs>$value</textarea>";
+        return "<textarea $id_name $attrs>$value</textarea>";
     }
 }
