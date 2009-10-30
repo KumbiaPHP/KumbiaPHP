@@ -85,10 +85,10 @@ class Console
         
         if(!class_exists($Console)) {
             // intenta carga el archivo de consola
-            $file = APP_PATH . "consoles/{$console_name}_console.php";
+            $file = APP_PATH . "console/{$console_name}_console.php";
             
             if(!is_file($file)) {
-                $file = CORE_PATH . "consoles/{$console_name}_console.php";
+                $file = CORE_PATH . "console/{$console_name}_console.php";
                 
                 if(!is_file($file)) {
                     throw new KumbiaException('Consola "' . $file . '" no se encontro');
