@@ -56,14 +56,13 @@ class CacheConsole
         
         // limpia la cache
         if(Cache::clean($group)) {
-            echo "Operación Exitosa\n";
             if($group) {
-                echo "-> Se ha limpiado el grupo $group\n";
+                echo "-> Se ha limpiado el grupo $group", PHP_EOL ;
             } else {
-                echo "-> Se ha limpiado la cache\n";
+                echo "-> Se ha limpiado la cache", PHP_EOL ;
             }
         } else {
-            throw new KumbiaException("No se ha logrado eliminar el contenido\n");
+            throw new KumbiaException('No se ha logrado eliminar el contenido');
         }
     }
     
@@ -84,9 +83,9 @@ class CacheConsole
         
         // elimina el elemento
         if(Cache::remove($id, $group)) {
-            echo "-> Se ha eliminado el elemento de la cache\n";
+            echo '-> Se ha eliminado el elemento de la cache', PHP_EOL ;
         } else {
-            throw new KumbiaException("No se ha logrado eliminar el elemento \"$id\" del grupo \"$group\"\n");
+            throw new KumbiaException("No se ha logrado eliminar el elemento \"$id\" del grupo \"$group\"");
         }
     }
 }
