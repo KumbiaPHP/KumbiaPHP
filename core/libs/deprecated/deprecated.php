@@ -682,15 +682,6 @@ function object_from_params($s='') {
 }
 
 /**
- * Filtra una cadena con htmlspecialchars
- * @param string $s cadena a filtrar
- * @return string
- **/
-function h($s) {
-	return htmlspecialchars($S, ENT_QUOTES, APP_CHARSET);
-}
-
-/**
  * Efectua la misma operacion que range excepto que el key es identico a val
  * @param mixed $start
  * @param mixed $end
