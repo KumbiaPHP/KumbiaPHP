@@ -20,15 +20,12 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
-/**
- * Inicia la sesion
- **/
+// Inicia la sesion
 session_start();
 
-/**
- * Iniciar el buffer de salida
- */
+// Iniciar el buffer de salida
 ob_start();
+
 /**
  * @see Router
  */
@@ -41,47 +38,37 @@ require CORE_PATH . 'kumbia/util.php';
  * @see KumbiaException
  */
 require CORE_PATH . 'kumbia/kumbia_exception.php';
-/**
- * Inicializar el ExceptionHandler
- */
+
+// Inicializar el ExceptionHandler
 set_exception_handler(array('KumbiaException' , 'handle_exception'));
+
 /**
  * @see Config
  */
 require CORE_PATH . 'kumbia/config.php';
-/**
- * Lee la configuracion
- */
+
+// Lee la configuracion
 $config = Config::read('config');
 
-/**
- * Constante que indica si la aplicacion se encuentra en produccion
- *
- **/
+// Constante que indica si la aplicacion se encuentra en produccion
 define('PRODUCTION', $config['application']['production']);
 
-/**
- * Carga la cache y verifica si esta cacheado el template, al 
- * estar en produccion
- *
- **/
+
+// Carga la cache y verifica si esta cacheado el template, al estar en produccion
 if(PRODUCTION) {
     /**
      * @see Cache
      **/
     require CORE_PATH . 'libs/cache/cache.php';
-    /**
-     * Asigna el driver para cache
-     **/
+	
+	// Asigna el driver para cache
     if (isset($config['application']['cache_driver'])) {
         Cache::set_driver($config['application']['cache_driver']);
     } else {
         Cache::set_driver('file');
     }
 
-    /**
-     * Verifica si esta cacheado
-     **/
+	// Verifica si esta cacheado el template
     if ($template = Cache::get($url, 'kumbia.templates')) { //verifica cache de template para la url
         echo $template;
         echo '<!-- Tiempo: ' . round(microtime(1) - START_TIME, 4) . ' seg. -->';
@@ -89,39 +76,35 @@ if(PRODUCTION) {
     }
 }
 
-/**
- * Asignando locale
- **/
+// Asignando locale
 if (isset($config['application']['locale'])) {
     setlocale(LC_ALL, $config['application']['locale']);
 }
-/**
- * Establecer el timezone para las fechas y horas
- */
+
+// Establecer el timezone para las fechas y horas
 if (isset($config['application']['timezone'])) {
     date_default_timezone_set($config['application']['timezone']);
 }
-/**
- * Establecer el charset de la app en la constante APP_CHARSET
- */
+
+// Establecer el charset de la app en la constante APP_CHARSET
 if (isset($config['application']['charset'])) {
     define('APP_CHARSET', strtoupper($config['application']['charset']));
 } else {
     define('APP_CHARSET', 'UTF-8');
 }
+
 /**
  * @see Load
  */
 require CORE_PATH . 'kumbia/load.php';
-/**
- * Carga del boot.ini
- */
+
+// Carga del boot.ini
 Load::boot();
+
 /**
  * @see Kumbia
  */
 require CORE_PATH . 'kumbia/kumbia.php';
-/**
- * Atender la petición
- */
+
+// Atender la petición
 Kumbia::main($url);
