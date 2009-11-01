@@ -97,10 +97,10 @@ class Html extends Tag
             $attrs = self::getAttrs($attrs);
         }
         if(self::$_trClassAlternate){
-            echo "<tr class='$class' $attrs>";
+            return "<tr class='$class' $attrs>";
             self::$_trClassAlternate = false;
         } else {
-            echo "<tr $attrs>";
+            return "<tr $attrs>";
             self::$_trClassAlternate = true;
         }
     }
