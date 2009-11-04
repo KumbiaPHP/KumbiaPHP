@@ -83,7 +83,7 @@ if (isset($config['application']['locale'])) {
 
 // Establecer el timezone para las fechas y horas
 if (isset($config['application']['timezone'])) {
-    date_default_timezone_set($config['application']['timezone']);
+    ini_set('date.timezone', $config['application']['timezone']);
 }
 
 // Establecer el charset de la app en la constante APP_CHARSET
