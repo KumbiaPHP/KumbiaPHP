@@ -23,7 +23,7 @@
 class APCCache implements CacheInterface
 {
 	/**
-	 * Carga un elemento cacheado
+	 * Carga un elemento cacheado, el apc_fetch puede recibir un array (nuestro cache no)
 	 *
 	 * @param string $id
 	 * @param string $group
