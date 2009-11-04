@@ -140,9 +140,9 @@ abstract class Logger {
 		}
 		$date = date(DATE_RFC1036);
 		if(self::$transaction){
-			self::$quenue[] = "[$date][$type] ".$msg."\n";
+			self::$quenue[] = "[$date][$type] ".$msg;
 		} else {
-			fputs(self::$fileLogger, "[$date][$type] ".$msg."\n");
+			fputs(self::$fileLogger, "[$date][$type] ".$msg.PHP_EOL);
 		}
         self::close();
 	}

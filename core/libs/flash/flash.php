@@ -31,9 +31,9 @@ abstract class Flash {
 	public static function show($name,$msg)
 	{
 		if(isset($_SERVER['SERVER_SOFTWARE'])){
-    			echo '<div class="' , $name , '">' , $msg , '</div>' , "\n";
+    			echo '<div class="' , $name , '">' , $msg , '</div>\n';
 		} else {
-			echo $name , '*** ' , strip_tags($msg) , "\n";
+			echo $name , '*** ' , strip_tags($msg) , PHP_EOL;
 		}
 	}
 	

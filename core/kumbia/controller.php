@@ -148,8 +148,7 @@ class Controller
 	 */
 	protected function route_to()
     {
-		$args = func_get_args();
-    	return call_user_func_array(array('Router', 'route_to'), $args);
+    	return call_user_func_array(array('Router', 'route_to'), func_get_args());
 	}
 
 	/**
