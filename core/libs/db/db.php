@@ -101,9 +101,9 @@ class Db
             }
         } else {
             $dbclass = "Db{$config['type']}";
-            if (! class_exists($dbclass)) {
+            //if (! class_exists($dbclass)) {
                 require_once CORE_PATH . 'libs/db/adapters/' . $config['type'] . '.php';
-            }
+            //}
             
             if (! class_exists($dbclass)) {
                 throw new KumbiaException("No existe la clase $dbclass, necesaria para iniciar el adaptador");
