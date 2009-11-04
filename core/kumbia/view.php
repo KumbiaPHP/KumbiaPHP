@@ -35,10 +35,12 @@ class View
 	 */
 	public static function render($controller, $_url)
 	{
-        // Carga los helpers desde el boot
-        $helpers = Config::get('boot.modules.helpers');
-        if($helpers) {
-            call_user_func_array(array('self', 'helpers'), explode(',', str_replace(' ', '', $helpers)));
+        // Carga los helpers desde el boot.ini
+        if(Config::get('boot.modules.helpers')) {
+			$helpers = explode(',', Config::get('boot.modules.helpers'));
+			foreach($helpers as $helper){
+				self::helpers(trim($helper));
+			}
         }
         
         // Mapea los atributos del controller en el scope
@@ -173,8 +175,8 @@ class View
      **/
     public static function helpers ($helper)
     {
-        foreach (func_get_args() as $helper) {
-            $path = "extensions/helpers/$helper.php";
+            $helper = Util::smallcase($helper);
+			$path = "extensions/helpers/$helper.php";
             $file = APP_PATH . $path;
             if (! is_file($file)) {
                 $file = CORE_PATH . $path;
@@ -182,8 +184,7 @@ class View
                     throw new KumbiaException("Helpers $helper no encontrado");
                 }
             }
-            include_once $file;
-        }
+            require $file;
     }
 }
 /**
@@ -210,3 +211,5 @@ function eh($s, $charset = APP_CHARSET) {
     
     echo htmlspecialchars($s, ENT_QUOTES, $charset);
 }
+
+spl_autoload_register('View::helpers');
