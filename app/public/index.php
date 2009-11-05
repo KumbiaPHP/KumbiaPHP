@@ -54,7 +54,7 @@ define('CORE_PATH', dirname(APP_PATH) . '/core/');
  *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
  **/
 if ($_SERVER['QUERY_STRING']) {
-    define('PUBLIC_PATH', substr($_SERVER['REQUEST_URI'], 0, - strlen($_SERVER['QUERY_STRING']) + 5));
+    define('PUBLIC_PATH', substr(rawurldecode($_SERVER['REQUEST_URI']), 0, - strlen($_SERVER['QUERY_STRING']) + 5));
 } else {
     define('PUBLIC_PATH', $_SERVER['REQUEST_URI']);
 }
