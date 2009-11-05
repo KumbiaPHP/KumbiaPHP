@@ -27,7 +27,7 @@ define('START_TIME', microtime(1));
  *
  * APP_PATH:
  * - Ruta al directorio de la aplicación (por defecto la ruta al directorio app)
- * - Esta ruta se utiliza para cargar los archivos de la aplicaciÃ³n
+ * - Esta ruta se utiliza para cargar los archivos de la aplicacion
  **/
 define('APP_PATH', dirname(dirname(__FILE__)) . '/');
 
@@ -54,7 +54,7 @@ define('CORE_PATH', dirname(APP_PATH) . '/core/');
  *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
  **/
 if ($_SERVER['QUERY_STRING']) {
-    define('PUBLIC_PATH', substr(urldecode($_SERVER['REQUEST_URI']), 0, - strlen($_SERVER['QUERY_STRING']) + 5));
+    define('PUBLIC_PATH', substr(urldecode($_SERVER['REQUEST_URI']), 0, - strlen(urldecode($_SERVER['QUERY_STRING'])) + 5));
 } else {
     define('PUBLIC_PATH', $_SERVER['REQUEST_URI']);
 }
