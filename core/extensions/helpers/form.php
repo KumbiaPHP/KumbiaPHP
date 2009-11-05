@@ -22,7 +22,6 @@
 /**
  * @see Tag
  **/
-require_once CORE_PATH . 'extensions/helpers/tag.php';
 
 class Form extends Tag
 {
