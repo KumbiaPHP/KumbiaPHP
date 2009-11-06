@@ -35,7 +35,10 @@ class Upload
 			if(!$new_name) {
 				$new_name = $_FILES[$name]['name'];
 			}
-			return move_uploaded_file($_FILES[$name]['tmp_name'], $path . $new_name);
+			if(move_uploaded_file($_FILES[$name]['tmp_name'], $path . $new_name))
+				return $new_name;
+			else
+				return false;
 		} else {
 			return false;
 		}
