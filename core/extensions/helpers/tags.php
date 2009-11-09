@@ -122,7 +122,7 @@ function xhtml_tag($tag, $attrs=null) {
 	$xw->startElement($tag);
     foreach($attrs as $k=>$v) {
         if (! is_numeric($k)) {
-            $xw->writeAttribute($k, $v);
+            $xw->writeAttribute($k,$v);
         }
     }
 	if($content || !in_array($tag, $short_close)) {
@@ -659,7 +659,7 @@ function get_value_from_action($name){
 		}elseif(is_array($value) && isset($value[$p[1]])) {
 			return $value[$p[1]];
 		}else {
-			return '';
+			return null;
 		}
 	} else {
 		$controller = Dispatcher::get_controller();
@@ -667,7 +667,7 @@ function get_value_from_action($name){
 		if(isset($controller->$name)){
 			return $controller->$name;
 		} else {
-			return "";
+			return null;
 		}
 	}
 }
@@ -704,7 +704,7 @@ function input_field_tag($name) {
 		$params = array_merge(get_id_and_name($params[0]), $params);
 		$value = get_value_from_action($params[0]);
 		if(!isset($params['value'])) {
-			if($value) {
+			if(!is_null($value)) {
 				$params['value'] = $value;
 			}
 		} elseif($params['type']=='radio' || $params['type']=='checkbox') {
@@ -866,10 +866,11 @@ function textarea_tag($name, $value=null){
 	 **/
 	$params = array_merge(get_id_and_name($name), $params);	
 
-	if(isset($params[1]))
+	if(isset($params[1])) {
 		$value = $params[1];
-	else
+	} else {
 		$value = get_value_from_action($name);	
+	}
 	
 	$value = htmlspecialchars($value, ENT_QUOTES, APP_CHARSET);
 	
@@ -941,7 +942,7 @@ function select_tag($name, $data=array()){
     $params = array_merge(get_id_and_name($params[0]), $params);
     if(!isset($params['selected'])) {
         $value = get_value_from_action($params[0]);
-        if($value) {
+        if(!is_null($value)) {
             $params['selected'] = $value;
         }
     }
@@ -1400,7 +1401,7 @@ function updater_select($name, $data=array()){
 		$params = array_merge(get_id_and_name($params[0]), $params);
 		if(!isset($params['selected'])) {
 			$value = get_value_from_action($params[0]);
-			if($value) {
+			if(!is_null($value)) {
 				$params['selected'] = $value;
 			}
 		}
@@ -1476,7 +1477,7 @@ function text_field_with_autocomplete($name){
 		$params = array_merge(get_id_and_name($params[0]), $params);
 		if(!isset($params['value'])) {
 			$value = get_value_from_action($params[0]);
-			if($value) {
+			if(!is_null($value)) {
 				$params['value'] = $value;
 			}
 		}
@@ -1658,7 +1659,7 @@ function time_field_tag($name='') {
 		$value = get_value_from_action($name);
 	}
 	
-	if(!$value) {
+	if(is_null($value)) {
 		$value = '00:00:00';
 	}
 	
