@@ -29,7 +29,7 @@ class Upload
      * @param string $new_name indica el nuevo nombre para el archivo 
 	 * @return string
 	 */
-	public static function file_in_path($name, $path, $new_name=null)
+	public static function file_in_path($name, $path, $new_name=NULL)
     {
 		if(isset($_FILES[$name])){
 			if(!$new_name) {
@@ -38,9 +38,9 @@ class Upload
 			if(move_uploaded_file($_FILES[$name]['tmp_name'], $path . $new_name))
 				return $new_name;
 			else
-				return false;
+				return FALSE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
     
@@ -51,7 +51,7 @@ class Upload
      * @param string $new_name indica el nuevo nombre para el archivo 
 	 * @return string
 	 */
-	public static function file($name, $new_name=null)
+	public static function file($name, $new_name=NULL)
     {
 		return self::file_in_path($name, APP_PATH . 'public/files/upload/', $new_name);
 	}
@@ -63,7 +63,7 @@ class Upload
      * @param string $new_name indica el nuevo nombre para el archivo 
 	 * @return boolean
 	 */
-	public static function image($name, $new_name=null)
+	public static function image($name, $new_name=NULLL)
     {
 		return self::file_in_path($name, APP_PATH . 'public/img/upload/', $new_name);
 	}
