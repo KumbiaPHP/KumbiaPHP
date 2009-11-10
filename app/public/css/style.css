@@ -2,6 +2,7 @@
 .notice_message, .success_message, .warning_message, .error_message, .validation_message {
 	border: 1px solid;
 	margin: 1px 0;
+	min-height: 32px;
 	padding:3px 10px 3px 50px;
 	background-repeat: no-repeat;
 	background-position: 10px center;
