@@ -54,10 +54,10 @@ class Load
      * @param string $model
      * @throw KumbiaException
      **/
-    public static function models ($model = null)
+    public static function models ($model = NULL)
     {
         //Si se utiliza base de datos
-        if (! class_exists('Db', false)) {
+        if (! class_exists('Db', FALSE)) {
             require CORE_PATH . 'libs/db/db.php';
         }
         $controller = Dispatcher::get_controller();
@@ -72,7 +72,7 @@ class Load
         foreach ($args as $model) {
             $file = APP_PATH . "models/$model.php";
             if (is_file($file)) {
-                include_once $file;
+                include $file;
                 if ($controller) {
                     $Model = Util::camelcase(basename($model));
                     $controller->$Model = new $Model();
@@ -91,14 +91,14 @@ class Load
      * @param Controller $controller controlador
      * @param string $dir directorio a cargar
      **/
-    private static function _all_models ($controller, $dir = null)
+    private static function _all_models ($controller, $dir = NULL)
     {
         foreach (new DirectoryIterator(APP_PATH . "models/$dir") as $file) {
             if ($file->isDot() || $file->isDir()) {
                 continue;
             }
             if ($file->isFile()) {
-                include_once $file->getPathname();
+                include $file->getPathname();
                 if ($controller) {
                     $Model = Util::camelcase(basename($file->getFilename(), '.php'));
                     $controller->$Model = new $Model();
@@ -147,13 +147,13 @@ class Load
     public static function model ($model)
     { 
         //Si se utiliza base de datos
-        if (! class_exists('Db', false)) {
+        if (! class_exists('Db', FALSE)) {
             require CORE_PATH . 'libs/db/db.php';
         }  
         //Nombre de la clase
         $Model = Util::camelcase(basename($model));
         //Carga la clase
-        if (! class_exists($Model, false)) {
+        if (! class_exists($Model, FALSE)) {
             //Carga la clase
             $file = APP_PATH . "models/$model.php";
             if (! is_file($file)) {

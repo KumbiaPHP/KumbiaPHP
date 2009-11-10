@@ -26,7 +26,7 @@ class View
 	 *
 	 * @var string
 	 **/
-	protected static $_content = '';
+	protected static $_content;
 	/**
 	 * Renderiza la vista
 	 *
@@ -130,7 +130,7 @@ class View
 	 * @return string
 	 * @throw KumbiaException
 	 */
-	public static function partial($partial, $time=false, $params=array())
+	public static function partial($partial, $time=FALSE, $params=array())
 	{
 		if(PRODUCTION && $time) {
 		    $data = Cache::start($time, $partial, 'kumbia.partials');
@@ -154,8 +154,8 @@ class View
 		    //Verificando el partials en el dir core
 			$file = CORE_PATH . "views/partials/$partial.phtml";
 			if(!is_file($file)){
-                if(PRODUCTION && $time!==false) {
-                    Cache::end(false);
+                if(PRODUCTION && $time!==FALSE) {
+                    Cache::end(FALSE);
                 }
                 throw new KumbiaException('Vista Parcial "'.$file.'" no se encontro');
 			}

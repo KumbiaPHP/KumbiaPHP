@@ -26,7 +26,7 @@ class ModelForm {
      *
      * @var object 
      **/
-	public static function create($model, $action = null) {
+	public static function create($model, $action = NULL) {
 	
 		$model_name = Util::smallcase(get_class($model));
 		if(! $action) $action = ltrim(Router::get('route'),'/');

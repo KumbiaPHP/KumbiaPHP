@@ -28,7 +28,7 @@ class Util
 	 * @param boolean $lower indica si es lower camelcase
      * @return string
      **/
-    public static function camelcase($s, $lower=false)
+    public static function camelcase($s, $lower=FALSE)
     {
 		$s = ucwords(strtolower(strtr($s, '_', ' ')));
 		$s = str_replace(' ', '', $s);
@@ -101,7 +101,7 @@ class Util
                 $a1[$key2] = $value2;
             } else {
                 if(!isset($a1[$key2])){
-                    $a1[$key2] = null;
+                    $a1[$key2] = NULL;
                 }
                 if(!is_array($a1[$key2])){
                     $a1[$key2] = $value2;
@@ -186,7 +186,7 @@ class Util
      */
     public static function mkpath($path)
     {
-        if(@mkdir($path) or file_exists($path)) return true;
+        if(@mkdir($path) or file_exists($path)) return TRUE;
         return (mkpath(dirname($path)) and mkdir($path));
     }
 
@@ -207,7 +207,7 @@ class Util
                     if(is_dir($file)) {
                         return self::removeDir($file);
                     } elseif(!@unlink($file)) {
-                        return false;
+                        return FALSE;
                     }
                 }
             }

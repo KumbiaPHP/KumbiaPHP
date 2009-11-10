@@ -27,7 +27,7 @@ define('START_TIME', microtime(1));
  *
  * APP_PATH:
  * - Ruta al directorio de la aplicación (por defecto la ruta al directorio app)
- * - Esta ruta se utiliza para cargar los archivos de la aplicacion
+ * - Esta ruta se utiliza para cargar los archivos de la aplicaciÃ³n
  **/
 define('APP_PATH', dirname(dirname(__FILE__)) . '/');
 

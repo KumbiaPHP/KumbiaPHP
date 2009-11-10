@@ -25,7 +25,7 @@ class KumbiaException extends Exception {
      *
      * @var string
      */
-    protected $_view = null;
+    protected $_view;
     
     /**
      * Constructor de la clase;

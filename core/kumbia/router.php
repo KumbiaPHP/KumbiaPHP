@@ -27,12 +27,12 @@ final class Router
      * @var array
 	 */
 	private static $_vars = array(
-					 'route' => '', //Ruta pasada en el GET
-				     'module' => '', //Nombre del modulo actual
-				     'controller' => '', //Nombre del controlador actual
+					 'route' => NULL, //Ruta pasada en el GET
+				     'module' => NULL, //Nombre del modulo actual
+				     'controller' => NULL, //Nombre del controlador actual
 				     'action' => 'index', //Nombre de la acción actual, por defecto index
 				     'parameters' => array(), //Lista los parametros adicionales de la URL
-				     'routed' => false //Indica si esta pendiente la ejecución de una ruta por parte del dispatcher
+				     'routed' => FALSE //Indica si esta pendiente la ejecución de una ruta por parte del dispatcher
 				     );
 	
 	/**
@@ -160,50 +160,46 @@ final class Router
     {
 		
 		static $cyclic = 0;
-		self::$_vars['routed'] = false;
+		self::$_vars['routed'] = FALSE;
 
-		$cyclic_routing = false;
+		$cyclic_routing = FALSE;
 		$url = Util::getParams(func_get_args());
 		
-		//print_r ($url);
 		if(isset($url['module'])){
 			self::$_vars['module'] = $url['module'];
 			self::$_vars['controller'] = 'index';
 			self::$_vars['action'] = 'index';
-			self::$_vars['routed'] = true;
+			self::$_vars['routed'] = TRUE;
 		}
 		
 		if(isset($url['controller'])){
 			self::$_vars['controller'] = $url['controller'];
-			self::$_vars['action'] = "index";
-			self::$_vars['routed'] = true;
+			self::$_vars['action'] = 'index';
+			self::$_vars['routed'] = TRUE;
 			
-			//$app_controller = util::camelcase($url['controller'])."Controller";
 		}
 		
 		if(isset($url['action'])){
 			self::$_vars['action'] = $url['action'];
-			self::$_vars['routed'] = true;
+			self::$_vars['routed'] = TRUE;
 		}
 		
 		if(isset($url['parameters'])){
 			self::$_vars['parameters'] = explode('/',$url['parameters']);
-			self::$_vars['routed'] = true;
+			self::$_vars['routed'] = TRUE;
 		}elseif (isset($url['id'])){
 			// Deprecated
 			self::$_vars['parameters'] = array($url['id']);
-			self::$_vars['routed'] = true;
+			self::$_vars['routed'] = TRUE;
 		} else {
 			self::$_vars['parameters'] = array();
-			self::$_vars['routed'] = true;
+			self::$_vars['routed'] = TRUE;
 		}
 		
 		$cyclic++;
 		if($cyclic>=1000){
 			throw new KumbiaException("Se ha detectado un enrutamiento cíclico. Esto puede causar problemas de estabilidad");
 		}
-		
-		//return null;
 	}
 
 	/**
@@ -221,7 +217,7 @@ final class Router
 	 * @param string  un atributo: route, module, controller, action, parameters o routed
 	 * @return string con el valor del atributo
 	 **/
-	public static function get($var=null) 
+	public static function get($var=NULL) 
     {
 		if($var){
 			return self::$_vars[$var];
@@ -237,7 +233,7 @@ final class Router
 	 * @param string $route
 	 * @param integer $seconds
 	 */
-	public static function redirect($route, $seconds=null)
+	public static function redirect($route, $seconds=NULL)
     {
 		$route = PUBLIC_PATH . ltrim($route,'/');
 		if(headers_sent() || ($seconds)){

@@ -80,7 +80,7 @@ final class Kumbia
 		 */
 		$controller = Dispatcher::execute();
 		while (Router::getRouted()) {
-			Router::setRouted(false);
+			Router::setRouted(FALSE);
 			$controller = Dispatcher::execute();
 		}
 		

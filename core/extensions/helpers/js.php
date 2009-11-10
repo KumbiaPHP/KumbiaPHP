@@ -25,7 +25,7 @@
  **/
 
  
-class Js extends Tag
+class Js
 {
     /**
      * Crea un enlace en una Aplicacion con mensaje de confirmacion respetando
@@ -38,10 +38,10 @@ class Js extends Tag
      * @param string | array $attrs atributos adicionales
      * @return string
      */
-    public static function link ($action, $text, $confirm, $class=null, $attrs=null)
+    public static function link ($action, $text, $confirm, $class=NULL, $attrs=NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         return '<a href="' . URL_PATH . "$action\" title=\"$confirm\" class=\"js-confirm $class\" $attrs>$text</a>";
     }
@@ -57,13 +57,13 @@ class Js extends Tag
      * @param string | array $attrsImg atributos adicionales de la imagen
      * @return unknown
      */
-    public static function linkImg ($action, $src, $confirm, $alt=null, $class=null, $attrsLink=null, $attrsImg=null)
+    public static function linkImg ($action, $src, $confirm, $alt=NULL, $class=NULL, $attrsLink=NULL, $attrsImg=NULL)
     {
         if (is_array($attrsLink)) {
-            $attrsLink = self::getAttrs($attrsLink);
+            $attrsLink = Tag::getAttrs($attrsLink);
         }
         if(is_array($attrsImg)){
-            $attrsImg = self::getAttrs($attrsImg);
+            $attrsImg = Tag::getAttrs($attrsImg);
         }
         return "<a href=\"" . URL_PATH . "$action\" title=\"$confirm\" class=\"js-confirm $class\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
     }
@@ -77,10 +77,10 @@ class Js extends Tag
      * @param string | array $attrs atributos adicionales
      * @return string
      */
-    public static function linkRemote ($action, $text, $update, $class=null, $attrs=null)
+    public static function linkRemote ($action, $text, $update, $class=NULL, $attrs=NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         return '<a href="' . URL_PATH . "$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrs>$text</a>";
     }
@@ -96,13 +96,13 @@ class Js extends Tag
      * @param string | array $attrsImg atributos adicionales de la imagen
      * @return unknown
      */
-    public static function linkImgRemote ($action, $src, $update, $alt=null, $class=null, $attrsLink=null, $attrsImg=null)
+    public static function linkImgRemote ($action, $src, $update, $alt=NULL, $class=NULL, $attrsLink=NULL, $attrsImg=NULL)
     {
         if (is_array($attrsLink)) {
-            $attrsLink = self::getAttrs($attrsLink);
+            $attrsLink = Tag::getAttrs($attrsLink);
         }
         if(is_array($attrsImg)){
-            $attrsImg = self::getAttrs($attrsImg);
+            $attrsImg = Tag::getAttrs($attrsImg);
         }
         return "<a href=\"" . URL_PATH . "$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
     }
@@ -118,10 +118,10 @@ class Js extends Tag
      * @param string | array $attrs atributos adicionales
      * @return string
      */
-    public static function linkRemoteConfirm ($action, $text, $update, $confirm, $class=null, $attrs=null)
+    public static function linkRemoteConfirm ($action, $text, $update, $confirm, $class=NULL, $attrs=NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         return '<a href="' . URL_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
     }
@@ -138,13 +138,13 @@ class Js extends Tag
      * @param string | array $attrsImg atributos adicionales de la imagen
      * @return unknown
      */
-    public static function linkImgRemoteConfirm ($action, $src, $update, $confirm, $alt=null, $class=null, $attrsLink=null, $attrsImg=null)
+    public static function linkImgRemoteConfirm ($action, $src, $update, $confirm, $alt=NULL, $class=NULL, $attrsLink=NULL, $attrsImg=NULL)
     {
         if (is_array($attrsLink)) {
-            $attrsLink = self::getAttrs($attrsLink);
+            $attrsLink = Tag::getAttrs($attrsLink);
         }
         if(is_array($attrsImg)){
-            $attrsImg = self::getAttrs($attrsImg);
+            $attrsImg = Tag::getAttrs($attrsImg);
         }
         return "<a href=\"" . URL_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
     }

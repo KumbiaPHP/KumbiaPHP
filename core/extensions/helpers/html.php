@@ -25,14 +25,14 @@
  **/
 
 
-class Html extends Tag
+class Html
 {
     /**
      * Alternador para tabla zebra
      *
      * @var boolean
      **/
-    protected static $_trClassAlternate = true;
+    protected static $_trClassAlternate = TRUE;
 
     /**
      * Crea un enlace en una Aplicacion respetando
@@ -43,10 +43,10 @@ class Html extends Tag
      * @param string | array $attrs atributos adicionales
      * @return string
      */
-    public static function link ($action, $text, $attrs = null)
+    public static function link ($action, $text, $attrs = NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         return '<a href="' . URL_PATH . "$action\" $attrs>$text</a>";
     }
@@ -57,10 +57,10 @@ class Html extends Tag
      * @params string $alt
      * @param string | array $attrs atributos adicionales
      */
-    public static function img ($src, $alt=null, $attrs = null)
+    public static function img ($src, $alt=NULL, $attrs = NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         return '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" $attrs/>";
     }
@@ -74,13 +74,13 @@ class Html extends Tag
      * @param string | array $attrsImg atributos adicionales de la imagen
      * @return unknown
      */
-    public static function imgLink ($action, $src, $alt=null, $attrsLink=null, $attrsImg = null)
+    public static function imgLink ($action, $src, $alt=NULL, $attrsLink=NULL, $attrsImg = NULL)
     {
         if (is_array($attrsLink)) {
-            $attrsLink = self::getAttrs($attrsLink);
+            $attrsLink = Tag::getAttrs($attrsLink);
         }
         if(is_array($attrsImg)){
-            $attrsImg = self::getAttrs($attrsImg);
+            $attrsImg = Tag::getAttrs($attrsImg);
         }
         return "<a href=\"" . URL_PATH . "$action\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
     }
@@ -91,17 +91,17 @@ class Html extends Tag
      * @param string | array $attrs
      * @param unknown_type $start
      */
-    public static function trClass ($class, $attrs = null)
+    public static function trClass ($class, $attrs = NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         if(self::$_trClassAlternate){
             return "<tr class='$class' $attrs>";
             self::$_trClassAlternate = false;
         } else {
             return "<tr $attrs>";
-            self::$_trClassAlternate = true;
+            self::$_trClassAlternate = TRUE;
         }
     }
     
@@ -111,6 +111,6 @@ class Html extends Tag
      */
     public static function trClassStart ()
     {
-        self::$_trClassAlternate = true;
+        self::$_trClassAlternate = TRUE;
     }
 }

@@ -58,7 +58,7 @@ final class Config
 				}
                 break;
         }
-        return null;
+        return NULL;
     }
     /**
      * Asigna un atributo de configuracion
@@ -88,13 +88,13 @@ final class Config
      * @param boolean $force forzar lectura de .ini
 	 * @return array
 	 */
-	public static function & read($file, $force=false)
+	public static function & read($file, $force = FALSE)
     {
 		if(isset(self::$_vars[$file]) && !$force) {
 			return self::$_vars[$file];
 		}
 		
-        self::$_vars[$file] = parse_ini_file(APP_PATH . "config/$file.ini", true);
+        self::$_vars[$file] = parse_ini_file(APP_PATH . "config/$file.ini", TRUE);
 		return self::$_vars[$file];
 	}
 }

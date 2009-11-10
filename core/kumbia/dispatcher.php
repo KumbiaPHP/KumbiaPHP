@@ -45,7 +45,7 @@ final class Dispatcher
         $app_controller = Util::camelcase($controller) . 'Controller';
         $file = "$controllers_dir/$controller".'_controller.php';
         if(!is_file($file)){
-			throw new KumbiaException(null,'no_controller');
+			throw new KumbiaException(NULL,'no_controller');
 		}
 		include_once $file;
 
@@ -58,17 +58,17 @@ final class Dispatcher
 		}
 				
 		// Se ejecutan los filtros before
-		if(self::$_controller->k_callback('initialize') === false) {
+		if(self::$_controller->k_callback('initialize') === FALSE) {
 			return self::$_controller;
 		}
-		if(self::$_controller->k_callback('before_filter')=== false) {
+		if(self::$_controller->k_callback('before_filter')=== FALSE) {
 			return self::$_controller;
 		}
 
 		//Se ejecuta el metodo con el nombre de la accion
 		//en la clase de acuerdo al convenio
 		if(!method_exists(self::$_controller, $action)){			
-			throw new KumbiaException(null,'no_action');	
+			throw new KumbiaException(NULL,'no_action');	
 		}
 		
 		//Obteniendo el metodo
@@ -81,7 +81,7 @@ final class Dispatcher
         
 		//se verifica que el metodo sea public
 		if(!$reflectionMethod->isPublic()){
-		    throw new KumbiaException(null,'no_action');
+		    throw new KumbiaException(NULL,'no_action');
 		}
 		
 		//se verifica que los parametros que recibe 

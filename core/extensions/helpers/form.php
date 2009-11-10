@@ -23,7 +23,7 @@
  * @see Tag
  **/
 
-class Form extends Tag
+class Form
 {
     /**
      * Utilizado para generar los id de los radio button,
@@ -46,7 +46,7 @@ class Form extends Tag
             $data['form'] = $buff[0];
             $data['field'] = $buff[1]; 
         } else {
-            $data['form'] = null;
+            $data['form'] = NULL;
             $data['field'] = $buff[0];
         }
         return $data;
@@ -58,7 +58,7 @@ class Form extends Tag
      * @param boolean $radio indica si es radio button
      * @return string
      **/
-    public static function getIdAndName($field, $radio=false)
+    public static function getIdAndName($field, $radio=FALSE)
     {
         if($field['form']) {
             $id = "{$field['form']}_{$field['field']}";
@@ -95,7 +95,7 @@ class Form extends Tag
         // obtiene el controller
         $controller = Dispatcher::get_controller();
         
-        $value = null;
+        $value = NULL;
         
         // si es formato especial para formulario y se ha pasado dato por el controller
         if ($form && isset($controller->$form)) {
@@ -123,10 +123,10 @@ class Form extends Tag
      * @param string $attrs atributos para el tag
      * @return string
      **/
-    public static function input ($content = null, $attrs = null)
+    public static function input ($content = NULL, $attrs = NULL)
     {
         if(is_array($attrs)) { 
-            $attrs = self::getAttrs($attrs); 
+            $attrs = Tag::getAttrs($attrs); 
         }
         if (is_null($content)) {
             return "<input $attrs/>";
@@ -141,10 +141,10 @@ class Form extends Tag
      * @param array $attrs
      * @return Html
      */
-    public static function open ($action = null, $method = 'post', $attrs = null)
+    public static function open ($action = NULL, $method = 'post', $attrs = NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         if ($action) {
             $action = URL_PATH . $action;
@@ -161,10 +161,10 @@ class Form extends Tag
      * @param array $attrs
      * @return Html
      */
-    public static function openMultipart($action = null, $attrs = null)
+    public static function openMultipart($action = NULL, $attrs = NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         if ($action) {
             $action = URL_PATH . $action;
@@ -190,10 +190,10 @@ class Form extends Tag
      * @param array $attrs
      * @return string
      */
-    public static function submit ($text, $attrs = null)
+    public static function submit ($text, $attrs = NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         return "<input type=\"submit\" value=\"$text\" $attrs />";
     }
@@ -204,10 +204,10 @@ class Form extends Tag
      * @param array $attrs
      * @return string
      */
-    public static function reset ($text, $attrs = null)
+    public static function reset ($text, $attrs = NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         return "<input type=\"reset\" value=\"$text\" $attrs />";
     }
@@ -218,10 +218,10 @@ class Form extends Tag
      * @param array $attrs
      * @return string
      */
-    public static function button ($text, $attrs = null)
+    public static function button ($text, $attrs = NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         return "<input type=\"button\" value=\"$text\" $attrs />";
     }
@@ -233,10 +233,10 @@ class Form extends Tag
      * @param string|array $attrs atributos de campo
      * @param string $value
      **/
-    public static function text($name, $attrs=null, $value=null)
+    public static function text($name, $attrs=NULL, $value=NULL)
     {
         if(is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         
         $field = self::getFormField($name);
@@ -257,10 +257,10 @@ class Form extends Tag
      * @param string|array $attrs atributos de campo
      * @param string $value
      **/
-    public static function select($name, $data, $attrs=null, $value=null)
+    public static function select($name, $data, $attrs=NULL, $value=NULL)
     {
         if(is_array($attrs)){
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         
         $field = self::getFormField($name);
@@ -290,10 +290,10 @@ class Form extends Tag
      * @param string|array $attrs atributos de campo
      * @param string $checked indica si se marca el campo
      **/
-    public static function check($name, $value, $attrs=null, $checked=null)
+    public static function check($name, $value, $attrs=NULL, $checked=NULL)
     {
         if(is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         
         $field = self::getFormField($name);
@@ -318,14 +318,14 @@ class Form extends Tag
      * @param string|array $attrs atributos de campo
      * @param string $checked indica si se marca el campo
      **/
-    public static function radio ($name, $value, $attrs=null, $checked=null)
+    public static function radio ($name, $value, $attrs=NULL, $checked=NULL)
     {
         if(is_array($attrs)){
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         
         $field = self::getFormField($name);
-        $id_name = self::getIdAndName($field, true);
+        $id_name = self::getIdAndName($field, TRUE);
         
         if(is_null($checked)) {
             $checked = self::getValueFromAction($field) == $value;
@@ -345,10 +345,10 @@ class Form extends Tag
      * @param array $attrs
      * @return string
      */
-    public static function submitImage ($img, $attrs = null)
+    public static function submitImage ($img, $attrs = NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         return "<input type=\"image\" src=\"".PUBLIC_PATH."img/$img\" $attrs/>";
     }
@@ -360,10 +360,10 @@ class Form extends Tag
      * @param string|array $attrs atributos de campo
      * @param string $value
      **/
-    public static function hidden ($name, $attrs=null, $value=null)
+    public static function hidden ($name, $attrs=NULL, $value=NULL)
     {
         if(is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         
         $field = self::getFormField($name);
@@ -383,10 +383,10 @@ class Form extends Tag
      * @param string|array $attrs atributos de campo
      * @param string $value
      **/
-    public static function pass($name, $attrs=null, $value=null)
+    public static function pass($name, $attrs=NULL, $value=NULL)
     {
         if(is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         
         $field = self::getFormField($name);
@@ -408,10 +408,10 @@ class Form extends Tag
      * @param string|array $attrs atributos de campo
      * @param string $value
      **/
-    public static function dbSelect($name, $data, $field, $attrs=null, $value=null)
+    public static function dbSelect($name, $data, $field, $attrs=NULL, $value=NULL)
     {
         if(is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         
         $field_data = self::getFormField($name);
@@ -438,10 +438,10 @@ class Form extends Tag
      * @param string $name nombre de campo
      * @param string|array $attrs atributos de campo
      **/
-    public static function file($name, $attrs=null)
+    public static function file($name, $attrs=NULL)
     {
         if(is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         
         $field = self::getFormField($name);
@@ -457,10 +457,10 @@ class Form extends Tag
      * @param string|array $attrs atributos de campo
      * @param string $value
      **/
-    public static function textarea($name, $attrs=null, $value=null)
+    public static function textarea($name, $attrs=NULL, $value=NULL)
     {
         if(is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
         
         $field = self::getFormField($name);

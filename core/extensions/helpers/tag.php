@@ -51,7 +51,7 @@ class Tag
      * @param string $attrs atributos para el tag
      * @return string
      **/
-    public static function create($tag, $content = null, $attrs = null) 
+    public static function create($tag, $content = NULL, $attrs = NULL) 
     {
         if(is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
@@ -69,7 +69,7 @@ class Tag
      * @param string $src archivo javascript
      * @param boolean $cache indica si se usa cache de navegador
      */
-    public static function js($src, $cache=true)
+    public static function js($src, $cache=TRUE)
     {
         $code = '';
         $src = "javascript/$src.js";
@@ -80,12 +80,12 @@ class Tag
         echo $code;
     }
     /**
-     * Incluye un archivo de css
+     * Añadir un archivo de css al array para incluirlo despues
      * 
      * @param string $src archivo css
      * @param string $media medio de la hoja de estilo
      */
-    public static function css($src, $media=null)
+    public static function css($src, $media=NULL)
     {
         self::$_css[] = array('src' => $src,'media' => $media);
     }

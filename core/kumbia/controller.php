@@ -26,19 +26,19 @@ class Controller
 	 *
 	 * @var array
 	 **/
-	public $models = null;
+	public $models;
     /**
 	 * Libs a cargar
 	 *
 	 * @var array
 	 **/
-	public $libs = null;
+	public $libs;
 	/**
 	 * Indica el tipo de salida generada por el controlador
 	 *
 	 * @var string
 	 */
-	public $response = '';
+	public $response;
 	/**
 	 * Nombre del modulo actual
 	 *
@@ -71,7 +71,7 @@ class Controller
 	 *
 	 * @var array
 	 */
-	public $cache = array('type' => false, 'time' => false, 'group'=>false);
+	public $cache = array('type' => FALSE, 'time' => FALSE, 'group'=>FALSE);
 	/**
 	 * Logger implicito del controlador
 	 *
@@ -83,20 +83,20 @@ class Controller
 	 *
 	 * @var string
 	 **/
-	public $view = null;
+	public $view;
 	/**
 	 * Limita la cantidad correcta de 
 	 * parametros de una action
 	 *
 	 * @var bool
 	 */
-	public $limit_params = true;
+	public $limit_params = TRUE;
 	/**
 	 * Nombre del scaffold a usar
 	 *
 	 * @var string
 	 */
-	public $scaffold = null;
+	public $scaffold;
 	/**
 	 * Constructor
 	 *
@@ -126,14 +126,14 @@ class Controller
 	 * @param $time tiempo de vida de cache
 	 * @param $type tipo de cache (view, template)
 	 */
-	protected function cache($time, $type='view', $group=false)
+	protected function cache($time, $type='view', $group=FALSE)
     {
-		if($time !== false) {
+		if($time !== FALSE) {
 			$this->cache['type'] = $type;
 			$this->cache['time'] = $time;
 			$this->cache['group'] = $group;
 		} else {
-			$this->cache['type'] = false;
+			$this->cache['type'] = FALSE;
 		}
 	}
 	/**
@@ -261,7 +261,7 @@ class Controller
 	 **/
 	protected function has_post($s) 
     {
-		$success = true;
+		$success = TRUE;
 		$args = func_get_args();
 		foreach($args as $f) {
 			/**
@@ -269,10 +269,10 @@ class Controller
 			 **/
 			$f = explode('.', $f);
 			if(count($f)>1 && !isset($_POST[$f[0]][$f[1]]) ) {
-				$success = false;
+				$success = FALSE;
 				break;
 			} elseif(!isset($_POST[$f[0]])) {
-				$success = false;
+				$success = FALSE;
 				break;
 			}
 		}
@@ -287,7 +287,7 @@ class Controller
 	 **/
 	protected function has_get($s) 
     {
-		$success = true;
+		$success = TRUE;
 		$args = func_get_args();
 		foreach($args as $f) {
 			/**
@@ -295,10 +295,10 @@ class Controller
 			 **/
 			$f = explode('.', $f);
 			if(count($f)>1 && !isset($_GET[$f[0]][$f[1]]) ) {
-				$success = false;
+				$success = FALSE;
 				break;
 			} elseif(!isset($_GET[$f[0]])) {
-				$success = false;
+				$success = FALSE;
 				break;
 			}
 		}
@@ -313,7 +313,7 @@ class Controller
 	 **/
 	protected function has_request($s) 
     {
-		$success = true;
+		$success = TRUE;
 		$args = func_get_args();
 		foreach($args as $f) {
 			/**
@@ -321,10 +321,10 @@ class Controller
 			 **/
 			$f = explode('.', $f);
 			if(count($f)>1 && !isset($_REQUEST[$f[0]][$f[1]]) ) {
-				$success = false;
+				$success = FALSE;
 				break;
 			} elseif(!isset($_REQUEST[$f[0]])) {
-				$success = false;
+				$success = FALSE;
 				break;
 			}
 		}
@@ -338,10 +338,10 @@ class Controller
 	 * @param string $controller
 	 * @param integer $seconds
 	 */
-	protected function redirect($controller, $seconds=null)
+	protected function redirect($controller, $seconds=NULL)
     {
 		Router::redirect($controller,$seconds);
-		//if(!$seconds) self::render(null,null);
+		//if(!$seconds) self::render(NULL,NULL);
 	}
 
 	/**
@@ -374,7 +374,7 @@ class Controller
 	protected function log($msg, $type=Logger::DEBUG)
     {
 		if(is_array($msg)){
-			$msg = print_r($msg, true);
+			$msg = print_r($msg, TRUE);
 		}
 		if(!$this->logger){
 			$this->logger = new Logger($this->controller_name.'.txt');
@@ -383,7 +383,7 @@ class Controller
 	}
 	
 	/**
-	 * Asigna valor null a los atributos indicados en el controlador
+	 * Asigna valor NULL a los atributos indicados en el controlador
      *
      *  @param string $var
 	 */
@@ -391,7 +391,7 @@ class Controller
     {
 		$args = func_get_args();
 		foreach($args as $f) {
-			$this->$f = null;
+			$this->$f = NULL;
 		}
 	}
 	/**
@@ -400,9 +400,9 @@ class Controller
 	 * @param string $view nombre del view a utilizar sin .phtml
 	 * @param string $template	opcional nombre del template a utilizar sin .phtml
 	 */
-	protected function render($view,$template = false){
+	protected function render($view,$template = FALSE){
 		$this->view = $view;
-		if($template === false) return;
+		if($template === FALSE) return;
 		$this->template = $template;
 	}
     /**
@@ -448,11 +448,10 @@ class Controller
 	 * Haciendo persistente un dato
 	 *    $this->set_persistent('data', 'valor');
 	 **/
-	protected function set_persistent($var, $value=null)
+	protected function set_persistent($var, $value=NULL)
 	{
-		if(func_num_args()>1) {
-			$_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var] = $value;
-		}
+		$_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var] = $value;
+		
 	}
     /**
      * Obtiene la Persistencia de datos en el controlador
@@ -470,7 +469,7 @@ class Controller
         if(isset($_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var])) {
             return $_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var];
         } 
-        return null;
+        return NULL;
 	}
 	
 	/**
