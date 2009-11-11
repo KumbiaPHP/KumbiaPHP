@@ -72,7 +72,7 @@ class Load
         foreach ($args as $model) {
             $file = APP_PATH . "models/$model.php";
             if (is_file($file)) {
-                include $file;
+                include_once $file;
                 if ($controller) {
                     $Model = Util::camelcase(basename($model));
                     $controller->$Model = new $Model();
@@ -98,7 +98,7 @@ class Load
                 continue;
             }
             if ($file->isFile()) {
-                include $file->getPathname();
+                include_once $file->getPathname();
                 if ($controller) {
                     $Model = Util::camelcase(basename($file->getFilename(), '.php'));
                     $controller->$Model = new $Model();
