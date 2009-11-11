@@ -61,7 +61,7 @@ class Tag
             echo "<$tag $attrs />";
         }
 
-        return "<$tag $attrs>$content</$tag>";
+        echo "<$tag $attrs>$content</$tag>";
     }
     /**
      * Incluye un archivo javascript
@@ -77,7 +77,7 @@ class Tag
             $src .= '?nocache=' . uniqid();
         }
         $code .= '<script type="text/javascript" src="' . PUBLIC_PATH . $src . '"></script>';
-        return $code;
+        echo $code;
     }
     /**
      * Incluye un archivo de css
@@ -102,8 +102,8 @@ class Tag
             if($css['media']) {
                 $code .= " media=\"{$css['media']}\"";
             }
-            $code .= '/>';
+            $code .= "/>\n";
         }
-        return $code;
+        echo $code;
     }
 }
