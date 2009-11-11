@@ -15,13 +15,13 @@
  * Helper Tag
  *
  * Helper base para creacion de Tags
- * 
+ *
  * @category   KumbiaPHP
- * @package    Helpers 
+ * @package    Helpers
  * @copyright  Copyright (c) 2005-2009 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-class Tag 
+class Tag
 {
     /**
      * Archivos css a incluir
@@ -35,7 +35,7 @@ class Tag
      * @param array $params argumentos a convertir
      * @return string
      */
-    public static function getAttrs($params) 
+    public static function getAttrs($params)
     {
         $data = '';
         foreach($params as $k => $v) {
@@ -56,12 +56,12 @@ class Tag
         if(is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
-        
-        if(is_null($content)) { 
-            echo "<$tag $attrs />"; 
+
+        if(is_null($content)) {
+            echo "<$tag $attrs />";
         }
-        
-        echo "<$tag $attrs>$content</$tag>";
+
+        return "<$tag $attrs>$content</$tag>";
     }
     /**
      * Incluye un archivo javascript
@@ -77,11 +77,11 @@ class Tag
             $src .= '?nocache=' . uniqid();
         }
         $code .= '<script type="text/javascript" src="' . PUBLIC_PATH . $src . '"></script>';
-        echo $code;
+        return $code;
     }
     /**
-     * Añadir un archivo de css al array para incluirlo despues
-     * 
+     * Incluye un archivo de css
+     *
      * @param string $src archivo css
      * @param string $media medio de la hoja de estilo
      */
@@ -97,14 +97,13 @@ class Tag
     public static function includeCss()
     {
         $code = '';
-        $files = array_unique(self::$_css);
-        foreach($files as $css) {
+        foreach(self::$_css as $css) {
             $code .= '<link rel="stylesheet" href="' . PUBLIC_PATH . "css/{$css['src']}.css\"";
             if($css['media']) {
                 $code .= " media=\"{$css['media']}\"";
             }
             $code .= '/>';
         }
-        echo $code;
+        return $code;
     }
 }
