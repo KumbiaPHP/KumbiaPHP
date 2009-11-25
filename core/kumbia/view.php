@@ -97,20 +97,19 @@ class View
         // Renderizar template
 		if($template) {
 			$template = APP_PATH . "views/_shared/templates/$template.phtml";
-		} else {
-			$template = APP_PATH . "views/_shared/templates/$controller_name.phtml";
+			
+			if(is_file($template)) {
+				ob_start();
+				include $template;
+					
+				if(PRODUCTION && $cache['type'] == 'template') {
+					Cache::save(ob_get_contents(), $cache['time'], $_url, "kumbia.templates");
+				}
+				ob_end_flush();
+				return;
+			}
 		}
 		
-		if(is_file($template)) {
-			ob_start();
-			include $template;
-				
-			if(PRODUCTION && $cache['type'] == 'template') {
-				Cache::save(ob_get_contents(), $cache['time'], $_url, "kumbia.templates");
-			}
-			ob_end_flush();
-			return;
-		}
 		echo self::$_content;
 	}
 	/**
