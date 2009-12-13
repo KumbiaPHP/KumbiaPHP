@@ -148,4 +148,24 @@ class Js
         }
         return "<a href=\"" . URL_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
     }
+    
+    /**
+     * Campo para calendario
+     *
+     * @param string $name nombre de campo
+     * @param string $format formato de fecha como lo acepta jsCalendar
+     * @param string $attrs atributos de campo
+     * @param string $value valor para el campo
+     * @return string
+     **/
+    public static function calendar($name, $format='%d-%m-%Y', $attrs=null, $value=null)
+    {
+        $field = Form::getFormField($name);
+        if($field['form']) {
+            $id = "{$field['form']}_{$field['field']}";
+        } else {
+            $id = $field['field'];
+        }
+        return Form::text($name, $attrs, $value) . ' ' . Html::img('calendar.gif', $format, "class=\"js-calendar\" id=\"$id.tigger\"");
+    }
 }
