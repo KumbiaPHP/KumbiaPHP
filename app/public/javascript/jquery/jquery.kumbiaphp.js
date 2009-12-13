@@ -65,6 +65,14 @@
             }
         },
         /**
+         * Metodo para utilizar con map de jQuery, el cual genera calendarios jsCalendar
+         *
+         **/
+        calendar: function(index, dom) {
+            var inputId = (this.id.split('.', 2))[0];
+            Calendar.setup({ inputField: inputId, ifFormat: this.alt, daFormat: this.alt, button: this.id});
+        },
+        /**
          * Enlaza a las clases por defecto
          *
          **/
@@ -77,6 +85,9 @@
             $("a.js-toggle").live('click', this.cFx('toggle'));
             $("a.js-fade-in").live('click', this.cFx('fadeIn'));
             $("a.js-fade-out").live('click', this.cFx('fadeOut'));
+            
+            // calendario
+            $("img.js-calendar").map(this.calendar);
         }
     }
 
