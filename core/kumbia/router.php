@@ -33,7 +33,7 @@ final class Router
 				     'action' => 'index', //Nombre de la acción actual, por defecto index
 				     'parameters' => array(), //Lista los parametros adicionales de la URL
 				     'routed' => FALSE, //Indica si esta pendiente la ejecución de una ruta por parte del dispatcher
-					 'controller_path' => NULL
+					 'controller_path' => 'index'
 				     );
 	
 	/**
