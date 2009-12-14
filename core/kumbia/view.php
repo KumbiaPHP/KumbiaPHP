@@ -36,9 +36,8 @@ class View
 	public static function render($controller, $_url)
 	{
         // Carga los helpers desde el boot.ini
-        if(Config::get('boot.modules.helpers')) {
-			$helpers = explode(',', Config::get('boot.modules.helpers'));
-			foreach($helpers as $helper){
+        if($config = Config::get('boot.modules.helpers')) {
+			foreach(explode(',', $config) as $helper){
 				self::helpers(trim($helper));
 			}
         }
@@ -48,37 +47,31 @@ class View
 
         // Intenta cargar la vista desde la cache si esta en producion, si no renderiza
         if(!PRODUCTION || ($scaffold) || $cache['type']!='view' || !(self::$_content = Cache::get($_url, "$controller_name.$action_name.$id"))) {
-            // Carga el el contenido del buffer de salida
+            // Carga el contenido del buffer de salida
 			self::$_content = ob_get_clean();
-				
-			if ($module_name){
-				$controller_views_dir =  APP_PATH . "views/$module_name/$controller_name";
-			} else {
-				$controller_views_dir =  APP_PATH . "views/$controller_name";
-			}
-            if($response && $response != 'view'){
-                 $controller_views_dir = "$controller_views_dir/_$response";
-            }
-            
+
             // Renderizar vista
 			if($view) {
 				ob_start();
+				
+				$controller_views_dir = Router::get('controller_path');// Lo debe pasar el mismo controller, no llamarlo nosotros
+			
+				if($response && $response != 'view'){ //el set_response del controller lo debe cambiar
+				     $controller_views_dir = "$controller_views_dir/_$response";
+				}
                 
-                $file = "$controller_views_dir/$view.phtml";
-                if(!is_file($file)) {
-					if($scaffold) {
-						$file = APP_PATH . "views/_shared/scaffolds/$scaffold/$view.phtml";
-							if(!is_file($file)) throw new KumbiaException("Vista $view.phtml no encontrada");
-					} else {
-						throw new KumbiaException("Vista $view.phtml no encontrada");
-						}
+                $file =APP_PATH ."views/$controller_views_dir/$view.phtml";
+                if(!is_file($file) && $scaffold) {
+					$file =APP_PATH ."views/_shared/scaffolds/$scaffold/$view.phtml";
                 }
-                include $file;
-                //verifica si no se ha especificado un grupo para la cache
-				if(!$cache['group']){
-				    $cache['group'] = "$controller_name.$action_name";//.$id";
-                }
+				
+                if (!include $file) throw new KumbiaException("Vista $view.phtml no encontrada");
+                
 				if(PRODUCTION && $cache['type'] == 'view') {
+					//verifica si no se ha especificado un grupo para la cache
+					if(!$cache['group']){
+						$cache['group'] = "$controller_name.$action_name";//.$id";
+					}
 				    Cache::save(ob_get_contents(), $cache['time'], $_url, $cache['group']);
 			    }
 			    
@@ -96,18 +89,14 @@ class View
 	
         // Renderizar template
 		if($template) {
-			$template = APP_PATH . "views/_shared/templates/$template.phtml";
-			
-			if(is_file($template)) {
 				ob_start();
-				include $template;
+				if (!include APP_PATH . "views/_shared/templates/$template.phtml") throw new KumbiaException("Template $template no encontrado");
 					
 				if(PRODUCTION && $cache['type'] == 'template') {
 					Cache::save(ob_get_contents(), $cache['time'], $_url, "kumbia.templates");
 				}
-				ob_end_flush();
-				return;
-			}
+				
+				return ob_end_flush();
 		}
 		
 		echo self::$_content;
@@ -129,38 +118,32 @@ class View
 	 * @return string
 	 * @throw KumbiaException
 	 */
-	public static function partial($partial, $time=FALSE, $params=array())
+	public static function partial($partial, $__time=FALSE, $params=array())
 	{
-		if(PRODUCTION && $time) {
-		    $data = Cache::start($time, $partial, 'kumbia.partials');
+		if(PRODUCTION && $__time) {
+		    $data = Cache::start($__time, $partial, 'kumbia.partials');
 			if($data) {
 				echo $data;
 				return;
 			}
 		}
 		
+		//Verificando el partials en el dir app 
+		$__file = APP_PATH . "views/_shared/partials/$partial.phtml";
+		
+		if(!is_file($__file)){
+		    //Verificando el partials en el dir core
+			$__file = CORE_PATH . "views/partials/$partial.phtml";
+		}
+				
 		if(is_string($params)) {
 			$params = Util::get_params($params);
 		}
-		extract ($params);
 		
-		$path = "views/_shared/partials/$partial.phtml";
+		extract ($params, EXTR_OVERWRITE);
 		
-		//Verificando el partials en el dir app 
-		$file = APP_PATH . $path;
-		
-		if(!is_file($file)){
-		    //Verificando el partials en el dir core
-			$file = CORE_PATH . "views/partials/$partial.phtml";
-			if(!is_file($file)){
-                if(PRODUCTION && $time!==FALSE) {
-                    Cache::end(FALSE);
-                }
-                throw new KumbiaException('Vista Parcial "'.$file.'" no se encontro');
-			}
-		}
-		include $file;
-        if(PRODUCTION && $time) {
+		if (!include $__file) throw new KumbiaException('Vista Parcial "'.$__file.'" no se encontro');
+        if(PRODUCTION && $__time) {
             Cache::end();
         }
 		
