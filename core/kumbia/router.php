@@ -45,9 +45,7 @@ final class Router
     {
 		//Valor por defecto
 		self::$_vars['route'] = $url;
-		
 
-		echo $url;
 		// Se miran los parametros por seguridad
 		str_replace(array( '\\', '/../','//'),  '', $url, $errors);
 		// Si hay intento de hack TODO: añadir la ip y referer en el log
