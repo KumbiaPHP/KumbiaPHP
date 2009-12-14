@@ -54,13 +54,7 @@ class View
 			if($view) {
 				ob_start();
 				
-				$controller_views_dir = Router::get('controller_path');// Lo debe pasar el mismo controller, no llamarlo nosotros
-			
-				if($response && $response != 'view'){ //el set_response del controller lo debe cambiar
-				     $controller_views_dir = "$controller_views_dir/_$response";
-				}
-                
-                $file =APP_PATH ."views/$controller_views_dir/$view.phtml";
+                $file =APP_PATH ."views/$controller_path/$view.phtml";
                 if(!is_file($file) && $scaffold) {
 					$file =APP_PATH ."views/_shared/scaffolds/$scaffold/$view.phtml";
                 }
@@ -68,10 +62,6 @@ class View
                 if (!include $file) throw new KumbiaException("Vista $view.phtml no encontrada");
                 
 				if(PRODUCTION && $cache['type'] == 'view') {
-					//verifica si no se ha especificado un grupo para la cache
-					if(!$cache['group']){
-						$cache['group'] = "$controller_name.$action_name";//.$id";
-					}
 				    Cache::save(ob_get_contents(), $cache['time'], $_url, $cache['group']);
 			    }
 			    

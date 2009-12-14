@@ -36,15 +36,15 @@ final class Dispatcher
     static public function execute ()
     {
         extract(Router::get(), EXTR_OVERWRITE);
-		
+
 		if (!include_once APP_PATH . "controllers/$controller_path".'_controller.php') throw new KumbiaException(NULL,'no_controller');
 
 		//Asigna el controlador activo
 		$app_controller = Util::camelcase($controller) . 'Controller';
-		self::$_controller = new $app_controller($module, $controller, $action, $parameters);
+		self::$_controller = new $app_controller($module, $controller, $action, $parameters, $controller_path);
 
         //Carga de modelos
-		if(self::$_controller->models) {
+		if(self::$_controller->models) { //TODO en no usar instancias moverlo al constructor del controller
 			Load::models(self::$_controller->models);
 		}
 				

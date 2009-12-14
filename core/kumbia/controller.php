@@ -105,18 +105,18 @@ class Controller
 	 * @param string $action nombre de la accion
 	 * @param array $parameters parametros enviados por url
 	 **/
-	public function __construct($module, $controller, $action, $parameters) {
+	public function __construct($module, $controller, $action, $parameters, $controller_path) {
+		//TODO: enviar un objeto
 		$this->module_name = $module;
 		$this->controller_name = $controller;
 		$this->parameters = $parameters;
 		$this->view = $this->action_name = $action;
-        
-        /**
-         * Carga los utils indicados
-         *
-         **/
+		$this->controller_path = $controller_path;
+        $this->cache['group'] = "$controller.$action";//.$id";
+
+        // Carga los utils indicados
         if($this->libs) {
-            call_user_func_array(array('Load', 'lib'), $this->libs);
+			Load::lib($this->libs);
         }
         
 	}	
@@ -363,6 +363,9 @@ class Controller
 	protected function set_response($type)
     {
 		$this->response = $type;
+		if ($type != 'view'){ 
+			$this->controller_path = "{$this->controller_path}/_$type";
+		}
 	}
 
 	/**
