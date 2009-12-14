@@ -37,19 +37,10 @@ final class Dispatcher
     {
         extract(Router::get(), EXTR_OVERWRITE);
 		
-        $controllers_dir = APP_PATH . 'controllers';
-        if ($module) {
-            $controllers_dir = $controllers_dir . '/' . $module;
-        }
-
-        $app_controller = Util::camelcase($controller) . 'Controller';
-        $file = "$controllers_dir/$controller".'_controller.php';
-        if(!is_file($file)){
-			throw new KumbiaException(NULL,'no_controller');
-		}
-		include_once $file;
+		if (!include_once APP_PATH . "controllers/$controller_path".'_controller.php') throw new KumbiaException(NULL,'no_controller');
 
 		//Asigna el controlador activo
+		$app_controller = Util::camelcase($controller) . 'Controller';
 		self::$_controller = new $app_controller($module, $controller, $action, $parameters);
 
         //Carga de modelos
@@ -106,6 +97,12 @@ final class Dispatcher
 		
 		//Limpia el buffer de modelos inyectados
 		Load::reset_injected_models();
+		
+		//Si esta routed volver a ejecutar
+		if (Router::getRouted()){
+			Router::setRouted(FALSE);
+			Dispatcher::execute();//posible añadir la llamada al router
+		}
 
 		return self::$_controller;
     }

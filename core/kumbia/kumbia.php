@@ -55,7 +55,7 @@ final class Kumbia
      * Almacena la version actual del Framework
      *
      */
-    const KUMBIA_VERSION = '1.0 Beta 1';
+    const KUMBIA_VERSION = '1.0 Beta 2';
     /**
      * Almacena datos compartidos en la aplicacion
      *
@@ -79,10 +79,6 @@ final class Kumbia
 		 * Ciclo del enrutador
 		 */
 		$controller = Dispatcher::execute();
-		while (Router::getRouted()) {
-			Router::setRouted(FALSE);
-			$controller = Dispatcher::execute();
-		}
 		
 		/**
 		 * Renderiza la vista
