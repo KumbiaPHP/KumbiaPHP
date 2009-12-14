@@ -64,6 +64,21 @@
                 $(this.rel).load(this.href);
             }
         },
+        
+        /**
+		 * Enviar formularios de manera asincronica, via POST
+		 * Y los carga en un contenedor
+		 **/
+		cFRemote: function(e){
+			e.preventDefault();
+			self = $(this);
+			var url = self.attr('action');
+			var div = self.attr('rel');
+			$.post(url, self.serialize(), function(data, status){
+				$('#'+div).html(data);
+			});
+		},
+		
         /**
          * Metodo para utilizar con map de jQuery, el cual genera calendarios jsCalendar
          *
@@ -85,6 +100,7 @@
             $("a.js-toggle").live('click', this.cFx('toggle'));
             $("a.js-fade-in").live('click', this.cFx('fadeIn'));
             $("a.js-fade-out").live('click', this.cFx('fadeOut'));
+            $("form.js-remote").live('submit', this.cFRemote);
             
             // calendario
             $("img.js-calendar").map(this.calendar);
