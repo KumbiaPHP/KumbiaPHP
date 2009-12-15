@@ -30,15 +30,12 @@ class Util
      **/
     public static function camelcase($s, $lower=FALSE)
     {
-		$s = ucwords(strtolower(strtr($s, '_', ' ')));
-		$s = str_replace(' ', '', $s);
-
         // Notacion lowerCamelCase
         if($lower) {
-            $s = self::lcfirst($s);
+            return self::lcfirst(str_replace(' ', '', ucwords(strtr($s, '_', ' '))));
         }
         
-        return $s;
+        return str_replace(' ', '', ucwords(strtr($s, '_', ' ')));
     }
 	
 	/**
