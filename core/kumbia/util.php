@@ -32,10 +32,10 @@ class Util
     {
         // Notacion lowerCamelCase
         if($lower) {
-            return self::lcfirst(str_replace(' ', '', ucwords(strtr($s, '_', ' '))));
+            return self::lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ',$s))));
         }
         
-        return str_replace(' ', '', ucwords(strtr($s, '_', ' ')));
+        return str_replace(' ', '', ucwords(str_replace('_', ' ',$s)));
     }
 	
 	/**
