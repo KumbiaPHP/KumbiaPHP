@@ -405,10 +405,11 @@ class Form
      * @param string $name nombre de campo
      * @param string $data array de valores para la lista desplegable
      * @param string $field campo que se mostrara
+     * @param string $blank campo en blanco
      * @param string|array $attrs atributos de campo
      * @param string $value
      **/
-    public static function dbSelect($name, $data, $field, $attrs=NULL, $value=NULL)
+    public static function dbSelect($name, $data, $field, $blank=null, $attrs=NULL, $value=NULL)
     {
         if(is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
@@ -420,7 +421,12 @@ class Form
             $value = self::getValueFromAction($field_data);
         }
         
-        $options = '';
+        if(is_null($blank)) {
+            $options = '';
+        } else {
+            $options = '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
+        }
+        
         foreach($data as $p) {
             $options .= "<option value=\"$p->id\"";
             if($p->id == $value) {
