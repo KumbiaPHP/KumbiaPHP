@@ -80,13 +80,15 @@
 		},
 		
         /**
-         * Metodo para utilizar con map de jQuery, el cual genera calendarios jsCalendar
+         * Metodo para utilizar con map de jQuery, el cual genera 
+         * calendarios jsCalendar
          *
          **/
         calendar: function(index, dom) {
-            var inputId = (this.id.split('.', 2))[0];
-            Calendar.setup({ inputField: inputId, ifFormat: this.alt, daFormat: this.alt, button: this.id});
+            var tigger = $('#' + this.id + '_tigger').get(0);
+            Calendar.setup({ inputField: this.id, ifFormat: tigger.alt, daFormat: tigger.alt, button: tigger.id});
         },
+        
         /**
          * Enlaza a las clases por defecto
          *

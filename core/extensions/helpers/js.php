@@ -154,11 +154,12 @@ class Js
      *
      * @param string $name nombre de campo
      * @param string $format formato de fecha como lo acepta jsCalendar
+     * @param string $class clases adicionales
      * @param string $attrs atributos de campo
      * @param string $value valor para el campo
      * @return string
      **/
-    public static function calendar($name, $format='%d-%m-%Y', $attrs=null, $value=null)
+    public static function calendar($name, $format='%d-%m-%Y', $class=null, $attrs=null, $value=null)
     {
         $field = Form::getFormField($name);
         if($field['form']) {
@@ -166,6 +167,6 @@ class Js
         } else {
             $id = $field['field'];
         }
-        return Form::text($name, $attrs, $value) . ' ' . Html::img('calendar.gif', $format, "class=\"js-calendar\" id=\"$id.tigger\"");
+        return Form::text($name, "class=\"js-calendar $class\" $attrs", $value) . ' ' . Html::img('calendar.gif', $format, "id=\"{$id}_tigger\"");
     }
 }
