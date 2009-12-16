@@ -84,7 +84,7 @@
          * calendarios jsCalendar
          *
          **/
-        calendar: function(index, dom) {
+        calendar: function() {
             var tigger = $('#' + this.id + '_tigger').get(0);
             Calendar.setup({ inputField: this.id, ifFormat: tigger.alt, daFormat: tigger.alt, button: tigger.id});
         },
