@@ -105,7 +105,7 @@
             $("form.js-remote").live('submit', this.cFRemote);
             
             // calendario
-            $("img.js-calendar").map(this.calendar);
+            $("input.js-calendar").map(this.calendar);
         }
     }
 
