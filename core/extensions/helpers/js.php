@@ -155,12 +155,16 @@ class Js
      * @param string $name nombre de campo
      * @param string $format formato de fecha como lo acepta jsCalendar
      * @param string $class clases adicionales
-     * @param string $attrs atributos de campo
+     * @param string | array $attrs atributos de campo
      * @param string $value valor para el campo
      * @return string
      **/
     public static function calendar($name, $format='%d-%m-%Y', $class=null, $attrs=null, $value=null)
     {
+        if(is_array($attrs)){
+            $attrs = Tag::getAttrs($attrs);
+        }
+    
         $field = Form::getFormField($name);
         if($field['form']) {
             $id = "{$field['form']}_{$field['field']}";
