@@ -24,11 +24,19 @@
 class Tag
 {
     /**
-     * Archivos css a incluir
+     * Recursos enlazados
      *
      * @var array
      **/
-    protected static $_css = array();
+    protected static $_links = array();
+
+    /**
+     * Metatags
+     *
+     * @var array
+     **/
+    protected static $_metatags = array();
+    
     /**
      * Convierte los argumentos de un metodo de parametros por nombre a un string con los atributos
      *
@@ -43,6 +51,7 @@ class Tag
         }
         return $data;
     }
+    
     /**
      * Crea un tag
      *
@@ -63,6 +72,7 @@ class Tag
 
         echo "<$tag $attrs>$content</$tag>";
     }
+    
     /**
      * Incluye un archivo javascript
      *
@@ -79,31 +89,87 @@ class Tag
         $code .= '<script type="text/javascript" src="' . PUBLIC_PATH . $src . '"></script>';
         echo $code;
     }
+    
     /**
      * Incluye un archivo de css
      *
      * @param string $src archivo css
      * @param string $media medio de la hoja de estilo
      */
-    public static function css($src, $media=NULL)
+    public static function css($src, $media='screen')
     {
-        self::$_css[] = array('src' => $src,'media' => $media);
+        self::$_links[] = '<link href="' . PUBLIC_PATH . "css/$src.css\" rel=\"stylesheet\" type=\"text/css\" media=\"$media\"/>";
     }
+    
     /**
-     * Incluye los archivos css
+     * Enlaza un recurso externo
+     *
+     * @param string $href direccion url del recurso a enlazar
+     * @param string|array $attrs atributos
+     */
+    public static function link($href, $attrs=null)
+    {
+        if(is_array($attrs)) {
+            $attrs = self::getAttrs($attrs);
+        }
+    
+        self::$_links[] = "<link href=\"$href\" $attrs/>";
+    }
+    
+    /**
+     * Enlaza una accion
+     *
+     * @param string $url direccion url del recurso a enlazar
+     * @param string|array $attrs atributos
+     */
+    public static function linkAction($action, $attrs=null)
+    {
+        self::link(URL_PATH . $action, $attrs);
+    }
+    
+    /**
+     * Enlaza un recurso de la aplicacion
+     *
+     * @param string $url direccion url del recurso a enlazar
+     * @param string|array $attrs atributos
+     */
+    public static function linkResource($resource, $attrs=null)
+    {
+        self::link(PUBLIC_PATH . $resource, $attrs);
+    }
+    
+    /**
+     * Incluye los recursos enlazados
      *
      * @return string
      **/
-    public static function includeCss()
+    public static function includeLinks()
     {
-        $code = '';
-        foreach(self::$_css as $css) {
-            $code .= '<link rel="stylesheet" href="' . PUBLIC_PATH . "css/{$css['src']}.css\"";
-            if($css['media']) {
-                $code .= " media=\"{$css['media']}\"";
-            }
-            $code .= "/>\n";
+        return implode(array_unique(self::$_links), PHP_EOL);
+    }
+    
+    /**
+     * Crea un metatag
+     *
+     * @param string $content contenido del metatag
+     * @param string|array $attrs atributos
+     */
+    public static function meta($content, $attrs=null)
+    {
+        if(is_array($attrs)) {
+            $attrs = self::getAttrs($attrs);
         }
-        echo $code;
+    
+        self::$_metatags[] = "<meta content=\"$content\" $attrs/>";
+    }
+    
+    /**
+     * Incluye los metatags
+     *
+     * @return string
+     **/
+    public static function includeMetatags()
+    {
+        return implode(array_unique(self::$_metatags), PHP_EOL);
     }
 }
