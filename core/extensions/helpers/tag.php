@@ -29,13 +29,6 @@ class Tag
      * @var array
      **/
     protected static $_links = array();
-
-    /**
-     * Metatags
-     *
-     * @var array
-     **/
-    protected static $_metatags = array();
     
     /**
      * Convierte los argumentos de un metodo de parametros por nombre a un string con los atributos
@@ -146,30 +139,5 @@ class Tag
     public static function includeLinks()
     {
         return implode(array_unique(self::$_links), PHP_EOL);
-    }
-    
-    /**
-     * Crea un metatag
-     *
-     * @param string $content contenido del metatag
-     * @param string|array $attrs atributos
-     */
-    public static function meta($content, $attrs=null)
-    {
-        if(is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
-        }
-    
-        self::$_metatags[] = "<meta content=\"$content\" $attrs/>";
-    }
-    
-    /**
-     * Incluye los metatags
-     *
-     * @return string
-     **/
-    public static function includeMetatags()
-    {
-        return implode(array_unique(self::$_metatags), PHP_EOL);
     }
 }

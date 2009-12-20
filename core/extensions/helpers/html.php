@@ -35,6 +35,13 @@ class Html
     protected static $_trClassAlternate = TRUE;
 
     /**
+     * Metatags
+     *
+     * @var array
+     **/
+    protected static $_metatags = array();
+
+    /**
      * Crea un enlace en una Aplicacion respetando
      * las convenciones de Kumbia
      *
@@ -112,5 +119,30 @@ class Html
     public static function trClassStart ()
     {
         self::$_trClassAlternate = TRUE;
+    }
+    
+    /**
+     * Crea un metatag
+     *
+     * @param string $content contenido del metatag
+     * @param string|array $attrs atributos
+     */
+    public static function meta($content, $attrs=null)
+    {
+        if(is_array($attrs)) {
+            $attrs = self::getAttrs($attrs);
+        }
+    
+        self::$_metatags[] = "<meta content=\"$content\" $attrs/>";
+    }
+    
+    /**
+     * Incluye los metatags
+     *
+     * @return string
+     **/
+    public static function includeMetatags()
+    {
+        return implode(array_unique(self::$_metatags), PHP_EOL);
     }
 }
