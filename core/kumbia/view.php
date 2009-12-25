@@ -27,6 +27,7 @@ class View
 	 * @var string
 	 **/
 	protected static $_content;
+	
 	/**
 	 * Renderiza la vista
 	 *
@@ -45,8 +46,23 @@ class View
         // Mapea los atributos del controller en el scope
         extract(get_object_vars($controller), EXTR_OVERWRITE);
 
-        // Intenta cargar la vista desde la cache si esta en producion, si no renderiza
-        if(!PRODUCTION || ($scaffold) || $cache['type']!='view' || !(self::$_content = Cache::get($_url, "$controller_name.$action_name.$id"))) {
+		// inicia contenido con valor nulo
+		self::$_content = null;
+
+		// si se encuentra en produccion
+		if(PRODUCTION) {
+			// obtiene el driver de cache
+			$cache_driver = Cache::factory();
+			
+			// si se cachea vista
+			if($cache['type'] == 'view') {
+				// el contenido permanece nulo si no hay nada cacheado o la cache expiro
+				self::$_content = $cache_driver->get($_url, $cache['group']);
+			}
+		}
+
+        // carga la vista si no esta en produccion o se usa scaffold o no hay contenido cargado
+        if(!PRODUCTION || $scaffold || !self::$_content) {
             // Carga el contenido del buffer de salida
 			self::$_content = ob_get_clean();
 
@@ -54,15 +70,17 @@ class View
 			if($view) {
 				ob_start();
 				
-                $file =APP_PATH ."views/$controller_path/$view.phtml";
+                $file = APP_PATH ."views/$controller_path/$view.phtml";
                 if(!is_file($file) && $scaffold) {
 					$file =APP_PATH ."views/_shared/scaffolds/$scaffold/$view.phtml";
                 }
 				
+				// carga la vista
                 if (!include $file) throw new KumbiaException("Vista $view.phtml no encontrada");
                 
+				// si esta en produccion y se cachea la vista
 				if(PRODUCTION && $cache['type'] == 'view') {
-				    Cache::save(ob_get_contents(), $cache['time'], $_url, $cache['group']);
+				    $cache_driver->save(ob_get_contents(), $cache['time'], $_url, $cache['group']);
 			    }
 			    
                 // Verifica si se debe renderizar solo la vista
@@ -79,18 +97,22 @@ class View
 	
         // Renderizar template
 		if($template) {
-				ob_start();
-				if (!include APP_PATH . "views/_shared/templates/$template.phtml") throw new KumbiaException("Template $template no encontrado");
-					
-				if(PRODUCTION && $cache['type'] == 'template') {
-					Cache::save(ob_get_contents(), $cache['time'], $_url, "kumbia.templates");
-				}
+			ob_start();
 				
-				return ob_end_flush();
+			// carga el template
+			if (!include APP_PATH . "views/_shared/templates/$template.phtml") throw new KumbiaException("Template $template no encontrado");
+			
+			// si esta en produccion y se cachea template
+			if(PRODUCTION && $cache['type'] == 'template') {
+				$cache_driver->save(ob_get_contents(), $cache['time'], $_url, "kumbia.templates");
+			}
+			
+			return ob_end_flush();
 		}
 		
 		echo self::$_content;
 	}
+	
 	/**
 	 * Imprime el contenido del buffer
 	 *
@@ -99,6 +121,7 @@ class View
 	{
 		echo self::$_content;
 	}
+	
 	/**
 	 * Renderiza una vista parcial
 	 *
@@ -111,7 +134,10 @@ class View
 	public static function partial($partial, $__time=FALSE, $params=array())
 	{
 		if(PRODUCTION && $__time) {
-		    $data = Cache::start($__time, $partial, 'kumbia.partials');
+			// obtiene el driver de cache
+			$cache = Cache::factory();
+		
+		    $data = $cache->start($__time, $partial, 'kumbia.partials');
 			if($data) {
 				echo $data;
 				return;
@@ -125,16 +151,20 @@ class View
 		    //Verificando el partials en el dir core
 			$__file = CORE_PATH . "views/partials/$partial.phtml";
 		}
-				
+		
 		if(is_string($params)) {
 			$params = Util::get_params($params);
 		}
 		
+		// carga los parametros en el scope
 		extract ($params, EXTR_OVERWRITE);
 		
+		// carga la vista parcial
 		if (!include $__file) throw new KumbiaException('Vista Parcial "'.$__file.'" no se encontro');
+		
+		// se guarda en la cache de ser requerido
         if(PRODUCTION && $__time) {
-            Cache::end();
+            $cache->end();
         }
 		
 	}
@@ -147,18 +177,21 @@ class View
      **/
     public static function helpers ($helper)
     {
-            $helper = Util::smallcase($helper);
-			$path = "extensions/helpers/$helper.php";
-            $file = APP_PATH . $path;
-            if (! is_file($file)) {
-                $file = CORE_PATH . $path;
-                if (! is_file($file)) {
-                    throw new KumbiaException("Helpers $helper no encontrado");
-                }
-            }
-            require $file;
+		$helper = Util::smallcase($helper);
+		$path = "extensions/helpers/$helper.php";
+		
+		$file = APP_PATH . $path;
+		if (! is_file($file)) {
+			$file = CORE_PATH . $path;
+			if (! is_file($file)) {
+				throw new KumbiaException("Helpers $helper no encontrado");
+			}
+		}
+		
+		require_once $file;
     }
 }
+
 /**
  * Atajo para htmlspecialchars, por defecto toma el charset de la
  * aplicacion
@@ -171,6 +204,7 @@ function h($s, $charset = APP_CHARSET) {
     
     return htmlspecialchars($s, ENT_QUOTES, $charset);
 }
+
 /**
  * Atajo para echo + htmlspecialchars, por defecto toma el charset de la
  * aplicacion
@@ -184,4 +218,5 @@ function eh($s, $charset = APP_CHARSET) {
     echo htmlspecialchars($s, ENT_QUOTES, $charset);
 }
 
+// registra la autocarga de helpers
 spl_autoload_register('View::helpers');

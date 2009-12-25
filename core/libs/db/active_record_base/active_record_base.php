@@ -136,7 +136,7 @@ class ActiveRecordBase
      *
      * @var boolean
      */
-    protected$is_view = false;
+    protected $is_view = false;
     /**
      * Indica si el modelo esta en modo debug
      *
@@ -2169,9 +2169,14 @@ class ActiveRecordBase
     {
         if (isset(self::$models[$table])) {
             return self::$models[$table];
-        } elseif(PRODUCTION && ($metadata = Cache::get($table, 'kumbia.models'))) {
-			self::$models[$table] = unserialize($metadata);
-			return $metadata;
+        } elseif(PRODUCTION) {
+			$cache = Cache::factory();
+			
+			$metadata = $cache->get($table, 'kumbia.models');
+			if($metadata) {
+				self::$models[$table] = unserialize($metadata);
+				return $metadata;
+			}
         }
 		return array();
     }
@@ -2184,7 +2189,8 @@ class ActiveRecordBase
     static function set_meta_data($table, $meta_data)
     {
         if(PRODUCTION) {
-            Cache::save(serialize($meta_data), Config::get('config.application.metadata_lifetime'), $table, 'kumbia.models');
+			$cache = Cache::factory();
+            $cache->save(serialize($meta_data), Config::get('config.application.metadata_lifetime'), $table, 'kumbia.models');
         }
         self::$models[$table] = $meta_data;
         return true;

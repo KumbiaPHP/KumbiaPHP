@@ -39,12 +39,13 @@ class Util
     }
 	
 	/**
-	* Descameliza una cadena camelizada y la convierte a smallcase
-	*
+	 * Descameliza una cadena camelizada y la convierte a smallcase
+	 *
 	 * @param string $s
 	 * @return string
 	 */
-	public static function uncamelize($str) {
+	public static function uncamelize($str) 
+	{
 		return self::smallcase($str);
 	}
 	
@@ -53,9 +54,11 @@ class Util
      * @param string $s cadena a convertir
      * @return string
      **/
-    public static function smallcase($s) {
+    public static function smallcase($s) 
+	{
         return strtolower(preg_replace('/([A-Z])/', "_\\1", self::lcfirst($s)));
     }
+	
     /**
      * Remplaza en la cadena los espacios por guiónes bajos (underscores)
      * @param string $s
@@ -65,6 +68,7 @@ class Util
     {
         return strtr($s,' ','_');
     }
+	
     /**
      * Remplaza en la cadena los espacios por dash (guiones)
      * @param string $s
@@ -74,6 +78,7 @@ class Util
     {
         return strtr($s,' ','-');
     }
+	
     /**
      * Remplaza en una cadena los underscore o dashed por espacios
      * @param string $s
@@ -83,6 +88,7 @@ class Util
     {
         return strtr($s,'_-','  ');
     }
+	
     /**
      * Merge Two Arrays Overwriting Values $a1
      * from $a2
@@ -109,6 +115,7 @@ class Util
         }
         return $a1;
     }
+	
     /**
      * Insert para arrays numericos
      *
@@ -123,28 +130,12 @@ class Util
         $array = array_merge($array, $array2);
     }
 
-    /**
-     * Convierte los argumentos de una funcion o metodo a parametros por nombre
-     *
-     * @param string $params argumentos de la funcion de donde se analizaran los argumentos
-	 * @return array
-     */
-    public static function get_params($params)
-    {
-		$params = explode(', ', $params);
-		$data = array();
-		foreach($params as $p) {
-			$match = explode(': ', $p, 2);
-			$data[$match[0]] = $match[1];
-		}
-		return $data;
-    }
 	/**
-	* Convierte los parametros de una funcion o metodo de parametros por nombre a un array
-	*
-	* @param array $params 
-	* @return array
-	*/
+	 * Convierte los parametros de una funcion o metodo de parametros por nombre a un array
+	 *
+	 * @param array $params 
+	 * @return array
+	 */
 	public static function getParams($params){
         $data = array();
         foreach($params as $p) {
@@ -211,6 +202,7 @@ class Util
         }
         return @rmdir($dir);
     }
+	
     /**
      * Coloca la primera letra en minuscula
      *

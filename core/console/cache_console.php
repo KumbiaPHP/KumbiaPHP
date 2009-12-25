@@ -29,18 +29,6 @@ class CacheConsole
     public $libs = array('cache');
     
     /**
-     * Inicializa la consola
-     *
-     **/
-    public function initialize()
-    {
-        // asigna el driver para la cache
-        if($driver = Config::get('config.application.cache_driver')) {
-            Cache::set_driver($driver);
-        }
-    }
-    
-    /**
      * Comando de consola para limpiar la cache
      *
      * @param array $params parametros nombrados de la consola
@@ -49,13 +37,15 @@ class CacheConsole
      **/
     public function clean($params, $group=false)
     {
-        // asigna el driver para la cache
+        // obtiene el driver de cache
         if(isset($params['driver'])) {
-            Cache::set_driver($params['driver']);
-        }
+            $cache  = Cache::factory($params['driver']);
+        } else {
+			$cache = Cache::factory();
+		}
         
         // limpia la cache
-        if(Cache::clean($group)) {
+        if($cache->clean($group)) {
             if($group) {
                 echo "-> Se ha limpiado el grupo $group", PHP_EOL ;
             } else {
@@ -76,13 +66,15 @@ class CacheConsole
      **/
     public function remove($params, $id, $group='default')
     {
-        // asigna el driver para la cache
+        // obtiene el driver de cache
         if(isset($params['driver'])) {
-            Cache::set_driver($params['driver']);
-        }
+            $cache  = Cache::factory($params['driver']);
+        } else {
+			$cache = Cache::factory();
+		}
         
         // elimina el elemento
-        if(Cache::remove($id, $group)) {
+        if($cache->remove($id, $group)) {
             echo '-> Se ha eliminado el elemento de la cache', PHP_EOL ;
         } else {
             throw new KumbiaException("No se ha logrado eliminar el elemento \"$id\" del grupo \"$group\"");

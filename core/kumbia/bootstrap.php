@@ -61,15 +61,11 @@ if(PRODUCTION) {
      **/
     require CORE_PATH . 'libs/cache/cache.php';
 	
-	// Asigna el driver para cache
-    if (isset($config['application']['cache_driver'])) {
-        Cache::set_driver($config['application']['cache_driver']);
-    } else {
-        Cache::set_driver('file');
-    }
-
+	//obtiene el driver de cache
+	$cache = Cache::factory();
+	
 	// Verifica si esta cacheado el template
-    if ($template = Cache::get($url, 'kumbia.templates')) { //verifica cache de template para la url
+    if ($template = $cache->get($url, 'kumbia.templates')) { //verifica cache de template para la url
         echo $template;
         echo '<!-- Tiempo: ' . round(microtime(1) - START_TIME, 4) . ' seg. -->';
         exit(0);
