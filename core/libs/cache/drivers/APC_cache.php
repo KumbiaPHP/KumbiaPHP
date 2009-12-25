@@ -20,7 +20,7 @@
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-class APCCache implements CacheInterface
+class APCCache extends Cache
 {
 	/**
 	 * Carga un elemento cacheado, el apc_fetch puede recibir un array (nuestro cache no)
@@ -29,14 +29,18 @@ class APCCache implements CacheInterface
 	 * @param string $group
 	 * @return string
 	 */
-	public function get($id, $group) 
+	public function get($id, $group='default') 
     {
+        $this->_id = $id;
+        $this->_group = $group;
+    
 		$data = apc_fetch("$id.$group");
 		if($data === FALSE){
 			return null;
 		}
 		return $data;
     }
+    
 	/**
 	 * Guarda un elemento en la cache con nombre $id y valor $value
 	 *
@@ -48,13 +52,20 @@ class APCCache implements CacheInterface
 	 */
 	public function save($id, $group, $value, $lifetime)
     {
-        if($lifetime == null) {
-            $lifetime = '0';
+        if (! $id) {
+            $id = $this->_id;
+            $group = $this->_group;
+        }
+        
+        if ($lifetime) {
+            $lifetime = strtotime($lifetime) - time();
         } else {
-			$lifetime = $lifetime-time();
-		}
+            $lifetime = '0';
+        }
+    
         return apc_store("$id.$group", $value, $lifetime);
     }
+    
 	/**
 	 * Limpia la cache, con APC se limpia TODA no sólo el grupo
 	 *
@@ -65,6 +76,7 @@ class APCCache implements CacheInterface
     {
 		return apc_clear_cache('user');
     }
+    
 	/**
 	 * Elimina un elemento de la cache
 	 *
@@ -72,7 +84,7 @@ class APCCache implements CacheInterface
 	 * @param string $group
 	 * @return boolean
 	 */
-	public function remove($id, $group)
+	public function remove($id, $group='default')
     {
         return apc_delete("$id.$group");
     }

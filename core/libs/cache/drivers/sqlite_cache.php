@@ -20,7 +20,7 @@
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-class SqliteCache implements CacheInterface
+class SqliteCache extends Cache
 {
     /**
      * Conexion a la base de datos Sqlite
@@ -28,6 +28,7 @@ class SqliteCache implements CacheInterface
      * @var resource
      **/
     protected $_db = null;
+    
     /**
      * Constructor
      *
@@ -48,6 +49,7 @@ class SqliteCache implements CacheInterface
         
         return $this->_db;
     }
+    
 	/**
 	 * Carga un elemento cacheado
 	 *
@@ -55,8 +57,11 @@ class SqliteCache implements CacheInterface
 	 * @param string $group
 	 * @return string
 	 */
-	public function get($id, $group) 
+	public function get($id, $group='default') 
     {
+        $this->_id = $id;
+        $this->_group = $group;
+    
         $id = addslashes($id);
         $group = addslashes($group);
         
@@ -67,6 +72,7 @@ class SqliteCache implements CacheInterface
         $result = sqlite_query($this->_db, " SELECT value FROM cache WHERE id='$id' AND \"group\"='$group' AND lifetime>'$lifetime' OR lifetime='undefined' ");
         return sqlite_fetch_single($result);
     }
+    
 	/**
 	 * Guarda un elemento en la cache con nombre $id y valor $value
 	 *
@@ -76,9 +82,16 @@ class SqliteCache implements CacheInterface
 	 * @param int $lifetime tiempo de vida en forma timestamp de unix
 	 * @return boolean
 	 */
-	public function save($id, $group, $value, $lifetime)
+	public function save($value, $lifetime=null, $id=false, $group='default')
     {
-        if($lifetime == null) {
+        if (! $id) {
+            $id = $this->_id;
+            $group = $this->_group;
+        }
+        
+        if ($lifetime) {
+            $lifetime = strtotime($lifetime);
+        } else {
             $lifetime = 'undefined';
         }
         
@@ -89,10 +102,8 @@ class SqliteCache implements CacheInterface
         $result = sqlite_query($this->_db, " SELECT COUNT(*) FROM cache WHERE id='$id' AND \"group\"='$group' ");
         $count = sqlite_fetch_single($result);
         
-        /**
-         * Ya existe el elemento cacheado
-         *
-         **/
+        
+        // Ya existe el elemento cacheado
         if($count) {
             return sqlite_exec($this->_db, " UPDATE cache SET value='$value', lifetime='$lifetime' WHERE id='$id' AND \"group\"='$group' ");
         }
@@ -114,6 +125,7 @@ class SqliteCache implements CacheInterface
         }
         return sqlite_exec($this->_db, " DELETE FROM cache ");
     }
+    
 	/**
 	 * Elimina un elemento de la cache
 	 *
@@ -121,7 +133,7 @@ class SqliteCache implements CacheInterface
 	 * @param string $group
 	 * @return boolean
 	 */
-	public function remove($id, $group)
+	public function remove($id, $group='default')
     {
         $id = addslashes($id);
         $group = addslashes($group);

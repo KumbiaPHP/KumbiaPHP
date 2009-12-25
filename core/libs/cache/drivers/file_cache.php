@@ -20,7 +20,7 @@
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-class FileCache implements CacheInterface
+class FileCache extends Cache
 {
     /**
      * Obtiene el nombre de archivo a partir de un id y grupo
@@ -29,9 +29,9 @@ class FileCache implements CacheInterface
      * @param string $group
      * @return string
      **/
-    protected static function _get_filename($id, $group)
+    protected function _getFilename($id, $group)
     {
-        return 'cache_'.md5($id).'.'.md5($group);
+        return 'cache_' . md5($id) . '.' . md5($group);
     }
 	/**
 	 * Carga un elemento cacheado
@@ -40,9 +40,12 @@ class FileCache implements CacheInterface
 	 * @param string $group
 	 * @return string
 	 */
-	public function get($id, $group) 
+	public function get($id, $group='default') 
     {
-        $filename = APP_PATH . 'temp/cache/'.self::_get_filename($id, $group);
+        $this->_id = $id;
+        $this->_group = $group;
+    
+        $filename = APP_PATH . 'temp/cache/'.$this->_getFilename($id, $group);
 		if(file_exists($filename)){
             $fh = fopen($filename, 'r');
             
@@ -58,6 +61,7 @@ class FileCache implements CacheInterface
 		}
         return null;
     }
+    
 	/**
 	 * Guarda un elemento en la cache con nombre $id y valor $value
 	 *
@@ -67,12 +71,20 @@ class FileCache implements CacheInterface
 	 * @param int $lifetime tiempo de vida en forma timestamp de unix
 	 * @return boolean
 	 */
-	public function save($id, $group, $value, $lifetime)
+	public function save($value, $lifetime=null, $id=false, $group='default')
     {
-        if($lifetime == null) {
+        if (! $id) {
+            $id = $this->_id;
+            $group = $this->_group;
+        }
+        
+        if ($lifetime) {
+            $lifetime = strtotime($lifetime);
+        } else {
             $lifetime = 'undefined';
         }
-        return file_put_contents(APP_PATH . 'temp/cache/'.self::_get_filename($id, $group), "$lifetime\n$value");
+    
+        return file_put_contents(APP_PATH . 'temp/cache/'.$this->_getFilename($id, $group), "$lifetime\n$value");
     }
 	/**
 	 * Limpia la cache
@@ -82,7 +94,7 @@ class FileCache implements CacheInterface
 	 */
 	public function clean($group=false)
     {
-        $pattern = $group ? APP_PATH . 'temp/cache/'.'*.'.md5($group) : APP_PATH . 'temp/cache/*';
+        $pattern = $group ? APP_PATH . 'temp/cache/' . '*.' . md5($group) : APP_PATH . 'temp/cache/*';
         foreach (glob($pattern) as $filename) {
             if(!unlink($filename)) {
                 return false;
@@ -97,8 +109,8 @@ class FileCache implements CacheInterface
 	 * @param string $group
 	 * @return string
 	 */
-	public function remove($id, $group)
+	public function remove($id, $group='default')
     {
-        return unlink(APP_PATH . 'temp/cache/'.self::_get_filename($id, $group));
+        return unlink(APP_PATH . 'temp/cache/' . $this->_getFilename($id, $group));
     }
 }

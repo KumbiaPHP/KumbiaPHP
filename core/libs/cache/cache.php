@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Clase que implementa un componente de cacheo
+ * Clase base para componentes de cacheo
  * 
  * @category   Kumbia
  * @package    Cache 
@@ -21,14 +21,10 @@
  */
  
 /**
- * @see CacheInterface
+ * Clase base para componentes de cacheo
+ *
  */
-include CORE_PATH . 'libs/cache/cache_interface.php';
-
-/**
- * Clase que implementa un componente de cacheo
- */
-class Cache
+abstract class Cache
 {
     /**
      * Pool de drivers para cache
@@ -36,30 +32,28 @@ class Cache
      * @var array
      **/
     protected static $_drivers = array();
+    
     /**
      * Id de ultimo elemento solicitado
      *
      * @var string
      */
-    protected static $_id = null;
+    protected $_id = null;
+    
     /**
      * Grupo de ultimo elemento solicitado
      *
      * @var string
      */
-    protected static $_group = 'default';
+    protected $_group = 'default';
+    
     /**
      * Tiempo de vida
      *
      * @var string
      */
-    protected static $_lifetime = null;
-    /**
-     * Driver para cache
-     *
-     * @var string
-     **/
-    protected static $_driver = null;
+    protected $_lifetime = null;
+    
     /**
      * Carga un elemento cacheado
      *
@@ -67,78 +61,27 @@ class Cache
      * @param string $group
      * @return string
      */
-    public static function get ($id, $group = 'default')
-    {
-        self::$_id = $id;
-        self::$_group = $group;
-        return self::$_driver->get($id, $group);
-    }
+    public abstract function get($id, $group='default');
+    
     /**
      * Guarda un elemento en la cache con nombre $id y valor $value
      *
      * @param string $value
-     * @param string $lifetime tiempo de vida con formato strtotime, utilizado para cache de tiempo constante
+     * @param string $lifetime tiempo de vida con formato strtotime, utilizado para cache
      * @param string $id
      * @param string $group
      * @return boolean
      */
-    public static function save ($value, $lifetime = null, $id = false, $group = 'default')
-    {
-        /**
-         * Verifica si se ha pasado un id
-         **/
-        if (! $id) {
-            $id = self::$_id;
-            $group = self::$_group;
-        }
-        if ($lifetime) {
-            $lifetime = strtotime($lifetime);
-        }
-        
-        return self::$_driver->save($id, $group, $value, $lifetime);
-    }
-    /**
-     * Inicia el cacheo del buffer de salida hasta que se llame a end
-     *
-     * @param string $lifetime tiempo de vida con formato strtotime, utilizado para cache de tiempo constante
-     * @param string $id
-     * @param string $group
-     * @return string
-     */
-    public static function start ($lifetime, $id, $group = 'default')
-    {
-        if ($data = self::get($id, $group)) {
-            return $data;
-        }
-        self::$_lifetime = $lifetime;
-        ob_start();
-    }
-    /**
-     * Termina el buffer de salida
-     *
-     * @param boolean $save indica si al terminar guarda la cache
-     * @return boolean
-     */
-    public static function end ($save = true)
-    {
-        if (! $save) {
-            ob_end_flush();
-            return false;
-        }
-        $value = ob_get_contents();
-        ob_end_flush();
-        return self::save($value, self::$_lifetime, self::$_id, self::$_group);
-    }
+    public abstract function save ($value, $lifetime=null, $id=false, $group='default');
+    
     /**
      * Limpia la cache
      *
      * @param string $group
      * @return boolean
      */
-    public static function clean ($group = false)
-    {
-        return self::$_driver->clean($group);
-    }
+    public abstract function clean ($group=false);
+    
     /**
      * Elimina un elemento de la cache
      *
@@ -146,23 +89,71 @@ class Cache
      * @param string $group
      * @return boolean
      */
-    public static function remove ($id, $group = 'default')
-    {
-        return self::$_driver->remove($id, $group);
-    }
+    public abstract function remove($id, $group='default');
+    
     /**
-     * Asigna el driver para cache
+     * Inicia el cacheo del buffer de salida hasta que se llame a end
+     *
+     * @param string $lifetime tiempo de vida con formato strtotime, utilizado para cache
+     * @param string $id
+     * @param string $group
+     * @return string
+     */
+    public function start ($lifetime, $id, $group='default')
+    {
+        if ($data = $this->get($id, $group)) {
+            return $data;
+        }
+        $this->_lifetime = $lifetime;
+        
+        // inicia la captura del buffer
+        ob_start();
+    }
+    
+    /**
+     * Termina el buffer de salida
+     *
+     * @param boolean $save indica si al terminar guarda la cache
+     * @return boolean
+     */
+    public function end ($save=true)
+    {
+        if (! $save) {
+            ob_end_flush();
+            return false;
+        }
+        
+        // obtiene el contenido del buffer
+        $value = ob_get_contents();
+        
+        // libera el buffer
+        ob_end_flush();
+        
+        return $this->save($value, $this->_lifetime, $this->_id, $this->_group);
+    }
+        
+    /**
+     * Obtiene el driver de cache indicado
      *
      * @param string $driver (file, sqlite, memsqlite, APC)
      **/
-    public static function set_driver ($driver)
+    public static function factory($driver=null)
     {
+        if(!$driver) {
+            $driver = Config::get('config.application.cache_driver');
+			
+			// si no existe driver por defecto, se toma el driver "file"
+			if(!$driver) {
+				$driver = 'file';
+			}
+        }
+    
         if(!isset(self::$_drivers[$driver])) {
             require_once CORE_PATH . "libs/cache/drivers/{$driver}_cache.php";
             $class = $driver.'cache';
             self::$_drivers[$driver] = new $class();
         }
         
-        self::$_driver = self::$_drivers[$driver];
+        return  self::$_drivers[$driver];
     }
 }
