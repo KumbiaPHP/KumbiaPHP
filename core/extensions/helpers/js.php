@@ -45,28 +45,7 @@ class Js
         }
         return '<a href="' . URL_PATH . "$action\" title=\"$confirm\" class=\"js-confirm $class\" $attrs>$text</a>";
     }
-    /**
-     * Crea un link con imagen con mensaje de confirmacion
-     *
-     * @param string $action ruta a la accion
-     * @param string $src
-     * @param string $confirm mensaje de confirmacion
-     * @param string $alt
-     * @param string $class clases adicionales para el link
-     * @param string | array $attrslink atributos adicionales del link
-     * @param string | array $attrsImg atributos adicionales de la imagen
-     * @return unknown
-     */
-    public static function linkImg ($action, $src, $confirm, $alt=NULL, $class=NULL, $attrsLink=NULL, $attrsImg=NULL)
-    {
-        if (is_array($attrsLink)) {
-            $attrsLink = Tag::getAttrs($attrsLink);
-        }
-        if(is_array($attrsImg)){
-            $attrsImg = Tag::getAttrs($attrsImg);
-        }
-        return "<a href=\"" . URL_PATH . "$action\" title=\"$confirm\" class=\"js-confirm $class\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
-    }
+    
     /**
      * Crea un enlace en una Aplicacion actualizando la capa con ajax
      *
@@ -84,28 +63,7 @@ class Js
         }
         return '<a href="' . URL_PATH . "$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrs>$text</a>";
     }
-    /**
-     * Crea un link con imagen y actualiza la capa con ajax
-     *
-     * @param string $action ruta a la accion
-     * @param string $src
-     * @param string $update capa a actualizar
-     * @param string $alt
-     * @param string $class clases adicionales para el link
-     * @param string | array $attrslink atributos adicionales del link
-     * @param string | array $attrsImg atributos adicionales de la imagen
-     * @return unknown
-     */
-    public static function linkImgRemote ($action, $src, $update, $alt=NULL, $class=NULL, $attrsLink=NULL, $attrsImg=NULL)
-    {
-        if (is_array($attrsLink)) {
-            $attrsLink = Tag::getAttrs($attrsLink);
-        }
-        if(is_array($attrsImg)){
-            $attrsImg = Tag::getAttrs($attrsImg);
-        }
-        return "<a href=\"" . URL_PATH . "$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
-    }
+
     /**
      * Crea un enlace en una Aplicacion actualizando la capa con ajax con mensaje
      * de confirmacion
@@ -125,30 +83,7 @@ class Js
         }
         return '<a href="' . URL_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
     }
-    /**
-     * Crea un link con imagen y actualiza la capa con ajax, e incluye mensaje de confirmacion
-     *
-     * @param string $action ruta a la accion
-     * @param string $src
-     * @param string $update capa a actualizar
-     * @param string $confirm mensaje de confirmacion
-     * @param string $alt
-     * @param string $class clases adicionales para el link
-     * @param string | array $attrslink atributos adicionales del link
-     * @param string | array $attrsImg atributos adicionales de la imagen
-     * @return unknown
-     */
-    public static function linkImgRemoteConfirm ($action, $src, $update, $confirm, $alt=NULL, $class=NULL, $attrsLink=NULL, $attrsImg=NULL)
-    {
-        if (is_array($attrsLink)) {
-            $attrsLink = Tag::getAttrs($attrsLink);
-        }
-        if(is_array($attrsImg)){
-            $attrsImg = Tag::getAttrs($attrsImg);
-        }
-        return "<a href=\"" . URL_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
-    }
-    
+
     /**
      * Campo para calendario
      *

@@ -71,26 +71,7 @@ class Html
         }
         return '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" $attrs/>";
     }
-    /**
-     * Crea un link con imagen
-     *
-     * @param string $action ruta a la accion
-     * @param string $src
-     * @param string $alt
-     * @param string | array $attrslink atributos adicionales del link
-     * @param string | array $attrsImg atributos adicionales de la imagen
-     * @return unknown
-     */
-    public static function imgLink ($action, $src, $alt=NULL, $attrsLink=NULL, $attrsImg = NULL)
-    {
-        if (is_array($attrsLink)) {
-            $attrsLink = Tag::getAttrs($attrsLink);
-        }
-        if(is_array($attrsImg)){
-            $attrsImg = Tag::getAttrs($attrsImg);
-        }
-        return "<a href=\"" . URL_PATH . "$action\" $attrsLink><img src=\"" . PUBLIC_PATH ."img/$src\" alt=\"$alt\" $attrsImg /></a>";
-    }
+    
     /**
      * Aplica estilo zebra a una tabla.
      *

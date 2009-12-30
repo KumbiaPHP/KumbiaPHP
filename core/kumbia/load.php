@@ -147,9 +147,7 @@ class Load
     public static function model ($model)
     { 
         //Si se utiliza base de datos
-        if (! class_exists('Db', FALSE)) {
-            require CORE_PATH . 'libs/db/db.php';
-        }  
+        require_once CORE_PATH . 'libs/db/db.php';
         //Nombre de la clase
         $Model = Util::camelcase(basename($model));
         //Carga la clase

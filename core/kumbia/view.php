@@ -70,7 +70,7 @@ class View
 			if($view) {
 				ob_start();
 				
-                $file = APP_PATH ."views/$controller_path/$view.phtml";
+                $file =APP_PATH ."views/$controller_path/$view.phtml";
                 if(!is_file($file) && $scaffold) {
 					$file =APP_PATH ."views/_shared/scaffolds/$scaffold/$view.phtml";
                 }
@@ -177,18 +177,14 @@ class View
      **/
     public static function helpers ($helper)
     {
-		$helper = Util::smallcase($helper);
-		$path = "extensions/helpers/$helper.php";
-		
-		$file = APP_PATH . $path;
-		if (! is_file($file)) {
-			$file = CORE_PATH . $path;
+            $helper = Util::smallcase($helper);
+			$path = "extensions/helpers/$helper.php";
+            $file = APP_PATH . $path;
 			if (! is_file($file)) {
-				throw new KumbiaException("Helpers $helper no encontrado");
-			}
-		}
-		
-		require_once $file;
+				if (!include CORE_PATH . $path) throw new KumbiaException("Helpers $helper no encontrado");
+			return;
+            }
+            require $file;
     }
 }
 
