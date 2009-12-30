@@ -1672,7 +1672,7 @@ class ActiveRecordBase
                         unset($this->$field);
                     }
                     $use_default = in_array($field, $this->_with_default) && isset($this->$field) && (is_null($this->$field) || $this->$field == '');
-                    if($this->_data_type[$field] == 'datetime' && $config['type'] == 'mysql'){
+                    if($this->_data_type[$field] == 'datetime' || $this->_data_type[$field] == 'date' && $config['type'] == 'mysql'){
                     	$this->$field = date("Y-m-d G:i:s",strtotime($this->$field));
 						}
 					if (isset($this->$field) && !$use_default) {
