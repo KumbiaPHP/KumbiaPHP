@@ -39,7 +39,6 @@ class PagesController extends ApplicationController
 	
 	public function show()
 	{
-		$page = implode('/', $this->parameters);
-		$this->render($page);
+		$this->render(implode('/', $this->parameters));
 	}
 }
