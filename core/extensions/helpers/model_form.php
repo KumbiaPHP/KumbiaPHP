@@ -55,15 +55,19 @@ class ModelForm {
 						case 'real': case 'decimal': case 'numeric':
 						case 'year': case 'day': case 'int unsigned': // Números
 							
-							echo "<input id=\"$formId\" class=\"int\" name=\"$formName\" type=\"text\" value=\"{$model->$field}\">".PHP_EOL ; 
+							echo "<input id=\"$formId\" type=\"number\" name=\"$formName\" value=\"{$model->$field}\">".PHP_EOL ; 
 							break;
 						
-						case 'datetime': case 'timestamp':
+						
 						case 'date': // Usar el js de datetime
-							echo "<input id=\"$formId\" class=\"date\" name=\"$formName\" type=\"text\" value=\"{$model->$field}\">".PHP_EOL;
-							echo '<script type="text/javascript" src="/javascript/kumbia/jscalendar/calendar.js"></script>
-							<script type="text/javascript" src="/javascript/kumbia/jscalendar/calendar-setup.js"></script>
-							<script type="text/javascript" src="/javascript/kumbia/jscalendar/calendar-es.js"></script>'.PHP_EOL;
+							echo "<input id=\"$formId\" type=\"date\" name=\"$formName\" value=\"{$model->$field}\">".PHP_EOL;
+							break;
+						case 'datetime': case 'timestamp':
+							echo "<input id=\"$formId\" type=\"datetime\" name=\"$formName\" value=\"{$model->$field}\">".PHP_EOL;
+
+							//echo '<script type="text/javascript" src="/javascript/kumbia/jscalendar/calendar.js"></script>
+							//<script type="text/javascript" src="/javascript/kumbia/jscalendar/calendar-setup.js"></script>
+							//<script type="text/javascript" src="/javascript/kumbia/jscalendar/calendar-es.js"></script>'.PHP_EOL;
 							//echo date_field_tag("$formId");
 							break;
 						
@@ -74,11 +78,11 @@ class ModelForm {
 						
 						case 'text': case 'mediumtext': case 'longtext':
 						case 'blob': case 'mediumblob': case 'longblob': // Usar textarea
-							echo "<textarea id=\"$formId\" class=\"string\" name=\"$formName\">{$model->$field}</textarea>".PHP_EOL;
+							echo "<textarea id=\"$formId\" name=\"$formName\">{$model->$field}</textarea>".PHP_EOL;
 							break;
 						
 						default: //text,tinytext,varchar, char,etc se comprobara su tamaño
-							echo "<input id=\"$formId\" class=\"string\" name=\"$formName\" type=\"text\" value=\"{$model->$field}\">".PHP_EOL;
+							echo "<input id=\"$formId\" type=\"text\" name=\"$formName\" value=\"{$model->$field}\">".PHP_EOL;
 							//break;					
 			
 			}
