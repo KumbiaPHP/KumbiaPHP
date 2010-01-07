@@ -25,12 +25,16 @@ padding:1em;
 .round{
 border-radius: 5px;
 }
+.exception h1 {
+text-shadow:1px 1px 1px rgba(0, 0, 0, 0.4);
+}
 .exception h2 {
 background-color: #D1C2A3;
 padding:.2em;
 margin: 1em 0 .3em;
 color:rgb(138, 111, 92);
 border-radius: 5px;
+text-shadow:1px 1px 1px rgba(255, 255, 255, 0.8);
 }
 .exception em {
 color: black;
