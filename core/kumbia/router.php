@@ -55,7 +55,9 @@ final class Router
 		if(Config::get('config.application.routes')){
 			$url = self::ifRouted($url);
 		}
-		
+		if($url == '/'){
+			return;
+		}
 		//Limpio la url en caso de que la hallan escrito con el ultimo parametro sin valor es decir controller/action/
 		// Obtengo y asigno todos los parametros de la url
 		$url_items = explode ('/', trim($url,'/'));
@@ -96,7 +98,7 @@ final class Router
  	 * 
 	 */
 	private static function ifRouted($url)
-    {
+	{
 		$routes = Config::read('routes');
 		$routes = $routes['routes'];
 		
@@ -125,7 +127,7 @@ final class Router
 	 * @return boolean
 	 */
 	public static function getRouted()
-    {
+	{
 		return self::$_vars['routed'];
 	}
 
@@ -144,7 +146,7 @@ final class Router
 	 *
 	 */
 	public static function route_to()
-    {
+	{
 		
 		static $cyclic = 0;
 		self::$_vars['routed'] = TRUE;
@@ -193,7 +195,7 @@ final class Router
 	 * @return string con el valor del atributo
 	 **/
 	public static function get($var=NULL) 
-    {
+	{
 		if($var){
 			return self::$_vars[$var];
 		} else {
@@ -209,7 +211,7 @@ final class Router
 	 * @param integer $seconds
 	 */
 	public static function redirect($route, $seconds=NULL)
-    {
+	{
 		$route = PUBLIC_PATH . ltrim($route,'/');
 		if(headers_sent() || ($seconds)){
 			echo "

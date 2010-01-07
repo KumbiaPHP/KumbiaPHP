@@ -22,22 +22,20 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
  
-/**
- * @see Dispatcher
- */
+// @see Dispatcher
 require CORE_PATH . 'kumbia/dispatcher.php';
-/**
- * @see Flash
- */
+
+// @see Flash
 require CORE_PATH . 'libs/flash/flash.php';
-/**
- * @see Controller
- */
+
+// @see Controller
 require CORE_PATH . 'kumbia/controller.php';
-/**
- * @see ApplicationController
- */
+
+// @see ApplicationController
 require APP_PATH . 'application.php';
+
+// @see View
+require CORE_PATH . 'kumbia/view.php';
  
 /**
  * Esta es la clase principal del framework, contiene metodos importantes
@@ -70,25 +68,11 @@ final class Kumbia
      */
     public static function main($url)
 	{
-		/**
-		 * El Router analiza la url
-		 **/
+		// El Router analiza la url
 		Router::rewrite($url);
-		
-		/**
-		 * Ciclo del enrutador
-		 */
-		$controller = Dispatcher::execute();
-		
-		/**
-		 * Renderiza la vista
-		 **/
-		if($controller->view || $controller->template) {
-			require CORE_PATH . 'kumbia/view.php';
-			View::render($controller, $url);
-		} else {
-			ob_end_flush();
-		}
+
+		// Dispatch y renderiza la vista
+		View::output(Dispatcher::execute(), $url);
 		
 		// Fin del request
 		exit();

@@ -19,30 +19,97 @@
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-class View
-{
+class View {
 	/**
 	 * Contenido
 	 *
 	 * @var string
 	 **/
 	protected static $_content;
+	/**
+	 * Vista a renderizar
+	 *
+	 * @var string
+	 **/
+	protected static $view;
+	/**
+	* Template
+	*
+	* @var string
+	*/
+	protected static $template = 'default';
+	/**
+	 * Indica el tipo de salida generada por el controlador
+	 *
+	 * @var string
+	 */
+	protected static $response;
+	/**
+	 * Número de minutos que será cacheada la vista actual
+	 *
+	 * type: tipo de cache (view, template)
+	 * time: tiempo de vida de cache
+	 *
+	 * @var array
+	 */
+	protected static $cache = array('type' => FALSE, 'time' => FALSE, 'group'=>FALSE);
+	/**
+	 * Cambia el view y opcionalmente el template
+	 *
+	 * @param string $view nombre del view a utilizar sin .phtml
+	 * @param string $template	opcional nombre del template a utilizar sin .phtml
+	 *
+	 * @deprecated Ahora View::render
+	 */
+	public static function render($view, $template = FALSE){
+		self::$view = $view;
+		if($template === FALSE) return;
+		self::$template = $template;
+	}
+	public static function template($template){
+		self::$template = $template;
+	}
+	/**
+	 * Indica el tipo de Respuesta dada por el controlador
+	 *
+	 * @param string $type
+	 *
+	 * @deprecated Ahora View::response
+	 */
+	public static function response($response) {
+		self::$response = $response;
+		
+	}
 	
+	public static function get($atribute) {
+		return self::${$atribute};
+	}
+	/**
+	 * Asigna cacheo de vistas o template
+	 *
+	 * @param $time tiempo de vida de cache
+	 * @param $type tipo de cache (view, template)
+	 */
+	public static function cache($time, $type='view', $group=FALSE) {
+		if($time !== FALSE) {
+			self::$cache['type'] = $type;
+			self::$cache['time'] = $time;
+			self::$cache['group'] = $group;
+		} else {
+			self::$cache['type'] = FALSE;
+		}
+	}
 	/**
 	 * Renderiza la vista
 	 *
 	 * @param Controller $controller
 	 * @param string $url url a renderizar
 	 */
-	public static function render($controller, $_url)
+	public static function output(Controller $controller, /*Router*/ $_url)
 	{
-        // Carga los helpers desde el boot.ini
-        if($config = Config::get('boot.modules.helpers')) {
-			foreach(explode(',', $config) as $helper){
-				self::helpers(trim($helper));
-			}
-        }
-        
+	if(!self::$view && !self::$template){
+		return ob_end_flush(); 
+	}
         // Mapea los atributos del controller en el scope
         extract(get_object_vars($controller), EXTR_OVERWRITE);
 
@@ -67,7 +134,7 @@ class View
 			self::$_content = ob_get_clean();
 
             // Renderizar vista
-			if($view) {
+			if($view = self::$view) {
 				ob_start();
 				
                 $file =APP_PATH ."views/$controller_path/$view.phtml";
@@ -84,7 +151,7 @@ class View
 			    }
 			    
                 // Verifica si se debe renderizar solo la vista
-		        if($response == 'view' || $response == 'xml') {
+		        if(self::$response == 'view' || self::$response == 'xml') {
 			        ob_end_flush();
 			        return;
 		        }
@@ -96,7 +163,7 @@ class View
         }
 	
         // Renderizar template
-		if($template) {
+		if($template = self::$template) {
 			ob_start();
 				
 			// carga el template

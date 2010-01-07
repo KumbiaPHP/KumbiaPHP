@@ -27,18 +27,13 @@ class Controller
 	 * @var array
 	 **/
 	public $models;
-    /**
+	/**
 	 * Libs a cargar
 	 *
 	 * @var array
 	 **/
 	public $libs;
-	/**
-	 * Indica el tipo de salida generada por el controlador
-	 *
-	 * @var string
-	 */
-	public $response;
+	
 	/**
 	 * Nombre del modulo actual
 	 *
@@ -57,33 +52,6 @@ class Controller
 	 * @var string
 	 */
 	public $action_name;
-    /**
-     * Template
-     *
-     * @var string
-     */
-    public $template = 'default';
-	/**
-	 * Número de minutos que será cacheada la vista actual
-	 *
-	 * type: tipo de cache (view, template)
-	 * time: tiempo de vida de cache
-	 *
-	 * @var array
-	 */
-	public $cache = array('type' => FALSE, 'time' => FALSE, 'group'=>FALSE);
-	/**
-	 * Logger implicito del controlador
-	 *
-	 * @var string
-	 */
-	public $logger;
-	/**
-	 * Vista a renderizar
-	 *
-	 * @var string
-	 **/
-	public $view;
 	/**
 	 * Limita la cantidad correcta de 
 	 * parametros de una action
@@ -110,9 +78,9 @@ class Controller
 		$this->module_name = $module;
 		$this->controller_name = $controller;
 		$this->parameters = $parameters;
-		$this->view = $this->action_name = $action;
-		$this->controller_path = $controller_path;
-        $this->cache['group'] = "$controller.$action";//.$id";
+		$this->action_name = $action;
+		$this->controller_path = $controller_path;//posiblemente se quitara mirar el set_response
+        //$this->cache['group'] = "$controller.$action";//.$id";
 
         // Carga los utils indicados
         if($this->libs) {
@@ -125,16 +93,12 @@ class Controller
 	 *
 	 * @param $time tiempo de vida de cache
 	 * @param $type tipo de cache (view, template)
+	 *
+	 * @deprecated Ahora se usa <code>View::cache</code>, ya que esta cache es de view
 	 */
-	protected function cache($time, $type='view', $group=FALSE)
-    {
-		if($time !== FALSE) {
-			$this->cache['type'] = $type;
-			$this->cache['time'] = $time;
-			$this->cache['group'] = $group;
-		} else {
-			$this->cache['type'] = FALSE;
-		}
+	protected function cache($time, $type = 'view', $group = FALSE)
+	{
+		View::cache($time, $type, $group);
 	}
 	/**
 	 * Hace el enrutamiento desde un controlador a otro, o desde
@@ -144,13 +108,21 @@ class Controller
 	 * <code>
 	 * return $this->route_to("controller: clientes", "action: consultar", "id: 1");
 	 * </code>
-	 *
+	 * @deprecated Mejor usar Router::route_to
 	 */
 	protected function route_to()
-    {
-    	return call_user_func_array(array('Router', 'route_to'), func_get_args());
+	{
+		Router::route_to(implode(',', func_get_args()));
+		//call_user_func_array(array('Router', 'route_to'), func_get_args());
 	}
 
+	protected function input($method = NULL)
+	{
+		if($method){			
+			return $method == $_SERVER['REQUEST_METHOD'];
+		}
+		return $_SERVER['REQUEST_METHOD'];
+	}
 	/**
 	 * Obtiene un valor del arreglo $_POST
 	 *
@@ -158,15 +130,13 @@ class Controller
 	 * @return mixed
 	 */
 	protected function post($param_name)
-    {
-		/**
-		 * Verifica si posee el formato form.field, en ese caso accede al array $_POST['form']['field']
-		 **/
+	{
+		//Verifica si posee el formato form.field, en ese caso accede al array $_POST['form']['field']
 		$param_name = explode('.', $param_name);
 		if(count($param_name)>1) {
-			$value = isset($_POST[$param_name[0]][$param_name[1]]) ? $_POST[$param_name[0]][$param_name[1]] : '';
+			$value = isset($_POST[$param_name[0]][$param_name[1]]) ? $_POST[$param_name[0]][$param_name[1]] : NULL;
 		} else {
-			$value = isset($_POST[$param_name[0]]) ? $_POST[$param_name[0]] : '';
+			$value = isset($_POST[$param_name[0]]) ? $_POST[$param_name[0]] : NULL;
 		}
 	
 		/**
@@ -232,9 +202,9 @@ class Controller
 		 **/
 		$param_name = explode('.', $param_name);
 		if(count($param_name)>1) {
-			$value = isset($_REQUEST[$param_name[0]][$param_name[1]]) ? $_REQUEST[$param_name[0]][$param_name[1]] : '';
+			$value = isset($_REQUEST[$param_name[0]][$param_name[1]]) ? $_REQUEST[$param_name[0]][$param_name[1]] : NULL;
 		} else {
-			$value = isset($_REQUEST[$param_name[0]]) ? $_REQUEST[$param_name[0]] : '';
+			$value = isset($_REQUEST[$param_name[0]]) ? $_REQUEST[$param_name[0]] : NULL;
 		}
 	
 		/**
@@ -256,53 +226,31 @@ class Controller
 	/**
 	 * Verifica si existe el elemento indicado en $_POST
 	 *
-	 * @param string $s elemento a verificar (soporta varios elementos simultaneos)
+	 * @param string $s elemento a verificar
 	 * @return boolean
 	 **/
-	protected function has_post($s) 
-    {
-		$success = TRUE;
-		$args = func_get_args();
-		foreach($args as $f) {
-			/**
-			 * Verifica si posee el formato form.field
-			 **/
-			$f = explode('.', $f);
-			if(count($f)>1 && !isset($_POST[$f[0]][$f[1]]) ) {
-				$success = FALSE;
-				break;
-			} elseif(!isset($_POST[$f[0]])) {
-				$success = FALSE;
-				break;
-			}
+	protected function has_post($variable) 
+	{
+		$variable = explode('.', $variable);
+		if(count($variable)>1) {
+			return filter_has_var(INPUT_POST, $variable[0][$variable[1]]);
 		}
-		return $success;
+		return filter_has_var(INPUT_POST, $variable[0]);
 	}
 
 	/**
 	 * Verifica si existe el elemento indicado en $_GET
 	 *
-	 * @param string $s elemento a verificar (soporta varios elementos simultaneos)
+	 * @param string $s elemento a verificar
 	 * @return boolean
 	 **/
-	protected function has_get($s) 
-    {
-		$success = TRUE;
-		$args = func_get_args();
-		foreach($args as $f) {
-			/**
-			 * Verifica si posee el formato form.field
-			 **/
-			$f = explode('.', $f);
-			if(count($f)>1 && !isset($_GET[$f[0]][$f[1]]) ) {
-				$success = FALSE;
-				break;
-			} elseif(!isset($_GET[$f[0]])) {
-				$success = FALSE;
-				break;
-			}
+	protected function has_get($variable)
+	{
+		$variable = explode('.', $variable);
+		if(count($variable)>1) {
+			return filter_has_var(INPUT_GET, $variable[0][$variable[1]]);
 		}
-		return $success;
+		return filter_has_var(INPUT_GET, $variable[0]);
 	}
 
 	/**
@@ -311,6 +259,7 @@ class Controller
 	 * @param string $s elemento a verificar (soporta varios elementos simultaneos)
 	 * @return boolean
 	 **/
+
 	protected function has_request($s) 
     {
 		$success = TRUE;
@@ -351,7 +300,7 @@ class Controller
 	 * @return Bolean
 	 */
 	protected function is_ajax()
-    {
+	{
 		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
 	}
 
@@ -359,54 +308,28 @@ class Controller
 	 * Indica el tipo de Respuesta dada por el controlador
 	 *
 	 * @param string $type
+	 *
+	 * @deprecated Ahora View::response
 	 */
 	protected function set_response($type)
-    {
-		$this->response = $type;
+	{
+		View::response($type);
+		//$this->response = $type;
 		if ($type != 'view'){ 
 			$this->controller_path = "{$this->controller_path}/_$type";
 		}
 	}
 
 	/**
-	 * Crea un log sino existe y guarda un mensaje
-	 *
-	 * @param string $msg
-	 * @param integer $type
-	 */
-	protected function log($msg, $type=Logger::DEBUG)
-    {
-		if(is_array($msg)){
-			$msg = print_r($msg, TRUE);
-		}
-		if(!$this->logger){
-			$this->logger = new Logger($this->controller_name.'.txt');
-		}
-		$this->logger->log($msg, $type);
-	}
-	
-	/**
-	 * Asigna valor NULL a los atributos indicados en el controlador
-     *
-     *  @param string $var
-	 */
-	protected function nullify($var) 
-    {
-		$args = func_get_args();
-		foreach($args as $f) {
-			$this->$f = NULL;
-		}
-	}
-	/**
 	 * Visualiza una vista en el controlador actual
 	 *
 	 * @param string $view nombre del view a utilizar sin .phtml
 	 * @param string $template	opcional nombre del template a utilizar sin .phtml
+	 *
+	 * @deprecated Ahora View::render
 	 */
 	protected function render($view,$template = FALSE){
-		$this->view = $view;
-		if($template === FALSE) return;
-		$this->template = $template;
+		View::render($view, $template);
 	}
     /**
      * BeforeFilter

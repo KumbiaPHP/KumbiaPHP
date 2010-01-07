@@ -41,34 +41,35 @@ final class Dispatcher
 
 		//Asigna el controlador activo
 		$app_controller = Util::camelcase($controller) . 'Controller';
-		self::$_controller = new $app_controller($module, $controller, $action, $parameters, $controller_path);
+		$cont = self::$_controller = new $app_controller($module, $controller, $action, $parameters, $controller_path);
+		View::render($action);
 
-        //Carga de modelos
-		if(self::$_controller->models) { //TODO en no usar instancias moverlo al constructor del controller
-			Load::models(self::$_controller->models);
+		//Carga de modelos
+		if($cont->models) { //TODO en no usar instancias moverlo al constructor del controller
+			Load::models($cont->models);
 		}
 				
 		// Se ejecutan los filtros before
-		if(self::$_controller->k_callback('initialize') === FALSE) {
-			return self::$_controller;
+		if($cont->k_callback('initialize') === FALSE) {
+			return $cont;
 		}
-		if(self::$_controller->k_callback('before_filter')=== FALSE) {
-			return self::$_controller;
+		if($cont->k_callback('before_filter')=== FALSE) {
+			return $cont;
 		}
 
 		//Se ejecuta el metodo con el nombre de la accion
 		//en la clase de acuerdo al convenio
-		if(!method_exists(self::$_controller, $action)){			
+		if(!method_exists($cont, $action)){			
 			throw new KumbiaException(NULL,'no_action');	
 		}
 		
 		//Obteniendo el metodo
-		$reflectionMethod = new ReflectionMethod(self::$_controller, $action);
+		$reflectionMethod = new ReflectionMethod($cont, $action);
         
 		//k_callback y __constructor metodo reservado
 		if($reflectionMethod->name == 'k_callback' || $reflectionMethod->isConstructor()){
-            throw new KumbiaException('Esta intentando ejecutar un método reservado de KumbiaPHP');
-        }
+		    throw new KumbiaException('Esta intentando ejecutar un método reservado de KumbiaPHP');
+		}
         
 		//se verifica que el metodo sea public
 		if(!$reflectionMethod->isPublic()){
@@ -77,22 +78,20 @@ final class Dispatcher
 		
 		//se verifica que los parametros que recibe 
 		//la action sea la cantidad correcta
-        $num_params = count($parameters);
-		if(self::$_controller->limit_params && ($num_params < $reflectionMethod->getNumberOfRequiredParameters()
-            ||  $num_params > $reflectionMethod->getNumberOfParameters())){
-            
-			throw new KumbiaException("Número de parametros erroneo para ejecutar la acción \"$action\" en 
-                el controlador \"$controller\"");
+		$num_params = count($parameters);
+		if($cont->limit_params && ($num_params < $reflectionMethod->getNumberOfRequiredParameters() ||
+					   $num_params > $reflectionMethod->getNumberOfParameters())){
+			throw new KumbiaException("Número de parametros erroneo para ejecutar la acción \"$action\" en el controlador \"$controller\"");
 		}
-		$reflectionMethod->invokeArgs(self::$_controller, $parameters);
+		$reflectionMethod->invokeArgs($cont, $parameters);
 
-        //Corre los filtros after
-		self::$_controller->k_callback('after_filter');
-		self::$_controller->k_callback('finalize');
+		//Corre los filtros after
+		$cont->k_callback('after_filter');
+		$cont->k_callback('finalize');
 
 		//Elimino del controlador los modelos inyectados
 		foreach (Load::get_injected_models() as $model) {
-			unset(self::$_controller->$model);
+			unset($cont->$model);
 		}
 		
 		//Limpia el buffer de modelos inyectados
@@ -104,7 +103,7 @@ final class Dispatcher
 			Dispatcher::execute();//posible añadir la llamada al router
 		}
 
-		return self::$_controller;
+		return $cont;
     }
     /**
      * Obtener el controlador en ejecucion
