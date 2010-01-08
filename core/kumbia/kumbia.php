@@ -68,11 +68,9 @@ final class Kumbia
      */
     public static function main($url)
 	{
-		// El Router analiza la url
-		Router::rewrite($url);
 
 		// Dispatch y renderiza la vista
-		View::output(Dispatcher::execute(), $url);
+		View::output(Dispatcher::execute(Router::rewrite($url)), $url);
 		
 		// Fin del request
 		exit();

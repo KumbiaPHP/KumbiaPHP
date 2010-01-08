@@ -56,7 +56,7 @@ final class Router
 			$url = self::ifRouted($url);
 		}
 		if($url == '/'){
-			return;
+			return self::$_vars;
 		}
 		//Limpio la url en caso de que la hallan escrito con el ultimo parametro sin valor es decir controller/action/
 		// Obtengo y asigno todos los parametros de la url
@@ -69,7 +69,7 @@ final class Router
 		    // Si no hay mas parametros sale
 			if (next($url_items) === FALSE) {
 				self::$_vars['controller_path'] = "$url_items[0]/index";
-				return;
+				return self::$_vars;
 			}       
 		}       
 		       
@@ -78,18 +78,19 @@ final class Router
 		self::$_vars['controller_path'] = (self::$_vars['module']) ? "$url_items[0]/$url_items[1]" : current($url_items);
 		// Si no hay mas parametros sale
 		if (next($url_items) === FALSE) {
-			return;
+			return self::$_vars;
 		}       
 			
 		// Accion
 		self::$_vars['action'] = current($url_items);
 		// Si no hay mas parametros sale
 		if (next($url_items) === FALSE) {
-			return;
+			return self::$_vars;
 		}
 		
 		// Crea los parametros y los pasa
 		self::$_vars['parameters'] = array_slice($url_items, key($url_items));
+		return self::$_vars;
 	}
 	
 	/**

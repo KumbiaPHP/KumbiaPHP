@@ -33,9 +33,9 @@ final class Dispatcher
      *
      * @return Object
      */
-    static public function execute ()
+    static public function execute ($route)
     {
-        extract(Router::get(), EXTR_OVERWRITE);
+        extract($route, EXTR_OVERWRITE);
 
 		if (!include_once APP_PATH . "controllers/$controller_path".'_controller.php') throw new KumbiaException(NULL,'no_controller');
 
@@ -100,7 +100,7 @@ final class Dispatcher
 		//Si esta routed volver a ejecutar
 		if (Router::getRouted()){
 			Router::setRouted(FALSE);
-			Dispatcher::execute();//posible añadir la llamada al router
+			Dispatcher::execute(Router::get());// Vuelve a ejecutar el dispatcher
 		}
 
 		return $cont;
