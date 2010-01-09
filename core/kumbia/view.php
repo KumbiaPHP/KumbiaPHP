@@ -134,10 +134,11 @@ class View {
 			self::$_content = ob_get_clean();
 
             // Renderizar vista
-			if($view = self::$view) {
-				ob_start();
-				
-                $file =APP_PATH ."views/$controller_path/$view.phtml";
+		if($view = self::$view) {
+			ob_start();
+		if(self::$response) {
+			$file = APP_PATH."views/$controller_path/_".self::$response."/$view.phtml";
+		} else  $file =APP_PATH ."views/$controller_path/$view.phtml";
                 if(!is_file($file) && $scaffold) {
 					$file =APP_PATH ."views/_shared/scaffolds/$scaffold/$view.phtml";
                 }
