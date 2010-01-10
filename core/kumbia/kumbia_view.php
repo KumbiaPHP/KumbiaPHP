@@ -139,7 +139,7 @@ class KumbiaView {
         extract(get_object_vars($controller), EXTR_OVERWRITE);
 
 		// inicia contenido con valor nulo
-		self::$_content = null;
+		self::$_content = NULL;
 
 		// si se encuentra en produccion
 		if(PRODUCTION) {
@@ -147,9 +147,9 @@ class KumbiaView {
 			$cache_driver = Cache::factory();
 			
 			// si se cachea vista
-			if($cache['type'] == 'view') {
+			if(self::$cache['type'] == 'view') {
 				// el contenido permanece nulo si no hay nada cacheado o la cache expiro
-				self::$_content = $cache_driver->get($_url, $cache['group']);
+				self::$_content = $cache_driver->get($_url, self::$cache['group']);
 			}
 		}
 
@@ -170,8 +170,8 @@ class KumbiaView {
 			if (!include $file) throw new KumbiaException("Vista $view.phtml no encontrada");
                 
 				// si esta en produccion y se cachea la vista
-				if(PRODUCTION && $cache['type'] == 'view') {
-				    $cache_driver->save(ob_get_contents(), $cache['time'], $_url, $cache['group']);
+				if(PRODUCTION && self::$cache['type'] == 'view') {
+				    $cache_driver->save(ob_get_contents(), self::$cache['time'], $_url, self::$cache['group']);
 				}
 			    
 			// Verifica si hay template
@@ -194,8 +194,8 @@ class KumbiaView {
 			if (!include APP_PATH . "views/_shared/templates/$template.phtml") throw new KumbiaException("Template $template no encontrado");
 			
 			// si esta en produccion y se cachea template
-			if(PRODUCTION && $cache['type'] == 'template') {
-				$cache_driver->save(ob_get_contents(), $cache['time'], $_url, "kumbia.templates");
+			if(PRODUCTION && self::$cache['type'] == 'template') {
+				$cache_driver->save(ob_get_contents(), self::$cache['time'], $_url, "kumbia.templates");
 			}
 			
 			return ob_end_flush();
