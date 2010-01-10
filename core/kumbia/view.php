@@ -136,9 +136,9 @@ class View {
             // Renderizar vista
 		if($view = self::$view) {
 			ob_start();
-		if(self::$response) {
-			$file = APP_PATH."views/$controller_path/_".self::$response."/$view.phtml";
-		} else  $file =APP_PATH ."views/$controller_path/$view.phtml";
+		if(self::$response && !self::$response == 'view') {
+			$file = APP_PATH."views/$controller_path/$view.".self::$response.'.phtml';
+		} else  $file = APP_PATH."views/$controller_path/$view.phtml";
                 if(!is_file($file) && $scaffold) {
 					$file =APP_PATH ."views/_shared/scaffolds/$scaffold/$view.phtml";
                 }
