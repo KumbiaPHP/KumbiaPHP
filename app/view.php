@@ -5,6 +5,6 @@
  * @category KumbiaPHP
  * @package View
  **/
-class View extends ViewBase {
+class View extends KumbiaView {
 
 }

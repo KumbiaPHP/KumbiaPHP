@@ -23,7 +23,7 @@
 // @see View
 require APP_PATH . 'view.php';
 
-class ViewBase {
+class KumbiaView {
 	/**
 	 * Contenido
 	 *
@@ -98,7 +98,14 @@ class ViewBase {
 	}
 	
 	public static function setPath($path) {
-		self::$path = $path;
+		self::$path = $path.'/';
+	}
+	
+	private static function getPath() {
+		if(self::$response && !self::$response == 'view'){
+			return self::$path.self::$view.'.'.self::$response.'.phtml';
+		}
+		return self::$path.self::$view.'.phtml';
 	}
 	
 	public static function get($atribute) {
@@ -156,11 +163,9 @@ class ViewBase {
             // Renderizar vista
 		if($view = self::$view) {
 			ob_start();
-		if(self::$response && !self::$response == 'view') {
-			$file = APP_PATH.'views/'.self::$path."/$view.".self::$response.'.phtml';
-		} else  $file = APP_PATH.'views/'.self::$path."/$view.phtml";
+		$file = APP_PATH.'views/'.self::getPath();
                 if(!is_file($file) && $scaffold) {
-					$file =APP_PATH ."views/_shared/scaffolds/$scaffold/$view.phtml";
+			$file =APP_PATH ."views/_shared/scaffolds/$scaffold/$view.phtml";
                 }
 				
 				// carga la vista
