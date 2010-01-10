@@ -88,7 +88,9 @@ class KumbiaView {
 	 * @param string $template Opcional nombre del template sin .phtml
 	 */
 	public static function response($response, $template = FALSE){
-		self::$response = $response;
+		if($response == 'view') { //se mantiene pero ya esta deprecated
+			self::$template = NULL;
+		} else	self::$response = $response;
 		if($template === FALSE) return;
 		self::$template = $template;
 	}
@@ -153,27 +155,27 @@ class KumbiaView {
 
         // carga la vista si no esta en produccion o se usa scaffold o no hay contenido cargado
         if(!PRODUCTION || $scaffold || !self::$_content) {
-            // Carga el contenido del buffer de salida
-			self::$_content = ob_get_clean();
+		// Carga el contenido del buffer de salida
+		self::$_content = ob_get_clean();
 
-            // Renderizar vista
+		// Renderizar vista
 		if($view = self::$view) {
 			ob_start();
-		$file = APP_PATH.'views/'.self::getPath();
-                if(!is_file($file) && $scaffold) {
-			$file =APP_PATH ."views/_shared/scaffolds/$scaffold/$view.phtml";
-                }
+			$file = APP_PATH.'views/'.self::getPath();
+			if(!is_file($file) && $scaffold) {
+				$file =APP_PATH ."views/_shared/scaffolds/$scaffold/$view.phtml";
+			}
 				
-				// carga la vista
-                if (!include $file) throw new KumbiaException("Vista $view.phtml no encontrada");
+			// carga la vista
+			if (!include $file) throw new KumbiaException("Vista $view.phtml no encontrada");
                 
 				// si esta en produccion y se cachea la vista
 				if(PRODUCTION && $cache['type'] == 'view') {
 				    $cache_driver->save(ob_get_contents(), $cache['time'], $_url, $cache['group']);
-			    }
+				}
 			    
-                // Verifica si se debe renderizar solo la vista (deprecated)
-		        if(self::$response == 'view') {
+			// Verifica si hay template
+		        if(!self::$template) {
 			        ob_end_flush();
 			        return;
 		        }
