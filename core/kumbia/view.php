@@ -78,6 +78,8 @@ class View {
 	 */
 	public static function response($response) {
 		self::$response = $response;
+		if($template === FALSE) return;
+		self::$template = $template;
 		
 	}
 	
