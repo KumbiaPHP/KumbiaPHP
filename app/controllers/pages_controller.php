@@ -33,12 +33,12 @@ class PagesController extends ApplicationController
 	    $this->limit_params = false;
 		// Si es AJAX enviar solo el view
 		if ($this->is_ajax()) {
-		  $this->set_response('view');
+		  View::response('view');
 		}
     }
 	
 	public function show()
 	{
-		$this->render(implode('/', $this->parameters));
+		View::select(implode('/', $this->parameters));
 	}
 }

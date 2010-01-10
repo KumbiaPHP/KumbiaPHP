@@ -76,7 +76,7 @@ class Controller
 	 * @param string $action nombre de la accion
 	 * @param array $parameters parametros enviados por url
 	 **/
-	public function __construct($module, $controller, $action, $parameters, $controller_path) {
+	public function __construct($module, $controller, $action, $parameters) {
 		//TODO: enviar un objeto
 		$this->module_name = $module;
 		$this->controller_name = $controller;
@@ -324,10 +324,10 @@ class Controller
 	 * @param string $view nombre del view a utilizar sin .phtml
 	 * @param string $template	opcional nombre del template a utilizar sin .phtml
 	 *
-	 * @deprecated Ahora View::render
+	 * @deprecated Ahora View::select()
 	 */
 	protected function render($view,$template = FALSE){
-		View::render($view, $template);
+		View::select($view, $template);
 	}
     /**
      * BeforeFilter

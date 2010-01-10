@@ -42,7 +42,7 @@ final class Dispatcher
 		//Asigna el controlador activo
 		$app_controller = Util::camelcase($controller) . 'Controller';
 		$cont = self::$_controller = new $app_controller($module, $controller, $action, $parameters);
-		View::render($action);
+		View::select($action);
 		View::setPath($controller_path);
 
 		//Carga de modelos

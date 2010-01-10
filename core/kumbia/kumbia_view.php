@@ -72,7 +72,7 @@ class KumbiaView {
 	 *
 	 * @deprecated Ahora View::render
 	 */
-	public static function render($view, $template = FALSE){
+	public static function select($view, $template = FALSE){
 		self::$view = $view;
 		if($template === FALSE) return;
 		self::$template = $template;
@@ -132,7 +132,7 @@ class KumbiaView {
 	 * @param Controller $controller
 	 * @param string $url url a renderizar
 	 */
-	public static function output(Controller $controller, /*Router*/ $_url)
+	public static function render(Controller $controller, /*Router*/ $_url)
 	{
 	if(!self::$view && !self::$template){
 		return ob_end_flush(); 

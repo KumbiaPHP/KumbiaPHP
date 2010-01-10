@@ -31,8 +31,8 @@ require CORE_PATH . 'libs/flash/flash.php';
 // @see Controller
 require CORE_PATH . 'kumbia/controller.php';
 
-// @see ViewBase
-require CORE_PATH . 'kumbia/view_base.php';
+// @see KumbiaView
+require CORE_PATH . 'kumbia/kumbia_view.php';
  
 /**
  * Esta es la clase principal del framework, contiene metodos importantes
@@ -67,7 +67,7 @@ final class Kumbia
 	{
 
 		// Dispatch y renderiza la vista
-		View::output(Dispatcher::execute(Router::rewrite($url)), $url);
+		View::render(Dispatcher::execute(Router::rewrite($url)), $url);
 		
 		// Fin del request
 		exit();
