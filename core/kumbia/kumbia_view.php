@@ -100,7 +100,7 @@ class KumbiaView {
 	}
 	
 	private static function getPath() {
-		if(self::$response && !self::$response == 'view'){
+		if(self::$response && self::$response != 'view'){
 			return self::$path.self::$view.'.'.self::$response.'.phtml';
 		}
 		return self::$path.self::$view.'.phtml';
