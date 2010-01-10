@@ -172,8 +172,8 @@ class KumbiaView {
 				    $cache_driver->save(ob_get_contents(), $cache['time'], $_url, $cache['group']);
 			    }
 			    
-                // Verifica si se debe renderizar solo la vista
-		        if(self::$response == 'view' || self::$response == 'xml') {
+                // Verifica si se debe renderizar solo la vista (deprecated)
+		        if(self::$response == 'view') {
 			        ob_end_flush();
 			        return;
 		        }
