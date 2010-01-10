@@ -69,8 +69,6 @@ class KumbiaView {
 	 *
 	 * @param string $view nombre del view a utilizar sin .phtml
 	 * @param string $template	opcional nombre del template a utilizar sin .phtml
-	 *
-	 * @deprecated Ahora View::render
 	 */
 	public static function select($view, $template = FALSE){
 		self::$view = $view;
@@ -88,8 +86,6 @@ class KumbiaView {
 	 *
 	 * @param string $type
 	 * @param string $template Opcional nombre del template sin .phtml
-	 *
-	 * @deprecated Ahora View::response
 	 */
 	public static function response($response, $template = FALSE){
 		self::$response = $response;
