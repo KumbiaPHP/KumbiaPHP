@@ -35,7 +35,7 @@ require CORE_PATH . 'kumbia/controller.php';
 require APP_PATH . 'application.php';
 
 // @see View
-require CORE_PATH . 'kumbia/view.php';
+require CORE_PATH . 'kumbia/view_base.php';
  
 /**
  * Esta es la clase principal del framework, contiene metodos importantes

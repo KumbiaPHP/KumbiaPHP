@@ -79,7 +79,6 @@ class Controller
 		$this->controller_name = $controller;
 		$this->parameters = $parameters;
 		$this->action_name = $action;
-		$this->controller_path = $controller_path;//posiblemente se quitara mirar el set_response
         //$this->cache['group'] = "$controller.$action";//.$id";
 
         // Carga los utils indicados
@@ -261,7 +260,7 @@ class Controller
 	 **/
 
 	protected function has_request($s) 
-    {
+	{
 		$success = TRUE;
 		$args = func_get_args();
 		foreach($args as $f) {
@@ -311,13 +310,9 @@ class Controller
 	 *
 	 * @deprecated Ahora View::response
 	 */
-	protected function set_response($type)
+	protected function set_response($type, $template = FALSE)
 	{
-		View::response($type);
-		//$this->response = $type;
-		if ($type != 'view'){ 
-			$this->controller_path = "{$this->controller_path}/_$type";
-		}
+		View::response($type, $template);
 	}
 
 	/**
