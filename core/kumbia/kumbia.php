@@ -31,10 +31,7 @@ require CORE_PATH . 'libs/flash/flash.php';
 // @see Controller
 require CORE_PATH . 'kumbia/controller.php';
 
-// @see ApplicationController
-require APP_PATH . 'application.php';
-
-// @see View
+// @see ViewBase
 require CORE_PATH . 'kumbia/view_base.php';
  
 /**
