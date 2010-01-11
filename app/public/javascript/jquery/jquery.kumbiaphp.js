@@ -93,9 +93,7 @@
          * @param Object event
          **/
         cUpdaterSelect: function(event) {
-            var action = $('meta[name=js.' + this.id + '.action]').attr("content");
-			var update = $('meta[name=js.' + this.id + '.update]').attr("content");
-            $('#' + update).load(action + this.value);
+            $('#' + $.KumbiaPHP.metadata[this.id].update).load($.KumbiaPHP.metadata[this.id].action + this.value);
         },
         
         

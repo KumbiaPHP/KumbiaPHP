@@ -28,6 +28,13 @@
 class Js
 {
     /**
+     * Metadata
+     *
+     * @var array
+     **/
+    protected static $_metadata = array();
+
+    /**
      * Crea un enlace en una Aplicacion con mensaje de confirmacion respetando
      * las convenciones de Kumbia
      *
@@ -132,11 +139,11 @@ class Js
             $id = $field['field'];
         }
         
-        // accion que se ejecutara
-        Html::meta(URL_PATH . rtrim($action, '/') . '/', "name=\"js.$id.action\"");
-        
-		// capa que se actualizara
-        Html::meta($update, "name=\"js.$id.update\"");
+        // asigna la metadata (la accion a ejecutar y la capa que se actualizara)
+        self::$_metadata[$id] = array(
+            'action' => URL_PATH . rtrim($action, '/') . '/',
+            'update' => $update
+        );
 		
         // genera el campo
         return Form::select($name, $data, "class=\"js-remote $class\" $attrs");
@@ -167,13 +174,49 @@ class Js
             $id = $field['field'];
         }
         
-        // accion que se ejecutara
-        Html::meta(URL_PATH . rtrim($action, '/') . '/', "name=\"js.$id.action\"");
+        // asigna la metadata (la accion a ejecutar y la capa que se actualizara)
+        self::$_metadata[$id] = array(
+            'action' => URL_PATH . rtrim($action, '/') . '/',
+            'update' => $update
+        );
         
-		// capa que se actualizara
-        Html::meta($update, "name=\"js.$id.update\"");
-		
         // genera el campo
         return Form::dbSelect($name, $data, $field, $blank, "class=\"js-remote $class\" $attrs");
+    }
+    
+    /**
+     * Asigna una metadata
+     *
+     * @param string $name nombre de metadata
+     * @param mixed $value valor
+     **/
+    public static function setMetadata($name, $value)
+    {
+        self::$_metadata[$name] = $value;
+    }
+    
+    /**
+     * Obtiene una metadata asignada
+     *
+     * @param string $name nombre de metadata
+     * @return mixed
+     **/
+    public static function getMetadata($name)
+    {
+        if(isset(self::$_metadata[$name])) {
+            return self::$_metadata[$name];
+        } else {
+            return null;
+        }
+    }
+    
+    /**
+     * Incluye la metadata para javascript
+     *
+     * @return string
+     **/
+    public static function includeMetadata()
+    {
+        return '<script type="text/javascript"> jQuery.KumbiaPHP.metadata = ' . json_encode(self::$_metadata) . '; </script>';
     }
 }
