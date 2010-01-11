@@ -85,11 +85,11 @@ class Html
             $attrs = Tag::getAttrs($attrs);
         }
         if(self::$_trClassAlternate){
+            self::$_trClassAlternate = FALSE;
             return "<tr class='$class' $attrs>";
-            self::$_trClassAlternate = false;
         } else {
-            return "<tr $attrs>";
             self::$_trClassAlternate = TRUE;
+            return "<tr $attrs>";
         }
     }
     
