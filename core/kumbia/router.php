@@ -157,15 +157,18 @@ final class Router
 			self::$_vars['module'] = $url['module'];
 			self::$_vars['controller'] = 'index';
 			self::$_vars['action'] = 'index';
+			self::$_vars['parameters'] = array();
 		}
 		
 		if(isset($url['controller'])){
 			self::$_vars['controller'] = $url['controller'];
 			self::$_vars['action'] = 'index';
+			self::$_vars['parameters'] = array();
 		}
 		
 		if(isset($url['action'])){
 			self::$_vars['action'] = $url['action'];
+			self::$_vars['parameters'] = array();
 		}
 		
 		if(isset($url['parameters'])){
