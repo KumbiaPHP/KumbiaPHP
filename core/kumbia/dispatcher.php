@@ -101,7 +101,7 @@ final class Dispatcher
 		//Si esta routed volver a ejecutar
 		if (Router::getRouted()){
 			Router::setRouted(FALSE);
-			Dispatcher::execute(Router::get());// Vuelve a ejecutar el dispatcher
+			return Dispatcher::execute(Router::get());// Vuelve a ejecutar el dispatcher
 		}
 
 		return $cont;
