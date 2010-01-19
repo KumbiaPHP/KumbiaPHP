@@ -34,6 +34,13 @@ abstract class Cache
     protected static $_drivers = array();
     
     /**
+     * Driver por defecto
+     *
+     * @var string
+     **/
+    protected static $_default_driver = 'file';
+    
+    /**
      * Id de ultimo elemento solicitado
      *
      * @var string
@@ -137,15 +144,10 @@ abstract class Cache
      *
      * @param string $driver (file, sqlite, memsqlite, APC)
      **/
-    public static function driver($driver=null)
+    public static function driver($driver = NULL)
     {
-        if(!$driver) {
-            $driver = Config::get('config.application.cache_driver');
-			
-			// si no existe driver por defecto, se toma el driver "file"
-			if(!$driver) {
-				$driver = 'file';
-			}
+        if(! $driver) {
+            $driver = self::$_default_driver;
         }
     
         if(!isset(self::$_drivers[$driver])) {
@@ -155,5 +157,15 @@ abstract class Cache
         }
         
         return  self::$_drivers[$driver];
+    }
+    
+    /**
+     * Cambia el driver por defecto
+     *
+     * @param string $driver nombre del driver por defecto
+     */
+    public function setDefault ($driver = 'file')
+    {
+            self::$_default_driver = $driver;
     }
 }

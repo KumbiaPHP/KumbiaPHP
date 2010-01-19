@@ -60,7 +60,8 @@ if(PRODUCTION) {
      * @see Cache
      **/
     require CORE_PATH . 'libs/cache/cache.php';
-	
+    //Asigna el driver por defecto usando el config.ini
+    if (isset ($config['application']['cache_driver'])) Cache::setDefault($config['application']['cache_driver']);
 	
 	// Verifica si esta cacheado el template
     if ($template = Cache::driver()->get($url, 'kumbia.templates')) { //verifica cache de template para la url
