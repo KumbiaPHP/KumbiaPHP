@@ -187,14 +187,11 @@ class KumbiaView {
 		self::$_content = NULL;
 
 		// si se encuentra en produccion
-		if(PRODUCTION) {
-			// obtiene el driver de cache
-			$cache_driver = Cache::factory();
-			
+		if(PRODUCTION) {			
 			// si se cachea vista
 			if(self::$_cache['type'] == 'view') {
 				// el contenido permanece nulo si no hay nada cacheado o la cache expiro
-				self::$_content = $cache_driver->get($_url, self::$_cache['group']);
+				self::$_content = Cache::driver()->get($_url, self::$_cache['group']);
 			}
 		}
 
@@ -217,7 +214,7 @@ class KumbiaView {
                 
 				// si esta en produccion y se cachea la vista
 				if(PRODUCTION && self::$_cache['type'] == 'view') {
-				    $cache_driver->save(ob_get_contents(), self::$_cache['time'], $_url, self::$_cache['group']);
+				    Cache::driver()->save(ob_get_contents(), self::$_cache['time'], $_url, self::$_cache['group']);
 				}
 			    
                 // Verifica si hay template
@@ -241,7 +238,7 @@ class KumbiaView {
 			
 			// si esta en produccion y se cachea template
 			if(PRODUCTION && self::$_cache['type'] == 'template') {
-				$cache_driver->save(ob_get_contents(), self::$_cache['time'], $_url, "kumbia.templates");
+				Cache::driver()->save(ob_get_contents(), self::$_cache['time'], $_url, "kumbia.templates");
 			}
 			
 			return ob_end_flush();
@@ -271,10 +268,7 @@ class KumbiaView {
 	public static function partial($partial, $__time=FALSE, $params=array())
 	{
 		if(PRODUCTION && $__time) {
-			// obtiene el driver de cache
-			$cache = Cache::factory();
-		
-		    $data = $cache->start($__time, $partial, 'kumbia.partials');
+		    $data = Cache::driver()->start($__time, $partial, 'kumbia.partials');
 			if($data) {
 				echo $data;
 				return;
@@ -301,7 +295,7 @@ class KumbiaView {
 		
 		// se guarda en la cache de ser requerido
         if(PRODUCTION && $__time) {
-            $cache->end();
+            Cache::driver()->end();
         }
 		
 	}

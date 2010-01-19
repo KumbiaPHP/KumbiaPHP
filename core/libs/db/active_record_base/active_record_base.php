@@ -2170,9 +2170,8 @@ class ActiveRecordBase
         if (isset(self::$models[$table])) {
             return self::$models[$table];
         } elseif(PRODUCTION) {
-			$cache = Cache::factory();
-			
-			$metadata = $cache->get($table, 'kumbia.models');
+        
+			$metadata = Cache::driver()->get($table, 'kumbia.models');
 			if($metadata) {
 				self::$models[$table] = unserialize($metadata);
 				return $metadata;
@@ -2189,8 +2188,7 @@ class ActiveRecordBase
     static function set_meta_data($table, $meta_data)
     {
         if(PRODUCTION) {
-			$cache = Cache::factory();
-            $cache->save(serialize($meta_data), Config::get('config.application.metadata_lifetime'), $table, 'kumbia.models');
+            Cache::driver()->save(serialize($meta_data), Config::get('config.application.metadata_lifetime'), $table, 'kumbia.models');
         }
         self::$models[$table] = $meta_data;
         return true;

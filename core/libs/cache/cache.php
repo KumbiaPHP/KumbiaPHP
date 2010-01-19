@@ -137,7 +137,7 @@ abstract class Cache
      *
      * @param string $driver (file, sqlite, memsqlite, APC)
      **/
-    public static function factory($driver=null)
+    public static function driver($driver=null)
     {
         if(!$driver) {
             $driver = Config::get('config.application.cache_driver');
