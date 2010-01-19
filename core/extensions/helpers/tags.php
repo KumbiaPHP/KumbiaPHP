@@ -377,7 +377,7 @@ function stylesheet_link_tag($name){
 		$params['href'] = PUBLIC_PATH."css/$src.css";
 		$code.=xhtml_tag('link',$params);
 	}
-	Kumbia::$data['KUMBIA_CSS_IMPORTS'][]=$code;
+	TagsData::$data['KUMBIA_CSS_IMPORTS'][]=$code;
     return;
 }
 
@@ -1836,8 +1836,8 @@ function get_kumbia_url($url){
  */
 function stylesheet_link_tags()
 {
-    if(isset(Kumbia::$data['KUMBIA_CSS_IMPORTS'])){
-        $imports = Kumbia::$data['KUMBIA_CSS_IMPORTS'];
+    if(isset(TagsData::$data['KUMBIA_CSS_IMPORTS'])){
+        $imports = TagsData::$data['KUMBIA_CSS_IMPORTS'];
         if (is_array($imports)) {
             foreach ($imports as $css) {
                 echo $css;
@@ -1846,4 +1846,8 @@ function stylesheet_link_tags()
             echo $imports;
         }
     }
+}
+// Añadida para permitir la compatibilidad de los helpers antiguos
+class TagsData {
+	public static $data = array();
 }
