@@ -84,9 +84,9 @@ class Controller
 		$this->action_name = $action;
         //$this->cache['group'] = "$controller.$action";//.$id";
 
-        // Carga los utils indicados
-        if($this->libs) {
-			Load::lib($this->libs);
+        // Carga las librerias indicadas
+        foreach($this->libs as $lib) {
+			Load::lib($lib);
         }
         
 	}	

@@ -35,17 +35,15 @@ class Load
      **/
     public static function lib ($lib)
     {
-        $args = func_get_args();
-        foreach($args as $lib) {
-            $file = APP_PATH . "libs/$lib.php";
-            if (! is_file($file)) {
-                $file = CORE_PATH . "libs/$lib/$lib.php";
-                if (! is_file($file)) {
-                    throw new KumbiaException("Librería: \"$lib\" no encontrada");
-                }
-            }
-            include_once $file;
-        }
+		$file = APP_PATH . "libs/$lib.php";
+		if (! is_file($file)) {
+			$file = CORE_PATH . "libs/$lib/$lib.php";
+			if (! is_file($file)) {
+				throw new KumbiaException("Librería: \"$lib\" no encontrada");
+			}
+		}
+		
+		include_once $file;
     }
     
     /**
