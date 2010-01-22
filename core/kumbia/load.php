@@ -132,7 +132,9 @@ class Load
         $boot = Config::read('boot');
         if (!empty($boot['modules']['libs'])) {
             $libs = explode(',', str_replace(' ', '', $boot['modules']['libs']));
-            call_user_func_array(array('self', 'lib'), $libs);
+            foreach($libs as $lib) {
+				self::lib($lib);
+			}
             unset($libs);
         }
     }

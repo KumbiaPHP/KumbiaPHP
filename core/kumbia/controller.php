@@ -84,11 +84,12 @@ class Controller
 		$this->action_name = $action;
         //$this->cache['group'] = "$controller.$action";//.$id";
 
-        // Carga las librerias indicadas
-        foreach($this->libs as $lib) {
-			Load::lib($lib);
-        }
-        
+		if($this->libs) {
+			// Carga las librerias indicadas
+			foreach($this->libs as $lib) {
+				Load::lib($lib);
+			}
+		}
 	}	
 	/**
 	 * Asigna cacheo de vistas o template
