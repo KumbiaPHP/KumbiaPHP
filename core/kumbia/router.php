@@ -13,13 +13,13 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * Clase que Actua como router del Front-Controller
- * 
+ *
  * @category   Kumbia
- * @package    Router 
+ * @package    Router
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-final class Router 
+final class Router
 {
 	/**
 	 * Array estatico con las variables del router
@@ -35,7 +35,7 @@ final class Router
 				     'routed' => FALSE, //Indica si esta pendiente la ejecución de una ruta por parte del dispatcher
 					 'controller_path' => 'index'
 				     );
-	
+
 	/**
 	 * Toma $url y la descompone en (modulo), controlador, accion y argumentos
 	 *
@@ -50,8 +50,8 @@ final class Router
 		str_replace(array( '\\', '/../','//'),  '', $url, $errors);
 		// Si hay intento de hack TODO: añadir la ip y referer en el log
 		if($errors) throw new KumbiaException("Posible intento de hack en URL: '$url'");
-		
-		//Si config.ini tiene routes activados, miro si esta routed 
+
+		//Si config.ini tiene routes activados, miro si esta routed
 		if(Config::get('config.application.routes')){
 			$url = self::ifRouted($url);
 		}
@@ -61,48 +61,48 @@ final class Router
 		//Limpio la url en caso de que la hallan escrito con el ultimo parametro sin valor es decir controller/action/
 		// Obtengo y asigno todos los parametros de la url
 		$url_items = explode ('/', trim($url,'/'));
-		
+
 		// El primer parametro de la url es un modulo?
 		if(is_dir(APP_PATH . "controllers/$url_items[0]")) {
 			self::$_vars['module'] = $url_items[0];
-			
+
 		    // Si no hay mas parametros sale
 			if (next($url_items) === FALSE) {
 				self::$_vars['controller_path'] = "$url_items[0]/index";
 				return self::$_vars;
-			}       
-		}       
-		       
+			}
+		}
+
 		// Controlador
 		self::$_vars['controller'] = current($url_items);
 		self::$_vars['controller_path'] = (self::$_vars['module']) ? "$url_items[0]/$url_items[1]" : current($url_items);
 		// Si no hay mas parametros sale
 		if (next($url_items) === FALSE) {
 			return self::$_vars;
-		}       
-			
+		}
+
 		// Accion
 		self::$_vars['action'] = current($url_items);
 		// Si no hay mas parametros sale
 		if (next($url_items) === FALSE) {
 			return self::$_vars;
 		}
-		
+
 		// Crea los parametros y los pasa
 		self::$_vars['parameters'] = array_slice($url_items, key($url_items));
 		return self::$_vars;
 	}
-	
+
 	/**
  	 * Busca en la tabla de entutamiento si hay una ruta en config/routes.ini
  	 * para el controlador, accion, id actual
- 	 * 
+ 	 *
 	 */
 	private static function ifRouted($url)
 	{
 		$routes = Config::read('routes');
 		$routes = $routes['routes'];
-		
+
 		// Si existe una ruta exacta la devuelve
 		if(isset($routes[$url])){
 			return $routes[$url];
@@ -114,11 +114,11 @@ final class Router
 				$routed = str_replace(rtrim($key, '*'), rtrim($val,'*'), $url, $match);
 
                 if($match) {
-				    return $routed;	
+				    return $routed;
 				}
-			}			
+			}
 		}
-        
+
 		return $url;
 	}
 
@@ -148,29 +148,29 @@ final class Router
 	 */
 	public static function route_to()
 	{
-		
+
 		static $cyclic = 0;
 		self::$_vars['routed'] = TRUE;
 		$url = Util::getParams(func_get_args());
-		
+
 		if(isset($url['module'])){
 			self::$_vars['module'] = $url['module'];
 			self::$_vars['controller'] = 'index';
 			self::$_vars['action'] = 'index';
 			self::$_vars['parameters'] = array();
 		}
-		
+
 		if(isset($url['controller'])){
 			self::$_vars['controller'] = $url['controller'];
 			self::$_vars['action'] = 'index';
 			self::$_vars['parameters'] = array();
 		}
-		
+
 		if(isset($url['action'])){
 			self::$_vars['action'] = $url['action'];
 			self::$_vars['parameters'] = array();
 		}
-		
+
 		if(isset($url['parameters'])){
 			self::$_vars['parameters'] = explode('/',$url['parameters']);
 		}elseif (isset($url['id'])){
@@ -179,7 +179,7 @@ final class Router
 		} else {
 			self::$_vars['parameters'] = array();
 		}
-		
+
 		if(++$cyclic > 1000) throw new KumbiaException('Se ha detectado un enrutamiento cíclico. Esto puede causar problemas de estabilidad');
 	}
 
@@ -188,17 +188,17 @@ final class Router
 	 * Mirar el atributo vars del router
 	 * ej.
 	 * <code>Router::get()</code>
-	 * 
+	 *
 	 * @param ninguno
 	 * @return array con todas los atributos y sus valores
 	 *
 	 * ej.
 	 * <code>Router::get('controller')</code>
-	 * 
+	 *
 	 * @param string  un atributo: route, module, controller, action, parameters o routed
 	 * @return string con el valor del atributo
 	 **/
-	public static function get($var=NULL) 
+	public static function get($var=NULL)
 	{
 		if($var){
 			return self::$_vars[$var];
@@ -224,7 +224,7 @@ final class Router
 				</script>\n";
 		} else {
 			header("Location: $route");
-			echo 'Redirect to ', $route;
+			View::select(NULL, NULL);
 		}
 	}
 }
