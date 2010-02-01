@@ -313,11 +313,11 @@ class KumbiaView {
         $file = APP_PATH . $path;
         
         if (! is_file($file)) {
-            if (!include CORE_PATH . $path) throw new KumbiaException("Helpers $helper no encontrado");
+            if (!include_once CORE_PATH . $path) throw new KumbiaException("Helpers $helper no encontrado");
             return;
         }
         
-        require $file;
+        require_once $file;
     }
 }
 
