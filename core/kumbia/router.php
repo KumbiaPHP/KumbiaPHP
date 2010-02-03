@@ -111,11 +111,9 @@ final class Router
 		// Si existe una ruta con el comodin * crea la nueva ruta
 		foreach ($routes as $key => $val) {
 			if (strripos($key,'*',-1)){
-				$routed = str_replace(rtrim($key, '*'), rtrim($val,'*'), $url, $match);
+				$key = rtrim($key, '*');
 
-                if($match) {
-				    return $routed;
-				}
+				if(strncmp($url, $key, strlen($key)) == 0) return str_replace($key, rtrim($val,'*'), $url);
 			}
 		}
 
