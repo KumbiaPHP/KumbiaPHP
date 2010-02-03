@@ -19,18 +19,12 @@
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
+ 
+// carga libreria para manejo de cache
+Load::lib('cache');
+ 
 class CacheConsole
-{    
-	/**
-	 * Inicializa la consola
-	 *
-	 */
-	public function initialize()
-	{
-		// carga libreria para manejo de cache
-		Load::lib('cache');
-	}
-	
+{    	
     /**
      * Comando de consola para limpiar la cache
      *
