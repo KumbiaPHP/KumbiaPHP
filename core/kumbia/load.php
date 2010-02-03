@@ -37,10 +37,12 @@ class Load
     {
 		$file = APP_PATH . "libs/$lib.php";
 		if (! is_file($file)) {
-			$file = CORE_PATH . "libs/$lib/$lib.php";
-			if (! is_file($file)) {
-				throw new KumbiaException("Librería: \"$lib\" no encontrada");
-			}
+			if (! include_once(CORE_PATH . "libs/$lib/$lib.php")) {
+				return FALSE;
+                                throw new KumbiaException("Librería: \"$lib\" no encontrada");
+			} else {
+                            return;
+                        }
 		}
 		
 		include_once $file;
@@ -55,9 +57,9 @@ class Load
     public static function models ($model = NULL)
     {
         //Si se utiliza base de datos
-        if (! class_exists('Db', FALSE)) {
-            require CORE_PATH . 'libs/db/db.php';
-        }
+
+        require_once CORE_PATH . 'libs/db/db.php';
+
         $controller = Dispatcher::get_controller();
         if (! $model) {
             self::_all_models($controller);
@@ -135,7 +137,6 @@ class Load
             foreach($libs as $lib) {
 				self::lib($lib);
 			}
-            unset($libs);
         }
     }
     /**
@@ -153,11 +154,9 @@ class Load
         //Carga la clase
         if (! class_exists($Model, FALSE)) {
             //Carga la clase
-            $file = APP_PATH . "models/$model.php";
-            if (! is_file($file)) {
+            if (! include APP_PATH . "models/$model.php") {
                 throw new KumbiaException("No existe el modelo $model");
             }
-            include $file;
         }
         return new $Model();
     }
