@@ -86,6 +86,9 @@ if (isset($config['application']['charset'])) {
 //@see Load
 require CORE_PATH . 'kumbia/load.php';
 
+//@see Request
+require CORE_PATH . 'kumbia/request.php';
+
 // Carga del boot.ini
 Load::boot();
 

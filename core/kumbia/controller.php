@@ -97,7 +97,7 @@ class Controller
 	 * @param $time tiempo de vida de cache
 	 * @param $type tipo de cache (view, template)
 	 *
-	 * @deprecated Ahora se usa <code>View::cache</code>, ya que esta cache es de view
+	 * @deprecated Ahora se usa <code>View::cache()</code>, ya que esta cache es de view
 	 */
 	protected function cache($time, $type = 'view', $group = FALSE)
 	{
@@ -111,7 +111,7 @@ class Controller
 	 * <code>
 	 * return $this->route_to("controller: clientes", "action: consultar", "id: 1");
 	 * </code>
-	 * @deprecated Mejor usar Router::route_to
+	 * @deprecated Mejor usar return Router::route_to()
 	 */
 	protected function route_to()
 	{
@@ -119,43 +119,19 @@ class Controller
 		//call_user_func_array(array('Router', 'route_to'), func_get_args());
 	}
 
-	protected function input($method = NULL)
-	{
-		if($method){			
-			return $method == $_SERVER['REQUEST_METHOD'];
-		}
-		return $_SERVER['REQUEST_METHOD'];
-	}
 	/**
 	 * Obtiene un valor del arreglo $_POST
 	 *
-	 * @param string $param_name
+	 * @param string $var
 	 * @return mixed
 	 */
-	protected function post($param_name)
+	protected function post($var)
 	{
-		//Verifica si posee el formato form.field, en ese caso accede al array $_POST['form']['field']
-		$param_name = explode('.', $param_name);
-		if(count($param_name)>1) {
-			$value = isset($_POST[$param_name[0]][$param_name[1]]) ? $_POST[$param_name[0]][$param_name[1]] : NULL;
-		} else {
-			$value = isset($_POST[$param_name[0]]) ? $_POST[$param_name[0]] : NULL;
-		}
-	
-		/**
-		 * Si hay mas de un argumento, toma los demas como filtros
-		 */
+		 // Si hay mas de un argumento, toma los demas como filtros
 		if(func_num_args()>1){
-			$args = func_get_args();
-			$args[0] = $value;
-            
-            if(is_string($value)) {
-                return call_user_func_array(array('Filter', 'get'), $args);
-            } else {
-                return call_user_func_array(array('Filter', 'get_array'), $args);
-            }
+			return call_user_func_array(array('Request', 'filter'), func_get_args());
 		}
-		return $value;
+		return Request::post($var);
 	}
 
 	/**
@@ -164,18 +140,8 @@ class Controller
 	 * @param string $param_name
 	 * @return mixed
 	 */
-	protected function get($param_name)
-    {
-		/**
-		 * Verifica si posee el formato form.field, en ese caso accede al array $_GET['form']['field']
-		 **/
-		$param_name = explode('.', $param_name);
-		if(count($param_name)>1) {
-			$value = isset($_GET[$param_name[0]][$param_name[1]]) ? $_GET[$param_name[0]][$param_name[1]] : '';
-		} else {
-			$value = isset($_GET[$param_name[0]]) ? $_GET[$param_name[0]] : '';
-		}
-	
+	protected function get($variable = NULL)
+	{	
 		/**
 		 * Si hay mas de un argumento, toma los demas como filtros
 		 */
@@ -189,7 +155,7 @@ class Controller
                 return call_user_func_array(array('Filter', 'get_array'), $args);
             }
 		}
-		return $value;
+		return Request::get($var);
 	}
 
 	/**
@@ -231,14 +197,11 @@ class Controller
 	 *
 	 * @param string $s elemento a verificar
 	 * @return boolean
+     * @deprecated Ahora se usa <code>Request::hasPost()</code>
 	 **/
-	protected function has_post($variable) 
+	protected function has_post($var) 
 	{
-		$variable = explode('.', $variable);
-		if(count($variable)>1) {
-			return filter_has_var(INPUT_POST, $variable[0][$variable[1]]);
-		}
-		return filter_has_var(INPUT_POST, $variable[0]);
+		return Request::hasPost($var);
 	}
 
 	/**
@@ -246,14 +209,11 @@ class Controller
 	 *
 	 * @param string $s elemento a verificar
 	 * @return boolean
+	 * @deprecated Ahora se usa <code>Request::hasGet()</code>
 	 **/
-	protected function has_get($variable)
+	protected function has_get($var)
 	{
-		$variable = explode('.', $variable);
-		if(count($variable)>1) {
-			return filter_has_var(INPUT_GET, $variable[0][$variable[1]]);
-		}
-		return filter_has_var(INPUT_GET, $variable[0]);
+		return Request::hasGet($var);
 	}
 
 	/**
@@ -261,46 +221,32 @@ class Controller
 	 *
 	 * @param string $s elemento a verificar (soporta varios elementos simultaneos)
 	 * @return boolean
+	 * @deprecated Ahora se usa <code>Request::hasRequest()</code>
 	 **/
 
-	protected function has_request($s) 
+	protected function has_request($var) 
 	{
-		$success = TRUE;
-		$args = func_get_args();
-		foreach($args as $f) {
-			/**
-			 * Verifica si posee el formato form.field
-			 **/
-			$f = explode('.', $f);
-			if(count($f)>1 && !isset($_REQUEST[$f[0]][$f[1]]) ) {
-				$success = FALSE;
-				break;
-			} elseif(!isset($_REQUEST[$f[0]])) {
-				$success = FALSE;
-				break;
-			}
-		}
-		return $success;
+		return Request::hasRequest($var);
 	}
 
 	/**
 	 * Redirecciona la ejecución a otro controlador en un
 	 * tiempo de ejecución determinado
-	 * DEPRECATED
+	 * 
 	 * @param string $controller
 	 * @param integer $seconds
+	 * @deprecated Ahora se usa <code>return Router::redirect()</code>
 	 */
 	protected function redirect($controller, $seconds=NULL)
-    {
+	{
 		Router::redirect($controller,$seconds);
-		//if(!$seconds) self::render(NULL,NULL);
 	}
 
 	/**
 	 * Indica si el request es AJAX
 	 *
-	 *
 	 * @return Bolean
+	 * @deprecated Ahora se usa <code>Request::isAjax()</code>
 	 */
 	protected function is_ajax()
 	{
@@ -312,7 +258,7 @@ class Controller
 	 *
 	 * @param string $type
 	 *
-	 * @deprecated Ahora View::response
+	 * @deprecated Ahora se usa <code>View::response()</code>
 	 */
 	protected function set_response($type, $template = FALSE)
 	{
@@ -325,7 +271,7 @@ class Controller
 	 * @param string $view nombre del view a utilizar sin .phtml
 	 * @param string $template	opcional nombre del template a utilizar sin .phtml
 	 *
-	 * @deprecated Ahora View::select()
+	 * @deprecated Ahora se usa <code>View::select()</code>
 	 */
 	protected function render($view,$template = FALSE){
 		View::select($view, $template);
