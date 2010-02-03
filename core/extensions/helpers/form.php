@@ -181,7 +181,7 @@ class Form
      */
     public static function close ()
     {
-        echo '</form>';
+        return '</form>';
     }
     /**
      * Crea un boton de submit para el formulario actual
