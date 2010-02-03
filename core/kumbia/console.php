@@ -102,11 +102,6 @@ class Console
         // crea la instancia de objeto
         $console = new $Console();
         
-        // carga las librerias definidas en la consola
-        if(isset($console->libs)) {
-            call_user_func_array(array('Load', 'lib'), $console->libs);
-        }
-        
         // inicializa la consola
         if(method_exists($console, 'initialize')) {
             $console->initialize();

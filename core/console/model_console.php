@@ -56,19 +56,9 @@ class ModelConsole
 			$class = Util::camelcase($model_name);
 			
 			// codigo de modelo
-			$code = <<<EOT
-<?php
-/**
- * Modelo $class
- * 
- * @category app
- * @package models
- **/
-class $class extends ActiveRecord
-{
-
-}
-EOT;
+			ob_start();
+			include CORE_PATH . 'console/generators/model.php';
+			$code = '<?php' . PHP_EOL . ob_get_clean();
 
 			// genera el archivo
 			if(file_put_contents($file, $code)) {

@@ -60,19 +60,9 @@ class ControllerConsole
 			$class = Util::camelcase($controller_name);
 			
 			// codigo de controlador
-			$code = <<<EOT
-<?php
-/**
- * Controlador $class
- * 
- * @category app
- * @package controllers
- **/
-class {$class}Controller extends ApplicationController
-{
-
-}
-EOT;
+			ob_start();
+			include CORE_PATH . 'console/generators/controller.php';
+			$code = '<?php' . PHP_EOL . ob_get_clean();
 
 			// genera el archivo
 			if(file_put_contents($file, $code)) {

@@ -20,28 +20,31 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 class CacheConsole
-{
-    /**
-     * Librerias que utiliza la consola
-     *
-     * @var array
-     **/
-    public $libs = array('cache');
-    
+{    
+	/**
+	 * Inicializa la consola
+	 *
+	 */
+	public function initialize()
+	{
+		// carga libreria para manejo de cache
+		Load::lib('cache');
+	}
+	
     /**
      * Comando de consola para limpiar la cache
      *
      * @param array $params parametros nombrados de la consola
      * @param string $group nombre de grupo
 	 * @throw KumbiaException
-     **/
-    public function clean($params, $group=false)
+     */
+    public function clean($params, $group = FALSE)
     {
         // obtiene el driver de cache
         if(isset($params['driver'])) {
-            $cache  = Cache::factory($params['driver']);
+            $cache  = Cache::driver($params['driver']);
         } else {
-			$cache = Cache::factory();
+			$cache = Cache::driver();
 		}
         
         // limpia la cache
@@ -63,14 +66,14 @@ class CacheConsole
      * @param string $id id del elemento
      * @param string $group nombre de grupo
 	 * @throw KumbiaException
-     **/
-    public function remove($params, $id, $group='default')
+     */
+    public function remove($params, $id, $group = 'default')
     {
         // obtiene el driver de cache
         if(isset($params['driver'])) {
-            $cache  = Cache::factory($params['driver']);
+            $cache  = Cache::driver($params['driver']);
         } else {
-			$cache = Cache::factory();
+			$cache = Cache::driver();
 		}
         
         // elimina el elemento
