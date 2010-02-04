@@ -38,11 +38,10 @@ class Load
 		$file = APP_PATH . "libs/$lib.php";
 		if (! is_file($file)) {
 			if (! include_once(CORE_PATH . "libs/$lib/$lib.php")) {
-				return FALSE;
-                                throw new KumbiaException("Librería: \"$lib\" no encontrada");
-			} else {
-                            return;
-                        }
+                throw new KumbiaException("Librería: \"$lib\" no encontrada");
+			}
+            
+            return;
 		}
 		
 		include_once $file;
