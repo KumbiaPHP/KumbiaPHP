@@ -21,8 +21,7 @@
  */
 final class Request 
 {
-
-        public static function method($method = NULL)
+    public static function method($method = NULL)
 	{
 		if($method){			
 			return $method == $_SERVER['REQUEST_METHOD'];
@@ -30,7 +29,7 @@ final class Request
 		return $_SERVER['REQUEST_METHOD'];
 	}
         
-        /**
+    /**
 	 * Indica si el request es AJAX
 	 *
 	 * @return Bolean
@@ -40,7 +39,7 @@ final class Request
 		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
 	}
         
-        /**
+    /**
 	 * Indica si el request es POST
 	 *
 	 * @return Bolean
@@ -50,7 +49,7 @@ final class Request
 		return $_SERVER['REQUEST_METHOD'] == 'POST';
 	}
         
-        /**
+    /**
 	 * Indica si el request es GET
 	 *
 	 * @return Bolean
@@ -60,7 +59,7 @@ final class Request
 		return $_SERVER['REQUEST_METHOD'] == 'GET';
 	}
         
-        /**
+    /**
 	 * Indica si el request es PUT
 	 *
 	 * @return Bolean
@@ -70,7 +69,7 @@ final class Request
 		return $_SERVER['REQUEST_METHOD'] == 'PUT';
 	}
         
-        /**
+    /**
 	 * Indica si el request es DELETE
 	 *
 	 * @return Bolean
@@ -80,7 +79,7 @@ final class Request
 		return $_SERVER['REQUEST_METHOD'] == 'DELETE';
 	}
         
-        /**
+    /**
 	 * Indica si el request es HEAD
 	 *
 	 * @return Bolean
@@ -100,7 +99,7 @@ final class Request
 	{
 		//Verifica si posee el formato form.field, en ese caso accede al array $_POST['form']['field']
 		if(stripos($var,'.')) {
-                        $var = explode('.', $var);
+            $var = explode('.', $var);
 			return isset($_POST[$var[0]][$var[1]]) ? $_POST[$var[0]][$var[1]] : NULL;
 		}
 		return isset($_POST[$var]) ? $_POST[$var] : NULL;
@@ -134,7 +133,7 @@ final class Request
         {
 		 // Verifica si posee el formato form.field, en ese caso accede al array $_REQUEST['form']['field']
 		if(stripos($var,'.')) {
-                        $var = explode('.', $var); 
+            $var = explode('.', $var); 
 			return isset($_REQUEST[$var[0]][$var[1]]) ? $_REQUEST[$var[0]][$var[1]] : NULL;
 		}
 		return isset($_REQUEST[$var]) ? $_REQUEST[$var] : NULL;
@@ -145,11 +144,11 @@ final class Request
 	 *
 	 * @param string $var elemento a verificar
 	 * @return boolean
-	 **/
+	 */
 	public static function hasPost($var) 
 	{
 		if(stripos($var,'.')) {
-                        $var = explode('.', $var);
+            $var = explode('.', $var);
 			return filter_has_var(INPUT_POST, $var[0][$var[1]]);
 		}
 		return filter_has_var(INPUT_POST, $var);
@@ -160,11 +159,11 @@ final class Request
 	 *
 	 * @param string $var elemento a verificar
 	 * @return boolean
-	 **/
+	 */
 	public static function hasGet($var)
 	{
 		if(stripos($var,'.')) {
-                        $var = explode('.', $var);
+            $var = explode('.', $var);
 			return filter_has_var(INPUT_GET, $var[0][$var[1]]);
 		}
 		return filter_has_var(INPUT_GET, $var);
@@ -175,16 +174,13 @@ final class Request
 	 *
 	 * @param string $var elemento a verificar (soporta varios elementos simultaneos)
 	 * @return boolean
-	 **/
-
+	 */
 	public static function hasRequest($var) 
 	{
 		$success = TRUE;
 		$args = func_get_args();
 		foreach($args as $f) {
-			/**
-			 * Verifica si posee el formato form.field
-			 **/
+            // Verifica si posee el formato form.field
 			$f = explode('.', $f);
 			if(count($f)>1 && !isset($_REQUEST[$f[0]][$f[1]]) ) {
 				$success = FALSE;
@@ -197,7 +193,7 @@ final class Request
 		return $success;
 	}
         
-        /**
+    /**
 	 * Obtiene y filtra un valor del arreglo $_REQUEST
 	 * Por defecto, usa SANITIZE
  	 *
@@ -205,15 +201,15 @@ final class Request
 	 * @return mixed
 	 */
 	public static function filter($var)
-        {
-            if(func_num_args()>1){
-			$args = func_get_args();
+    {
+        if(func_num_args()>1){
+            $args = func_get_args();
 
-                if(is_string($args[0])) {
-                    return call_user_func_array(array('Filter', 'get'), $args);
-                } 
-                return call_user_func_array(array('Filter', 'get_array'), $args);
-            }
-	    return $value;
+            if(is_string($args[0])) {
+                return call_user_func_array(array('Filter', 'get'), $args);
+            } 
+            return call_user_func_array(array('Filter', 'get_array'), $args);
         }
+	    return $value;
+    }
 }
