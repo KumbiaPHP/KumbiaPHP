@@ -19,10 +19,6 @@
  * @copyright  Copyright (c) 2005-2009 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-/**
- * @see Tag
- **/
-
 class Form
 {
     /**
@@ -30,100 +26,68 @@ class Form
      * lleva un conteo interno
      *
      * @var array
-     **/
+     */
     protected static $_radios = array();
 
-    /**
-     * Obtiene el nombre de formulario y campo
-     *
-     * @param string $name nombre de campo con formato model.field
-     * @return array
-     **/
-    public static function getFormField($name)
-    {
-        $buff = explode('.', $name, 2);
-        if(isset($buff[1])) {
-            $data['form'] = $buff[0];
-            $data['field'] = $buff[1]; 
-        } else {
-            $data['form'] = NULL;
-            $data['field'] = $buff[0];
-        }
-        return $data;
-    }
-    /**
-     * Genera un string con atributos id y name 
-     *
-     * @param array $field
-     * @param boolean $radio indica si es radio button
-     * @return string
-     **/
-    public static function getIdAndName($field, $radio=FALSE)
-    {
-        if($field['form']) {
-            $id = "{$field['form']}_{$field['field']}";
-            $name = "{$field['form']}[{$field['field']}]";
-        } else {
-            $id = $name = $field['field'];
-        }
-        
-        if($radio) {
-            if(isset(self::$_radios[$name])) {
-                self::$_radios[$name]++;
-            } else {
-                self::$_radios[$name] = 0;
-            }
-            $id .= self::$_radios[$name];
-        }
-        
-        return " id=\"$id\" name=\"$name\"";
-    }
     /**
      * Obtiene el valor de un componente tomado
      * del mismo valor del nombre del campo y formulario
      * que corresponda a un atributo del mismo nombre
      * que sea un string, objeto o array.
      *
-     * @param array $field
+     * @param string $field
      * @return mixed
      */
-    public static function getValueFromAction ($field)
+    public static function getFieldData ($field)
     {
-        $form = $field['form'];
-        $field = $field['field'];
-        
+        // obtiene considerando el patron de formato form.field
+        $formField = explode('.', $field, 2);
         // obtiene el controller
         $controller = Dispatcher::get_controller();
-        
+        // valor por defecto
         $value = NULL;
         
-        // si es formato especial para formulario y se ha pasado dato por el controller
-        if ($form && isset($controller->$form)) {
-            $v = $controller->$form;
-            if (is_object($v) && isset($v->$field)) {
-                $value = $v->$field;
-            } elseif (is_array($v) && isset($v[$field])) {
-                $value = $v[$field];
+        // si tiene el formato form.field
+        if(isset($formField[1])) {
+            // nombre de campo
+            $name = "{$formField[0]}[{$formField[1]}]";
+            
+            // si existe un valor cargado
+            if(isset($controller->{$formField[0]})) {
+                $form = $controller->{$formField[0]};
+                if (is_object($form) && isset($form->{$formField[1]})) {
+                    $value = $form->{$formField[1]};
+                } elseif (is_array($form) && isset($form[$formField[1]])) {
+                    $value = $form[$formField[1]];
+                }
             }
-        } elseif (isset($controller->$field)) { // verifica si el usuario lo ha pasado por el como campo simple
-            $value = $controller->$field;
+        } else { // formato de campo comun
+            // nombre de campo
+            $name = $formField[0];
+            
+            // si existe un valor cargado
+            if(isset($controller->{$formField[0]})) {
+				$value = $controller->{$formField[0]};
+            }
         }
         
+		
         // filtrar caracteres especiales
         if($value) {
             $value = htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
         }
         
-        return $value;
+        return array('name' => $name, 'value' => $value);
     }
+    
     /**
      * Crea campo input
      *
-     * @param string $content contenido interno
      * @param string $attrs atributos para el tag
+     * @param string $content contenido interno
      * @return string
-     **/
-    public static function input ($content = NULL, $attrs = NULL)
+     */
+    public static function input ($attrs = NULL, $content = NULL)
     {
         if(is_array($attrs)) { 
             $attrs = Tag::getAttrs($attrs); 
@@ -133,13 +97,14 @@ class Form
         }
         return "<input $attrs>$content</input>";
     }
+    
     /**
      * Crea una etiqueta de formulario
      *
      * @param string $action
      * @param string $method
      * @param array $attrs
-     * @return Html
+     * @return string
      */
     public static function open ($action = NULL, $method = 'post', $attrs = NULL)
     {
@@ -159,9 +124,9 @@ class Form
      *
      * @param string $action
      * @param array $attrs
-     * @return Html
+     * @return string
      */
-    public static function openMultipart($action = NULL, $attrs = NULL)
+    public static function openMultipart ($action = NULL, $attrs = NULL)
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
@@ -183,6 +148,7 @@ class Form
     {
         return '</form>';
     }
+    
     /**
      * Crea un boton de submit para el formulario actual
      *
@@ -197,6 +163,7 @@ class Form
         }
         return "<input type=\"submit\" value=\"$text\" $attrs />";
     }
+    
     /**
      * Crea un boton reset
      *
@@ -211,6 +178,7 @@ class Form
         }
         return "<input type=\"reset\" value=\"$text\" $attrs />";
     }
+    
     /**
      * Crea un boton
      *
@@ -229,44 +197,49 @@ class Form
     /**
      * Campo text
      *
-     * @param string $name nombre de campo
+     * @param string $field nombre de campo
      * @param string|array $attrs atributos de campo
      * @param string $value
-     **/
-    public static function text($name, $attrs=NULL, $value=NULL)
+     * @return string
+     */
+    public static function text($field, $attrs = NULL, $value = NULL)
     {
         if(is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
         
-        $field = self::getFormField($name);
-        $id_name = self::getIdAndName($field);
+        // obtiene los datos del campo
+        $fieldData = self::getFieldData($field);
         
+        // si no se especifica valor explicitamente
         if(is_null($value)) {
-            $value = self::getValueFromAction($field);
+            $value = $fieldData['value'];
         }
         
-        return "<input $id_name type=\"text\" value=\"$value\" $attrs/>";
+        return "<input id=\"$field\" name=\"{$fieldData['name']}\" type=\"text\" value=\"$value\" $attrs/>";
     }
     
     /**
      * Campo Select
      *
-     * @param string $name nombre de campo
+     * @param string $field nombre de campo
      * @param string $data array de valores para la lista desplegable
      * @param string|array $attrs atributos de campo
      * @param string $value
-     **/
-    public static function select($name, $data, $attrs=NULL, $value=NULL)
+     * @return string
+     */
+    public static function select($field, $data, $attrs = NULL, $value = NULL)
     {
         if(is_array($attrs)){
             $attrs = Tag::getAttrs($attrs);
         }
         
-        $field = self::getFormField($name);
-        $id_name = self::getIdAndName($field);
+        // obtiene los datos del campo
+        $fieldData = self::getFieldData($field);
+        
+        // si no se especifica valor explicitamente
         if(is_null($value)) {
-            $value = self::getValueFromAction($field);
+            $value = $fieldData['value'];
         }
         
         $options = '';
@@ -279,63 +252,65 @@ class Form
             $options .= '>' . htmlspecialchars($v, ENT_COMPAT, APP_CHARSET) . '</option>';
         }
         
-        return "<select $id_name $attrs>$options</select>";
+        return "<select id=\"$field\" name=\"{$fieldData['name']}\" $attrs>$options</select>";
     }
     
     /**
      * Campo checkbox
      *
-     * @param string $name nombre de campo
+     * @param string $field nombre de campo
      * @param string $value valor en el checkbox
      * @param string|array $attrs atributos de campo
      * @param string $checked indica si se marca el campo
-     **/
-    public static function check($name, $value, $attrs=NULL, $checked=NULL)
+     * @return string
+     */
+    public static function check($field, $value, $attrs = NULL, $checked = NULL)
     {
         if(is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
         
-        $field = self::getFormField($name);
-        $id_name = self::getIdAndName($field);
-        
-        if(is_null($checked)) {
-            $checked = self::getValueFromAction($field) == $value;
-        }
-        
-        if($checked) {
+        // obtiene los datos del campo
+        $fieldData = self::getFieldData($field);
+		
+        if($checked || $fieldData['value'] == $value) {
             $checked = 'checked="checked"';
         }
         
-        return "<input $id_name type=\"checkbox\" value=\"$value\" $attrs $checked/>";
+        return "<input id=\"$field\" name=\"{$fieldData['name']}\" type=\"checkbox\" value=\"$value\" $attrs $checked/>";
     }
     
     /**
      * Campo radio button
      *
-     * @param string $name nombre de campo
+     * @param string $field nombre de campo
      * @param string $value valor en el radio
      * @param string|array $attrs atributos de campo
      * @param string $checked indica si se marca el campo
-     **/
-    public static function radio ($name, $value, $attrs=NULL, $checked=NULL)
+     * @return string
+     */
+    public static function radio ($field, $value, $attrs = NULL, $checked = NULL)
     {
         if(is_array($attrs)){
             $attrs = Tag::getAttrs($attrs);
         }
+		
+		// contador de campos radio
+		if(isset(self::$_radios[$field])) {
+			self::$_radios[$field]++;
+		} else {
+			self::$_radios[$field] = 0;
+		}
+		$id = $field . self::$_radios[$field];
         
-        $field = self::getFormField($name);
-        $id_name = self::getIdAndName($field, TRUE);
+        // datos de campo
+		$fieldData = self::getFieldData($field);
         
-        if(is_null($checked)) {
-            $checked = self::getValueFromAction($field) == $value;
-        }
-        
-        if($checked) {
+        if($checked || $fieldData['value'] == $value) {
             $checked = 'checked="checked"';
         }
         
-        return "<input $id_name type=\"radio\" value=\"$value\" $attrs $checked/>";
+        return "<input id=\"$id\" name=\"{$fieldData['name']}\" type=\"radio\" value=\"$value\" $attrs $checked/>";
     }
     
     /**
@@ -356,69 +331,72 @@ class Form
     /**
      * Campo hidden
      *
-     * @param string $name nombre de campo
+     * @param string $field nombre de campo
      * @param string|array $attrs atributos de campo
      * @param string $value
-     **/
-    public static function hidden ($name, $attrs=NULL, $value=NULL)
+     * @return string
+     */
+    public static function hidden ($field, $attrs = NULL, $value = NULL)
     {
         if(is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
         
-        $field = self::getFormField($name);
-        $id_name = self::getIdAndName($field);
+        // obtiene los datos del campo
+        $fieldData = self::getFieldData($field);
         
         if(is_null($value)) {
-            $value = self::getValueFromAction($field);
+            $value = $fieldData['value'];
         }
         
-        return "<input $id_name type=\"hidden\" value=\"$value\" $attrs/>";
+        return "<input id=\"$field\" name=\"{$fieldData['name']}\" type=\"hidden\" value=\"$value\" $attrs/>";
     }
     
     /**
      * Campo Password
      *
-     * @param string $name nombre de campo
+     * @param string $field nombre de campo
      * @param string|array $attrs atributos de campo
      * @param string $value
-     **/
-    public static function pass($name, $attrs=NULL, $value=NULL)
+     */
+    public static function pass($field, $attrs = NULL, $value = NULL)
     {
         if(is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
         
-        $field = self::getFormField($name);
-        $id_name = self::getIdAndName($field);
+        // obtiene los datos del campo
+        $fieldData = self::getFieldData($field);
         
         if(is_null($value)) {
-            $value = self::getValueFromAction($field);
+            $value = $fieldData['value'];
         }
         
-        return "<input $id_name type=\"password\" value=\"$value\" $attrs/>";
+        return "<input id=\"$field\" name=\"{$fieldData['name']}\" type=\"password\" value=\"$value\" $attrs/>";
     }
     
     /**
      * Campo Select que toma los valores de un array de objetos
      *
-     * @param string $name nombre de campo
+     * @param string $field nombre de campo
      * @param string $data array de valores para la lista desplegable
-     * @param string $field campo que se mostrara
+     * @param string $show campo que se mostrara
      * @param string $blank campo en blanco
      * @param string|array $attrs atributos de campo
      * @param string $value
-     **/
-    public static function dbSelect($name, $data, $field, $blank=null, $attrs=NULL, $value=NULL)
+     * @return string
+     */
+    public static function dbSelect($field, $data, $show, $blank = NULL, $attrs = NULL, $value = NULL)
     {
         if(is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
         
-        $field_data = self::getFormField($name);
-        $id_name = self::getIdAndName($field_data);
+        // obtiene los datos del campo
+        $fieldData = self::getFieldData($field);
+        
         if(is_null($value)) {
-            $value = self::getValueFromAction($field_data);
+            $value = $fieldData['value'];
         }
         
         if(is_null($blank)) {
@@ -432,50 +410,52 @@ class Form
             if($p->id == $value) {
                 $options .= ' selected="selected"';
             }
-            $options .= '>' . htmlspecialchars($p->$field, ENT_COMPAT, APP_CHARSET) . '</option>';
+            $options .= '>' . htmlspecialchars($p->$show, ENT_COMPAT, APP_CHARSET) . '</option>';
         }
         
-        return "<select $id_name $attrs>$options</select>";
+        return "<select id=\"$field\" name=\"{$fieldData['name']}\" $attrs>$options</select>";
     }
     
     /**
      * Campo File
      *
-     * @param string $name nombre de campo
+     * @param string $field nombre de campo
      * @param string|array $attrs atributos de campo
-     **/
-    public static function file($name, $attrs=NULL)
+     * @return string
+     */
+    public static function file($field, $attrs = NULL)
     {
         if(is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
         
-        $field = self::getFormField($name);
-        $id_name = self::getIdAndName($field);
+        // obtiene los datos del campo
+        $fieldData = self::getFieldData($field);
         
-        return "<input $id_name type=\"file\" $attrs/>";
+        return "<input id=\"$field\" name=\"{$fieldData['name']}\" type=\"file\" $attrs/>";
     }
 
     /**
      * Campo textarea
      *
-     * @param string $name nombre de campo
+     * @param string $field nombre de campo
      * @param string|array $attrs atributos de campo
      * @param string $value
-     **/
-    public static function textarea($name, $attrs=NULL, $value=NULL)
+     * @return string
+     */
+    public static function textarea($field, $attrs = NULL, $value = NULL)
     {
         if(is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
         
-        $field = self::getFormField($name);
-        $id_name = self::getIdAndName($field);
+        // obtiene los datos del campo
+        $fieldData = self::getFieldData($field);
         
         if(is_null($value)) {
-            $value = self::getValueFromAction($field);
+            $value = $fieldData['value'];
         }
         
-        return "<textarea $id_name $attrs>$value</textarea>";
+        return "<textarea id=\"$field\" name=\"{$fieldData['name']}\" $attrs>$value</textarea>";
     }
 }
