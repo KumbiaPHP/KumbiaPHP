@@ -164,7 +164,7 @@ abstract class Cache
      *
      * @param string $driver nombre del driver por defecto
      */
-    public function setDefault ($driver = 'file')
+    public static function setDefault ($driver = 'file')
     {
             self::$_default_driver = $driver;
     }
