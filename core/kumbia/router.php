@@ -51,18 +51,18 @@ final class Router
 		// Si hay intento de hack TODO: añadir la ip y referer en el log
 		if($errors) throw new KumbiaException("Posible intento de hack en URL: '$url'");
 
-		//Si config.ini tiene routes activados, miro si esta routed
+		//Si config.ini tiene routes activados, mira si esta routed
 		if(Config::get('config.application.routes')){
 			$url = self::ifRouted($url);
 		}
 		if($url == '/'){
 			return self::$_vars;
 		}
-		//Limpio la url en caso de que la hallan escrito con el ultimo parametro sin valor es decir controller/action/
-		// Obtengo y asigno todos los parametros de la url
+		//Se limpia la url, en caso de que la hallan escrito con el último parámetro sin valor, es decir controller/action/
+		// Obtiene y asigna todos los parámetros de la url
 		$url_items = explode ('/', trim($url,'/'));
 
-		// El primer parametro de la url es un modulo?
+		// El primer parametro de la url es un módulo?
 		if(is_dir(APP_PATH . "controllers/$url_items[0]")) {
 			self::$_vars['module'] = $url_items[0];
 
@@ -81,14 +81,14 @@ final class Router
 			return self::$_vars;
 		}
 
-		// Accion
+		// Acción
 		self::$_vars['action'] = current($url_items);
 		// Si no hay mas parametros sale
 		if (next($url_items) === FALSE) {
 			return self::$_vars;
 		}
 
-		// Crea los parametros y los pasa
+		// Crea los parámetros y los pasa
 		self::$_vars['parameters'] = array_slice($url_items, key($url_items));
 		return self::$_vars;
 	}
@@ -215,13 +215,11 @@ final class Router
 	public static function redirect($route, $seconds=NULL)
 	{
 		$route = PUBLIC_PATH . ltrim($route,'/');
-		if(headers_sent() || ($seconds)){
-			echo "
-				<script type='text/javascript'>
-					window.setTimeout(\"window.location=\"$route\", $seconds*1000);
-				</script>\n";
+		if($seconds){
+			header("refresh: $seconds; url=$route");
 		} else {
 			header("Location: $route");
+			$_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
 			View::select(NULL, NULL);
 		}
 	}

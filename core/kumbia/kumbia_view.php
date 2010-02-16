@@ -253,6 +253,10 @@ class KumbiaView {
 	 */
 	public static function content()
 	{
+		if(isset($_SESSION['KUMBIA.CONTENT'])){
+			echo $_SESSION['KUMBIA.CONTENT'];
+			unset($_SESSION['KUMBIA.CONTENT']);
+		}
 		echo self::$_content;
 	}
 	
