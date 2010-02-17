@@ -126,4 +126,25 @@ class Html
     {
         return implode(array_unique(self::$_metatags), PHP_EOL);
     }
+
+    /**
+     * Crea una lista a partir de un array
+     *
+     * @param string $content contenido del metatag
+     * @param string $type por defecto ul, y si no ol
+     * @param string|array $attrs atributos 
+     * @return string
+     **/
+    public static function lists($array, $type='ul', $attrs=null)
+    {
+        if(is_array($attrs)) {
+            $attrs = self::getAttrs($attrs);
+        }
+	$list = "<$type $attrs>".PHP_EOL;
+	foreach($array as $item){
+	    $list .= "<li>$item</li>".PHP_EOL;
+	}
+	$list .= "</$type>".PHP_EOL;
+	  return $list;
+    }
 }
