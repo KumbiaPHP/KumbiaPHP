@@ -81,6 +81,26 @@ class Form
     }
     
     /**
+     * Obtiene el nombre de campo
+     *
+     * @param string $field
+     * @return mixed
+     */
+    public static function getFieldName ($field)
+    {
+        // obtiene considerando el patron de formato form.field
+        $formField = explode('.', $field, 2);
+        
+        // si tiene el formato form.field
+        if(isset($formField[1])) {
+            // nombre de campo
+            return "{$formField[0]}[{$formField[1]}]";
+        }
+        
+        return $field;
+    }
+    
+    /**
      * Crea campo input
      *
      * @param string $attrs atributos para el tag
@@ -193,7 +213,23 @@ class Form
         }
         return "<input type=\"button\" value=\"$text\" $attrs />";
     }
-        
+	
+	/**
+	 * Crea un label
+	 *
+	 * @param string $text texto a mostrar
+	 * @param string $field campo al que hace referencia
+	 * @param string | array atributos opcionales
+	 * @return string
+	 */
+	public static function label($text, $field, $attrs = NULL)
+	{
+		if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+        return "<label for=\"$field\" $attrs>$text</label>";
+	}
+	
     /**
      * Campo text
      *
@@ -208,15 +244,15 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene los datos del campo
-        $fieldData = self::getFieldData($field);
-        
-        // si no se especifica valor explicitamente
-        if(is_null($value)) {
-            $value = $fieldData['value'];
+        // si no se especificó el valor explicitamente
+        if($value === NULL) {
+            // obtiene name y value para el campo y los carga en el scope
+            extract(self::getFieldData($field), EXTR_OVERWRITE);
+        } else {
+            $name = self::getFieldName($field);
         }
         
-        return "<input id=\"$field\" name=\"{$fieldData['name']}\" type=\"text\" value=\"$value\" $attrs/>";
+        return "<input id=\"$field\" name=\"$name\" type=\"text\" value=\"$value\" $attrs/>";
     }
     
     /**
@@ -234,12 +270,12 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene los datos del campo
-        $fieldData = self::getFieldData($field);
-        
-        // si no se especifica valor explicitamente
-        if(is_null($value)) {
-            $value = $fieldData['value'];
+        // si no se especificó el valor explicitamente
+        if($value === NULL) {
+            // obtiene name y value para el campo y los carga en el scope
+            extract(self::getFieldData($field), EXTR_OVERWRITE);
+        } else {
+            $name = self::getFieldName($field);
         }
         
         $options = '';
@@ -252,7 +288,7 @@ class Form
             $options .= '>' . htmlspecialchars($v, ENT_COMPAT, APP_CHARSET) . '</option>';
         }
         
-        return "<select id=\"$field\" name=\"{$fieldData['name']}\" $attrs>$options</select>";
+        return "<select id=\"$field\" name=\"$name\" $attrs>$options</select>";
     }
     
     /**
@@ -270,14 +306,26 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene los datos del campo
-        $fieldData = self::getFieldData($field);
-		
-        if($checked || $fieldData['value'] == $value) {
-            $checked = 'checked="checked"';
+        // si no se indico checked
+        if($checked === NULL) {
+            // obtiene name y value para el campo
+            $fieldData = self::getFieldData($field);
+            $name = $fieldData['name'];
+            
+            // verifica si debe marcarse
+            if($fieldData['value'] == $value) {
+                $checked = 'checked="checked"';
+            }
+        } else {
+            $name = self::getFieldName($field);
+            
+            // verifica si debe marcarse
+            if($checked) {
+                $checked = 'checked="checked"';
+            }
         }
         
-        return "<input id=\"$field\" name=\"{$fieldData['name']}\" type=\"checkbox\" value=\"$value\" $attrs $checked/>";
+        return "<input id=\"$field\" name=\"$name\" type=\"checkbox\" value=\"$value\" $attrs $checked/>";
     }
     
     /**
@@ -303,14 +351,26 @@ class Form
 		}
 		$id = $field . self::$_radios[$field];
         
-        // datos de campo
-		$fieldData = self::getFieldData($field);
-        
-        if($checked || $fieldData['value'] == $value) {
-            $checked = 'checked="checked"';
+        // si se marco explicitamente
+        if($checked === NULL) {
+            // obtiene name y value para el campo
+            $fieldData = self::getFieldData($field);
+            $name = $fieldData['name'];
+            
+            // verifica si debe marcarse
+            if($fieldData['value'] == $value) {
+                $checked = 'checked="checked"';
+            }
+        } else {
+            $name = self::getFieldName($field);
+            
+            // verifica si debe marcarse
+            if($checked) {
+                $checked = 'checked="checked"';
+            }
         }
         
-        return "<input id=\"$id\" name=\"{$fieldData['name']}\" type=\"radio\" value=\"$value\" $attrs $checked/>";
+        return "<input id=\"$id\" name=\"$name\" type=\"radio\" value=\"$value\" $attrs $checked/>";
     }
     
     /**
@@ -342,14 +402,15 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene los datos del campo
-        $fieldData = self::getFieldData($field);
-        
-        if(is_null($value)) {
-            $value = $fieldData['value'];
+        // si no se especificó el valor explicitamente
+        if($value === NULL) {
+            // obtiene name y value para el campo y los carga en el scope
+            extract(self::getFieldData($field), EXTR_OVERWRITE);
+        } else {
+            $name = self::getFieldName($field);
         }
         
-        return "<input id=\"$field\" name=\"{$fieldData['name']}\" type=\"hidden\" value=\"$value\" $attrs/>";
+        return "<input id=\"$field\" name=\"$name\" type=\"hidden\" value=\"$value\" $attrs/>";
     }
     
     /**
@@ -365,14 +426,15 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene los datos del campo
-        $fieldData = self::getFieldData($field);
-        
-        if(is_null($value)) {
-            $value = $fieldData['value'];
+        // si no se especificó el valor explicitamente
+        if($value === NULL) {
+            // obtiene name y value para el campo y los carga en el scope
+            extract(self::getFieldData($field), EXTR_OVERWRITE);
+        } else {
+            $name = self::getFieldName($field);
         }
         
-        return "<input id=\"$field\" name=\"{$fieldData['name']}\" type=\"password\" value=\"$value\" $attrs/>";
+        return "<input id=\"$field\" name=\"$name\" type=\"password\" value=\"$value\" $attrs/>";
     }
     
     /**
@@ -392,11 +454,12 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene los datos del campo
-        $fieldData = self::getFieldData($field);
-        
-        if(is_null($value)) {
-            $value = $fieldData['value'];
+        // si no se especificó el valor explicitamente
+        if($value === NULL) {
+            // obtiene name y value para el campo y los carga en el scope
+            extract(self::getFieldData($field), EXTR_OVERWRITE);
+        } else {
+            $name = self::getFieldName($field);
         }
         
         if(is_null($blank)) {
@@ -413,7 +476,7 @@ class Form
             $options .= '>' . htmlspecialchars($p->$show, ENT_COMPAT, APP_CHARSET) . '</option>';
         }
         
-        return "<select id=\"$field\" name=\"{$fieldData['name']}\" $attrs>$options</select>";
+        return "<select id=\"$field\" name=\"$name\" $attrs>$options</select>";
     }
     
     /**
@@ -429,10 +492,10 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene los datos del campo
-        $fieldData = self::getFieldData($field);
+        // obtiene el nombre de campo
+        $name = self::getFieldName($field);
         
-        return "<input id=\"$field\" name=\"{$fieldData['name']}\" type=\"file\" $attrs/>";
+        return "<input id=\"$field\" name=\"$name\" type=\"file\" $attrs/>";
     }
 
     /**
@@ -449,13 +512,14 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene los datos del campo
-        $fieldData = self::getFieldData($field);
-        
-        if(is_null($value)) {
-            $value = $fieldData['value'];
+        // si no se especificó el valor explicitamente
+        if($value === NULL) {
+            // obtiene name y value para el campo y los carga en el scope
+            extract(self::getFieldData($field), EXTR_OVERWRITE);
+        } else {
+            $name = self::getFieldName($field);
         }
         
-        return "<textarea id=\"$field\" name=\"{$fieldData['name']}\" $attrs>$value</textarea>";
+        return "<textarea id=\"$field\" name=\"$name\" $attrs>$value</textarea>";
     }
 }
