@@ -28,12 +28,16 @@ class Controller
 	 * Modelos a cargar
 	 *
 	 * @var array
+	 *
+	 * @ deprecated
 	 **/
 	public $models;
 	/**
 	 * Libs a cargar
 	 *
 	 * @var array
+	 *
+	 * @ deprecated
 	 **/
 	public $libs;
 	
@@ -83,7 +87,8 @@ class Controller
 		$this->parameters = $parameters;
 		$this->action_name = $action;
         //$this->cache['group'] = "$controller.$action";//.$id";
-
+		
+		//deprecated
 		if($this->libs) {
 			// Carga las librerias indicadas
 			foreach($this->libs as $lib) {
