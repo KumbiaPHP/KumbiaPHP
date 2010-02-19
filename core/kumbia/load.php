@@ -125,20 +125,6 @@ class Load
         self::$_injected_models = array();
     }
     /**
-     * Inicia el boot
-     *
-     **/
-    public static function boot ()
-    {
-        $boot = Config::read('boot');
-        if (!empty($boot['modules']['libs'])) {
-            $libs = explode(',', str_replace(' ', '', $boot['modules']['libs']));
-            foreach($libs as $lib) {
-				self::lib($lib);
-			}
-        }
-    }
-    /**
      * Obtiene la instancia de un modelo
      *
      * @param string $model
