@@ -99,7 +99,9 @@ require CORE_PATH . 'libs/flash/flash.php';
 require CORE_PATH . 'kumbia/controller.php';
 
 // @see KumbiaView
-require CORE_PATH . 'kumbia/kumbia_view.php';
+require APP_PATH . 'view.php';
+// registra la autocarga de helpers
+spl_autoload_register('View::helpers');
 
 // Dispatch y renderiza la vista
 View::render(Dispatcher::execute(Router::rewrite($url)), $url);

@@ -19,11 +19,6 @@
  * @copyright  Copyright (c) 2005-2010 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
- 
-//Carga la clase view que la extiende
-// @see View
-require APP_PATH . 'view.php';
-
 class KumbiaView {
 	/**
 	 * Contenido
@@ -350,6 +345,3 @@ function eh($s, $charset = APP_CHARSET) {
     
     echo htmlspecialchars($s, ENT_QUOTES, $charset);
 }
-
-// registra la autocarga de helpers
-spl_autoload_register('View::helpers');
