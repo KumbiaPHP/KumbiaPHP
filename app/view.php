@@ -5,6 +5,9 @@
  * @category KumbiaPHP
  * @package View
  **/
+// @see KumbiaView
+require CORE_PATH . 'kumbia/kumbia_view.php';
+
 class View extends KumbiaView {
 
 }
