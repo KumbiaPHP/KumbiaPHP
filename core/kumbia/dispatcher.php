@@ -45,8 +45,8 @@ final class Dispatcher
 		View::select($action);
 		View::setPath($controller_path);
 
-		//Carga de modelos
-		if($cont->models) { //TODO en no usar instancias moverlo al constructor del controller
+		//Carga de modelos deprecated
+		if(isset($cont->models) && $cont->models) { //TODO en no usar instancias moverlo al constructor del controller
 			Load::models($cont->models);
 		}
 				
