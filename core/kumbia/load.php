@@ -38,9 +38,7 @@ class Load
 		$file = APP_PATH . "libs/$lib.php";
 		if (is_file($file)) {
 			require_once $file;
-			return;
-		} 
-		if (! include_once CORE_PATH . "libs/$lib/$lib.php") {
+		} elseif (! include_once CORE_PATH . "libs/$lib/$lib.php") {
 			throw new KumbiaException("Librería: \"$lib\" no encontrada");
 		}
     }
