@@ -21,6 +21,12 @@
  */
 final class Request 
 {
+	/**
+	 * Verifica o obtiene el metodo de la peticion
+	 *
+	 * @param string $method
+	 * @return mixed
+	 */
     public static function method($method = NULL)
 	{
 		if($method){			
@@ -97,28 +103,23 @@ final class Request
 	 */
 	public static function post($var)
 	{
-		//Verifica si posee el formato form.field, en ese caso accede al array $_POST['form']['field']
-		if(stripos($var,'.')) {
-            $var = explode('.', $var);
-			return isset($_POST[$var[0]][$var[1]]) ? $_POST[$var[0]][$var[1]] : NULL;
-		}
-		return isset($_POST[$var]) ? $_POST[$var] : NULL;
+		return filter_has_var(INPUT_POST, $var) ? $_POST[$var] : NULL;
 	}
 
 	/**
-	 * Obtiene un valor del arreglo $_GET
+	 * Obtiene un valor del arreglo $_GET, aplica el filtro FILTER_SANITIZE_STRING
+	 * por defecto
 	 *
 	 * @param string $var
 	 * @return mixed
 	 */
 	public static function get($var = NULL)
-	{	//FILTER_SANITIZE_STRING
+	{
 		if($var){
-			
+			$value = filter_has_var(INPUT_GET, $var) ? filter_input(INPUT_GET, $var, FILTER_SANITIZE_STRING) : NULL;
 		} else {
 			$value = filter_input_array (INPUT_GET, FILTER_SANITIZE_STRING);
 		}
-		//$value = filter_has_var(INPUT_GET, $variable) ? $_GET[$variable] : NULL;
 			
 		return $value;
 	}
@@ -130,12 +131,7 @@ final class Request
 	 * @return mixed
 	 */
 	public static function req($var)
-        {
-		 // Verifica si posee el formato form.field, en ese caso accede al array $_REQUEST['form']['field']
-		if(stripos($var,'.')) {
-            $var = explode('.', $var); 
-			return isset($_REQUEST[$var[0]][$var[1]]) ? $_REQUEST[$var[0]][$var[1]] : NULL;
-		}
+	{
 		return isset($_REQUEST[$var]) ? $_REQUEST[$var] : NULL;
 	}
 
@@ -147,10 +143,6 @@ final class Request
 	 */
 	public static function hasPost($var) 
 	{
-		if(stripos($var,'.')) {
-            $var = explode('.', $var);
-			return filter_has_var(INPUT_POST, $var[0][$var[1]]);
-		}
 		return filter_has_var(INPUT_POST, $var);
 	}
 
@@ -162,54 +154,17 @@ final class Request
 	 */
 	public static function hasGet($var)
 	{
-		if(stripos($var,'.')) {
-            $var = explode('.', $var);
-			return filter_has_var(INPUT_GET, $var[0][$var[1]]);
-		}
 		return filter_has_var(INPUT_GET, $var);
 	}
 
 	/**
 	 * Verifica si existe el elemento indicado en $_REQUEST
 	 *
-	 * @param string $var elemento a verificar (soporta varios elementos simultaneos)
+	 * @param string $var elemento a verificar
 	 * @return boolean
 	 */
 	public static function hasRequest($var) 
 	{
-		$success = TRUE;
-		$args = func_get_args();
-		foreach($args as $f) {
-            // Verifica si posee el formato form.field
-			$f = explode('.', $f);
-			if(count($f)>1 && !isset($_REQUEST[$f[0]][$f[1]]) ) {
-				$success = FALSE;
-				break;
-			} elseif(!isset($_REQUEST[$f[0]])) {
-				$success = FALSE;
-				break;
-			}
-		}
-		return $success;
+		return isset($_REQUEST[$var]);
 	}
-        
-    /**
-	 * Obtiene y filtra un valor del arreglo $_REQUEST
-	 * Por defecto, usa SANITIZE
- 	 *
-	 * @param string $var
-	 * @return mixed
-	 */
-	public static function filter($var)
-    {
-        if(func_num_args()>1){
-            $args = func_get_args();
-
-            if(is_string($args[0])) {
-                return call_user_func_array(array('Filter', 'get'), $args);
-            } 
-            return call_user_func_array(array('Filter', 'get_array'), $args);
-        }
-	    return $value;
-    }
 }
