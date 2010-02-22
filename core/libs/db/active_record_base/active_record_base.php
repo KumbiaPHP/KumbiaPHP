@@ -462,7 +462,7 @@ class ActiveRecordBase
             }
             return call_user_func_array(array($this, "find"), array_merge($arg, $args));
         }
-        $model = ereg_replace("^get", "", $method);
+        $model = preg_replace('/^get/', '', $method);
         $mmodel = Util::uncamelize($model);
         if (array_key_exists($mmodel, $this->_belongs_to)) {
             $has_relation = true;
@@ -566,7 +566,7 @@ class ActiveRecordBase
         }
         $a = array();
         if ($this->source) {
-            $this->source = str_replace(";", "", strtolower($this->source));
+            $this->source = str_replace(";", '', strtolower($this->source));
         } else {
             $this->_model_name();
             if (!$this->source) {
@@ -851,7 +851,7 @@ class ActiveRecordBase
     */
     public function convert_params_to_sql($what = '')
     {
-        $select = "";
+        $select = '';
         if (is_array($what)) {
             if (!isset($what['conditions'])) {
                 if (!isset($this->primary_key[0]) && (isset($this->id) || $this->is_view)) {
@@ -1642,7 +1642,7 @@ class ActiveRecordBase
                     if (is_null($this->$np) || $this->$np == '') {
                         $values[] = "NULL";
                     } elseif (substr($this->$np, 0, 1) == "%") {
-                        $values[] = str_replace("%", "", $this->$np);
+                        $values[] = str_replace("%", '', $this->$np);
                     } else {
                         /**
                          * Se debe especificar el formato de fecha en Oracle
@@ -1678,7 +1678,7 @@ class ActiveRecordBase
 					if (isset($this->$field) && !$use_default) {
                         $fields[] = ActiveRecord::sql_sanizite($field);
                         if (substr($this->$field, 0, 1) == "%") {
-                            $values[] = str_replace("%", "", $this->$field);
+                            $values[] = str_replace("%", '', $this->$field);
                         } else {
                             if ($this->is_a_numeric_type($field) || $this->$field == null) {
                                 $values[] = addslashes($this->$field !== '' && $this->$field !== null ? $this->$field : "NULL");
@@ -1837,7 +1837,7 @@ class ActiveRecordBase
         } else {
             $table = $this->source;
         }
-        $conditions = "";
+        $conditions = '';
         if (is_array($what)) {
             if ($what["conditions"]) {
                 $conditions = $what["conditions"];
@@ -1911,7 +1911,7 @@ class ActiveRecordBase
             if (isset($params[1])) {
                 $params['conditions'] = $params[1];
             } else {
-                $params['conditions'] = "";
+                $params['conditions'] = '';
             }
         }
         if ($params['conditions']) {
@@ -1944,7 +1944,7 @@ class ActiveRecordBase
      * @return boolean
      */
     public function delete_all($conditions = '') {
-        $limit = "";
+        $limit = '';
         if ($this->schema) {
             $table = $this->schema . "." . $this->source;
         } else {
@@ -2309,8 +2309,8 @@ class ActiveRecordBase
     {
         $sql_item = trim($sql_item);
         if ($sql_item !== '' && $sql_item !== null) {
-            $sql_item = ereg_replace("[ ]+", "", $sql_item);
-            if (!ereg("^[a-zA-Z0-9_\.]+$", $sql_item)) {
+            $sql_item = preg_replace('/\s+/', '', $sql_item);
+            if (!preg_match('^/[a-zA-Z0-9_\.]+$/', $sql_item)) {
                 throw new KumbiaException("Se esta tratando de ejecutar una operacion maliciosa!");
             }
         }
@@ -2326,8 +2326,8 @@ class ActiveRecordBase
    	{
         $sql_item = trim($sql_item);
         if ($sql_item !== '' && $sql_item !== null) {
-            $sql_item = ereg_replace("[ ]+", "", $sql_item);
-            if (!ereg("^[a-zA-Z_0-9\,\(\)\.\*]+$", $sql_item)) {
+            $sql_item = preg_replace('/\s+/', '', $sql_item);
+            if (!preg_match('/^[a-zA-Z_0-9\,\(\)\.\*]+$/', $sql_item)) {
                 throw new KumbiaException("Se esta tratando de ejecutar una operacion maliciosa!");
             }
         }
