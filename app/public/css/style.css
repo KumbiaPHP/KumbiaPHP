@@ -1,5 +1,5 @@
-/* Formatea los mensajes de KumbiaPHP */
-.notice_message, .success_message, .warning_message, .error_message, .validation_message {
+/* Formatea los mensajes Flash::xxx() de KumbiaPHP */
+.flash {
 	border: 1px solid;
 	margin: 1px 0;
 	min-height: 32px;
@@ -8,33 +8,26 @@
 	background-position: 10px center;
 }
 
-.error_message {
+.error {
 	color: #D8000C;
 	background-color: #FFBABA;
 	background-image: url('../img/default/error.png');
 }
 
-.notice_message {
+.info {
 	color: #00529B;
 	background-color: #BDE5F8;
 	background-image: url('../img/default/info.png');
 }
 
-.success_message {
+.valid {
 	color: #4F8A10;
 	background-color: #DFF2BF;
 	background-image:url('../img/default/valid.png');
 }
-
-.warning_message {
+.warning {
 	color: #9F6000;
 	background-color: #FEEFB3;
-	background-image: url('../img/default/warning.png');
-}
-
-.validation_message {
-	color: #D63301;
-	background-color: #FFCCBA;
 	background-image: url('../img/default/warning.png');
 }
 

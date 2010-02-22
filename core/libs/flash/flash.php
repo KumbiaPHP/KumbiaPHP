@@ -20,7 +20,7 @@
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-abstract class Flash {
+class Flash {
 
 	/**
 	 * Visualiza un mensaje flash
@@ -31,9 +31,9 @@ abstract class Flash {
 	public static function show($name,$msg)
 	{
 		if(isset($_SERVER['SERVER_SOFTWARE'])){
-    			echo '<div class="' , $name , '">' , $msg , '</div>',"\n";
+    			echo '<div class="' , $name , ' flash">' , $msg , '</div>', PHP_EOL;
 		} else {
-			echo $name , '*** ' , strip_tags($msg) , PHP_EOL;
+			echo $name , ': ' , strip_tags($msg) , PHP_EOL;
 		}
 	}
 	
@@ -44,37 +44,7 @@ abstract class Flash {
 	 */
 	public static function error($err)
 	{     
-		return self::show('error_message',$err);
-	}
-
-	/**
-	 * Visualiza una alerta de Error JavaScript
-	 *
-	 * @param string $err
-	 */
-	public static function jerror($err)
-	{
-        	formsPrint("\r\nalert(\"$err\")\r\n");
-	}
-
-	/**
-	 * Visualiza informacion en pantalla
-	 *
-	 * @param string $msg
-	 */
-	public static function notice($msg)
-	{
-		return self::show('notice_message',$msg);
-	}
-
-	/**
-	 * Visualiza informacion de Suceso en pantalla
-	 *
-	 * @param string $msg
-	 */
-	public static function success($msg)
-	{
-		return self::show('success_message',$msg);
+		return self::show('error',$err);
 	}
 
 	/**
@@ -84,28 +54,49 @@ abstract class Flash {
 	 */
 	public static function warning($msg)
 	{
-		return self::show('warning_message',$msg);
-	}
-
-	/**
-	 * Visualiza un Mensaje del interactiveBuilder
-	 *
-	 * @param string $msg
-	 */
-	public static function interactive($msg)
-	{
-		return self::show('interactive_message',$msg);
-	}
-
-	/**
-	 * Visualiza un Mensaje de Kumbia
-	 *
-	 * @param string $msg
-	 * @return 
-	 */
-	public static function kumbia_error($msg)
-	{
-		return self::show('error_message','<em>KumbiaError:</em> '.$msg);
+		return self::show('warning',$msg);
 	}
 	
+	/**
+	 * Visualiza informacion en pantalla
+	 *
+	 * @param string $msg
+	 */
+	public static function info($msg)
+	{
+		return self::show('info',$msg);
+	}
+	/**
+	 * Visualiza informacion de suceso correcto en pantalla
+	 *
+	 * @param string $msg
+	 */
+	public static function valid($msg)
+	{
+		return self::show('valid',$msg);
+	}
+	
+	/**
+	 * Visualiza informacion en pantalla
+	 *
+	 * @param string $msg
+	 *
+	 * @deprecated  ahora Flah::info()
+	 */
+	public static function notice($msg)
+	{
+		return self::show('info',$msg);
+	}
+
+	/**
+	 * Visualiza informacion de Suceso en pantalla
+	 *
+	 * @param string $msg
+	 *
+	 * @deprecated  ahora Flash::valid()
+	 */
+	public static function success($msg)
+	{
+		return self::show('valid',$msg);
+	}
 }
