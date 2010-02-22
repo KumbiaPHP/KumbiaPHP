@@ -92,9 +92,6 @@ require CORE_PATH . 'kumbia/request.php';
 // @see Dispatcher
 require CORE_PATH . 'kumbia/dispatcher.php';
 
-// @see Flash
-require CORE_PATH . 'libs/flash/flash.php';
-
 // @see Controller
 require APP_PATH . 'application_controller.php';
 
