@@ -41,7 +41,7 @@ class ModelForm {
 			
 			$tipo = trim(preg_replace('/(\(.*\))/','',$model->_data_type[$field]));//TODO: recoger tamaño y otros valores
 			$alias = $model->get_alias($field);
-			$formId = $model_name.'_'.$field;
+			$formId = $model_name.'.'.$field;
 			$formName = $model_name.'['.$field.']';
 			
 			if (in_array($field, $model->not_null)){

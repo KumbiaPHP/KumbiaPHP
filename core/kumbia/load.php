@@ -28,7 +28,7 @@ class Load
      **/
     protected static $_injected_models = array();
     /**
-     * Carga librerias 
+     * Carga libreria de APP, si no existe carga del CORE 
      *
      * @param string $lib libreria a cargar
      * @throw KumbiaException
@@ -37,12 +37,24 @@ class Load
     {
 		$file = APP_PATH . "libs/$lib.php";
 		if (is_file($file)) {
-			require_once $file;
-		} elseif (! include_once CORE_PATH . "libs/$lib/$lib.php") {
-			throw new KumbiaException("Librería: \"$lib\" no encontrada");
+			return require_once $file;
+		} else {
+            return self::coreLib($lib);
 		}
     }
     
+    /**
+     * Carga libreria del core
+     *
+     * @param string $lib libreria a cargar
+     * @throw KumbiaException
+     **/
+    public static function coreLib ($lib)
+    {
+		if (! include_once CORE_PATH . "libs/$lib/$lib.php") {
+			throw new KumbiaException("Librería: \"$lib\" no encontrada");
+		}
+    }
     /**
      * Carga modelos
      *
