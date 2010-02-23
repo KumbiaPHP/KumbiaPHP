@@ -55,17 +55,16 @@ class KumbiaException extends Exception {
 		
 		$Controller = Util::camelcase($controller);
 		ob_start();
-		if(!PRODUCTION) {
-			$Template = 'views/templates/exception.phtml';
-			$boot = Config::read('boot');
-            if(isset($e->_view)) {
-                include CORE_PATH . "views/errors/{$e->_view}.phtml";
-            } else {
-                include CORE_PATH . "views/errors/exception.phtml";
-            }
+		if(PRODUCTION) {
+		    include APP_PATH . 'views/_shared/errors/404.phtml';
+		    $Template= 'views/_shared/templates/error.phtml';
 		} else {
-			include APP_PATH . 'views/_shared/errors/404.phtml';
-			$Template= 'views/_shared/templates/error.phtml';
+		    $Template = 'views/templates/exception.phtml';
+		    if(isset($e->_view)) {
+		        include CORE_PATH . "views/errors/{$e->_view}.phtml";
+		    } else {
+			include CORE_PATH . "views/errors/exception.phtml";
+		    }
 		}
 		$content = ob_get_clean();
 		
@@ -74,7 +73,7 @@ class KumbiaException extends Exception {
 			ob_end_clean();
 		}
 		
-		// verifica si esta cargado el dispatcher
+		// verifica si esta cargado el View
 		if(class_exists('View')) {
 			if(View::get('response') == 'view') {
 				echo $content;
@@ -83,6 +82,5 @@ class KumbiaException extends Exception {
 		}
 		
 		include CORE_PATH . $Template;
-		
 	}
 }
