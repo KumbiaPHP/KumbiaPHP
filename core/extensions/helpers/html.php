@@ -16,30 +16,31 @@
  * 
  * @category   KumbiaPHP
  * @package    Helpers 
- * @copyright  Copyright (c) 2005-2009 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2010 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
- 
-/**
- * @see Tag
- **/
-
-
 class Html
 {
     /**
      * Alternador para tabla zebra
      *
      * @var boolean
-     **/
+     */
     protected static $_trClassAlternate = TRUE;
 
     /**
      * Metatags
      *
      * @var array
-     **/
+     */
     protected static $_metatags = array();
+
+    /**
+     * Enlaces de head
+     *
+     * @var array
+     */
+    protected static $_headLinks = array();
 
     /**
      * Crea un enlace en una Aplicacion respetando
@@ -57,6 +58,7 @@ class Html
         }
         return '<a href="' . URL_PATH . "$action\" $attrs>$text</a>";
     }
+    
     /**
      * Permite incluir una imagen
      *
@@ -108,23 +110,27 @@ class Html
      * @param string $content contenido del metatag
      * @param string|array $attrs atributos
      */
-    public static function meta($content, $attrs=null)
+    public static function meta($content, $attrs = NULL)
     {
         if(is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
     
-        self::$_metatags[] = "<meta content=\"$content\" $attrs/>";
+        self::$_metatags[] = array('content' => $content, 'attrs' => $attrs);
     }
     
     /**
      * Incluye los metatags
      *
      * @return string
-     **/
+     */
     public static function includeMetatags()
     {
-        return implode(array_unique(self::$_metatags), PHP_EOL);
+        $code = '';
+        foreach(self::$_metatags as $meta) {
+            $code .= "<meta content=\"{$meta['content']}\" {$meta['attrs']}/>" . PHP_EOL;
+        }
+        return $code;
     }
 
     /**
@@ -134,17 +140,84 @@ class Html
      * @param string $type por defecto ul, y si no ol
      * @param string|array $attrs atributos 
      * @return string
-     **/
-    public static function lists($array, $type='ul', $attrs=null)
+     */
+    public static function lists($array, $type = 'ul', $attrs = NULL)
     {
         if(is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
-	$list = "<$type $attrs>".PHP_EOL;
-	foreach($array as $item){
-	    $list .= "<li>$item</li>".PHP_EOL;
-	}
-	$list .= "</$type>".PHP_EOL;
-	  return $list;
+        
+        $list = "<$type $attrs>".PHP_EOL;
+        foreach($array as $item){
+            $list .= "<li>$item</li>".PHP_EOL;
+        }
+        $list .= "</$type>".PHP_EOL;
+        
+        return $list;
+    }
+    
+    /**
+     * Incluye los CSS
+     *
+     * @return string
+     */
+    public static function includeCss()
+    {
+        $code = '';
+        foreach(Tag::getCss() as $css) {
+            $code .= '<link href="' . PUBLIC_PATH . "css/{$css['src']}.css\" rel=\"stylesheet\" type=\"text/css\" media=\"{$css['media']}\"/>" . PHP_EOL;
+        }
+        return $code;
+    }
+    
+    /**
+     * Enlaza un recurso externo
+     *
+     * @param string $href direccion url del recurso a enlazar
+     * @param string|array $attrs atributos
+     */
+    public static function headLink($href, $attrs = NULL)
+    {
+        if(is_array($attrs)) {
+            $attrs = self::getAttrs($attrs);
+        }
+    
+        self::$_headLinks[] = array('href' => $href, 'attrs' => $attrs);
+    }
+    
+    /**
+     * Enlaza una accion
+     *
+     * @param string $action ruta de accion
+     * @param string|array $attrs atributos
+     */
+    public static function headLinkAction($action, $attrs = NULL)
+    {
+        self::headLink(URL_PATH . $action, $attrs);
+    }
+    
+    /**
+     * Enlaza un recurso de la aplicacion
+     *
+     * @param string $resource ubicacion del recurso en public
+     * @param string|array $attrs atributos
+     */
+    public static function headLinkResource($resource, $attrs = NULL)
+    {
+        self::headLink(PUBLIC_PATH . $resource, $attrs);
+    }
+    
+    /**
+     * Incluye los links para el head
+     *
+     * @return string
+     */
+    public static function includeHeadLinks()
+    {
+        $code = '';
+        foreach(self::$_headLinks as $link) {
+            $code .= "<link href=\"{$link['href']}\" {$link['attrs']}/>" . PHP_EOL;
+        }
+        return $code;
     }
 }
