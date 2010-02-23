@@ -133,7 +133,7 @@ class Controller
 		if(func_num_args()>1){
 			return call_user_func_array(array('Request', 'filter'), func_get_args());
 		}
-		return Request::post($var);
+		return Input::post($var);
 	}
 
 	/**
@@ -164,7 +164,7 @@ class Controller
                 return call_user_func_array(array('Filter', 'get_array'), $args);
             }
 		}
-		return Request::get($var);
+		return Input::get($var);
 	}
 
 	/**
@@ -207,11 +207,11 @@ class Controller
 	 * @param string elemento a verificar
 	 * @return boolean
 	 *
-	 * @deprecated Ahora se usa <code>Request::hasPost()</code>
+	 * @deprecated Ahora se usa <code>Input::hasPost()</code>
 	 **/
 	protected function has_post($var) 
 	{
-		return Request::hasPost($var);
+		return Input::hasPost($var);
 	}
 
 	/**
@@ -220,11 +220,11 @@ class Controller
 	 * @param string elemento a verificar
 	 * @return boolean
 	 *
-	 * @deprecated Ahora se usa <code>Request::hasGet()</code>
+	 * @deprecated Ahora se usa <code>Input::hasGet()</code>
 	 **/
 	protected function has_get($var)
 	{
-		return Request::hasGet($var);
+		return Input::hasGet($var);
 	}
 
 	/**
@@ -233,12 +233,12 @@ class Controller
 	 * @param string elemento a verificar (soporta varios elementos simultaneos)
 	 * @return boolean
          *
-	 * @deprecated Ahora se usa <code>Request::hasRequest()</code>
+	 * @deprecated Ahora se usa <code>Input::hasRequest()</code>
 	 **/
 
 	protected function has_request($var) 
 	{
-		return Request::hasRequest($var);
+		return Input::hasRequest($var);
 	}
 
 	/**
@@ -259,7 +259,7 @@ class Controller
 	 * Indica si el request es AJAX
 	 *
 	 * @return Bolean
-	 * @deprecated Ahora se usa <code>Request::isAjax()</code>
+	 * @deprecated Ahora se usa <code>Input::isAjax()</code>
 	 */
 	protected function is_ajax()
 	{
