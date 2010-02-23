@@ -15,11 +15,11 @@
  * Clase para manejar los datos del request
  * 
  * @category   Kumbia
- * @package    Request
+ * @package    Input
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-final class Request 
+class Input 
 {
 	/**
 	 * Verifica o obtiene el metodo de la peticion
@@ -27,7 +27,7 @@ final class Request
 	 * @param string $method
 	 * @return mixed
 	 */
-    public static function method($method = NULL)
+	public static function method($method = NULL)
 	{
 		if($method){			
 			return $method == $_SERVER['REQUEST_METHOD'];
@@ -35,7 +35,7 @@ final class Request
 		return $_SERVER['REQUEST_METHOD'];
 	}
         
-    /**
+	/**
 	 * Indica si el request es AJAX
 	 *
 	 * @return Bolean
@@ -45,7 +45,7 @@ final class Request
 		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
 	}
         
-    /**
+	/**
 	 * Indica si el request es POST
 	 *
 	 * @return Bolean
@@ -55,7 +55,7 @@ final class Request
 		return $_SERVER['REQUEST_METHOD'] == 'POST';
 	}
         
-    /**
+	/**
 	 * Indica si el request es GET
 	 *
 	 * @return Bolean
@@ -65,7 +65,7 @@ final class Request
 		return $_SERVER['REQUEST_METHOD'] == 'GET';
 	}
         
-    /**
+	/**
 	 * Indica si el request es PUT
 	 *
 	 * @return Bolean
@@ -75,7 +75,7 @@ final class Request
 		return $_SERVER['REQUEST_METHOD'] == 'PUT';
 	}
         
-    /**
+	/**
 	 * Indica si el request es DELETE
 	 *
 	 * @return Bolean
@@ -85,7 +85,7 @@ final class Request
 		return $_SERVER['REQUEST_METHOD'] == 'DELETE';
 	}
         
-    /**
+	/**
 	 * Indica si el request es HEAD
 	 *
 	 * @return Bolean
@@ -130,7 +130,7 @@ final class Request
 	 * @param string $var
 	 * @return mixed
 	 */
-	public static function req($var)
+	public static function request($var)
 	{
 		return isset($_REQUEST[$var]) ? $_REQUEST[$var] : NULL;
 	}
@@ -167,4 +167,16 @@ final class Request
 	{
 		return isset($_REQUEST[$var]);
 	}
+        
+        /**
+	 * Obtiene y filtra un valor del arreglo $_REQUEST
+	 * Por defecto, usa SANITIZE
+ 	 *
+	 * @param string $var
+	 * @return mixed
+	 */
+	public static function filter($var)
+        {
+	//TODO
+        }
 }
