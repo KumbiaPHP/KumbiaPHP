@@ -421,8 +421,10 @@ class Acl {
 		/*foreach($this->access[$role] as ){
 
 		}*/
-
-    }
+		// FIXME: Por lo pronto hacemos esta validación, luego se mejorará
+		if(!isset($this->access[$role][$resource][$access_list])) return false;
+		if($this->access[$role][$resource][$access_list] == "A") return true;
+	}
 
 	/**
 	 * Reconstruye la lista de accesos a partir de las herencias
