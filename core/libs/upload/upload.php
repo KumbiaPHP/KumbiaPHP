@@ -25,17 +25,17 @@ class Upload
 	 * Sube un archivo a la ruta indicada si esta en $_FILES
 	 *
 	 * @param string $name nombre del archivo en el formulario
-     * @param string $path ruta donde se subira. Ejemplo: /var/www/public/app/temp/files/
+     * @param string $path ruta absoluta donde se subira. Ejemplo: /var/www/public/app/temp/files/
      * @param string $new_name indica el nuevo nombre para el archivo
 	 * @return string
 	 */
-	public static function fileInPath($name, $path, $new_name=NULL)
+	public static function inPath($name, $path, $new_name=NULL)
     {
 		if(isset($_FILES[$name])){
 			if(!$new_name) {
 				$new_name = $_FILES[$name]['name'];
 			}
-			
+
 			if(move_uploaded_file($_FILES[$name]['tmp_name'], $path . $new_name)) {
 				return $new_name;
 			} else {
@@ -55,7 +55,7 @@ class Upload
 	 */
 	public static function file($name, $new_name=NULL)
     {
-		return self::fileInPath($name, APP_PATH . 'public/files/upload/', $new_name);
+		return self::inPath($name, APP_PATH . 'public/files/upload/', $new_name);
 	}
 
 	/**
@@ -67,6 +67,6 @@ class Upload
 	 */
 	public static function image($name, $new_name=NULL)
     {
-		return self::fileInPath($name, APP_PATH . 'public/img/upload/', $new_name);
+		return self::inPath($name, APP_PATH . 'public/img/upload/', $new_name);
 	}
 }
