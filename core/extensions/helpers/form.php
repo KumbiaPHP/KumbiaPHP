@@ -504,8 +504,8 @@ class Form
         // obtiene el nombre de campo
         $name = self::getFieldName($field);
         // aviso al programador
-        if(self::$_multipart){
-             Flash::error('Para poder subir ficheros, debe abrir el form con Form::openMultipar()');
+        if(!self::$_multipart){
+             Flash::error('Para poder subir ficheros, debe abrir el form con Form::openMultipart()');
         }
         return "<input id=\"$field\" name=\"$name\" type=\"file\" $attrs/>";
     }
