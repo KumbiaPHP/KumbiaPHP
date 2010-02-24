@@ -28,6 +28,14 @@ class Form
      * @var array
      */
     protected static $_radios = array();
+     
+     /**
+     * Utilizado para avisar al programador,si usa Form::file()
+     * y no tiene el form mulipart muestra un error
+     *
+     * @var bool
+     */
+    protected static $_multipart = FALSE;
 
     /**
      * Obtiene el valor de un componente tomado
@@ -148,6 +156,7 @@ class Form
      */
     public static function openMultipart ($action = NULL, $attrs = NULL)
     {
+        self::$_multipart = TRUE;
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -494,7 +503,10 @@ class Form
         
         // obtiene el nombre de campo
         $name = self::getFieldName($field);
-        
+        // aviso al programador
+        if(self::$_multipart){
+             Flash::error('Para poder subir ficheros, debe abrir el form con Form::openMultipar()');
+        }
         return "<input id=\"$field\" name=\"$name\" type=\"file\" $attrs/>";
     }
 
