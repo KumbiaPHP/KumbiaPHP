@@ -190,10 +190,10 @@ class Acl {
     }
 
 	/**
-	 * Agrega un  a la Lista ACL
+	 * Agrega un resource a la Lista ACL
 	 *
-	 * Resource_name puede ser el nombre de un objeto concreo, por ejemplo
-	 * consulta, buscar, insertar, valida etc � una lista de ellos
+	 * Resource_name puede ser el nombre de un objeto concreto, por ejemplo
+	 * consulta, buscar, insertar, valida etc o una lista de ellos
 	 *
 	 * Ej:
 	 * <code>
@@ -207,7 +207,7 @@ class Acl {
 	 * @param AclResource $resource
 	 * @return boolean
 	 */
-    public function add_resource(Acl_Resource $resource) {
+    public function add_resource(AclResource $resource) {
         if(!in_array($resource->name, $this->resources)) {
             $this->resources[] = $resource;
             $this->access_list[$resource->name] = array();
@@ -227,7 +227,6 @@ class Acl {
 	 * @param $access_list
 	 */
     public function add_resource_access($resource, $access_list) {
-
         if(is_array($access_list)) {
             foreach($access_list as $access_name) {
                 if(!in_array($access_name, $this->access_list[$resource])) {
@@ -239,7 +238,6 @@ class Acl {
                 $this->access_list[$resource][] = $access_list;
             }
         }
-
     }
 
 	/**
@@ -249,7 +247,6 @@ class Acl {
 	 * @param mixed $access_list
 	 */
     public function drop_resource_access($resource, $access_list) {
-
         if(is_array($access_list)) {
             foreach($access_list as $access_name) {
                 if(in_array($access_name, $this->access_list[$resource])) {
@@ -276,7 +273,7 @@ class Acl {
 	/**
 	 * Agrega un acceso de la lista de resources a un rol
 	 *
-	 * Utilizar '*' como comod�n
+	 * Utilizar '*' como comodín
 	 *
 	 * Ej:
 	 * <code>
@@ -298,17 +295,14 @@ class Acl {
 	 * @param mixed $access
 	 */
     public function allow($role, $resource, $access) {
-
         if(!in_array($role, $this->roles_names)) {
             throw new KumbiaException("No existe el rol '$role' en la lista");
             return;
         }
-
         if(!in_array($resource, $this->resources_names)) {
             throw new KumbiaException("No existe el resource '$resource' en la lista");
             return;
         }
-
         if(is_array($access)) {
             foreach($access as $acc) {
                 if(!in_array($acc, $this->access_list[$resource])) {
@@ -321,7 +315,7 @@ class Acl {
             }
         } else {
             if(!in_array($access, $this->access_list[$resource])) {
-                throw new KumbiaException("No existe el acceso '$acc' en el resource '$resource' de la lista");
+                throw new KumbiaException("No existe el acceso '$access' en el resource '$resource' de la lista");
                 return false;
             }
             $this->access[$role][$resource][$access] = 'A';
@@ -332,7 +326,7 @@ class Acl {
 	/**
 	 * Denegar un acceso de la lista de resources a un rol
 	 *
-	 * Utilizar '*' como comod�n
+	 * Utilizar '*' como comodín
 	 *
 	 * Ej:
 	 * <code>
@@ -354,21 +348,18 @@ class Acl {
 	 * @param mixed $access
 	 */
     public function deny($role, $resource, $access) {
-
         if(!in_array($role, $this->roles_names)) {
             throw new KumbiaException("No existe el rol '$role' en la lista");
             return;
         }
-
         if(!in_array($resource, $this->resources_names)) {
             throw new KumbiaException("No existe el resource '$resource' en la lista");
             return;
         }
-
         if(is_array($access)) {
             foreach($access as $acc) {
                 if(!in_array($acc, $this->access_list[$resource])) {
-                    throw new KumbiaException("No existe el acceso '$access' en el resource '$resource' de la lista");
+                    throw new KumbiaException("No existe el acceso '$acc' en el resource '$resource' de la lista");
                     return false;
                 }
             }
@@ -405,7 +396,6 @@ class Acl {
 	 * @return boolean
 	 */
     public function is_allowed($role, $resource, $access_list) {
-
         if(!in_array($role, $this->roles_names)) {
             throw new KumbiaException("El rol '$role' no existe en la lista en acl::is_allowed");
             return false;
@@ -441,7 +431,6 @@ class Acl {
 	 * @access private
 	 */
     private function rebuild_access_list() {
-
         for($i=0;$i<=ceil(count($this->roles)*count($this->roles)/2);$i++) {
             foreach($this->roles_names as $role) {
                 if(isset($this->role_inherits[$role])) {
