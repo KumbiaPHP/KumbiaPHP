@@ -175,6 +175,7 @@ class Form
      */
     public static function close ()
     {
+        self::$_multipart = FALSE;
         return '</form>';
     }
     
