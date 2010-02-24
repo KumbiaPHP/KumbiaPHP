@@ -27,7 +27,7 @@ class Input
 	 * @param string $method
 	 * @return mixed
 	 */
-	public static function method($method = NULL)
+	public static function is($method = NULL)
 	{
 		if($method){			
 			return $method == $_SERVER['REQUEST_METHOD'];
@@ -43,56 +43,6 @@ class Input
 	public static function isAjax()
 	{
 		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
-	}
-        
-	/**
-	 * Indica si el request es POST
-	 *
-	 * @return Bolean
-	 */
-	public static function isPost()
-	{
-		return $_SERVER['REQUEST_METHOD'] == 'POST';
-	}
-        
-	/**
-	 * Indica si el request es GET
-	 *
-	 * @return Bolean
-	 */
-	public static function isGet()
-	{
-		return $_SERVER['REQUEST_METHOD'] == 'GET';
-	}
-        
-	/**
-	 * Indica si el request es PUT
-	 *
-	 * @return Bolean
-	 */
-	public static function isPut()
-	{
-		return $_SERVER['REQUEST_METHOD'] == 'PUT';
-	}
-        
-	/**
-	 * Indica si el request es DELETE
-	 *
-	 * @return Bolean
-	 */
-	public static function isDelete()
-	{
-		return $_SERVER['REQUEST_METHOD'] == 'DELETE';
-	}
-        
-	/**
-	 * Indica si el request es HEAD
-	 *
-	 * @return Bolean
-	 */
-	public static function isHead()
-	{
-		return $_SERVER['REQUEST_METHOD'] == 'HEAD';
 	}
         
 	/**
