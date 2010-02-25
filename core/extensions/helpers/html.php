@@ -58,7 +58,23 @@ class Html
         }
         return '<a href="' . URL_PATH . "$action\" $attrs>$text</a>";
     }
-    
+    /**
+     * Crea un enlace en una Aplicacion respetando
+     * las convenciones de Kumbia
+     *
+     * @param string $action
+     * @param string $text texto a mostrar
+     * @param string | array $attrs atributos adicionales
+     * @return string
+     */
+    public static function linkAction ($action, $text, $attrs = NULL)
+    {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+        
+        return '<a href="' . URL_PATH . Router::get('controller_path') . "/$action\" $attrs>$text</a>";
+    }
     /**
      * Permite incluir una imagen
      *
