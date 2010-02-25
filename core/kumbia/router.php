@@ -214,11 +214,12 @@ final class Router
 	 * @param string $route
 	 * @param integer $seconds
 	 */
-	public static function redirect($route, $seconds=NULL)
+	public static function redirect($route = NULL, $seconds = NULL)
 	{
+		if(!$route) $route = self::$_vars['controller_path'].'/';
 		$route = PUBLIC_PATH . ltrim($route,'/');
 		if($seconds){
-			header("refresh: $seconds; url=$route");
+			header("Refresh: $seconds; url=$route");
 		} else {
 			header("Location: $route");
 			$_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
