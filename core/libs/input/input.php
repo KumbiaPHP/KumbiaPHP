@@ -118,6 +118,21 @@ class Input
 		return isset($_REQUEST[$var]);
 	}
         
+	/**
+	 * Elimina elemento indicado en $_POST
+	 *
+	 * @param string $var elemento a verificar
+	 * @return boolean
+	 */
+	public static function delete($var = NULL) 
+	{
+		if($var){
+			unset($_POST[$var]);
+		} else {
+			unset($_POST);
+		}
+	}
+	
         /**
 	 * Obtiene y filtra un valor del arreglo $_REQUEST
 	 * Por defecto, usa SANITIZE
