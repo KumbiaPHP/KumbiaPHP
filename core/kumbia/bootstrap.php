@@ -30,13 +30,14 @@ ob_start();
 define('KUMBIA_VERSION', '1.0 Beta 2');
 
 // @see KumbiaException
-require CORE_PATH . 'kumbia/kumbia_exception.php';
-
+function handle_exception($e){
+    KumbiaException::handle_exception($e);
+}
 // Registrar la autocarga
 spl_autoload_register('auto');
 
 // Inicializar el ExceptionHandler
-set_exception_handler('KumbiaException::handle_exception');
+set_exception_handler('handle_exception');
 
 // @see Router
 require CORE_PATH . 'kumbia/router.php';
@@ -117,8 +118,14 @@ function auto($class)
             if (is_file(APP_PATH . "libs/$class.php")) {
                     return require APP_PATH . "libs/$class.php";
             }
-            if (! include CORE_PATH . "libs/$class/$class.php") {
-                throw new KumbiaException("La clase $class no se ha podido cargar");
+            if (is_file(CORE_PATH . "libs/$class/$class.php")) {
+                return require CORE_PATH . "libs/$class/$class.php";
+            }
+            if($class == 'kumbia_exception'){
+                require CORE_PATH . 'kumbia/kumbia_exception.php';
+            } else {
+                require CORE_PATH . 'kumbia/kumbia_exception.php';
+                throw new KumbiaException("La clase $class no se ha podido cargar.");
             }
     }
 
