@@ -46,7 +46,7 @@ class Form
      * @param string $field
      * @return mixed
      */
-    public static function getFieldData ($field)
+    private static function getFieldData ($field)
     {
         // obtiene considerando el patron de formato form.field
         $formField = explode('.', $field, 2);
@@ -94,7 +94,7 @@ class Form
      * @param string $field
      * @return mixed
      */
-    public static function getFieldName ($field)
+    private static function getFieldName ($field)
     {
         // obtiene considerando el patron de formato form.field
         $formField = explode('.', $field, 2);
@@ -142,7 +142,7 @@ class Form
         if ($action) {
             $action = URL_PATH . $action;
         } else {
-            $action = URL_PATH . substr(Router::get('route'), 1);
+            $action = URL_PATH . ltrim(Router::get('route'), '/');
         }
         return "<form action=\"$action\" method=\"$method\" $attrs>";
     }
