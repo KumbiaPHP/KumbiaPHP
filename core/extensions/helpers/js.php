@@ -151,4 +151,32 @@ class Js
         // genera el campo
         return Form::dbSelect($field, $data, $show, $blank, "class=\"js-remote $class\" data-update=\"$update\" data-action=\"$action\" $attrs");
     }
+	
+	/**
+	 * Incluye las librerias basicas para funcionamiento de jQuery con KumbiaPHP
+	 * 
+	 * @return string
+	 */
+	public static function includeJQuery()
+	{
+		return Tag::js('jquery/jquery.min') . PHP_EOL . Tag::js('jquery/jquery.kumbiaphp');
+	}
+	
+	/**
+	 * Incluye las librerias para uso de jsCalendar
+	 * 
+	 * @param string $theme tema
+	 * @param string $language idioma
+	 * @return string
+	 */
+	public static function includeJsCalendar($theme = 'theme-1', $language = 'es')
+	{
+		// incluye el tema
+		Tag::css("style-calendar/$theme");
+		
+		// incluye los javascript
+		return Tag::js('kumbia/jscalendar/calendar') . PHP_EOL
+			. Tag::js('kumbia/jscalendar/calendar-setup') . PHP_EOL
+			. Tag::js("kumbia/jscalendar/calendar-$language");
+	}
 }
