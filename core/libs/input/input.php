@@ -53,7 +53,7 @@ class Input
 	 */
 	public static function post($var)
 	{
-		return filter_has_var(INPUT_POST, $var) ? $_POST[$var] : NULL;
+		return isset($_POST[$var]) ? $_POST[$var] : NULL;
 	}
 
 	/**
@@ -93,7 +93,7 @@ class Input
 	 */
 	public static function hasPost($var) 
 	{
-		return filter_has_var(INPUT_POST, $var);
+		return isset($_POST[$var]);
 	}
 
 	/**
@@ -133,7 +133,7 @@ class Input
 		}
 	}
 	
-        /**
+    /**
 	 * Obtiene y filtra un valor del arreglo $_REQUEST
 	 * Por defecto, usa SANITIZE
  	 *
@@ -141,7 +141,7 @@ class Input
 	 * @return mixed
 	 */
 	public static function filter($var)
-        {
-	//TODO
-        }
+    {
+		//TODO
+    }
 }
