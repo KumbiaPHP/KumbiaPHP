@@ -46,7 +46,7 @@ class Form
      * @param string $field
      * @return mixed
      */
-    private static function getFieldData ($field)
+    private static function _getFieldData ($field)
     {
         // obtiene considerando el patron de formato form.field
         $formField = explode('.', $field, 2);
@@ -94,7 +94,7 @@ class Form
      * @param string $field
      * @return mixed
      */
-    private static function getFieldName ($field)
+    private static function _getFieldName ($field)
     {
         // obtiene considerando el patron de formato form.field
         $formField = explode('.', $field, 2);
@@ -257,9 +257,9 @@ class Form
         // si no se especificó el valor explicitamente
         if($value === NULL) {
             // obtiene name y value para el campo y los carga en el scope
-            extract(self::getFieldData($field), EXTR_OVERWRITE);
+            extract(self::_getFieldData($field), EXTR_OVERWRITE);
         } else {
-            $name = self::getFieldName($field);
+            $name = self::_getFieldName($field);
         }
         
         return "<input id=\"$field\" name=\"$name\" type=\"text\" value=\"$value\" $attrs/>";
@@ -283,9 +283,9 @@ class Form
         // si no se especificó el valor explicitamente
         if($value === NULL) {
             // obtiene name y value para el campo y los carga en el scope
-            extract(self::getFieldData($field), EXTR_OVERWRITE);
+            extract(self::_getFieldData($field), EXTR_OVERWRITE);
         } else {
-            $name = self::getFieldName($field);
+            $name = self::_getFieldName($field);
         }
         
         $options = '';
@@ -319,7 +319,7 @@ class Form
         // si no se indico checked
         if($checked === NULL) {
             // obtiene name y value para el campo
-            $fieldData = self::getFieldData($field);
+            $fieldData = self::_getFieldData($field);
             $name = $fieldData['name'];
             
             // verifica si debe marcarse
@@ -327,7 +327,7 @@ class Form
                 $checked = 'checked="checked"';
             }
         } else {
-            $name = self::getFieldName($field);
+            $name = self::_getFieldName($field);
             
             // verifica si debe marcarse
             if($checked) {
@@ -364,7 +364,7 @@ class Form
         // si se marco explicitamente
         if($checked === NULL) {
             // obtiene name y value para el campo
-            $fieldData = self::getFieldData($field);
+            $fieldData = self::_getFieldData($field);
             $name = $fieldData['name'];
             
             // verifica si debe marcarse
@@ -372,7 +372,7 @@ class Form
                 $checked = 'checked="checked"';
             }
         } else {
-            $name = self::getFieldName($field);
+            $name = self::_getFieldName($field);
             
             // verifica si debe marcarse
             if($checked) {
@@ -415,9 +415,9 @@ class Form
         // si no se especificó el valor explicitamente
         if($value === NULL) {
             // obtiene name y value para el campo y los carga en el scope
-            extract(self::getFieldData($field), EXTR_OVERWRITE);
+            extract(self::_getFieldData($field), EXTR_OVERWRITE);
         } else {
-            $name = self::getFieldName($field);
+            $name = self::_getFieldName($field);
         }
         
         return "<input id=\"$field\" name=\"$name\" type=\"hidden\" value=\"$value\" $attrs/>";
@@ -439,9 +439,9 @@ class Form
         // si no se especificó el valor explicitamente
         if($value === NULL) {
             // obtiene name y value para el campo y los carga en el scope
-            extract(self::getFieldData($field), EXTR_OVERWRITE);
+            extract(self::_getFieldData($field), EXTR_OVERWRITE);
         } else {
-            $name = self::getFieldName($field);
+            $name = self::_getFieldName($field);
         }
         
         return "<input id=\"$field\" name=\"$name\" type=\"password\" value=\"$value\" $attrs/>";
@@ -467,9 +467,9 @@ class Form
         // si no se especificó el valor explicitamente
         if($value === NULL) {
             // obtiene name y value para el campo y los carga en el scope
-            extract(self::getFieldData($field), EXTR_OVERWRITE);
+            extract(self::_getFieldData($field), EXTR_OVERWRITE);
         } else {
-            $name = self::getFieldName($field);
+            $name = self::_getFieldName($field);
         }
         
         if(is_null($blank)) {
@@ -503,7 +503,7 @@ class Form
         }
         
         // obtiene el nombre de campo
-        $name = self::getFieldName($field);
+        $name = self::_getFieldName($field);
         // aviso al programador
         if(!self::$_multipart){
              Flash::error('Para poder subir ficheros, debe abrir el form con Form::openMultipart()');
@@ -528,9 +528,9 @@ class Form
         // si no se especificó el valor explicitamente
         if($value === NULL) {
             // obtiene name y value para el campo y los carga en el scope
-            extract(self::getFieldData($field), EXTR_OVERWRITE);
+            extract(self::_getFieldData($field), EXTR_OVERWRITE);
         } else {
-            $name = self::getFieldName($field);
+            $name = self::_getFieldName($field);
         }
         
         return "<textarea id=\"$field\" name=\"$name\" $attrs>$value</textarea>";
