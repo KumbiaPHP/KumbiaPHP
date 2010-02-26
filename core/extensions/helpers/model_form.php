@@ -31,7 +31,7 @@ class ModelForm {
 		$model_name = Util::smallcase(get_class($model));
 		if(! $action) $action = ltrim(Router::get('route'),'/');
 		
-		echo '<form action="',URL_PATH.$action,'" method="post" id="',$model_name,'" class="scaffold">'.PHP_EOL; 
+		echo '<form action="',PUBLIC_PATH.$action,'" method="post" id="',$model_name,'" class="scaffold">'.PHP_EOL; 
 		
 		echo '<input id="',$model_name,'_id" name="',$model_name,'[id]" class="id" value="',$model->id.'" type="hidden">'.PHP_EOL; 
 		

@@ -60,21 +60,6 @@ if ($_SERVER['QUERY_STRING']) {
 }
 
 /**
- * Define el URL_PATH
- *
- * URL_PATH:
- * - Path utilizado para generar correctamente la url para acceder los controladores y acciones
- * - Este path puede modificarse para poder utilizar KumbiaPHP sin mod_rewrite.
- *
- *   Considerando que tu aplicacion se encuentre en /var/www/app
- *     Ejemplo:  define('URL_PATH', '/app/index.php?url=')
- *
- *   Para este caso falta tambien definir el PUBLIC_PATH como:
- *     Ejemplo: define('PUBLIC_PATH', '/app/public/')   
- **/
-define('URL_PATH', PUBLIC_PATH);
-
-/**
  * Obtiene la url
  **/
 $url = isset($_GET['_url']) ? $_GET['_url'] : '/';

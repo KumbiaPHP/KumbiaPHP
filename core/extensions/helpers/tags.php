@@ -258,7 +258,7 @@ function link_to_remote($action){
 	if(isset($params['confirm'])){
 		$code.= "if(confirm('{$params['confirm']}')) {";
 	}
-	$action = URL_PATH . $action;
+	$action = PUBLIC_PATH . $action;
 	$code.= "new AJAX.viewRequest({action: '$action', container: '$update'";
 
 	$call = array();
@@ -1346,7 +1346,7 @@ function button_to_remote_action($caption, $action='', $classCSS=''){
 		}
 	}
 	
-	$opts['action'] = URL_PATH . $opts['action'];
+	$opts['action'] = PUBLIC_PATH . $opts['action'];
 	
 	if(!isset($opts['update'])){
 		$opts['update'] = "";
@@ -1424,7 +1424,7 @@ function updater_select($name, $data=array()){
 		$action = '';
 	}
 
-	$action = URL_PATH . $action;
+	$action = PUBLIC_PATH . $action;
 
 	$onchange = "AJAX.viewRequest({action: '$action/'+$(\"{$params['id']}\").value, container: '$update'";
 	$call = array();
@@ -1810,7 +1810,7 @@ function swf_tag($data){
  * @return string
  */
 function get_kumbia_url($url){
-	$return_url = URL_PATH;
+	$return_url = PUBLIC_PATH;
 	
 	$action = $url;
 	$module = '';

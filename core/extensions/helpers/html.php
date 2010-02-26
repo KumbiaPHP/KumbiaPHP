@@ -56,7 +56,7 @@ class Html
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . URL_PATH . "$action\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . "$action\" $attrs>$text</a>";
     }
     /**
      * Crea un enlace en una Aplicacion respetando
@@ -73,7 +73,7 @@ class Html
             $attrs = Tag::getAttrs($attrs);
         }
         
-        return '<a href="' . URL_PATH . Router::get('controller_path') . "/$action\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" $attrs>$text</a>";
     }
     /**
      * Permite incluir una imagen
@@ -209,7 +209,7 @@ class Html
      */
     public static function headLinkAction($action, $attrs = NULL)
     {
-        self::headLink(URL_PATH . $action, $attrs);
+        self::headLink(PUBLIC_PATH . $action, $attrs);
     }
     
     /**

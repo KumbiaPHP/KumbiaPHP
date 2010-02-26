@@ -140,9 +140,9 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         if ($action) {
-            $action = URL_PATH . $action;
+            $action = PUBLIC_PATH . $action;
         } else {
-            $action = URL_PATH . ltrim(Router::get('route'), '/');
+            $action = PUBLIC_PATH . ltrim(Router::get('route'), '/');
         }
         return "<form action=\"$action\" method=\"$method\" $attrs>";
     }
@@ -161,9 +161,9 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         if ($action) {
-            $action = URL_PATH . $action;
+            $action = PUBLIC_PATH . $action;
         } else {
-            $action = URL_PATH . substr(Router::get('route'), 1);
+            $action = PUBLIC_PATH . substr(Router::get('route'), 1);
         }
         return "<form action=\"$action\" method=\"post\" enctype=\"multipart/form-data\" $attrs>";
     }

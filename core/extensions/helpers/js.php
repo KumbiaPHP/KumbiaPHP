@@ -44,7 +44,7 @@ class Js
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . URL_PATH . "$action\" title=\"$confirm\" class=\"js-confirm $class\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . "$action\" title=\"$confirm\" class=\"js-confirm $class\" $attrs>$text</a>";
     }
     
     /**
@@ -62,7 +62,7 @@ class Js
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . URL_PATH . "$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrs>$text</a>";
     }
 
     /**
@@ -82,7 +82,7 @@ class Js
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . URL_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
     }
 
     /**
@@ -121,7 +121,7 @@ class Js
         }
         
 		// ruta a la accion
-		$action = URL_PATH . rtrim($action, '/') . '/';
+		$action = PUBLIC_PATH . rtrim($action, '/') . '/';
 		
         // genera el campo
         return Form::select($field, $data, "class=\"js-remote $class\" data-update=\"$update\" data-action=\"$action\" $attrs");
@@ -146,7 +146,7 @@ class Js
         }
         
 		// ruta a la accion
-		$action = URL_PATH . rtrim($action, '/') . '/';
+		$action = PUBLIC_PATH . rtrim($action, '/') . '/';
 		
         // genera el campo
         return Form::dbSelect($field, $data, $show, $blank, "class=\"js-remote $class\" data-update=\"$update\" data-action=\"$action\" $attrs");

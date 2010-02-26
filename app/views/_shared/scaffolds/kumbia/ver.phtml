@@ -11,10 +11,10 @@
 </ul>
 </div>
 <div class="links">
-	<a href="<?php echo URL_PATH.$controller_name?>/">Listado</a>
-	<a href="<?php echo URL_PATH.$controller_name?>/create/">Crear registro</a>
-	<a href="<?php echo URL_PATH.$controller_name?>/editar/<?echo $result->id?>">Editar</a>
-	<a class="del" title="¿Seguro que quiere borrar?" href="<?php echo URL_PATH?>scaffold/borrar/<?echo $result->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
+	<a href="<?php echo PUBLIC_PATH.$controller_name?>/">Listado</a>
+	<a href="<?php echo PUBLIC_PATH.$controller_name?>/create/">Crear registro</a>
+	<a href="<?php echo PUBLIC_PATH.$controller_name?>/editar/<?echo $result->id?>">Editar</a>
+	<a class="del" title="¿Seguro que quiere borrar?" href="<?php echo PUBLIC_PATH?>scaffold/borrar/<?echo $result->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
 </div>
 <pre>
 <?php //var_dump($result)?></pre>
