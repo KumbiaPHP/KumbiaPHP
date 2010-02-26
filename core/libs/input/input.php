@@ -53,7 +53,7 @@ class Input
 	 */
 	public static function post($var)
 	{
-		return isset($_POST[$var]) ? $_POST[$var] : NULL;
+		return filter_has_var(INPUT_POST, $var) ? $_POST[$var] : NULL;
 	}
 
 	/**
@@ -93,7 +93,7 @@ class Input
 	 */
 	public static function hasPost($var) 
 	{
-		return isset($_POST[$var]);
+		return filter_has_var(INPUT_POST, $var);
 	}
 
 	/**
