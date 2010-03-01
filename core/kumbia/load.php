@@ -63,8 +63,6 @@ class Load
      **/
     public static function models ($model = NULL)
     {
-        require_once CORE_PATH . 'libs/active_record_base/active_record_base.php';
-
         $controller = Dispatcher::get_controller();
         if (! $model) {
             self::_all_models($controller);
@@ -138,8 +136,6 @@ class Load
      */
     public static function model ($model)
     { 
-        //Si se utiliza base de datos
-        require_once CORE_PATH . 'libs/active_record_base/active_record_base.php';
         //Nombre de la clase
         $Model = Util::camelcase(basename($model));
         //Carga la clase
@@ -151,5 +147,4 @@ class Load
         }
         return new $Model();
     }
-    
 }

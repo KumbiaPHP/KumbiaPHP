@@ -9,6 +9,10 @@
  * @package Db
  * @subpackage ActiveRecord
  */
+
+// Carga el active record 
+Load::coreLib('active_record_base');
+
 class ActiveRecord extends ActiveRecordBase {
 
 }
