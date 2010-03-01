@@ -108,7 +108,9 @@ View::render(Dispatcher::execute(Router::rewrite($url)), $url);
 function auto($class)
     {
             $class = Util::smallcase($class);
-            
+            if($class == 'active_record'){
+                return require APP_PATH . 'active_record.php';
+            }
             if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
                 return require APP_PATH . "extensions/helpers/$class.php";
             }
