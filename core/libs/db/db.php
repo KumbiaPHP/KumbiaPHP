@@ -28,15 +28,11 @@ require CORE_PATH . 'libs/db/db_base_interface.php';
  * @see DbBase
  */
 require CORE_PATH . 'libs/db/db_base.php';
-/**
- * @see ActiveRecordBase
- */
-require CORE_PATH . 'libs/db/active_record_base/active_record_base.php';
 
 /**
 * Carga el modelo base
 */
-require APP_PATH . 'model_base.php';	
+require APP_PATH . 'active_record.php';	
 
 /**
  * Clase que maneja el pool de conexiones

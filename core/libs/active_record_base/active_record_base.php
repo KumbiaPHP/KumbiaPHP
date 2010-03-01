@@ -21,6 +21,10 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
+ * @see Db
+ */
+require CORE_PATH . 'libs/db/db.php';
+/**
  * ActiveRecordBase Clase para el Mapeo Objeto Relacional
  *
  * Active Record es un enfoque al problema de acceder a los datos de una

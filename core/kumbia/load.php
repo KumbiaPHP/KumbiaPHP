@@ -63,9 +63,7 @@ class Load
      **/
     public static function models ($model = NULL)
     {
-        //Si se utiliza base de datos
-
-        require_once CORE_PATH . 'libs/db/db.php';
+        require_once CORE_PATH . 'libs/active_record_base/active_record_base.php';
 
         $controller = Dispatcher::get_controller();
         if (! $model) {
@@ -141,7 +139,7 @@ class Load
     public static function model ($model)
     { 
         //Si se utiliza base de datos
-        require_once CORE_PATH . 'libs/db/db.php';
+        require_once CORE_PATH . 'libs/active_record_base/active_record_base.php';
         //Nombre de la clase
         $Model = Util::camelcase(basename($model));
         //Carga la clase
