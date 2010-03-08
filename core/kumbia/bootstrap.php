@@ -16,7 +16,7 @@
  * 
  * @category   Kumbia
  * @package    Core 
- * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2010 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -29,8 +29,12 @@ ob_start();
 // Versión de KumbiaPHP
 define('KUMBIA_VERSION', '1.0 Beta 2');
 
+// @see KumbiaException
+function handle_exception($e){
+    KumbiaException::handle_exception($e);
+}
 // Registrar la autocarga
-spl_autoload_register('kumbia_autoload');
+spl_autoload_register('auto');
 
 // Inicializar el ExceptionHandler
 set_exception_handler('handle_exception');
@@ -98,41 +102,28 @@ require APP_PATH . 'view.php';
 // Dispatch y renderiza la vista
 View::render(Dispatcher::execute(Router::rewrite($url)), $url);
 
-// @see KumbiaException
-function handle_exception($e){
-    KumbiaException::handle_exception($e);
-}
-
 // Autocarga de clases
-function kumbia_autoload($class) {
-	
-	$class = Util::smallcase($class);
-	if($class == 'active_record'){
-		return require APP_PATH . 'active_record.php';
+function auto($class){
+    $class = Util::smallcase($class);
+    
+    if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
+        return require APP_PATH . "extensions/helpers/$class.php";
     }
-            
-	if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
-		return require APP_PATH . "extensions/helpers/$class.php";
-    }
-	
     if (is_file(CORE_PATH . "extensions/helpers/$class.php")) {
-		return require CORE_PATH . "extensions/helpers/$class.php";
-	}
-	
-	if (is_file(APP_PATH . "libs/$class.php")) {
-		return require APP_PATH . "libs/$class.php";
-	}
-	
-    if (is_file(CORE_PATH . "libs/$class/$class.php")) {
-		return require CORE_PATH . "libs/$class/$class.php";
+        return require CORE_PATH . "extensions/helpers/$class.php";
     }
-	
-	if($class == 'kumbia_exception'){
-		require CORE_PATH . 'kumbia/kumbia_exception.php';
-	} else {
-		require CORE_PATH . 'kumbia/kumbia_exception.php';
-		throw new KumbiaException("La clase $class no se ha podido cargar.");
-	}
+    if (is_file(APP_PATH . "libs/$class.php")) {
+            return require APP_PATH . "libs/$class.php";
+    }
+    if (is_file(CORE_PATH . "libs/$class/$class.php")) {
+        return require CORE_PATH . "libs/$class/$class.php";
+    }
+    if($class == 'kumbia_exception'){
+        require CORE_PATH . 'kumbia/kumbia_exception.php';
+    } else {
+        require CORE_PATH . 'kumbia/kumbia_exception.php';
+        throw new KumbiaException("La clase $class no se ha podido cargar.");
+    }
 }
 
 // Fin del request
