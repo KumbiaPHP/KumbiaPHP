@@ -120,9 +120,6 @@ function auto($class){
     }
     if($class == 'kumbia_exception'){
         require CORE_PATH . 'kumbia/kumbia_exception.php';
-    } else {
-        require CORE_PATH . 'kumbia/kumbia_exception.php';
-        throw new KumbiaException("La clase $class no se ha podido cargar.");
     }
 }
 
