@@ -345,7 +345,7 @@ class Form
 		} else {
 			self::$_radios[$field] = 0;
 		}
-		$id = $field . self::$_radios[$field];
+		$id .= self::$_radios[$field];
 		
         return "<input id=\"$id\" name=\"$name\" type=\"radio\" value=\"$radioValue\" $attrs $checked/>";
     }
