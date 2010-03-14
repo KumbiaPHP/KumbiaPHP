@@ -28,7 +28,7 @@ class Session
 	 * @param string $index
 	 * @param string $namespace
 	 */
-	static function set($index, $value, $namespace='default')
+	public static function set($index, $value, $namespace='default')
 	{
 	  	$_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index] = $value;
 	}
@@ -39,7 +39,7 @@ class Session
 	 * @param string $namespace
 	 * @return mixed
 	 */
-	static function get($index, $namespace='default')
+	public static function get($index, $namespace='default')
 	{
 		if(isset($_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index])) {
 			return $_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index];
@@ -48,24 +48,23 @@ class Session
 		}
 	}
 	/**
-	 * Unset una variable de indice
+	 * Elimina un indice
 	 *
 	 * @param string $index
 	 * @param string $namespace
 	 */
-	static function unset_data($index, $namespace='default')
+	public static function del($index, $namespace='default')
 	{
 	  	unset($_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index]);
 	}
 	/**
-	 * Evalua si esta definido un valor dentro de
-	 * los valores de sesion
+	 * Verifica si el indice esta cargado en sesion
 	 *
 	 * @param string $index
 	 * @param string $namespace
 	 * @return boolean
 	 */
-	static function isset_data($index, $namespace='default'){
+	public static function has($index, $namespace='default'){
 		return isset($_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index]);
 	}
 }
