@@ -22,13 +22,6 @@
 class Js
 {
     /**
-     * Metadata
-     *
-     * @var array
-     **/
-    protected static $_metadata = array();
-
-    /**
      * Crea un enlace en una Aplicacion con mensaje de confirmacion respetando
      * las convenciones de Kumbia
      *
@@ -46,43 +39,23 @@ class Js
         }
         return '<a href="' . PUBLIC_PATH . "$action\" title=\"$confirm\" class=\"js-confirm $class\" $attrs>$text</a>";
     }
-    
-    /**
-     * Crea un enlace en una Aplicacion actualizando la capa con ajax
+   
+	/**
+     * Crea un enlace en una Aplicacion con mensaje de confirmacion respetando
+     * las convenciones de Kumbia
      *
-     * @param string $action ruta a la accion
      * @param string $text texto a mostrar
-     * @param string $update capa a actualizar
-     * @param string $class clases adicionales
-     * @param string | array $attrs atributos adicionales
-     * @return string
-     */
-    public static function linkRemote ($action, $text, $update, $class=NULL, $attrs=NULL)
-    {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-        return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrs>$text</a>";
-    }
-
-    /**
-     * Crea un enlace en una Aplicacion actualizando la capa con ajax con mensaje
-     * de confirmacion
-     *
-     * @param string $action ruta a la accion
-     * @param string $text texto a mostrar
-     * @param string $update capa a actualizar
      * @param string $confirm mensaje de confirmacion
-     * @param string $class clases adicionales
+     * @param string $class clases adicionales para el link
      * @param string | array $attrs atributos adicionales
      * @return string
      */
-    public static function linkRemoteConfirm ($action, $text, $update, $confirm, $class=NULL, $attrs=NULL)
+    public static function submit ($text, $confirm, $class=NULL, $attrs=NULL)
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
+        return "<input type=\"submit\" value=\"$text\" title=\"$confirm\" class=\"js-confirm $class\" $attrs/>";
     }
 
     /**
@@ -104,53 +77,6 @@ class Js
         return Form::text($field, "class=\"js-calendar $class\" $attrs", $value) . ' ' . Html::img('calendar.gif', $format, "id=\"$field.tigger\"");
     }
     
-    /**
-     * Lista desplegable para actualizar usando ajax
-     *
-     * @param string $field nombre de campo
-     * @param array $data
-     * @param string $update capa que se actualizara
-     * @param string $action accion que se ejecutara
-     * @param string $class
-     * @param string | array $attrs
-     **/
-    public static function updaterSelect($field, $data, $update, $action, $class=null, $attrs=null)
-    {
-        if(is_array($attrs)){
-            $attrs = Tag::getAttrs($attrs);
-        }
-        
-		// ruta a la accion
-		$action = PUBLIC_PATH . rtrim($action, '/') . '/';
-		
-        // genera el campo
-        return Form::select($field, $data, "class=\"js-remote $class\" data-update=\"$update\" data-action=\"$action\" $attrs");
-    }
-	
-    /**
-     * Lista desplegable para actualizar usando ajax que toma los valores de un array de objetos
-     *
-     * @param string $field nombre de campo
-     * @param array $data
-     * @param string $show campo que se mostrara
-     * @param string $update capa que se actualizara
-     * @param string $action accion que se ejecutara
-     * @param string $blank campo en blanco
-     * @param string $class
-     * @param string | array $attrs
-     **/
-    public static function updaterDbSelect($field, $data, $show, $update, $action, $blank=null, $class=null, $attrs=null)
-    {
-        if(is_array($attrs)){
-            $attrs = Tag::getAttrs($attrs);
-        }
-        
-		// ruta a la accion
-		$action = PUBLIC_PATH . rtrim($action, '/') . '/';
-		
-        // genera el campo
-        return Form::dbSelect($field, $data, $show, $blank, "class=\"js-remote $class\" data-update=\"$update\" data-action=\"$action\" $attrs");
-    }
 	
 	/**
 	 * Incluye las librerias basicas para funcionamiento de jQuery con KumbiaPHP
