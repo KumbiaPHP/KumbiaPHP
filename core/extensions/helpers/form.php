@@ -77,9 +77,9 @@ class Form
                 } elseif (is_array($form) && isset($form[$formField[1]])) {
                     $value = $form[$formField[1]];
                 }
-            }/* elseif(isset($_POST[$formField[0]][$formField[1]])) {
+            } elseif(isset($_POST[$formField[0]][$formField[1]])) {
 				$value = $_POST[$formField[0]][$formField[1]];
-			}*/
+			}
         } else { // formato de campo comun
 			// sin autocarga
 			if(!$autoload) {
@@ -96,9 +96,9 @@ class Form
             // si existe un valor cargado
             if(isset($controller->$name)) {
 				$value = $controller->$name;
-            }/* elseif(isset($_POST[$name])) {
+            } elseif(isset($_POST[$name])) {
 				$value = $_POST[$name];
-			}*/
+			}
         }
         
         // filtrar caracteres especiales
