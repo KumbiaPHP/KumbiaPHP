@@ -53,7 +53,7 @@ class Session
 	 * @param string $index
 	 * @param string $namespace
 	 */
-	public static function del($index, $namespace='default')
+	public static function delete($index, $namespace='default')
 	{
 	  	unset($_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index]);
 	}
