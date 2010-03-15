@@ -105,7 +105,9 @@ View::render(Dispatcher::execute(Router::rewrite($url)), $url);
 // Autocarga de clases
 function auto($class){
     $class = Util::smallcase($class);
-    
+    if($class == 'active_record'){
+        require APP_PATH . 'active_record.php';
+    }    
     if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
         return require APP_PATH . "extensions/helpers/$class.php";
     }
@@ -117,9 +119,6 @@ function auto($class){
     }
     if (is_file(CORE_PATH . "libs/$class/$class.php")) {
         return require CORE_PATH . "libs/$class/$class.php";
-    }
-    if($class == 'active_record'){
-        require APP_PATH . 'active_record.php';
     }
     if($class == 'kumbia_exception'){
         require CORE_PATH . 'kumbia/kumbia_exception.php';
