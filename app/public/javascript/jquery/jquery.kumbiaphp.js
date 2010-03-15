@@ -75,7 +75,7 @@
 		 *
 		 */
 		calendar: function() {
-			var tigger = document.getElementById(this.id + '.tigger');
+			var tigger = document.getElementById(this.id + '_tigger');
 			Calendar.setup({ inputField: this.id, ifFormat: tigger.alt, daFormat: tigger.alt, button: tigger.id});
 		},
 
@@ -83,8 +83,8 @@
 		 * Enviar formularios de manera asincronica, via POST
 		 * Y los carga en un contenedor
 		 */
-		cFRemote: function(e){
-			e.preventDefault();
+		cFRemote: function(event){
+			event.preventDefault();
 			self = $(this);
 			var button = $('[type=submit]', self);
 			button.attr('disabled', 'disabled');
@@ -105,7 +105,8 @@
 		 * @param Object event
 		 */
 		cUpdaterSelect: function(event) {
-			$('#' + $(this).attr('data-update')).load($(this).attr('data-action') + this.value);
+            var self = $(this); 
+			$('#' + self.attr('data-update')).load(self.attr('data-action') + this.value);
 		},
 
 		/**
@@ -113,36 +114,42 @@
 		 *
 		 */
 		bind : function() {
+            // Enlace con confirmacion
 			$("a.js-confirm").live('click', this.cConfirm);
-			$("a.js-remote").live('click', this.cRemote);
-			$("a.js-remote-confirm").live('click', this.cRemoteConfirm);
-			$("a.js-show").live('click', this.cFx('show'));
-			$("a.js-hide").live('click', this.cFx('hide'));
-			$("a.js-toggle").live('click', this.cFx('toggle'));
-			$("a.js-fade-in").live('click', this.cFx('fadeIn'));
-			$("a.js-fade-out").live('click', this.cFx('fadeOut'));
-			$("form.js-remote").live('submit', this.cFRemote);
-			$("div.js-remote").ajaxComplete(function (event, XMLHttpRequest, ajaxOptions) {
-				$.KumbiaPHP.bindNoLive(this);
-			});
             
-			// enlaza los que no funcionan con live
-			this.bindNoLive(document);
+            // Enlace ajax
+			$("a.js-remote").live('click', this.cRemote);
+            
+            // Enlace ajax con confirmacion
+			$("a.js-remote-confirm").live('click', this.cRemoteConfirm);
+            
+            // Efecto show
+			$("a.js-show").live('click', this.cFx('show'));
+            
+            // Efecto hide
+			$("a.js-hide").live('click', this.cFx('hide'));
+            
+            // Efecto toggle
+			$("a.js-toggle").live('click', this.cFx('toggle'));
+            
+            // Efecto fadeIn
+			$("a.js-fade-in").live('click', this.cFx('fadeIn'));
+            
+            // Efecto fadeOut
+			$("a.js-fade-out").live('click', this.cFx('fadeOut'));
+            
+            // Formulario ajax
+			$("form.js-remote").live('submit', this.cFRemote);
+            
+            // Lista desplegable que actualiza con ajax
+            $("select.js-remote").live('change', this.cUpdaterSelect);
+            
+            // Lista desplegable que actualiza con ajax
+            $("select.js-remote").live('change', this.cUpdaterSelect);
+            
+            // Calendario
+            $("input.js-calendar").map(this.calendar);
 		},
-        
-        /**
-         * Aquellos que no se enlazan automaticamente con live
-         *
-         * @param DomObject parent
-         */
-        bindNoLive : function(parent) {
-            // lista desplegable que actualiza con ajax
-            $("select.js-remote", parent).bind('change', this.cUpdaterSelect);
-            // calendario
-            $("input.js-calendar", parent).map(this.calendar);
-            // formulario ajax
-            $("form.js-remote", parent).bind('submit', this.cFRemote);
-        },
         
         /**
          * Implementa la autocarga de plugins, estos deben seguir

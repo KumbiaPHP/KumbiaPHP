@@ -106,4 +106,27 @@ class Ajax
         // genera el campo
         return Form::dbSelect($field, $data, $show, $blank, "class=\"js-remote $class\" data-update=\"$update\" data-action=\"$action\" $attrs");
     }
+	
+	/**
+	 * Genera un formulario Ajax
+	 * 
+	 * @param string $action accion a ejecutar
+	 * @param string $update capa que se actualizara
+	 * @param string $class clase de estilo
+	 * @param string $method metodo de envio
+	 * @param string | array $attrs atributos
+	 * @return string
+	 */
+	public static function form($update, $action = NULL, $class = NULL, $method = 'post',  $attrs = NULL)
+	{
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+        if ($action) {
+            $action = PUBLIC_PATH . $action;
+        } else {
+            $action = PUBLIC_PATH . ltrim(Router::get('route'), '/');
+        }
+        return "<form action=\"$action\" method=\"$method\" class=\"js-remote $class\" data-div=\"$update\" $attrs>";
+	}
 }

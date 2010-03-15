@@ -74,7 +74,7 @@ class Js
             $attrs = Tag::getAttrs($attrs);
         }
 
-        return Form::text($field, "class=\"js-calendar $class\" $attrs", $value) . ' ' . Html::img('calendar.gif', $format, "id=\"$field.tigger\"");
+        return Form::text($field, "class=\"js-calendar $class\" $attrs", $value) . ' ' . Html::img('calendar.gif', $format, "id=\"{$field}_tigger\"");
     }
     
 	
