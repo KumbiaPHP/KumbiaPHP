@@ -71,15 +71,6 @@
 		},
         
 		/**
-		 * Metodo para utilizar con map de jQuery, el cual genera calendarios jsCalendar
-		 *
-		 */
-		calendar: function() {
-			var tigger = document.getElementById(this.id + '_tigger');
-			Calendar.setup({ inputField: this.id, ifFormat: tigger.alt, daFormat: tigger.alt, button: tigger.id});
-		},
-
-		/**
 		 * Enviar formularios de manera asincronica, via POST
 		 * Y los carga en un contenedor
 		 */
@@ -146,9 +137,6 @@
             
             // Lista desplegable que actualiza con ajax
             $("select.js-remote").live('change', this.cUpdaterSelect);
-            
-            // Calendario
-            $("input.js-calendar").map(this.calendar);
 		},
         
         /**
