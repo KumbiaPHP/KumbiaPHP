@@ -776,9 +776,8 @@ function textupper_field_tag($name){
  * Crea un componente para seleccionar la fechas
  *
  * @param string $name
- * @param string $format
- * @param string $theme
- * @param string $languaje
+ * @param string $format d-m-y, y-m-d, m-d-y
+ * @param string $language
  * @return string
  */
 
@@ -790,21 +789,16 @@ function date_field_tag($name){
 		$format = $params['format'];
 		unset($params['format']);
 	} else {
-		$format = "%d-%m-%Y";
+		$format = "d-m-y";
 	}
-	if(isset($params['theme'])){
-		$theme = $params['theme'];
-		unset($params['theme']);
-	} else {
-		$theme = "theme-1";
-	}
+	
 	if(isset($params['language'])){
-		$language = $params['language'];
+		$lang = $params['language'];
 		unset($params['language']);
 	} else {
-		$language = "calendar-es";
+		$lang = "es";
 	}
-
+	
 	if(isset($params[0])) {
 		$params = array_merge(get_id_and_name($params[0]), $params);
 	}
@@ -812,20 +806,18 @@ function date_field_tag($name){
 	$code = '';
 	if($i == false){
 	    $i = true;
-	    $code .= javascript_library_tag('jscalendar/calendar');
-	    $code .= javascript_library_tag('jscalendar/calendar-setup'); 
-	    $code .= javascript_library_tag("jscalendar/$language");   
+		$code .= javascript_include_tag("datepicker/lang/$lang");
+	    $code .= javascript_include_tag('datepicker/datepicker'); 
+		stylesheet_link_tag('datepicker');
 	}
 	
-	$code .= text_field_tag($params);
-	$code .= img_tag("calendar.gif","id: ".$params['id']."tigger","style: cursor: pointer;")."\n";
-		
+	if(isset($params['class'])) {
+		$params['class'] .= " format-$format divider-dash";
+	} else {
+		$params['class'] = "format-$format divider-dash";
+	}
 	
-	$code .= stylesheet_link_tag("style-calendar/$theme");
-	$script= "Calendar.setup({ inputField:'".$params['id']."', ifFormat:'".$format."', daFormat:'".$format."', button:'".$params['id']."tigger"."'}); ";
-	$code .= xhtml_tag('script', 'type: text/javascript', "content: $script");
-	
-	return $code;
+	return $code . text_field_tag($params);
 }
 
 /**
