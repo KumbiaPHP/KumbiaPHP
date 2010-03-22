@@ -255,7 +255,7 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
         
         return "<input id=\"$id\" name=\"$name\" type=\"text\" value=\"$value\" $attrs/>";
@@ -276,7 +276,7 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
         
         $options = '';
@@ -307,7 +307,7 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-		// obtiene name y id para el campo y los carga en el scope
+		// Obtiene name y id para el campo y los carga en el scope
 		extract(self::_getFieldData($field, $checked === NULL), EXTR_OVERWRITE);
 		
         if($checked || ($checked === NULL && $checkValue == $value)) {
@@ -332,7 +332,7 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
 		        
-        // obtiene name y id para el campo y los carga en el scope
+        // Obtiene name y id para el campo y los carga en el scope
 		extract(self::_getFieldData($field, $checked === NULL), EXTR_OVERWRITE);
 		
         if($checked || ($checked === NULL && $radioValue == $value)) {
@@ -379,7 +379,7 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-		// obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+		// Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
         
         return "<input id=\"$id\" name=\"$name\" type=\"hidden\" value=\"$value\" $attrs/>";
@@ -398,7 +398,7 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
         
         return "<input id=\"$id\" name=\"$name\" type=\"password\" value=\"$value\" $attrs/>";
@@ -421,7 +421,7 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
         
         if($blank === NULL) {
@@ -459,7 +459,7 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene name y id, y los carga en el scope
+        // Obtiene name y id, y los carga en el scope
         extract(self::_getFieldData($field, false), EXTR_OVERWRITE);
 				
         return "<input id=\"$id\" name=\"$name\" type=\"file\" $attrs/>";
@@ -479,9 +479,30 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
         
         return "<textarea id=\"$id\" name=\"$name\" $attrs>$value</textarea>";
+    }
+	
+	/**
+     * Campo fecha
+     *
+     * @param string $field nombre de campo
+	 * @param string $class clase de estilo
+     * @param string|array $attrs atributos de campo
+     * @param string $value
+     * @return string
+     */
+    public static function date($field, $class = NULL, $attrs = NULL, $value = NULL)
+    {
+        if(is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+        
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
+        
+        return "<input id=\"$id\" name=\"$name\" class=\"jp-datepicker $class\" type=\"date\" value=\"$value\" $attrs/>";
     }
 }
