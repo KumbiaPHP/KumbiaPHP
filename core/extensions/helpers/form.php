@@ -49,27 +49,27 @@ class Form
      */
     private static function _getFieldData ($field, $autoload = TRUE)
     {
-        // obtiene considerando el patron de formato form.field
+        // Obtiene considerando el patron de formato form.field
         $formField = explode('.', $field, 2);
         
-        // si tiene el formato form.field
+        // Si tiene el formato form.field
         if(isset($formField[1])) {
-			// id de campo
+			// Id de campo
 			$id = "{$formField[0]}_{$formField[1]}";
-            // nombre de campo
+            // Nombre de campo
             $name = "{$formField[0]}[{$formField[1]}]";
 			
-			// sin autocarga
+			// Sin autocarga
 			if(!$autoload) {
 				return array('id' => $id, 'name' => $name);
 			}
 			
-			// obtiene el controller
+			// Obtiene el controller
 			$controller = Dispatcher::get_controller();
-			// valor por defecto
+			// Valor por defecto
 			$value = NULL;
 			
-            // si existe un valor cargado
+            // Si existe un valor cargado
             if(isset($controller->{$formField[0]})) {
                 $form = $controller->{$formField[0]};
                 if (is_object($form) && isset($form->{$formField[1]})) {
@@ -80,20 +80,20 @@ class Form
             } elseif(isset($_POST[$formField[0]][$formField[1]])) {
 				$value = $_POST[$formField[0]][$formField[1]];
 			}
-        } else { // formato de campo comun
-			// sin autocarga
+        } else { // Formato de campo comun
+			// Sin autocarga
 			if(!$autoload) {
 				return array('id' => $formField[0], 'name' => $formField[0]);
 			}
 			
-            // nombre de campo y id
+            // Nombre de campo y id
             $id = $name = $formField[0];
-			// obtiene el controller
+			// Obtiene el controller
 			$controller = Dispatcher::get_controller();
-			// valor por defecto
+			// Valor por defecto
 			$value = NULL;
 			
-            // si existe un valor cargado
+            // Si existe un valor cargado
             if(isset($controller->$name)) {
 				$value = $controller->$name;
             } elseif(isset($_POST[$name])) {
@@ -101,14 +101,61 @@ class Form
 			}
         }
         
-        // filtrar caracteres especiales
+        // Filtrar caracteres especiales
         if($value) {
             $value = htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
         }
         
         return array('id' => $id, 'name' => $name, 'value' => $value);
     }
+    
+    /**
+     * Obtiene el valor del campo por autocarga de valores
+     * 
+     * @param string $field nombre de campo
+     * @return mixed retorna NULL si no existe valor por autocarga
+     */
+    public static function getFieldValue($field)
+    {
+		// Obtiene considerando el patron de formato form.field
+        $formField = explode('.', $field, 2);
         
+        // Obtiene el controller
+		$controller = Dispatcher::get_controller();
+        
+        // Valor por defecto
+        $value = NULL;
+        
+        // Si tiene el formato form.field
+        if(isset($formField[1])) {
+			
+			// Si existe un valor cargado
+            if(isset($controller->{$formField[0]})) {
+                $form = $controller->{$formField[0]};
+                if (is_object($form) && isset($form->{$formField[1]})) {
+                    $value = $form->{$formField[1]};
+                } elseif (is_array($form) && isset($form[$formField[1]])) {
+                    $value = $form[$formField[1]];
+                }
+            } elseif(isset($_POST[$formField[0]][$formField[1]])) {
+				$value = $_POST[$formField[0]][$formField[1]];
+			}
+			
+		} else { // Formato de campo comun
+		
+			// Si existe un valor cargado
+            if(isset($controller->$field)) {
+				$value = $controller->$field;
+            } elseif(isset($_POST[$field])) {
+				$value = $_POST[$field];
+			}
+			
+		}
+		
+		// Retorna el valor de campo
+		return $value;
+	}
+     
     /**
      * Crea campo input
      *
