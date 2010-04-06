@@ -94,10 +94,10 @@ require CORE_PATH . 'kumbia/load.php';
 require CORE_PATH . 'kumbia/dispatcher.php';
 
 // @see Controller
-require APP_PATH . 'application_controller.php';
+require APP_PATH . 'libs/application_controller.php';
 
 // @see KumbiaView
-require APP_PATH . 'view.php';
+require APP_PATH . 'libs/view.php';
 
 // Dispatch y renderiza la vista
 View::render(Dispatcher::execute(Router::rewrite($url)), $url);
@@ -106,7 +106,7 @@ View::render(Dispatcher::execute(Router::rewrite($url)), $url);
 function auto($class){
     $class = Util::smallcase($class);
     if($class == 'active_record'){
-        require APP_PATH . 'active_record.php';
+        require APP_PATH . 'libs/active_record.php';
     }    
     if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
         return require APP_PATH . "extensions/helpers/$class.php";
