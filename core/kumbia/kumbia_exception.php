@@ -57,7 +57,7 @@ class KumbiaException extends Exception {
 		ob_start();
 		if(PRODUCTION) {
 		    include APP_PATH . 'views/_shared/errors/404.phtml';
-		    $Template= 'views/_shared/templates/error.phtml';
+		    return;
 		} else {
 		    $Template = 'views/templates/exception.phtml';
 		    if(isset($e->_view)) {
