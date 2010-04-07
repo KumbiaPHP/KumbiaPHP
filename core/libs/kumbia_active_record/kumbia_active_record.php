@@ -13,10 +13,10 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * ActiveRecordBase Clase para el Mapeo Objeto Relacional
- * 
+ *
  * @category   Kumbia
  * @package    Db
- * @subpackage ActiveRecord 
+ * @subpackage ActiveRecord
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
@@ -64,7 +64,7 @@ require CORE_PATH . 'libs/db/db.php';
  * mapearia los resultados de un select directamente a un Objeto (En Desarrollo)
  *
  */
-class ActiveRecordBase
+class KumbiaActiveRecord
 {
     //Soportados
 
@@ -261,19 +261,19 @@ class ActiveRecordBase
         if (!$this->source) {
             $this->_model_name();
         }
-        
+
         /**
          * Inicializa el modelo en caso de que exista initialize
          */
         if (method_exists($this, 'initialize')) {
             $this->initialize();
         }
-        
+
         /**
          * Conecta a la bd
          **/
         $this->_connect();
-        
+
         if ($data) {
             if (!is_array($data))
                 $data = Util::getParams(func_get_args());
@@ -610,7 +610,7 @@ class ActiveRecordBase
             $meta_data = $this->db->describe_table($table, $schema);
             if ($meta_data) {
                 self::set_meta_data($table, $meta_data);
-            } 
+            }
         }
         foreach(self::get_meta_data($table) as $field) {
             $this->fields[] = $field['Field'];
@@ -653,7 +653,7 @@ class ActiveRecordBase
     }
     /**
      * Retorna un array de los campos (fields) de una tabla Humanizados
-     * 
+     *
      * @param $key
      * @return array
      */
@@ -679,7 +679,7 @@ class ActiveRecordBase
         } else {
             throw new KumbiaException("No se pudo asignar el nuevo valor al Alias, porque el key: \"$key\" no existe.");
         }
-        
+
     }
     /**
      * Commit a Transaction
@@ -828,7 +828,7 @@ class ActiveRecordBase
         foreach($all_results AS $result) {
             $results[] = $this->dump_result($result);
         }
-        
+
         $this->count = count($results, COUNT_NORMAL);
         if (isset($what[0]) && is_numeric($what[0])) {
             if (!isset($results[0])) {
@@ -1346,7 +1346,7 @@ class ActiveRecordBase
 				}
 			}
 		}
-        
+
         /**
          * Validacion validates_presence
          *
@@ -1367,7 +1367,7 @@ class ActiveRecordBase
                 }
             }
         }
-        
+
         /**
          * Recordamos que aqui no aparecen los que tienen valores por defecto,
          * pero sin embargo se debe estar pendiente de validar en las otras verificaciones
@@ -1399,15 +1399,15 @@ class ActiveRecordBase
             foreach($this->_validates['length_of'] as $f => $opt) {
                 if (isset($this->$f) && !is_null($this->$f) && $this->$f != '') {
                     $field = isset($opt['field']) ? $opt['field'] : $f;
-                    
+
                     if (strlen($this->$f) < $opt['min']) {
-                        if (isset($opt['too_short'])) 
+                        if (isset($opt['too_short']))
                             Flash::error($opt['too_short']);
-                        else 
+                        else
                             Flash::error("Error: El campo $field debe tener como mínimo $opt[min] caracteres");
                         return false;
                     }
-                    
+
                     if (strlen($this->$f) > $opt['max']) {
                         if (isset($opt['too_long']))
                             Flash::error($opt['too_long']);
@@ -1472,7 +1472,7 @@ class ActiveRecordBase
                 }
             }
         }
-        
+
         /**
          * Validacion validates_format
          *
@@ -1490,7 +1490,7 @@ class ActiveRecordBase
                 }
             }
         }
-        
+
         /**
          * Validacion validates_date
          *
@@ -1508,7 +1508,7 @@ class ActiveRecordBase
                 }
             }
         }
-        
+
         /**
          * Validacion validates_email
          *
@@ -2035,7 +2035,7 @@ class ActiveRecordBase
      * Valida que el campo se encuentre entre los valores de una lista
      * antes de insertar o actualizar
      *
-     * @param string $field campo a validar 
+     * @param string $field campo a validar
      * @param array $list
      *
      * message: mensaje a mostrar
@@ -2053,7 +2053,7 @@ class ActiveRecordBase
      * Valida que el campo no se encuentre entre los valores de una lista
      * antes de insertar o actualizar
      *
-     * @param string $field campo a validar 
+     * @param string $field campo a validar
      * @param array $list
      *
      * message: mensaje a mostrar
@@ -2071,7 +2071,7 @@ class ActiveRecordBase
      * Valida que el campo tenga determinado formato segun una expresion regular
      * antes de insertar o actualizar
      *
-     * @param string $field campo a validar 
+     * @param string $field campo a validar
      * @param string $pattern expresion regular para preg_match
      *
      * message: mensaje a mostrar
@@ -2089,7 +2089,7 @@ class ActiveRecordBase
      * Valida que ciertos atributos tengan un valor numerico
      * antes de insertar o actualizar
      *
-     * @param string $field campo a validar 
+     * @param string $field campo a validar
      *
      * message: mensaje a mostrar
      * field: nombre del campo a mostrar en el mensaje
@@ -2105,7 +2105,7 @@ class ActiveRecordBase
      * Valida que ciertos atributos tengan un formato de e-mail correcto
      * antes de insertar o actualizar
      *
-     * @param string $field campo a validar 
+     * @param string $field campo a validar
      *
      * message: mensaje a mostrar
      * field: nombre del campo a mostrar en el mensaje
@@ -2121,7 +2121,7 @@ class ActiveRecordBase
      * Valida que ciertos atributos tengan un valor unico antes
      * de insertar o actualizar
      *
-     * @param string $field campo a validar 
+     * @param string $field campo a validar
      *
      * message: mensaje a mostrar
      * field: nombre del campo a mostrar en el mensaje
@@ -2137,7 +2137,7 @@ class ActiveRecordBase
      * Valida que ciertos atributos tengan un formato de fecha acorde al indicado en
      * config/config.ini antes de insertar o actualizar
      *
-     * @param string $field campo a validar 
+     * @param string $field campo a validar
      *
      * message: mensaje a mostrar
      * field: nombre del campo a mostrar en el mensaje
@@ -2174,7 +2174,7 @@ class ActiveRecordBase
         if (isset(self::$models[$table])) {
             return self::$models[$table];
         } elseif(PRODUCTION) {
-        
+
 			$metadata = Cache::driver()->get($table, 'kumbia.models');
 			if($metadata) {
 				self::$models[$table] = unserialize($metadata);
@@ -2369,7 +2369,7 @@ class ActiveRecordBase
         $args = func_get_args();
         array_unshift($args, $this->source);
         //if(!class_exists('Paginator')){
-            require_once CORE_PATH . 'libs/active_record_base/behaviors/paginate.php';
+            require_once CORE_PATH . 'libs/kumbia_active_record/behaviors/paginate.php';
         //}
         return call_user_func_array(array('Paginator' , 'paginate'), $args);
     }
@@ -2389,7 +2389,7 @@ class ActiveRecordBase
         $args = func_get_args();
         array_unshift($args, $this->source);
         //if(!class_exists('Paginator')){
-            require_once CORE_PATH . 'libs/active_record_base/behaviors/paginate.php';
+            require_once CORE_PATH . 'libs/kumbia_active_record/behaviors/paginate.php';
         //}
         return call_user_func_array(array('Paginator' , 'paginate_by_sql'), $args);
     }
@@ -2403,7 +2403,7 @@ class ActiveRecordBase
          * Anulando conexion a bd en el modelo
          **/
         $this->db = null;
-        
+
         return array_keys(get_object_vars($this));
     }
     /**
@@ -2424,17 +2424,17 @@ class ActiveRecordBase
 	 * @return ActiveRecord
 	 * @throw KumbiaException
 	 **/
-	public static function get($model) 
+	public static function get($model)
 	{
 		if(isset(self::$_models[$model])) {
 			return self::$_models[$model];
 		}
-		
+
 		/**
 		 * Nombre de la clase
 		 **/
 		$Model = Util::camelcase(basename($model));
-		
+
 		/**
 		 * Verifico si esta cargada la clase
 		 **/
@@ -2449,7 +2449,7 @@ class ActiveRecordBase
 				throw new KumbiaException(null, 'no_model');
 			}
 		}
-		
+
 		self::$_models[$model] = $obj = new $Model();
 		return $obj;
 	}
@@ -2468,7 +2468,7 @@ class ActiveRecordBase
 	 * @return array Array del modelo
 	 */
 	public function to_array()
-	{   
+	{
 		return ((array) $this);
 	}
     /**
@@ -2481,5 +2481,5 @@ class ActiveRecordBase
 	{
 		return serialize($this);
 	}
-    
+
 }

@@ -10,9 +10,9 @@
  * @subpackage ActiveRecord
  */
 
-// Carga el active record 
-Load::coreLib('active_record_base');
+// Carga el active record
+Load::coreLib('kumbia_active_record');
 
-class ActiveRecord extends ActiveRecordBase {
+class ActiveRecord extends KumbiaActiveRecord {
 
 }
