@@ -2369,7 +2369,7 @@ class ActiveRecordBase
         $args = func_get_args();
         array_unshift($args, $this->source);
         //if(!class_exists('Paginator')){
-            require_once CORE_PATH . 'libs/db/behaviors/paginate.php';
+            require_once CORE_PATH . 'libs/active_record_base/behaviors/paginate.php';
         //}
         return call_user_func_array(array('Paginator' , 'paginate'), $args);
     }
@@ -2389,7 +2389,7 @@ class ActiveRecordBase
         $args = func_get_args();
         array_unshift($args, $this->source);
         //if(!class_exists('Paginator')){
-            require_once CORE_PATH . 'libs/db/behaviors/paginate.php';
+            require_once CORE_PATH . 'libs/active_record_base/behaviors/paginate.php';
         //}
         return call_user_func_array(array('Paginator' , 'paginate_by_sql'), $args);
     }
