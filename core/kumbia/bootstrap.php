@@ -106,7 +106,7 @@ View::render(Dispatcher::execute(Router::rewrite($url)), $url);
 function auto($class){
     $class = Util::smallcase($class);
     if($class == 'active_record'){
-        require APP_PATH . 'libs/active_record.php';
+        return require APP_PATH . 'libs/active_record.php';
     }    
     if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
         return require APP_PATH . "extensions/helpers/$class.php";
@@ -115,7 +115,7 @@ function auto($class){
         return require CORE_PATH . "extensions/helpers/$class.php";
     }
     if (is_file(APP_PATH . "libs/$class.php")) {
-            return require APP_PATH . "libs/$class.php";
+        return require APP_PATH . "libs/$class.php";
     }
     if (is_file(CORE_PATH . "libs/$class/$class.php")) {
         return require CORE_PATH . "libs/$class/$class.php";
