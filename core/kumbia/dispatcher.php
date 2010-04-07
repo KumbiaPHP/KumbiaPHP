@@ -44,11 +44,6 @@ final class Dispatcher
 		$cont = self::$_controller = new $app_controller($module, $controller, $action, $parameters);
 		View::select($action);
 		View::setPath($controller_path);
-
-		//Carga de modelos deprecated
-		if(isset($cont->models) && $cont->models) { //TODO en no usar instancias moverlo al constructor del controller
-			Load::models($cont->models);
-		}
 				
 		// Se ejecutan los filtros before
 		if($cont->k_callback('initialize') === FALSE) {
@@ -89,14 +84,6 @@ final class Dispatcher
 		//Corre los filtros after
 		$cont->k_callback('after_filter');
 		$cont->k_callback('finalize');
-
-		//Elimino del controlador los modelos inyectados
-		foreach (Load::get_injected_models() as $model) {
-			unset($cont->$model);
-		}
-		
-		//Limpia el buffer de modelos inyectados
-		Load::reset_injected_models();
 		
 		//Si esta routed volver a ejecutar
 		if (Router::getRouted()){

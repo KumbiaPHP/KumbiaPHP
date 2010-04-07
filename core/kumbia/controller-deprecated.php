@@ -77,7 +77,8 @@ class Controller
 	 * @param string $action nombre de la accion
 	 * @param array $parameters parametros enviados por url
 	 **/
-	public function __construct($module, $controller, $action, $parameters) {
+	public function __construct($module, $controller, $action, $parameters) 
+	{
 		//TODO: enviar un objeto
 		$this->module_name = $module;
 		$this->controller_name = $controller;
@@ -91,6 +92,11 @@ class Controller
 			foreach($this->libs as $lib) {
 				Load::lib($lib);
 			}
+		}
+		
+		//Carga de modelos
+		if($this->models) { 
+			Load::models($cont->models);
 		}
 	}	
 	/**
@@ -320,6 +326,13 @@ class Controller
      */
     protected function finalize()
     {
+		//Elimino del controlador los modelos inyectados
+		foreach (Load::get_injected_models() as $model) {
+			unset($this->$model);
+		}
+		
+		//Limpia el buffer de modelos inyectados
+		Load::reset_injected_models();
     }
 	/**
 	 * Persistencia de datos en el controlador
