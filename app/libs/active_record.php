@@ -11,7 +11,7 @@
  */
 
 // Carga el active record
-require_once CORE_PATH . 'libs/kumbia_active_record/kumbia_active_record.php';
+Load::coreLib('kumbia_active_record');
 
 class ActiveRecord extends KumbiaActiveRecord {
 
