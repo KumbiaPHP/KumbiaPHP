@@ -13,9 +13,9 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * Este script ejecuta la carga de KumbiaPHP
- * 
+ *
  * @category   Kumbia
- * @package    Core 
+ * @package    Core
  * @copyright  Copyright (c) 2005-2010 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
@@ -38,9 +38,6 @@ spl_autoload_register('auto');
 
 // Inicializar el ExceptionHandler
 set_exception_handler('handle_exception');
-
-// @see Router
-require CORE_PATH . 'kumbia/router.php';
 
 // @see Util
 require CORE_PATH . 'kumbia/util.php';
@@ -87,6 +84,9 @@ if (isset($config['application']['charset'])) {
     define('APP_CHARSET', 'UTF-8');
 }
 
+// @see Router
+require CORE_PATH . 'kumbia/router.php';
+
 //@see Load
 require CORE_PATH . 'kumbia/load.php';
 
@@ -99,9 +99,14 @@ require APP_PATH . 'libs/application_controller.php';
 // @see KumbiaView
 require APP_PATH . 'libs/view.php';
 
-// Dispatch y renderiza la vista
-View::render(Dispatcher::execute(Router::rewrite($url)), $url);
+try {
+    // Dispatch y renderiza la vista
+    View::render(Dispatcher::execute(Router::rewrite($url)), $url);
 
+} catch (KumbiaException $e)
+{
+  KumbiaException::handle_exception($e);
+}
 // Autocarga de clases
 function auto($class){
     $class = Util::smallcase($class);
