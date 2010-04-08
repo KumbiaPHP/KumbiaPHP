@@ -38,7 +38,6 @@ var loc = "javascript/datepicker/lang/" + datePicker.languageinfo + ".js";
 
 var script  = document.createElement('script');
 script.type = "text/javascript";
-script.src  = loc;
 script.setAttribute("charset", "utf-8");
 /*@cc_on
 /*@if(@_win32)
@@ -52,8 +51,10 @@ script.setAttribute("charset", "utf-8");
 
 // Verifica si jQuery esta cargado
 if(typeof jQuery != 'undefined') {
+	script.src = jQuery.KumbiaPHP.publicPath + loc;
 	jQuery('head').append(script);
 } else {
+	script.src  = loc;
 	document.getElementsByTagName('head')[0].appendChild(script);
 }
 

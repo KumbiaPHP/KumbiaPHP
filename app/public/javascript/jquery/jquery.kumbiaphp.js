@@ -13,7 +13,7 @@
  *
  * Plugin para jQuery que incluye los callbacks basicos para los Helpers
  *
- * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2010 Kumbia Team (http://www.kumbiaphp.com)
  * @license	http://wiki.kumbiaphp.com/Licencia	 New BSD License
  */
 
@@ -23,6 +23,18 @@
 	 *
 	 */
 	$.KumbiaPHP = {
+		/**
+		 * Ruta al directorio public en el servidor
+		 * 
+		 * @var String
+		 */
+		publicPath : null,
+		
+		/**
+		 * Plugins cargados
+		 * 
+		 * @var Array
+		 */
 		plugin: [],
         
 		/**
@@ -150,7 +162,7 @@
                 var classes = self.attr('class').split(' ');
                 for (i in classes){
                     if(classes[i].substr(0, 3) == 'jp-'){
-                        if(jQuery.inArray(classes[i].substr(3),$.KumbiaPHP.plugin) != -1)
+                        if($.inArray(classes[i].substr(3),$.KumbiaPHP.plugin) != -1)
                             continue;
                         $.KumbiaPHP.plugin.push(classes[i].substr(3))
                     }
@@ -158,14 +170,31 @@
             });
             var head = $('head');
             for(i in $.KumbiaPHP.plugin){
-                jQuery.ajaxSetup({ cache: true});
-                head.append('<link href="css/'+$.KumbiaPHP.plugin[i]+'.css" type="text/css" rel="stylesheet"/>');
-                jQuery.getScript('javascript/jquery/jquery.'+$.KumbiaPHP.plugin[i]+'.js', function(data, text){
-                });
+                $.ajaxSetup({ cache: true});
+                head.append('<link href="' + $.KumbiaPHP.publicPath + 'css/' + $.KumbiaPHP.plugin[i] + '.css" type="text/css" rel="stylesheet"/>');
+				$.getScript($.KumbiaPHP.publicPath + 'javascript/jquery/jquery.' + $.KumbiaPHP.plugin[i] + '.js', function(data, text){});
             }
+		},
+		
+		/**
+		 * Inicializa el plugin
+		 * 
+		 */
+		initialize: function() {
+			// Obtiene el publicPath, restando los caracteres que sobran
+			// de la ruta, respecto a la ruta de ubicacion del plugin de KumbiaPHP
+			// "javascript/jquery/jquery.kumbiaphp.js"
+			var src = $('script:last').attr('src');
+			this.publicPath = src.substr(0, src.length - 37);
+		
+			// Enlaza a las clases por defecto
+			$(function(){ 
+				$.KumbiaPHP.bind(); 
+				$.KumbiaPHP.autoload(); 
+			});
 		}
 	}
     
-	// Enlaza a las clases por defecto
-	$(function(){ $.KumbiaPHP.bind(); $.KumbiaPHP.autoload()});
+	// Inicializa el plugin
+	$.KumbiaPHP.initialize();
 })(jQuery);

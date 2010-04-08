@@ -29,7 +29,19 @@
 	}
 	
 	// Define el formato en función del estándar ISO-8601 el cual es utilizado en HTML 5
-	$('.jp-datepicker').addClass('format-y-m-d').addClass('divider-dash');
+	$('.jp-datepicker').map(function() {
+		$(this).addClass('format-y-m-d').addClass('divider-dash');
+		
+		// Verifica si hay mínimo
+		if($(this).attr('min') != undefined) {
+			$(this).addClass('range-low-' + $(this).attr('min'));
+		}
+		
+		// Verifica si ha máximo
+		if($(this).attr('max') != undefined) {
+			$(this).addClass('range-high-' + $(this).attr('max'));
+		}
+	});
 	
 	// Verifica si ya se cargo Unobstrusive Date-Picker
     if(typeof datePickerController != "undefined") {
@@ -40,7 +52,7 @@
 	//$('head').append('<link href="css/datepicker.css" type="text/css" rel="stylesheet"/>');
 				
 	// Carga Unobstrusive Date-Picker
-	$.getScript('javascript/datepicker/datepicker.js', function(){ 
+	$.getScript($.KumbiaPHP.publicPath + 'javascript/datepicker/datepicker.js', function(){ 
 		// Inicializa los date-picker
 		datePickerController.create(); 
 	});
