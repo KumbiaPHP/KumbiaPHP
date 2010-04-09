@@ -37,6 +37,13 @@ class Controller
 	 * @ deprecated
 	 **/
 	public $libs;
+
+	/**
+	 * Modelos cargados
+	 * 
+	 * @var array
+	 */
+	private $_loaded_models = array();
 	
 	/**
 	 * Nombre del modulo actual
@@ -96,9 +103,40 @@ class Controller
 		
 		//Carga de modelos
 		if($this->models) { 
-			Load::models($cont->models);
+			$this->_loadModels();
 		}
 	}	
+	
+	/**
+	 * Carga los modelos
+	 * 
+	 */
+	private function _loadModels ()
+    {
+        foreach ($this->models as $model) {
+            $file = APP_PATH . "models/$model.php";
+            if (is_file($file)) {
+                include_once $file;
+                $Model = Util::camelcase(basename($model));
+                $this->$Model = new $Model();
+                $this->_loaded_models[] = $Model;
+            } elseif (is_dir(APP_PATH . "models/$model")) {
+				foreach (new DirectoryIterator(APP_PATH . "models/$model") as $file) {
+					if ($file->isDot() || $file->isDir()) {
+						continue;
+					}
+					if ($file->isFile()) {
+						include_once $file->getPathname();
+						$Model = Util::camelcase(basename($file->getFilename(), '.php'));
+						$this->$Model = new $Model();
+						$this->_loaded_models[] = $Model;
+					}
+				}
+            } else {
+                throw new KumbiaException("Modelo $model no encontrado");
+            }
+        }
+    }
 	/**
 	 * Asigna cacheo de vistas o template
 	 *
@@ -327,12 +365,12 @@ class Controller
     protected function finalize()
     {
 		//Elimino del controlador los modelos inyectados
-		foreach (Load::get_injected_models() as $model) {
+		foreach ($this->_loaded_models as $model) {
 			unset($this->$model);
 		}
 		
 		//Limpia el buffer de modelos inyectados
-		Load::reset_injected_models();
+		$this->_loaded_models = array();
     }
 	/**
 	 * Persistencia de datos en el controlador
@@ -364,7 +402,7 @@ class Controller
 	protected function get_persistent($var)
 	{
         	return $_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var];
-        } 
+    } 
 	
 	/**
 	 * Destruye la persistencia de un Dato en el controller

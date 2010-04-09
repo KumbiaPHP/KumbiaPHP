@@ -22,12 +22,6 @@
 class Load
 {
     /**
-     * Modelos inyectados en los controladores
-     *
-     * @var array
-     **/
-    protected static $_injected_models = array();
-    /**
      * Carga libreria de APP, si no existe carga del CORE 
      *
      * @param string $lib libreria a cargar
@@ -54,79 +48,6 @@ class Load
 		if (! include_once CORE_PATH . "libs/$lib/$lib.php") {
 			throw new KumbiaException("Librería: \"$lib\" no encontrada");
 		}
-    }
-    /**
-     * Carga modelos
-     *
-     * @param string $model
-     * @throw KumbiaException
-     **/
-    public static function models ($model = NULL)
-    {
-        $controller = Dispatcher::get_controller();
-        if (! $model) {
-            self::_all_models($controller);
-            return;
-        } elseif (is_array($model)) {
-            $args = $model;
-        } else {
-            $args = func_get_args();
-        }
-        foreach ($args as $model) {
-            $file = APP_PATH . "models/$model.php";
-            if (is_file($file)) {
-                include_once $file;
-                if ($controller) {
-                    $Model = Util::camelcase(basename($model));
-                    $controller->$Model = new $Model();
-                    self::$_injected_models[] = $Model;
-                }
-            } elseif (is_dir(APP_PATH . "models/$model")) {
-                self::_all_models($controller, $model);
-            } else {
-                throw new KumbiaException("Modelo $model no encontrado");
-            }
-        }
-    }
-    /**
-     * Carga todos los modelos
-     *
-     * @param Controller $controller controlador
-     * @param string $dir directorio a cargar
-     **/
-    private static function _all_models ($controller, $dir = NULL)
-    {
-        foreach (new DirectoryIterator(APP_PATH . "models/$dir") as $file) {
-            if ($file->isDot() || $file->isDir()) {
-                continue;
-            }
-            if ($file->isFile()) {
-                include_once $file->getPathname();
-                if ($controller) {
-                    $Model = Util::camelcase(basename($file->getFilename(), '.php'));
-                    $controller->$Model = new $Model();
-                    self::$_injected_models[] = $Model;
-                }
-            }
-        }
-    }
-    /**
-     * Obtiene los nombres de modelos inyectados en los controladores
-     * en notacion CamelCase (es decir el nombre de clase)
-     *
-     * @return array
-     **/
-    public static function get_injected_models ()
-    {
-        return self::$_injected_models;
-    }
-    /**
-     * Limpia el buffer de modelos inyectados
-     *
-     **/
-    public static function reset_injected_models ()
-    {
-        self::$_injected_models = array();
     }
     /**
      * Obtiene la instancia de un modelo
