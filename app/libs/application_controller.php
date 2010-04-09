@@ -7,10 +7,12 @@
  * @category Kumbia
  * @package Controller
  **/
+
 // @see Controller antiguo por compatibilidad
-Load::coreLib('controller-deprecated');
-//@see Controller nuevo controller
-Load::coreLib('controller');
+//require_once CORE_PATH . 'kumbia/controller-deprecated.php';
+
+// @see Controller nuevo controller
+require_once CORE_PATH . 'kumbia/controller.php';
 
 class ApplicationController extends Controller {
 
