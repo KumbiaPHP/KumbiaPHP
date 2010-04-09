@@ -102,18 +102,20 @@ class Controller
 		}
 		
 		//Carga de modelos
-		if($this->models) { 
-			$this->_loadModels();
+		if($this->models) {
+			call_user_func_array(array($this, 'models'), $this->models);
 		}
 	}	
 	
 	/**
 	 * Carga los modelos
 	 * 
+	 * @param string $model
 	 */
-	private function _loadModels ()
+	protected function models ($model)
     {
-        foreach ($this->models as $model) {
+		$args = func_get_args();
+        foreach ($args as $model) {
             $file = APP_PATH . "models/$model.php";
             if (is_file($file)) {
                 include_once $file;
