@@ -7,7 +7,7 @@
  **/
 
 // @see KumbiaView
-require_once CORE_PATH . 'kumbia/view.php';
+require_once CORE_PATH . 'kumbia/kumbia_view.php';
 
 class View extends KumbiaView {
 
