@@ -68,4 +68,26 @@ class Load
         }
         return new $Model();
     }
+    /**
+     * Carga modelos
+     *
+     * @param string $model
+     * @throw KumbiaException
+     **/
+    public static function models ($model)
+    {
+        if (is_array($model)) {
+            $args = $model;
+        } else {
+            $args = func_get_args();
+        }
+        foreach ($args as $model) {
+            $file = APP_PATH . "models/$model.php";
+            if (is_file($file)) {
+                include_once $file;
+            } else {
+                throw new KumbiaException("Modelo $model no encontrado");
+            }
+        }
+    }
 }
