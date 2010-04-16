@@ -16,4 +16,11 @@ require_once CORE_PATH . 'kumbia/controller.php';
 
 class ApplicationController extends Controller {
 
+	final protected function initialize()
+	{
+	}
+
+	final protected function finalize()
+	{
+	}
 }
