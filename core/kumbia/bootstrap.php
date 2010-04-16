@@ -49,7 +49,9 @@ require CORE_PATH . 'kumbia/config.php';
 $config = Config::read('config');
 
 // Constante que indica si la aplicacion se encuentra en produccion
-define('PRODUCTION', $config['application']['production']);
+if (! defined('PRODUCTION')) {
+	define('PRODUCTION', $config['application']['production']);
+}
 
 // Carga la cache y verifica si esta cacheado el template, al estar en produccion
 if(PRODUCTION) {

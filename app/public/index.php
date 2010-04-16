@@ -19,7 +19,9 @@
 /**
  * Establece polí­tica de informe de errores
  */
+//error_reporting(0); // Usar este en producción, no envia errores
 error_reporting(E_ALL ^ E_STRICT);
+//define('PRODUCTION', TRUE); 
 define('START_TIME', microtime(1));
 
 /**
