@@ -5,23 +5,23 @@
   <title>KumbiaPHP web &amp; app Framework</title>
   <?php Tag::css('bienvenida') ?>
   <?php Tag::css('style') ?>
-  <?php echo Html::includeCss() ?> 
+  <?php echo Html::includeCss() ?>
 </head>
 <body>
     <div id='content'>
         <div id='head'>
             <h1 id='logo'>KumbiaPHP</h1><div id='info-app'>web &amp; app Framework versión <?php echo KUMBIA_VERSION ?></div>
-            
+
             <div class='alignright'>
                 <p id='config'>
-                    <span class='app'><?php echo APP ?></span> 
+                    <span class='app'><?php echo basename(dirname(APP_PATH)) ?></span>
                     <?php echo Html::link('status/', 'Config', 'title="Ver configuración de '.APP.'"') ?>
                 </p>
              </div>
         </div>
 
         <?php View::content(); ?>
-        
+
         <?php View::partial('kumbia/footer') ?>
     </div>
 </body>

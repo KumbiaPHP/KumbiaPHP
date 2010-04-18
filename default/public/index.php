@@ -43,11 +43,6 @@ define('START_TIME', microtime(1));
 define('APP_PATH', dirname(dirname(__FILE__)) . '/app/');
 
 /**
- * Define el nombre de la APP
- */
-define('APP', basename(dirname(APP_PATH)));
-
-/**
  * Define el CORE_PATH
  *
  * CORE_PATH:
