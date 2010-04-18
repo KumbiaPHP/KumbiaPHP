@@ -12,11 +12,9 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately. 
  *  
- * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2010 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
-/**
- * Carga el index.php de public
- **/
+// Carga el index.php de public
 include 'public/index.php';

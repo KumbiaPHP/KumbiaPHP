@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  * 
- * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2010 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -21,7 +21,16 @@
  */
 //error_reporting(0); // Usar este en producción, no envia errores
 error_reporting(E_ALL ^ E_STRICT);
+
+/**
+ * Indicar si la aplicacion se encuentra en produccion
+ * directamente desde el index.php
+ */
 //define('PRODUCTION', TRUE); 
+
+/**
+ * Define marca de tiempo en que inicio el Request
+ */
 define('START_TIME', microtime(1));
 
 /**
@@ -29,13 +38,12 @@ define('START_TIME', microtime(1));
  *
  * APP_PATH:
  * - Ruta al directorio de la aplicación (por defecto la ruta al directorio app)
- * - Esta ruta se utiliza para cargar los archivos de la aplicaciÃ³n
- **/
-define('APP_PATH', dirname(dirname(__FILE__)) . '/');
+ * - Esta ruta se utiliza para cargar los archivos de la aplicacion
+ */
+define('APP_PATH', dirname(dirname(__FILE__)) . '/app/');
 
 /**
  * Define el nombre de la APP
- * 
  */
 define('APP', basename(APP_PATH));
 
@@ -43,18 +51,18 @@ define('APP', basename(APP_PATH));
  * Define el CORE_PATH
  *
  * CORE_PATH:
- * - Ruta al directorio que contiene el núcleo de Kumbia (por defecto la ruta al directorio core/kumbia)
- **/
-define('CORE_PATH', dirname(APP_PATH) . '/core/');
+ * - Ruta al directorio que contiene el núcleo de Kumbia (por defecto la ruta al directorio core)
+ */
+define('CORE_PATH', dirname(dirname(APP_PATH)) . '/core/');
 
 /**
  * Define el PUBLIC_PATH
  *
  * PUBLIC_PATH:
- * - Path para generar la Url en los links a acciones y controladores
+ * - Path para genera la Url en los links a acciones y controladores
  * - Esta ruta la utiliza Kumbia como base para generar las Urls para acceder de lado de
  *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
- **/
+ */
 if ($_SERVER['QUERY_STRING']) {
     define('PUBLIC_PATH', substr(urldecode($_SERVER['REQUEST_URI']), 0, - strlen($_SERVER['QUERY_STRING']) + 6));
 } else {
@@ -63,12 +71,12 @@ if ($_SERVER['QUERY_STRING']) {
 
 /**
  * Obtiene la url
- **/
+ */
 $url = isset($_GET['_url']) ? $_GET['_url'] : '/';
 
 /**
  * Carga el gestor de arranque
  *
  * @see Bootstrap
- **/
+ */
 require CORE_PATH . 'kumbia/bootstrap.php';
