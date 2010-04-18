@@ -27,7 +27,9 @@ session_start();
 ob_start();
 
 // Versión de KumbiaPHP
-define('KUMBIA_VERSION', '1.0 Beta 2');
+function kumbia_version(){
+	return '1.0 Beta 2';
+}
 
 // @see KumbiaException
 function handle_exception($e){
