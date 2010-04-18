@@ -11,7 +11,7 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
- * 
+ *
  * @copyright  Copyright (c) 2005-2010 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
@@ -26,7 +26,7 @@ error_reporting(E_ALL ^ E_STRICT);
  * Indicar si la aplicacion se encuentra en produccion
  * directamente desde el index.php
  */
-//define('PRODUCTION', TRUE); 
+//define('PRODUCTION', TRUE);
 
 /**
  * Define marca de tiempo en que inicio el Request
@@ -45,7 +45,7 @@ define('APP_PATH', dirname(dirname(__FILE__)) . '/app/');
 /**
  * Define el nombre de la APP
  */
-define('APP', basename(APP_PATH));
+define('APP', basename(dirname(APP_PATH)));
 
 /**
  * Define el CORE_PATH
