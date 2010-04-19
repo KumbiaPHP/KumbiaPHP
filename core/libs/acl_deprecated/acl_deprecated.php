@@ -24,12 +24,12 @@
 /**
  * @see AclRole
  */
-include CORE_PATH . 'libs/acl/role/role.php';
+include CORE_PATH . 'libs/acl_deprecated/role/role.php';
 
 /**
  * @see AclResource
  */
-include CORE_PATH . 'libs/acl/resource/resource.php';
+include CORE_PATH . 'libs/acl_deprecated/resource/resource.php';
 
 /**
  * Listas ACL (Access Control List)
@@ -51,7 +51,7 @@ include CORE_PATH . 'libs/acl/resource/resource.php';
  * $roles_names = Nombres de Resources
  *
  */
-class Acl {
+class AclDeprecated {
 
 	/**
 	 * Nombres de Roles en la lista ACL
