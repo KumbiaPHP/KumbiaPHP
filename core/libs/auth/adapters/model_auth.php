@@ -12,113 +12,100 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Esta clase permite autenticar usuarios usando una entidad de la base de datos
+ * Clase de Autenticacón por BD
  * 
- * @category   extensions
- * @package    Auth 
- * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @category   Kumbia
+ * @package    auth
+ * @copyright  Copyright (c) 2005-2010 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-class ModelAuth implements AuthInterface
+class ModelAuth extends AuthAdapter
 {
     /**
-     * Nombre del archivo (si es utilizado)
+     * Modelo a utilizar para el proceso de autenticacion
      *
-     * @var string
+     * @var String
      */
-    private $filename;
+    protected $_model = 'users';
+    
     /**
-     * Servidor de autenticación (si es utilizado)
-     *
-     * @var string
-     */
-    private $server;
-    /**
-     * Nombre de usuario para conectar al servidor de autenticacion (si es utilizado)
-     *
-     * @var string
-     */
-    private $username;
-    /**
-     * Password de usuario para conectar al servidor de autenticacion (si es utilizado)
-     *
-     * @var string
-     */
-    private $password;
-    /**
-     * Atributos del modelo a comparar para autenticacion valida
-     */
-    private $compare_attributes = array();
-    /**
-     * Identidad encontrara
-     */
-    private $identity = array();
-    /**
-     * Constructor del adaptador
-     *
-     * @param $auth
-     * @param $extra_args
-     */
-    public function __construct ($auth, $extra_args)
-    {
-        foreach (array('class') as $param) {
-            if (isset($extra_args[$param])) {
-                $this->$param = $extra_args[$param];
-            } else {
-                throw new AuthException("Debe especificar el parametro '$param' en los par&aacute;metros");
-            }
-        }
-        unset($extra_args[0]);
-        unset($extra_args['class']);
-        $this->compare_attributes = $extra_args;
-    }
-    /**
-     * Obtiene los datos de identidad obtenidos al autenticar
+     * Prefijo para campos cargados del modelo
      * 
+     * @var string
      */
-    public function get_identity ()
-    {        
-        return $this->identity;
-    }
+    protected $_prefix = NULL;
+    
     /**
-     * Autentica un usuario usando el adaptador
-     *
-     * @return boolean
+     * Campos que se cargan del modelo
+     * 
+     * @var array
      */
-    public function authenticate ()
-    {
-        $where_condition = array();
-        foreach ($this->compare_attributes as $field => $value) {
-            $value = addslashes($value);
-            $where_condition[] = "$field = '$value'";
-        }
-        $result = Load::model($this->class)->count(join(" AND ", $where_condition));
-        if ($result) {
-            $model = ActiveRecord::get($this->class)->find_first(join(" AND ", $where_condition));
-            $identity = array();
-            foreach ($model->fields as $field) {
-                /**
-                 * Trata de no incluir en la identidad el password del usuario
-                 */
-                if (! in_array($field, array('password' , 'clave' , 'contrasena' , 'passwd' , 'pass'))) {
-                    $identity[$field] = $model->$field;
-                }
-            }
-            $this->identity = $identity;
-        }
-        return $result;
-    }
+    protected $_fields = array('id');
+    
     /**
-     * Asigna los valores de los parametros al objeto autenticador
-     *
-     * @param array $extra_args
+     * Asigna el modelo a utilizar
+     *  
+     * @param string $model nombre de modelo
      */
-    public function set_params ($extra_args)
+    public function setModel($model)
     {
-        foreach (array('server' , 'secret' , 'principal' , 'password' , 'port' , 'max_retries') as $param) {
-            if (isset($extra_args[$param])) {
-                $this->$param = $extra_args[$param];
-            }
+        $this->_model = $model;
+    }
+    
+    /**
+     * Asigna el prefijo para los campos del modelo que se cargaran en sesion
+     *  
+     * @param string $prefix prefijo para campos del modelo en sesion
+     */
+    public function setPrefix($prefix)
+    {
+        $this->_prefix = $prefix;
+    }
+    
+    /**
+     * Indica que campos del modelo se cargaran en sesion
+     *  
+     * @param array $fields campos a cargar
+     */
+    public function setFields($fields)
+    {
+        $this->_fields = $fields;
+    }
+    
+    /**
+     * Check
+     * 
+     * @param $username
+     * @param $password
+     * @return bool
+     */
+    protected function _check ($username, $password)
+    {
+        // TODO $_SERVER['HTTP_HOST'] puede ser una variable por si quieren ofrecer autenticacion desde cualquier host indicado
+        if(strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === FALSE){
+            self::log('INTENTO HACK IP '.$_SERVER['HTTP_REFERER']);
+            $this->setError('Intento de Hack!');
+            return FALSE;
         }
+        
+        // TODO: revisar seguridad
+        $password = hash($this->_algos, $password);
+        //$username = addslashes($username);
+        $username = filter_var($username, FILTER_SANITIZE_MAGIC_QUOTES);
+        
+        $Model = Load::model($this->_model);
+        if ($user = $Model->find_first("$this->_login = '$username' AND $this->_pass = '$password'")) {
+            // Carga los atributos indicados en sesion
+            foreach($this->_fields as $field) {
+                Session::set("{$this->_prefix}$field", $user->$field);
+            }
+            
+            Session::set($this->_key, TRUE);
+            return TRUE;
+        }
+        
+        $this->setError('Error Login!');
+        Session::set($this->_key, FALSE);
+        return FALSE;
     }
 }
