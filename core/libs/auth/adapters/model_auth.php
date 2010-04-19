@@ -19,7 +19,7 @@
  * @copyright  Copyright (c) 2005-2010 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-class ModelAuth extends AuthAdapter
+class ModelAuth extends Auth
 {
     /**
      * Modelo a utilizar para el proceso de autenticacion
