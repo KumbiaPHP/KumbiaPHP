@@ -12,242 +12,283 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Clase Base para la gestion de autenticación
+ * Esta clase permite autenticar usuarios
  * 
- * @category   Kumbia
- * @package    auth
- * @copyright  Copyright (c) 2005-2010 Kumbia Team (http://www.kumbiaphp.com)
+ * @category   extensions
+ * @package    Auth 
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-abstract class Auth
+/**
+ * @see AuthInterface
+ */
+require_once CORE_PATH . 'libs/auth/auth_interface.php';
+class Auth
 {
-	/**
-	 * Mensaje de Error
-	 *
-	 * @var String
-	 */
-	protected $_error = null;
-	
-	/**
-	 * Campo de la BD donde se guarda el nombre de usuario
-	 * 
-	 * @var String
-	 */
-	protected $_login = 'login';
-	
-	/**
-	 * Campo de la BD donde se guarda la clave/pass
-	 * 
-	 * @var String
-	 */
-	protected $_pass = 'password';
-	
-	/**
-	 * Algoritmo de cifrado de la clave/pass
-	 * 
-	 * @var String
-	 */
-	protected $_algos = 'md5';
-	
-	/**
-	 * Clave de sesion
-	 * 
-	 * @var string
-	 */
-	protected $_key = 'jt2D14KIdRs7LA==';
-	
-	/**
-	 * Verificar que no se inicie sesion desde browser distinto con la misma IP
-	 * 
-	 * @var boolean
-	 */
-	protected $_checkSession = TRUE;
-	
-	/**
-	 * Adaptador por defecto
-	 *
-	 * @var string
-	 */
-	protected static $_defaultAdapter = 'model';
-
-	/**
-	 * Asigna el nombre de campo para el campo de nombre de usuario
-	 *
-	 * @param string $field nombre de campo que recibe por POST
-	 */
-	public function setLogin($field)
-	{
-		$this->_login = $field;
-	}
-	
-	/**
-	 * Asigna el nombre de campo para el campo de clave
-	 *
-	 * @param string $field nombre de campo que recibe por POST
-	 */
-	public function setPass($field)
-	{
-		$this->_pass = $field;
-	}
-	
-	/**
-	 * Asigna la clave de sesion
-	 *
-	 * @param string $key clave de sesion
-	 */
-	public function setKey($key)
-	{
-		$this->_key = $key;
-	}
-	
-	/**
-	 * Realiza el proceso de identificacion.
-	 *
-	 * @param void
-	 * @return bool
-	 */
-	public function identify ()
-	{
-		if ($this->isValid()) {
-			return TRUE;
-		} else {
-			// check
-			if (isset($_POST['mode']) && $_POST['mode'] === 'auth') {
-				//data was posted.
-				return $this->_check($_POST[$this->_login], $_POST[$this->_pass]);
-			} else {
-				//FAIL
-				return FALSE;
-			}
-		}
-	}
-	
-	/**
-	 * Realiza el proceso de autenticacion segun para cada adapter
-	 * 
-	 * @param $username
-	 * @param $password
-	 * @return bool
-	 */
-	abstract protected function _check ($username, $password);
-	
-	/**
-	 * logout
-	 *
-	 * @param void
-	 * @return void
-	 */
-	public function logout ()
-	{
-		Session::set($this->_key, FALSE);
-		session_destroy();
-	}
-	
-	/**
-	 * Verifica que exista una identidad válida para la session actual
-	 * 
-	 * @return bool
-	 */
-	public function isValid()
-	{
-		session_regenerate_id();
-
-		if($this->_checkSession){
-			$this->_checkSession();
-		}
-
-		return Session::has($this->_key) && Session::get($this->_key) === TRUE;
-	}
-	
-	/**
-	 * Verificar que no se inicie sesion desde browser distinto con la misma IP
-	 * 
-	 */
-	private function _checkSession()
-	{
-		Session::set('USERAGENT', $_SERVER['HTTP_USER_AGENT']);
-		Session::set('REMOTEADDR', $_SERVER['REMOTE_ADDR']);
-		
-		if ($_SERVER['REMOTE_ADDR'] !== Session::get('REMOTEADDR') ||
-			$_SERVER['HTTP_USER_AGENT'] !== Session::get('USERAGENT')){
-			session_destroy();
-		}
-	}
-	
-	/**
-	 * Indica que no se inicie sesion desde browser distinto con la misma IP
-	 * 
-	 * @param bool $check
-	 */
-	public function setCheckSession($check)
-	{
-		$this->_checkSession = $check;
-	}
-	
-	/**
-	 * Indica algoritmo de cifrado
-	 * 
-	 * @param string $algos
-	 */
-	public function setAlgos($algos, $salt = NULL)
-	{
-		$this->_algos = $algos;
-	}
-	
-	/**
-	 * Obtiene el mensaje de error
-	 * 
-	 * @return string
-	 */
-	public function getError ()
-	{
-		return $this->_error;
-	}
-	
-	/**
-	 * Indica el mensaje de error
-	 * 
-	 * @param string $_error
-	 */
-	public function setError ($error)
-	{
-		$this->_error = $error;
-	}
-	
-	/**
-	 * Logger de las operaciones Auth
-	 * @param $msg
-	 */
-	public static function log($msg)
-	{
-		$date = date('Y-m-d', strtotime('now'));
-		Logger::custom('AUTH', $msg, "auth-$date.log");
-	}
-
-	/**
-	 * Obtiene el adaptador para Auth
-	 *
-	 * @param string $adapter (model, openid, oauth)
-	 */
-	public static function factory($adapter = NULL)
-	{
-		if(!$adapter) {
-			$adapter = self::$_defaultAdapter;
-		}
-
-		require_once CORE_PATH . "libs/auth/adapters/{$adapter}_auth.php";
-		$class = $adapter.'auth';
-		
-		return new $class;
-	}
-
-	/**
-	 * Cambia el adaptador por defecto
-	 *
-	 * @param string $adapter nombre del adaptador por defecto
-	 */
-	public static function setDefault ($adapter)
-	{
-		self::$_defaultAdapter = $adapter;
-	}
+    /**
+     * Nombre del adaptador usado para autenticar
+     *
+     * @var string
+     */
+    private $adapter;
+    /**
+     * Objeto Adaptador actual
+     *
+     * @var mixed
+     */
+    private $adapter_object = null;
+    /**
+     * Indica si un usuario debe loguearse solo una vez en el sistema desde
+     * cualquier parte
+     *
+     * @var boolean
+     */
+    private $active_session = false;
+    /**
+     * Tiempo en que expirara la sesion en caso de que no se termine con destroy_active_session
+     *
+     * @var integer
+     */
+    private $expire_time = 3600;
+    /**
+     * Argumentos extra enviados al Adaptador
+     *
+     * @var array
+     */
+    private $extra_args = array();
+    /**
+     * Tiempo que duerme la aplicacion cuando falla la autenticacion
+     */
+    private $sleep_time = 0;
+    /**
+     * Indica si el ultimo llamado a authenticate tuvo exito o no (persistente en sesion)
+     *
+     * @var boolean
+     */
+    private static $is_valid = null;
+    /**
+     * Ultima identidad obtenida por Authenticate (persistente en sesion)
+     *
+     * @var array
+     */
+    private static $active_identity = array();
+    /**
+     * Constructor del Autenticador
+     *
+     * @param string $adapter
+     */
+    public function __construct ()
+    {
+        $extra_args = Util::getParams(func_get_args());
+        if (isset($extra_args[0])) {
+            $adapter = $extra_args[0];
+            unset($extra_args[0]);
+        } else {
+            $adapter = 'model';
+        }
+        $this->set_adapter($adapter, $this, $extra_args);
+    }
+    public function set_adapter ($adapter, $auth = null, $extra_args = array())
+    {
+        if (! in_array($adapter, array('digest' , 'http' , 'model' , 'kerberos5' , 'radius'))) {
+            throw new kumbiaException("Adaptador de autenticaci&oacute;n '$adapter' no soportado");
+        }
+        $this->adapter = Util::camelcase($adapter);
+        require_once CORE_PATH . "libs/auth/adapters/{$adapter}_auth.php";
+        $adapter_class = $this->adapter . 'Auth';
+        $this->extra_args = $extra_args;
+        $this->adapter_object = new $adapter_class($auth, $extra_args);
+    }
+    /**
+     * Obtiene el nombre del adaptador actual
+     * @return boolean
+     */
+    public function get_adapter_name ($adapter)
+    {
+        return $this->adapter;
+    }
+    /**
+     * Realiza el proceso de autenticación
+     *
+     * @return array
+     */
+    public function authenticate ()
+    {
+        $result = $this->adapter_object->authenticate();
+        /**
+         * Si es una sesion activa maneja un archivo persistente para control
+         */
+        if ($result && $this->active_session) {
+            $user_hash = md5(serialize($this->extra_args));
+            $filename = APP_PATH . 'temp/cache/' . base64_encode('auth');
+            if (file_exists($filename)) {
+                $fp = fopen($filename, 'r');
+                while (! feof($fp)) {
+                    $line = fgets($fp);
+                    $user = explode(':', $line);
+                    if ($user_hash == $user[0]) {
+                        if ($user[1] + $user[2] > time()) {
+                            if ($this->sleep_time) {
+                                sleep($this->sleep_time);
+                            }
+                            self::$active_identity = array();
+                            self::$is_valid = false;
+                            return false;
+                        } else {
+                            fclose($fp);
+                            $this->destroy_active_session();
+                            file_put_contents($filename, $user_hash . ':' . time() . ':' . $this->expire_time . "\n");
+                        }
+                    }
+                }
+                fclose($fp);
+                $fp = fopen($filename, 'a');
+                fputs($fp, $user_hash . ':' . time() . ':' . $this->expire_time . "\n");
+                fclose($fp);
+            } else {
+                file_put_contents($filename, $user_hash . ':' . time() . ':' . $this->expire_time . "\n");
+            }
+        }
+        if (! $result) {
+            if ($this->sleep_time) {
+                sleep($this->sleep_time);
+            }
+        }
+        $_SESSION['KUMBIA_AUTH_IDENTITY'] = $this->adapter_object->get_identity();
+        self::$active_identity = $this->adapter_object->get_identity();
+        $_SESSION['KUMBIA_AUTH_VALID'] = $result;
+        self::$is_valid = $result;
+        return $result;
+    }
+    /**
+     * Realiza el proceso de autenticaci&oacute;n usando HTTP
+     *
+     * @return array
+     */
+    public function authenticate_with_http ()
+    {
+        if (! $_SERVER['PHP_AUTH_USER']) {
+            header('WWW-Authenticate: Basic realm="basic"');
+            header('HTTP/1.0 401 Unauthorized');
+            return false;
+        } else {
+            $options = array("username" => $_SERVER['PHP_AUTH_USER'] , "password" => $_SERVER['PHP_AUTH_PW']);
+            $this->adapter_object->set_params($options);
+            return $this->authenticate();
+        }
+    }
+    /**
+     * Devuelve la identidad encontrada en caso de exito
+     *
+     * @return array
+     */
+    public function get_identity ()
+    {
+        return $this->adapter_object->get_identity();
+    }
+    /**
+     * Permite controlar que usuario no se loguee mas de una vez en el sistema desde cualquier parte
+     *
+     * @param string $value
+     */
+    public function set_active_session ($value, $time = 3600)
+    {
+        $this->active_session = $value;
+        $this->expire_time = $time;
+    }
+    /**
+     * Destruir sesion activa del usuario autenticado
+     *
+     */
+    public function destroy_active_session ()
+    {
+        $user_hash = md5(serialize($this->extra_args));
+        $filename = APP_PATH . 'temp/cache/' . base64_encode('auth');
+        $lines = file($filename);
+        $lines_out = array();
+        foreach ($lines as $line) {
+            if (substr($line, 0, 32) != $user_hash) {
+                $lines_out[] = $line;
+            }
+        }
+        file_put_contents($filename, join("\n", $lines_out));
+    }
+    /**
+     * Devuelve la instancia del adaptador
+     *
+     * @return string
+     */
+    public function get_adapter_instance ()
+    {
+        return $this->adapter_object;
+    }
+    /**
+     * Determinar si debe dormir la aplicacion cuando falle la autenticacion y cuanto tiempo en segundos
+     *
+     * @param boolean $value
+     * @param integer $time
+     */
+    public function sleep_on_fail ($value, $time = 2)
+    {
+        $time = (int) $time;
+        if ($time < 0) {
+            $time = 0;
+        }
+        if ($value) {
+            $this->sleep_time = $time;
+        } else {
+            $this->sleep_time = 0;
+        }
+    }
+    /**
+     * Devuelve el resultado del ultimo llamado a authenticate desde el ultimo objeto Auth instanciado
+     *
+     * @return boolean
+     */
+    static public function is_valid ()
+    {
+        if (! is_null(self::$is_valid)) {
+            return self::$is_valid;
+        } else {
+            self::$is_valid = isset($_SESSION['KUMBIA_AUTH_VALID']) ? $_SESSION['KUMBIA_AUTH_VALID'] : null;
+            return self::$is_valid;
+        }
+    }
+    /**
+     * Devuelve el resultado de la ultima identidad obtenida en authenticate desde el ultimo objeto Auth instanciado
+     *
+     * @return array
+     */
+    static public function get_active_identity ()
+    {
+        if (count(self::$active_identity)) {
+            return self::$active_identity;
+        } else {
+            self::$active_identity = $_SESSION['KUMBIA_AUTH_IDENTITY'];
+            return self::$active_identity;
+        }
+    }
+    /**
+     * Obtiene un valor de la identidad actual
+     * 
+     * @param string $var 
+     * @return string
+     */
+    public static function get($var = null)
+    {
+        if($var){
+            return $_SESSION['KUMBIA_AUTH_IDENTITY'][$var];
+        }
+    }
+    /**
+     * Anula la identidad actual
+     *
+     */
+    static public function destroy_identity ()
+    {
+        self::$is_valid = null;
+        unset($_SESSION['KUMBIA_AUTH_VALID']);
+        self::$active_identity = null;
+        unset($_SESSION['KUMBIA_AUTH_IDENTITY']);
+    }
 }
