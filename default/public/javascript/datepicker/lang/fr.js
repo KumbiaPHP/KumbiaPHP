@@ -1,5 +1,5 @@
 var fdLocale = {
-        months:[
+        fullMonths:[
                 "Janvier",
                 "F\u00E9vrier",
                 "Mars",
@@ -13,7 +13,7 @@ var fdLocale = {
                 "Novembre",
                 "D\u00E9cembre"
                 ],
-        fullDay:[
+        fullDays:[
                 "Lundi",
                 "Mardi",
                 "Mercredi",
@@ -22,23 +22,48 @@ var fdLocale = {
                 "Samedi",
                 "Dimanche"
                 ],
-        
-        /* Only stipulate the dayAbbr should the first letter of the fullDay not suffice
-           
-        dayAbbr:[],
-        */
-        
-        /* Only stipulate the firstDayOfWeek should the first day not be Monday
-           
-        firstDayOfWeek:0,
-        */
-        
+        dayAbbrs:[
+                "Lun",
+                "Mar",
+                "Mer",
+                "Jeu",
+                "Ven",
+                "Sam",
+                "Dim"
+                ],
+        monthAbbrs:[
+                "Jan",
+                "F\u00E9v",
+                "Mar",
+                "Avr",
+                "Mai",
+                "Jui",
+                "Juil",
+                "Ao\u00FB",
+                "Sep",
+                "Oct",
+                "Nov",
+                "D\u00E9c"
+                ],
+        /* Only stipulate the firstDayOfWeek should the first day not be Monday           
+        firstDayOfWeek:1,        
+         */         
         titles:[
                 "Mois pr\u00E9cedent",
                 "Mois suivant",
                 "Ann\u00E9e pr\u00E9cedente",
                 "Ann\u00E9e suivante",
                 "Aujourd\u2019hui",
-                "Voir Calendrier"
+                "Ouvrir Calendrier",
+                "sm",
+                "Semaine [[%0%]]/[[%1%]]",
+                "Semaine",
+                "Choissisez une date",
+                "Cliquez et d\u00E9placez",
+                "Montre \u201C[[%0%]]\u201D en premier",
+                "Aujourd\u2019hui",
+                "Date désactivé : "
                 ]
 };
+try { datePickerController.loadLanguage(); } catch(err) {}
+ 

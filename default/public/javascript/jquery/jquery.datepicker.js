@@ -11,7 +11,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Plugin para jQuery que integra la carga asincrona de Unobstrusive Date-Picker (http://www.frequency-decoder.com/2006/10/02/unobtrusive-date-picker-widgit-update)
+ * Plugin para jQuery que integra la carga asincrona de Unobstrusive Date-Picker v5 (http://www.frequency-decoder.com/2009/09/09/unobtrusive-date-picker-widget-v5)
  * solo en caso de que no se soporte el input tipo date
  * 
  * @copyright  Copyright (c) 2005-2010 Kumbia Team (http://www.kumbiaphp.com)
@@ -19,7 +19,6 @@
  */
 
 (function($) {
-	
 	var i = document.createElement("input");
     i.setAttribute("type", "date");
 	
@@ -27,34 +26,32 @@
     if(i.type == 'date') {
 		return true;
 	}
-	
-	// Define el formato en función del estándar ISO-8601 el cual es utilizado en HTML 5
-	$('.jp-datepicker').map(function() {
-		$(this).addClass('format-y-m-d').addClass('divider-dash');
 		
-		// Verifica si hay mínimo
-		if($(this).attr('min') != undefined) {
-			$(this).addClass('range-low-' + $(this).attr('min'));
-		}
-		
-		// Verifica si ha máximo
-		if($(this).attr('max') != undefined) {
-			$(this).addClass('range-high-' + $(this).attr('max'));
-		}
-	});
-	
-	// Verifica si ya se cargo Unobstrusive Date-Picker
-    if(typeof datePickerController != "undefined") {
-		return true;
-	}
-	
 	// Carga el estilo de datepicker
 	//$('head').append('<link href="css/datepicker.css" type="text/css" rel="stylesheet"/>');
 				
 	// Carga Unobstrusive Date-Picker
 	$.getScript($.KumbiaPHP.publicPath + 'javascript/datepicker/datepicker.js', function(){ 
-		// Inicializa los date-picker
-		datePickerController.create(); 
+
+		// Define el formato en función del estándar ISO-8601 el cual es utilizado en HTML 5
+		$('.jp-datepicker').map(function() {
+
+			var opts = { formElements : {} };    
+			opts.formElements[this.id] = "Y-ds-m-ds-d";
+			
+			// Verifica si hay mínimo
+			if($(this).attr('min') != undefined) {
+				opts.rangeLow = $(this).attr('min').replace(/\-/g, '');
+			}
+			
+			// Verifica si ha máximo
+			if($(this).attr('max') != undefined) {
+				opts.rangeLow = $(this).attr('max').replace('-', '').replace(/\-/g, '');
+			}
+			
+			// Crea el calendario
+			datePickerController.createDatePicker(opts);
+		});
 	});
 	
 })(jQuery);

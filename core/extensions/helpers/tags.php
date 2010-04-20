@@ -776,7 +776,7 @@ function textupper_field_tag($name){
  * Crea un componente para seleccionar la fechas
  *
  * @param string $name
- * @param string $format d-m-y, y-m-d, m-d-y
+ * @param string $format d-m-Y, Y-m-d, m-d-Y
  * @param string $language
  * @return string
  */
@@ -789,7 +789,7 @@ function date_field_tag($name){
 		$format = $params['format'];
 		unset($params['format']);
 	} else {
-		$format = "d-m-y";
+		$format = "d-m-Y";
 	}
 	
 	if(isset($params['language'])){
@@ -811,13 +811,18 @@ function date_field_tag($name){
 		stylesheet_link_tag('datepicker');
 	}
 	
-	if(isset($params['class'])) {
-		$params['class'] .= " format-$format divider-dash";
-	} else {
-		$params['class'] = "format-$format divider-dash";
-	}
-	
-	return $code . text_field_tag($params);
+	$data = get_id_and_name($name);
+	$format = str_replace('-', '-ds-', $format);
+	$code .= "
+		<script type=\"text/javascript\">
+			var opts = {                            
+			  formElements:{'{$data['id']}':'$format'}
+			};      
+			datePickerController.createDatePicker(opts);
+		</script>
+	";
+		
+	return text_field_tag($params) . $code;
 }
 
 /**
