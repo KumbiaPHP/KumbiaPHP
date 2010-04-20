@@ -27,6 +27,11 @@
 		return true;
 	}
 		
+	// Verifica si ya se cargo el datepicker
+	if(datePickerController != undefined) {
+		return true;
+	}
+		
 	// Carga el estilo de datepicker
 	//$('head').append('<link href="css/datepicker.css" type="text/css" rel="stylesheet"/>');
 				
@@ -39,14 +44,16 @@
 			var opts = { formElements : {} };    
 			opts.formElements[this.id] = "Y-ds-m-ds-d";
 			
+			var input = $(this);
+			
 			// Verifica si hay mínimo
-			if($(this).attr('min') != undefined) {
-				opts.rangeLow = $(this).attr('min').replace(/\-/g, '');
+			if(input.attr('min') != undefined) {
+				opts.rangeLow = input.attr('min').replace(/\-/g, '');
 			}
 			
 			// Verifica si ha máximo
-			if($(this).attr('max') != undefined) {
-				opts.rangeLow = $(this).attr('max').replace('-', '').replace(/\-/g, '');
+			if(input.attr('max') != undefined) {
+				opts.rangeLow = input.attr('max').replace(/\-/g, '');
 			}
 			
 			// Crea el calendario
