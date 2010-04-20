@@ -19,6 +19,7 @@
  */
 
 (function($) {
+	
 	var i = document.createElement("input");
     i.setAttribute("type", "date");
 	
@@ -26,18 +27,12 @@
     if(i.type == 'date') {
 		return true;
 	}
-		
-	// Verifica si ya se cargo el datepicker
-	if(datePickerController != undefined) {
-		return true;
-	}
-		
-	// Carga el estilo de datepicker
-	//$('head').append('<link href="css/datepicker.css" type="text/css" rel="stylesheet"/>');
-				
-	// Carga Unobstrusive Date-Picker
-	$.getScript($.KumbiaPHP.publicPath + 'javascript/datepicker/datepicker.js', function(){ 
-
+	
+	/**
+	 * Funcion encargada de integrar el DatePicker
+	 * 
+	 */ 
+	function integrarDatePicker() {
 		// Define el formato en función del estándar ISO-8601 el cual es utilizado en HTML 5
 		$('.jp-datepicker').map(function() {
 
@@ -59,6 +54,20 @@
 			// Crea el calendario
 			datePickerController.createDatePicker(opts);
 		});
+	}
+		
+	// Verifica si ya se cargo el datepicker
+	if(datePickerController != undefined) {
+		integrarDatePicker();
+		return true;
+	}
+		
+	// Carga el estilo de datepicker
+	//$('head').append('<link href="css/datepicker.css" type="text/css" rel="stylesheet"/>');
+				
+	// Carga Unobstrusive DatePicker
+	$.getScript($.KumbiaPHP.publicPath + 'javascript/datepicker/datepicker.js', function(){ 
+		integrarDatePicker();
 	});
 	
 })(jQuery);
