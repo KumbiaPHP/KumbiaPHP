@@ -550,6 +550,6 @@ class Form
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
         
-        return "<input id=\"$id\" name=\"$name\" class=\"jp-datepicker $class\" type=\"date\" value=\"$value\" $attrs/>";
+        return "<input id=\"$id\" name=\"$name\" class=\"js-datepicker $class\" type=\"date\" value=\"$value\" $attrs/>";
     }
 }

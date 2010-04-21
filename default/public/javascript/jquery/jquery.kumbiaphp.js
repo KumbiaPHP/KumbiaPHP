@@ -113,6 +113,69 @@
 		},
 
 		/**
+		 * Carga y Enlaza Unobstrusive DatePicker en caso de ser necesario
+		 * 
+		 */
+		bindDatePicker: function() {
+			var i = document.createElement("input");
+			i.setAttribute("type", "date");
+	
+			// Verifica si se soporta date
+			if(i.type == 'date') {
+				return true;
+			}
+			
+			// Selecciona los campos input
+			var inputs = $('input.js-datepicker');
+			
+			// Verifica si hay al menos un campo
+			if(!inputs.is('input')) {
+				return true;
+			}
+			
+			/**
+			 * Funcion encargada de enlazar el DatePicker a los Input
+			 * 
+			 */ 
+			var bindInputs = function() {
+				// Define el formato en función del estándar ISO-8601 el cual es utilizado en HTML 5
+				inputs.each(function() {
+
+					var opts = { formElements : {} };    
+					opts.formElements[this.id] = "Y-ds-m-ds-d";
+					
+					var input = $(this);
+					
+					// Verifica si hay mínimo
+					if(input.attr('min') != undefined) {
+						opts.rangeLow = input.attr('min').replace(/\-/g, '');
+					}
+					
+					// Verifica si ha máximo
+					if(input.attr('max') != undefined) {
+						opts.rangeLow = input.attr('max').replace(/\-/g, '');
+					}
+					
+					// Crea el calendario
+					datePickerController.createDatePicker(opts);
+				});
+			}
+			
+			// Si ya esta cargado Unobstrusive DatePicker, lo integra de una vez
+			if(typeof(datePickerController) != "undefined") {
+				return bindInputs();
+			}
+			
+			// Carga la hoja de estilos
+			$('head').append('<link href="' + this.publicPath + 'css/datepicker.css" type="text/css" rel="stylesheet"/>');
+			
+			// Carga Unobstrusive DatePicker
+			$.getScript(this.publicPath + 'javascript/datepicker/datepicker.js', function(){ 
+				bindInputs();
+			});
+		},
+
+		/**
 		 * Enlaza a las clases por defecto
 		 *
 		 */
@@ -149,6 +212,9 @@
             
             // Lista desplegable que actualiza con ajax
             $("select.js-remote").live('change', this.cUpdaterSelect);
+			
+			// Enlazar DatePicker
+			this.bindDatePicker();
 		},
         
         /**
