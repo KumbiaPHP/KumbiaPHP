@@ -20,7 +20,7 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
-class SimpleAcl extends Acl 
+class SimpleAcl extends Acl2
 {
 	/**
 	 * Definicion de Roles con sus respectivos padres y recursos a los que pueden acceder
