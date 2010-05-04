@@ -206,7 +206,7 @@ class Util
     /**
      * Coloca la primera letra en minuscula
      *
-     * @param $s string cadena a convertir
+     * @param string $s cadena a convertir
      * @return string
      **/
     public static function lcfirst($s) {

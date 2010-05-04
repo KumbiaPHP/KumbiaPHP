@@ -60,7 +60,7 @@ class Paginator
      *  
      * @return object
      **/
-    public static function paginate ()
+    public static function paginate ($model)
     {
         $params = Util::getParams(func_get_args());
         $page_number = isset($params['page']) ? (int) $params['page'] : 1;
@@ -73,8 +73,8 @@ class Paginator
         //Instancia del objeto contenedor de pagina
         $page = new stdClass();
         //Si es un array, se hace paginacion de array
-        if (is_array($params[0])) {
-            $items = $params[0];
+        if (is_array($model)) {
+            $items = $model;
             $n = count($items);
             //si el inicio es superior o igual al conteo de elementos,
             //entonces la página no existe, exceptuando cuando es la pagina 1
@@ -84,12 +84,9 @@ class Paginator
             $page->items = array_slice($items, $start, $per_page);
         } else {
             //Si es una cadena, instancio el modelo
-            if (is_string($params[0])) {
-                $m = Util::camelcase($params[0]);
-                $model = ActiveRecord::get($m);
-            } else {
-                $model = $params[0];
-            }
+            if (is_string($model)) {
+                $model = ActiveRecord::get(Util::camelcase($params[0]));
+            } 
             //Arreglo que contiene los argumentos para el find
             $find_args = array();
             $conditions = null;
@@ -120,9 +117,8 @@ class Paginator
             if (isset($conditions)) {
                 $find_args[] = $conditions;
             }
-            //Cuento las apariciones
-            //$n = call_user_func_array(array($model, 'count'), $find_args);
-            $n = call_user_func_array(array($model , 'count'), $conditions);
+            //contar los registros
+            $n = $model->count($conditions);
             //si el inicio es superior o igual al conteo de elementos,
             //entonces la página no existe, exceptuando cuando es la pagina 1
             if ($page_number > 1 && $start >= $n) {
@@ -138,7 +134,7 @@ class Paginator
         $page->next = ($start + $per_page) < $n ? ($page_number + 1) : false;
         $page->prev = ($page_number > 1) ? ($page_number - 1) : false;
         $page->current = $page_number;
-        $page->total = ($n % $per_page) ? (floor($n / $per_page) + 1) : ($n / $per_page);
+        $page->total = ceil($n / $per_page);
         $page->count = $n;
         $page->per_page = $per_page;
         return $page;
@@ -195,7 +191,7 @@ class Paginator
         $page->next = ($start + $per_page) < $n ? ($page_number + 1) : false;
         $page->prev = ($page_number > 1) ? ($page_number - 1) : false;
         $page->current = $page_number;
-        $page->total = ($n % $per_page) ? (floor($n / $per_page) + 1) : ($n / $per_page);
+        $page->total = ceil($n / $per_page);
         $page->count = $n;
         $page->per_page = $per_page;
         return $page;
