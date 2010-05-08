@@ -134,7 +134,8 @@ final class Router
 	 * Establece el estado del Router
 	 *
 	 */
-	public static function setRouted($value){
+	public static function setRouted($value)
+	{
 		self::$_vars['routed'] = $value;
 	}
 
@@ -198,7 +199,7 @@ final class Router
 	 * @param string  un atributo: route, module, controller, action, parameters o routed
 	 * @return string con el valor del atributo
 	 **/
-	public static function get($var=NULL)
+	public static function get($var = NULL)
 	{
 		if($var){
 			return self::$_vars[$var];
@@ -225,5 +226,18 @@ final class Router
 			$_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
 			View::select(NULL, NULL);
 		}
+	}
+	
+	
+	/**
+	 * Redirecciona la ejecución a una accion del controlador actual en un
+	 * tiempo de ejecución determinado
+	 * 
+	 * @param string $action
+	 * @param integer $seconds
+	 */
+	public static function toAction($action, $seconds = NULL)
+	{
+		self::redirect(self::$_vars['controller_path'] . "/$action", $seconds);
 	}
 }
