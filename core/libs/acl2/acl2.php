@@ -35,13 +35,8 @@ abstract class Acl2
 	 * @param string $user usuario de la acl
 	 * @return boolean
 	 */ 
-	public function check($resource, $user = NULL)
+	public function check($resource, $user)
 	{
-		// Si no se ha especificado usuario
-		if($user === NULL) {
-			$user = $this->_user;
-		}
-		
 		// Itera en los roles de usuario
 		foreach($this->_getUserRoles($user) as $role) {
 			if($this->_checkRole($role, $resource)) {
