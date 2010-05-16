@@ -22,13 +22,6 @@
 abstract class Upload
 {
 	/**
-	 * Adaptador por defecto
-	 *
-	 * @var string
-	 */
-	protected static $_defaultAdapter = 'file';
-	
-	/**
 	 * Nombre de archivo subido por metodo POST
 	 * 
 	 * @var string
@@ -287,25 +280,11 @@ abstract class Upload
 	 * @param string $adapter (file, image, model)
 	 * @return Upload
 	 */
-	public static function factory($name, $adapter = NULL)
+	public static function factory($name, $adapter = 'file')
 	{
-		if(!$adapter) {
-			$adapter = self::$_defaultAdapter;
-		}
-
 		require_once CORE_PATH . "libs/upload/adapters/{$adapter}_upload.php";
 		$class = $adapter.'upload';
 		
 		return new $class($name);
-	}
-
-	/**
-	 * Cambia el adaptador por defecto
-	 *
-	 * @param string $adapter nombre del adaptador por defecto
-	 */
-	public static function setDefault ($adapter)
-	{
-		self::$_defaultAdapter = $adapter;
 	}
 }
