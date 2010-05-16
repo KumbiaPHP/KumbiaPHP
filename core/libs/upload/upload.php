@@ -205,7 +205,7 @@ abstract class Upload
 		}
 		
 		// Valida el tipo de archivo
-		if($this->_types !== NULL && $this->_validatesTypes()) {
+		if($this->_types !== NULL && !$this->_validatesTypes()) {
 			Flash::error('Error: el tipo de archivo no es valido');
 			return FALSE;
 		}
