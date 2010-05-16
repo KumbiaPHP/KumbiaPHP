@@ -1,66 +1,61 @@
 <?php
 /**
- * Kumbia PHP Framework
+ * KumbiaPHP web & app Framework
  *
  * LICENSE
  *
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://XXXXXXXX
+ * http://wiki.kumbiaphp.com/Licencia
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
+ * to license@kumbiaphp.com so we can send you a copy immediately.
+ *
+ * Manejador de eventos
  *
  * @category   Kumbia
  * @package    Event
- * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @copyright  Copyright (c) 2005-2010 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
  
-/**
- * @see Hook
- */
+// @see Hook
 require CORE_PATH . 'libs/event/hook.php';
  
-/**
- * Implementación de Eventos
- *
- * @category  Kumbia
- * @package   Event
- * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- */
 class Event
 {
     /**
      * Datos compartidos
      *
      * @var mixed
-     **/
+     */
     public static $data = null;
+    
     /**
      * Eventos
      *
      * @var array
-     **/
+     */
     protected static $_events = array();
+    
     /**
      * Verifica si un evento ya tiene manejador
      * 
      * @param string $event
      * @return boolean
-     **/
-    public static function has_handler($event)
+     */
+    public static function hasHandler($event)
     {
         return isset(self::$_events[$event]) && count(self::$_events[$event]);
     }
+    
     /**
      * Enlaza un handler con un evento
      *
      * @param string $event evento
      * @param mixed $handler retrollamada
-     **/
+     */
     public static function bind($event, $handler)
     {
         if(!isset(self::$_events[$event])) {
@@ -68,13 +63,14 @@ class Event
         }
         self::$_events[$event][] = $handler;
     }
+    
     /**
      * Enlaza en el evento el handler2 antes del handler1
      *
      * @param string $event evento
      * @param mixed $handler1
      * @param mixed $handler2
-     **/
+     */
     public static function before($event, $handler1, $handler2)
     {
         if(!isset(self::$_events[$event])) {
@@ -87,13 +83,14 @@ class Event
             Util::array_insert(self::$_events[$event], $i, $handler2);
 		}
     }
+    
     /**
      * Enlaza en el evento el handler2 despues del handler1
      *
      * @param string $event evento
      * @param mixed $handler1
      * @param mixed $handler2
-     **/
+     */
     public static function after($event, $handler1, $handler2)
     {
         if(!isset(self::$_events[$event])) {
@@ -106,12 +103,13 @@ class Event
             Util::array_insert(self::$_events[$event], $i+1, $handler2);
 		}
     }
+    
     /**
      * Desenlaza los manejadores
      *
      * @param string $event evento
      * @param mixed $handler manejador
-     **/
+     */
     public static function unbind($event, $handler=false)
     {
         if($handler && isset(self::$_events[$event])) {
@@ -122,13 +120,14 @@ class Event
             self::$_events[$event] = array();
         }
     }
+    
     /**
      * Remplaza un handler por otro
      *
      * @param string $event evento
      * @param mixed $handler1 handler a remplazar
      * @param mixed $handler2 nuevo handler
-     **/
+     */
     public static function replace($event, $handler1, $handler2)
     {
         if(isset(self::$_events[$event])) {
@@ -140,13 +139,14 @@ class Event
         }
         return false;        
     }
+    
     /**
      * Ejecuta los handlers asociados al evento
      *
      * @param string $event evento
      * @param array $args argumentos
      * @return mixed
-     **/
+     */
     public static function trigger($event, $args = array())
     {
         $value = false;
