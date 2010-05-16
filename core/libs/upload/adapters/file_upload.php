@@ -61,4 +61,20 @@ class FileUpload extends Upload
 	{
 		return move_uploaded_file($_FILES[$this->_name]['tmp_name'], "$this->_path/$name");
 	}
+		
+	/**
+	 * Valida el archivo antes de guardar
+	 * 
+	 * @return boolean
+	 */
+	protected function _validates()
+	{
+		// Verifica que se pueda escribir en el directorio
+		if(!is_writable($this->_path)) {
+			Flash::error('Error: no se puede escribir en el directorio');
+			return FALSE;
+		}
+		
+		return parent::_validates();
+	}
 }

@@ -126,6 +126,12 @@ class ImageUpload extends Upload
 	 */	
 	protected function _validates()
 	{
+		// Verifica que se pueda escribir en el directorio
+		if(!is_writable($this->_path)) {
+			Flash::error('Error: no se puede escribir en el directorio');
+			return FALSE;
+		}
+				
 		// Verifica que sea un archivo de imagen
 		if(!preg_match('/^image\//i', $_FILES[$this->_name]['type'])) {
 			Flash::error('Error: el archivo debe ser una imagen');
