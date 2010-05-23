@@ -180,8 +180,8 @@
 		 *
 		 */
 		bind : function() {
-            // Enlace con confirmacion
-			$("a.js-confirm").live('click', this.cConfirm);
+            // Enlace y boton con confirmacion
+			$("a.js-confirm, input.js-confirm").live('click', this.cConfirm);
             
             // Enlace ajax
 			$("a.js-remote").live('click', this.cRemote);
