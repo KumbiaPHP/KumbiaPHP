@@ -77,7 +77,7 @@ final class Dispatcher
 		$num_params = count($parameters);
 		if($cont->limit_params && ($num_params < $reflectionMethod->getNumberOfRequiredParameters() ||
 					   $num_params > $reflectionMethod->getNumberOfParameters())){
-			throw new KumbiaException("Número de parametros erroneo para ejecutar la acción \"$action\" en el controlador \"$controller\"");
+			throw new KumbiaException("Número de parámetros erroneo para ejecutar la acción \"$action\" en el controlador \"$controller\"");
 		}
 		$reflectionMethod->invokeArgs($cont, $parameters);
 
