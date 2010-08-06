@@ -1376,6 +1376,10 @@ class KumbiaActiveRecord
          *
          */
         foreach ($this->not_null as $f) {
+			if(in_array($f, $this->_with_default)) {
+				continue;
+			}
+			
             if (!isset($this->$f) || is_null($this->$f) || $this->$f == '') {
                 if (!$ex && $f == 'id') {
                     continue;
