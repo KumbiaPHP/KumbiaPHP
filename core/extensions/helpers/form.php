@@ -47,7 +47,7 @@ class Form
 	 * @param boolean $autoload autocarga de valores
      * @return mixed
      */
-    private static function _getFieldData ($field, $autoload = TRUE)
+    protected static function _getFieldData ($field, $autoload = TRUE)
     {
         // Obtiene considerando el patron de formato form.field
         $formField = explode('.', $field, 2);
