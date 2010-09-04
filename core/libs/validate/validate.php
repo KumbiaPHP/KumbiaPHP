@@ -53,7 +53,7 @@ class Validate
      * @param int $max
      * @return bool
      */
-    public static function between ($value = NULL, $min = 0, $max = NULL)
+    public static function between ($value, $min = 0, $max = NULL)
     {
         $length = strlen($value);
         return ($length >= $min && $length <= $max);
@@ -66,7 +66,7 @@ class Validate
      * @param int $min
      * @param int $max
      */
-    public static function intBetween($value=NULL, $min=0, $max=NULL)
+    public static function intBetween($value, $min=0, $max=NULL)
     {
         $int_options = array('options'=> array('min_range'=>$min, 'max_range'=>$max));
         return filter_var($value, FILTER_VALIDATE_INT, $int_options);
@@ -79,7 +79,7 @@ class Validate
      * @param int $min
      * @return bool
      */
-    public static function minLength($value = NULL, $min)
+    public static function minLength($value, $min)
     {
         return (strlen($value) < $min);
     }
@@ -91,7 +91,7 @@ class Validate
      * @param int $max
      * @return bool
      */
-    public static function maxLength ($value=NULL, $max) 
+    public static function maxLength ($value, $max) 
     {
         return (strlen($value) > $max);
     }
@@ -103,7 +103,7 @@ class Validate
      * @param array $list
      * @return bool
      */
-    public static function inList($value = NULL, $list)
+    public static function inList($value, $list)
     {
         return in_array($check, $list);
     }
@@ -114,7 +114,7 @@ class Validate
      * @param string $mail
      * @return bool
      */
-    public static function mail ($mail = NULL)
+    public static function mail ($mail)
     {
         return filter_var($mail, FILTER_VALIDATE_EMAIL);
     }
@@ -124,7 +124,7 @@ class Validate
      * @param string $url
      * @return bool
      */
-    public static function url ($url = NULL)
+    public static function url ($url)
     {
         return filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED);
     }
@@ -144,7 +144,7 @@ class Validate
      * @param string $check
      * @return bool
      */
-    public static function isNull ($check = NULL)
+    public static function isNull ($check)
     {
         return !self::custom($check, '/[^\\s]/');
     }
@@ -154,7 +154,7 @@ class Validate
      * @param string $string
      * @return bool
      */
-    public static function alNum ($string=NULL)
+    public static function alNum ($string)
     {
         return self::custom($string, '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu');
     }
@@ -198,11 +198,20 @@ class Validate
      * @param string $regex
      * @return bool
      */
-    public static function custom ($check = NULL, $regex = NULL)
+    public static function custom ($check, $regex)
     {
-        if ($regex === null) {
-            throw new KumbiaException('Debe definir una Expresión Regular para Validate::custom()');
-        }
         return filter_var($check, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => $regex)));
     }
+    
+    /**
+     * Valida si es un número decimal
+     * 
+     * @param string $value
+     * @param string $decimal
+     * @return boolean
+     */
+    public static function decimal($value, $decimal = ',')
+    {
+		return filter_var($value, FILTER_VALIDATE_FLOAT, array('options' => array('decimal' => $decimal)));
+	}
 }
