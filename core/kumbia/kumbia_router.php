@@ -19,7 +19,7 @@
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-final class Router
+class KumbiaRouter
 {
 	/**
 	 * Array estatico con las variables del router
