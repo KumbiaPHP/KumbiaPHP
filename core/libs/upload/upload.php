@@ -254,7 +254,7 @@ abstract class Upload
 	 */
 	protected function _validatesTypes()
 	{
-		return !in_array($_FILES[$this->_name]['type'], $this->_types);
+		return in_array($_FILES[$this->_name]['type'], $this->_types);
 	}
 	
 	/**
