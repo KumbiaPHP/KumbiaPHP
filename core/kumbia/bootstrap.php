@@ -89,7 +89,7 @@ if (isset($config['application']['charset'])) {
 }
 
 // @see Router
-require APP_PATH . 'libs/router.php';
+require CORE_PATH . 'kumbia/router.php';
 
 //@see Load
 require CORE_PATH . 'kumbia/load.php';
