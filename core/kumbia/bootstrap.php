@@ -41,6 +41,9 @@ spl_autoload_register('auto');
 // Inicializar el ExceptionHandler
 set_exception_handler('handle_exception');
 
+// Bootstrap de la aplicacion
+require APP_PATH . 'libs/bootstrap.php';
+
 // @see Util
 require CORE_PATH . 'kumbia/util.php';
 
