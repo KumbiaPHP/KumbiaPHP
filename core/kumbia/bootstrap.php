@@ -35,14 +35,12 @@ function kumbia_version(){
 function handle_exception($e){
     KumbiaException::handle_exception($e);
 }
+
 // Registrar la autocarga
 spl_autoload_register('auto');
 
 // Inicializar el ExceptionHandler
 set_exception_handler('handle_exception');
-
-// Bootstrap de la aplicacion
-require APP_PATH . 'libs/bootstrap.php';
 
 // @see Util
 require CORE_PATH . 'kumbia/util.php';
@@ -107,13 +105,17 @@ require APP_PATH . 'libs/application_controller.php';
 require APP_PATH . 'libs/view.php';
 
 try {
+	// Bootstrap de la aplicacion
+	require APP_PATH . 'libs/bootstrap.php';
+	
     // Dispatch y renderiza la vista
     View::render(Dispatcher::execute(Router::rewrite($url)), $url);
 
 } catch (KumbiaException $e)
 {
-  KumbiaException::handle_exception($e);
+	KumbiaException::handle_exception($e);
 }
+
 // Autocarga de clases
 function auto($class){
     $class = Util::smallcase($class);
