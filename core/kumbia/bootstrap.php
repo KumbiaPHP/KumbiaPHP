@@ -118,10 +118,8 @@ try {
 
 // Autocarga de clases
 function auto($class){
-    $class = Util::smallcase($class);
-    if($class == 'active_record'){
-        return require APP_PATH . 'libs/active_record.php';
-    }    
+	$class = Util::smallcase($class);
+	
     if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
         return require APP_PATH . "extensions/helpers/$class.php";
     }
