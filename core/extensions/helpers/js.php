@@ -50,7 +50,7 @@ class Js
      * @param string | array $attrs atributos adicionales
      * @return string
      */
-    public static function submit ($text, $confirm, $class = NULL, $attrs = NULL)
+    public static function submit ($text, $confirm = '¿Está Seguro?', $class = NULL, $attrs = NULL)
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
@@ -66,7 +66,7 @@ class Js
      * @param string | array $attrs atributos adicionales
      * @return string
      */
-    public static function submitImage ($img, $confirm, $class = NULL, $attrs = NULL)
+    public static function submitImage ($img, $confirm = '¿Está Seguro?', $class = NULL, $attrs = NULL)
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
