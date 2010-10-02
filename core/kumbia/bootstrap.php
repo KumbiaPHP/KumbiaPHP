@@ -118,6 +118,13 @@ try {
 
 // Autocarga de clases
 function auto($class){
+	
+	// Optimizando carga de ActiveRecord
+	if($class == 'ActiveRecord') {
+		return require APP_PATH . 'libs/active_record.php';
+	}
+	
+	// Pasando a smallcase
 	$class = Util::smallcase($class);
 	
     if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
@@ -132,6 +139,7 @@ function auto($class){
     if (is_file(CORE_PATH . "libs/$class/$class.php")) {
         return require CORE_PATH . "libs/$class/$class.php";
     }
+    
     if($class == 'kumbia_exception'){
         require CORE_PATH . 'kumbia/kumbia_exception.php';
     }
