@@ -41,6 +41,25 @@ class Js
     }
    
 	/**
+     * Crea un enlace a una accion con mensaje de confirmacion respetando
+     * las convenciones de Kumbia
+     *
+     * @param string $action accion
+     * @param string $text texto a mostrar
+     * @param string $confirm mensaje de confirmacion
+     * @param string $class clases adicionales para el link
+     * @param string | array $attrs atributos adicionales
+     * @return string
+     */
+    public static function linkAction ($action, $text, $confirm = '¿Está Seguro?', $class = NULL, $attrs = NULL)
+    {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" title=\"$confirm\" class=\"js-confirm $class\" $attrs>$text</a>";
+    }
+   
+	/**
      * Crea un boton submit con mensaje de confirmacion respetando
      * las convenciones de Kumbia
      *
