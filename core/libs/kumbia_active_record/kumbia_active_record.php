@@ -2371,7 +2371,7 @@ class KumbiaActiveRecord
     public function paginate()
     {
         $args = func_get_args();
-        array_unshift($args, $this->source);
+        array_unshift($args, $this);
         //if(!class_exists('Paginator')){
             require_once CORE_PATH . 'libs/kumbia_active_record/behaviors/paginate.php';
         //}
@@ -2391,7 +2391,7 @@ class KumbiaActiveRecord
     public function paginate_by_sql($sql)
     {
         $args = func_get_args();
-        array_unshift($args, $this->source);
+        array_unshift($args, $this);
         //if(!class_exists('Paginator')){
             require_once CORE_PATH . 'libs/kumbia_active_record/behaviors/paginate.php';
         //}

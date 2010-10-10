@@ -83,10 +83,6 @@ class Paginator
             }
             $page->items = array_slice($items, $start, $per_page);
         } else {
-            //Si es una cadena, instancio el modelo
-            if (is_string($model)) {
-                $model = ActiveRecord::get(Util::camelcase($params[0]));
-            } 
             //Arreglo que contiene los argumentos para el find
             $find_args = array();
             $conditions = null;
@@ -172,11 +168,6 @@ class Paginator
             throw new KumbiaException("La página $page_number no existe en el paginador");
         }
         $start = $per_page * ($page_number - 1);
-        //Si es una cadena, instancio el modelo
-        if (is_string($params[0])) {
-            $m = Util::camelcase($params[0]);
-            $model = ActiveRecord::get($m);
-        }
         //Instancia del objeto contenedor de pagina
         $page = new stdClass();
         //Cuento las apariciones atraves de una tabla derivada
