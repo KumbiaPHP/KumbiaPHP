@@ -39,6 +39,24 @@ class Ajax
         return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrs>$text</a>";
     }
 
+	/**
+     * Crea un enlace a una acción actualizando la capa con ajax
+     *
+     * @param string $action ruta a la accion
+     * @param string $text texto a mostrar
+     * @param string $update capa a actualizar
+     * @param string $class clases adicionales
+     * @param string | array $attrs atributos adicionales
+     * @return string
+     */
+    public static function linkAction ($action, $text, $update, $class=NULL, $attrs=NULL)
+    {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrs>$text</a>";
+    }
+
     /**
      * Crea un enlace en una Aplicacion actualizando la capa con ajax con mensaje
      * de confirmacion
@@ -57,6 +75,26 @@ class Ajax
             $attrs = Tag::getAttrs($attrs);
         }
         return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
+    }
+    
+	/**
+     * Crea un enlace a una acción actualizando la capa con ajax con mensaje
+     * de confirmacion
+     *
+     * @param string $action ruta a la accion
+     * @param string $text texto a mostrar
+     * @param string $update capa a actualizar
+     * @param string $confirm mensaje de confirmacion
+     * @param string $class clases adicionales
+     * @param string | array $attrs atributos adicionales
+     * @return string
+     */
+    public static function linkActionConfirm ($action, $text, $update, $confirm, $class=NULL, $attrs=NULL)
+    {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
     }
     
     /**
