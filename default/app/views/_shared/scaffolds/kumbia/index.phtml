@@ -1,32 +1,39 @@
+<?php Tag::css('scaffold');
+$controller_path = PUBLIC_PATH.Router::get('controller_path').'/'?>
 <div id="scaffold">
-<?php View::content();
-$model= get_class($results)// no hara falta?>
-<h1><?php echo ucwords("$controller_name: $action_name") ?></h1>
+<?php View::content()?>
+<h1><?php echo ucwords("$model"),": <span>$action_name</span>" ?></h1>
+<?php if ($results->items) : ?>
 <table>
     <thead><tr>
-        <?php foreach (current($results->items)->fields as $field) : ?>
-        <th><?echo (current($results->items)->get_alias($field))?></th>
-		<?php endforeach?>
-		<th>Acciones</th>
+    <?php foreach (current($results->items)->fields as $field) : ?>
+        <th><?php echo (current($results->items)->get_alias($field))?></th>
+    <?php endforeach?>
+	<th>Acciones</th>
     </tr></thead>
 	<tbody>
-    <?php foreach ($results->items as $item) : $mo ?>
+    <?php foreach ($results->items as $item) : ?>
         <tr>
             <?php foreach ($item->fields as $field) : ?>
             <td><?php eh($item->$field)?></td>
             <?php endforeach?>
-			<td><a href="<?php echo URL_PATH.$controller_name?>/ver/<?echo $item->id?>">Ver</a> |
-			<a href="<?php echo URL_PATH.$controller_name?>/editar/<?echo $item->id?>">Editar</a> |
-			<a title="¿Seguro que quiere borrar?" href="<?php echo URL_PATH.$controller_name?>/borrar/<?echo $item->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
+			<td><a href="<?php echo $controller_path ?>ver/<?php echo $item->id?>">Ver</a> |
+			<a href="<?php echo $controller_path ?>editar/<?php echo $item->id?>">Editar</a> |
+			<a title="¿Seguro que quiere borrar?" href="<?php echo $controller_path ?>borrar/<?php echo $item->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
 			</td>
         </tr>
     <?php endforeach?>
 	</tbody>
 </table>
-<?php View::partial('paginators/digg', false, array('page' => $results ,'url' => "$controller_name/index")); ?>
+<?php View::partial('paginators/digg', false, array('page' => $results ,'url' => Router::get('controller_path').'/index')); ?>
+
+<?php else : // Si no hay items?>
+<h2>No hay ningún registro</h2>
+<?php endif ?>
+
 </div>
-<div class="links">
-	<a href="<?php echo URL_PATH.$controller_name?>/create/">Crear registro</a>
-	
+<div class="actions">
+	<a href="<?php echo $controller_path ?>crear/">Crear registro</a>
+</div>
 </div>
 <?php //var_dump($results)?>

@@ -1,20 +1,25 @@
+<?php Tag::css('scaffold') ?>
 <div id="scaffold">
 <?php View::content();
+//Html::link('test-url2','Html link autocarga');
 //$model= get_class($result)// no hara falta?>
-<h1><?php echo ucwords("$controller_name: $action_name") ?></h1>
-<ul>
-<?php foreach ($result->fields as $field) : ?>
+<?php if($result) : ?>
+	<h1><?php echo ucwords("$model"),": <span>$action_name</span>" ?></h1>
+	<ul>
+	<?php foreach ($result->fields as $field) : ?>
+		<li><strong><?php echo $result->alias[$field]?> :</strong>  <?php eh($result->$field) ?></li>
+	<?php endforeach ?>
+	</ul>
 
-	<li><strong><?php echo $result->alias[$field]?> :</strong>  <?php eh($result->$field) ?></li>
-
-<?php endforeach?>
-</ul>
-</div>
-<div class="links">
-	<a href="<?php echo PUBLIC_PATH.$controller_name?>/">Listado</a>
-	<a href="<?php echo PUBLIC_PATH.$controller_name?>/create/">Crear registro</a>
-	<a href="<?php echo PUBLIC_PATH.$controller_name?>/editar/<?echo $result->id?>">Editar</a>
-	<a class="del" title="¿Seguro que quiere borrar?" href="<?php echo PUBLIC_PATH?>scaffold/borrar/<?echo $result->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
-</div>
-<pre>
-<?php //var_dump($result)?></pre>
+	<div class="actions">
+		<a href="../">Listado</a>
+		<a href="../crear/">Crear registro</a>
+		<a href="../editar/<?php echo $result->id?>">Editar</a>
+		<a class="del" title="¿Seguro que quiere borrar?" href="../borrar/<?php echo $result->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
+	</div>
+<?php else : ?>
+	<?php //Posible cambio de header ?>
+	<h1>No existe</h1>
+<?php endif ?>
+	<pre><?php //var_dump($result)?></pre>
+	</div>
