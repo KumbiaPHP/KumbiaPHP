@@ -1,9 +1,5 @@
 <?php
 
-//Load::models('articulos');
-
-//View::template('admin');
-
 class ScaffoldController extends ApplicationController {
 
 	public $scaffold = 'kumbia';
