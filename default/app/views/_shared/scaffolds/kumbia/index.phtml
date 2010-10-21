@@ -1,5 +1,4 @@
-<?php Tag::css('scaffold');
-$controller_path = PUBLIC_PATH.Router::get('controller_path').'/'?>
+<?php Tag::css('scaffold')?>
 <div id="scaffold">
 <?php View::content()?>
 <h1><?php echo ucwords("$model"),": <span>$action_name</span>" ?></h1>
@@ -17,9 +16,9 @@ $controller_path = PUBLIC_PATH.Router::get('controller_path').'/'?>
             <?php foreach ($item->fields as $field) : ?>
             <td><?php eh($item->$field)?></td>
             <?php endforeach?>
-			<td><a href="<?php echo $controller_path ?>ver/<?php echo $item->id?>">Ver</a> |
-			<a href="<?php echo $controller_path ?>editar/<?php echo $item->id?>">Editar</a> |
-			<a title="¿Seguro que quiere borrar?" href="<?php echo $controller_path ?>borrar/<?php echo $item->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
+			<td><?php echo Html::linkAction("ver/$item->id",'Ver')?> |
+			<?php echo Html::linkAction("editar/$item->id",'Editar')?> |
+			<?php echo Html::linkAction("borrar/$item->id",'Borrar', 'onclick="return confirm(\'¿Está seguro?\')"')?>
 			</td>
         </tr>
     <?php endforeach?>
@@ -33,7 +32,7 @@ $controller_path = PUBLIC_PATH.Router::get('controller_path').'/'?>
 
 </div>
 <div class="actions">
-	<a href="<?php echo $controller_path ?>crear/">Crear registro</a>
+	<?php echo Html::linkAction("crear/",'Crear registro')?>
 </div>
 </div>
 <?php //var_dump($results)?>
