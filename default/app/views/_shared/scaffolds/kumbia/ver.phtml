@@ -1,8 +1,6 @@
 <?php Tag::css('scaffold') ?>
 <div id="scaffold">
-<?php View::content();
-//Html::link('test-url2','Html link autocarga');
-//$model= get_class($result)// no hara falta?>
+<?php View::content()?>
 <?php if($result) : ?>
 	<h1><?php echo ucwords("$model"),": <span>$action_name</span>" ?></h1>
 	<ul>
@@ -18,7 +16,7 @@
 		<a class="del" title="¿Seguro que quiere borrar?" href="../borrar/<?php echo $result->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
 	</div>
 <?php else : ?>
-	<?php //Posible cambio de header ?>
+	<?php header("HTTP/1.0 404 Not Found")?>
 	<h1>No existe</h1>
 <?php endif ?>
 	<pre><?php //var_dump($result)?></pre>
