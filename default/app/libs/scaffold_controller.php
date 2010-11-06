@@ -51,7 +51,7 @@ class ScaffoldController extends ApplicationController {
 		}
 
 		//Aplicando la autocarga de objeto, para comenzar la edición
-		$this->result = Load::model($this->model)->find($id);
+		$this->result = Load::model($this->model)->find((int)$id);
 
 	}
 
@@ -60,7 +60,7 @@ class ScaffoldController extends ApplicationController {
 	 */
 	public function borrar($id)
 	{
-		if (!Load::model($this->model)->delete($id)) {
+		if (!Load::model($this->model)->delete((int)$id)) {
 			Flash::error('Falló Operación');
 		}
 		//enrutando al index para listar los articulos
@@ -71,6 +71,6 @@ class ScaffoldController extends ApplicationController {
 	 * Ver un Registro
 	 */
 	public function ver($id) {
-		$this->result = Load::model($this->model)->find_first($id);
+		$this->result = Load::model($this->model)->find_first((int)$id);
 	}
 }
