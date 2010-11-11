@@ -32,8 +32,8 @@ class ModelForm {
 		if(! $action) $action = ltrim(Router::get('route'),'/');
 		
 		echo '<form action="',PUBLIC_PATH.$action,'" method="post" id="',$model_name,'" class="scaffold">'.PHP_EOL; 
-		
-		echo '<input id="',$model_name,'_id" name="',$model_name,'[id]" class="id" value="',$model->id.'" type="hidden">'.PHP_EOL; 
+		$pk = $model->primary_key[0];
+		echo '<input id="',$model_name,'_',$pk,'" name="',$model_name,'[',$pk,']" " class="id" value="',$model->$pk.'" type="hidden">'.PHP_EOL; 
 		
 		$fields = array_diff($model->fields, $model->_at, $model->_in, $model->primary_key);
 		
@@ -41,23 +41,27 @@ class ModelForm {
 			
 			$tipo = trim(preg_replace('/(\(.*\))/','',$model->_data_type[$field]));//TODO: recoger tamaño y otros valores
 			$alias = $model->get_alias($field);
-			$formId = $model_name.'.'.$field;
+			$formId = $model_name.'_'.$field;
 			$formName = $model_name.'['.$field.']';
 			
 			if (in_array($field, $model->not_null)){
 				echo "<label for=\"$formId\" class=\"required\">$alias *</label>".PHP_EOL; 
 			} else echo "<label for=\"$formId\">$alias</label>".PHP_EOL; 
-			
+						
 			switch ($tipo){
 						case 'tinyint': case 'smallint': case 'mediumint':
 						case 'integer': case 'int': case 'bigint':
 						case 'float': case 'double': case 'precision':
 						case 'real': case 'decimal': case 'numeric':
 						case 'year': case 'day': case 'int unsigned': // Números
-							
-							echo "<input id=\"$formId\" type=\"number\" name=\"$formName\" value=\"{$model->$field}\">".PHP_EOL ; 
-							break;
-						
+
+							if(strripos($field,'_id',-3)) {
+								echo Form::dbSelect("$model_name.$field");
+								break;
+							} else {
+								echo "<input id=\"$formId\" type=\"number\" name=\"$formName\" value=\"{$model->$field}\">".PHP_EOL ; 
+								break;
+							}
 						
 						case 'date': // Usar el js de datetime
 							echo "<input id=\"$formId\" type=\"date\" name=\"$formName\" value=\"{$model->$field}\">".PHP_EOL;
