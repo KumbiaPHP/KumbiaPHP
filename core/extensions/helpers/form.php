@@ -503,7 +503,7 @@ class Form
             $options .= '>' . htmlspecialchars($p->$show, ENT_COMPAT, APP_CHARSET) . '</option>';
         }
         
-        return "<select id=\"$field\" name=\"$name\" $attrs>$options</select>".PHP_EOL;
+        return "<select id=\"$id\" name=\"$name\" $attrs>$options</select>".PHP_EOL;
     }
     
     /**
