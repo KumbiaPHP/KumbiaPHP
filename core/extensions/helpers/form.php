@@ -497,7 +497,7 @@ class Form
 	
         foreach($data as $p) {
             $options .= "<option value=\"{$p->$pk}\"";
-            if(${$p->$pk} == $value) {
+            if($p->$pk == $value) {
                 $options .= ' selected="selected"';
             }
             $options .= '>' . htmlspecialchars($p->$show, ENT_COMPAT, APP_CHARSET) . '</option>';
