@@ -13,9 +13,9 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * Clase que maneja el pool de conexiones
- * 
+ *
  * @category   Kumbia
- * @package    Db 
+ * @package    Db
  * @copyright  Copyright (c) 2005-2010 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
@@ -23,11 +23,11 @@
 /**
  * @see DbBaseInterface
  */
-require CORE_PATH . 'libs/db/db_base_interface.php';
+require_once CORE_PATH . 'libs/db/db_base_interface.php';
 /**
  * @see DbBase
  */
-require CORE_PATH . 'libs/db/db_base.php';
+require_once CORE_PATH . 'libs/db/db_base.php';
 
 /**
  * Clase que maneja el pool de conexiones
@@ -51,7 +51,7 @@ class Db
      */
     public static function factory ($database = null, $new = false)
     {
-	
+
 	//Cargo el mode para mi aplicacion
         if (! $database) {
             $database = Config::get('config.application.database');
@@ -60,7 +60,7 @@ class Db
         if (isset(self::$_connections[$database])) {
 	    return self::$_connections[$database];
         }
-	
+
 	return self::connect($database);
     }
 
@@ -80,20 +80,20 @@ class Db
 	$default = array ('port' => 0, 'dsn' => NULL, 'dbname' => NULL, 'host' => 'localhost', 'username' => NULL, 'password' => NULL);
 	$config = $config + $default;
 
-        //Si usa PDO 
+        //Si usa PDO
         if (isset($config['pdo'])) {
             return self::pdo($database);
 	}
-	
+
 	//Carga la clase adaptadora necesaria
         $dbclass = "Db{$config['type']}";
         if (! include_once CORE_PATH . 'libs/db/adapters/' . $config['type'] . '.php'){
 	    throw new KumbiaException("No existe la clase $dbclass, necesaria para iniciar el adaptador");
 	}
- 
+
         return new $dbclass($config);
     }
-    
+
     /**
      * Realiza una conexión para PDO
      *
