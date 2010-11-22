@@ -13,7 +13,7 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * Cargador Selectiva
- * 
+ *
  * @category   Kumbia
  * @package    Kumbia
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
@@ -22,7 +22,7 @@
 class Load
 {
     /**
-     * Carga libreria de APP, si no existe carga del CORE 
+     * Carga libreria de APP, si no existe carga del CORE
      *
      * @param string $lib libreria a cargar
      * @throw KumbiaException
@@ -36,7 +36,7 @@ class Load
             return self::coreLib($lib);
 		}
     }
-    
+
     /**
      * Carga libreria del core
      *
@@ -56,13 +56,13 @@ class Load
      * @return obj model
      */
     public static function model ($model)
-    { 
+    {
         //Nombre de la clase
         $Model = Util::camelcase(basename($model));
         //Carga la clase
         if (! class_exists($Model, FALSE)) {
             //Carga la clase
-            if (! include APP_PATH . "models/$model.php") {
+            if (! include_once APP_PATH . "models/$model.php") {
                 throw new KumbiaException("No existe el modelo $model");
             }
         }
