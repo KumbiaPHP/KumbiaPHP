@@ -43,10 +43,10 @@ spl_autoload_register('auto');
 set_exception_handler('handle_exception');
 
 // @see Util
-require CORE_PATH . 'kumbia/util.php';
+require_once CORE_PATH . 'kumbia/util.php';
 
 // @see Config
-require CORE_PATH . 'kumbia/config.php';
+require_once CORE_PATH . 'kumbia/config.php';
 
 // Lee la configuracion
 $config = Config::read('config');
@@ -59,11 +59,11 @@ if (! defined('PRODUCTION')) {
 // Carga la cache y verifica si esta cacheado el template, al estar en produccion
 if(PRODUCTION) {
     // @see Cache
-    require CORE_PATH . 'libs/cache/cache.php';
-    
+    require_once CORE_PATH . 'libs/cache/cache.php';
+
     //Asigna el driver por defecto usando el config.ini
     if (isset ($config['application']['cache_driver'])) Cache::setDefault($config['application']['cache_driver']);
-	
+
     // Verifica si esta cacheado el template
     if ($template = Cache::driver()->get($url, 'kumbia.templates')) { //verifica cache de template para la url
         echo $template;
@@ -89,60 +89,60 @@ if (isset($config['application']['charset'])) {
     define('APP_CHARSET', 'UTF-8');
 }
 
+// Autocarga de clases
+function auto($class){
+
+	// Optimizando carga de ActiveRecord
+	if($class == 'ActiveRecord') {
+		return require_once APP_PATH . 'libs/active_record.php';
+	}
+
+	// Pasando a smallcase
+	$class = Util::smallcase($class);
+
+    if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
+        return require_once APP_PATH . "extensions/helpers/$class.php";
+    }
+    if (is_file(CORE_PATH . "extensions/helpers/$class.php")) {
+        return require_once CORE_PATH . "extensions/helpers/$class.php";
+    }
+    if (is_file(APP_PATH . "libs/$class.php")) {
+        return require_once APP_PATH . "libs/$class.php";
+    }
+    if (is_file(CORE_PATH . "libs/$class/$class.php")) {
+        return require_once CORE_PATH . "libs/$class/$class.php";
+    }
+
+    if($class == 'kumbia_exception'){
+        require_once CORE_PATH . 'kumbia/kumbia_exception.php';
+    }
+}
 // @see Router
-require CORE_PATH . 'kumbia/router.php';
+require_once CORE_PATH . 'kumbia/router.php';
 
 //@see Load
-require CORE_PATH . 'kumbia/load.php';
+require_once CORE_PATH . 'kumbia/load.php';
 
 // @see Dispatcher
-require CORE_PATH . 'kumbia/dispatcher.php';
+require_once CORE_PATH . 'kumbia/dispatcher.php';
 
 // @see Controller
-require APP_PATH . 'libs/application_controller.php';
+require_once APP_PATH . 'libs/application_controller.php';
 
 // @see KumbiaView
-require APP_PATH . 'libs/view.php';
+require_once APP_PATH . 'libs/view.php';
 
+//ejecuta el request
 try {
 	// Bootstrap de la aplicacion
-	require APP_PATH . 'libs/bootstrap.php';
-	
+	require_once APP_PATH . 'libs/bootstrap.php';
+
     // Dispatch y renderiza la vista
     View::render(Dispatcher::execute(Router::rewrite($url)), $url);
 
 } catch (KumbiaException $e)
 {
 	KumbiaException::handle_exception($e);
-}
-
-// Autocarga de clases
-function auto($class){
-	
-	// Optimizando carga de ActiveRecord
-	if($class == 'ActiveRecord') {
-		return require APP_PATH . 'libs/active_record.php';
-	}
-	
-	// Pasando a smallcase
-	$class = Util::smallcase($class);
-	
-    if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
-        return require APP_PATH . "extensions/helpers/$class.php";
-    }
-    if (is_file(CORE_PATH . "extensions/helpers/$class.php")) {
-        return require CORE_PATH . "extensions/helpers/$class.php";
-    }
-    if (is_file(APP_PATH . "libs/$class.php")) {
-        return require APP_PATH . "libs/$class.php";
-    }
-    if (is_file(CORE_PATH . "libs/$class/$class.php")) {
-        return require CORE_PATH . "libs/$class/$class.php";
-    }
-    
-    if($class == 'kumbia_exception'){
-        require CORE_PATH . 'kumbia/kumbia_exception.php';
-    }
 }
 
 // Fin del request
