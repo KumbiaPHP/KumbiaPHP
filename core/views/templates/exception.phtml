@@ -18,26 +18,26 @@
         <?php if (isset ( $trace ['file'] ) && !(strpos ( $trace ['file'], APP_PATH) ===false) && !(strpos ( $trace ['file'], 'index.php'))): ?>
             <p><strong><?php echo htmlspecialchars($trace['file'], ENT_NOQUOTES, 'UTF-8') . "(" . $trace ['line'] . ")" ?></strong></p>
             <p>La excepción se ha generado en el archivo <span class="italic"><?php echo $trace['file'] ?></span> en la línea: <span class="italic"><?php echo $trace['line'] ?></span>:</p>
-            
+
             <ul class="exception_trace">
-                <?php 
-                    $lines = file ( $trace ['file'] ); 
+                <?php
+                    $lines = file ( $trace ['file'] );
                     $start = ($trace ['line'] - 4) < 0 ? 0 : $trace ['line'] - 4;
                     $end = ($trace ['line'] + 2) > count ( $lines ) - 1 ? count ( $lines ) - 1 : $trace ['line'] + 2;
                 ?>
-                
+
                 <?php for($i = $start; $i <= $end; $i ++): ?>
                     <li <?php if ($i == $trace ['line'] - 1): ?> class="exception_highlight" <?php endif; ?>">
                         <strong><?php echo ($i + 1) ?></strong> <?php echo htmlspecialchars($lines [$i], ENT_NOQUOTES, 'UTF-8') ?>
-                        
+
                     </li>
                 <?php endfor; ?>
             </ul>
-            
+
             <br />
         <?php endif; ?>
     <?php endforeach; ?>
- 
+
     <table><thead><tr>
     <th>#</th><th>Fichero (línea)</th><th>Función</th>
     </tr></thead>
@@ -66,7 +66,7 @@
 <th><h3><?php echo round((microtime(1)-START_TIME),4),' seg.'?></h3>Tiempo</th><th><h3><?php echo number_format(memory_get_usage() / 1048576, 2),' MB';?></h3>Memoria Usada</th><th><h3><?php echo count($files) ?> ficheros</h3>Includes</th>
 </tr>
 <tr>
-<th><h3><?php echo ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</th><th><h3><?php echo ini_get('memory_limit');?></h3>Memoria PHP</th><th></th>
+<th><h3><?php echo ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</th><th><h3><?php echo ini_get('memory_limit');?></h3>Memoria PHP</th><th><h3><?php echo PHP_VERSION?></h3>Versión PHP</th>
 </tr>
 </thead>
 </table>
