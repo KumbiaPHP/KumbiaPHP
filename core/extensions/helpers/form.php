@@ -462,26 +462,21 @@ class Form
      * @param string $value (opcional)
      * @return string
      */
-    public static function dbSelect($field, $show, $data, $blank = 'Seleccione', $attrs = NULL, $value = NULL)
+    public static function dbSelect($field, $show = NULL, $data = array(), $blank = 'Seleccione', $attrs = NULL, $value = NULL)
     {
         if(is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
         
-        // si no se especificó el valor explicitamente
-        if($value === NULL) {
-            // obtiene name y value para el campo y los carga en el scope
-            extract(self::_getFieldData($field), EXTR_OVERWRITE);
-        } else {
-            $name = self::_getFieldName($field);
-        }
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
         
         $options = '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
 
 	//por defecto el modelo de modelo(_id)
         if(! $data){
-	    $model_asoc = end(explode('.', $field, 2));
-	    $model_asoc = substr($model_asoc, 0, -3);//se elimina el _id
+	    $model_asoc = explode('.', $field, 2);
+	    $model_asoc = substr(end($model_asoc), 0, -3);//se elimina el _id
 	    $model_asoc = Load::model($model_asoc);
 	    $pk = $model_asoc->primary_key[0];	    
 	    if(! $show){
@@ -497,7 +492,7 @@ class Form
 	
         foreach($data as $p) {
             $options .= "<option value=\"{$p->$pk}\"";
-            if($p->$pk == $value) {
+	    if($p->$pk == $value) {
                 $options .= ' selected="selected"';
             }
             $options .= '>' . htmlspecialchars($p->$show, ENT_COMPAT, APP_CHARSET) . '</option>';

@@ -56,7 +56,7 @@ class ModelForm {
 						case 'year': case 'day': case 'int unsigned': // Números
 
 							if(strripos($field,'_id',-3)) {
-								echo Form::dbSelect("$model_name.$field");
+								echo Form::dbSelect($model_name.'.'.$field,NULL,NULL,'Seleccione',NULL,$model->$field);
 								break;
 							} else {
 								echo "<input id=\"$formId\" type=\"number\" name=\"$formName\" value=\"{$model->$field}\">".PHP_EOL ; 
