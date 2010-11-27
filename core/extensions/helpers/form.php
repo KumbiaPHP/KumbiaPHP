@@ -456,13 +456,13 @@ class Form
      *
      * @param string $field nombre de campo
      * @param string $show campo que se mostrara (opcional)
-     * @param string $data array de valores, array('modelo','metodo','param') (opcional)
+     * @param array $data array('modelo','metodo','param') (opcional)
      * @param string $blank campo en blanco (opcional)
      * @param string|array $attrs atributos de campo (opcional)
      * @param string $value (opcional)
      * @return string
      */
-    public static function dbSelect($field, $show = NULL, $data = array(), $blank = 'Seleccione', $attrs = NULL, $value = NULL)
+    public static function dbSelect($field, $show = NULL, $data = NULL, $blank = 'Seleccione', $attrs = NULL, $value = NULL)
     {
         if(is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
@@ -473,26 +473,34 @@ class Form
         
         $options = '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
 
-	//por defecto el modelo de modelo(_id)
-        if(! $data){
-	    $model_asoc = explode('.', $field, 2);
-	    $model_asoc = substr(end($model_asoc), 0, -3);//se elimina el _id
-	    $model_asoc = Load::model($model_asoc);
-	    $pk = $model_asoc->primary_key[0];	    
-	    if(! $show){
-		//por defecto el primer campo no pk
-		$show = $model_asoc->non_primary[0];
-	    }
-	    $data = $model_asoc->find("columns: $pk,$show","order: $show asc");//mejor usar array
-	} else {
-	    $model_asoc = Load::model($data[0]);
-	    $pk = $model_asoc->primary_key[0];
-	    $data = $model_asoc->$data[1]($data[2]);
-	}
+		//por defecto el modelo de modelo(_id)
+        if($data === NULL){
+			$model_asoc = explode('.', $field, 2);
+			$model_asoc = substr(end($model_asoc), 0, -3);//se elimina el _id
+			$model_asoc = Load::model($model_asoc);
+			$pk = $model_asoc->primary_key[0];	    
+			
+			if(! $show){
+				//por defecto el primer campo no pk
+				$show = $model_asoc->non_primary[0];
+			}
+			
+			$data = $model_asoc->find("columns: $pk,$show","order: $show asc");//mejor usar array
+		} else {
+			$model_asoc = Load::model($data[0]);
+			$pk = $model_asoc->primary_key[0];
+			
+			// Verifica si existe el argumento
+			if(isset($data[2])) {
+				$data = $model_asoc->$data[1]($data[2]);
+			} else {
+				$data = $model_asoc->$data[1]();
+			}
+		}
 	
         foreach($data as $p) {
             $options .= "<option value=\"{$p->$pk}\"";
-	    if($p->$pk == $value) {
+			if($p->$pk == $value) {
                 $options .= ' selected="selected"';
             }
             $options .= '>' . htmlspecialchars($p->$show, ENT_COMPAT, APP_CHARSET) . '</option>';
