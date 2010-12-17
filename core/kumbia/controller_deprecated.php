@@ -13,13 +13,13 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * ApplicationController Es la clase principal para controladores de Kumbia
- * 
+ *
  * @category   Kumbia
- * @package    Controller 
+ * @package    Controller
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-class Controller 
+class ControllerDeprecated
 {
 	/**
 	 * Modelos a cargar
@@ -40,11 +40,11 @@ class Controller
 
 	/**
 	 * Modelos cargados
-	 * 
+	 *
 	 * @var array
 	 */
 	private $_loaded_models = array();
-	
+
 	/**
 	 * Nombre del modulo actual
 	 *
@@ -64,7 +64,7 @@ class Controller
 	 */
 	public $action_name;
 	/**
-	 * Limita la cantidad correcta de 
+	 * Limita la cantidad correcta de
 	 * parametros de una action
 	 *
 	 * @var bool
@@ -84,7 +84,7 @@ class Controller
 	 * @param string $action nombre de la accion
 	 * @param array $parameters parametros enviados por url
 	 **/
-	public function __construct($module, $controller, $action, $parameters) 
+	public function __construct($module, $controller, $action, $parameters)
 	{
 		//TODO: enviar un objeto
 		$this->module_name = $module;
@@ -92,7 +92,7 @@ class Controller
 		$this->parameters = $parameters;
 		$this->action_name = $action;
         //$this->cache['group'] = "$controller.$action";//.$id";
-		
+
 		//deprecated
 		if($this->libs) {
 			// Carga las librerias indicadas
@@ -100,16 +100,16 @@ class Controller
 				Load::lib($lib);
 			}
 		}
-		
+
 		//Carga de modelos
 		if($this->models) {
 			call_user_func_array(array($this, 'models'), $this->models);
 		}
-	}	
-	
+	}
+
 	/**
 	 * Carga los modelos
-	 * 
+	 *
 	 * @param string $model
 	 */
 	protected function models ($model)
@@ -191,19 +191,19 @@ class Controller
 	protected function get($variable = NULL)
 	{	//FILTER_SANITIZE_STRING
 		if($variable){
-			
+
 		} else {
 			$value = filter_input_array (INPUT_GET, FILTER_SANITIZE_STRING);
 		}
 		//$value = filter_has_var(INPUT_GET, $variable) ? $_GET[$variable] : NULL;
-			
+
 		/**
 		 * Si hay mas de un argumento, toma los demas como filtros
 		 */
 		if(func_num_args()>1){
 			$args = func_get_args();
 			$args[0] = $value;
-            
+
             if(is_string($value)) {
                 return call_user_func_array(array('Filter', 'get'), $args);
             } else {
@@ -230,7 +230,7 @@ class Controller
 		} else {
 			$value = isset($_REQUEST[$param_name[0]]) ? $_REQUEST[$param_name[0]] : NULL;
 		}
-	
+
 		/**
 		 * Si hay mas de un argumento, toma los demas como filtros
 		 */
@@ -255,7 +255,7 @@ class Controller
 	 *
 	 * @deprecated Ahora se usa <code>Input::hasPost()</code>
 	 **/
-	protected function has_post($var) 
+	protected function has_post($var)
 	{
 		return Input::hasPost($var);
 	}
@@ -282,7 +282,7 @@ class Controller
 	 * @deprecated Ahora se usa <code>Input::hasRequest()</code>
 	 **/
 
-	protected function has_request($var) 
+	protected function has_request($var)
 	{
 		return Input::hasRequest($var);
 	}
@@ -290,7 +290,7 @@ class Controller
 	/**
 	 * Redirecciona la ejecución a otro controlador en un
 	 * tiempo de ejecución determinado
-	 * 
+	 *
 	 * @param string $controller
 	 * @param integer $seconds
          *
@@ -337,7 +337,7 @@ class Controller
 	}
     /**
      * BeforeFilter
-     * 
+     *
      * @return bool
      */
     protected function before_filter()
@@ -345,7 +345,7 @@ class Controller
     }
     /**
      * AfterFilter
-     * 
+     *
      * @return bool
      */
     protected function after_filter()
@@ -353,7 +353,7 @@ class Controller
     }
 	/**
      * Initialize
-     * 
+     *
      * @return bool
      */
     protected function initialize()
@@ -361,7 +361,7 @@ class Controller
     }
     /**
      * Finalize
-     * 
+     *
      * @return bool
      */
     protected function finalize()
@@ -370,7 +370,7 @@ class Controller
 		foreach ($this->_loaded_models as $model) {
 			unset($this->$model);
 		}
-		
+
 		//Limpia el buffer de modelos inyectados
 		$this->_loaded_models = array();
     }
@@ -388,7 +388,7 @@ class Controller
 	protected function set_persistent($var, $value=NULL)
 	{
 		$_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var] = $value;
-		
+
 	}
     /**
      * Obtiene la Persistencia de datos en el controlador
@@ -404,8 +404,8 @@ class Controller
 	protected function get_persistent($var)
 	{
         	return $_SESSION['KUMBIA_CONTROLLER']["$this->module_name/$this->controller_name"][$var];
-    } 
-	
+    }
+
 	/**
 	 * Destruye la persistencia de un Dato en el controller
 	 *
@@ -426,8 +426,8 @@ class Controller
 	 * @param string $method
 	 * @return void
 	 */
-    final public function k_callback($method) 
-    { 
-        return $this->$method(); 
+    final public function k_callback($method)
+    {
+        return $this->$method();
     }
 }

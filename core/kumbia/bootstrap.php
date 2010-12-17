@@ -127,7 +127,7 @@ require_once CORE_PATH . 'kumbia/load.php';
 require_once CORE_PATH . 'kumbia/dispatcher.php';
 
 // @see Controller
-require_once APP_PATH . 'libs/application_controller.php';
+require_once APP_PATH . 'libs/app_controller.php';
 
 // @see KumbiaView
 require_once APP_PATH . 'libs/view.php';

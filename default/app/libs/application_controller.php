@@ -9,9 +9,9 @@
  **/
 
 // @see Controller antiguo por compatibilidad
-require_once CORE_PATH . 'kumbia/controller-deprecated.php';
+require_once CORE_PATH . 'kumbia/controller_deprecated.php';
 
-class ApplicationController extends Controller {
+class ApplicationController extends ControllerDeprecated {
 
 	final protected function initialize()
 	{
