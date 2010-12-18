@@ -2,35 +2,43 @@
 #scaffold {
 
 margin: 1em;
-
+font-family:arial;
+font-size: 14px;
 }
 #scaffold table{
 width:100%;
 border-collapse: collapse;
-border: 1px solid #f0f2f6;
+border: 1px solid #D9D9D9;
+margin:10px 0pt 15px;
+padding:0px;
 }
 #scaffold th{
-background: #f0f2f6;
+background: #D7DDE4;
+border-right: 1px solid #CDCDCD;
+border-bottom: 1px solid #CDCDCD;
 text-align: left;
+font-weight:bold;
 padding: 6px;
 text-shadow:1px 1px 1px rgba(255, 255, 255, 0.8);
 }
 #scaffold tr{
-border-bottom: 1px solid #e8ebf1;
+border-bottom: 1px solid #F1F5F9;
+background:#FFF;
+}
+#scaffold tr:nth-child(even) {
+background:#F1F5F9;
 }
 #scaffold tr:hover{
-background:#eee;
+background:#efe;
 }
 label, input{
 display: block;
 }
 #scaffold td{
-padding-left:1em;
+border-right:1px solid #D9D9D9;
+padding: 4px;
 }
 .paginator{
-border-top: 5px solid #e8ebf1;
-padding:1em 0;
-
 }
 .paginator .nextprev{
   color: #000;
@@ -40,6 +48,7 @@ border:1px solid #e8ebf1;
 padding:.5em;
 text-decoration:none;
 margin: .5em .1em;
+background:#FFF;
 }
 .paginator a:hover{
 background: #e8ebf1;
