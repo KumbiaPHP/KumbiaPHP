@@ -169,7 +169,7 @@ class KumbiaView {
 	 * @param Controller $controller
 	 * @param string $url url a renderizar
 	 */
-	public static function render(Controller $controller, /*Router*/ $_url)
+	public static function render(/*Controller*/ $controller, /*Router*/ $_url)
 	{
         if(!self::$_view && !self::$_template){
             return ob_end_flush();
