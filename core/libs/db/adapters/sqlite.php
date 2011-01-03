@@ -13,10 +13,10 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * SQLite Database Support
- * 
+ *
  * @category   Kumbia
  * @package    Db
- * @subpackage Adapters 
+ * @subpackage Adapters
  * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
@@ -289,18 +289,18 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 	 */
 	function error($err=''){
 		if(!$this->id_connection){
-		    $this->last_error = @sqlite_last_error() ? @sqlite_last_error().$err : "[Error Desconocido en SQLite \"$err\"]";
+		    $this->last_error = sqlite_last_error() ? sqlite_last_error().$err : "[Error Desconocido en SQLite \"$err\"]";
             if($this->logger){
                 Logger::error($this->last_error);
             }
 			return $this->last_error;
 		}
-		$this->last_error = @sqlite_last_error() ? @sqlite_last_error().$err : "[Error Desconocido en SQLite: $err]";
+		$this->last_error = 'SQLite error: '.sqlite_error_string(sqlite_last_error($this->id_connection));
 		$this->last_error.= $err;
         if($this->logger){
             Logger::error($this->last_error);
         }
-		return pg_last_error($this->id_connection).$err;
+		return $this->last_error;
 	}
 
 	/**
@@ -352,15 +352,15 @@ class DbSQLite extends DbBase implements DbBaseInterface {
 	public function limit($sql){
 		$params = Util::getParams(func_get_args());
 		$sql_new = $sql;
-	
+
 		if(isset($params['limit']) && is_numeric($params['limit'])){
 			$sql_new.=" LIMIT $params[limit]";
 		}
-		
+
 		if(isset($params['offset']) && is_numeric($params['offset'])){
 			$sql_new.=" OFFSET $params[offset]";
 		}
-		
+
 		return $sql_new;
 	}
 
