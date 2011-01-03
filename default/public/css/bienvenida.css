@@ -102,7 +102,7 @@ body{
     font-size: 15px;
 }
 #info ul{
-    margin-left: 40px;  
+    margin-left: 40px;
 }
 .alignright #config {
     font-size: 20px;
@@ -122,11 +122,9 @@ body{
 margin-top: 1em;
 }
 h4 {
-font-size: small;
 margin-top: 1em;
 }
 h4 span {
-
 color: #8A6F5C;
 }
 #conf p {
