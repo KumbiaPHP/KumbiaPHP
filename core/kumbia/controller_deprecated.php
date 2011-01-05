@@ -42,6 +42,7 @@ class ControllerDeprecated
 	 * Modelos cargados
 	 *
 	 * @var array
+	 * @ deprecated
 	 */
 	private $_loaded_models = array();
 
@@ -360,8 +361,9 @@ class ControllerDeprecated
     {
     }
     /**
-     * Finalize
-     *
+     * Finalize, si se usa tambien en el Application Controller se debe llamar a este tambien
+     * parent::finalize()
+     * 
      * @return bool
      */
     protected function finalize()
@@ -373,6 +375,13 @@ class ControllerDeprecated
 
 		//Limpia el buffer de modelos inyectados
 		$this->_loaded_models = array();
+		
+		if(isset($this->template)) {
+			View::template($this->template);
+		}
+		//if(isset($this->view)) {
+		//	View::select($this->view);
+		//}
     }
 	/**
 	 * Persistencia de datos en el controlador

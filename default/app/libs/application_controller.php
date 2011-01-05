@@ -24,5 +24,8 @@ class ApplicationController extends ControllerDeprecated {
 
 	final protected function finalize()
 	{
+		parent::finalize();// No tocar
+		// Añadir código aqui
+
 	}
 }
