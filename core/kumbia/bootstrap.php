@@ -132,14 +132,10 @@ require_once APP_PATH . 'libs/app_controller.php';
 // @see KumbiaView
 require_once APP_PATH . 'libs/view.php';
 
-//ejecuta el request
+// Ejecuta el request
 try {
-	// Bootstrap de la aplicacion
-	require_once APP_PATH . 'libs/bootstrap.php';
-
     // Dispatch y renderiza la vista
     View::render(Dispatcher::execute(Router::rewrite($url)), $url);
-
 } catch (KumbiaException $e)
 {
 	KumbiaException::handle_exception($e);
