@@ -78,7 +78,7 @@ class DigestAuth implements AuthInterface {
 			if(isset($extra_args[$param])){
 				$this->$param = $extra_args[$param];
 			} else {
-				throw new AuthException("Debe especificar el parametro '$param' en los par&aacute;metros");
+				throw new KumbiaException("Debe especificar el parámetro '$param' en los parámetros");
 			}
 		}
 		foreach(array('username', 'password') as $param){
@@ -105,7 +105,7 @@ class DigestAuth implements AuthInterface {
 	public function authenticate(){
 		$this->resource = @fopen($this->filename, "r");
 		if($this->resource===false){
-			throw new AuthException("No existe o no se puede cargar el archivo '{$this->filename}'");
+			throw new KumbiaException("No existe o no se puede cargar el archivo '{$this->filename}'");
 		}
 
 		$exists_user = false;

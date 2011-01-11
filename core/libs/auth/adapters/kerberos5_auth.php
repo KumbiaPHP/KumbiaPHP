@@ -73,14 +73,14 @@ class Kerberos5Auth implements AuthInterface {
 	public function __construct($auth, $extra_args){
 
 		if(!extension_loaded("kadm5")){
-			throw new AuthException("Debe cargar la extensi&oacute;n de php llamada kadm5");
+			throw new KumbiaException("Debe cargar la extensión de php llamada kadm5");
 		}
 
 		foreach(array('server', 'username', 'principal', 'password') as $param){
 			if(isset($extra_args[$param])){
 				$this->$param = $extra_args[$param];
 			} else {
-				throw new AuthException("Debe especificar el parametro '$param' en los par&aacute;metros");
+				throw new KumbiaException("Debe especificar el parámetro '$param' en los parámetros");
 			}
 		}
 	}
@@ -91,7 +91,7 @@ class Kerberos5Auth implements AuthInterface {
 	 */
 	public function get_identity(){
 		if(!$this->resource){
-			new AuthException("La conexion al servidor kerberos5 es invalida");
+			new KumbiaException("La conexión al servidor kerberos5 es inválida");
 		}
 		$identity = array("username" => $this->username, "realm" => $this->username);
 		return $identity;
@@ -117,7 +117,7 @@ class Kerberos5Auth implements AuthInterface {
 	 */
 	public function get_principals(){
 		if(!$this->resource){
-			new AuthException("La conexion al servidor kerberos5 es invalida");
+			new KumbiaException("La conexión al servidor kerberos5 es inválida");
 		}
 		return kadm5_get_principals($this->resource);
 	}
@@ -128,7 +128,7 @@ class Kerberos5Auth implements AuthInterface {
 	 */
 	public function get_policies(){
 		if(!$this->resource){
-			new AuthException("La conexion al servidor kerberos5 es invalida");
+			new KumbiaException("La conexión al servidor kerberos5 es inválida");
 		}
 		return kadm5_get_policies($this->resource);
 	}
