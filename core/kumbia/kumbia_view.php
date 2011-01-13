@@ -205,7 +205,7 @@ class KumbiaView {
                 }
 
                 // carga la vista
-                if (!include_once $file) throw new KumbiaException('Vista "' . self::getPath() . '" no encontrada');
+                if (!include $file) throw new KumbiaException('Vista "' . self::getPath() . '" no encontrada');
 
 				// si esta en produccion y se cachea la vista
 				if(PRODUCTION && self::$_cache['type'] == 'view') {
@@ -229,7 +229,7 @@ class KumbiaView {
 			ob_start();
 
 			// carga el template
-			if (!include_once APP_PATH . "views/_shared/templates/$template.phtml") throw new KumbiaException("Template $template no encontrado");
+			if (!include APP_PATH . "views/_shared/templates/$template.phtml") throw new KumbiaException("Template $template no encontrado");
 
 			// si esta en produccion y se cachea template
 			if(PRODUCTION && self::$_cache['type'] == 'template') {
@@ -290,7 +290,7 @@ class KumbiaView {
 		extract ($params, EXTR_OVERWRITE);
 
 		// carga la vista parcial
-		if (!include_once $__file) throw new KumbiaException('Vista Parcial "'.$__file.'" no se encontro');
+		if (!include $__file) throw new KumbiaException('Vista Parcial "'.$__file.'" no se encontro');
 
 		// se guarda en la cache de ser requerido
         if(PRODUCTION && $__time) {
