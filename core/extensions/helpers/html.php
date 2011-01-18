@@ -25,6 +25,7 @@ class Html
      * Alternador para tabla zebra
      *
      * @var boolean
+     * @deprecated
      */
     protected static $_trClassAlternate = TRUE;
 
@@ -43,12 +44,13 @@ class Html
     protected static $_headLinks = array();
 
     /**
-     * Crea un enlace en una Aplicacion respetando
-     * las convenciones de Kumbia
+     * Crea un enlace usando la constante PUBLIC_PATH, para que siempre funcione
+     * 
+     * @example echo Html::link('controller/action','Enlace') Crea un enlace a ese controller y acción, este donde este la app
      *
-     * @param string $action ruta a la accion
-     * @param string $text texto a mostrar
-     * @param string | array $attrs atributos adicionales
+     * @param string $action Ruta a la acción
+     * @param string $text Texto a mostrar
+     * @param string | array $attrs Atributos adicionales
      * @return string
      */
     public static function link ($action, $text, $attrs = NULL)
@@ -56,11 +58,12 @@ class Html
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . PUBLIC_PATH . "$action\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . "$action\" $attrs >$text</a>";
     }
     /**
-     * Crea un enlace en una Aplicacion respetando
-     * las convenciones de Kumbia
+     * Crea un enlace a una acción del mismo controller que estemos
+     *
+     * @example echo Html::linkAction('accion/','Enlace a la acción del mismo controller') 
      *
      * @param string $action
      * @param string $text texto a mostrar
@@ -73,7 +76,7 @@ class Html
             $attrs = Tag::getAttrs($attrs);
         }
         
-        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" $attrs >$text</a>";
     }
     /**
      * Permite incluir una imagen
@@ -81,13 +84,14 @@ class Html
      * @param string $src
      * @params string $alt
      * @param string | array $attrs atributos adicionales
+     * @return string
      */
     public static function img ($src, $alt=NULL, $attrs = NULL)
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" $attrs/>";
+        return '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" $attrs />";
     }
     
     /**
@@ -96,6 +100,8 @@ class Html
      * @param string $class class css
      * @param string | array $attrs
      * @param unknown_type $start
+     * @return string
+     * @deprecated
      */
     public static function trClass ($class, $attrs = NULL)
     {
@@ -104,16 +110,17 @@ class Html
         }
         if(self::$_trClassAlternate){
             self::$_trClassAlternate = FALSE;
-            return "<tr class='$class' $attrs>";
+            return "<tr class='$class' $attrs >";
         } else {
             self::$_trClassAlternate = TRUE;
-            return "<tr $attrs>";
+            return "<tr $attrs >";
         }
     }
     
     /**
      * Inicia el alternador de clase para tabla zebra
-     *
+     * 
+     *@deprecated
      */
     public static function trClassStart ()
     {
@@ -142,11 +149,7 @@ class Html
      */
     public static function includeMetatags()
     {
-        $code = '';
-        foreach(self::$_metatags as $meta) {
-            $code .= "<meta content=\"{$meta['content']}\" {$meta['attrs']}/>" . PHP_EOL;
-        }
-        return $code;
+        return implode(array_unique(self::$_metatags), PHP_EOL);
     }
 
     /**
@@ -181,7 +184,7 @@ class Html
     {
         $code = '';
         foreach(Tag::getCss() as $css) {
-            $code .= '<link href="' . PUBLIC_PATH . "css/{$css['src']}.css\" rel=\"stylesheet\" type=\"text/css\" media=\"{$css['media']}\"/>" . PHP_EOL;
+            $code .= '<link href="' . PUBLIC_PATH . "css/{$css['src']}.css\" rel=\"stylesheet\" type=\"text/css\" media=\"{$css['media']}\" />" . PHP_EOL;
         }
         return $code;
     }
@@ -232,8 +235,25 @@ class Html
     {
         $code = '';
         foreach(self::$_headLinks as $link) {
-            $code .= "<link href=\"{$link['href']}\" {$link['attrs']}/>" . PHP_EOL;
+            $code .= "<link href=\"{$link['href']}\" {$link['attrs']} />" . PHP_EOL;
         }
         return $code;
+    }
+    /**
+     * Incluye imágenes de gravatar.com
+     * 
+     * @example echo Html::gravatar( $email ) Simple
+     * @example echo Html::link( Html::gravatar($email), $url) Un gravatar que es un link
+     * @example echo Html::gravatar( $email, $name, 20, 'http://www.example.com/default.jpg') Completo
+     * 
+     *@param string $email Correo para conseguir su gravatar
+     *@param string $alt Texto alternativo de la imagen. Por defecto: gravatar
+     *@param int $size Tamaño del gravatar. Un numero de 1 a 512. Por defecto: 40
+     *@param string $default URL gravatar por defecto si no existe, o un default de gravatar. Por defecto: mm
+     * @return string
+     */
+    public static function gravatar($email, $alt='gravatar', $size=40, $default='mm') {
+        $grav_url = "http://www.gravatar.com/avatar/" . md5( strtolower(trim($email))) . '?d=' . urlencode($default) . '&s=' . $size;        
+        return '<img src="'. $grav_url . '" alt="'. $alt .'" class="avatar" width="'.$size.'" height="'.$size.'" />';
     }
 }
