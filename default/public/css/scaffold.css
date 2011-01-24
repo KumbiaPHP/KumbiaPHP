@@ -108,9 +108,8 @@ input[type="submit"]{
 	border: 1px solid #FFF;
 	border-bottom: 1px solid #777;
 	border-right: 1px solid #777;
-        //display: inline;
-        cursor: pointer;
-        border-radius:3px;
+	cursor: pointer;
+	border-radius:3px;
 }
 input[type="submit"]:hover{
 	background: #D1D1D1 url(../img/button-h.png) repeat-x left center;
