@@ -17,16 +17,18 @@
  */
 
 /**
- * Establece polí­tica de informe de errores
- */
-//error_reporting(0); // Usar este en producción, no envia errores
-error_reporting(E_ALL ^ E_STRICT);
-
-/**
  * Indicar si la aplicacion se encuentra en produccion
  * directamente desde el index.php
  */
 //define('PRODUCTION', TRUE);
+
+/**
+ * Establece polí­tica de informe de errores
+ */
+//error_reporting(0); // Usar este en producción, no envia errores
+error_reporting(E_ALL ^ E_STRICT);
+//comentar la siguiente linea en producción
+ini_set('display_errors', 'On'); 
 
 /**
  * Define marca de tiempo en que inicio el Request
