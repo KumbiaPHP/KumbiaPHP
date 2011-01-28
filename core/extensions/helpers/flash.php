@@ -26,77 +26,77 @@ class Flash {
 	 * Visualiza un mensaje flash
 	 *
 	 * @param string $name	Para tipo de mensaje y para CSS class='$name'.
-	 * @param string $msg 	Mensaje a mostrar
+	 * @param string $text 	Mensaje a mostrar
 	 */
-	public static function show($name,$msg)
+	public static function show($name,$text)
 	{
 		if(isset($_SERVER['SERVER_SOFTWARE'])){
-    			echo '<div class="' , $name , ' flash">' , $msg , '</div>', PHP_EOL;
+    			echo '<div class="' , $name , ' flash">' , $text , '</div>', PHP_EOL;
 		} else {
-			echo $name , ': ' , strip_tags($msg) , PHP_EOL;
+			echo $name , ': ' , strip_tags($text) , PHP_EOL;
 		}
 	}
 	
 	/**
 	 * Visualiza un mensaje de error
 	 *
-	 * @param string $err
+	 * @param string $text
 	 */
-	public static function error($err)
+	public static function error($text)
 	{     
-		return self::show('error',$err);
+		return self::show('error',$text);
 	}
 
 	/**
 	 * Visualiza un mensaje de advertencia en pantalla
 	 *
-	 * @param string $msg
+	 * @param string $text
 	 */
-	public static function warning($msg)
+	public static function warning($text)
 	{
-		return self::show('warning',$msg);
+		return self::show('warning',$text);
 	}
 	
 	/**
 	 * Visualiza informacion en pantalla
 	 *
-	 * @param string $msg
+	 * @param string $text
 	 */
-	public static function info($msg)
+	public static function info($text)
 	{
-		return self::show('info',$msg);
+		return self::show('info',$text);
 	}
 	/**
 	 * Visualiza informacion de suceso correcto en pantalla
 	 *
-	 * @param string $msg
+	 * @param string $text
 	 */
-	public static function valid($msg)
+	public static function valid($text)
 	{
-		return self::show('valid',$msg);
+		return self::show('valid',$text);
 	}
 	
 	/**
 	 * Visualiza informacion en pantalla
 	 *
-	 * @param string $msg
+	 * @param string $text
 	 *
 	 * @deprecated  ahora Flah::info()
 	 */
-	public static function notice($msg)
+	public static function notice($text)
 	{
-		return self::show('info',$msg);
+		return self::show('info',$text);
 	}
 
 	/**
 	 * Visualiza informacion de Suceso en pantalla
 	 *
-	 * @param string $msg
+	 * @param string $text
 	 *
 	 * @deprecated  ahora Flash::valid()
 	 */
-	public static function success($msg)
+	public static function success($text)
 	{
-		return self::show('valid',$msg);
+		return self::show('valid',$text);
 	}
 }
