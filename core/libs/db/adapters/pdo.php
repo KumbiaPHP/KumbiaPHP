@@ -186,7 +186,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 	 */
 	public function fetch_array($pdo_statement='', $opt=''){
 		if($opt==='') {
-			$opt = db::DB_BOTH;
+			$opt = self::DB_BOTH;
 		}
 		if(!$this->pdo){
 			throw new KumbiaException('No hay conexión para realizar esta acción');

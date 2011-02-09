@@ -1,4 +1,7 @@
 <?php
+// @see DbPdo Padre de Drivers Pdo
+require_once CORE_PATH . 'libs/db/adapters/pdo.php';
+
 /**
  * KumbiaPHP web & app Framework
  *

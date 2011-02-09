@@ -44,7 +44,7 @@ interface DbPdoInterface {
 	public function affected_rows($result_query='');
 	public function error($err='');
 	public function no_error($number=0);
-	public function in_query($sql, $type=db::DB_BOTH);
+	public function in_query($sql);
 	public function in_query_assoc($sql);
 	public function in_query_num($sql);
 	public function fetch_one($sql);

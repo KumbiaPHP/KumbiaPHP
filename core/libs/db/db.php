@@ -52,16 +52,16 @@ class Db
     public static function factory ($database = null, $new = false)
     {
 
-	//Cargo el mode para mi aplicacion
+		//Cargo el mode para mi aplicacion
         if (! $database) {
             $database = Config::get('config.application.database');
         }
-	//Si no es una conexion nueva y existe la conexion singleton
+		//Si no es una conexion nueva y existe la conexion singleton
         if (isset(self::$_connections[$database])) {
-	    return self::$_connections[$database];
+			return self::$_connections[$database];
         }
 
-	return self::connect($database);
+		return self::connect($database);
     }
 
     /**
@@ -76,36 +76,24 @@ class Db
         $databases = Config::read('databases');
         $config = $databases[$database];
 
-	// carga los valores por defecto para la conexión, si no existen
-	$default = array ('port' => 0, 'dsn' => NULL, 'dbname' => NULL, 'host' => 'localhost', 'username' => NULL, 'password' => NULL);
-	$config = $config + $default;
+		// carga los valores por defecto para la conexión, si no existen
+		$default = array ('port' => 0, 'dsn' => NULL, 'dbname' => NULL, 'host' => 'localhost', 'username' => NULL, 'password' => NULL);
+		$config = $config + $default;
 
         //Si usa PDO
         if (isset($config['pdo'])) {
-            return self::pdo($database);
-	}
+            $dbclass = "DbPdo{$config['type']}";
+            $db_file = "libs/db/adapters/pdo/{$config['type']}.php";
+		} else {
+			$dbclass = "Db{$config['type']}";
+			$db_file = "libs/db/adapters/pdo/{$config['type']}.php";
+		}
 
-	//Carga la clase adaptadora necesaria
-        $dbclass = "Db{$config['type']}";
-        if (! include_once CORE_PATH . 'libs/db/adapters/' . $config['type'] . '.php'){
-	    throw new KumbiaException("No existe la clase $dbclass, necesaria para iniciar el adaptador");
-	}
+		//Carga la clase adaptadora necesaria
+        if (! include_once CORE_PATH . $db_file){
+			throw new KumbiaException("No existe la clase $dbclass, necesaria para iniciar el adaptador");
+		}
 
         return new $dbclass($config);
-    }
-
-    /**
-     * Realiza una conexión para PDO
-     *
-     * @param string $database base de datos a donde conectar
-     * @return db
-     */
-    private static function pdo($database)
-    {
-	try {
-            	return new PDO($config['type'] . ":" . $config['dsn'], $config['username'], $config['password']);
-            } catch (PDOException $e) {
-                throw new KumbiaException($e->getMessage());
-            }
     }
 }

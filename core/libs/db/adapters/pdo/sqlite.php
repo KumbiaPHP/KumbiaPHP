@@ -1,4 +1,7 @@
 <?php
+// @see DbPdo Padre de Drivers Pdo
+require_once CORE_PATH . 'libs/db/adapters/pdo.php';
+
 /**
  * KumbiaPHP web & app Framework
  *
@@ -219,9 +222,9 @@ class DbPdoSQLite extends DbPDO {
 	public function describe_table($table, $schema=''){
 		$fields = array();
 		if(!$schema){
-			$results = $this->fetch_all("PRAGMA table_info($table)", DB::DB_ASSOC);
+			$results = $this->fetch_all("PRAGMA table_info($table)", self::DB_ASSOC);
 		} else {
-			$results = $this->fetch_all("PRAGMA table_info($schema.$table)", DB::DB_ASSOC);
+			$results = $this->fetch_all("PRAGMA table_info($schema.$table)", self::DB_ASSOC);
 		}
 		foreach($results as $field){
 			$fields[] = array(
