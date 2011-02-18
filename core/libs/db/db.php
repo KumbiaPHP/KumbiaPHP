@@ -86,7 +86,7 @@ class Db
             $db_file = "libs/db/adapters/pdo/{$config['type']}.php";
 		} else {
 			$dbclass = "Db{$config['type']}";
-			$db_file = "libs/db/adapters/pdo/{$config['type']}.php";
+			$db_file = "libs/db/adapters/{$config['type']}.php";
 		}
 
 		//Carga la clase adaptadora necesaria
