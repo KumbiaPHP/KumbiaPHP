@@ -45,11 +45,8 @@ final class Dispatcher
 		View::select($action);
 		View::setPath($controller_path);
 				
-		// Se ejecutan los filtros before
-		if($cont->k_callback('initialize') === FALSE) {
-			return $cont;
-		}
-		if($cont->k_callback('before_filter')=== FALSE) {
+		// Se ejecutan los filtros initialize y before
+		if($cont->k_callback('init') === FALSE) {
 			return $cont;
 		}
 
@@ -81,9 +78,8 @@ final class Dispatcher
 		}
 		$reflectionMethod->invokeArgs($cont, $parameters);
 
-		//Corre los filtros after
-		$cont->k_callback('after_filter');
-		$cont->k_callback('finalize');
+		//Corre los filtros after y finalize
+		$cont->k_callback();
 		
 		//Si esta routed volver a ejecutar
 		if (Router::getRouted()){

@@ -101,8 +101,16 @@ class Controller
     {
     }
 
-    final public function k_callback($method) 
+    final public function k_callback($filter = NULL)
     { 
-        return $this->$method(); 
+        if($filter == 'init'){
+		if($this->initialize() !== FALSE){
+			return $this->before_filter();
+		}
+		return FALSE;
+	}
+	
+	$this->after_filter();
+	$this->finalize();
     }
 }

@@ -435,8 +435,16 @@ class ControllerDeprecated
 	 * @param string $method
 	 * @return void
 	 */
-    final public function k_callback($method)
-    {
-        return $this->$method();
+    final public function k_callback($filter = NULL)
+    { 
+        if($filter == 'init'){
+		if($this->initialize() !== FALSE){
+			return $this->before_filter();
+		}
+		return FALSE;
+	}
+	
+	$this->after_filter();
+	$this->finalize();
     }
 }
