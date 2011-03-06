@@ -101,16 +101,22 @@ class Controller
     {
     }
 
-    final public function k_callback($filter = NULL)
+	/**
+	 * Ejecuta los callback filter
+	 *
+	 * @param boolean $init filtros de inicio
+	 * @return void
+	 */
+    final public function k_callback($init = FALSE)
     { 
-        if($filter == 'init'){
-		if($this->initialize() !== FALSE){
-			return $this->before_filter();
+        if($init){
+			if($this->initialize() !== FALSE){
+				return $this->before_filter();
+			}
+			return FALSE;
 		}
-		return FALSE;
-	}
 	
-	$this->after_filter();
-	$this->finalize();
+		$this->after_filter();
+		$this->finalize();
     }
 }

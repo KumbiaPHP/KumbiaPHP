@@ -46,7 +46,7 @@ final class Dispatcher
 		View::setPath($controller_path);
 				
 		// Se ejecutan los filtros initialize y before
-		if($cont->k_callback('init') === FALSE) {
+		if($cont->k_callback(TRUE) === FALSE) {
 			return $cont;
 		}
 
