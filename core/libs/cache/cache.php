@@ -68,7 +68,7 @@ abstract class Cache
      * @param string $group
      * @return string
      */
-    public abstract function get($id, $group='default');
+    public abstract function get($id, $group = 'default');
     
     /**
      * Guarda un elemento en la cache con nombre $id y valor $value
@@ -79,7 +79,7 @@ abstract class Cache
      * @param string $group
      * @return boolean
      */
-    public abstract function save ($value, $lifetime=null, $id=false, $group='default');
+    public abstract function save ($value, $lifetime = NULL, $id = FALSE, $group = 'default');
     
     /**
      * Limpia la cache
@@ -96,7 +96,7 @@ abstract class Cache
      * @param string $group
      * @return boolean
      */
-    public abstract function remove($id, $group='default');
+    public abstract function remove($id, $group = 'default');
     
     /**
      * Inicia el cacheo del buffer de salida hasta que se llame a end
@@ -104,17 +104,23 @@ abstract class Cache
      * @param string $lifetime tiempo de vida con formato strtotime, utilizado para cache
      * @param string $id
      * @param string $group
-     * @return string
+     * @return boolean
      */
-    public function start ($lifetime, $id, $group='default')
+    public function start ($lifetime, $id, $group = 'default')
     {
         if ($data = $this->get($id, $group)) {
-            return $data;
+            echo $data;
+            
+            // No es necesario cachear
+            return FALSE;
         }
         $this->_lifetime = $lifetime;
         
         // inicia la captura del buffer
         ob_start();
+        
+        // Inicia cacheo
+        return TRUE;
     }
     
     /**
@@ -123,11 +129,11 @@ abstract class Cache
      * @param boolean $save indica si al terminar guarda la cache
      * @return boolean
      */
-    public function end ($save=true)
+    public function end ($save = TRUE)
     {
         if (! $save) {
             ob_end_flush();
-            return false;
+            return FALSE;
         }
         
         // obtiene el contenido del buffer
@@ -166,6 +172,6 @@ abstract class Cache
      */
     public static function setDefault ($driver = 'file')
     {
-            self::$_default_driver = $driver;
+		self::$_default_driver = $driver;
     }
 }
