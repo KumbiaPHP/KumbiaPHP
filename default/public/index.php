@@ -73,7 +73,9 @@ $url = isset($_GET['_url']) ? $_GET['_url'] : '/';
 
 /**
  * Carga el gestor de arranque
+ * Por defecto el bootstrap del core
  *
  * @see Bootstrap
  */
-require APP_PATH . 'libs/bootstrap.php';
+//require APP_PATH . 'libs/bootstrap.php'; //bootstrap de app
+require CORE_PATH . 'kumbia/bootstrap.php'; //bootstrap del core 
