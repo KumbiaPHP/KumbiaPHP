@@ -266,12 +266,8 @@ class KumbiaView {
 	 */
 	public static function partial($partial, $__time=FALSE, $params=array())
 	{
-		if(PRODUCTION && $__time) {
-		    $data = Cache::driver()->start($__time, $partial, 'kumbia.partials');
-			if($data) {
-				echo $data;
-				return;
-			}
+		if(PRODUCTION && $__time && !Cache::driver()->start($__time, $partial, 'kumbia.partials')) {
+		    return;
 		}
 
 		//Verificando el partials en el dir app
