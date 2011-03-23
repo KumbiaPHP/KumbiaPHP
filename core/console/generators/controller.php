@@ -4,7 +4,7 @@
  * @category app
  * @package controllers
  */
-class <?php echo $class ?>Controller extends ApplicationController
+class <?php echo $class ?>Controller extends AppController
 {
 
 }

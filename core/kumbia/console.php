@@ -85,7 +85,7 @@ class Console
         
         if(!class_exists($Console)) {
             // intenta carga el archivo de consola
-            $file = APP_PATH . "console/{$console_name}_console.php";
+            $file = APP_PATH . "extensions/console/{$console_name}_console.php";
             
             if(!is_file($file)) {
                 $file = CORE_PATH . "console/{$console_name}_console.php";
@@ -96,7 +96,7 @@ class Console
             }
             
             // incluye la consola
-            include $file;
+            include_once $file;
         }
         
         // crea la instancia de objeto
