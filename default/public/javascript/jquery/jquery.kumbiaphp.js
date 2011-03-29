@@ -210,9 +210,6 @@
             // Lista desplegable que actualiza con ajax
             $("select.js-remote").live('change', this.cUpdaterSelect);
 
-            // Lista desplegable que actualiza con ajax
-            $("select.js-remote").live('change', this.cUpdaterSelect);
-
 			// Enlazar DatePicker
 			this.bindDatePicker();
 		},
