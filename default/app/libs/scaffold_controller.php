@@ -22,13 +22,13 @@ class ScaffoldController extends AppController {
 		    if(!$obj->save(Input::post($this->model))){
 			Flash::error('Falló Operación');
 			//se hacen persistente los datos en el formulario
-			$this->result = $obj;
+			$this->{$this->model} = $obj;
 			return;
 		    }
 		    return Router::redirect();
 		}
 		// Solo es necesario para el autoForm
-		$this->result = Load::model($this->model);
+		$this->{$this->model} = Load::model($this->model);
 	}
 
 	/**
@@ -44,14 +44,14 @@ class ScaffoldController extends AppController {
 			if(!$obj->update(Input::post($this->model))){
 				Flash::error('Falló Operación');
 				//se hacen persistente los datos en el formulario
-				$this->result = Input::post($this->model);
+				$this->{$this->model} = Input::post($this->model);
 			} else {
 			   return Router::redirect();
 			}
 		}
 
 		//Aplicando la autocarga de objeto, para comenzar la edición
-		$this->result = Load::model($this->model)->find((int)$id);
+		$this->{$this->model} = Load::model($this->model)->find((int)$id);
 
 	}
 

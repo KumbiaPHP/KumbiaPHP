@@ -3,7 +3,7 @@
 <?php View::content();?>
 <h1><?php echo ucwords("$model"),": <span>$action_name</span>" ?></h1>
 
-<?php ModelForm::create($result)?>
+<?php ModelForm::create($$model)?>
 
 <div class="actions">
 	<a href="../">Listado</a>
