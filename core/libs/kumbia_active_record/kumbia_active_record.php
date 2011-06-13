@@ -1648,9 +1648,7 @@ class KumbiaActiveRecord
                 if (isset($this->$np)) {
                     $fields[] = $np;
                     if (is_null($this->$np) || $this->$np == '') {
-                        $values[] = "NULL";
-                    } elseif (substr($this->$np, 0, 1) == "%") {
-                        $values[] = str_replace("%", '', $this->$np);
+                        $values[] = 'NULL';
                     } else {
                         /**
                          * Se debe especificar el formato de fecha en Oracle
@@ -1679,33 +1677,24 @@ class KumbiaActiveRecord
                     if (in_array($field, $this->_in)) {
                         unset($this->$field);
                     }
-                    $use_default = in_array($field, $this->_with_default) && isset($this->$field) && (is_null($this->$field) || $this->$field == '');
-                    if($this->_data_type[$field] == 'datetime' || $this->_data_type[$field] == 'date' && $config['type'] == 'mysql'){
-                    	$this->$field = date("Y-m-d G:i:s",strtotime($this->$field));
+                    
+					if(isset($this->$field) && $this->$field != '') {
+						$fields[] = ActiveRecord::sql_sanizite($field);
+                        
+						if(($this->_data_type[$field] == 'datetime' || $this->_data_type[$field] == 'date') && $config['type'] == 'mysql'){
+							$values[] = $this->db->add_quotes(date("Y-m-d G:i:s",strtotime($this->$field)));
+						} elseif ($this->_data_type[$field] == 'date' && $config['type'] == 'oracle') {
+							 //Se debe especificar el formato de fecha en Oracle
+							$values[] = "TO_DATE(" . $this->db->add_quotes($this->$field) . ", 'YYYY-MM-DD')";
+						} else {
+							$values[] = $this->db->add_quotes($this->$field);
 						}
-					if (isset($this->$field) && !$use_default) {
-                        $fields[] = ActiveRecord::sql_sanizite($field);
-                        if (substr($this->$field, 0, 1) == "%") {
-                            $values[] = str_replace("%", '', $this->$field);
-                        } else {
-                            if ($this->is_a_numeric_type($field) || $this->$field == null) {
-                                $values[] = addslashes($this->$field !== '' && $this->$field !== null ? $this->$field : "NULL");
-                            } else {
-                                if ($this->_data_type[$field] == 'date' && $config['type'] == 'oracle') {
-                                    /**
-                                     * Se debe especificar el formato de fecha en Oracle
-                                     */
-                                    $values[] = "TO_DATE(" . $this->db->add_quotes($this->$field) . ", 'YYYY-MM-DD')";
-                                } else {
-                                    if (!is_null($this->$field) && $this->$field != '') {
-                                        $values[] = $this->db->add_quotes($this->$field);
-                                    } else {
-                                        $values[] = "NULL";
-                                    }
-                                }
-                            }
-                        }
-                    }
+						
+					} elseif (!in_array($field, $this->_with_default)) {
+						$fields[] = ActiveRecord::sql_sanizite($field);
+						$values[] = 'NULL';
+					}
+					
                 } else {
                     /**
                      * Campos autonumericos en Oracle deben utilizar una sequencia auxiliar
@@ -1724,6 +1713,7 @@ class KumbiaActiveRecord
                     }
                 }
             }
+            
             $val = $this->db->insert($table, $values, $fields);
         }
         if (!isset($config['pdo']) && $config['type'] == 'oracle') {
