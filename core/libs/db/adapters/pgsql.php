@@ -119,7 +119,7 @@ class DbPgSQL extends DbBase implements DbBaseInterface {
 			$config['port'] = 5432;
 		}
 
-		if($this->id_connection = pg_connect("host={$config['host']} user={$config['username']} password={$config['password']} dbname={$config['name']} port={$config['port']}")){
+		if($this->id_connection = pg_connect("host={$config['host']} user={$config['username']} password={$config['password']} dbname={$config['name']} port={$config['port']}", PGSQL_CONNECT_FORCE_NEW)){
 			return true;
 		} else {
 			throw new KumbiaException($this->error("No se puede conectar a la base de datos"));
