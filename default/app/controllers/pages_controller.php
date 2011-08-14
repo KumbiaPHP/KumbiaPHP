@@ -33,7 +33,7 @@ class PagesController extends AppController
 	    $this->limit_params = false;
 		// Si es AJAX enviar solo el view
 		if (Input::isAjax()) {
-		  View::response('view');
+		  View::template(NULL);
 		}
     }
 	
