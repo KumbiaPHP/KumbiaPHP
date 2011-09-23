@@ -136,7 +136,7 @@ class Html
     public static function meta($content, $attrs = NULL)
     {
         if(is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
     
         self::$_metatags[] = array('content' => $content, 'attrs' => $attrs);
