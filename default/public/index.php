@@ -26,7 +26,7 @@
  * Establece polí­tica de informe de errores
  */
 //error_reporting(0); // Usar este en producción, no envia errores
-error_reporting(E_ALL ^ E_STRICT);
+error_reporting(E_ALL ^ E_STRICT); // Comentar en producción
 //comentar la siguiente linea en producción
 ini_set('display_errors', 'On'); 
 
