@@ -61,7 +61,7 @@ class Db
 			return self::$_connections[$database];
         }
 
-		return self::connect($database);
+		return self::$_connections[$database] = self::connect($database);
     }
 
     /**
