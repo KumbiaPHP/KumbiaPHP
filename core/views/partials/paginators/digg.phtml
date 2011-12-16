@@ -74,7 +74,7 @@ if($start==$page->total){
     <?php if ($page->total > $i): ?>
         <?php if ($page->total > ($i+1)): ?>
             ...
-        <? endif; ?>
+        <?php endif ?>
         
         <?php $i = $page->total-1; ?>
         <?php echo Html::link("$url/$i/", $i) ?>
@@ -87,5 +87,5 @@ if($start==$page->total){
         <?php endif; ?>
     <?php endif; ?>
 
-    <?php if($page->next) echo Html::link("$url/$page->next/", 'Siguiente', 'title="Ir a la pág. siguiente" class="nextprev"'); ?>
+    <?php if($page->next) echo Html::link("$url/$page->next/", 'Siguiente', 'title="Ir a la pág. siguiente" class="nextprev"') ?>
 </div>
