@@ -188,7 +188,22 @@ abstract class Upload
 	 */
 	public function isUploaded()
 	{
-		return isset($_FILES[$this->_name]) && is_uploaded_file($_FILES[$this->_name]['tmp_name']);
+		// Verifica si ha ocurrido un error al subir		
+		if ($_FILES[$this->_name]['error'] > 0) {
+			$error = array(
+				UPLOAD_ERR_INI_SIZE => 'el archivo excede el tamaño máximo ('.ini_get('upload_max_filesize').') permitido por el servidor',
+				UPLOAD_ERR_FORM_SIZE => 'el archivo excede el tamaño máximo permitido',
+				UPLOAD_ERR_PARTIAL => 'se ha subido el archivo parcialmente',
+				UPLOAD_ERR_NO_FILE => 'no se ha subido ningún archivo',     
+				UPLOAD_ERR_NO_TMP_DIR => 'no se encuentra el directorio de archivos temporales',
+				UPLOAD_ERR_CANT_WRITE => 'falló al escribir el archivo en disco',
+				UPLOAD_ERR_EXTENSION => 'una extensión de php ha detenido la subida del archivo'
+			);
+	
+            	Flash::error('Error: ' . $error[$_FILES[$this->_name]['error']]);
+            	return FALSE;
+        	}		
+	return TRUE;
 	}
 	
 	/**
@@ -198,22 +213,6 @@ abstract class Upload
 	 */
 	protected function _validates()
 	{
-		// Verifica si ha ocurrido un error al subir
-        if ($_FILES[$this->_name]['error'] > 0) {
-			$error = array(
-				UPLOAD_ERR_INI_SIZE => 'el archivo excede el tamaño máximo permitido por el servidor',
-				UPLOAD_ERR_FORM_SIZE => 'el archivo excede el tamaño máximo permitido',
-				UPLOAD_ERR_PARTIAL => 'se ha subido el archivo parcialmente',
-				UPLOAD_ERR_NO_FILE => 'no se ha subido ningún archivo',     
-				UPLOAD_ERR_NO_TMP_DIR => 'no se encuentra el directorio de archivos temporales',
-				UPLOAD_ERR_CANT_WRITE => 'falló al escribir el archivo en disco',
-				UPLOAD_ERR_EXTENSION => 'una extensión de php ha detenido la subida del archivo'
-			);
-			
-            Flash::error('Error: ' . $error[$_FILES[$this->_name]['error']]);
-            return FALSE;
-        }
-		
 		// Denegar subir archivos de scripts ejecutables
 		if(!$this->_allowScripts && preg_match('/\.(php|phtml|php3|php4|js|shtml|pl|py|rb|rhtml)$/i', $_FILES[$this->_name]['name'])) {
 			Flash::error('Error: no esta permitido subir scripts ejecutables');
