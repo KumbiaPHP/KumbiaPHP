@@ -151,8 +151,9 @@ abstract class Upload
 		if($this->isUploaded()) {	
 			if(!$name) {
 				$name = $_FILES[$this->_name]['name'];
+			} else {
+				$name = $name . $this->_getExtension();
 			}
-
 			// Guarda el archivo
 			if($this->_beforeSave($name) !== FALSE && $this->_validates() && $this->_saveFile($name)) {
 				$this->_afterSave($name);
@@ -175,7 +176,7 @@ abstract class Upload
 		
 		// Guarda el archivo
 		if($this->save($name)) {
-			return $name;
+			return $name . $this->_getExtension();
 		}
 		
 		return FALSE;
@@ -256,6 +257,19 @@ abstract class Upload
 		return in_array($_FILES[$this->_name]['type'], $this->_types);
 	}
 	
+	/**
+	 * Devuelve la extension
+	 * 
+	 * @return string
+	 */
+	protected function _getExtension()
+	{
+		if($ext = explode('.',$_FILES[$this->_name]['name'])){
+			$ext = '.'. end($ext);
+		} else  $ext = NULL;
+		return $ext;
+	}
+
 	/**
 	 * Convierte de tamaño legible por humanos a bytes
 	 * 
