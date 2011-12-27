@@ -221,13 +221,13 @@ abstract class Upload
 		
 		// Valida el tipo de archivo
 		if($this->_types !== NULL && !$this->_validatesTypes()) {
-			Flash::error('Error: el tipo de archivo no es valido');
+			Flash::error('Error: el tipo de archivo no es válido');
 			return FALSE;
 		}
 		
 		// Valida extension del archivo
 		if($this->_extensions !== NULL && !preg_match('/\.(' . implode('|', $this->_extensions) . ')$/i', $_FILES[$this->_name]['name'])) {
-			Flash::error('Error: la extensión del archivo no es valida');
+			Flash::error('Error: la extensión del archivo no es válida');
             return FALSE;
 		}
 		
