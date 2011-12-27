@@ -64,6 +64,13 @@ abstract class Upload
 	protected $_extensions = NULL;
 	
 	/**
+	 * Permitir sobrescribir ficheros
+	 * 
+	 * @var bool Por defecto FALSE
+	 */
+	protected $_overwrite = FALSE;
+
+	/**
 	 * Constructor
 	 * 
 	 * @param string $name nombre de archivo por metodo POST
@@ -124,6 +131,16 @@ abstract class Upload
 	}
 	
 	/**
+	 * Permitir sobrescribir el fichero 
+	 * 
+	 * @param bool $value 
+	 */
+	public function overwrite($value)
+	{
+		$this->_overwrite = (bool) $value;
+	}
+
+	/**
 	 * Acciones antes de guardar
 	 * 
 	 * @param string $name nombre con el que se va a guardar el archivo
@@ -157,7 +174,7 @@ abstract class Upload
 			$name = $name . $this->_getExtension();
 		}
 		// Guarda el archivo
-		if($this->_beforeSave($name) !== FALSE && $this->_validates() && $this->_saveFile($name)) 	{
+		if($this->_beforeSave($name) !== FALSE && $this->_overwrite($name) && $this->_validates() && $this->_saveFile($name)) 	{
 			$this->_afterSave($name);
 			return TRUE;
 		}
@@ -267,6 +284,23 @@ abstract class Upload
 			$ext = '.'. end($ext);
 		} else  $ext = NULL;
 		return $ext;
+	}
+	
+	/**
+	 * Valida si puede sobrescribir el archivo
+	 * 
+	 * @return boolean
+	 */
+	protected function _overwrite($name)
+	{
+		if($this->_overwrite){
+			return TRUE;
+		}
+		if(file_exists("$this->_path/$name")){
+			Flash::error('Error: ya existe este fichero. Y no se permite reescribirlo');
+			return FALSE;
+		}
+		return TRUE;
 	}
 
 	/**
