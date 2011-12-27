@@ -298,7 +298,7 @@ abstract class Upload
 	 */
 	public static function factory($name, $adapter = 'file')
 	{
-		require_once CORE_PATH . "libs/upload/adapters/{$adapter}_upload.php";
+		require_once dirname (__FILE__)."/adapters/{$adapter}_upload.php";
 		$class = $adapter.'upload';
 		
 		return new $class($name);
