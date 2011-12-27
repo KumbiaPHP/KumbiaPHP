@@ -90,7 +90,7 @@ abstract class Upload
 	 */
 	public function setMinSize($size)
 	{
-		$this->_minSize = $size;
+		$this->_minSize = trim($size);
 	}
 
 	/**
@@ -100,7 +100,7 @@ abstract class Upload
 	 */
 	public function setMaxSize($size)
 	{
-		$this->_maxSize = $size;
+		$this->_maxSize = trim($size);
 	}
 	
 	/**
@@ -191,7 +191,7 @@ abstract class Upload
 		// Verifica si ha ocurrido un error al subir		
 		if ($_FILES[$this->_name]['error'] > 0) {
 			$error = array(
-				UPLOAD_ERR_INI_SIZE => 'el archivo excede el tamaño máximo ('.ini_get('upload_max_filesize').') permitido por el servidor',
+				UPLOAD_ERR_INI_SIZE => 'el archivo excede el tamaño máximo ('.ini_get('upload_max_filesize').'b) permitido por el servidor',
 				UPLOAD_ERR_FORM_SIZE => 'el archivo excede el tamaño máximo permitido',
 				UPLOAD_ERR_PARTIAL => 'se ha subido el archivo parcialmente',
 				UPLOAD_ERR_NO_FILE => 'no se ha subido ningún archivo',     
@@ -233,13 +233,13 @@ abstract class Upload
 		
 		// Verifica si es superior al tamaño indicado
         if($this->_maxSize !== NULL && $_FILES[$this->_name]['size'] > $this->_toBytes($this->_maxSize)) {
-            Flash::error("Error: no se admiten archivos superiores a $this->_maxSize");
+            Flash::error("Error: no se admiten archivos superiores a $this->_maxSize".'b');
             return FALSE;
         }
 		
 		// Verifica si es inferior al tamaño indicado
         if($this->_minSize !== NULL && $_FILES[$this->_name]['size'] < $this->_toBytes($this->_minSize)) {
-            Flash::error("Error: no se admiten archivos inferiores a $this->_minSize");
+            Flash::error("Error: no se admiten archivos inferiores a $this->_minSize".'b');
             return FALSE;
         }
 		
@@ -264,20 +264,30 @@ abstract class Upload
 	 */
 	protected function _toBytes($size)
 	{
-		if(preg_match('/([KMGTP]?B)/', $size, $matches)) {
-			$bytes_array = array(
-				'B' => 1,
-				'KB' => 1024,
-				'MB' => 1024 * 1024,
-				'GB' => 1024 * 1024 * 1024,
-				'TB' => 1024 * 1024 * 1024 * 1024,
-				'PB' => 1024 * 1024 * 1024 * 1024 * 1024
-			);
-
-			$size = floatval($size) * $bytes_array[$matches[1]];
-		}
+		if(is_int($size) OR ctype_digit($size)){
+			return (int) $size;
+		}		
 		
-		return intval(round($size, 2));
+		$tipo = strtolower(substr($size, -1));
+		$size = (int) $size;
+
+		switch($tipo) {
+			case 'g': //Gigabytes
+            			$size *= 1073741824;
+				break;
+        		case 'm': //Megabytes
+            			$size *= 1048576;
+				break;
+        		case 'k': //Kilobytes
+            			$size *= 1024;
+				break;
+			default :
+				$size = -1;
+				Flash::error('Error: el tamaño debe ser un int para bytes, o un string terminado con K, M o G. Ej: 30k , 2M, 2G');
+		}		
+		
+		return $size;
+	}
 	}
 	
 	/**
