@@ -147,21 +147,20 @@ abstract class Upload
 	 * @return boolean
 	 */
 	public function save($name = NULL)
-    {
-		if($this->isUploaded()) {	
-			if(!$name) {
-				$name = $_FILES[$this->_name]['name'];
-			} else {
-				$name = $name . $this->_getExtension();
-			}
-			// Guarda el archivo
-			if($this->_beforeSave($name) !== FALSE && $this->_validates() && $this->_saveFile($name)) {
-				$this->_afterSave($name);
-				return TRUE;
-			}
+	{
+		if(!$this->isUploaded()) {
+			return FALSE;
+		}	
+		if(!$name) {
+			$name = $_FILES[$this->_name]['name'];
+		} else {
+			$name = $name . $this->_getExtension();
 		}
-		
-		return FALSE;
+		// Guarda el archivo
+		if($this->_beforeSave($name) !== FALSE && $this->_validates() && $this->_saveFile($name)) 	{
+			$this->_afterSave($name);
+			return TRUE;
+		}
 	}
 	
 	/**
