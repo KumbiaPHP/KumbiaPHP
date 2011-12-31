@@ -21,6 +21,12 @@
  */
 class Validate
 {
+	/**
+	 * Constantes para definir los patrones
+	 */
+	 
+	 
+	 
     /**
      * Almacena el mensaje de error
      *
@@ -144,7 +150,7 @@ class Validate
      * @param string $check
      * @return bool
      */
-    public static function isNull ($check)
+    public static function required($check)
     {
         return !self::custom($check, '/[^\\s]/');
     }
