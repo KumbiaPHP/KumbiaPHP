@@ -2171,8 +2171,7 @@ class KumbiaActiveRecord
 
 			$metadata = Cache::driver()->get($table, 'kumbia.models');
 			if($metadata) {
-				self::$models[$table] = unserialize($metadata);
-				return $metadata;
+				return self::$models[$table] = unserialize($metadata);
 			}
         }
 		return array();
