@@ -211,7 +211,7 @@ class ControllerDeprecated
                 return call_user_func_array(array('Filter', 'get_array'), $args);
             }
 		}
-		return Input::get($var);
+		return Input::get($variable);
 	}
 
 	/**
