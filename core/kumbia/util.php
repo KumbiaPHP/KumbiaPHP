@@ -192,7 +192,7 @@ class Util
                 // Si no son los directorios "." o ".." 
                 if(!preg_match("/^.*\/?[\.]{1,2}$/",$file)) {
                     if(is_dir($file)) {
-                        return self::removeDir($file);
+                        return self::removedir($file);
                     } elseif(!@unlink($file)) {
                         return FALSE;
                     }

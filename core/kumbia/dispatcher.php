@@ -33,7 +33,7 @@ final class Dispatcher
      *
      * @return Object
      */
-    static public function execute ($route)
+    public static function execute ($route)
     {
         extract($route, EXTR_OVERWRITE);
 
