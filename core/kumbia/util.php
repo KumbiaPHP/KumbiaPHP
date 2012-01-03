@@ -162,8 +162,7 @@ class Util
     public static function encomillar($lista)
     {
         $items = explode(',', $lista);
-        $encomillada= '"'.implode('","',$items).'"';
-        return $encomillada;
+        return '"'.implode('","',$items).'"';
     }
 
     /**
@@ -174,8 +173,8 @@ class Util
      */
     public static function mkpath($path)
     {
-        if(@mkdir($path) or file_exists($path)) return TRUE;
-        return (mkpath(dirname($path)) and mkdir($path));
+        if(file_exists($path) or @mkdir($path)) return TRUE;
+        return (self::mkpath(dirname($path)) and mkdir($path));
     }
 
     /**
