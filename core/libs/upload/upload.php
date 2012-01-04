@@ -282,7 +282,10 @@ abstract class Upload
 	{
 		if($ext = explode('.',$_FILES[$this->_name]['name'])){
 			$ext = '.'. end($ext);
-		} else  $ext = NULL;
+		} else {
+			 $ext = NULL;
+		}
+		
 		return $ext;
 	}
 	
@@ -311,7 +314,7 @@ abstract class Upload
 	 */
 	protected function _toBytes($size)
 	{
-		if(is_int($size) OR ctype_digit($size)){
+		if(is_int($size) || ctype_digit($size)){
 			return (int) $size;
 		}		
 		
@@ -334,7 +337,6 @@ abstract class Upload
 		}		
 		
 		return $size;
-	}
 	}
 	
 	/**
