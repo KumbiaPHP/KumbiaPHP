@@ -25,6 +25,16 @@ class Validate
 	 * Constantes para definir los patrones
 	 */
 	 
+	/**
+	 * El valor no puede ser nulo
+	 */
+	const IS_REQUIRED = '/[^\\s]/';
+	 
+	/*
+	 * El valor deber ser solo letras y números
+	 */
+	const IS_ALPHANUM = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu';
+	 
 	 
 	 
     /**
@@ -152,7 +162,7 @@ class Validate
      */
     public static function required($check)
     {
-        return !self::custom($check, '/[^\\s]/');
+        return !self::custom($check, self::IS_REQUIRED);
     }
     /**
      * Valida que un String sea alpha-num (incluye caracteres acentuados)
@@ -160,9 +170,9 @@ class Validate
      * @param string $string
      * @return bool
      */
-    public static function alNum ($string)
+    public static function alphanum ($string)
     {
-        return self::custom($string, '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu');
+        return self::custom($string, self::IS_ALPHANUM);
     }
     /**
      * Valida una fecha
