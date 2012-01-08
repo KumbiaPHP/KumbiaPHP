@@ -69,10 +69,13 @@ class Validate
      * @param int $max
      * @return bool
      */
-    public static function between ($value, $min = 0, $max = NULL)
+    public static function maxLength($value, $max, $min = null)
     {
         $length = strlen($value);
-        return ($length >= $min && $length <= $max);
+        if($min and $length < $min){
+			return false
+		}
+        return ($length <= $max);
     }
     /**
      * Valida que es un número se encuentre 
@@ -82,35 +85,12 @@ class Validate
      * @param int $min
      * @param int $max
      */
-    public static function intBetween($value, $min=0, $max=NULL)
+    public static function range($value, $min=0, $max=NULL)
     {
         $int_options = array('options'=> array('min_range'=>$min, 'max_range'=>$max));
         return filter_var($value, FILTER_VALIDATE_INT, $int_options);
     }
-    /**
-     * Valida que un string contenga una longitud mínima
-     * retorna true si la longitud del $value es menor que el $min
-     *
-     * @param string $value
-     * @param int $min
-     * @return bool
-     */
-    public static function minLength($value, $min)
-    {
-        return (strlen($value) < $min);
-    }
-    /**
-     * Valida que un string contenga una longitud máxima
-     * retorna true si la longitud del $value es mayor que el $max 
-     *
-     * @param string $value
-     * @param int $max
-     * @return bool
-     */
-    public static function maxLength ($value, $max) 
-    {
-        return (strlen($value) > $max);
-    }
+
     /**
      * Valida que un valor se encuentre en una lista
      * Retorna tru si el string $value se encuentra en la lista $list
@@ -155,14 +135,14 @@ class Validate
         return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
     }
     /**
-     * Valida que un string no sea null o contenga solo espacios
+     * Valida que un string no sea null
      *
      * @param string $check
      * @return bool
      */
     public static function required($check)
     {
-        return !self::custom($check, self::IS_REQUIRED);
+        return !empty($check) && $check!='0';
     }
     /**
      * Valida que un String sea alpha-num (incluye caracteres acentuados)
@@ -172,7 +152,7 @@ class Validate
      */
     public static function alphanum ($string)
     {
-        return self::custom($string, self::IS_ALPHANUM);
+        return self::pattern($string, self::IS_ALPHANUM);
     }
     /**
      * Valida una fecha
@@ -214,7 +194,7 @@ class Validate
      * @param string $regex
      * @return bool
      */
-    public static function custom ($check, $regex)
+    public static function pattern ($check, $regex)
     {
         return filter_var($check, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => $regex)));
     }
