@@ -167,7 +167,7 @@ final class Router
 			self::$_vars['controller'] = $url['controller'];
 			self::$_vars['action'] = 'index';
 			self::$_vars['parameters'] = array();
-			self::$_vars['controller_path'] = ($url['module']) ? $url['module'].'/'.$url['controller'] : $url['controller'];
+			self::$_vars['controller_path'] = (isset($url['module'])) ? $url['module'].'/'.$url['controller'] : $url['controller'];
 		}
 
 		if(isset($url['action'])){
