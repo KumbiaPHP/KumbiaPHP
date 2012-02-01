@@ -113,20 +113,22 @@ abstract class Upload
 	/**
 	 * Asigna los tipos de archivos permitido (mime)
 	 * 
-	 * @param array $value lista de tipos de archivos permitidos (mime) 
+	 * @param array|string $value lista de tipos de archivos permitidos (mime) si es string separado por | 
 	 */
 	public function setTypes($value)
 	{
+		if(! is_array($value)) $value = explode('|', $value);
 		$this->_types = $value;
 	}
 	
 	/**
 	 * Asigna las extensiones de archivos permitidas
 	 * 
-	 * @param array $value lista de extensiones para archivos
+	 * @param array|string $value lista de extensiones para archivos, si es string separado por | 
 	 */
 	public function setExtensions($value)
 	{
+		if(! is_array($value)) $value = explode('|', $value);
 		$this->_extensions = $value;
 	}
 	
