@@ -2323,8 +2323,8 @@ class KumbiaActiveRecord
    	{
         $sql_item = trim($sql_item);
         if ($sql_item !== '' && $sql_item !== null) {
-            $sql_item = preg_replace('/\s+/', '', $sql_item);
-            if (!preg_match('/^[a-zA-Z_0-9\,\(\)\.\*]+$/', $sql_item)) {
+            $sql_temp = preg_replace('/\s+/', '', $sql_item);
+            if (!preg_match('/^[a-zA-Z_0-9\,\(\)\.\*]+$/', $sql_temp)) {
                 throw new KumbiaException("Se esta tratando de ejecutar una operacion maliciosa!");
             }
         }
