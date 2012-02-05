@@ -1275,7 +1275,7 @@ class KumbiaActiveRecord
             $query = "SELECT COUNT(*) FROM $table WHERE {$this->_where_pk}";
         } else {
             if (is_numeric($where_pk)) {
-                $query = "SELECT(*) FROM $table WHERE id = '$where_pk'";
+                $query = "SELECT COUNT(*) FROM $table WHERE id = '$where_pk'";
             } else {
                 $query = "SELECT COUNT(*) FROM $table WHERE $where_pk";
             }
