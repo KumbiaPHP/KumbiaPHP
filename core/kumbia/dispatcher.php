@@ -52,12 +52,12 @@ final class Dispatcher
 
 		//Se ejecuta el metodo con el nombre de la accion
 		//en la clase de acuerdo al convenio
-		if(!method_exists($cont, $action)){			
+		if(!method_exists($cont, $cont->action_name)){			
 			throw new KumbiaException(NULL,'no_action');	
 		}
 		
 		//Obteniendo el metodo
-		$reflectionMethod = new ReflectionMethod($cont, $action);
+		$reflectionMethod = new ReflectionMethod($cont, $cont->action_name);
         
 		//k_callback y __constructor metodo reservado
 		if($reflectionMethod->name == 'k_callback' || $reflectionMethod->isConstructor()){
@@ -71,12 +71,12 @@ final class Dispatcher
 		
 		//se verifica que los parametros que recibe 
 		//la action sea la cantidad correcta
-		$num_params = count($parameters);
+		$num_params = count($cont->parameters);
 		if($cont->limit_params && ($num_params < $reflectionMethod->getNumberOfRequiredParameters() ||
 					   $num_params > $reflectionMethod->getNumberOfParameters())){
-			throw new KumbiaException("Número de parámetros erróneo para ejecutar la acción \"$action\" en el controlador \"$controller\"");
+			throw new KumbiaException("Número de parámetros erróneo para ejecutar la acción \"{$cont->action_name}\" en el controlador \"$controller\"");
 		}
-		$reflectionMethod->invokeArgs($cont, $parameters);
+		$reflectionMethod->invokeArgs($cont, $cont->parameters);
 
 		//Corre los filtros after y finalize
 		$cont->k_callback();
