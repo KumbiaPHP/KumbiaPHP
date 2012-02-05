@@ -1539,7 +1539,7 @@ class KumbiaActiveRecord
 		// al validar campos unicos, ya que si lo toma en cuenta
 		// lanzará error de validacion porque ya existe un registro 
 		// con igual valor en el campo unico.
-		$and_condition = $ex ? " AND id != {$this->id} " : '';
+		$and_condition = $ex ? " AND id != '$this->id'" : '';
         foreach($this->_validates['uniqueness_of'] as $f => $opt) {
             if (isset($this->$f) && !is_null($this->$f) && $this->$f != '') {
 				$result = $this->db->fetch_one("SELECT COUNT(*) FROM $table WHERE $f = {$this->db->add_quotes($this->$f)} $and_condition");
