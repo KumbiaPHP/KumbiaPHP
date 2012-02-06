@@ -1,56 +1,49 @@
 * {
-	margin: 0;
-	padding: 0;
+    margin: 0px;
+    padding: 0px;
 }
-
-h1{
-	font-size:250%;
-}
-
 body{
-	font-family: serif;
+    background-color: #fdfdfd;
+    font-family: Arial, Helvetica;
 }
-
 #head {
-	background: #8A6F5C;
-	padding:1ex;
+    height: 53px;
+    background-color: #CCCC99;
+    background: #D1C2A3 url(../img/default/head.png) no-repeat scroll left;
 }
 #head h1 {
-	margin: 0;
-	color: #fff;
-	display:inline
-}
-
-#head h2{
-	margin: 0;
-	color: #fff;
-	display:inline;
-	color:#eee
-}
-
-.app {
-	font-size:120%;
-	margin: 0;
-	font-weight:900;
-	color: #fff;
-}
-
-.title {
-	margin: 0;
-	color: #333;
-}
-
-#config a {
-    background-color: #6A4F3C;
+    font-size: 30px;
+    padding: 10px 8px 15px;
+    margin: 0;
+    float: left;
     color: #fff;
-    padding:.5ex;
+}
+.app {
+    font-size: 30px;
+    margin: 0;
+    color: #8A6F5C;
+}
+.title {
+    font-size: 30px;
+    margin: 0;
+    color: #333333;
+}
+#head #info-app {
+    font-size: 20px;
+    padding: 20px 0px 15px;
+    margin: 0;
+    float: left;
+    color: #fff;
+}
+#config a {
+    background-color: #8A6F5C;
+    padding: .2em;
+    color: #fff;
     text-decoration: none;
 }
 #config a:hover {
-    color: #eee;
-    text-decoration: underline;
+    background-color: #000;
 }
-
 #footer {
     background-color: #8A6F5C;
     border-top: 4px solid #555555;
@@ -80,20 +73,19 @@ body{
     color: #D1A88B;
 }
 #logo-kumbia {
+    margin-right: auto;
+    margin-top: 40px;
     display: block;
-    text-align:center;
+    margin-left: 100px;
+    width: 160px;
 }
-
 #info{
-    background-color: #eee;
-    width:80%;
-    margin:2ex auto;
-    border-radius:1ex;
-    border:1px solid #333;
+    background-color: #f8f8f8;
+    margin: 20px 20px 30px 100px;
+    border:1px solid #E5E5E5;
     padding: 2em;
     clear: both;
 }
-
 #info h1 {
     font-size: 1.5em;
     color: #333333;
@@ -129,17 +121,12 @@ body{
 #conf {
 margin-top: 1em;
 }
-
-h1
-
 h4 {
 margin-top: 1em;
 }
 h4 span {
 color: #8A6F5C;
 }
-
-
 #conf p {
 color: #15428b;
 }
