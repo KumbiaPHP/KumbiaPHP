@@ -92,6 +92,7 @@ class Util
     /**
      * Merge Two Arrays Overwriting Values $a1
      * from $a2
+     * @deprecated
      *
      * @param array $a1
      * @param array $a2
@@ -99,35 +100,20 @@ class Util
      */
     public static function array_merge_overwrite($a1, $a2)
     {
-        foreach($a2 as $key2 => $value2){
-            if(!is_array($value2)){
-                $a1[$key2] = $value2;
-            } else {
-                if(!isset($a1[$key2])){
-                    $a1[$key2] = NULL;
-                }
-                if(!is_array($a1[$key2])){
-                    $a1[$key2] = $value2;
-                } else {
-                    $a1[$key2] = self::arrayMergeOverwrite($a1[$key2], $a2[$key2]);
-                }
-            }
-        }
-        return $a1;
+        return $a2+$a1;
     }
 	
     /**
      * Insert para arrays numericos
+     * @deprecated
      *
      * @param &array $array array donde se insertara (por referencia)
-     * @param int $index indice donde se realizara la insercion
-     * @param mixed $value valor a insertar
+     * @param int $posicion indice donde se realizara la insercion
+     * @param mixed $insert valor a insertar
      **/
-    public static function array_insert(&$array, $index, $value)
+    public static function array_insert(&$array, $position, $insert)
     {
-        $array2 = array_splice($array, $index);
-        array_push($array, $value);
-        $array = array_merge($array, $array2);
+        array_splice($array, $position, 0, $insert);
     }
 
 	/**
@@ -167,6 +153,7 @@ class Util
 
     /**
      * Crea un path.
+     * @deprecated
      *
      * @param string $path ruta a crear
      * @return boolean
@@ -179,6 +166,7 @@ class Util
 
     /**
      * Elimina un directorio.
+     * @deprecated
      *
      * @param string $dir ruta de directorio a eliminar
      * @return boolean
