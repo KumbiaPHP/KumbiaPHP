@@ -15,7 +15,7 @@
  * @category Kumbia
  * @package Auth
  * @subpackage Adapters
- * @copyright Copyright (c) 2005-2007 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
+ * @copyright Copyright (c) 2005-2012 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
  * @license http://www.kumbia.org/license.txt GNU/GPL
  */
 
@@ -25,7 +25,7 @@
  * @category Kumbia
  * @package Auth
  * @subpackage Adapters
- * @copyright Copyright (c) 2005-2007 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
+ * @copyright Copyright (c) 2005-2012 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
  * @license http://www.kumbia.org/license.txt GNU/GPL
  * @link http://en.wikipedia.org/wiki/Digest_access_authentication
  */
