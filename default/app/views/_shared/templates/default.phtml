@@ -2,7 +2,7 @@
 <html lang="es">
  <head>
   <meta http-equiv='Content-type' content='text/html; charset=<?php echo APP_CHARSET ?>' />
-  <title>KumbiaPHP web &amp; app Framework</title>
+  <title>KumbiaPHP web &amp; App Framework</title>
   <?php Tag::css('bienvenida') ?>
   <?php Tag::css('style') ?>
   <?php echo Html::includeCss() ?>
@@ -10,14 +10,15 @@
 <body>
     <div id='content'>
         <div id='head'>
-            <h1 id='logo'>KumbiaPHP</h1><div id='info-app'>web &amp; app Framework versión <?php echo kumbia_version() ?></div>
-
             <div class='alignright'>
                 <p id='config'>
                     <span class='app'><?php echo basename(dirname(APP_PATH)) ?></span>
                     <?php echo Html::link('pages/show/kumbia/status/', 'Config', 'title="Ver configuración de la aplicación"') ?>
                 </p>
              </div>
+             
+            <h1 id='logo'>KumbiaPHP</h1>
+            <h2 id='info-app'>web &amp; app Framework versión <?php echo kumbia_version() ?></h2>
         </div>
 
         <?php View::content(); ?>
