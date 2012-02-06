@@ -23,9 +23,15 @@
 class Rest{
 	
 	/**
-	 * Array con los tipos de datos soportados
+	 * Array con los tipos de datos soportados para salida
 	 */
-	private static $fSupport = array('json', 'text', 'html', 'xml', 'cvs', 'php');
+	private static $outputFormat = array('json', 'text', 'html', 'xml', 'cvs', 'php');
+	
+	/**
+	 * Tipo de datos soportados para entrada
+	 */
+	private static $inputFormat = array('json', 'plain', 'x-www-form-urlencoded');
+	
 	
 	/**
 	 * Metodo de petición (GET, POST, PUT, DELETE)
@@ -33,28 +39,50 @@ class Rest{
 	private static $method = null;
 	
 	/**
+	 * Establece el formato de salida
+	 */
+	 
+	 private static $oFormat =null;
+	 
+	 /**
+	  * Establece el formato de entrada
+	  */
+	private static $iFormat = null; 
+	
+	
+	/**
 	 * Establece los tipos de respuesta aceptados
 	 */
 	static public function accept($accept){
-		 $fSupport =  is_array($accept) ? $accept : explode(',', $accept);
+		 self::$outputFormat =  is_array($accept) ? $accept : explode(',', $accept);
 	}
 	
 	/**
 	 * Define el inicio de un servicio REST
 	 */
 	static public function init(){
+		/**
+		 * Verifico el formato de entrada
+		 */
+		self::$iFormat = str_replace(array('text/', 'application/'), '', $_SERVER['CONTENT_TYPE']);
+		
 		/*Compruebo el método de petición*/
 		self::$method = strtolower($_SERVER['REQUEST_METHOD']);
 		$format = explode(',', $_SERVER['HTTP_ACCEPT']);
-		while($f = array_shift($format)){
-			$f = str_replace(array('text/', 'application/'), '', $f);
-			if(in_array($f, self::$fSupport))
+		while(self::$oFormat = array_shift($format)){
+			self::$oFormat = str_replace(array('text/', 'application/'), '', self::$oFormat);
+			if(in_array(self::$oFormat, self::$outputFormat))
 				break;
 		}
-		if($f== null){
+		
+		/**
+		 * Si no lo encuentro, revuelvo un error
+		 */
+		if(self::$oFormat== null){
 			return 'error';
 		}else{
-			View::response($f);
+			View::response(self::$oFormat);
+			View::select('response');
 			return self::$method;
 		}
     }
@@ -66,22 +94,23 @@ class Rest{
     static function param(){
 		$vars = array('post'=>$_POST,
 			'get'=> $_GET,
-			'put' => putVar()
+			'put' => self::putVar()
 			);
 		return $vars[self::$method];
 	}
     
     /**
      * Permite leer las variables pasadas por el método PUT
-     * (PHP por defecto no lo soporta 
+     * (PHP por defecto no lo soporta)
+     * Esto se puede extender para otros formatos
      */
     static function putVar(){
 		$input = file_get_contents('php://input');
-		if ( function_exists('mb_parse_str') ) {
-			mb_parse_str($input, $output);
+		if (self::$iFormat == 'json') {
+			return json_decode($input);
 		} else {
 			parse_str($input, $output);
+			return $input;
 		}
-		return $output;
 	}
 }
