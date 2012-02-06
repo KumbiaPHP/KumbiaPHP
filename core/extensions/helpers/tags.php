@@ -14,6 +14,7 @@
  *
  * Helpers HTML
  * 
+ * @deprecated
  * @category   Kumbia
  * @package    Helpers 
  * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
