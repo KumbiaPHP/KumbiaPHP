@@ -73,7 +73,7 @@ class Validate
     {
         $length = strlen($value);
         if($min and $length < $min){
-			return false
+			return false;
 		}
         return ($length <= $max);
     }
