@@ -52,10 +52,11 @@ class Load
     /**
      * Obtiene la instancia de un modelo
      *
-     * @param string $model
+     * @param string $model modelo a instanciar
+     * @param mixed $params parámetros para instanciar el modelo
      * @return obj model
      */
-    public static function model ($model)
+    public static function model ($model, $params = NULL)
     {
         //Nombre de la clase
         $Model = Util::camelcase(basename($model));
@@ -66,7 +67,7 @@ class Load
                 throw new KumbiaException("No existe el modelo $model");
             }
         }
-        return new $Model();
+        return new $Model($params);
     }
     /**
      * Carga modelos
