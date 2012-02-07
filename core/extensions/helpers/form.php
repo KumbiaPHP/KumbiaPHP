@@ -471,8 +471,12 @@ class Form
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
         
-        $options = '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
-
+        // Si no se envia un campo por defecto, no se crea el tag option
+        if($blank != NULL)
+        	$options = '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
+        else
+        	$options = '';
+        
 		//por defecto el modelo de modelo(_id)
         if($data === NULL){
 			$model_asoc = explode('.', $field, 2);
@@ -497,15 +501,24 @@ class Form
 				$data = $model_asoc->$data[1]();
 			}
 		}
-	
-        foreach($data as $p) {
-            $options .= "<option value=\"{$p->$pk}\"";
-			if($p->$pk == $value) {
-                $options .= ' selected="selected"';
-            }
-            $options .= '>' . htmlspecialchars($p->$show, ENT_COMPAT, APP_CHARSET) . '</option>';
-        }
-        
+		
+		foreach($data as $p) {
+			$options .= "<option value=\"{$p->$pk}\"";
+			// Si los valores seleccionados pertenecen a un text multiple se seleccionan todos
+			if(is_array($value)){
+				foreach($value as $t){
+					if($p->$pk == $t){
+						$options .= ' selected="selected"';
+					}
+				}
+			}else{
+				if($p->$pk == $value) {
+					$options .= ' selected="selected"';
+				}
+			}
+			$options .= '>' . htmlspecialchars($p->$show, ENT_COMPAT, APP_CHARSET) . '</option>';
+		}
+		
         return "<select id=\"$id\" name=\"$name\" $attrs>$options</select>".PHP_EOL;
     }
     
