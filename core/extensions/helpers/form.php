@@ -472,10 +472,11 @@ class Form
         extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
         
         // Si no se envia un campo por defecto, no se crea el tag option
-        if($blank != NULL)
+        if($blank != NULL){
         	$options = '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
-        else
+        }else{
         	$options = '';
+        }
         
 		//por defecto el modelo de modelo(_id)
         if($data === NULL){
