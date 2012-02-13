@@ -114,7 +114,7 @@ class Paginator
                 $find_args[] = $conditions;
             }
             //contar los registros
-            $n = call_user_func_array(array($model , 'count'), $find_args);
+            $n = $model->count($find_args);
             //si el inicio es superior o igual al conteo de elementos,
             //entonces la página no existe, exceptuando cuando es la pagina 1
             if ($page_number > 1 && $start >= $n) {
