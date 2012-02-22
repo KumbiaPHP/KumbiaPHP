@@ -22,6 +22,16 @@
  */
 class Rest{
 	
+	
+	
+	private static $code = array(
+		201 => 'Creado ', /*Se ha creado un nuevo recuerso (INSERT)*/
+		400 => 'Bad Request', /*Petición herronea*/
+		401 => 'Unauthorized', /*La petición requiere loggin*/
+		403 => 'Forbidden',
+		405 => 'Method Not Allowed' /*No está permitido ese metodo*/
+	);
+	
 	/**
 	 * Array con los tipos de datos soportados para salida
 	 */
@@ -61,10 +71,11 @@ class Rest{
 	 * Define el inicio de un servicio REST
 	 */
 	static public function init(){
+		$content = isset($_SERVER['CONTENT_TYPE'])? $_SERVER['CONTENT_TYPE']:'text/html';
 		/**
 		 * Verifico el formato de entrada
 		 */
-		self::$iFormat = str_replace(array('text/', 'application/'), '', $_SERVER['CONTENT_TYPE']);
+		self::$iFormat = str_replace(array('text/', 'application/'), '', $content);
 		
 		/*Compruebo el método de petición*/
 		self::$method = strtolower($_SERVER['REQUEST_METHOD']);
@@ -92,25 +103,12 @@ class Rest{
      * de la petición
      */
     static function param(){
-		$vars = array('post'=>$_POST,
-			'get'=> $_GET,
-			'put' => self::putVar()
-			);
-		return $vars[self::$method];
-	}
-    
-    /**
-     * Permite leer las variables pasadas por el método PUT
-     * (PHP por defecto no lo soporta)
-     * Esto se puede extender para otros formatos
-     */
-    static function putVar(){
 		$input = file_get_contents('php://input');
 		if (self::$iFormat == 'json') {
-			return json_decode($input);
+			return json_decode($input, true);
 		} else {
 			parse_str($input, $output);
-			return $input;
+			return $output;
 		}
 	}
 }
