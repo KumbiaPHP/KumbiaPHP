@@ -104,7 +104,7 @@ class Rest{
      */
     static function param(){
 		$input = file_get_contents('php://input');
-		if (self::$iFormat == 'json') {
+		if (strncmp(self::$iFormat, 'json', 4) == 0) {
 			return json_decode($input, true);
 		} else {
 			parse_str($input, $output);

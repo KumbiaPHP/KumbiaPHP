@@ -99,6 +99,12 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 				$this->pdo->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
 				$this->pdo->setAttribute(PDO::ATTR_CURSOR, PDO::CURSOR_FWDONLY);
 			}
+			/**
+			 * Arregla el problema con las tablas en utf8
+			 */
+			if($config['type'] == 'mysql' and isset($config['charset'])){
+				$this->pdo->exec('set character set '.$config['charset']);
+			}
 			$this->initialize();
 			return true;
 		} catch(PDOException $e) {
