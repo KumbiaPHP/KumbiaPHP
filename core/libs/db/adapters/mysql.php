@@ -127,7 +127,8 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 			}
 			//Selecciona charset
 			if(isset($config['charset'])){
-				mysql_set_charset($config['charset'],$this->id_connection);
+				mysql_query("SET NAMES {$config['charset']}");
+				//mysql_set_charset($config['charset'],$this->id_connection); //Necesita mysql > 5.0.7
 			}
 			return true;
 		} else {
