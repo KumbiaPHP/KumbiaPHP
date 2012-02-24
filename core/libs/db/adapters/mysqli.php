@@ -23,27 +23,27 @@
 class DbMySQLi extends DbBase implements DbBaseInterface  {
 
 	/**
-	 * Resource de la Conexion a MySQL
+	 * Resource de la Conexión a MySQL
 	 *
 	 * @var resource
 	 */
 	public $id_connection;
 
 	/**
-	 * Ultimo Resultado de una Query
+	 * Último Resultado de una Query
 	 *
 	 * @var resource
 	 */
 	public $last_result_query;
 
 	/**
-	 * Ultima sentencia SQL enviada a MySQL
+	 * Última sentencia SQL enviada a MySQL
 	 *
 	 * @var string
 	 */
 	private $last_query;
 	/**
-	 * Ultimo error generado por MySQL
+	 * Último error generado por MySQL
 	 *
 	 * @var string
 	 */
@@ -56,13 +56,13 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 	const DB_ASSOC = MYSQLI_ASSOC;
 
 	/**
-	 * Resultado de Array Asociativo y Numerico
+	 * Resultado de Array Asociativo y Númerico
 	 *
 	 */
 	const DB_BOTH = MYSQLI_BOTH;
 
 	/**
-	 * Resultado de Array Numerico
+	 * Resultado de Array Númerico
 	 *
 	 */
 	const DB_NUM = MYSQLI_NUM;
@@ -105,7 +105,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 	const TYPE_CHAR = 'CHAR';
 
 	/**
-	 * Hace una conexi&oacute;n a la base de datos de MySQL
+	 * Hace una conexión a la base de datos de MySQL
 	 *
 	 * @param array $config
 	 * @return resource_connection
@@ -120,6 +120,10 @@ class DbMySQLi extends DbBase implements DbBaseInterface  {
 		if(mysqli_connect_error()) { //no se usa $object->error() ya que solo funciona a partir de 5.2.9 y 5.3
 			throw new KumbiaException(mysqli_connect_error());
 		} else {
+			//Selecciona charset
+			if(isset($config['charset'])){
+				$this->id_connection->set_charset($config['charset']);
+			}
 			return TRUE;
 		}
 	}
