@@ -31,7 +31,7 @@ class DbPdoMySQL extends DbPDO {
 	protected $db_rbdm = "mysql";
 
 	/**
-	 * Puerto de Conexi&oacute;n a MySQL
+	 * Puerto de Conexión a MySQL
 	 *
 	 * @var integer
 	 */
@@ -74,7 +74,7 @@ class DbPdoMySQL extends DbPDO {
 	const TYPE_CHAR = "CHAR";
 
 	/**
-	 * Ejecuta acciones de incializacion del driver
+	 * Ejecuta acciones de incialización del driver
 	 *
 	 */
 	public function initialize(){
@@ -137,7 +137,7 @@ class DbPdoMySQL extends DbPDO {
 	 * Crea una tabla utilizando SQL nativo del RDBM
 	 *
 	 * TODO:
-	 * - Falta que el parametro index funcione. Este debe listar indices compuestos multipes y unicos
+	 * - Falta que el parámetro index funcione. Este debe listar índices compuestos múltipes y únicos
 	 * - Agregar el tipo de tabla que debe usarse (MySQL)
 	 * - Soporte para campos autonumericos
 	 * - Soporte para llaves foraneas

@@ -36,27 +36,27 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 	protected $pdo;
 
 	/**
-	 * Ultimo Resultado de una Query
+	 * Último Resultado de una Query
 	 *
 	 * @var PDOStament
 	 */
 	public $pdo_statement;
 
 	/**
-	 * Ultima sentencia SQL enviada
+	 * Última sentencia SQL enviada
 	 *
 	 * @var string
 	 */
 	protected $last_query;
 	/**
-	 * Ultimo error generado
+	 * Último error generado
 	 *
 	 * @var string
 	 */
 	protected $last_error;
 
 	/**
-	 * Numero de filas afectadas
+	 * Número de filas afectadas
 	 */
 	protected $affected_rows;
 
@@ -67,18 +67,18 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 	const DB_ASSOC = PDO::FETCH_ASSOC;
 
 	/**
-	 * Resultado de Array Asociativo y Numerico
+	 * Resultado de Array Asociativo y Númerico
 	 *
 	 */
 	const DB_BOTH = PDO::FETCH_BOTH;
 
 	/**
-	 * Resultado de Array Numerico
+	 * Resultado de Array Númerico
 	 *
 	 */
 	const DB_NUM = PDO::FETCH_NUM;
 	/**
-	 * Hace una conexion a la base de datos de MySQL
+	 * Hace una conexión a la base de datos de MySQL
 	 *
 	 * @param array $config
 	 * @return resource_connection
@@ -99,9 +99,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface  {
 				$this->pdo->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
 				$this->pdo->setAttribute(PDO::ATTR_CURSOR, PDO::CURSOR_FWDONLY);
 			}
-			/**
-			 * Arregla el problema con las tablas en utf8
-			 */
+			//Selecciona charset
 			if($config['type'] == 'mysql' and isset($config['charset'])){
 				$this->pdo->exec('set character set '.$config['charset']);
 			}

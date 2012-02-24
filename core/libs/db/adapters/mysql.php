@@ -23,28 +23,28 @@
 class DbMySQL extends DbBase implements DbBaseInterface  {
 
 	/**
-	 * Resource de la Conexion a MySQL
+	 * Resource de la Conexión a MySQL
 	 *
 	 * @var resource
 	 */
 	public $id_connection;
 
 	/**
-	 * Ultimo Resultado de una Query
+	 * Último Resultado de una Query
 	 *
 	 * @var resource
 	 */
 	public $last_result_query;
 
 	/**
-	 * Ultima sentencia SQL enviada a MySQL
+	 * Última sentencia SQL enviada a MySQL
 	 *
 	 * @var string
 	 */
 	private $last_query;
 
 	/**
-	 * Ultimo error generado por MySQL
+	 * Último error generado por MySQL
 	 *
 	 * @var string
 	 */
@@ -57,13 +57,13 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 	const DB_ASSOC = MYSQL_ASSOC;
 
 	/**
-	 * Resultado de Array Asociativo y Numerico
+	 * Resultado de Array Asociativo y Númerico
 	 *
 	 */
 	const DB_BOTH = MYSQL_BOTH;
 
 	/**
-	 * Resultado de Array Numerico
+	 * Resultado de Array Númerico
 	 *
 	 */
 	const DB_NUM = MYSQL_NUM;
@@ -105,7 +105,7 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 	const TYPE_CHAR = 'CHAR';
 
 	/**
-	 * Hace una conexion a la base de datos de MySQL
+	 * Hace una conexión a la base de datos de MySQL
 	 *
 	 * @param array $config
 	 * @return resource_connection
@@ -124,6 +124,10 @@ class DbMySQL extends DbBase implements DbBaseInterface  {
 				if(!mysql_select_db($config['name'], $this->id_connection)){
 					throw new KumbiaException($this->error());
 				}
+			}
+			//Selecciona charset
+			if(isset($config['charset'])){
+				mysql_set_charset($config['charset'],$this->id_connection);
 			}
 			return true;
 		} else {
