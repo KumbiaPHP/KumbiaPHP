@@ -75,7 +75,7 @@ class KumbiaException extends Exception {
 		
 		// verifica si esta cargado el View
 		if(class_exists('View')) {
-			if(View::get('response') == 'view') {
+			if(View::get('template') === NULL) {
 				echo $content;
 				exit;
 			} 
