@@ -12,12 +12,18 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Clase Base para gestion de ACL
+ * Clase Base para gestión de ACL
  * 
  * @category   Kumbia
  * @package    Acl
  * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
+ 
+/**
+ *
+ * Nueva Clase Base para gestión de ACL (Access Control List) permisos
+ *
  */
 abstract class Acl2
 {

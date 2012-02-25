@@ -15,8 +15,9 @@
  * ApplicationController Es la clase principal para controladores de Kumbia
  *
  * @category   Kumbia
- * @package    Controller
+ * @package    ControllerDeprecated
  * @deprecated Antiguo controller (legacy) Se eliminará despues de la beta2
+ * @todo  En salir la beta2 se eliminará
  * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */

@@ -22,16 +22,6 @@
  */
 
 /**
- * @see AclRole
- */
-include CORE_PATH . 'libs/acl/role/role.php';
-
-/**
- * @see AclResource
- */
-include CORE_PATH . 'libs/acl/resource/resource.php';
-
-/**
  * Listas ACL (Access Control List)
  *
  * La Lista de Control de Acceso o ACLs (del ingles, Access Control List)
@@ -51,6 +41,17 @@ include CORE_PATH . 'libs/acl/resource/resource.php';
  * $roles_names = Nombres de Resources
  *
  */
+ 
+/**
+ * @see AclRole
+ */
+include CORE_PATH . 'libs/acl/role/role.php';
+
+/**
+ *@see AclResource
+ */
+include CORE_PATH . 'libs/acl/resource/resource.php';
+
 class Acl {
 
 	/**

@@ -1,20 +1,31 @@
 <?php
 /**
- * Antiguo Application Controller desaconsejado, ahora se usa el AppController
- * Todas las controladores heredan de esta clase en un nivel superior
- * por lo tanto los metodos aqui definidos estan disponibles para
- * cualquier controlador.
- *
  * @category Kumbia
- * @package Controller
- * @deprecated Ahora se usa AppController. Sirve para portar apps fácilmente de 0.5 y beta1. Se eliminará despues de la beta2
+ * @package ControllerDeprecated
+ * @deprecated Ahora se usa AppController.
+ * Se eliminará despues de la beta2
+ *
+ * Antiguo ApplicationController desaconsejado, ahora se usa el AppController.
+ *
+ * Todos los controladores heredan de esta clase en un nivel superior
+ * por lo tanto los métodos aquí definidos estan disponibles para
+ * cualquier controlador.
  **/
 
 // Para cargar los helpers antiguos
 require_once CORE_PATH . 'extensions/helpers/tags.php';
 
-// @see Controller antiguo por compatibilidad
+/**
+ * @see ControllerDeprecated Antiguo controlador por compatibilidad
+ */
 require_once CORE_PATH . 'kumbia/controller_deprecated.php';
+/**
+ * (Obsoleto) Clase controladora que extienden los demás controllers 
+ *
+ * @deprecated Ahora se usa AppController.
+ * Se eliminará despues de la beta2.
+ * Se mantiene para portar apps fácilmente de 0.5 y beta1.
+ */
 
 class ApplicationController extends ControllerDeprecated {
 

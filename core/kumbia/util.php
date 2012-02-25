@@ -11,21 +11,24 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
- *
- * Util para uso general del framework
  * 
  * @category   Kumbia
  * @package    Core 
  * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
+ 
+/*
+ * Utilidades para uso general del framework
+ * 
+ */
 class Util
 {
     /**
      * Convierte la cadena con espacios o guión bajo en notacion camelcase
-	 *
+     *
      * @param string $s cadena a convertir
-	 * @param boolean $lower indica si es lower camelcase
+     * @param boolean $lower indica si es lower camelcase
      * @return string
      **/
     public static function camelcase($s, $lower=FALSE)
@@ -104,12 +107,12 @@ class Util
     }
 	
     /**
-     * Insert para arrays numericos
-     * @deprecated
+     * Insertar para arrays númericos
+     * @deprecated No es necesario
      *
-     * @param &array $array array donde se insertara (por referencia)
-     * @param int $posicion indice donde se realizara la insercion
-     * @param mixed $insert valor a insertar
+     * @param array &$array array donde se insertará (por referencia)
+     * @param int $position Indice donde se realizara la insercion
+     * @param mixed $insert Valor a insertar
      **/
     public static function array_insert(&$array, $position, $insert)
     {
@@ -154,6 +157,8 @@ class Util
     /**
      * Crea un path.
      * @deprecated
+     * @todo Mover este método a una lib para manejo de ficheros.
+     * En salir la beta2 se eliminará del Util
      *
      * @param string $path ruta a crear
      * @return boolean
@@ -167,6 +172,8 @@ class Util
     /**
      * Elimina un directorio.
      * @deprecated
+     * @todo Mover este método a una lib para manejo de ficheros.
+     * En salir la beta2 se eliminará del Util
      *
      * @param string $dir ruta de directorio a eliminar
      * @return boolean
