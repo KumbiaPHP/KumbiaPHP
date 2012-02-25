@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Sube archivos al servidor
+ * Sube archivos al servidor.
  *
  * @category   Kumbia
  * @package    Upload
