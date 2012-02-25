@@ -28,7 +28,7 @@ class Ajax
      * @param string $text texto a mostrar
      * @param string $update capa a actualizar
      * @param string $class clases adicionales
-     * @param string | array $attrs atributos adicionales
+     * @param string|array $attrs atributos adicionales
      * @return string
      */
     public static function link ($action, $text, $update, $class=NULL, $attrs=NULL)
@@ -46,7 +46,7 @@ class Ajax
      * @param string $text texto a mostrar
      * @param string $update capa a actualizar
      * @param string $class clases adicionales
-     * @param string | array $attrs atributos adicionales
+     * @param string|array $attrs atributos adicionales
      * @return string
      */
     public static function linkAction ($action, $text, $update, $class=NULL, $attrs=NULL)
@@ -66,7 +66,7 @@ class Ajax
      * @param string $update capa a actualizar
      * @param string $confirm mensaje de confirmacion
      * @param string $class clases adicionales
-     * @param string | array $attrs atributos adicionales
+     * @param string|array $attrs atributos adicionales
      * @return string
      */
     public static function linkConfirm ($action, $text, $update, $confirm, $class=NULL, $attrs=NULL)
@@ -86,7 +86,7 @@ class Ajax
      * @param string $update capa a actualizar
      * @param string $confirm mensaje de confirmacion
      * @param string $class clases adicionales
-     * @param string | array $attrs atributos adicionales
+     * @param string|array $attrs atributos adicionales
      * @return string
      */
     public static function linkActionConfirm ($action, $text, $update, $confirm, $class=NULL, $attrs=NULL)
@@ -105,7 +105,7 @@ class Ajax
      * @param string $update capa que se actualizara
      * @param string $action accion que se ejecutara
      * @param string $class
-     * @param string | array $attrs
+     * @param string|array $attrs
      **/
     public static function select($field, $data, $update, $action, $class=null, $attrs=null)
     {
@@ -130,7 +130,7 @@ class Ajax
      * @param string $action accion que se ejecutara
      * @param string $blank campo en blanco
      * @param string $class
-     * @param string | array $attrs
+     * @param string|array $attrs
      **/
     public static function dbSelect($field, $data, $show, $update, $action, $blank=null, $class=null, $attrs=null)
     {
@@ -152,7 +152,7 @@ class Ajax
 	 * @param string $update capa que se actualizara
 	 * @param string $class clase de estilo
 	 * @param string $method metodo de envio
-	 * @param string | array $attrs atributos
+	 * @param string|array $attrs atributos
 	 * @return string
 	 */
 	public static function form($update, $action = NULL, $class = NULL, $method = 'post',  $attrs = NULL)

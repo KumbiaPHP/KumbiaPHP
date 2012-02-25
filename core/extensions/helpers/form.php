@@ -277,7 +277,7 @@ class Form
 	 *
 	 * @param string $text texto a mostrar
 	 * @param string $field campo al que hace referencia
-	 * @param string | array atributos opcionales
+	 * @param string|array atributos opcionales
 	 * @return string
 	 */
 	public static function label($text, $field, $attrs = NULL)

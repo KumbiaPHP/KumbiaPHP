@@ -29,7 +29,7 @@ class Js
      * @param string $text texto a mostrar
      * @param string $confirm mensaje de confirmacion
      * @param string $class clases adicionales para el link
-     * @param string | array $attrs atributos adicionales
+     * @param string|array $attrs atributos adicionales
      * @return string
      */
     public static function link ($action, $text, $confirm = '¿Está Seguro?', $class = NULL, $attrs = NULL)
@@ -48,7 +48,7 @@ class Js
      * @param string $text texto a mostrar
      * @param string $confirm mensaje de confirmacion
      * @param string $class clases adicionales para el link
-     * @param string | array $attrs atributos adicionales
+     * @param string|array $attrs atributos adicionales
      * @return string
      */
     public static function linkAction ($action, $text, $confirm = '¿Está Seguro?', $class = NULL, $attrs = NULL)
@@ -66,7 +66,7 @@ class Js
      * @param string $text texto a mostrar
      * @param string $confirm mensaje de confirmacion
      * @param string $class clases adicionales para el link
-     * @param string | array $attrs atributos adicionales
+     * @param string|array $attrs atributos adicionales
      * @return string
      */
     public static function submit ($text, $confirm = '¿Está Seguro?', $class = NULL, $attrs = NULL)
@@ -82,7 +82,7 @@ class Js
      *  
      * @param string $img
      * @param string $class clases adicionales para el link
-     * @param string | array $attrs atributos adicionales
+     * @param string|array $attrs atributos adicionales
      * @return string
      */
     public static function submitImage ($img, $confirm = '¿Está Seguro?', $class = NULL, $attrs = NULL)
