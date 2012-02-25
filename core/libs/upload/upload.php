@@ -185,7 +185,7 @@ abstract class Upload
 	/**
 	 * Guarda el archivo con un nombre aleatorio
 	 * 
-	 * @return string | boolean nombre de archivo generado o FALSE si falla
+	 * @return string|boolean Nombre de archivo generado o FALSE si falla
 	 */
 	public function saveRandom()
 	{
