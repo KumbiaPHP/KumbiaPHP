@@ -46,11 +46,13 @@ class Html
     /**
      * Crea un enlace usando la constante PUBLIC_PATH, para que siempre funcione
      * 
-     * @example echo Html::link('controller/action','Enlace') Crea un enlace a ese controller y acción, este donde este la app
+     * @example Html::link
+     * echo Html::link('controller/action','Enlace')
+     * Crea un enlace a ese controller y acción con el nombre Enlace
      *
      * @param string $action Ruta a la acción
      * @param string $text Texto a mostrar
-     * @param string | array $attrs Atributos adicionales
+     * @param string|array $attrs Atributos adicionales
      * @return string
      */
     public static function link ($action, $text, $attrs = NULL)
@@ -63,11 +65,12 @@ class Html
     /**
      * Crea un enlace a una acción del mismo controller que estemos
      *
-     * @example echo Html::linkAction('accion/','Enlace a la acción del mismo controller') 
+     * @example Html::linkAction
+     * echo Html::linkAction('accion/','Enlace a la acción del mismo controller') 
      *
      * @param string $action
-     * @param string $text texto a mostrar
-     * @param string | array $attrs atributos adicionales
+     * @param string $text Texto a mostrar
+     * @param string|array $attrs Atributos adicionales
      * @return string
      */
     public static function linkAction ($action, $text, $attrs = NULL)
@@ -81,9 +84,9 @@ class Html
     /**
      * Permite incluir una imagen
      *
-     * @param string $src
-     * @params string $alt
-     * @param string | array $attrs atributos adicionales
+     * @param string $src Atributo src
+     * @param string $alt Atributo alt
+     * @param string|array $attrs Atributos adicionales
      * @return string
      */
     public static function img ($src, $alt=NULL, $attrs = NULL)
@@ -98,7 +101,7 @@ class Html
      * Aplica estilo zebra a una tabla.
      *
      * @param string $class class css
-     * @param string | array $attrs
+     * @param string|array $attrs
      * @param unknown_type $start
      * @return string
      * @deprecated Mejor usar CSS
@@ -242,13 +245,14 @@ class Html
     /**
      * Incluye imágenes de gravatar.com
      * 
-     * @example echo Html::gravatar( $email ) Simple
-     * @example echo Html::link( Html::gravatar($email), $url) Un gravatar que es un link
-     * @example echo Html::gravatar( $email, $name, 20, 'http://www.example.com/default.jpg') Completo
+     * @example Html::gravatar
+     * Simple: echo Html::gravatar( $email ) <br>
+     * Completo: echo Html::gravatar( $email, $name, 20, 'http://www.example.com/default.jpg') <br>
+     * Un gravatar que es un link: echo Html::link( Html::gravatar($email), $url)
      * 
      *@param string $email Correo para conseguir su gravatar
      *@param string $alt Texto alternativo de la imagen. Por defecto: gravatar
-     *@param int $size Tamaño del gravatar. Un numero de 1 a 512. Por defecto: 40
+     *@param int $size Tamaño del gravatar. Un número de 1 a 512. Por defecto: 40
      *@param string $default URL gravatar por defecto si no existe, o un default de gravatar. Por defecto: mm
      * @return string
      */
