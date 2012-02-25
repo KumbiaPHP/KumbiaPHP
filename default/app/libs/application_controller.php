@@ -7,7 +7,7 @@
  *
  * @category Kumbia
  * @package Controller
- * @deprecated
+ * @deprecated Ahora se usa AppController. Sirve para portar apps fácilmente de 0.5 y beta1. Se eliminará despues de la beta2
  **/
 
 // Para cargar los helpers antiguos

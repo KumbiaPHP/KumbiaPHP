@@ -16,6 +16,7 @@
  *
  * @category   Kumbia
  * @package    Controller
+ * @deprecated Antiguo controller (legacy) Se eliminará despues de la beta2
  * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */

@@ -101,7 +101,7 @@ class Html
      * @param string | array $attrs
      * @param unknown_type $start
      * @return string
-     * @deprecated
+     * @deprecated Mejor usar CSS
      */
     public static function trClass ($class, $attrs = NULL)
     {
@@ -120,7 +120,7 @@ class Html
     /**
      * Inicia el alternador de clase para tabla zebra
      * 
-     *@deprecated
+     *@deprecated Mejor usar CSS
      */
     public static function trClassStart ()
     {
