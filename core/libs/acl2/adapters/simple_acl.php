@@ -27,7 +27,7 @@ class SimpleAcl extends Acl2
 	 * 
 	 * @var array
 	 * 
-	 * Ejemplo:
+	 * @example SimpleAcl-roles
 	 *   protected $_roles = array(
 	 *       'rol1' => array(
 	 *           'resources' => array('recurso1', 'recurso2')
@@ -45,7 +45,7 @@ class SimpleAcl extends Acl2
 	 * 
 	 * @var array
 	 * 
-	 * Ejemplo:
+	 * @example SimpleAcl-users
 	 * protected $_users = array(
 	 *     'usuario1' => array('rol1', 'rol2'),
 	 *     'usuario2' => array('rol3')

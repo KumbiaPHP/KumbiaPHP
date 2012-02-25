@@ -37,9 +37,9 @@ textdomain('default');
 class I18n
 {
     /**
-     * Efectua una traduccion, cuando se pasan argumentos adicionales se remplaza con sprintf
+     * Efectua una traducción. Cuando se pasan argumentos adicionales se remplaza con sprintf
      *
-     * Ejemplo:
+     * @example
      *   $saludo = I18n::get('Hola %s', 'Emilio')
      *
      * @param string
