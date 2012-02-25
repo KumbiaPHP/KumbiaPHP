@@ -24,7 +24,8 @@
  *
  * @category Kumbia
  * @package Report
- * @copyright Copyright (c) 2005-2012 Andres Felipe Gutierrez (andresfelipe at vagoogle.net)
+ * @deprecated
+ * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
  * @license http://www.kumbia.org/license.txt GNU/GPL
  *
  */
