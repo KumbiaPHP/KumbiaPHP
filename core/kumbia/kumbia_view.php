@@ -150,8 +150,9 @@ class KumbiaView {
 	/**
 	 * Asigna cacheo de vistas o template
 	 *
-	 * @param $time tiempo de vida de cache
-	 * @param $type tipo de cache (view, template)
+	 * @param $time Tiempo de vida de cache
+	 * @param $type Tipo de cache (view, template)
+	 * @param $group Grupo de pertenencia de cache
 	 */
 	public static function cache($time, $type='view', $group=FALSE) {
 		if($time !== FALSE) {
