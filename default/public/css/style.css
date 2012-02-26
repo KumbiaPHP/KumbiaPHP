@@ -6,6 +6,7 @@
 	padding:3px 10px 3px 50px;
 	background-repeat: no-repeat;
 	background-position: 10px center;
+	line-height: 32px;
 }
 
 .error {
