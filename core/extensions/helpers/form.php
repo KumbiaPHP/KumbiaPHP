@@ -332,7 +332,7 @@ class Form
             $options .= "<option value=\"$k\"";
             // Si es array $value para select multiple se seleccionan todos
             if(is_array($value)){
-		if(isset($value[$k]))
+		if(isset($value[$k])){
 			$options .= ' selected="selected"';
 		}
 	    }else{
@@ -514,7 +514,7 @@ class Form
 			$options .= "<option value=\"{$p->$pk}\"";
 			// Si es array $value para select multiple se seleccionan todos
 			if(is_array($value)){
-				if(isset($value[{$p->$pk}]))
+				if(isset($value[$p->$pk])) {
 					$options .= ' selected="selected"';
 				}
 			}else{
