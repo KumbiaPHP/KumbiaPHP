@@ -159,7 +159,7 @@ class Form
     /**
      * Crea campo input
      *
-     * @param string $attrs atributos para el tag
+     * @param string|array $attrs atributos para el tag
      * @param string $content contenido interno
      * @return string
      */
@@ -179,7 +179,7 @@ class Form
      *
      * @param string $action
      * @param string $method
-     * @param array $attrs
+     * @param string|array $attrs
      * @return string
      */
     public static function open ($action = NULL, $method = 'post', $attrs = NULL)
@@ -199,7 +199,7 @@ class Form
      * Crea una etiqueta de formulario multipart
      *
      * @param string $action
-     * @param array $attrs
+     * @param string|array $attrs
      * @return string
      */
     public static function openMultipart ($action = NULL, $attrs = NULL)
@@ -231,7 +231,7 @@ class Form
      * Crea un boton de submit para el formulario actual
      *
      * @param string $text
-     * @param array $attrs
+     * @param string|array $attrs
      * @return string
      */
     public static function submit ($text, $attrs = NULL)
@@ -246,7 +246,7 @@ class Form
      * Crea un boton reset
      *
      * @param string $text
-     * @param array $attrs
+     * @param string|array $attrs
      * @return string
      */
     public static function reset ($text, $attrs = NULL)
@@ -275,9 +275,9 @@ class Form
 	/**
 	 * Crea un label
 	 *
-	 * @param string $text texto a mostrar
-	 * @param string $field campo al que hace referencia
-	 * @param string|array atributos opcionales
+	 * @param string $text Texto a mostrar
+	 * @param string $field Campo al que hace referencia
+	 * @param string|array Atributos opcionales
 	 * @return string
 	 */
 	public static function label($text, $field, $attrs = NULL)
@@ -291,8 +291,8 @@ class Form
     /**
      * Campo text
      *
-     * @param string $field nombre de campo
-     * @param string|array $attrs atributos de campo
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo
      * @param string $value
      * @return string
      */
@@ -311,9 +311,9 @@ class Form
     /**
      * Campo Select
      *
-     * @param string $field nombre de campo
-     * @param string $data array de valores para la lista desplegable
-     * @param string|array $attrs atributos de campo
+     * @param string $field Nombre de campo
+     * @param string $data Array de valores para la lista desplegable
+     * @param string|array $attrs Atributos de campo
      * @param string $value
      * @return string
      */
@@ -342,10 +342,10 @@ class Form
     /**
      * Campo checkbox
      *
-     * @param string $field nombre de campo
-     * @param string $checkValue valor en el checkbox
-     * @param string|array $attrs atributos de campo
-     * @param string $checked indica si se marca el campo
+     * @param string $field Nombre de campo
+     * @param string $checkValue Valor en el checkbox
+     * @param string|array $attrs Atributos de campo
+     * @param string $checked Indica si se marca el campo
      * @return string
      */
     public static function check($field, $checkValue, $attrs = NULL, $checked = NULL)
@@ -367,10 +367,10 @@ class Form
     /**
      * Campo radio button
      *
-     * @param string $field nombre de campo
-     * @param string $radioValue valor en el radio
-     * @param string|array $attrs atributos de campo
-     * @param string $checked indica si se marca el campo
+     * @param string $field Nombre de campo
+     * @param string $radioValue Valor en el radio
+     * @param string|array $attrs Atributos de campo
+     * @param string $checked Indica si se marca el campo
      * @return string
      */
     public static function radio ($field, $radioValue, $attrs = NULL, $checked = NULL)
@@ -401,7 +401,7 @@ class Form
      * Crea un boton de tipo imagen
      *  
      * @param string $img
-     * @param array $attrs
+     * @param string|array $attrs
      * @return string
      */
     public static function submitImage ($img, $attrs = NULL)
@@ -415,8 +415,8 @@ class Form
     /**
      * Campo hidden
      *
-     * @param string $field nombre de campo
-     * @param string|array $attrs atributos de campo
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo
      * @param string $value
      * @return string
      */
@@ -435,8 +435,8 @@ class Form
     /**
      * Campo Password
      *
-     * @param string $field nombre de campo
-     * @param string|array $attrs atributos de campo
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo
      * @param string $value
      */
     public static function pass($field, $attrs = NULL, $value = NULL)
@@ -454,12 +454,12 @@ class Form
     /**
      * Campo Select que toma los valores de un array de objetos
      *
-     * @param string $field nombre de campo
-     * @param string $show campo que se mostrara (opcional)
-     * @param array $data array('modelo','metodo','param') (opcional)
-     * @param string $blank campo en blanco (opcional)
-     * @param string|array $attrs atributos de campo (opcional)
-     * @param string $value (opcional)
+     * @param string $field Nombre de campo
+     * @param string $show Campo que se mostrara (opcional)
+     * @param array $data Array('modelo','metodo','param') (opcional)
+     * @param string $blank Campo en blanco (opcional)
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string|array $value (opcional)
      * @return string
      */
     public static function dbSelect($field, $show = NULL, $data = NULL, $blank = 'Seleccione', $attrs = NULL, $value = NULL)
@@ -478,7 +478,7 @@ class Form
         	$options = '';
         }
         
-		//por defecto el modelo de modelo(_id)
+	//por defecto el modelo de modelo(_id)
         if($data === NULL){
 			$model_asoc = explode('.', $field, 2);
 			$model_asoc = substr(end($model_asoc), 0, -3);//se elimina el _id
@@ -505,7 +505,7 @@ class Form
 		
 		foreach($data as $p) {
 			$options .= "<option value=\"{$p->$pk}\"";
-			// Si los valores seleccionados pertenecen a un text multiple se seleccionan todos
+			// Si los valores seleccionados pertenecen a un select multiple se seleccionan todos
 			if(is_array($value)){
 				foreach($value as $t){
 					if($p->$pk == $t){
@@ -526,8 +526,8 @@ class Form
     /**
      * Campo File
      *
-     * @param string $field nombre de campo
-     * @param string|array $attrs atributos de campo
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos adicionales
      * @return string
      */
     public static function file($field, $attrs = NULL)
@@ -550,8 +550,8 @@ class Form
     /**
      * Campo textarea
      *
-     * @param string $field nombre de campo
-     * @param string|array $attrs atributos de campo
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo
      * @param string $value
      * @return string
      */
@@ -567,12 +567,12 @@ class Form
         return "<textarea id=\"$id\" name=\"$name\" $attrs>$value</textarea>";
     }
 	
-	/**
+    /**
      * Campo fecha
      *
-     * @param string $field nombre de campo
-	 * @param string $class clase de estilo
-     * @param string|array $attrs atributos de campo
+     * @param string $field Nombre de campo
+     * @param string $class Clase de estilo
+     * @param string|array $attrs Atributos de campo
      * @param string $value
      * @return string
      */

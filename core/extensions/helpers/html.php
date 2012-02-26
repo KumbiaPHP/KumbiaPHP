@@ -245,7 +245,7 @@ class Html
     /**
      * Incluye imágenes de gravatar.com
      * 
-     * @example Html::gravatar
+     * Ejemplos: Html::gravatar
      * Simple: echo Html::gravatar( $email ) <br>
      * Completo: echo Html::gravatar( $email, $name, 20, 'http://www.example.com/default.jpg') <br>
      * Un gravatar que es un link: echo Html::link( Html::gravatar($email), $url)

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Controlador principal que heredan los controladores
+ *
  * Todas las controladores heredan de esta clase en un nivel superior
  * por lo tanto los metodos aqui definidos estan disponibles para
  * cualquier controlador.
@@ -8,7 +10,9 @@
  * @package Controller
  **/
 
-// @see Controller nuevo controller
+/**
+ * @see Controller nuevo controller
+ */
 require_once CORE_PATH . 'kumbia/controller.php';
 
 class AppController extends Controller {
