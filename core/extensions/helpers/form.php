@@ -314,7 +314,7 @@ class Form
      * @param string $field Nombre de campo
      * @param string $data Array de valores para la lista desplegable
      * @param string|array $attrs Atributos de campo
-     * @param string $value
+     * @param string|array $value Opcional. Array para select multiple
      * @return string
      */
     public static function select($field, $data, $attrs = NULL, $value = NULL)
@@ -330,8 +330,15 @@ class Form
         foreach($data as $k => $v) {
             $k = htmlspecialchars($k, ENT_COMPAT, APP_CHARSET);
             $options .= "<option value=\"$k\"";
-            if($k == $value) {
-                $options .= ' selected="selected"';
+            // Si es array $value para select multiple se seleccionan todos
+            if(is_array($value)){
+		if(isset($value[$k]))
+			$options .= ' selected="selected"';
+		}
+	    }else{
+            	if($k == $value) {
+                	$options .= ' selected="selected"';
+            	}
             }
             $options .= '>' . htmlspecialchars($v, ENT_COMPAT, APP_CHARSET) . '</option>';
         }
@@ -459,7 +466,7 @@ class Form
      * @param array $data Array('modelo','metodo','param') (opcional)
      * @param string $blank Campo en blanco (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
-     * @param string|array $value (opcional)
+     * @param string|array $value (opcional) Array en select multiple
      * @return string
      */
     public static function dbSelect($field, $show = NULL, $data = NULL, $blank = 'Seleccione', $attrs = NULL, $value = NULL)
@@ -495,7 +502,7 @@ class Form
 			$model_asoc = Load::model($data[0]);
 			$pk = $model_asoc->primary_key[0];
 			
-			// Verifica si existe el argumento
+			// Verifica si existe el parámetro
 			if(isset($data[2])) {
 				$data = $model_asoc->$data[1]($data[2]);
 			} else {
@@ -505,12 +512,10 @@ class Form
 		
 		foreach($data as $p) {
 			$options .= "<option value=\"{$p->$pk}\"";
-			// Si los valores seleccionados pertenecen a un select multiple se seleccionan todos
+			// Si es array $value para select multiple se seleccionan todos
 			if(is_array($value)){
-				foreach($value as $t){
-					if($p->$pk == $t){
-						$options .= ' selected="selected"';
-					}
+				if(isset($value[{$p->$pk}]))
+					$options .= ' selected="selected"';
 				}
 			}else{
 				if($p->$pk == $value) {
