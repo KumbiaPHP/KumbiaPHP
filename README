@@ -1,31 +1,7 @@
-Bienvenidos a KumbiaPHP Framework 1.0 Spirit beta1!.
+Bienvenidos a KumbiaPHP Framework 
 
-INFORMACION DEL LANZAMIENTO
----------------
-KumbiaPHP Framework 1.0 Beta1 (revisión 232). Liberada 13-08-2009.
 
-NUEVAS CARACTERISTICAS
-------------
-
-* Nueva estructura de directorio.
-* Reescritua en el core de KumbiaPHP.
-* Mejoras en el Route.
-* Mejoras en el Dispatcher.
-* Mejoras en el manejo de los View.
-* Actualización de las Librerias (vendors).
-* Nueva extension Cache.
-* Nuevo componente Load, para la inyección de dependencia.
-* Mejoras en la extension Session.
-* Mejoras en la extension Filter.
-* Reescritua de la extension Logger, ahora es estática.
-* Mejora en la persistencia de datos en el controller.
-* Nuevos Partials para los paginadores.
-* PagesController para vistas estáticas.
-* KumbiaPHP ahora tiene modos de ejecución (production | development)
-* Carga Selectiva de Modelos.
-* Mejoras en los validadores de ActiveRecord.
-* Etc., Etc...
 
 http://www.kumbiaphp.com
 http://wiki.kumbiaphp.com
-https://launchpad.net/kumbia
+http://foro.kumbiaphp.com
