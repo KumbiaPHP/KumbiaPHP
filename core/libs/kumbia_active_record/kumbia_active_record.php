@@ -1354,7 +1354,7 @@ class KumbiaActiveRecord
         if(isset($this->_validates['presence_of'])) {
             foreach($this->_validates['presence_of'] as $f => $opt) {
                 if (isset($this->$f) && (is_null($this->$f) || $this->$f == '')) {
-                    if (!$ex && $f == 'id')
+                    if (!$ex && $f == $this->primary_key[0])
                         continue;
                     if (isset($opt['message'])) {
                         Flash::error($opt['message']);
@@ -1381,7 +1381,7 @@ class KumbiaActiveRecord
 			}
 			
             if (!isset($this->$f) || is_null($this->$f) || $this->$f == '') {
-                if (!$ex && $f == 'id') {
+                if (!$ex && $f == $this->primary_key[0]) {
                     continue;
                 }
                 if (!$ex && in_array($f, $this->_at)) {
@@ -1671,7 +1671,7 @@ class KumbiaActiveRecord
             $fields = array();
             $values = array();
             foreach($this->fields as $field) {
-                if ($field != 'id' && !$this->id) {
+                if ($field != $this->primary_key[0] && !$this->id) {
                     if (in_array($field, $this->_at)) {
                         if ($config['type'] == 'oracle') {
                             $this->$field = date("Y-m-d");
