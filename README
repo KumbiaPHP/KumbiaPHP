@@ -14,9 +14,10 @@ API para los desarrolladores del core: http://www.kumbiaphp.com/api/beta2-dev/
 Seguimos trabajando para actualizar bien el phpdoc y tener actualizado el API.
 
 
-http://www.kumbiaphp.com
-http://wiki.kumbiaphp.com
-http://foro.kumbiaphp.com
+http://www.kumbiaphp.com  Web oficial (pronto en KumbiaPHP)
+http://wiki.kumbiaphp.com Wiki
+http://foro.kumbiaphp.com Foro de KumbiaPHP
+http://groups.google.com/group/kumbia/   Grupo de KumbiaPHP
 
 Largo historial de repos durante estos años ;)
 cvs(sf.net), svn(sf.net), bzr(launchpad.com) y ahora git(github.com)
