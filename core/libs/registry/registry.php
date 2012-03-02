@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Permite almacenar valores durante la ejecución de la aplicacion. Implementa el
+ * Permite almacenar valores durante la ejecución de la aplicación. Implementa el
  * patrón de diseño Registry
  * 
  * @category   Kumbia
