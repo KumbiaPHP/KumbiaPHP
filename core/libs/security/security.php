@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Clase que contiene metodos útiles para manejar seguridad
+ * Clase que contiene métodos útiles para manejar seguridad
  * 
  * @category   Kumbia
  * @package    security 
