@@ -22,7 +22,7 @@
 abstract class Upload
 {
 	/**
-	 * Nombre de archivo subido por metodo POST
+	 * Nombre de archivo subido por método POST
 	 * 
 	 * @var string
 	 */
@@ -36,14 +36,14 @@ abstract class Upload
 	protected $_allowScripts = FALSE;
 	
 	/**
-	 * Tamaño minimo del archivo
+	 * Tamaño mínimo del archivo
 	 * 
 	 * @var string
 	 */
 	protected $_minSize = NULL;
 
 	/**
-	 * Tamaño maximo del archivo
+	 * Tamaño máximo del archivo
 	 * 
 	 * @var string
 	 */
@@ -57,7 +57,7 @@ abstract class Upload
 	protected $_types = NULL;
 	
 	/**
-	 * Extension de archivo permitida
+	 * Extensión de archivo permitida
 	 * 
 	 * @var array
 	 */
@@ -73,7 +73,7 @@ abstract class Upload
 	/**
 	 * Constructor
 	 * 
-	 * @param string $name nombre de archivo por metodo POST
+	 * @param string $name nombre de archivo por método POST
 	 */ 
 	public function __construct($name)
 	{
@@ -152,7 +152,7 @@ abstract class Upload
 	{}
 
 	/**
-	 * Acciones despues de guardar
+	 * Acciones después de guardar
 	 * 
 	 * @param string $name nombre con el que se guardo el archivo
 	 */
@@ -244,7 +244,7 @@ abstract class Upload
 			return FALSE;
 		}
 		
-		// Valida extension del archivo
+		// Valida extensión del archivo
 		if($this->_extensions !== NULL && !preg_match('/\.(' . implode('|', $this->_extensions) . ')$/i', $_FILES[$this->_name]['name'])) {
 			Flash::error('Error: la extensión del archivo no es válida');
             return FALSE;
@@ -276,7 +276,7 @@ abstract class Upload
 	}
 	
 	/**
-	 * Devuelve la extension
+	 * Devuelve la extensión
 	 * 
 	 * @return string
 	 */

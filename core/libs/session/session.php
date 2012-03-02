@@ -33,7 +33,7 @@ class Session
 	  	$_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index] = $value;
 	}
 	/**
-	 * Obtener el valor para un indice de la sesion
+	 * Obtener el valor para un indice de la sesión
 	 *
 	 * @param string $index
 	 * @param string $namespace
@@ -58,7 +58,7 @@ class Session
 	  	unset($_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index]);
 	}
 	/**
-	 * Verifica si el indice esta cargado en sesion
+	 * Verifica si el indice esta cargado en sesión
 	 *
 	 * @param string $index
 	 * @param string $namespace
