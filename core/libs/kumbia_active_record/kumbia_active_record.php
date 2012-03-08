@@ -990,7 +990,6 @@ class KumbiaActiveRecord
         } else {
             $table = $this->source;
         }
-        //quitamos la clausulas order, ya que no es necesaria al hacer count,y da error en postgres
         unset($what['order']);
         if (isset($what['distinct']) && $what['distinct']) {
             if (isset($what['group']) || isset($what['order'])) {
