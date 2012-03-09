@@ -992,7 +992,7 @@ class KumbiaActiveRecord
         }
         unset($what['order']);
         if (isset($what['distinct']) && $what['distinct']) {
-            if (isset($what['group']) || isset($what['order'])) {
+            if (isset($what['group'])) {
                 $select = "SELECT COUNT(*) FROM (SELECT DISTINCT {$what['distinct']} FROM $table ";
                 $select.= $this->convert_params_to_sql($what);
                 $select.= ') AS t ';
