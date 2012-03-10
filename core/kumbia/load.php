@@ -29,12 +29,14 @@ class Load
      **/
     public static function lib ($lib)
     {
-		$file = APP_PATH . "libs/$lib.php";
-		if (is_file($file)) {
-			return require_once $file;
-		} else {
-            return self::coreLib($lib);
-		}
+    		if (! include_once APP_PATH . "libs/$lib/$lib.php") {
+			$file = APP_PATH . "libs/$lib.php";
+			if (is_file($file)) {
+				return require_once $file;
+			} else {
+	            		return self::coreLib($lib);
+			}	
+		}		
     }
 
     /**
