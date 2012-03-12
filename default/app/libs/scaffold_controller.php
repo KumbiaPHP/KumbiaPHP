@@ -1,6 +1,6 @@
 <?php
 
-class ScaffoldController extends AppController {
+class ScaffoldController extends AdminController {
 
 	public $scaffold = 'kumbia';
 	public $model;
