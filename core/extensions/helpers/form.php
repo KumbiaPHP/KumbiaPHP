@@ -228,7 +228,7 @@ class Form
     }
     
     /**
-     * Crea un boton de submit para el formulario actual
+     * Crea un botón de submit para el formulario actual
      *
      * @param string $text
      * @param string|array $attrs
@@ -243,7 +243,7 @@ class Form
     }
     
     /**
-     * Crea un boton reset
+     * Crea un botón reset
      *
      * @param string $text
      * @param string|array $attrs
@@ -258,7 +258,7 @@ class Form
     }
     
     /**
-     * Crea un boton
+     * Crea un botón
      *
      * @param string $text
      * @param array $attrs
