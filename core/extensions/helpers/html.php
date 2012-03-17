@@ -74,7 +74,7 @@ class Html
      * @return string
      */
     
-    public static function url ($action, $text, $attrs = NULL)
+    public static function url ($action)
     {
         return PUBLIC_PATH .$action;
     }
