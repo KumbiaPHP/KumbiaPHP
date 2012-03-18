@@ -124,7 +124,7 @@ class Ajax
      * Lista desplegable para actualizar usando ajax que toma los valores de un array de objetos
      *
      * @param string $field nombre de campo
-     * @param array $data
+     * @param array $data Array('modelo','metodo','param')
      * @param string $show campo que se mostrara
      * @param string $update capa que se actualizara
      * @param string $action accion que se ejecutara
@@ -148,8 +148,8 @@ class Ajax
 	/**
 	 * Genera un formulario Ajax
 	 * 
-	 * @param string $action accion a ejecutar
 	 * @param string $update capa que se actualizara
+	 * @param string $action accion a ejecutar
 	 * @param string $class clase de estilo
 	 * @param string $method metodo de envio
 	 * @param string|array $attrs atributos
