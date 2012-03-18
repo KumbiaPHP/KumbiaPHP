@@ -22,8 +22,11 @@
  */
 
 /**
- * Clase estandar para enviar advertencias,
- * información y errores a la pantalla
+ * Clase para enviar mensajes a la vista
+ *
+ * Envio de mensajes de advertencia, éxito, información
+ * y errores a la vista.
+ * Tambien envia mensajes en la consola, si se usa desde consola.
  *
  * @category   Kumbia
  * @package    Flash
