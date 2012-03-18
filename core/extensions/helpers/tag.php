@@ -12,24 +12,28 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Helper Tag
- *
- * Helper base para creacion de Tags
- *
  * @category   KumbiaPHP
  * @package    Helpers
  * @copyright  Copyright (c) 2005-2012 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
+
+/**
+ * Helper base para creacion de Tags
+ *
+ * @category   KumbiaPHP
+ * @package    Helpers
+ */
 class Tag
 {
+
     /**
      * Hojas de estilo
      *
      * @var array
-     **/
+     * */
     protected static $_css = array();
-    
+
     /**
      * Convierte los argumentos de un metodo de parametros por nombre a un string con los atributos
      *
@@ -39,12 +43,12 @@ class Tag
     public static function getAttrs($params)
     {
         $data = '';
-        foreach($params as $k => $v) {
+        foreach ($params as $k => $v) {
             $data .= " $k=\"$v\"";
         }
         return $data;
     }
-    
+
     /**
      * Crea un tag
      *
@@ -52,20 +56,20 @@ class Tag
      * @param string $content contenido interno
      * @param string $attrs atributos para el tag
      * @return string
-     **/
-    public static function create($tag, $content = NULL, $attrs = NULL) 
+     * */
+    public static function create($tag, $content = NULL, $attrs = NULL)
     {
-        if(is_array($attrs)) {
+        if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
 
-        if(is_null($content)) {
+        if (is_null($content)) {
             echo "<$tag $attrs />";
         }
 
         echo "<$tag $attrs>$content</$tag>";
     }
-    
+
     /**
      * Incluye un archivo javascript
      *
@@ -75,13 +79,13 @@ class Tag
     public static function js($src, $cache = TRUE)
     {
         $src = "javascript/$src.js";
-        if(!$cache) {
+        if (!$cache) {
             $src .= '?nocache=' . uniqid();
         }
-        
+
         return '<script type="text/javascript" src="' . PUBLIC_PATH . $src . '"></script>';
     }
-    
+
     /**
      * Incluye un archivo de css
      *
@@ -92,7 +96,7 @@ class Tag
     {
         self::$_css[] = array('src' => $src, 'media' => $media);
     }
-    
+
     /**
      * Obtiene el array de hojas de estilo
      *
@@ -102,4 +106,5 @@ class Tag
     {
         return self::$_css;
     }
+
 }

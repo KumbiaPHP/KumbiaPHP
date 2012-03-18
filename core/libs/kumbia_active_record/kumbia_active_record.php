@@ -1276,7 +1276,7 @@ class KumbiaActiveRecord
             $query = "SELECT COUNT(*) FROM $table WHERE {$this->_where_pk}";
         } else {
             if (is_numeric($where_pk)) {
-                $query = "SELECT COUNT(*) FROM $table WHERE id = '$where_pk'";
+                $query = "SELECT COUNT(*) FROM $table WHERE {$this->primary_key[0]} = '$where_pk'";
             } else {
                 $query = "SELECT COUNT(*) FROM $table WHERE $where_pk";
             }
@@ -1540,7 +1540,7 @@ class KumbiaActiveRecord
 		// al validar campos unicos, ya que si lo toma en cuenta
 		// lanzará error de validacion porque ya existe un registro 
 		// con igual valor en el campo unico.
-		$and_condition = $ex ? " AND id != '$this->id'" : '';
+		$and_condition = $ex ? " AND {$this->primary_key[0]} != '{$this->{$this->primary_key[0]}}'" : '';
         foreach($this->_validates['uniqueness_of'] as $f => $opt) {
             if (isset($this->$f) && !is_null($this->$f) && $this->$f != '') {
 				$result = $this->db->fetch_one("SELECT COUNT(*) FROM $table WHERE $f = {$this->db->add_quotes($this->$f)} $and_condition");
@@ -1808,7 +1808,7 @@ class KumbiaActiveRecord
         if ($this->exists()) {
             if (method_exists($this, 'before_change')) {
                 $obj = clone $this;
-                if($this->before_change($obj->find($this->id)) == 'cancel'){
+                if($this->before_change($obj->find($this->{$this->primary_key[0]})) == 'cancel'){
                     return false;
                 }
                 unset($obj);
@@ -1860,16 +1860,16 @@ class KumbiaActiveRecord
             }
         }
         if (method_exists($this, "before_delete")) {
-            if ($this->id) {
-                $this->find($this->id);
+            if ($this->{$this->primary_key[0]}) {
+                $this->find($this->{$this->primary_key[0]});
             }
             if ($this->before_delete() == 'cancel') {
                 return false;
             }
         } else {
             if (isset($this->before_delete)) {
-                if ($this->id) {
-                    $this->find($this->id);
+                if ($this->{$this->primary_key[0]}) {
+                    $this->find($this->{$this->primary_key[0]});
                 }
                 $method = $this->before_delete;
                 if ($this->$method() == 'cancel') {
