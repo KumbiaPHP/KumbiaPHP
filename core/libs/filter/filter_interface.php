@@ -17,24 +17,22 @@
  * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
- 
+
 /**
  * Interface para los filtros
  *
  * @category  Kumbia
  * @package   Filter
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version   SVN:$id
  */
 interface FilterInterface
 {
+
     /**
      * Metodo para ejecutar el filtro
      *
      * @param string $s cadena a filtrar
      * @param array $options opciones para el filtro
-     **/
-    public static function execute ($s, $options);
+     */
+    public static function execute($s, $options);
 }
 

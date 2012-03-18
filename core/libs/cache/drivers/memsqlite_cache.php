@@ -20,32 +20,36 @@
  * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-
 /**
  * @see SqliteCache
- **/
+ * */
 require_once CORE_PATH . 'libs/cache/drivers/sqlite_cache.php';
 
+/**
+ * Cache en memoria con Sqlite
+ *
+ * @category   Kumbia
+ * @package    Cache
+ * @subpackage Drivers
+ */
 class MemSqliteCache extends SqliteCache
 {
+
     /**
      * Constructor
-     *
-     **/
-    public function __construct() 
+     */
+    public function __construct()
     {
-        /**
-         * Abre una conexión SqLite a la base de datos cache
-         *
-         */
+        //Abre una conexión SqLite a la base de datos cache
         $this->_db = sqlite_open(':memory:');
         $result = sqlite_query($this->_db, "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND tbl_name='cache' ");
         $count = sqlite_fetch_single($result);
-       
-        if(!$count) {
+
+        if (!$count) {
             sqlite_exec($this->_db, ' CREATE TABLE cache (id TEXT, "group" TEXT, value TEXT, lifetime TEXT) ');
         }
-        
+
         return $this->_db;
     }
+
 }
