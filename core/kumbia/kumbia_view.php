@@ -21,6 +21,10 @@
  */
 class KumbiaView {
 	/**
+	 * Variables del controlador
+	 */
+	protected static $_vars = array(); 
+	/**
 	 * Contenido
 	 *
 	 * @var string
@@ -175,9 +179,10 @@ class KumbiaView {
         if(!self::$_view && !self::$_template){
             return ob_end_flush();
         }
-
+		
+		self::$_vars = get_object_vars($controller);
         // Mapea los atributos del controller en el scope
-        extract(get_object_vars($controller), EXTR_OVERWRITE);
+        extract(self::$_vars, EXTR_OVERWRITE);
 
 		// inicia contenido con valor nulo
 		self::$_content = NULL;
@@ -278,11 +283,11 @@ class KumbiaView {
 		    //Verificando el partials en el dir core
 			$__file = CORE_PATH . "views/partials/$partial.phtml";
 		}
-
 		if(is_string($params)) {
 			$params = Util::get_params($params);
 		}
-
+		//carga las variables de controlador
+		extract(self::$_vars, EXTR_OVERWRITE);
 		// carga los parametros en el scope
 		extract ($params, EXTR_OVERWRITE);
 
