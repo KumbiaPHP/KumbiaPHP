@@ -14,7 +14,7 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    consoles
+ * @package    Console
  * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
@@ -25,7 +25,7 @@ Load::lib('cache');
  * Consola para manejar la cache
  *
  * @category   Kumbia
- * @package    consoles
+ * @package    Console
  */
 class CacheConsole
 {

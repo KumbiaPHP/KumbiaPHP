@@ -1,8 +1,8 @@
 /**
  * Modelo <?php echo $class, PHP_EOL ?>
  * 
- * @category app
- * @package models
+ * @category App
+ * @package Models
  */
 class <?php echo $class ?> extends ActiveRecord
 {

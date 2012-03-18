@@ -16,7 +16,7 @@
  * Script para consolas de KumbiaPHP
  *
  * @category   Kumbia
- * @package    consoles
+ * @package    Console
  * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
