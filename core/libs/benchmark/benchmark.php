@@ -12,18 +12,25 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Class Para el manejo de Benchmark y Profiling de un script
- * esto nos permite obtener tiempo de ejecucion con el fin de
- * encontrar posibles cuellos de botellas y optimizar el rendimiento
- * de la aplicacion...
- * 
  * @category   Kumbia
  * @package    Core 
  * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
+
+/**
+ * Class Para el manejo de Benchmark y Profiling
+ *
+ * Permite obtener tiempo de ejecucion de un script ó una peticion
+ * con el fin de encontrar posibles cuellos de botellas y
+ * optimizar el rendimiento de la aplicacion...
+ *
+ * @category   Kumbia
+ * @package    Core
+ */
 final class Benchmark
 {
+
     /**
      * Almacena los datos de un Benchmark especifico, esto para evitar colision
      *
@@ -31,24 +38,26 @@ final class Benchmark
      */
     private static $_benchmark;
     private static $_avgload = 0;
+
     /**
      * Inicia el reloj (profiling)
      *
      * @return array $_benchmark
      */
-    public static function start_clock ($name)
+    public static function start_clock($name)
     {
-        if (! isset(self::$_benchmark[$name])) {
-            self::$_benchmark[$name] = array('start_time' => microtime() , 'final_time' => 0 , 'memory_start' => memory_get_usage() , 'memory_stop' => 0 , 'time_execution' => 0);
+        if (!isset(self::$_benchmark[$name])) {
+            self::$_benchmark[$name] = array('start_time' => microtime(), 'final_time' => 0, 'memory_start' => memory_get_usage(), 'memory_stop' => 0, 'time_execution' => 0);
         }
     }
+
     /**
      * Detiene el reloj para efecto del calculo del
      * tiempo de ejecucion de un script
      *
      * @return array $_benchmark
      */
-    private static function _stop_clock ($name)
+    private static function _stop_clock($name)
     {
         if (isset(self::$_benchmark[$name])) {
             if (PHP_OS == 'Linux') {
@@ -65,12 +74,13 @@ final class Benchmark
             return self::$_benchmark[$name]['time_execution'];
         }
     }
+
     /**
      * Permite obtener la memoria usada por un script
      *
      * @return string memory_usage
      */
-    public static function memory_usage ($name)
+    public static function memory_usage($name)
     {
         if (self::$_benchmark[$name]) {
             self::$_benchmark[$name]['memory_usage'] = number_format((self::$_benchmark[$name]['memory_stop'] - self::$_benchmark[$name]['memory_start']) / 1048576, 2);
@@ -79,12 +89,13 @@ final class Benchmark
             throw new KumbiaException("No existe el Benchmark para el nombre: '$name', especificado \n");
         }
     }
+
     /**
      * Retorna el tiempo de ejecucion del scripts (profiling)
      * 
      * @return string time_execution
      */
-    public static function time_execution ($name)
+    public static function time_execution($name)
     {
         if (isset(self::$_benchmark[$name])) {
             return self::_stop_clock($name);
@@ -92,15 +103,16 @@ final class Benchmark
             throw new KumbiaException("No existe el Benchmark para el nombre: $name, especificado \n");
         }
     }
+
     /**
      *
      *
      */
-    public static function test ($func, $loops)
+    public static function test($func, $loops)
     {
         self::start_clock($func);
         ob_start();
-        for ($i = 1; $i <= $loops; $i ++) {
+        for ($i = 1; $i <= $loops; $i++) {
             eval($func);
         }
         ob_end_flush();
@@ -109,4 +121,5 @@ final class Benchmark
         echo $loops, ' veces';
         echo ' Tiempo: ', $time;
     }
+
 }

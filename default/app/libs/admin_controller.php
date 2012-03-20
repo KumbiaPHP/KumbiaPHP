@@ -1,5 +1,10 @@
 <?php
 /**
+ * @see Controller nuevo controller
+ */
+require_once CORE_PATH . 'kumbia/controller.php';
+
+/**
  * Controlador para proteger los controladores que heredan
  * Para empezar a crear una convención de seguridad y módulos
  *
@@ -9,23 +14,20 @@
  *
  * @category Kumbia
  * @package Controller
- **/
-
-/**
- * @see Controller nuevo controller
  */
-require_once CORE_PATH . 'kumbia/controller.php';
+class AdminController extends Controller
+{
 
-class AdminController extends Controller {
+    final protected function initialize()
+    {
+        //Código de auth y permisos
+        //Será libre, pero añadiremos uno por defecto en breve
+        //Posiblemente se cree una clase abstracta con lo que debe tener por defecto
+    }
 
-	final protected function initialize()
-	{
-	    //Código de auth y permisos
-	    //Será libre, pero añadiremos uno por defecto en breve
-	    //Posiblemente se cree una clase abstracta con lo que debe tener por defecto
-	}
+    final protected function finalize()
+    {
+        
+    }
 
-	final protected function finalize()
-	{
-	}
 }

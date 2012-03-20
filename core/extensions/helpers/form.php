@@ -1,5 +1,4 @@
 <?php
-
 /**
  * KumbiaPHP web & app Framework
  *
@@ -13,14 +12,20 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Helper para Form
- * 
  * @category   KumbiaPHP
  * @package    Helpers 
  * @copyright  Copyright (c) 2005-2012 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-class Form {
+
+/**
+ * Helper para Formularios
+ *
+ * @category   KumbiaPHP
+ * @package    Helpers
+ */
+class Form
+{
 
     /**
      * Utilizado para generar los id de los radio button,
@@ -29,7 +34,6 @@ class Form {
      * @var array
      */
     protected static $_radios = array();
-
     /**
      * Utilizado para avisar al programador,si usa Form::file()
      * y no tiene el form mulipart muestra un error
@@ -48,7 +52,8 @@ class Form {
      * @param boolean $autoload autocarga de valores
      * @return mixed
      */
-    protected static function _getFieldData($field, $autoload = TRUE) {
+    protected static function _getFieldData($field, $autoload = TRUE)
+    {
         // Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
 
@@ -115,7 +120,8 @@ class Form {
      * @param string $field Nombre de campo
      * @return mixed retorna NULL si no existe valor por autocarga
      */
-    public static function getFieldValue($field) {
+    public static function getFieldValue($field)
+    {
         // Obtiene considerando el patron de formato form.field
         $formField = explode('.', $field, 2);
 
@@ -159,7 +165,8 @@ class Form {
      * @param string $content Contenido interno (opcional)
      * @return string
      */
-    public static function input($attrs = NULL, $content = NULL) {
+    public static function input($attrs = NULL, $content = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -177,7 +184,8 @@ class Form {
      * @param string|array $attrs Atributos de etiqueta (opcional)
      * @return string
      */
-    public static function open($action = NULL, $method = 'post', $attrs = NULL) {
+    public static function open($action = NULL, $method = 'post', $attrs = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -196,7 +204,8 @@ class Form {
      * @param string|array $attrs Atributos de etiqueta (opcional)
      * @return string
      */
-    public static function openMultipart($action = NULL, $attrs = NULL) {
+    public static function openMultipart($action = NULL, $attrs = NULL)
+    {
         self::$_multipart = TRUE;
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
@@ -214,7 +223,8 @@ class Form {
      *
      * @return string
      */
-    public static function close() {
+    public static function close()
+    {
         self::$_multipart = FALSE;
         return '</form>';
     }
@@ -226,7 +236,8 @@ class Form {
      * @param string|array $attrs Atributos de campo (opcional)
      * @return string
      */
-    public static function submit($text, $attrs = NULL) {
+    public static function submit($text, $attrs = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -240,7 +251,8 @@ class Form {
      * @param string|array $attrs Atributos de campo (opcional)
      * @return string
      */
-    public static function reset($text, $attrs = NULL) {
+    public static function reset($text, $attrs = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -254,7 +266,8 @@ class Form {
      * @param array $attrs Atributos de campo (opcional)
      * @return string
      */
-    public static function button($text, $attrs = NULL) {
+    public static function button($text, $attrs = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -269,7 +282,8 @@ class Form {
      * @param string|array Atributos de campo (opcional)
      * @return string
      */
-    public static function label($text, $field, $attrs = NULL) {
+    public static function label($text, $field, $attrs = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -284,7 +298,8 @@ class Form {
      * @param string $value Valor de campo (opcional)
      * @return string
      */
-    public static function text($field, $attrs = NULL, $value = NULL) {
+    public static function text($field, $attrs = NULL, $value = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -304,7 +319,8 @@ class Form {
      * @param string|array $value Array para select multiple (opcional)
      * @return string
      */
-    public static function select($field, $data, $attrs = NULL, $value = NULL) {
+    public static function select($field, $data, $attrs = NULL, $value = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -341,7 +357,8 @@ class Form {
      * @param string $checked Indica si se marca el campo (opcional)
      * @return string
      */
-    public static function check($field, $checkValue, $attrs = NULL, $checked = NULL) {
+    public static function check($field, $checkValue, $attrs = NULL, $checked = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -365,7 +382,8 @@ class Form {
      * @param string $checked Indica si se marca el campo (opcional)
      * @return string
      */
-    public static function radio($field, $radioValue, $attrs = NULL, $checked = NULL) {
+    public static function radio($field, $radioValue, $attrs = NULL, $checked = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -395,7 +413,8 @@ class Form {
      * @param string|array $attrs Atributos de campo (opcional)
      * @return string
      */
-    public static function submitImage($img, $attrs = NULL) {
+    public static function submitImage($img, $attrs = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -410,7 +429,8 @@ class Form {
      * @param string $value Valor de campo (opcional)
      * @return string
      */
-    public static function hidden($field, $attrs = NULL, $value = NULL) {
+    public static function hidden($field, $attrs = NULL, $value = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -428,7 +448,8 @@ class Form {
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value Valor de campo (opcional)
      */
-    public static function pass($field, $attrs = NULL, $value = NULL) {
+    public static function pass($field, $attrs = NULL, $value = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -450,7 +471,8 @@ class Form {
      * @param string|array $value (opcional) Array en select multiple
      * @return string
      */
-    public static function dbSelect($field, $show = NULL, $data = NULL, $blank = 'Seleccione', $attrs = NULL, $value = NULL) {
+    public static function dbSelect($field, $show = NULL, $data = NULL, $blank = 'Seleccione', $attrs = NULL, $value = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -515,7 +537,8 @@ class Form {
      * @param string|array $attrs Atributos de campo (opcional)
      * @return string
      */
-    public static function file($field, $attrs = NULL) {
+    public static function file($field, $attrs = NULL)
+    {
         // aviso al programador
         if (!self::$_multipart) {
             Flash::error('Para poder subir ficheros, debe abrir el form con Form::openMultipart()');
@@ -539,7 +562,8 @@ class Form {
      * @param string $value Valor de campo (opcional)
      * @return string
      */
-    public static function textarea($field, $attrs = NULL, $value = NULL) {
+    public static function textarea($field, $attrs = NULL, $value = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -559,7 +583,8 @@ class Form {
      * @param string $value Valor de campo (opcional)
      * @return string
      */
-    public static function date($field, $class = NULL, $attrs = NULL, $value = NULL) {
+    public static function date($field, $class = NULL, $attrs = NULL, $value = NULL)
+    {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }

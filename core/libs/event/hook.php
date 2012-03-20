@@ -12,12 +12,19 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Clase padre de los hooks
- *
  * @category   Kumbia
  * @package    Event
  * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
+
+/**
+ * Clase padre de los hooks
+ *
+ * @category   Kumbia
+ * @package    Event
+ */
 abstract class Hook
-{}
+{
+
+}
