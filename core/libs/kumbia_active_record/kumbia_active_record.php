@@ -2527,7 +2527,7 @@ class KumbiaActiveRecord
             if (is_file($file)) {
                 include $file;
             } else {
-                throw new KumbiaException(null, 'no_model');
+                throw new KumbiaException("No existe el modelo $model");
             }
         }
 
