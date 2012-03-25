@@ -421,7 +421,7 @@ class KumbiaActiveRecord
     function __set($property, $value)
     {
         if (!$this->_dump_lock) {
-            if (!isset($this->$property) && is_object($value) && is_subclass_of($value, 'ActiveRecordBase')) {
+            if (!isset($this->$property) && is_object($value) && is_subclass_of($value, 'KumbiaActiveRecord')) {
                 if (array_key_exists($property, $this->_belongs_to)) {
                     $relation = $this->_belongs_to[$property];
                     $value->dump_model();
