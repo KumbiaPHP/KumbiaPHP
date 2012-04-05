@@ -117,7 +117,7 @@ class Form
     /**
      * Obtiene el valor del campo por autocarga de valores
      * 
-     * @param string $field nombre de campo
+     * @param string $field Nombre de campo
      * @return mixed retorna NULL si no existe valor por autocarga
      */
     public static function getFieldValue($field)
@@ -156,6 +156,26 @@ class Form
 
         // Retorna el valor de campo
         return $value;
+    }
+    
+    /**
+     * Crea un campo input "genérico"
+     * 
+     * @param string $type
+     * @param string $field
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string 
+     */
+    public static function in($type, $field, $attrs = NULL, $value = NULL) {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
+
+        return "<input id=\"$id\" name=\"$name\" type=\"$type\" value=\"$value\" $attrs/>";
     }
 
     /**
@@ -295,19 +315,12 @@ class Form
      *
      * @param string $field Nombre de campo
      * @param string|array $attrs Atributos de campo (opcional)
-     * @param string $value (opcional)
+     * @param string $value Valor de campo (opcional)
      * @return string
      */
     public static function text($field, $attrs = NULL, $value = NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"text\" value=\"$value\" $attrs/>";
+        return self::in('text', $field, $attrs, $value);
     }
 
     /**
@@ -426,19 +439,12 @@ class Form
      *
      * @param string $field Nombre de campo
      * @param string|array $attrs Atributos de campo (opcional)
-     * @param string $value
+     * @param string $value Valor de campo (opcional)
      * @return string
      */
     public static function hidden($field, $attrs = NULL, $value = NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"hidden\" value=\"$value\" $attrs/>";
+       return self::in('hidden', $field, $attrs, $value);
     }
 
     /**
@@ -446,18 +452,11 @@ class Form
      *
      * @param string $field Nombre de campo
      * @param string|array $attrs Atributos de campo (opcional)
-     * @param string $value
+     * @param string $value Valor de campo (opcional)
      */
     public static function pass($field, $attrs = NULL, $value = NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"password\" value=\"$value\" $attrs/>";
+        return self::in('password', $field, $attrs, $value);
     }
 
     /**
@@ -559,7 +558,7 @@ class Form
      *
      * @param string $field Nombre de campo
      * @param string|array $attrs Atributos de campo (opcional)
-     * @param string $value (opcional)
+     * @param string $value Valor de campo (opcional)
      * @return string
      */
     public static function textarea($field, $attrs = NULL, $value = NULL)
@@ -580,7 +579,7 @@ class Form
      * @param string $field Nombre de campo
      * @param string $class Clase de estilo (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
-     * @param string $value (opcional)
+     * @param string $value Valor de campo (opcional)
      * @return string
      */
     public static function date($field, $class = NULL, $attrs = NULL, $value = NULL)
@@ -593,6 +592,169 @@ class Form
         extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
 
         return "<input id=\"$id\" name=\"$name\" class=\"js-datepicker $class\" type=\"date\" value=\"$value\" $attrs/>";
+    }
+
+    /**
+     * Crea un campo search
+     *
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string
+     */
+    public static function search($field, $attrs = NULL, $value = NULL) {
+        return self::in('search', $field, $attrs, $value);
+    }
+
+    /**
+     * Crea un campo tel
+     *
+     * @param string $field Nombre de campo 
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string
+     */
+    public static function tel($field, $attrs = NULL, $value = NULL) {
+        return self::in('tel', $field, $attrs, $value);
+    }
+
+    /**
+     * Crea un campo url
+     *
+     * @param string $field Nombre de campo 
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string
+     */
+    public static function url($field, $attrs = NULL, $value = NULL) {
+        return self::in('url', $field, $attrs, $value);
+    }
+
+    /**
+     * Crea un campo email
+     *
+     * @param string $field Nombre de campo 
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string
+     */
+    public static function email($field, $attrs = NULL, $value = NULL) {
+        return self::in('email', $field, $attrs, $value);
+    }
+
+    /**
+     * Crea un campo datetime
+     *
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string
+     */
+    public static function datetime($field, $attrs = NULL, $value = NULL) {
+        return self::in('datetime', $field, $attrs, $value);
+    }
+
+    /**
+     * Crea un campo date
+     *
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string
+     */
+    public static function dateNew($field, $attrs = NULL, $value = NULL) {
+        return self::in('date', $field, $attrs, $value);
+    }
+
+    /**
+     * Crea un campo month
+     *
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string
+     */
+    public static function month($field, $attrs = NULL, $value = NULL) {
+        return self::in('month', $field, $attrs, $value);
+    }
+
+    /**
+     * Crea un campo week
+     *
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string
+     */
+    public static function week($field, $attrs = NULL, $value = NULL) {
+        return self::in('week', $field, $attrs, $value);
+    }
+
+    /**
+     * Crea un campo time
+     *
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string
+     */
+    public static function time($field, $attrs = NULL, $value = NULL) {
+       return self::in('time', $field, $attrs, $value);
+    }
+
+    /**
+     * Crea un campo datetime-local
+     *
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string
+     */
+    public static function datetimeLocal($field, $attrs = NULL, $value = NULL) {
+        return self::in('datetime-local', $field, $attrs, $value);
+    }
+
+    /**
+     * Crea un campo number
+     *
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string
+     */
+    public static function number($field, $attrs = NULL, $value = NULL) {
+        return self::in('number', $field, $attrs, $value);
+    }
+
+    /**
+     * Crea un campo range
+     *
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string
+     */
+    public static function range($field, $max=100, $min=0, $step=1, $attrs = NULL, $value = NULL) {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
+
+        return "<input id=\"$id\" name=\"$name\" type=\"range\" value=\"$value\" max=\"$max\" min=\"$min\" step=\"$step\" $attrs/>";
+    }
+
+    /**
+     * Crea un campo color
+     *
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string
+     */
+    public static function color($field, $attrs = NULL, $value = NULL) {
+        return self::in('color', $field, $attrs, $value);
     }
 
 }
