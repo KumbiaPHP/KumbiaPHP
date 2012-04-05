@@ -157,6 +157,26 @@ class Form
         // Retorna el valor de campo
         return $value;
     }
+    
+    /**
+     * Crea un campo input "genérico"
+     * 
+     * @param string $type
+     * @param string $field
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value Valor de campo (opcional)
+     * @return string 
+     */
+    public static function in($type, $field, $attrs = NULL, $value = NULL) {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
+
+        return "<input id=\"$id\" name=\"$name\" type=\"$type\" value=\"$value\" $attrs/>";
+    }
 
     /**
      * Crea un campo input
@@ -300,14 +320,7 @@ class Form
      */
     public static function text($field, $attrs = NULL, $value = NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"text\" value=\"$value\" $attrs/>";
+        return self::in('text', $field, $attrs, $value);
     }
 
     /**
@@ -431,14 +444,7 @@ class Form
      */
     public static function hidden($field, $attrs = NULL, $value = NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"hidden\" value=\"$value\" $attrs/>";
+       return self::in('hidden', $field, $attrs, $value);
     }
 
     /**
@@ -450,14 +456,7 @@ class Form
      */
     public static function pass($field, $attrs = NULL, $value = NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"password\" value=\"$value\" $attrs/>";
+        return self::in('password', $field, $attrs, $value);
     }
 
     /**
@@ -604,14 +603,7 @@ class Form
      * @return string
      */
     public static function search($field, $attrs = NULL, $value = NULL) {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"search\" value=\"$value\" $attrs/>";
+        return self::in('search', $field, $attrs, $value);
     }
 
     /**
@@ -623,14 +615,7 @@ class Form
      * @return string
      */
     public static function tel($field, $attrs = NULL, $value = NULL) {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"tel\" value=\"$value\" $attrs/>";
+        return self::in('tel', $field, $attrs, $value);
     }
 
     /**
@@ -642,14 +627,7 @@ class Form
      * @return string
      */
     public static function url($field, $attrs = NULL, $value = NULL) {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"url\" value=\"$value\" $attrs/>";
+        return self::in('url', $field, $attrs, $value);
     }
 
     /**
@@ -661,14 +639,7 @@ class Form
      * @return string
      */
     public static function email($field, $attrs = NULL, $value = NULL) {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"email\" value=\"$value\" $attrs/>";
+        return self::in('email', $field, $attrs, $value);
     }
 
     /**
@@ -680,14 +651,7 @@ class Form
      * @return string
      */
     public static function datetime($field, $attrs = NULL, $value = NULL) {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"datetime\" value=\"$value\" $attrs/>";
+        return self::in('datetime', $field, $attrs, $value);
     }
 
     /**
@@ -699,14 +663,7 @@ class Form
      * @return string
      */
     public static function dateNew($field, $attrs = NULL, $value = NULL) {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"date\" value=\"$value\" $attrs/>";
+        return self::in('date', $field, $attrs, $value);
     }
 
     /**
@@ -718,14 +675,7 @@ class Form
      * @return string
      */
     public static function month($field, $attrs = NULL, $value = NULL) {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"month\" value=\"$value\" $attrs/>";
+        return self::in('month', $field, $attrs, $value);
     }
 
     /**
@@ -737,14 +687,7 @@ class Form
      * @return string
      */
     public static function week($field, $attrs = NULL, $value = NULL) {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"week\" value=\"$value\" $attrs/>";
+        return self::in('week', $field, $attrs, $value);
     }
 
     /**
@@ -756,14 +699,7 @@ class Form
      * @return string
      */
     public static function time($field, $attrs = NULL, $value = NULL) {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"time\" value=\"$value\" $attrs/>";
+       return self::in('time', $field, $attrs, $value);
     }
 
     /**
@@ -775,14 +711,7 @@ class Form
      * @return string
      */
     public static function datetimeLocal($field, $attrs = NULL, $value = NULL) {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"datetime-local\" value=\"$value\" $attrs/>";
+        return self::in('datetime-local', $field, $attrs, $value);
     }
 
     /**
@@ -794,14 +723,7 @@ class Form
      * @return string
      */
     public static function number($field, $attrs = NULL, $value = NULL) {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"number\" value=\"$value\" $attrs/>";
+        return self::in('number', $field, $attrs, $value);
     }
 
     /**
@@ -820,7 +742,7 @@ class Form
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
 
-        return "<input id=\"$id\" name=\"$name\" type=\"range\" value=\"$value\" $attrs/>";
+        return "<input id=\"$id\" name=\"$name\" type=\"range\" value=\"$value\" max=\"$max\" min=\"$min\" step=\"$step\" $attrs/>";
     }
 
     /**
@@ -832,14 +754,7 @@ class Form
      * @return string
      */
     public static function color($field, $attrs = NULL, $value = NULL) {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"color\" value=\"$value\" $attrs/>";
+        return self::in('color', $field, $attrs, $value);
     }
 
 }
