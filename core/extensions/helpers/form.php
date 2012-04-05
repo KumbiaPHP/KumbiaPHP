@@ -812,7 +812,7 @@ class Form
      * @param string $value Valor de campo (opcional)
      * @return string
      */
-    public static function range($field, $attrs = NULL, $value = NULL) {
+    public static function range($field, $max=100, $min=0, $step=1, $attrs = NULL, $value = NULL) {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
