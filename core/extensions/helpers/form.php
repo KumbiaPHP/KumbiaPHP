@@ -90,7 +90,7 @@ class Form
 		}
 
         // Filtrar caracteres especiales
-        if ($value) {
+        if ($value !== null) {
             $value = htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
         }
 
@@ -134,7 +134,7 @@ class Form
 		}
 
         // Filtrar caracteres especiales
-        if ($value) {
+        if ($value !== null) {
             return htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
         }
         
