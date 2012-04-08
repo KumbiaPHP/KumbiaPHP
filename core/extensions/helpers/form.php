@@ -49,68 +49,52 @@ class Form
      * que sea un string, objeto o array.
      *
      * @param string $field
-     * @param boolean $autoload autocarga de valores
+     * @param mixed $value valor de campo
      * @return mixed
      */
-    protected static function _getFieldData($field, $autoload = TRUE)
+    public static function getFieldData($field, $value = null)
     {
         // Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
-
-        // Si tiene el formato form.field
-        if (isset($formField[1])) {
-            // Id de campo
+        
+        // Formato modelo.campo
+        if(isset($formField[1])) {
+			// Id de campo
             $id = "{$formField[0]}_{$formField[1]}";
             // Nombre de campo
             $name = "{$formField[0]}[{$formField[1]}]";
-
-            // Sin autocarga
-            if (!$autoload) {
-                return array('id' => $id, 'name' => $name);
-            }
-
-            // Obtiene el controller
-            $controller = Dispatcher::get_controller();
-            // Valor por defecto
-            $value = NULL;
-
-            // Si existe un valor cargado
-            if (isset($controller->{$formField[0]})) {
-                $form = $controller->{$formField[0]};
-                if (is_object($form) && isset($form->{$formField[1]})) {
-                    $value = $form->{$formField[1]};
-                } elseif (is_array($form) && isset($form[$formField[1]])) {
-                    $value = $form[$formField[1]];
-                }
-            } elseif (isset($_POST[$formField[0]][$formField[1]])) {
-                $value = $_POST[$formField[0]][$formField[1]];
-            }
-        } else { // Formato de campo comun
-            // Sin autocarga
-            if (!$autoload) {
-                return array('id' => $formField[0], 'name' => $formField[0]);
-            }
-
-            // Nombre de campo y id
-            $id = $name = $formField[0];
-            // Obtiene el controller
-            $controller = Dispatcher::get_controller();
-            // Valor por defecto
-            $value = NULL;
-
-            // Si existe un valor cargado
-            if (isset($controller->$name)) {
-                $value = $controller->$name;
-            } elseif (isset($_POST[$name])) {
-                $value = $_POST[$name];
-            }
-        }
+			
+			// Verifica en $_POST
+			if(isset($_POST[$formField[0]][$formField[1]])) {
+				$value = $_POST[$formField[0]][$formField[1]];
+			} elseif($value === null) { 
+				// Autocarga de datos
+				$form = View::getVar($formField[0]);
+				if(is_array($form)) {
+					if(isset($form[$formField[1]])) $value = $form[$formField[1]];
+				} elseif(is_object($form)) {
+					if(isset($form->$formField[1])) $value = $form->{$formField[1]};
+				}
+			}
+		} else {
+			// Asignacion de Id y Nombre de campo
+			$id = $name = $field;
+			
+			// Verifica en $_POST
+			if(isset($_POST[$field])) {
+				$value = $_POST[$field];
+			} elseif($value === null) { 
+				// Autocarga de datos
+				$value = View::getVar($field);
+			}
+		}
 
         // Filtrar caracteres especiales
         if ($value) {
             $value = htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
         }
 
+		// Devuelve los datos
         return array('id' => $id, 'name' => $name, 'value' => $value);
     }
 
@@ -122,40 +106,40 @@ class Form
      */
     public static function getFieldValue($field)
     {
-        // Obtiene considerando el patron de formato form.field
+		// Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
+        
+        // Formato modelo.campo
+        if(isset($formField[1])) {
+			// Verifica en $_POST
+			if(isset($_POST[$formField[0]][$formField[1]])) {
+				$value = $_POST[$formField[0]][$formField[1]];
+			} elseif($value === null) { 
+				// Autocarga de datos
+				$form = View::getVar($formField[0]);
+				if(is_array($form)) {
+					if(isset($form[$formField[1]])) $value = $form[$formField[1]];
+				} elseif(is_object($form)) {
+					if(isset($form->$formField[1])) $value = $form->{$formField[1]};
+				}
+			}
+		} else {
+			// Verifica en $_POST
+			if(isset($_POST[$field])) {
+				$value = $_POST[$field];
+			} elseif($value === null) { 
+				// Autocarga de datos
+				$value = View::getVar($field);
+			}
+		}
 
-        // Obtiene el controller
-        $controller = Dispatcher::get_controller();
-
-        // Valor por defecto
-        $value = NULL;
-
-        // Si tiene el formato form.field
-        if (isset($formField[1])) {
-
-            // Si existe un valor cargado
-            if (isset($controller->{$formField[0]})) {
-                $form = $controller->{$formField[0]};
-                if (is_object($form) && isset($form->{$formField[1]})) {
-                    $value = $form->{$formField[1]};
-                } elseif (is_array($form) && isset($form[$formField[1]])) {
-                    $value = $form[$formField[1]];
-                }
-            } elseif (isset($_POST[$formField[0]][$formField[1]])) {
-                $value = $_POST[$formField[0]][$formField[1]];
-            }
-        } else { // Formato de campo común
-            // Si existe un valor cargado
-            if (isset($controller->$field)) {
-                $value = $controller->$field;
-            } elseif (isset($_POST[$field])) {
-                $value = $_POST[$field];
-            }
+        // Filtrar caracteres especiales
+        if ($value) {
+            return htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
         }
-
-        // Retorna el valor de campo
-        return $value;
+        
+        // Devuelve null
+        return null;
     }
 
     /**
@@ -305,7 +289,7 @@ class Form
         }
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
 
         return "<input id=\"$id\" name=\"$name\" type=\"text\" value=\"$value\" $attrs/>";
     }
@@ -326,7 +310,7 @@ class Form
         }
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
 
         $options = '';
         foreach ($data as $k => $v) {
@@ -364,7 +348,7 @@ class Form
         }
 
         // Obtiene name y id para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $checked === NULL), EXTR_OVERWRITE);
+        extract(self::getFieldData($field, $checked === NULL), EXTR_OVERWRITE);
 
         if ($checked || ($checked === NULL && $checkValue == $value)) {
             $checked = 'checked="checked"';
@@ -389,7 +373,7 @@ class Form
         }
 
         // Obtiene name y id para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $checked === NULL), EXTR_OVERWRITE);
+        extract(self::getFieldData($field, $checked === NULL), EXTR_OVERWRITE);
 
         if ($checked || ($checked === NULL && $radioValue == $value)) {
             $checked = 'checked="checked"';
@@ -436,7 +420,7 @@ class Form
         }
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
 
         return "<input id=\"$id\" name=\"$name\" type=\"hidden\" value=\"$value\" $attrs/>";
     }
@@ -455,7 +439,7 @@ class Form
         }
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
 
         return "<input id=\"$id\" name=\"$name\" type=\"password\" value=\"$value\" $attrs/>";
     }
@@ -478,7 +462,7 @@ class Form
         }
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
 
         // Si no se envía un campo por defecto, no se crea el tag option
         if ($blank != NULL) {
@@ -549,7 +533,7 @@ class Form
         }
 
         // Obtiene name y id, y los carga en el scope
-        extract(self::_getFieldData($field, false), EXTR_OVERWRITE);
+        extract(self::getFieldData($field, false), EXTR_OVERWRITE);
 
         return "<input id=\"$id\" name=\"$name\" type=\"file\" $attrs/>";
     }
@@ -569,7 +553,7 @@ class Form
         }
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
 
         return "<textarea id=\"$id\" name=\"$name\" $attrs>$value</textarea>";
     }
@@ -590,7 +574,7 @@ class Form
         }
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value === NULL), EXTR_OVERWRITE);
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
 
         return "<input id=\"$id\" name=\"$name\" class=\"js-datepicker $class\" type=\"date\" value=\"$value\" $attrs/>";
     }
