@@ -66,6 +66,13 @@ class KumbiaView
      * @var array
      */
     protected static $_cache = array('type' => FALSE, 'time' => FALSE, 'group' => FALSE);
+    
+    /**
+     * Controlador actual
+     * 
+     * @var Controller
+     */
+    protected static $_controller;
 
     /**
      * Cambia el view y opcionalmente el template
@@ -175,6 +182,9 @@ class KumbiaView
      */
     public static function render(/* Controller */ $controller, /* Router */  $_url)
     {
+		// Guarda el controlador actual
+		self::$_controller = $controller;
+		
         if (!self::$_view && !self::$_template) {
             return ob_end_flush();
         }
@@ -322,6 +332,16 @@ class KumbiaView
         require_once $file;
     }
 
+	/**
+	 * Obtiene el valor una variable pasada a la vista desde el controlador
+	 * 
+	 * @param string $var nombre de variable
+	 * @return mixed valor de la variable
+	 */
+	public static function getVar($var)
+	{
+		return isset(self::$_controller->$var) ? self::$_controller->$var : null;
+	}
 }
 
 /**
