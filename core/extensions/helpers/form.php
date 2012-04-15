@@ -162,7 +162,7 @@ class Form
         }
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::_getFieldData($field, $value), EXTR_OVERWRITE);
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
 
         return "<input id=\"$id\" name=\"$name\" type=\"$type\" value=\"$value\" $attrs/>";
     }
