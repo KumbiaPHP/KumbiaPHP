@@ -120,7 +120,7 @@ class Ajax
         }
 
         // ruta a la accion
-        $action = PUBLIC_PATH . rtrim($action, '/') . '/';
+        $action = PUBLIC_PATH . ($action ? rtrim($action, '/') . '/' : '');
 
         // genera el campo
         return Form::select($field, $data, "class=\"js-remote $class\" data-update=\"$update\" data-action=\"$action\" $attrs");
@@ -145,7 +145,7 @@ class Ajax
         }
 
         // ruta a la accion
-        $action = PUBLIC_PATH . rtrim($action, '/') . '/';
+        $action = PUBLIC_PATH . ($action ? rtrim($action, '/') . '/' : '');
 
         // genera el campo
         return Form::dbSelect($field, $show, $data, $blank, "class=\"js-remote $class\" data-update=\"$update\" data-action=\"$action\" $attrs");
