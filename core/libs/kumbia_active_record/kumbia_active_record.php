@@ -21,7 +21,7 @@
 /**
  * @see Db
  */
-require CORE_PATH . 'libs/db/db.php';
+require_once CORE_PATH . 'libs/db/db.php';
 
 /**
  * ActiveRecordBase Clase para el Mapeo Objeto Relacional
