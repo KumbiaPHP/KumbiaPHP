@@ -78,7 +78,7 @@ define('PUBLIC_PATH', $_SERVER['SCRIPT_NAME'] . '/');
  * 
  *
  */
-define('URL_PATH', dirname(PUBLIC_PATH) . '/');
+define('URL_PATH', dirname(PUBLIC_PATH) . '/public/');
 
 /**
  * Obtiene la url
