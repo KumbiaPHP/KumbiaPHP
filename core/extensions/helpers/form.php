@@ -420,7 +420,7 @@ class Form
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return "<input type=\"image\" src=\"" . PUBLIC_PATH . "img/$img\" $attrs/>";
+        return "<input type=\"image\" src=\"" . URL_PATH . "img/$img\" $attrs/>";
     }
 
     /**

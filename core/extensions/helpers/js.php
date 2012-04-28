@@ -96,7 +96,7 @@ class Js
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return "<input type=\"image\" title=\"$confirm\" src=\"" . PUBLIC_PATH . "img/$img\" class=\"js-confirm $class\" $attrs/>";
+        return "<input type=\"image\" title=\"$confirm\" src=\"" . URL_PATH . "img/$img\" class=\"js-confirm $class\" $attrs/>";
     }
 
 }

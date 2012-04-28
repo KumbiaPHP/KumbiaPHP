@@ -83,7 +83,7 @@ class Tag
             $src .= '?nocache=' . uniqid();
         }
 
-        return '<script type="text/javascript" src="' . PUBLIC_PATH . $src . '"></script>';
+        return '<script type="text/javascript" src="' . URL_PATH . $src . '"></script>';
     }
 
     /**
