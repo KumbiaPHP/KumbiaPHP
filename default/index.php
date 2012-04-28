@@ -75,8 +75,6 @@ define('PUBLIC_PATH', $_SERVER['SCRIPT_NAME'] . '/');
  *   y todos los archivos que se encuentre en public , imagenes , documentos , etc...
  * - Puede hacerse independiente del PUBLIC_PATH para casos donde no se pueda 
  *   usar el mod_rewrite, usar internacionalización, entre otros.
- * 
- *
  */
 define('URL_PATH', dirname(PUBLIC_PATH) . '/public/');
 
