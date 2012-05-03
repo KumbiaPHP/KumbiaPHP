@@ -133,9 +133,6 @@ require_once CORE_PATH . 'kumbia/router.php';
 //@see Load
 require_once CORE_PATH . 'kumbia/load.php';
 
-// @see Dispatcher
-require_once CORE_PATH . 'kumbia/dispatcher.php';
-
 // @see Controller
 require_once APP_PATH . 'libs/app_controller.php';
 
@@ -145,7 +142,7 @@ require_once APP_PATH . 'libs/view.php';
 // Ejecuta el request
 try {
     // Dispatch y renderiza la vista
-    View::render(Dispatcher::execute(Router::rewrite($url)), $url);
+    View::render(Router::execute($url), $url);
 } catch (KumbiaException $e) {
     KumbiaException::handle_exception($e);
 }
