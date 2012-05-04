@@ -76,7 +76,7 @@ define('PUBLIC_PATH', $_SERVER['SCRIPT_NAME'] . '/');
  * - Puede hacerse independiente del PUBLIC_PATH para casos donde no se pueda 
  *   usar el mod_rewrite, usar internacionalización, entre otros.
  */
-define('URL_PATH', dirname(PUBLIC_PATH) . '/public/');
+define('URL_PATH', dirname(PUBLIC_PATH) . '/');
 
 /**
  * Obtiene la url
