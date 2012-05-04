@@ -115,7 +115,7 @@ class Html
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<img src="' . URL_PATH . "img/$src\" alt=\"$alt\" $attrs />";
+        return '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" $attrs />";
     }
 
     /**
@@ -208,7 +208,7 @@ class Html
     {
         $code = '';
         foreach (Tag::getCss() as $css) {
-            $code .= '<link href="' . URL_PATH . "css/{$css['src']}.css\" rel=\"stylesheet\" type=\"text/css\" media=\"{$css['media']}\" />" . PHP_EOL;
+            $code .= '<link href="' . PUBLIC_PATH . "css/{$css['src']}.css\" rel=\"stylesheet\" type=\"text/css\" media=\"{$css['media']}\" />" . PHP_EOL;
         }
         return $code;
     }

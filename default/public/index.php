@@ -67,29 +67,9 @@ if ($_SERVER['QUERY_STRING']) {
 }
 
 /**
- * Define el URL_PATH
- *
- * PUBLIC_PATH:
- * - Url que utilizan los helpers que obtienen recursos de la parte publica de la App
- * - Esta ruta la utiliza Kumbia como base para generar las Urls para los js, los css,
- *   y todos los archivos que se encuentre en public , imagenes , documentos , etc...
- * - Puede hacerse independiente del PUBLIC_PATH para casos donde no se pueda 
- *   usar el mod_rewrite, usar internacionalización, entre otros.
- * 
- *
- */
-//define('URL_PATH', PUBLIC_PATH );
-define('URL_PATH', dirname(dirname($_SERVER['SCRIPT_NAME'])) . '/' );
-
-/**
  * Obtiene la url
  */
 $url = isset($_GET['_url']) ? $_GET['_url'] : '/';
-
-/**
- * Usar esta y comentar la de arriba si no se tiene el mod_rewrite activado
- */
-//$url = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
 
 /**
  * Carga el gestor de arranque
