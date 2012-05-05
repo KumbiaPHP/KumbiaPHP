@@ -111,6 +111,8 @@ class Form
         // Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
 
+		$value = NULL;
+		
         // Formato modelo.campo
         if (isset($formField[1])) {
             // Verifica en $_POST
