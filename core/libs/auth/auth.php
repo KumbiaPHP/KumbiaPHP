@@ -164,9 +164,9 @@ class Auth
                 sleep($this->sleep_time);
             }
         }
-        $_SESSION['KUMBIA_AUTH_IDENTITY'] = $this->adapter_object->get_identity();
+        Session::set('KUMBIA_AUTH_IDENTITY', $this->adapter_object->get_identity());
         self::$active_identity = $this->adapter_object->get_identity();
-        $_SESSION['KUMBIA_AUTH_VALID'] = $result;
+        Session::set('KUMBIA_AUTH_VALID', $result);
         self::$is_valid = $result;
         return $result;
     }
@@ -267,7 +267,7 @@ class Auth
         if (!is_null(self::$is_valid)) {
             return self::$is_valid;
         } else {
-            self::$is_valid = isset($_SESSION['KUMBIA_AUTH_VALID']) ? $_SESSION['KUMBIA_AUTH_VALID'] : null;
+            self::$is_valid = Session::get('KUMBIA_AUTH_VALID');
             return self::$is_valid;
         }
     }
@@ -282,7 +282,7 @@ class Auth
         if (count(self::$active_identity)) {
             return self::$active_identity;
         } else {
-            self::$active_identity = $_SESSION['KUMBIA_AUTH_IDENTITY'];
+            self::$active_identity = Session::get('KUMBIA_AUTH_IDENTITY');
             return self::$active_identity;
         }
     }
@@ -296,7 +296,8 @@ class Auth
     public static function get($var = null)
     {
         if ($var) {
-            return $_SESSION['KUMBIA_AUTH_IDENTITY'][$var];
+            $k_identity = Session::get('KUMBIA_AUTH_IDENTITY');
+            return $k_identity[$var];
         }
     }
 
@@ -307,9 +308,9 @@ class Auth
     static public function destroy_identity()
     {
         self::$is_valid = null;
-        unset($_SESSION['KUMBIA_AUTH_VALID']);
+        Session::delete('KUMBIA_AUTH_VALID');
         self::$active_identity = null;
-        unset($_SESSION['KUMBIA_AUTH_IDENTITY']);
+        Session::delete('KUMBIA_AUTH_IDENTITY');
     }
 
 }
