@@ -21,7 +21,7 @@
 /**
  * @see Db
  */
-require CORE_PATH . 'libs/db/db.php';
+require_once CORE_PATH . 'libs/db/db.php';
 
 /**
  * ActiveRecordBase Clase para el Mapeo Objeto Relacional
@@ -421,14 +421,16 @@ class KumbiaActiveRecord
     function __set($property, $value)
     {
         if (!$this->_dump_lock) {
-            if (!isset($this->$property) && is_object($value) && is_subclass_of($value, 'ActiveRecordBase')) {
+            if (is_object($value) && is_subclass_of($value, 'KumbiaActiveRecord')) {
                 if (array_key_exists($property, $this->_belongs_to)) {
                     $relation = $this->_belongs_to[$property];
                     $value->dump_model();
                     $this->{$relation->fk} = $value->{$value->primary_key[0]};
+                    return;
                 } elseif (array_key_exists($property, $this->_has_one)) {
                     $relation = $this->_has_one[$property];
                     $value->{$relation->fk} = $this->{$this->primary_key[0]};
+                    return;
                 }
             } elseif ($property == "source") {
                 $value = ActiveRecord::sql_item_sanizite($value);
@@ -2527,7 +2529,7 @@ class KumbiaActiveRecord
             if (is_file($file)) {
                 include $file;
             } else {
-                throw new KumbiaException(null, 'no_model');
+                throw new KumbiaException("No existe el modelo $model");
             }
         }
 

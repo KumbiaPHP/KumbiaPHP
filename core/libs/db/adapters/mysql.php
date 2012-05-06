@@ -523,4 +523,14 @@ class DbMySQL extends DbBase implements DbBaseInterface
         return mysql_fetch_object($result_query, $class);
     }
 
+    /**
+     * Devuelve la ultima sentencia sql ejecutada por el Adaptador
+     *
+     * @return string
+     */
+    public function last_sql_query()
+    {
+        return $this->last_query;
+    }
+
 }
