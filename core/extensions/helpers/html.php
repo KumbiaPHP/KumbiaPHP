@@ -278,10 +278,13 @@ class Html
      * @param string $default URL gravatar por defecto si no existe, o un default de gravatar. Por defecto: mm
      * @return string
      */
-    public static function gravatar($email, $alt='gravatar', $size=40, $default='mm')
+    public static function gravatar($email, $alt='gravatar',$attrs = NULL, $size=40, $default='mm')
     {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
         $grav_url = "http://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . '?d=' . urlencode($default) . '&s=' . $size;
-        return '<img src="' . $grav_url . '" alt="' . $alt . '" class="avatar" width="' . $size . '" height="' . $size . '" />';
+        return "<img src=\"$grav_url\" alt=\"$alt\" $attrs width=\"$size\" height=\"$size\" />";
     }
 
 }
