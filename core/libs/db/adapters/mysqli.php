@@ -491,4 +491,14 @@ class DbMySQLi extends DbBase implements DbBaseInterface
         }
     }
 
+    /**
+     * Devuelve la ultima sentencia sql ejecutada por el Adaptador
+     *
+     * @return string
+     */
+    public function last_sql_query()
+    {
+        return $this->last_query;
+    }
+
 }
