@@ -421,14 +421,16 @@ class KumbiaActiveRecord
     function __set($property, $value)
     {
         if (!$this->_dump_lock) {
-            if (!isset($this->$property) && is_object($value) && is_subclass_of($value, 'KumbiaActiveRecord')) {
+            if (is_object($value) && is_subclass_of($value, 'KumbiaActiveRecord')) {
                 if (array_key_exists($property, $this->_belongs_to)) {
                     $relation = $this->_belongs_to[$property];
                     $value->dump_model();
                     $this->{$relation->fk} = $value->{$value->primary_key[0]};
+                    return;
                 } elseif (array_key_exists($property, $this->_has_one)) {
                     $relation = $this->_has_one[$property];
                     $value->{$relation->fk} = $this->{$this->primary_key[0]};
+                    return;
                 }
             } elseif ($property == "source") {
                 $value = ActiveRecord::sql_item_sanizite($value);
