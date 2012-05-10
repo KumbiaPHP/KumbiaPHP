@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * KumbiaPHP web & app Framework
  *
@@ -109,6 +109,8 @@ class Form
 		// Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
         
+        $value = NULL; //se inicializa la variable con NULL
+		
         // Formato modelo.campo
         if(isset($formField[1])) {
 			// Verifica en $_POST
