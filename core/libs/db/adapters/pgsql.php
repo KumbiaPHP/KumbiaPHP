@@ -550,4 +550,14 @@ class DbPgSQL extends DbBase implements DbBaseInterface
         return pg_fetch_object($queryResult, null, $class);
     }
 
+    /**
+     * Devuelve la ultima sentencia sql ejecutada por el Adaptador
+     *
+     * @return string
+     */
+    public function last_sql_query()
+    {
+        return $this->last_query;
+    }
+
 }
