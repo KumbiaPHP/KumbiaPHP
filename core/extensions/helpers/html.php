@@ -285,7 +285,7 @@ class Html
             $attrs = Tag::getAttrs($attrs);
         }
         $grav_url = "http://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . '?d=' . urlencode($default) . '&s=' . $size;
-        return '<img src="' . $grav_url . '" alt="' . $alt . '" class="avatar" width="' . $size . '" height="' . $size . '" />';
+        return "<img src=\"$grav_url\" alt=\"$alt\" $attrs width=\"$size\" height=\"$size\" />";
     }
 
 }
