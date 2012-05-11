@@ -297,7 +297,7 @@ class Auth
     {
         if ($var) {
             $k_identity = Session::get('KUMBIA_AUTH_IDENTITY');
-            return $k_identity[$var];
+            return isset($k_identity[$var]) ? $k_identity[$var] : NULL;
         }
     }
 
