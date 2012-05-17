@@ -101,7 +101,7 @@ class Validate
      */
     public static function inList($value, $list)
     {
-        return in_array($check, $list);
+        return in_array($value, $list);
     }
     
     /**
@@ -120,9 +120,9 @@ class Validate
      * @param string $url
      * @return bool
      */
-    public static function url ($url)
+    public static function url ($url, $flag = FILTER_FLAG_HOST_REQUIRED)
     {
-        return filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED);
+        return filter_var($url, FILTER_VALIDATE_URL, $flag);
     }
     /**
      * Valida que sea IPv4
