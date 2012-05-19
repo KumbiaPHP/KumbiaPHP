@@ -47,6 +47,12 @@ class DbBase
      * @var mixed
      */
     public $logger = false;
+    /**
+     * Última sentencia SQL enviada al Adaptador
+     *
+     * @var string
+     */
+    private $last_query;
 
     /**
      * Hace un select de una forma mas corta, listo para usar en un foreach
