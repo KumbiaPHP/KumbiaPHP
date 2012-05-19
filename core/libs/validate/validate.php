@@ -12,35 +12,26 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
+ * Validate es una Clase que realiza validaciones Lógicas
+ * 
  * @category   KumbiaPHP
  * @package    validate 
  * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-
-/**
- * Validate es una Clase que realiza validaciones Lógicas
- *
- * @category   KumbiaPHP
- * @package    validate
- */
 class Validate
 {
-    /**
-     * Constantes para definir los patrones
-     */
-    /**
-     * El valor no puede ser nulo
-     */
-    const IS_REQUIRED = '/[^\\s]/';
-
-    /**
-     * El valor deber ser solo letras y números
-     */
-    const IS_ALPHANUM = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu';
-
-
-
+	/**
+	 * Constantes para definir los patrones
+	 */
+  
+	/*
+	 * El valor deber ser solo letras y números
+	 */
+	const IS_ALPHANUM = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu';
+	 
+	 
+	 
     /**
      * Almacena el mensaje de error
      *
@@ -53,7 +44,6 @@ class Validate
      * @var String
      */
     public static $regex = NULL;
-
     /**
      * Valida que int
      *
@@ -64,7 +54,7 @@ class Validate
     {
         return filter_var($check, FILTER_VALIDATE_INT);
     }
-
+    
     /**
      * Valida que una cadena este entre un rango.
      * Los espacios son contados
@@ -78,12 +68,12 @@ class Validate
     public static function maxLength($value, $max, $min = null)
     {
         $length = strlen($value);
-        if ($min and $length < $min) {
-            return false;
-        }
+        if($min and $length < $min){
+			return false;
+		}
         return ($length <= $max);
     }
-
+    
     /**
      * Valida que es un número se encuentre 
      * en un rango minímo y máximo
@@ -94,7 +84,7 @@ class Validate
      */
     public static function range($value, $min=0, $max=NULL)
     {
-        $int_options = array('options' => array('min_range' => $min, 'max_range' => $max));
+        $int_options = array('options' => array('min_range'=>$min, 'max_range'=>$max));
         return filter_var($value, FILTER_VALIDATE_INT, $int_options);
     }
 
@@ -108,9 +98,9 @@ class Validate
      */
     public static function inList($value, $list)
     {
-        return in_array($check, $list);
+        return in_array($value, $list);
     }
-
+    
     /**
      * Valida que una cadena sea un mail
      *
@@ -121,29 +111,28 @@ class Validate
     {
         return filter_var($mail, FILTER_VALIDATE_EMAIL);
     }
-
     /**
      * Valida URL
      *
      * @param string $url
      * @return bool
      */
-    public static function url($url)
+    public static function url($url, $flag = 0)
     {
-        return filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED);
+        return filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED | $flag);
     }
-
+    
     /**
-     * Valida que sea IPv4
+     * Valida que sea una IP, por defecto v4
      *
      * @param String $ip
      * @return bool
      */
-    public static function ip($ip)
+    public static function ip($ip, $flags = FILTER_FLAG_IPV4)
     {
-        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+        return filter_var($ip, FILTER_VALIDATE_IP, $flags);
     }
-
+    
     /**
      * Valida que un string no sea null
      *
@@ -152,9 +141,9 @@ class Validate
      */
     public static function required($check)
     {
-        return!empty($check) && $check != '0';
+        return !empty($check) && $check!='0';
     }
-
+    
     /**
      * Valida que un String sea alpha-num (incluye caracteres acentuados)
      *
@@ -165,7 +154,7 @@ class Validate
     {
         return self::pattern($string, self::IS_ALPHANUM);
     }
-
+    
     /**
      * Valida una fecha
      *
@@ -177,7 +166,7 @@ class Validate
     public static function date($value, $format = 'd-m-y')
     {
         // busca el separador removiendo los caracteres de formato
-        $separator = str_replace(array('d', 'm', 'y'), '', $format);
+        $separator = str_replace(array('d' , 'm' , 'y'), '', $format);
         $separator = $separator[0]; // el separador es el primer caracter
         if ($separator && substr_count($value, $separator) == 2) {
             switch (str_replace($separator, '', $format)) {
@@ -199,7 +188,7 @@ class Validate
         }
         return false;
     }
-
+    
     /**
      * Valida un string dada una Expresion Regular
      *
@@ -211,7 +200,7 @@ class Validate
     {
         return filter_var($check, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => $regex)));
     }
-
+    
     /**
      * Valida si es un número decimal
      * 
@@ -221,7 +210,6 @@ class Validate
      */
     public static function decimal($value, $decimal = ',')
     {
-        return filter_var($value, FILTER_VALIDATE_FLOAT, array('options' => array('decimal' => $decimal)));
-    }
-
+		return filter_var($value, FILTER_VALIDATE_FLOAT, array('options' => array('decimal' => $decimal)));
+	}
 }
