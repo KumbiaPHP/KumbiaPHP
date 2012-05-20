@@ -26,7 +26,6 @@
  */
 class Form
 {
-
     /**
      * Utilizado para generar los id de los radio button,
      * lleva un conteo interno
@@ -50,9 +49,10 @@ class Form
      *
      * @param string $field
      * @param mixed $value valor de campo
+     * @param boolean $filter filtrar caracteres especiales html
      * @return mixed
      */
-    public static function getFieldData($field, $value = null)
+    public static function getFieldData($field, $value = null, $filter = true)
     {
         // Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
@@ -90,31 +90,86 @@ class Form
 		}
 
         // Filtrar caracteres especiales
-        if ($value !== null) {
+        if ($value !== null && $filter) {
             $value = htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
         }
 
 		// Devuelve los datos
         return array('id' => $id, 'name' => $name, 'value' => $value);
     }
+    
+	/**
+     * Obtiene el valor de un componente check tomado
+     * del mismo valor del nombre del campo y formulario
+     * que corresponda a un atributo del mismo nombre
+     * que sea un string, objeto o array.
+     *
+     * @param string $field
+     * @param string $checkedValue
+     * @param boolean $checked
+     * @return array
+     */
+    public static function getFieldDataCheck($field, $checkValue, $checked = null)
+    {
+        // Obtiene considerando el patrón de formato form.field
+        $formField = explode('.', $field, 2);
+        
+        // Formato modelo.campo
+        if(isset($formField[1])) {
+			// Id de campo
+            $id = "{$formField[0]}_{$formField[1]}";
+            // Nombre de campo
+            $name = "{$formField[0]}[{$formField[1]}]";
+			
+			// Verifica en $_POST
+			if(isset($_POST[$formField[0]][$formField[1]])) {
+				$checked = $_POST[$formField[0]][$formField[1]] == $checkValue;
+			} elseif($checked === null) { 
+				// Autocarga de datos
+				$form = View::getVar($formField[0]);
+				if(is_array($form)) {
+					$checked = isset($form[$formField[1]]) && $form[$formField[1]] == $checkValue;
+				} elseif(is_object($form)) {
+					$checked = isset($form->$formField[1]) && $form->$formField[1] == $checkValue;
+				}
+			}
+		} else {
+			// Asignacion de Id y Nombre de campo
+			$id = $name = $field;
+			
+			// Verifica en $_POST
+			if(isset($_POST[$field])) {
+				$checked = $_POST[$field] == $checkValue;
+			} elseif($checked === null) { 
+				// Autocarga de datos
+				$checked = View::getVar($field) == $checkValue;
+			}
+		}
+
+		// Devuelve los datos
+        return array('id' => $id, 'name' => $name, 'checked' => $checked);
+    }
 
     /**
      * Obtiene el valor del campo por autocarga de valores
      * 
      * @param string $field nombre de campo
+     * @param boolean $filter filtrar caracteres especiales html
      * @return mixed retorna NULL si no existe valor por autocarga
      */
-    public static function getFieldValue($field)
+    public static function getFieldValue($field, $filter = true)
     {
 		// Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
+        
+        $value = null;
         
         // Formato modelo.campo
         if(isset($formField[1])) {
 			// Verifica en $_POST
 			if(isset($_POST[$formField[0]][$formField[1]])) {
 				$value = $_POST[$formField[0]][$formField[1]];
-			} elseif($value === null) { 
+			} else { 
 				// Autocarga de datos
 				$form = View::getVar($formField[0]);
 				if(is_array($form)) {
@@ -127,19 +182,19 @@ class Form
 			// Verifica en $_POST
 			if(isset($_POST[$field])) {
 				$value = $_POST[$field];
-			} elseif($value === null) { 
+			} else { 
 				// Autocarga de datos
 				$value = View::getVar($field);
 			}
 		}
 
         // Filtrar caracteres especiales
-        if ($value !== null) {
+        if ($value !== null && $filter) {
             return htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
         }
         
-        // Devuelve null
-        return null;
+        // Devuelve valor
+        return $value;
     }
 
     /**
@@ -338,7 +393,7 @@ class Form
      * @param string $field Nombre de campo
      * @param string $checkValue Valor en el checkbox
      * @param string|array $attrs Atributos de campo (opcional)
-     * @param string $checked Indica si se marca el campo (opcional)
+     * @param boolean $checked Indica si se marca el campo (opcional)
      * @return string
      */
     public static function check($field, $checkValue, $attrs = NULL, $checked = NULL)
@@ -346,11 +401,11 @@ class Form
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-
+        
         // Obtiene name y id para el campo y los carga en el scope
-        extract(self::getFieldData($field, $checked === NULL), EXTR_OVERWRITE);
+        extract(self::getFieldDataCheck($field, $checkValue, $checked), EXTR_OVERWRITE);
 
-        if ($checked || ($checked === NULL && $checkValue == $value)) {
+        if ($checked) {
             $checked = 'checked="checked"';
         }
 
@@ -363,7 +418,7 @@ class Form
      * @param string $field Nombre de campo
      * @param string $radioValue Valor en el radio
      * @param string|array $attrs Atributos de campo (opcional)
-     * @param string $checked Indica si se marca el campo (opcional)
+     * @param boolean $checked Indica si se marca el campo (opcional)
      * @return string
      */
     public static function radio($field, $radioValue, $attrs = NULL, $checked = NULL)
@@ -373,9 +428,9 @@ class Form
         }
 
         // Obtiene name y id para el campo y los carga en el scope
-        extract(self::getFieldData($field, $checked === NULL), EXTR_OVERWRITE);
+        extract(self::getFieldDataCheck($field, $checkValue, $checked), EXTR_OVERWRITE);
 
-        if ($checked || ($checked === NULL && $radioValue == $value)) {
+        if ($checked) {
             $checked = 'checked="checked"';
         }
 
