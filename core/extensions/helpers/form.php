@@ -428,7 +428,7 @@ class Form
         }
 
         // Obtiene name y id para el campo y los carga en el scope
-        extract(self::getFieldDataCheck($field, $checkValue, $checked), EXTR_OVERWRITE);
+        extract(self::getFieldDataCheck($field, $radioValue, $checked), EXTR_OVERWRITE);
 
         if ($checked) {
             $checked = 'checked="checked"';
