@@ -76,7 +76,7 @@ class Load
         if (!class_exists($Model, FALSE)) {
             //Carga la clase
             if (!include_once APP_PATH . "models/$model.php") {
-                throw new KumbiaException($model,'no_model');
+                throw new KumbiaException("No existe el modelo $model");
             }
         }
         return new $Model($params);
@@ -100,7 +100,7 @@ class Load
             if (is_file($file)) {
                 include_once $file;
             } else {
-                throw new KumbiaException($model,'no_model');
+                throw new KumbiaException("Modelo $model no encontrado");
             }
         }
     }
