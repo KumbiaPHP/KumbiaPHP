@@ -664,13 +664,7 @@ function get_value_from_action($name){
 			return null;
 		}
 	} else {
-		$controller = Dispatcher::get_controller();
-		
-		if(isset($controller->$name)){
-			return $controller->$name;
-		} else {
-			return null;
-		}
+		return View::getVar($name);
 	}
 }
 
