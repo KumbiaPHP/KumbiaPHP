@@ -185,7 +185,7 @@ final class Router
         $num_params = count($cont->parameters);
         if ($cont->limit_params && ($num_params < $reflectionMethod->getNumberOfRequiredParameters() ||
                 $num_params > $reflectionMethod->getNumberOfParameters())) {
-            throw new KumbiaException("Número de parámetros erróneo para ejecutar la acción \"{$cont->action_name}\" en el controlador \"$controller\"");
+            throw new KumbiaException(NULL,'num_params');
         }
         $reflectionMethod->invokeArgs($cont, $cont->parameters);
 
