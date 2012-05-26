@@ -520,7 +520,8 @@ class DbPgSQL extends DbBase implements DbBaseInterface
 			 	CASE WHEN attnotnull=false THEN 'YES' ELSE 'NO' END AS Null,
 			 	CASE WHEN (select cc.contype FROM pg_catalog.pg_constraint cc WHERE
 			 	cc.conrelid = c.oid AND cc.conkey[1] = a.attnum limit 1)='p' THEN 'PRI' ELSE ''
-			 	END AS Key FROM pg_catalog.pg_class c, pg_catalog.pg_attribute a,
+			 	END AS Key, CASE WHEN atthasdef=true THEN TRUE ELSE NULL END AS Default 
+                FROM pg_catalog.pg_class c, pg_catalog.pg_attribute a,
 			 	pg_catalog.pg_type t WHERE c.relname = '$table' AND c.oid = a.attrelid
 			 	AND a.attnum > 0 AND t.oid = a.atttypid order by a.attnum");
         $final_describe = array();
@@ -529,7 +530,8 @@ class DbPgSQL extends DbBase implements DbBaseInterface
                 "Field" => $value["field"],
                 "Type" => $value["type"],
                 "Null" => $value["null"],
-                "Key" => $value["key"]
+                "Key" => $value["key"],
+                "Default" => $value["default"]
             );
         }
         return $final_describe;
