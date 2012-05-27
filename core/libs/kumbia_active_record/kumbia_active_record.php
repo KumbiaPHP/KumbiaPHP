@@ -350,6 +350,55 @@ class KumbiaActiveRecord
         return $this->_dumped;
     }
 
+    protected function _get_relation_data($mmodel)
+    {
+        if (array_key_exists($mmodel, $this->_belongs_to)) {
+            $relation = $this->_belongs_to[$mmodel];
+            return self::get($relation->model)->find_first($this->{$relation->fk});
+        } elseif (array_key_exists($mmodel, $this->_has_one)) {
+            $relation = $this->_has_one[$mmodel];
+            if ($this->{$this->primary_key[0]}) {
+                return self::get($relation->model)->find_first("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
+            } else {
+                return NULL;
+            }
+        } elseif (array_key_exists($mmodel, $this->_has_many)) {
+            $relation = $this->_has_many[$mmodel];
+            if ($this->{$this->primary_key[0]}) {
+                return self::get($relation->model)->find("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
+            } else {
+                return array();
+            }
+        } elseif (array_key_exists($mmodel, $this->_has_and_belongs_to_many)) {
+            $relation = $this->_has_and_belongs_to_many[$mmodel];
+            $relation_model = self::get($relation->model);
+            $source = ($this->schema ? "{$this->schema}." : NULL ) . $this->source;
+            $relation_source = ($relation_model->schema ? "{$relation_model->schema}." : NULL ) . $relation_model->source;
+            /**
+             * Cargo atraves de que tabla se efectuara la relacion
+             *
+             */
+            if (!isset($relation->through)) {
+                if ($source > $relation_source) {
+                    $relation->through = "{$this->source}_{$relation_source}";
+                } else {
+                    $relation->through = "{$relation_source}_{$this->source}";
+                }
+            }
+            if ($this->{$this->primary_key[0]}) {
+                return $relation_model->find_all_by_sql("SELECT $relation_source.* FROM $relation_source, {$relation->through}, $source
+                    WHERE {$relation->through}.{$relation->key} = {$this->db->add_quotes($this->{$this->primary_key[0]}) }
+                    AND {$relation->through}.{$relation->fk} = $relation_source.{$relation_model->primary_key[0]}
+                    AND {$relation->through}.{$relation->key} = $source.{$this->primary_key[0]}
+                    ORDER BY $relation_source.{$relation_model->primary_key[0]}");
+            } else {
+                return array();
+            }
+        } else {
+            return FALSE;
+        }
+    }
+
     /**
      * Valida que los valores que sean leidos del objeto ActiveRecord esten definidos
      * previamente o sean atributos de la entidad
@@ -360,52 +409,7 @@ class KumbiaActiveRecord
     {
         if (!$this->_dump_lock) {
             if (!isset($this->$property)) {
-                if (array_key_exists($property, $this->_belongs_to)) {
-                    $relation = $this->_belongs_to[$property];
-                    return self::get($relation->model)->find_first($this->{$relation->fk});
-                } elseif (array_key_exists($property, $this->_has_one)) {
-                    $relation = $this->_has_one[$property];
-                    if ($this->{$this->primary_key[0]}) {
-                        return self::get($relation->model)->find_first("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
-                    } else {
-                        return null;
-                    }
-                } elseif (array_key_exists($property, $this->_has_many)) {
-                    $relation = $this->_has_many[$property];
-                    if ($this->{$this->primary_key[0]}) {
-                        return self::get($relation->model)->find("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
-                    } else {
-                        return array();
-                    }
-                } elseif (array_key_exists($property, $this->_has_and_belongs_to_many)) {
-                    $relation = $this->_has_and_belongs_to_many[$property];
-                    $relation_model = self::get($relation->model);
-                    $relation_model->dump_model();
-                    $source = $this->source;
-                    $relation_source = $relation_model->source;
-                    /**
-                     * Cargo atraves de que tabla se efectuara la relacion
-                     *
-                     */
-                    if (!isset($relation->through)) {
-                        if ($source > $relation_source) {
-                            $relation->through = "{$this->source}_{$relation_source}";
-                        } else {
-                            $relation->through = "{$relation_source}_{$this->source}";
-                        }
-                    }
-                    if ($this->{$this->primary_key[0]}) {
-                        return self::get($relation->model)->find_all_by_sql("SELECT $relation_source.* FROM $relation_source, {$relation->through}, $source
-							WHERE {$relation->through}.{$relation->key} = {$this->db->add_quotes($this->{$this->primary_key[0]}) }
-							AND {$relation->through}.{$relation->fk} = $relation_source.{$relation_model->primary_key[0]}
-							AND {$relation->through}.{$relation->key} = $source.{$this->primary_key[0]}
-							ORDER BY $relation_source.{$relation_model->primary_key[0]}");
-                    } else {
-                        return array();
-                    }
-                } else {
-                    return null;
-                }
+                return $this->_get_relation_data($property);
             }
         }
         return $this->$property;
@@ -445,12 +449,11 @@ class KumbiaActiveRecord
      */
     public function __call($method, $args = array())
     {
-        $has_relation = false;
         if (substr($method, 0, 8) == "find_by_") {
             $field = substr($method, 8);
             ActiveRecord::sql_item_sanizite($field);
             if (isset($args[0])) {
-                $arg = array("conditions: $field = {$this->db->add_quotes($args[0]) }");
+                $arg = array("conditions: $field = {$this->db->add_quotes($args[0])}");
                 unset($args[0]);
             } else {
                 $arg = array();
@@ -461,7 +464,7 @@ class KumbiaActiveRecord
             $field = substr($method, 9);
             ActiveRecord::sql_item_sanizite($field);
             if (isset($args[0])) {
-                $arg = array("conditions: $field = {$this->db->add_quotes($args[0]) }");
+                $arg = array("conditions: $field = {$this->db->add_quotes($args[0])}");
                 unset($args[0]);
             } else {
                 $arg = array();
@@ -472,7 +475,7 @@ class KumbiaActiveRecord
             $field = substr($method, 12);
             ActiveRecord::sql_item_sanizite($field);
             if (isset($args[0])) {
-                $arg = array("conditions: $field = {$this->db->add_quotes($args[0]) }");
+                $arg = array("conditions: $field = {$this->db->add_quotes($args[0])}");
                 unset($args[0]);
             } else {
                 $arg = array();
@@ -481,66 +484,14 @@ class KumbiaActiveRecord
         }
         $model = preg_replace('/^get/', '', $method);
         $mmodel = Util::uncamelize($model);
-        if (array_key_exists($mmodel, $this->_belongs_to)) {
-            $has_relation = true;
-            $relation = $this->_belongs_to[$mmodel];
-            return self::get($relation->model)->find_first($this->{$relation->fk});
-        }
-        if (array_key_exists($mmodel, $this->_has_many)) {
-            $has_relation = true;
-            $relation = $this->_has_many[$mmodel];
-            if ($this->{$this->primary_key[0]}) {
-                return self::get($relation->model)->find("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
-            } else {
-                return array();
-            }
-        }
-        if (array_key_exists($mmodel, $this->_has_one)) {
-            $has_relation = true;
-            $relation = $this->_has_one[$mmodel];
-            if ($this->{$this->primary_key[0]}) {
-                return self::get($relation->model)->find_first("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
-            } else {
-                return null;
-            }
-        }
-        if (array_key_exists($mmodel, $this->_has_and_belongs_to_many)) {
-            $has_relation = true;
-            $relation = $this->_has_and_belongs_to_many[$mmodel];
-            if ($this->{$this->primary_key[0]}) {
-                $source = $this->source;
-                $relation_model = self::get($relation->model);
-                $relation_model->dump_model();
-                $relation_source = $relation_model->source;
-                /**
-                 * Cargo atraves de que tabla se efectuara la relacion
-                 *
-                 */
-                if (!isset($relation->through)) {
-                    if ($source > $relation_source) {
-                        $relation->through = "{$this->source}_{$relation_source}";
-                    } else {
-                        $relation->through = "{$relation_source}_{$this->source}";
-                    }
-                }
-                return self::get($relation->model)->find_all_by_sql("SELECT $relation_source.* FROM $relation_source, {$relation->through}, $source
-					WHERE {$relation->through}.{$relation->key} = {$this->db->add_quotes($this->{$this->primary_key[0]}) }
-					AND {$relation->through}.{$relation->fk} = $relation_source.{$relation_model->primary_key[0]}
-					AND {$relation->through}.{$relation->key} = $source.{$this->primary_key[0]}
-					ORDER BY $relation_source.{$relation_model->primary_key[0]}");
-            } else {
-                return array();
-            }
+        if (($data = $this->_get_relation_data($mmodel)) !== FALSE) {
+            return $data;
         }
         try {
             if (method_exists($this, $method)) {
                 call_user_func_array(array($this, $method), $args);
             } else {
-                if ($has_relation) {
-                    throw new KumbiaException("No existe el modelo '$model' para relacionar con ActiveRecord::{$this->source}");
-                } else {
-                    throw new KumbiaException("No existe el método '$method' en ActiveRecord::" . get_class($this));
-                }
+                throw new KumbiaException("No existe el método '$method' en ActiveRecord::" . get_class($this));
             }
         } catch (Exception $e) {
             $this->exceptions($e);
