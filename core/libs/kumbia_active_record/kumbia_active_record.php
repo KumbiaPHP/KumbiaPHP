@@ -350,6 +350,13 @@ class KumbiaActiveRecord
         return $this->_dumped;
     }
 
+    /**
+     * Devuelve los registros del modelo al que se está asociado.
+     *
+     * @param string $mmodel nombre del modelo asociado
+     * @return array|NULL|FALSE si existen datos devolverá un array,
+     * NULL si no hay datos asociados aun, y false si no existe ninguna asociación.
+     */
     protected function _get_relation_data($mmodel)
     {
         if (array_key_exists($mmodel, $this->_belongs_to)) {
@@ -395,7 +402,7 @@ class KumbiaActiveRecord
                 return array();
             }
         } else {
-            return FALSE;
+            return FALSE; //si no existe ninguna asociación devuelve false.
         }
     }
 
