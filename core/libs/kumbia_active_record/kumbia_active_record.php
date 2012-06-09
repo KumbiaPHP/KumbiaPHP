@@ -1730,7 +1730,10 @@ class KumbiaActiveRecord
                         } else {
                             $values[] = $this->db->add_quotes($this->$field);
                         }
-                    } elseif (!in_array($field, $this->_with_default)) {
+                    } elseif (in_array($field, $this->_with_default)) {
+                        $fields[] = ActiveRecord::sql_sanizite($field);
+                        $values[] = 'DEFAULT';
+                    } else {
                         $fields[] = ActiveRecord::sql_sanizite($field);
                         $values[] = 'NULL';
                     }
