@@ -1719,7 +1719,7 @@ class KumbiaActiveRecord
                         unset($this->$field);
                     }
 
-                    if (isset($this->$field) && $this->$field != '') {
+                    if (isset($this->$field) && $this->$field !== '' && $this->$field !== NULL) {
                         $fields[] = ActiveRecord::sql_sanizite($field);
 
                         if (($this->_data_type[$field] == 'datetime' || $this->_data_type[$field] == 'date') && $config['type'] == 'mysql') {
@@ -1730,7 +1730,10 @@ class KumbiaActiveRecord
                         } else {
                             $values[] = $this->db->add_quotes($this->$field);
                         }
-                    } elseif (!in_array($field, $this->_with_default)) {
+                    } elseif (in_array($field, $this->_with_default)) {
+                        $fields[] = ActiveRecord::sql_sanizite($field);
+                        $values[] = 'DEFAULT';
+                    } else {
                         $fields[] = ActiveRecord::sql_sanizite($field);
                         $values[] = 'NULL';
                     }
