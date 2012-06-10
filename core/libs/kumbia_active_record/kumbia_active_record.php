@@ -1719,7 +1719,7 @@ class KumbiaActiveRecord
                         unset($this->$field);
                     }
 
-                    if (isset($this->$field) && $this->$field != '') {
+                    if (isset($this->$field) && $this->$field !== '' && $this->$field !== NULL) {
                         $fields[] = ActiveRecord::sql_sanizite($field);
 
                         if (($this->_data_type[$field] == 'datetime' || $this->_data_type[$field] == 'date') && $config['type'] == 'mysql') {
