@@ -2228,10 +2228,12 @@ class KumbiaActiveRecord
         $params = Util::getParams(func_get_args());
         for ($i = 0; isset($params[$i]); $i++) {
             $relation = Util::uncamelize($params[$i]);
-            if (!array_key_exists($relation, $this->_has_one)) {
-                $this->_has_one[$relation] = new stdClass();
-                $this->_has_one[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
-                $this->_has_one[$relation]->fk = isset($params['fk']) ? $params['fk'] : Util::uncamelize(get_class($this)) . '_id';
+            $index = explode('/', $relation); 
+            $index = end($index);
+            if (!array_key_exists($index, $this->_has_one)) {
+                $this->_has_one[$index] = new stdClass();
+                $this->_has_one[$index]->model = isset($params['model']) ? $params['model'] : $relation;
+                $this->_has_one[$index]->fk = isset($params['fk']) ? $params['fk'] : Util::uncamelize(get_class($this)) . '_id';
             }
         }
     }
@@ -2249,10 +2251,12 @@ class KumbiaActiveRecord
         $params = Util::getParams(func_get_args());
         for ($i = 0; isset($params[$i]); $i++) {
             $relation = Util::uncamelize($params[$i]);
-            if (!array_key_exists($relation, $this->_belongs_to)) {
-                $this->_belongs_to[$relation] = new stdClass();
-                $this->_belongs_to[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
-                $this->_belongs_to[$relation]->fk = isset($params['fk']) ? $params['fk'] : "{$relation}_id";
+            $index = explode('/', $relation); 
+            $index = end($index);
+            if (!array_key_exists($index, $this->_belongs_to)) {
+                $this->_belongs_to[$index] = new stdClass();
+                $this->_belongs_to[$index]->model = isset($params['model']) ? $params['model'] : $relation;
+                $this->_belongs_to[$index]->fk = isset($params['fk']) ? $params['fk'] : "{$relation}_id";
             }
         }
     }
@@ -2270,10 +2274,12 @@ class KumbiaActiveRecord
         $params = Util::getParams(func_get_args());
         for ($i = 0; isset($params[$i]); $i++) {
             $relation = Util::uncamelize($params[$i]);
-            if (!array_key_exists($relation, $this->_has_many)) {
-                $this->_has_many[$relation] = new stdClass();
-                $this->_has_many[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
-                $this->_has_many[$relation]->fk = isset($params['fk']) ? $params['fk'] : Util::uncamelize(get_class($this)) . '_id';
+            $index = explode('/', $relation); 
+            $index = end($index);
+            if (!array_key_exists($index, $this->_has_many)) {
+                $this->_has_many[$index] = new stdClass();
+                $this->_has_many[$index]->model = isset($params['model']) ? $params['model'] : $relation;
+                $this->_has_many[$index]->fk = isset($params['fk']) ? $params['fk'] : Util::uncamelize(get_class($this)) . '_id';
             }
         }
     }
