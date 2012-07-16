@@ -130,15 +130,15 @@ class Ajax
      * Lista desplegable para actualizar usando ajax que toma los valores de un array de objetos
      *
      * @param string $field nombre de campo
-     * @param array $data Array('modelo','metodo','param')
      * @param string $show campo que se mostrara
+     * @param array  $data Array('modelo','metodo','param')
      * @param string $update capa que se actualizara
      * @param string $action accion que se ejecutara
      * @param string $blank campo en blanco
      * @param string $class
      * @param string|array $attrs
      */
-    public static function dbSelect($field, $data, $show, $update, $action, $blank=null, $class=null, $attrs=null)
+    public static function dbSelect($field, $show, $data, $update, $action, $blank=null, $class=null, $attrs=null)
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
@@ -148,7 +148,7 @@ class Ajax
         $action = PUBLIC_PATH . rtrim($action, '/') . '/';
 
         // genera el campo
-        return Form::dbSelect($field, $data, $show, $blank, "class=\"js-remote $class\" data-update=\"$update\" data-action=\"$action\" $attrs");
+        return Form::dbSelect($field, $show, $data, $blank, "class=\"js-remote $class\" data-update=\"$update\" data-action=\"$action\" $attrs");
     }
 
     /**
