@@ -391,6 +391,9 @@ class KumbiaActiveRecord
                 } else {
                     $relation->through = "{$relation_source}_{$this->source}";
                 }
+            }else{
+                $through = explode('/', $relation->through);
+                $relation->through = end($through);
             }
             if ($this->{$this->primary_key[0]}) {
                 return $relation_model->find_all_by_sql("SELECT $relation_source.* FROM $relation_source, {$relation->through}, $source
