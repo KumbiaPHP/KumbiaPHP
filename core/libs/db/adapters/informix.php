@@ -228,11 +228,11 @@ class DbInformix extends DbBase implements DbBaseInterface
             }
         }
 
-        // Informix no soporta fecth numerico, solo asociativo
-        if (!is_array($fetch) || ($opt == db::DB_ASSOC)) {
+        // Informix no soporta fetch numerico, solo asociativo
+        if (!is_array($fetch) || ($opt == self::DB_ASSOC)) {
             return $fetch;
         }
-        if ($opt == db::DB_BOTH) {
+        if ($opt == self::DB_BOTH) {
             $result = array();
             $i = 0;
             foreach ($fetch as $key => $value) {
@@ -241,7 +241,7 @@ class DbInformix extends DbBase implements DbBaseInterface
             }
             return $result;
         }
-        if ($opt == db::DB_NUM) {
+        if ($opt == self::DB_NUM) {
             return array_values($fetch);
         }
     }
@@ -430,15 +430,13 @@ class DbInformix extends DbBase implements DbBaseInterface
      * @param int $number
      * @return string
      */
-    public function limit($sql, $number)
-    {
-        /**
-         * No esta soportado por Informix
-         */
-        $number = (int) $number;
-        $this->limit = $number;
-        return "$sql -- LIMIT $number\n";
-    }
+    public function limit($sql){
+		   /** 
+                 * No esta soportado por Informix 
+                 */ 
+                return "$sql \n"; 
+	}
+    
 
     /**
      * Borra una tabla de la base de datos
