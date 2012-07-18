@@ -17,7 +17,7 @@
  * @category   Kumbia
  * @package    Db
  * @subpackage Adapters 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 class DbInformix extends DbBase implements DbBaseInterface  {
@@ -224,10 +224,10 @@ class DbInformix extends DbBase implements DbBaseInterface  {
 		}
 		
 		// Informix no soporta fecth numerico, solo asociativo
-		if(!is_array($fetch)||($opt==db::DB_ASSOC)){
+		if(!is_array($fetch)||($opt==self::DB_ASSOC)){
 			return $fetch;
 		}
-		if($opt==db::DB_BOTH){
+		if($opt==self::DB_BOTH){
 			$result = array();
 			$i = 0;
 			foreach($fetch as $key => $value){
@@ -236,7 +236,7 @@ class DbInformix extends DbBase implements DbBaseInterface  {
 			}
 			return $result;
 		}
-		if($opt==db::DB_NUM){
+		if($opt==self::DB_NUM){
 			return array_values($fetch);
 		}
 	}
@@ -417,13 +417,14 @@ class DbInformix extends DbBase implements DbBaseInterface  {
 	 * @param int $number
 	 * @return string
 	 */
-	public function limit($sql, $number){
-		/**
-		 * No esta soportado por Informix
-		 */
-		$number = (int) $number;
-		$this->limit = $number;
-		return "$sql -- LIMIT $number\n";
+	public function limit($sql){
+		   /** 
+                 * No esta soportado por Informix 
+                 */ 
+                //$number = (int) $number; 
+                //$this->limit = $number; 
+                return "$sql \n"; 
+//              return "$sql -- LIMIT $number\n"; 
 	}
 
 	/**
