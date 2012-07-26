@@ -139,6 +139,10 @@ require_once APP_PATH . 'libs/app_controller.php';
 // @see KumbiaView
 require_once APP_PATH . 'libs/view.php';
 
+//Cargamos el bootstrap de app para ejecutar las configuraciones adicionales
+//para cada Aplicación.
+require_once APP_PATH . 'libs/bootstrap.php';
+
 // Ejecuta el request
 try {
     // Dispatch y renderiza la vista
