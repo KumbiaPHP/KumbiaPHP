@@ -24,12 +24,7 @@ class Validate
 	/**
 	 * Constantes para definir los patrones
 	 */
-	 
-	/**
-	 * El valor no puede ser nulo
-	 */
-	const IS_REQUIRED = '/[^\\s]/';
-	 
+  
 	/*
 	 * El valor deber ser solo letras y números
 	 */
@@ -55,10 +50,11 @@ class Validate
      * @param int $check
      * @return bool
      */
-    public static function int ($check)
+    public static function int($check)
     {
         return filter_var($check, FILTER_VALIDATE_INT);
     }
+    
     /**
      * Valida que una cadena este entre un rango.
      * Los espacios son contados
@@ -77,6 +73,7 @@ class Validate
 		}
         return ($length <= $max);
     }
+    
     /**
      * Valida que es un número se encuentre 
      * en un rango minímo y máximo
@@ -87,7 +84,7 @@ class Validate
      */
     public static function range($value, $min=0, $max=NULL)
     {
-        $int_options = array('options'=> array('min_range'=>$min, 'max_range'=>$max));
+        $int_options = array('options' => array('min_range'=>$min, 'max_range'=>$max));
         return filter_var($value, FILTER_VALIDATE_INT, $int_options);
     }
 
@@ -101,7 +98,7 @@ class Validate
      */
     public static function inList($value, $list)
     {
-        return in_array($check, $list);
+        return in_array($value, $list);
     }
     
     /**
@@ -110,7 +107,7 @@ class Validate
      * @param string $mail
      * @return bool
      */
-    public static function mail ($mail)
+    public static function mail($mail)
     {
         return filter_var($mail, FILTER_VALIDATE_EMAIL);
     }
@@ -120,20 +117,22 @@ class Validate
      * @param string $url
      * @return bool
      */
-    public static function url ($url)
+    public static function url($url, $flag = 0)
     {
-        return filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED);
+        return filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED | $flag);
     }
+    
     /**
-     * Valida que sea IPv4
+     * Valida que sea una IP, por defecto v4
      *
      * @param String $ip
      * @return bool
      */
-    public static function ip ($ip)
+    public static function ip($ip, $flags = FILTER_FLAG_IPV4)
     {
-        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+        return filter_var($ip, FILTER_VALIDATE_IP, $flags);
     }
+    
     /**
      * Valida que un string no sea null
      *
@@ -144,16 +143,18 @@ class Validate
     {
         return !empty($check) && $check!='0';
     }
+    
     /**
      * Valida que un String sea alpha-num (incluye caracteres acentuados)
      *
      * @param string $string
      * @return bool
      */
-    public static function alphanum ($string)
+    public static function alphanum($string)
     {
         return self::pattern($string, self::IS_ALPHANUM);
     }
+    
     /**
      * Valida una fecha
      *
@@ -162,7 +163,7 @@ class Validate
      *                       de separacion incluso un espacio en blanco o ".", exceptuando (d,m,y o números).
      * @return boolean
      */
-    public static function date ($value, $format = 'd-m-y')
+    public static function date($value, $format = 'd-m-y')
     {
         // busca el separador removiendo los caracteres de formato
         $separator = str_replace(array('d' , 'm' , 'y'), '', $format);
@@ -187,6 +188,7 @@ class Validate
         }
         return false;
     }
+    
     /**
      * Valida un string dada una Expresion Regular
      *
@@ -194,7 +196,7 @@ class Validate
      * @param string $regex
      * @return bool
      */
-    public static function pattern ($check, $regex)
+    public static function pattern($check, $regex)
     {
         return filter_var($check, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => $regex)));
     }

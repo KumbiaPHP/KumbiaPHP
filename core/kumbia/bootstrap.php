@@ -12,12 +12,17 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Este script ejecuta la carga de KumbiaPHP
- *
  * @category   Kumbia
  * @package    Core
  * @copyright  Copyright (c) 2005-2012 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
+
+/**
+ * Este script ejecuta la carga de KumbiaPHP
+ *
+ * @category   Kumbia
+ * @package    Core
  */
 
 // Inicia la sesion
@@ -27,12 +32,14 @@ session_start();
 ob_start();
 
 // Versión de KumbiaPHP
-function kumbia_version(){
-	return '1.0 Beta 2';
+function kumbia_version()
+{
+    return '1.0 Beta 2';
 }
 
 // @see KumbiaException
-function handle_exception($e){
+function handle_exception($e)
+{
     KumbiaException::handle_exception($e);
 }
 
@@ -52,17 +59,18 @@ require_once CORE_PATH . 'kumbia/config.php';
 $config = Config::read('config');
 
 // Constante que indica si la aplicacion se encuentra en produccion
-if (! defined('PRODUCTION')) {
-	define('PRODUCTION', $config['application']['production']);
+if (!defined('PRODUCTION')) {
+    define('PRODUCTION', $config['application']['production']);
 }
 
 // Carga la cache y verifica si esta cacheado el template, al estar en produccion
-if(PRODUCTION) {
+if (PRODUCTION) {
     // @see Cache
     require_once CORE_PATH . 'libs/cache/cache.php';
 
     //Asigna el driver por defecto usando el config.ini
-    if (isset ($config['application']['cache_driver'])) Cache::setDefault($config['application']['cache_driver']);
+    if (isset($config['application']['cache_driver']))
+        Cache::setDefault($config['application']['cache_driver']);
 
     // Verifica si esta cacheado el template
     if ($template = Cache::driver()->get($url, 'kumbia.templates')) { //verifica cache de template para la url
@@ -90,15 +98,16 @@ if (isset($config['application']['charset'])) {
 }
 
 // Autocarga de clases
-function auto($class){
+function auto($class)
+{
 
-	// Optimizando carga de ActiveRecord
-	if($class == 'ActiveRecord') {
-		return require_once APP_PATH . 'libs/active_record.php';
-	}
+    // Optimizando carga de ActiveRecord
+    if ($class == 'ActiveRecord') {
+        return require_once APP_PATH . 'libs/active_record.php';
+    }
 
-	// Pasando a smallcase
-	$class = Util::smallcase($class);
+    // Pasando a smallcase
+    $class = Util::smallcase($class);
 
     if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
         return require_once APP_PATH . "extensions/helpers/$class.php";
@@ -113,18 +122,16 @@ function auto($class){
         return require_once CORE_PATH . "libs/$class/$class.php";
     }
 
-    if($class == 'kumbia_exception'){
+    if ($class == 'kumbia_exception') {
         require_once CORE_PATH . 'kumbia/kumbia_exception.php';
     }
 }
+
 // @see Router
 require_once CORE_PATH . 'kumbia/router.php';
 
 //@see Load
 require_once CORE_PATH . 'kumbia/load.php';
-
-// @see Dispatcher
-require_once CORE_PATH . 'kumbia/dispatcher.php';
 
 // @see Controller
 require_once APP_PATH . 'libs/app_controller.php';
@@ -135,10 +142,9 @@ require_once APP_PATH . 'libs/view.php';
 // Ejecuta el request
 try {
     // Dispatch y renderiza la vista
-    View::render(Dispatcher::execute(Router::rewrite($url)), $url);
-} catch (KumbiaException $e)
-{
-	KumbiaException::handle_exception($e);
+    View::render(Router::execute($url), $url);
+} catch (KumbiaException $e) {
+    KumbiaException::handle_exception($e);
 }
 
 // Fin del request

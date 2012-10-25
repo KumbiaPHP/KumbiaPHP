@@ -12,15 +12,21 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Esta clase permite autenticar usuarios usando una entidad de la base de datos
- * 
  * @category   extensions
  * @package    Auth 
  * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
+
+/**
+ * Esta clase permite autenticar usuarios usando una entidad de la base de datos
+ *
+ * @category   extensions
+ * @package    Auth
+ */
 class ModelAuth implements AuthInterface
 {
+
     /**
      * Nombre del archivo (si es utilizado)
      *
@@ -53,13 +59,14 @@ class ModelAuth implements AuthInterface
      * Identidad encontrara
      */
     private $identity = array();
+
     /**
      * Constructor del adaptador
      *
      * @param $auth
      * @param $extra_args
      */
-    public function __construct ($auth, $extra_args)
+    public function __construct($auth, $extra_args)
     {
         foreach (array('class') as $param) {
             if (isset($extra_args[$param])) {
@@ -72,20 +79,22 @@ class ModelAuth implements AuthInterface
         unset($extra_args['class']);
         $this->compare_attributes = $extra_args;
     }
+
     /**
      * Obtiene los datos de identidad obtenidos al autenticar
      * 
      */
-    public function get_identity ()
-    {        
+    public function get_identity()
+    {
         return $this->identity;
     }
+
     /**
      * Autentica un usuario usando el adaptador
      *
      * @return boolean
      */
-    public function authenticate ()
+    public function authenticate()
     {
         $where_condition = array();
         foreach ($this->compare_attributes as $field => $value) {
@@ -100,7 +109,7 @@ class ModelAuth implements AuthInterface
                 /**
                  * Trata de no incluir en la identidad el password del usuario
                  */
-                if (! in_array($field, array('password' , 'clave' , 'contrasena' , 'passwd' , 'pass'))) {
+                if (!in_array($field, array('password', 'clave', 'contrasena', 'passwd', 'pass'))) {
                     $identity[$field] = $model->$field;
                 }
             }
@@ -108,17 +117,19 @@ class ModelAuth implements AuthInterface
         }
         return $result;
     }
+
     /**
      * Asigna los valores de los parametros al objeto autenticador
      *
      * @param array $extra_args
      */
-    public function set_params ($extra_args)
+    public function set_params($extra_args)
     {
-        foreach (array('server' , 'secret' , 'principal' , 'password' , 'port' , 'max_retries') as $param) {
+        foreach (array('server', 'secret', 'principal', 'password', 'port', 'max_retries') as $param) {
             if (isset($extra_args[$param])) {
                 $this->$param = $extra_args[$param];
             }
         }
     }
+
 }

@@ -181,34 +181,34 @@
 		 */
 		bind : function() {
             // Enlace y boton con confirmacion
-			$("a.js-confirm, input.js-confirm").live('click', this.cConfirm);
+			$("a.js-confirm, input.js-confirm").on('click', this.cConfirm);
 
             // Enlace ajax
-			$("a.js-remote").live('click', this.cRemote);
+			$("a.js-remote").on('click', this.cRemote);
 
             // Enlace ajax con confirmacion
-			$("a.js-remote-confirm").live('click', this.cRemoteConfirm);
+			$("a.js-remote-confirm").ok('click', this.cRemoteConfirm);
 
             // Efecto show
-			$("a.js-show").live('click', this.cFx('show'));
+			$("a.js-show").on('click', this.cFx('show'));
 
             // Efecto hide
-			$("a.js-hide").live('click', this.cFx('hide'));
+			$("a.js-hide").on('click', this.cFx('hide'));
 
             // Efecto toggle
-			$("a.js-toggle").live('click', this.cFx('toggle'));
+			$("a.js-toggle").on('click', this.cFx('toggle'));
 
             // Efecto fadeIn
-			$("a.js-fade-in").live('click', this.cFx('fadeIn'));
+			$("a.js-fade-in").on('click', this.cFx('fadeIn'));
 
             // Efecto fadeOut
-			$("a.js-fade-out").live('click', this.cFx('fadeOut'));
+			$("a.js-fade-out").on('click', this.cFx('fadeOut'));
 
             // Formulario ajax
-			$("form.js-remote").live('submit', this.cFRemote);
+			$("form.js-remote").on('submit', this.cFRemote);
 
             // Lista desplegable que actualiza con ajax
-            $("select.js-remote").live('change', this.cUpdaterSelect);
+            $("select.js-remote").on('change', this.cUpdaterSelect);
 
 			// Enlazar DatePicker
 			this.bindDatePicker();

@@ -12,8 +12,6 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * ActiveRecordBase Clase para el Mapeo Objeto Relacional
- *
  * @category   Kumbia
  * @package    Db
  * @subpackage ActiveRecord
@@ -24,6 +22,7 @@
  * @see Db
  */
 require CORE_PATH . 'libs/db/db.php';
+
 /**
  * ActiveRecordBase Clase para el Mapeo Objeto Relacional
  *
@@ -62,7 +61,10 @@ require CORE_PATH . 'libs/db/db.php';
  * cambiados (En Desarrollo)
  * $subselect : Permitira crear una entidad ActiveRecord de solo lectura que
  * mapearia los resultados de un select directamente a un Objeto (En Desarrollo)
- *
+ * 
+ * @category   Kumbia
+ * @package    Db
+ * @subpackage ActiveRecord
  */
 class KumbiaActiveRecord
 {
@@ -159,22 +161,21 @@ class KumbiaActiveRecord
      * @var boolean
      */
     protected $persistent = false;
-
     /**
      * Validaciones
-	 *
-	 * inclusion_in: el campo pertenece a un conjunto de elementos
-	 * exclusion_of: el campo no pertenece a un conjunto de elementos
-	 * numericality_of: el campo debe ser numerico
-	 * format_of: el campo debe coincidir con la expresion regular compatible con perl
-	 * date_in: el campo debe ser una fecha valida
-	 * email_in: el campo debe ser un correo electronico
+     *
+     * inclusion_in: el campo pertenece a un conjunto de elementos
+     * exclusion_of: el campo no pertenece a un conjunto de elementos
+     * numericality_of: el campo debe ser numerico
+     * format_of: el campo debe coincidir con la expresion regular compatible con perl
+     * date_in: el campo debe ser una fecha valida
+     * email_in: el campo debe ser un correo electronico
      * uniqueness_of: el campo debe ser unico
-	 *
+     *
      * @var array
-     **/
+     * */
     protected $_validates = array('inclusion_in' => array(), 'exclusion_of' => array(), 'numericality_of' => array(),
-		'format_of' => array(), 'date_in' => array(), 'email_in' => array(), 'uniqueness_of' => array());
+        'format_of' => array(), 'date_in' => array(), 'email_in' => array(), 'uniqueness_of' => array());
     /**
      * Campos que terminan en _in
      *
@@ -251,6 +252,7 @@ class KumbiaActiveRecord
      * Persistance Models Meta-data
      */
     protected static $models = array();
+
     /**
      * Constructor del Modelo
      *
@@ -271,7 +273,7 @@ class KumbiaActiveRecord
 
         /**
          * Conecta a la bd
-         **/
+         * */
         $this->_connect();
 
         if ($data) {
@@ -280,6 +282,7 @@ class KumbiaActiveRecord
             $this->dump_result_self($data);
         }
     }
+
     /**
      * Obtiene el nombre de la relacion en el RDBM a partir del nombre de la clase
      *
@@ -290,6 +293,7 @@ class KumbiaActiveRecord
             $this->source = Util::uncamelize(get_class($this));
         }
     }
+
     /**
      * Establece publicamente el $source de la tabla
      *
@@ -299,6 +303,7 @@ class KumbiaActiveRecord
     {
         $this->source = $source;
     }
+
     /**
      * Devuelve el source actual
      *
@@ -308,6 +313,7 @@ class KumbiaActiveRecord
     {
         return $this->source;
     }
+
     /**
      * Establece la base datos a utilizar
      *
@@ -317,6 +323,7 @@ class KumbiaActiveRecord
     {
         $this->database = $database;
     }
+
     /**
      * Devuelve la base de datos
      *
@@ -331,6 +338,7 @@ class KumbiaActiveRecord
             return $core['application']['database'];
         }
     }
+
     /**
      * Pregunta si el ActiveRecord ya ha consultado la informacion de metadatos
      * de la base de datos o del registro persistente
@@ -341,6 +349,66 @@ class KumbiaActiveRecord
     {
         return $this->_dumped;
     }
+
+    /**
+     * Devuelve los registros del modelo al que se está asociado.
+     *
+     * @param string $mmodel nombre del modelo asociado
+     * @return array|NULL|FALSE si existen datos devolverá un array,
+     * NULL si no hay datos asociados aun, y false si no existe ninguna asociación.
+     */
+    protected function _get_relation_data($mmodel)
+    {
+        if (array_key_exists($mmodel, $this->_belongs_to)) {
+            $relation = $this->_belongs_to[$mmodel];
+            return self::get($relation->model)->find_first($this->{$relation->fk});
+        } elseif (array_key_exists($mmodel, $this->_has_one)) {
+            $relation = $this->_has_one[$mmodel];
+            if ($this->{$this->primary_key[0]}) {
+                return self::get($relation->model)->find_first("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
+            } else {
+                return NULL;
+            }
+        } elseif (array_key_exists($mmodel, $this->_has_many)) {
+            $relation = $this->_has_many[$mmodel];
+            if ($this->{$this->primary_key[0]}) {
+                return self::get($relation->model)->find("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
+            } else {
+                return array();
+            }
+        } elseif (array_key_exists($mmodel, $this->_has_and_belongs_to_many)) {
+            $relation = $this->_has_and_belongs_to_many[$mmodel];
+            $relation_model = self::get($relation->model);
+            $source = ($this->schema ? "{$this->schema}." : NULL ) . $this->source;
+            $relation_source = ($relation_model->schema ? "{$relation_model->schema}." : NULL ) . $relation_model->source;
+            /**
+             * Cargo atraves de que tabla se efectuara la relacion
+             *
+             */
+            if (!isset($relation->through)) {
+                if ($source > $relation_source) {
+                    $relation->through = "{$this->source}_{$relation_source}";
+                } else {
+                    $relation->through = "{$relation_source}_{$this->source}";
+                }
+            }else{
+                $through = explode('/', $relation->through);
+                $relation->through = end($through);
+            }
+            if ($this->{$this->primary_key[0]}) {
+                return $relation_model->find_all_by_sql("SELECT $relation_source.* FROM $relation_source, {$relation->through}, $source
+                    WHERE {$relation->through}.{$relation->key} = {$this->db->add_quotes($this->{$this->primary_key[0]}) }
+                    AND {$relation->through}.{$relation->fk} = $relation_source.{$relation_model->primary_key[0]}
+                    AND {$relation->through}.{$relation->key} = $source.{$this->primary_key[0]}
+                    ORDER BY $relation_source.{$relation_model->primary_key[0]}");
+            } else {
+                return array();
+            }
+        } else {
+            return FALSE; //si no existe ninguna asociación devuelve false.
+        }
+    }
+
     /**
      * Valida que los valores que sean leidos del objeto ActiveRecord esten definidos
      * previamente o sean atributos de la entidad
@@ -351,56 +419,12 @@ class KumbiaActiveRecord
     {
         if (!$this->_dump_lock) {
             if (!isset($this->$property)) {
-                if (array_key_exists($property, $this->_belongs_to)) {
-                    $relation = $this->_belongs_to[$property];
-					return self::get($relation->model)->find_first($this->{$relation->fk});
-                } elseif (array_key_exists($property, $this->_has_one)) {
-                    $relation = $this->_has_one[$property];
-					if ($this->{$this->primary_key[0]}) {
-						return self::get($relation->model)->find_first("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
-					} else {
-						return null;
-					}
-                } elseif (array_key_exists($property, $this->_has_many)) {
-                    $relation = $this->_has_many[$property];
-					if ($this->{$this->primary_key[0]}) {
-						return self::get($relation->model)->find("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
-					} else {
-						return array();
-					}
-                } elseif (array_key_exists($property, $this->_has_and_belongs_to_many)) {
-                    $relation = $this->_has_and_belongs_to_many[$property];
-					$relation_model = self::get($relation->model);
-					$relation_model->dump_model();
-					$source = $this->source;
-					$relation_source = $relation_model->source;
-					/**
-					 * Cargo atraves de que tabla se efectuara la relacion
-					 *
-					 */
-					if (!isset($relation->through)) {
-						if ($source > $relation_source) {
-							$relation->through = "{$this->source}_{$relation_source}";
-						} else {
-							$relation->through = "{$relation_source}_{$this->source}";
-						}
-					}
-					if ($this->{$this->primary_key[0]}) {
-						return self::get($relation->model)->find_all_by_sql("SELECT $relation_source.* FROM $relation_source, {$relation->through}, $source
-							WHERE {$relation->through}.{$relation->key} = {$this->db->add_quotes($this->{$this->primary_key[0]}) }
-							AND {$relation->through}.{$relation->fk} = $relation_source.{$relation_model->primary_key[0]}
-							AND {$relation->through}.{$relation->key} = $source.{$this->primary_key[0]}
-							ORDER BY $relation_source.{$relation_model->primary_key[0]}");
-					} else {
-						return array();
-					}
-                } else {
-                    return null;
-                }
+                return $this->_get_relation_data($property);
             }
         }
         return $this->$property;
     }
+
     /**
      * Valida que los valores que sean asignados al objeto ActiveRecord esten definidos
      * o sean atributos de la entidad
@@ -411,14 +435,16 @@ class KumbiaActiveRecord
     function __set($property, $value)
     {
         if (!$this->_dump_lock) {
-            if (!isset($this->$property) && is_object($value) && is_subclass_of($value, 'ActiveRecordBase')) {
+            if (is_object($value) && is_subclass_of($value, 'KumbiaActiveRecord')) {
                 if (array_key_exists($property, $this->_belongs_to)) {
                     $relation = $this->_belongs_to[$property];
                     $value->dump_model();
                     $this->{$relation->fk} = $value->{$value->primary_key[0]};
+                    return;
                 } elseif (array_key_exists($property, $this->_has_one)) {
                     $relation = $this->_has_one[$property];
                     $value->{$relation->fk} = $this->{$this->primary_key[0]};
+                    return;
                 }
             } elseif ($property == "source") {
                 $value = ActiveRecord::sql_item_sanizite($value);
@@ -426,18 +452,18 @@ class KumbiaActiveRecord
         }
         $this->$property = $value;
     }
+
     /**
      * Devuelve un valor o un listado dependiendo del tipo de Relaci&oacute;n
      *
      */
     public function __call($method, $args = array())
     {
-        $has_relation = false;
         if (substr($method, 0, 8) == "find_by_") {
             $field = substr($method, 8);
             ActiveRecord::sql_item_sanizite($field);
             if (isset($args[0])) {
-                $arg = array("conditions: $field = {$this->db->add_quotes($args[0]) }");
+                $arg = array("conditions: $field = {$this->db->add_quotes($args[0])}");
                 unset($args[0]);
             } else {
                 $arg = array();
@@ -448,7 +474,7 @@ class KumbiaActiveRecord
             $field = substr($method, 9);
             ActiveRecord::sql_item_sanizite($field);
             if (isset($args[0])) {
-                $arg = array("conditions: $field = {$this->db->add_quotes($args[0]) }");
+                $arg = array("conditions: $field = {$this->db->add_quotes($args[0])}");
                 unset($args[0]);
             } else {
                 $arg = array();
@@ -459,7 +485,7 @@ class KumbiaActiveRecord
             $field = substr($method, 12);
             ActiveRecord::sql_item_sanizite($field);
             if (isset($args[0])) {
-                $arg = array("conditions: $field = {$this->db->add_quotes($args[0]) }");
+                $arg = array("conditions: $field = {$this->db->add_quotes($args[0])}");
                 unset($args[0]);
             } else {
                 $arg = array();
@@ -468,73 +494,21 @@ class KumbiaActiveRecord
         }
         $model = preg_replace('/^get/', '', $method);
         $mmodel = Util::uncamelize($model);
-        if (array_key_exists($mmodel, $this->_belongs_to)) {
-            $has_relation = true;
-            $relation = $this->_belongs_to[$mmodel];
-			return self::get($relation->model)->find_first($this->{$relation->fk});
-        }
-        if (array_key_exists($mmodel, $this->_has_many)) {
-            $has_relation = true;
-            $relation = $this->_has_many[$mmodel];
-			if ($this->{$this->primary_key[0]}) {
-				return self::get($relation->model)->find("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
-			} else {
-				return array();
-			}
-        }
-        if (array_key_exists($mmodel, $this->_has_one)) {
-            $has_relation = true;
-            $relation = $this->_has_one[$mmodel];
-			if ($this->{$this->primary_key[0]}) {
-				return self::get($relation->model)->find_first("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
-			} else {
-				return null;
-			}
-        }
-        if (array_key_exists($mmodel, $this->_has_and_belongs_to_many)) {
-            $has_relation = true;
-            $relation = $this->_has_and_belongs_to_many[$mmodel];
-			if ($this->{$this->primary_key[0]}) {
-				$source = $this->source;
-				$relation_model = self::get($relation->model);
-				$relation_model->dump_model();
-				$relation_source = $relation_model->source;
-				/**
-				 * Cargo atraves de que tabla se efectuara la relacion
-				 *
-				 */
-				if (!isset($relation->through)) {
-					if ($source > $relation_source) {
-						$relation->through = "{$this->source}_{$relation_source}";
-					} else {
-						$relation->through = "{$relation_source}_{$this->source}";
-					}
-				}
-				return self::get($relation->model)->find_all_by_sql("SELECT $relation_source.* FROM $relation_source, {$relation->through}, $source
-					WHERE {$relation->through}.{$relation->key} = {$this->db->add_quotes($this->{$this->primary_key[0]}) }
-					AND {$relation->through}.{$relation->fk} = $relation_source.{$relation_model->primary_key[0]}
-					AND {$relation->through}.{$relation->key} = $source.{$this->primary_key[0]}
-					ORDER BY $relation_source.{$relation_model->primary_key[0]}");
-			} else {
-				return array();
-			}
+        if (($data = $this->_get_relation_data($mmodel)) !== FALSE) {
+            return $data;
         }
         try {
             if (method_exists($this, $method)) {
                 call_user_func_array(array($this, $method), $args);
             } else {
-                if ($has_relation) {
-                    throw new KumbiaException("No existe el modelo '$model' para relacionar con ActiveRecord::{$this->source}");
-                } else {
-                    throw new KumbiaException("No existe el método '$method' en ActiveRecord::" . get_class($this));
-                }
+                throw new KumbiaException("No existe el método '$method' en ActiveRecord::" . get_class($this));
             }
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $this->exceptions($e);
         }
         return $this->$method($args);
     }
+
     /**
      * Se conecta a la base de datos y descarga los meta-datos si es necesario
      *
@@ -549,6 +523,7 @@ class KumbiaActiveRecord
         $this->db->logger = $this->logger;
         $this->dump();
     }
+
     /**
      * Cargar los metadatos de la tabla
      *
@@ -557,6 +532,7 @@ class KumbiaActiveRecord
     {
         $this->_connect();
     }
+
     /**
      * Verifica si la tabla definida en $this->source existe
      * en la base de datos y la vuelca en dump_info
@@ -596,6 +572,7 @@ class KumbiaActiveRecord
         }
         return true;
     }
+
     /**
      * Vuelca la informaci&oacute;n de la tabla $table en la base de datos
      * para armar los atributos y meta-data del ActiveRecord
@@ -612,13 +589,14 @@ class KumbiaActiveRecord
                 self::set_meta_data($table, $meta_data);
             }
         }
-        foreach(self::get_meta_data($table) as $field) {
+        foreach (self::get_meta_data($table) as $field) {
             $this->fields[] = $field['Field'];
             $aliasAux = $field['Field'];
             if ($field['Key'] == 'PRI') {
                 $this->primary_key[] = $field['Field'];
                 $this->alias[$field['Field']] = 'Código';
-            } else $this->non_primary[] = $field['Field'];
+            } else
+                $this->non_primary[] = $field['Field'];
             /**
              * Si se indica que no puede ser nulo, pero se indica un
              * valor por defecto, entonces no se incluye en la lista, ya que
@@ -646,11 +624,12 @@ class KumbiaActiveRecord
                 $aliasAux = substr($field['Field'], 0, -3);
             }
             //humanizando el alias
-            $this->alias[$field['Field']] = ucwords(strtr($aliasAux,'_-','  '));
+            $this->alias[$field['Field']] = ucwords(strtr($aliasAux, '_-', '  '));
         }
         $this->_dump_lock = false;
         return true;
     }
+
     /**
      * Retorna un array de los campos (fields) de una tabla Humanizados
      *
@@ -659,13 +638,14 @@ class KumbiaActiveRecord
      */
     public function get_alias($key=null)
     {
-        if($key && array_key_exists($key, $this->alias)){
+        if ($key && array_key_exists($key, $this->alias)) {
             return $this->alias[$key];
         } else {
             throw new KumbiaException("No se pudo obtener el Alias, porque el key: \"$key\" no existe.");
         }
         return $this->alias;
     }
+
     /**
      * Asigna un nuevo valor al alias dado un key
      *
@@ -674,13 +654,13 @@ class KumbiaActiveRecord
      */
     public function set_alias($key=null, $value=null)
     {
-        if($key && array_key_exists($key, $this->alias)){
+        if ($key && array_key_exists($key, $this->alias)) {
             $this->alias[$key] = $value;
         } else {
             throw new KumbiaException("No se pudo asignar el nuevo valor al Alias, porque el key: \"$key\" no existe.");
         }
-
     }
+
     /**
      * Commit a Transaction
      *
@@ -690,6 +670,7 @@ class KumbiaActiveRecord
     {
         return $this->db->commit();
     }
+
     /**
      * Rollback a Transaction
      *
@@ -699,6 +680,7 @@ class KumbiaActiveRecord
     {
         return $this->db->rollback();
     }
+
     /**
      * Start a transaction in RDBM
      *
@@ -709,6 +691,7 @@ class KumbiaActiveRecord
         $this->_connect(true);
         return $this->db->begin();
     }
+
     /**
      * Find all records in this table using a SQL Statement
      *
@@ -718,11 +701,12 @@ class KumbiaActiveRecord
     public function find_all_by_sql($sqlQuery)
     {
         $results = array();
-        foreach($this->db->fetch_all($sqlQuery) as $result) {
+        foreach ($this->db->fetch_all($sqlQuery) as $result) {
             $results[] = $this->dump_result($result);
         }
         return $results;
     }
+
     /**
      * Find a record in this table using a SQL Statement
      *
@@ -739,6 +723,7 @@ class KumbiaActiveRecord
             return false;
         }
     }
+
     /**
      * Execute a SQL Statement directly
      *
@@ -746,9 +731,10 @@ class KumbiaActiveRecord
      * @return int affected
      */
     public function sql($sqlQuery)
-   	{
+    {
         return $this->db->query($sqlQuery);
     }
+
     /**
      * Return Fist Record
      *
@@ -785,12 +771,12 @@ class KumbiaActiveRecord
                 $this->dump_result_self($result);
                 $resp = $this->dump_result($result);
             }
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $this->exceptions($e);
         }
         return $resp;
     }
+
     /**
      * Find data on Relational Map table
      *
@@ -825,7 +811,7 @@ class KumbiaActiveRecord
         $select.= $this->convert_params_to_sql($what);
         $results = array();
         $all_results = $this->db->in_query($select);
-        foreach($all_results AS $result) {
+        foreach ($all_results AS $result) {
             $results[] = $this->dump_result($result);
         }
 
@@ -844,15 +830,17 @@ class KumbiaActiveRecord
             return $results;
         }
     }
+
     /*
-    * Arma una consulta SQL con el parametro $what, así:
-    * 	$what = Util::getParams(func_get_args());
-    * 	$select = "SELECT * FROM Clientes";
-    *	$select.= $this->convert_params_to_sql($what);
-    *
-    * @param string $what
-    * @return string
-    */
+     * Arma una consulta SQL con el parametro $what, así:
+     * 	$what = Util::getParams(func_get_args());
+     * 	$select = "SELECT * FROM Clientes";
+     * 	$select.= $this->convert_params_to_sql($what);
+     *
+     * @param string $what
+     * @return string
+     */
+
     public function convert_params_to_sql($what = '')
     {
         $select = '';
@@ -911,20 +899,23 @@ class KumbiaActiveRecord
         }
         return $select;
     }
+
     /*
-    * Devuelve una clausula LIMIT adecuada al RDBMS empleado
-    *
-    * limit: maxima cantidad de elementos a mostrar
-    * offset: desde que elemento se comienza a mostrar
-    *
-    * @param string $sql consulta select
-    * @return String clausula LIMIT adecuada al RDBMS empleado
-    */
+     * Devuelve una clausula LIMIT adecuada al RDBMS empleado
+     *
+     * limit: maxima cantidad de elementos a mostrar
+     * offset: desde que elemento se comienza a mostrar
+     *
+     * @param string $sql consulta select
+     * @return String clausula LIMIT adecuada al RDBMS empleado
+     */
+
     public function limit($sql)
     {
         $args = func_get_args();
         return call_user_func_array(array($this->db, 'limit'), $args);
     }
+
     /**
      * Ejecuta un SELECT DISTINCT
      * @param string $what
@@ -956,11 +947,12 @@ class KumbiaActiveRecord
         unset($what[0]);
         $select.= $this->convert_params_to_sql($what);
         $results = array();
-        foreach($this->db->fetch_all($select) as $result) {
+        foreach ($this->db->fetch_all($select) as $result) {
             $results[] = $result[0];
         }
         return $results;
     }
+
     /**
      * Ejecuta una consulta en el RDBM directamente
      *
@@ -976,6 +968,7 @@ class KumbiaActiveRecord
         $num = $db->fetch_one($sql);
         return $num[0];
     }
+
     /**
      * Realiza un conteo de filas
      *
@@ -1007,6 +1000,7 @@ class KumbiaActiveRecord
         $num = $this->db->fetch_one($select);
         return $num[0];
     }
+
     /**
      * Realiza un promedio sobre el campo $what
      *
@@ -1035,6 +1029,7 @@ class KumbiaActiveRecord
         $num = $this->db->fetch_one($select);
         return $num[0];
     }
+
     public function sum($what = '')
     {
         $what = Util::getParams(func_get_args());
@@ -1057,6 +1052,7 @@ class KumbiaActiveRecord
         $num = $this->db->fetch_one($select);
         return $num[0];
     }
+
     /**
      * Busca el valor maximo para el campo $what
      *
@@ -1085,6 +1081,7 @@ class KumbiaActiveRecord
         $num = $this->db->fetch_one($select);
         return $num[0];
     }
+
     /**
      * Busca el valor minimo para el campo $what
      *
@@ -1113,6 +1110,7 @@ class KumbiaActiveRecord
         $num = $this->db->fetch_one($select);
         return $num[0];
     }
+
     /**
      * Realiza un conteo directo mediante $sql
      *
@@ -1124,6 +1122,7 @@ class KumbiaActiveRecord
         $num = $this->db->fetch_one($sqlQuery);
         return $num[0];
     }
+
     /**
      * Iguala los valores de un resultado de la base de datos
      * en un nuevo objeto con sus correspondientes
@@ -1132,7 +1131,8 @@ class KumbiaActiveRecord
      * @param array $result
      * @return ActiveRecord
      */
-    public function dump_result($result){
+    public function dump_result($result)
+    {
         $obj = clone $this;
         /**
          * Consulta si la clase es padre de otra y crea el tipo de dato correcto
@@ -1147,7 +1147,7 @@ class KumbiaActiveRecord
         }
         $this->_dump_lock = true;
         if (is_array($result)) {
-            foreach($result as $k => $r) {
+            foreach ($result as $k => $r) {
                 if (!is_numeric($k)) {
                     $obj->$k = stripslashes($r);
                 }
@@ -1156,6 +1156,7 @@ class KumbiaActiveRecord
         $this->_dump_lock = false;
         return $obj;
     }
+
     /**
      * Iguala los valores de un resultado de la base de datos
      * con sus correspondientes atributos de la clase
@@ -1167,7 +1168,7 @@ class KumbiaActiveRecord
     {
         $this->_dump_lock = true;
         if (is_array($result)) {
-            foreach($result as $k => $r) {
+            foreach ($result as $k => $r) {
                 if (!is_numeric($k)) {
                     $this->$k = stripslashes($r);
                 }
@@ -1175,6 +1176,7 @@ class KumbiaActiveRecord
         }
         $this->_dump_lock = false;
     }
+
     /**
      * Crea un nuevo registro utilizando los datos del $_REQUEST
      *
@@ -1183,15 +1185,12 @@ class KumbiaActiveRecord
      */
     public function create_from_request($form = null)
     {
-        if(!$form){
+        if (!$form) {
             $form = $this->source;
         }
-        $result = $this->create($_REQUEST[$form]);
-        if(!$result) {
-            Dispatcher::get_controller()->$form = $_REQUEST[$form];
-        }
-        return $result;
+        return $this->create($_REQUEST[$form]);
     }
+
     /**
      * Saves a new Row using values from $_REQUEST
      *
@@ -1200,15 +1199,12 @@ class KumbiaActiveRecord
      */
     public function save_from_request($form = null)
     {
-        if(!$form){
+        if (!$form) {
             $form = $this->source;
         }
-        $result = $this->save($_REQUEST[$form]);
-        if(!$result) {
-            Dispatcher::get_controller()->$form = $_REQUEST[$form];
-        }
-        return $result;
+        return $this->save($_REQUEST[$form]);
     }
+
     /**
      * Updates a Row using values from $_REQUEST
      *
@@ -1217,15 +1213,12 @@ class KumbiaActiveRecord
      */
     public function update_from_request($form = null)
     {
-        if(!$form){
+        if (!$form) {
             $form = $this->source;
         }
-        $result = $this->update($_REQUEST[$form]);
-        if(!$result) {
-            Dispatcher::get_controller()->$form = $_REQUEST[$form];
-        }
-        return $result;
+        return $this->update($_REQUEST[$form]);
     }
+
     /**
      * Creates a new Row in map table
      *
@@ -1237,7 +1230,7 @@ class KumbiaActiveRecord
         if (func_num_args() > 0) {
             $params = Util::getParams(func_get_args());
             $values = (isset($params[0]) && is_array($params[0])) ? $params[0] : $params;
-            foreach($this->fields as $field) {
+            foreach ($this->fields as $field) {
                 if (isset($values[$field])) {
                     $this->$field = $values[$field];
                 }
@@ -1248,6 +1241,7 @@ class KumbiaActiveRecord
         }
         return $this->save();
     }
+
     /**
      * Consulta si un determinado registro existe o no
      * en la entidad de la base de datos
@@ -1263,7 +1257,7 @@ class KumbiaActiveRecord
         }
         if (!$where_pk) {
             $where_pk = array();
-            foreach($this->primary_key as $key) {
+            foreach ($this->primary_key as $key) {
                 if ($this->$key) {
                     $where_pk[] = " $key = '{$this->$key}'";
                 }
@@ -1276,7 +1270,7 @@ class KumbiaActiveRecord
             $query = "SELECT COUNT(*) FROM $table WHERE {$this->_where_pk}";
         } else {
             if (is_numeric($where_pk)) {
-                $query = "SELECT COUNT(*) FROM $table WHERE id = '$where_pk'";
+                $query = "SELECT COUNT(*) FROM $table WHERE {$this->primary_key[0]} = '$where_pk'";
             } else {
                 $query = "SELECT COUNT(*) FROM $table WHERE $where_pk";
             }
@@ -1284,6 +1278,7 @@ class KumbiaActiveRecord
         $num = $this->db->fetch_one($query);
         return $num[0];
     }
+
     /**
      * Saves Information on the ActiveRecord Properties
      * @param array $values array de valores a cargar
@@ -1292,9 +1287,9 @@ class KumbiaActiveRecord
     public function save($values=null)
     {
         if ($values) {
-			if(!is_array($values))
-				$values = Util::getParams(func_get_args());
-            foreach($this->fields as $field) {
+            if (!is_array($values))
+                $values = Util::getParams(func_get_args());
+            foreach ($this->fields as $field) {
                 if (isset($values[$field])) {
                     $this->$field = $values[$field];
                 }
@@ -1319,41 +1314,41 @@ class KumbiaActiveRecord
                 }
             }
         }
-        if(!$ex){
-        	if (method_exists($this, "before_validation_on_create")) {
-        		if ($this->before_validation_on_create() == 'cancel') {
-        			return false;
-        		}
-        	} else {
-        		if (isset($this->before_validation_on_create)) {
-        			$method = $this->before_validation_on_create;
-        			if ($this->$method() == 'cancel') {
-        				return false;
-        			}
-        		}
-        	}
+        if (!$ex) {
+            if (method_exists($this, "before_validation_on_create")) {
+                if ($this->before_validation_on_create() == 'cancel') {
+                    return false;
+                }
+            } else {
+                if (isset($this->before_validation_on_create)) {
+                    $method = $this->before_validation_on_create;
+                    if ($this->$method() == 'cancel') {
+                        return false;
+                    }
+                }
+            }
         }
-		if($ex){
-			if (method_exists($this, "before_validation_on_update")) {
-				if ($this->before_validation_on_update() == 'cancel') {
-					return false;
-				}
-			} else {
-				if (isset($this->before_validation_on_update)) {
-					$method = $this->before_validation_on_update;
-					if($this->$method() == 'cancel') {
-						return false;
-					}
-				}
-			}
-		}
+        if ($ex) {
+            if (method_exists($this, "before_validation_on_update")) {
+                if ($this->before_validation_on_update() == 'cancel') {
+                    return false;
+                }
+            } else {
+                if (isset($this->before_validation_on_update)) {
+                    $method = $this->before_validation_on_update;
+                    if ($this->$method() == 'cancel') {
+                        return false;
+                    }
+                }
+            }
+        }
 
         /**
          * Validacion validates_presence
          *
          */
-        if(isset($this->_validates['presence_of'])) {
-            foreach($this->_validates['presence_of'] as $f => $opt) {
+        if (isset($this->_validates['presence_of'])) {
+            foreach ($this->_validates['presence_of'] as $f => $opt) {
                 if (isset($this->$f) && (is_null($this->$f) || $this->$f == '')) {
                     if (!$ex && $f == $this->primary_key[0])
                         continue;
@@ -1377,10 +1372,10 @@ class KumbiaActiveRecord
          *
          */
         foreach ($this->not_null as $f) {
-			if(in_array($f, $this->_with_default)) {
-				continue;
-			}
-			
+            if (in_array($f, $this->_with_default)) {
+                continue;
+            }
+
             if (!isset($this->$f) || is_null($this->$f) || $this->$f == '') {
                 if (!$ex && $f == $this->primary_key[0]) {
                     continue;
@@ -1400,8 +1395,8 @@ class KumbiaActiveRecord
          * Validacion validates_length
          *
          */
-        if(isset($this->_validates['length_of'])) {
-            foreach($this->_validates['length_of'] as $f => $opt) {
+        if (isset($this->_validates['length_of'])) {
+            foreach ($this->_validates['length_of'] as $f => $opt) {
                 if (isset($this->$f) && !is_null($this->$f) && $this->$f != '') {
                     $field = isset($opt['field']) ? $opt['field'] : $f;
 
@@ -1428,7 +1423,7 @@ class KumbiaActiveRecord
          * Validacion validates_inclusion
          *
          */
-        foreach($this->_validates['inclusion_in'] as $f => $opt) {
+        foreach ($this->_validates['inclusion_in'] as $f => $opt) {
             if (isset($this->$f) && !is_null($this->$f) && $this->$f != '') {
                 if (!in_array($this->$f, $opt['list'])) {
                     if (isset($opt['message'])) {
@@ -1446,7 +1441,7 @@ class KumbiaActiveRecord
          * Validacion validates_exclusion
          *
          */
-        foreach($this->_validates['exclusion_of'] as $f => $opt) {
+        foreach ($this->_validates['exclusion_of'] as $f => $opt) {
             if (isset($this->$f) && !is_null($this->$f) && $this->$f != '') {
                 if (in_array($this->$f, $opt['list'])) {
                     if (isset($opt['message'])) {
@@ -1464,7 +1459,7 @@ class KumbiaActiveRecord
          * Validacion validates_numericality
          *
          */
-        foreach($this->_validates['numericality_of'] as $f => $opt) {
+        foreach ($this->_validates['numericality_of'] as $f => $opt) {
             if (isset($this->$f) && !is_null($this->$f) && $this->$f != '') {
                 if (!is_numeric($this->$f)) {
                     if (isset($opt['message'])) {
@@ -1482,9 +1477,9 @@ class KumbiaActiveRecord
          * Validacion validates_format
          *
          */
-        foreach($this->_validates['format_of'] as $f => $opt) {
+        foreach ($this->_validates['format_of'] as $f => $opt) {
             if (isset($this->$f) && !is_null($this->$f) && $this->$f != '') {
-                if (!filter_var($this->$f, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>$opt['pattern'])))) {
+                if (!filter_var($this->$f, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => $opt['pattern'])))) {
                     if (isset($opt['message'])) {
                         Flash::error($opt['message']);
                     } else {
@@ -1500,9 +1495,9 @@ class KumbiaActiveRecord
          * Validacion validates_date
          *
          */
-        foreach($this->_validates['date_in'] as $f => $opt) {
+        foreach ($this->_validates['date_in'] as $f => $opt) {
             if (isset($this->$f) && !is_null($this->$f) && $this->$f != '') {
-                if (!filter_var($this->$f, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^\d{4}[-\/](0[1-9]|1[012])[-\/](0[1-9]|[12][0-9]|3[01])$/")))) {
+                if (!filter_var($this->$f, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/^\d{4}[-\/](0[1-9]|1[012])[-\/](0[1-9]|[12][0-9]|3[01])$/")))) {
                     if (isset($opt['message'])) {
                         Flash::error($opt['message']);
                     } else {
@@ -1518,7 +1513,7 @@ class KumbiaActiveRecord
          * Validacion validates_email
          *
          */
-        foreach($this->_validates['email_in'] as $f=>$opt) {
+        foreach ($this->_validates['email_in'] as $f => $opt) {
             if (isset($this->$f) && !is_null($this->$f) && $this->$f != '') {
                 if (!filter_var($this->$f, FILTER_VALIDATE_EMAIL)) {
                     if (isset($opt['message'])) {
@@ -1536,14 +1531,14 @@ class KumbiaActiveRecord
          * Validacion validates_uniqueness
          *
          */
-		// parche para que no tome encuenta el propio registro
-		// al validar campos unicos, ya que si lo toma en cuenta
-		// lanzará error de validacion porque ya existe un registro 
-		// con igual valor en el campo unico.
-		$and_condition = $ex ? " AND id != '$this->id'" : '';
-        foreach($this->_validates['uniqueness_of'] as $f => $opt) {
+        // parche para que no tome encuenta el propio registro
+        // al validar campos unicos, ya que si lo toma en cuenta
+        // lanzará error de validacion porque ya existe un registro
+        // con igual valor en el campo unico.
+        $and_condition = $ex ? " AND {$this->primary_key[0]} != '{$this->{$this->primary_key[0]}}'" : '';
+        foreach ($this->_validates['uniqueness_of'] as $f => $opt) {
             if (isset($this->$f) && !is_null($this->$f) && $this->$f != '') {
-				$result = $this->db->fetch_one("SELECT COUNT(*) FROM $table WHERE $f = {$this->db->add_quotes($this->$f)} $and_condition");
+                $result = $this->db->fetch_one("SELECT COUNT(*) FROM $table WHERE $f = {$this->db->add_quotes($this->$f)} $and_condition");
                 if ($result[0]) {
                     if (isset($opt['message'])) {
                         Flash::error($opt['message']);
@@ -1557,31 +1552,32 @@ class KumbiaActiveRecord
         }
 
         #Run Validation Callbacks After
-        if(!$ex){
-        	if (method_exists($this, "after_validation_on_create")) {
-            	if ($this->after_validation_on_create() == 'cancel') {
-                	return false;
-            	}
-        	} else {
-            	if (isset($this->after_validation_on_create)) {
-                	$method = $this->after_validation_on_create;
-                	if ($this->$method() == 'cancel') {
-                    	return false;
-                	}
-            	}
-        	}
+        if (!$ex) {
+            if (method_exists($this, "after_validation_on_create")) {
+                if ($this->after_validation_on_create() == 'cancel') {
+                    return false;
+                }
+            } else {
+                if (isset($this->after_validation_on_create)) {
+                    $method = $this->after_validation_on_create;
+                    if ($this->$method() == 'cancel') {
+                        return false;
+                    }
+                }
+            }
         }
-        if($ex){
-        	if (method_exists($this, "after_validation_on_update")) {
-            	if ($this->after_validation_on_update() == 'cancel') {
-                	return false;
-            	}
-        	} else {
-        		if (isset($this->after_validation_on_update)) {
-        			$method = $this->after_validation_on_update;
-        			if ($this->$method() == 'cancel') return false;
-        		}
-        	}
+        if ($ex) {
+            if (method_exists($this, "after_validation_on_update")) {
+                if ($this->after_validation_on_update() == 'cancel') {
+                    return false;
+                }
+            } else {
+                if (isset($this->after_validation_on_update)) {
+                    $method = $this->after_validation_on_update;
+                    if ($this->$method() == 'cancel')
+                        return false;
+                }
+            }
         }
 
         if (method_exists($this, 'after_validation')) {
@@ -1609,40 +1605,40 @@ class KumbiaActiveRecord
                 }
             }
         }
-        if($ex){
-        	if (method_exists($this, "before_update")) {
-        		if ($this->before_update() == 'cancel') {
-        			return false;
-        		}
-        	} else {
-        		if (isset($this->before_update)) {
-        			$method = $this->before_update;
-        			if ($this->$method() == 'cancel') {
-        				return false;
-        			}
-        		}
-        	}
+        if ($ex) {
+            if (method_exists($this, "before_update")) {
+                if ($this->before_update() == 'cancel') {
+                    return false;
+                }
+            } else {
+                if (isset($this->before_update)) {
+                    $method = $this->before_update;
+                    if ($this->$method() == 'cancel') {
+                        return false;
+                    }
+                }
+            }
         }
-        if(!$ex){
-        	if (method_exists($this, "before_create")) {
-        		if ($this->before_create() == 'cancel') {
-        			return false;
-        		}
-        	} else {
-        		if (isset($this->before_create)) {
-        			$method = $this->before_create;
-        			if ($this->$method() == 'cancel') {
-        				return false;
-        			}
-        		}
-        	}
+        if (!$ex) {
+            if (method_exists($this, "before_create")) {
+                if ($this->before_create() == 'cancel') {
+                    return false;
+                }
+            } else {
+                if (isset($this->before_create)) {
+                    $method = $this->before_create;
+                    if ($this->$method() == 'cancel') {
+                        return false;
+                    }
+                }
+            }
         }
         $environment = Config::read('databases');
         $config = $environment[$this->get_database()];
         if ($ex) {
             $fields = array();
             $values = array();
-            foreach($this->non_primary as $np) {
+            foreach ($this->non_primary as $np) {
                 $np = ActiveRecord::sql_item_sanizite($np);
                 if (in_array($np, $this->_in)) {
                     if ($config['type'] == 'oracle') {
@@ -1671,7 +1667,7 @@ class KumbiaActiveRecord
         } else {
             $fields = array();
             $values = array();
-            foreach($this->fields as $field) {
+            foreach ($this->fields as $field) {
                 if ($field != $this->primary_key[0] && !$this->id) {
                     if (in_array($field, $this->_at)) {
                         if ($config['type'] == 'oracle') {
@@ -1683,24 +1679,25 @@ class KumbiaActiveRecord
                     if (in_array($field, $this->_in)) {
                         unset($this->$field);
                     }
-                    
-					if(isset($this->$field) && $this->$field != '') {
-						$fields[] = ActiveRecord::sql_sanizite($field);
-                        
-						if(($this->_data_type[$field] == 'datetime' || $this->_data_type[$field] == 'date') && $config['type'] == 'mysql'){
-							$values[] = $this->db->add_quotes(date("Y-m-d G:i:s",strtotime($this->$field)));
-						} elseif ($this->_data_type[$field] == 'date' && $config['type'] == 'oracle') {
-							 //Se debe especificar el formato de fecha en Oracle
-							$values[] = "TO_DATE(" . $this->db->add_quotes($this->$field) . ", 'YYYY-MM-DD')";
-						} else {
-							$values[] = $this->db->add_quotes($this->$field);
-						}
-						
-					} elseif (!in_array($field, $this->_with_default)) {
-						$fields[] = ActiveRecord::sql_sanizite($field);
-						$values[] = 'NULL';
-					}
-					
+
+                    if (isset($this->$field) && $this->$field !== '' && $this->$field !== NULL) {
+                        $fields[] = ActiveRecord::sql_sanizite($field);
+
+                        if (($this->_data_type[$field] == 'datetime' || $this->_data_type[$field] == 'date') && $config['type'] == 'mysql') {
+                            $values[] = $this->db->add_quotes(date("Y-m-d G:i:s", strtotime($this->$field)));
+                        } elseif ($this->_data_type[$field] == 'date' && $config['type'] == 'oracle') {
+                            //Se debe especificar el formato de fecha en Oracle
+                            $values[] = "TO_DATE(" . $this->db->add_quotes($this->$field) . ", 'YYYY-MM-DD')";
+                        } else {
+                            $values[] = $this->db->add_quotes($this->$field);
+                        }
+                    } elseif (in_array($field, $this->_with_default)) {
+                        $fields[] = ActiveRecord::sql_sanizite($field);
+                        $values[] = 'DEFAULT';
+                    } else {
+                        $fields[] = ActiveRecord::sql_sanizite($field);
+                        $values[] = 'NULL';
+                    }
                 } else {
                     /**
                      * Campos autonumericos en Oracle deben utilizar una sequencia auxiliar
@@ -1719,7 +1716,7 @@ class KumbiaActiveRecord
                     }
                 }
             }
-            
+
             $val = $this->db->insert($table, $values, $fields);
         }
         if (!isset($config['pdo']) && $config['type'] == 'oracle') {
@@ -1731,34 +1728,34 @@ class KumbiaActiveRecord
             $this->find_first($m);
         }
         if ($val) {
-        	if($ex){
-        		if (method_exists($this, "after_update")) {
-        			if ($this->after_update() == 'cancel') {
-        				return false;
-        			}
-        		} else {
-        			if (isset($this->after_update)) {
-        				$method = $this->after_update;
-        				if ($this->$method() == 'cancel') {
-        					return false;
-        				}
-        			}
-        		}
-        	}
-        	if(!$ex){
-        		if (method_exists($this, "after_create")) {
-        			if ($this->after_create() == 'cancel') {
-        				return false;
-        			}
-        		} else {
-        			if (isset($this->after_create)) {
-        				$method = $this->after_create;
-        				if ($this->$method() == 'cancel') {
-        					return false;
-        				}
-        			}
-        		}
-        	}
+            if ($ex) {
+                if (method_exists($this, "after_update")) {
+                    if ($this->after_update() == 'cancel') {
+                        return false;
+                    }
+                } else {
+                    if (isset($this->after_update)) {
+                        $method = $this->after_update;
+                        if ($this->$method() == 'cancel') {
+                            return false;
+                        }
+                    }
+                }
+            }
+            if (!$ex) {
+                if (method_exists($this, "after_create")) {
+                    if ($this->after_create() == 'cancel') {
+                        return false;
+                    }
+                } else {
+                    if (isset($this->after_create)) {
+                        $method = $this->after_create;
+                        if ($this->$method() == 'cancel') {
+                            return false;
+                        }
+                    }
+                }
+            }
             if (method_exists($this, "after_save")) {
                 if ($this->after_save() == 'cancel') {
                     return false;
@@ -1776,6 +1773,7 @@ class KumbiaActiveRecord
             return false;
         }
     }
+
     /**
      * Find All data in the Relational Table
      *
@@ -1788,6 +1786,7 @@ class KumbiaActiveRecord
         ActiveRecord::sql_item_sanizite($field);
         return $this->find("conditions: $field = {$this->db->add_quotes($value) }");
     }
+
     /**
      * Updates Data in the Relational Table
      *
@@ -1799,7 +1798,7 @@ class KumbiaActiveRecord
         if (func_num_args() > 0) {
             $params = Util::getParams(func_get_args());
             $values = (isset($params[0]) && is_array($params[0])) ? $params[0] : $params;
-            foreach($this->fields as $field) {
+            foreach ($this->fields as $field) {
                 if (isset($values[$field])) {
                     $this->$field = $values[$field];
                 }
@@ -1808,12 +1807,12 @@ class KumbiaActiveRecord
         if ($this->exists()) {
             if (method_exists($this, 'before_change')) {
                 $obj = clone $this;
-                if($this->before_change($obj->find($this->id)) == 'cancel'){
+                if ($this->before_change($obj->find($this->{$this->primary_key[0]})) == 'cancel') {
                     return false;
                 }
                 unset($obj);
             }
-            if($this->save()){
+            if ($this->save()) {
                 if (method_exists($this, 'after_change')) {
                     if ($this->after_change($this) == 'cancel') {
                         return false;
@@ -1826,6 +1825,7 @@ class KumbiaActiveRecord
             return false;
         }
     }
+
     /**
      * Deletes data from Relational Map Table
      *
@@ -1860,16 +1860,16 @@ class KumbiaActiveRecord
             }
         }
         if (method_exists($this, "before_delete")) {
-            if ($this->id) {
-                $this->find($this->id);
+            if ($this->{$this->primary_key[0]}) {
+                $this->find($this->{$this->primary_key[0]});
             }
             if ($this->before_delete() == 'cancel') {
                 return false;
             }
         } else {
             if (isset($this->before_delete)) {
-                if ($this->id) {
-                    $this->find($this->id);
+                if ($this->{$this->primary_key[0]}) {
+                    $this->find($this->{$this->primary_key[0]});
                 }
                 $method = $this->before_delete;
                 if ($this->$method() == 'cancel') {
@@ -1894,6 +1894,7 @@ class KumbiaActiveRecord
         }
         return $val;
     }
+
     /**
      * Actualiza todos los atributos de la entidad
      * $Clientes->update_all("estado='A', fecha='2005-02-02'", "id>100");
@@ -1901,7 +1902,8 @@ class KumbiaActiveRecord
      *
      * @param string $values
      */
-    public function update_all($values) {
+    public function update_all($values)
+    {
         $params = array();
         if ($this->schema) {
             $table = $this->schema . "." . $this->source;
@@ -1941,13 +1943,15 @@ class KumbiaActiveRecord
         }
         return $this->db->query($sql);
     }
+
     /**
      * Delete All data from Relational Map Table
      *
      * @param string $conditions
      * @return boolean
      */
-    public function delete_all($conditions = '') {
+    public function delete_all($conditions = '')
+    {
         $limit = '';
         if ($this->schema) {
             $table = $this->schema . "." . $this->source;
@@ -1969,30 +1973,35 @@ class KumbiaActiveRecord
         }
         return $this->db->delete($table, $conditions);
     }
+
     /**
      * *********************************************************************************
      * Metodos de Debug
      * *********************************************************************************
      */
+
     /**
      * Imprime una version humana de los valores de los campos
      * del modelo en una sola linea
      *
      */
-    public function inspect() {
+    public function inspect()
+    {
         $inspect = array();
-        foreach($this->fields as $field) {
+        foreach ($this->fields as $field) {
             if (!is_array($field)) {
                 $inspect[] = "$field: {$this->$field}";
             }
         }
         return join(", ", $inspect);
     }
+
     /**
      * *********************************************************************************
      * Metodos de Validacion
      * *********************************************************************************
      */
+
     /**
      * Valida que el campo no sea nulo
      *
@@ -2009,6 +2018,7 @@ class KumbiaActiveRecord
 
         $this->_validates['presence_of'][$field] = $params;
     }
+
     /**
      * Valida el tamañoo de ciertos campos antes de insertar
      * o actualizar
@@ -2031,6 +2041,7 @@ class KumbiaActiveRecord
         $this->_validates['length_of'][$field]['min'] = $min;
         $this->_validates['length_of'][$field]['max'] = $max;
     }
+
     /**
      * Valida que el campo se encuentre entre los valores de una lista
      * antes de insertar o actualizar
@@ -2049,6 +2060,7 @@ class KumbiaActiveRecord
         $this->_validates['inclusion_in'][$field] = $params;
         $this->_validates['inclusion_in'][$field]['list'] = $list;
     }
+
     /**
      * Valida que el campo no se encuentre entre los valores de una lista
      * antes de insertar o actualizar
@@ -2067,6 +2079,7 @@ class KumbiaActiveRecord
         $this->_validates['exclusion_of'][$field] = $params;
         $this->_validates['exclusion_of'][$field]['list'] = $list;
     }
+
     /**
      * Valida que el campo tenga determinado formato segun una expresion regular
      * antes de insertar o actualizar
@@ -2085,6 +2098,7 @@ class KumbiaActiveRecord
         $this->_validates['format_of'][$field] = $params;
         $this->_validates['format_of'][$field]['pattern'] = $pattern;
     }
+
     /**
      * Valida que ciertos atributos tengan un valor numerico
      * antes de insertar o actualizar
@@ -2101,6 +2115,7 @@ class KumbiaActiveRecord
 
         $this->_validates['numericality_of'][$field] = $params;
     }
+
     /**
      * Valida que ciertos atributos tengan un formato de e-mail correcto
      * antes de insertar o actualizar
@@ -2117,6 +2132,7 @@ class KumbiaActiveRecord
 
         $this->_validates['email_in'][$field] = $params;
     }
+
     /**
      * Valida que ciertos atributos tengan un valor unico antes
      * de insertar o actualizar
@@ -2133,6 +2149,7 @@ class KumbiaActiveRecord
 
         $this->_validates['uniqueness_of'][$field] = $params;
     }
+
     /**
      * Valida que ciertos atributos tengan un formato de fecha acorde al indicado en
      * config/config.ini antes de insertar o actualizar
@@ -2149,6 +2166,7 @@ class KumbiaActiveRecord
 
         $this->_validates['date_in'][$field] = $params;
     }
+
     /**
      * Verifica si un campo es de tipo de dato numerico o no
      *
@@ -2163,6 +2181,7 @@ class KumbiaActiveRecord
             return false;
         }
     }
+
     /**
      * Obtiene los datos de los metadatos generados por Primera vez en la Sesi&oacute;n
      *
@@ -2173,15 +2192,16 @@ class KumbiaActiveRecord
     {
         if (isset(self::$models[$table])) {
             return self::$models[$table];
-        } elseif(PRODUCTION) {
+        } elseif (PRODUCTION) {
 
-			$metadata = Cache::driver()->get($table, 'kumbia.models');
-			if($metadata) {
-				return self::$models[$table] = unserialize($metadata);
-			}
+            $metadata = Cache::driver()->get($table, 'kumbia.models');
+            if ($metadata) {
+                return self::$models[$table] = unserialize($metadata);
+            }
         }
-		return array();
+        return array();
     }
+
     /**
      * Crea un registro de meta datos para la tabla especificada
      *
@@ -2190,15 +2210,17 @@ class KumbiaActiveRecord
      */
     static function set_meta_data($table, $meta_data)
     {
-        if(PRODUCTION) {
+        if (PRODUCTION) {
             Cache::driver()->save(serialize($meta_data), Config::get('config.application.metadata_lifetime'), $table, 'kumbia.models');
         }
         self::$models[$table] = $meta_data;
         return true;
     }
-    /*******************************************************************************************
-    * Metodos para generacion de relaciones
-    *******************************************************************************************/
+
+    /*     * *****************************************************************************************
+     * Metodos para generacion de relaciones
+     * ***************************************************************************************** */
+
     /**
      * Crea una relacion 1-1 entre dos modelos
      *
@@ -2210,15 +2232,18 @@ class KumbiaActiveRecord
     protected function has_one($relation)
     {
         $params = Util::getParams(func_get_args());
-        for ($i = 0;isset($params[$i]);$i++) {
+        for ($i = 0; isset($params[$i]); $i++) {
             $relation = Util::uncamelize($params[$i]);
-            if (!array_key_exists($relation, $this->_has_one)) {
-                $this->_has_one[$relation] = new stdClass();
-                $this->_has_one[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
-                $this->_has_one[$relation]->fk = isset($params['fk']) ? $params['fk'] : Util::uncamelize(get_class($this)) . '_id';
+            $index = explode('/', $relation); 
+            $index = end($index);
+            if (!array_key_exists($index, $this->_has_one)) {
+                $this->_has_one[$index] = new stdClass();
+                $this->_has_one[$index]->model = isset($params['model']) ? $params['model'] : $relation;
+                $this->_has_one[$index]->fk = isset($params['fk']) ? $params['fk'] : Util::uncamelize(get_class($this)) . '_id';
             }
         }
     }
+
     /**
      * Crea una relacion 1-1 inversa entre dos modelos
      *
@@ -2230,15 +2255,18 @@ class KumbiaActiveRecord
     protected function belongs_to($relation)
     {
         $params = Util::getParams(func_get_args());
-        for ($i = 0;isset($params[$i]);$i++) {
+        for ($i = 0; isset($params[$i]); $i++) {
             $relation = Util::uncamelize($params[$i]);
-            if (!array_key_exists($relation, $this->_belongs_to)) {
-                $this->_belongs_to[$relation] = new stdClass();
-                $this->_belongs_to[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
-                $this->_belongs_to[$relation]->fk = isset($params['fk']) ? $params['fk'] : "{$relation}_id";
+            $index = explode('/', $relation); 
+            $index = end($index);
+            if (!array_key_exists($index, $this->_belongs_to)) {
+                $this->_belongs_to[$index] = new stdClass();
+                $this->_belongs_to[$index]->model = isset($params['model']) ? $params['model'] : $relation;
+                $this->_belongs_to[$index]->fk = isset($params['fk']) ? $params['fk'] : "{$relation}_id";
             }
         }
     }
+
     /**
      * Crea una relacion 1-n entre dos modelos
      *
@@ -2248,17 +2276,20 @@ class KumbiaActiveRecord
      * fk : campo por el cual se relaciona (llave foranea)
      */
     protected function has_many($relation)
-   	{
+    {
         $params = Util::getParams(func_get_args());
-        for ($i = 0;isset($params[$i]);$i++) {
+        for ($i = 0; isset($params[$i]); $i++) {
             $relation = Util::uncamelize($params[$i]);
-            if (!array_key_exists($relation, $this->_has_many)) {
-                $this->_has_many[$relation] = new stdClass();
-                $this->_has_many[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
-                $this->_has_many[$relation]->fk = isset($params['fk']) ? $params['fk'] : Util::uncamelize(get_class($this)) . '_id';
+            $index = explode('/', $relation); 
+            $index = end($index);
+            if (!array_key_exists($index, $this->_has_many)) {
+                $this->_has_many[$index] = new stdClass();
+                $this->_has_many[$index]->model = isset($params['model']) ? $params['model'] : $relation;
+                $this->_has_many[$index]->fk = isset($params['fk']) ? $params['fk'] : Util::uncamelize(get_class($this)) . '_id';
             }
         }
     }
+
     /**
      * Crea una relacion n-n o 1-n inversa entre dos modelos
      *
@@ -2272,7 +2303,7 @@ class KumbiaActiveRecord
     protected function has_and_belongs_to_many($relation)
     {
         $params = Util::getParams(func_get_args());
-        for ($i = 0;isset($params[$i]);$i++) {
+        for ($i = 0; isset($params[$i]); $i++) {
             $relation = Util::uncamelize($params[$i]);
             if (!array_key_exists($relation, $this->_has_and_belongs_to_many)) {
                 $this->_has_and_belongs_to_many[$relation] = new stdClass();
@@ -2285,9 +2316,11 @@ class KumbiaActiveRecord
             }
         }
     }
+
     /**
      * Herencia Simple
      */
+
     /**
      * Especifica que la clase es padre de otra
      *
@@ -2296,12 +2329,13 @@ class KumbiaActiveRecord
     public function parent_of($parent)
     {
         $parents = func_get_args();
-        foreach($parents as $parent) {
+        foreach ($parents as $parent) {
             if (!in_array($parent, $this->parent_of)) {
                 $this->parent_of[] = $parent;
             }
         }
     }
+
     /**
      * Elimina caracteres que podrian ayudar a ejecutar
      * un ataque de Inyeccion SQL
@@ -2319,6 +2353,7 @@ class KumbiaActiveRecord
         }
         return $sql_item;
     }
+
     /**
      * Elimina caracteres que podrian ayudar a ejecutar
      * un ataque de Inyeccion SQL
@@ -2326,7 +2361,7 @@ class KumbiaActiveRecord
      * @param string $sql_item
      */
     public static function sql_sanizite($sql_item)
-   	{
+    {
         $sql_item = trim($sql_item);
         if ($sql_item !== '' && $sql_item !== null) {
             $sql_temp = preg_replace('/\s+/', '', $sql_item);
@@ -2336,6 +2371,7 @@ class KumbiaActiveRecord
         }
         return $sql_item;
     }
+
     /**
      * Al sobreescribir este metodo se puede controlar las excepciones de un modelo
      *
@@ -2345,6 +2381,7 @@ class KumbiaActiveRecord
     {
         throw $e;
     }
+
     /**
      * Implementacion de __toString Standard
      *
@@ -2353,6 +2390,7 @@ class KumbiaActiveRecord
     {
         return "<" . get_class() . " Object>";
     }
+
     /**
      * Paginador para el modelo
      *
@@ -2368,10 +2406,11 @@ class KumbiaActiveRecord
         $args = func_get_args();
         array_unshift($args, $this);
         //if(!class_exists('Paginator')){
-            require_once CORE_PATH . 'libs/kumbia_active_record/behaviors/paginate.php';
+        require_once CORE_PATH . 'libs/kumbia_active_record/behaviors/paginate.php';
         //}
-        return call_user_func_array(array('Paginator' , 'paginate'), $args);
+        return call_user_func_array(array('Paginator', 'paginate'), $args);
     }
+
     /**
      * Paginador para el modelo atraves de consulta sql
      *
@@ -2388,97 +2427,103 @@ class KumbiaActiveRecord
         $args = func_get_args();
         array_unshift($args, $this);
         //if(!class_exists('Paginator')){
-            require_once CORE_PATH . 'libs/kumbia_active_record/behaviors/paginate.php';
+        require_once CORE_PATH . 'libs/kumbia_active_record/behaviors/paginate.php';
         //}
-        return call_user_func_array(array('Paginator' , 'paginate_by_sql'), $args);
+        return call_user_func_array(array('Paginator', 'paginate_by_sql'), $args);
     }
+
     /**
      * Operaciones al serializar
      *
-     **/
+     * */
     public function __sleep()
     {
         /**
          * Anulando conexion a bd en el modelo
-         **/
+         * */
         $this->db = null;
 
         return array_keys(get_object_vars($this));
     }
+
     /**
      * Operaciones al deserializar
      *
-     **/
+     * */
     public function __wakeup()
     {
         /**
          * Restableciendo conexion a la bd
-         **/
+         * */
         $this->_connect();
     }
-	/**
-	 * Obtiene la instacia de un modelo
-	 *
-	 * @param string $model
-	 * @return ActiveRecord
-	 * @throw KumbiaException
-	 **/
-	public static function get($model)
-	{
-		if(isset(self::$_models[$model])) {
-			return self::$_models[$model];
-		}
 
-		/**
-		 * Nombre de la clase
-		 **/
-		$Model = Util::camelcase(basename($model));
+    /**
+     * Obtiene la instacia de un modelo
+     *
+     * @param string $model
+     * @return ActiveRecord
+     * @throw KumbiaException
+     * */
+    public static function get($model)
+    {
+        if (isset(self::$_models[$model])) {
+            return self::$_models[$model];
+        }
 
-		/**
-		 * Verifico si esta cargada la clase
-		 **/
-		if(!class_exists($Model, false)) {
-			/**
-			 * Carga la clase
-			 **/
-			$file = APP_PATH . "models/$model.php";
-			if(is_file($file)) {
-				include $file;
-			} else {
-				throw new KumbiaException(null, 'no_model');
-			}
-		}
+        /**
+         * Nombre de la clase
+         * */
+        $Model = Util::camelcase(basename($model));
 
-		self::$_models[$model] = $obj = new $Model();
-		return $obj;
-	}
+        /**
+         * Verifico si esta cargada la clase
+         * */
+        if (!class_exists($Model, false)) {
+            /**
+             * Carga la clase
+             * */
+            $file = APP_PATH . "models/$model.php";
+            if (is_file($file)) {
+                include $file;
+            } else {
+                throw new KumbiaException(null, 'no_model');
+            }
+        }
+
+        self::$_models[$model] = $obj = new $Model();
+        return $obj;
+    }
+
     /**
-	 * Devuelve un JSON de este modelo
-	 *
-	 * @return string JSON del modelo
-	 */
-	public function to_json()
-	{
-		return json_encode($this);
-	}
+     * Devuelve un JSON de este modelo
+     *
+     * @return string JSON del modelo
+     */
+    public function to_json()
+    {
+        return json_encode($this);
+    }
+
     /**
-	 * Devuelve un array de este modelo
-	 *
-	 * @return array Array del modelo
-	 */
-	public function to_array()
-	{
-		return ((array) $this);
-	}
+     * Devuelve un array de este modelo
+     *
+     * @return array Array del modelo
+     */
+    public function to_array()
+    {
+        return ((array) $this);
+    }
+
     /**
-	 * Devuelve un PHP serial de este modelo
-	 * Usarlo con cuidado, ya que pasa todos los atributos, no sólo los publicos
-	 *
-	 * @return string  Serial de PHP del modelo
-	 */
-	public function serialize()
-	{
-		return serialize($this);
-	}
+     * Devuelve un PHP serial de este modelo
+     * Usarlo con cuidado, ya que pasa todos los atributos, no sólo los publicos
+     *
+     * @return string  Serial de PHP del modelo
+     */
+    public function serialize()
+    {
+        return serialize($this);
+    }
 
 }

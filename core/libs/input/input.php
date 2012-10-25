@@ -134,6 +134,29 @@ class Input
 	}
 	
     /**
+    * Permite Obtener el Agente de Usuario (User Agent)
+    * @return String
+    */
+    public static userAgent(){
+        return $_SERVER['HTTP_USER_AGENT'];
+    }
+
+    /**
+    * Permite obtene la IP del cliente, aún cuando usa proxy
+    * @return String
+    */
+    public static ip(){
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])){
+            return $_SERVER['HTTP_CLIENT_IP'];
+        }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }else{
+            return $_SERVER['REMOTE_ADDR'];    
+        }
+    }
+
+
+    /**
 	 * Obtiene y filtra un valor del arreglo $_REQUEST
 	 * Por defecto, usa SANITIZE
  	 *
@@ -144,4 +167,6 @@ class Input
     {
 		//TODO
     }
+
+    
 }
