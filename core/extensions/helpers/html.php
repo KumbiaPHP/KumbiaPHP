@@ -67,7 +67,6 @@ class Html
         return '<a href="' . PUBLIC_PATH . "$action\" $attrs >$text</a>";
     }
 
-
     /**
      * Crea un enlace a una acción del mismo controller que estemos
      *
