@@ -277,9 +277,12 @@ class KumbiaActiveRecord
         $this->_connect();
 
         if ($data) {
-            if (!is_array($data))
-                $data = Util::getParams(func_get_args());
-            $this->dump_result_self($data);
+            if (!is_array($data)) $data = Util::getParams(func_get_args());
+            foreach($this->fields as $field) {
+                if (isset($data[$field])) {
+                    $this->$field = $data[$field];
+                }
+            }
         }
     }
 
