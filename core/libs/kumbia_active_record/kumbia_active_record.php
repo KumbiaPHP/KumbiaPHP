@@ -1185,6 +1185,7 @@ class KumbiaActiveRecord
      *
      * @param string $form, equivalente a $_REQUEST[$form]
      * @return boolean success
+     * @deprecated No es seguro
      */
     public function create_from_request($form = null)
     {
@@ -1199,6 +1200,7 @@ class KumbiaActiveRecord
      *
      * @param string $form form name for request, equivalent to $_REQUEST[$form]
      * @return boolean success
+     * @deprecated No es seguro
      */
     public function save_from_request($form = null)
     {
