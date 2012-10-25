@@ -137,7 +137,7 @@ class Input
     * Permite Obtener el Agente de Usuario (User Agent)
     * @return String
     */
-    public static userAgent(){
+    public static function userAgent(){
         return $_SERVER['HTTP_USER_AGENT'];
     }
 
@@ -145,7 +145,7 @@ class Input
     * Permite obtene la IP del cliente, aún cuando usa proxy
     * @return String
     */
-    public static ip(){
+    public static function ip(){
         if (!empty($_SERVER['HTTP_CLIENT_IP'])){
             return $_SERVER['HTTP_CLIENT_IP'];
         }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
