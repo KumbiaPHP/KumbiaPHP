@@ -187,7 +187,7 @@
 			$("a.js-remote").on('click', this.cRemote);
 
             // Enlace ajax con confirmacion
-			$("a.js-remote-confirm").ok('click', this.cRemoteConfirm);
+			$("a.js-remote-confirm").on('click', this.cRemoteConfirm);
 
             // Efecto show
 			$("a.js-show").on('click', this.cFx('show'));
