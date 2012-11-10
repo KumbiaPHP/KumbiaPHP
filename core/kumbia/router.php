@@ -50,7 +50,32 @@ final class Router
 	 * @var boolean
 	 */
 	private static $_routed = false;
-
+    
+    /**
+	 * Ejecuta una url
+	 * 
+	 * @param string $url
+	 * @return Controller
+	 */
+	public static function execute($url)
+	{
+		
+		// Se miran los parametros por seguridad
+        str_replace(array('\\', '/../', '//'), '', $url, $errors);
+        
+        // Si hay intento de hack TODO: añadir la ip y referer en el log
+        if ($errors) throw new KumbiaException("Posible intento de hack en URL: '$url'");
+        
+        //Si config.ini tiene routes activados, mira si esta routed
+        if (Config::get('config.application.routes')) {
+            $url = self::_ifRouted($url);
+        }
+		// Descompone la url
+		self::_rewrite($url);
+		// Despacha la ruta actual
+		return self::_dispatch();
+	}
+    
     /**
      * Busca en la tabla de entutamiento si hay una ruta en config/routes.ini
      * para el controlador, accion, id actual
@@ -92,17 +117,6 @@ final class Router
         //Valor por defecto
         self::$_vars['route'] = $url;
 
-        // Se miran los parametros por seguridad
-        str_replace(array('\\', '/../', '//'), '', $url, $errors);
-        
-        // Si hay intento de hack TODO: añadir la ip y referer en el log
-        if ($errors) throw new KumbiaException("Posible intento de hack en URL: '$url'");
-
-        //Si config.ini tiene routes activados, mira si esta routed
-        if (Config::get('config.application.routes')) {
-            $url = self::_ifRouted($url);
-        }
-        
         if ($url == '/') return;
 
         //Se limpia la url, en caso de que la hallan escrito con el último parámetro sin valor, es decir controller/action/
@@ -200,20 +214,6 @@ final class Router
 
         return $cont;
     }
-
-	/**
-	 * Ejecuta una url
-	 * 
-	 * @param string $url
-	 * @return Controller
-	 */
-	public static function execute($url)
-	{
-		// Descompone la url
-		self::_rewrite($url);
-		// Despacha la ruta actual
-		return self::_dispatch();
-	}
 
     /**
      * Enruta el controlador actual a otro módulo, controlador, o a otra acción
