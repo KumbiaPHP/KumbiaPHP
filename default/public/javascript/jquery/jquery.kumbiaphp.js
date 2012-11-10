@@ -96,7 +96,7 @@
 			var button = $('[type=submit]', este);
 			button.attr('disabled', 'disabled');
 			var url = este.attr('action');
-			var div = este.attr('data-div');
+			var div = este.attr('data-to');
 			$.post(url, este.serialize(), function(data, status){
 				var capa = $('#'+div);
 				capa.html(data);

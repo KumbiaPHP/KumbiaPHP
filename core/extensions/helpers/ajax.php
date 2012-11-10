@@ -42,7 +42,7 @@ class Ajax
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote $class\" data-to=\"#{$update}\" $attrs>$text</a>";
     }
 
     /**
@@ -60,7 +60,7 @@ class Ajax
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote $class\" rel=\"#{$update}\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote $class\" data-to=\"#{$update}\" $attrs>$text</a>";
     }
 
     /**
@@ -80,7 +80,7 @@ class Ajax
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote-confirm $class\" data-to=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
     }
 
     /**
@@ -100,7 +100,7 @@ class Ajax
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote-confirm $class\" rel=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote-confirm $class\" data-to=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
     }
 
     /**
@@ -123,7 +123,7 @@ class Ajax
         $action = PUBLIC_PATH . rtrim($action, '/') . '/';
 
         // genera el campo
-        return Form::select($field, $data, "class=\"js-remote $class\" data-update=\"$update\" data-action=\"$action\" $attrs");
+        return Form::select($field, $data, "class=\"js-remote $class\" data-update=\"$update\" data-url=\"$action\" $attrs");
     }
 
     /**
@@ -148,7 +148,7 @@ class Ajax
         $action = PUBLIC_PATH . rtrim($action, '/') . '/';
 
         // genera el campo
-        return Form::dbSelect($field, $show, $data, $blank, "class=\"js-remote $class\" data-update=\"$update\" data-action=\"$action\" $attrs");
+        return Form::dbSelect($field, $show, $data, $blank, "class=\"js-remote $class\" data-update=\"$update\" data-url=\"$action\" $attrs");
     }
 
     /**
@@ -171,7 +171,7 @@ class Ajax
         } else {
             $action = PUBLIC_PATH . ltrim(Router::get('route'), '/');
         }
-        return "<form action=\"$action\" method=\"$method\" class=\"js-remote $class\" data-div=\"$update\" $attrs>";
+        return "<form action=\"$action\" method=\"$method\" class=\"js-remote $class\" data-to=\"$update\" $attrs>";
     }
 
 }
