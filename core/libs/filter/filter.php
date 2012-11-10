@@ -39,7 +39,7 @@ class Filter
      * @param array $options
      * @return mixed
      */
-    public static function get($s, $filter, $options=array())
+    public static function get($s, $filter, $options = array())
     {
         if (is_string($options)) {
             $filters = func_get_args();
@@ -73,7 +73,7 @@ class Filter
      * @param array $options
      * @return array
      */
-    public static function get_array($array, $filter, $options=array())
+    public static function get_array($array, $filter, $options = array())
     {
         $args = func_get_args();
 
@@ -86,13 +86,92 @@ class Filter
     }
 
     /**
+     * Aplica los filtros a un array de datos.
+     * 
+     * Muy util cuando queremos validar que de un formulario solo nos lleguen
+     * los datos necesarios para cierta situación, eliminando posibles elementos
+     * indeseados.
+     * 
+     * Ejemplos de uso:
+     * 
+     * $form = array(
+     *          'nombre' => "Pedro José",
+     *          'apellido' => "  Perez Aguilar  ",
+     *          'fecha_nac' => "2000-05-20",
+     *          'input_coleado' => "valor coleado",
+     *          'edad' => "25"
+     *      );
+     * 
+     * Filter::data($form, array(
+     *                      'nombre',
+     *                      'apellido',
+     *                      'fecha_nac' => 'date',
+     *                      'edad' => 'int'
+     *                  ), 'trim');
+     * 
+     * Devuelve: array(
+     *          'nombre' => "Pedro José",
+     *          'apellido' => "Perez Aguilar",
+     *          'fecha_nac' => "2000-05-20",
+     *          'edad' => "25"
+     *      );
+     * 
+     * Otro ejemplo para el mismo $form:
+     * 
+     * Filter::data($form, array(
+     *                      'nombre' => 'upper|alpha',
+     *                      apellido => 'lower|htmlentities|addslashes'
+     *                      'fecha_nac' => 'date',
+     *                      'edad' => 'int'
+     *                  ), 'trim');
+     * 
+     * Otros ejemplos más:
+     * 
+     * Filter::data($form, array('nombre', 'apellido','fecha_nac','edad'),'trim');
+     * 
+     * Filter::data($form, array('nombre', 'apellido','fecha_nac'));
+     *
+     * @param array $data datos a filtrar.
+     * @param array $fields arreglo donde los indices son los campos a devolver
+     * del array original, y el valor de cada indice es el filtro que se 
+     * aplicará. si no se desea especificar ningun filtro para algun indice,
+     * se coloca solo el nombre del mismo como un valor mas del arreglo.
+     * @param string $filterAll filtros que se aplicaran a todos los elementos.
+     * @return array datos filtrados. (Ademas solo devuelve los indices
+     * especificados en el segundo parametro).
+     */
+    public static function data(array $data, array $fields, $filterAll = NULL)
+    {
+        $filtered = array(); //datos filtrados a devolver.
+        foreach ($fields as $index => $filters) {
+            if (is_numeric($index) && array_key_exists($filters, $data)) {
+                //si el indice es numerico, no queremos usar filtro para ese campo
+                $filtered[$filters] = $data[$filters];
+                continue;
+            } elseif (array_key_exists($index, $data)) {//verificamos de nuevo la existencia del indice en $data
+                $filters = explode('|',$filters);//convertimos el filtro en arreglo
+                array_unshift($filters, $data[$index]);
+                $filtered[$index] = call_user_func_array(array('self', 'get'), $filters);
+                //$filtered[$index] = self::get($data[$index], $filters); //por ahora sin opciones adicionales.
+            }
+        }
+        if ($filterAll) {
+            $filterAll = explode('|',$filterAll);
+            array_unshift($filterAll, $filtered);
+            return call_user_func_array(array('self', 'get_array'), $filterAll);
+        } else {
+            return $filtered;
+        }
+    }
+
+    /**
      * Aplica filtros a un objeto
      *
      * @param mixed $object
      * @param array $options
      * @return object
      */
-    public static function get_object($object, $filter, $options=array())
+    public static function get_object($object, $filter, $options = array())
     {
         $args = func_get_args();
 
