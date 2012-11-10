@@ -36,11 +36,12 @@ final class Router
      * @var array
      */
     private static $_vars = array(
-        'route' => null, //Ruta pasada en el GET
-        'module' => null, //Nombre del modulo actual
+        'method' => NULL, //Método usado GET, POST, ...
+        'route' => NULL, //Ruta pasada en el GET
+        'module' => NULL, //Nombre del módulo actual
         'controller' => 'index', //Nombre del controlador actual
         'action' => 'index', //Nombre de la acción actual, por defecto index
-        'parameters' => array(), //Lista los parametros adicionales de la URL
+        'parameters' => array(), //Lista los parámetros adicionales de la URL
         'controller_path' => 'index'
     );
 
@@ -116,6 +117,8 @@ final class Router
     {
         //Valor por defecto
         self::$_vars['route'] = $url;
+        //Métod usado
+        self::$_vars['method'] = $_SERVER['REQUEST_METHOD'];
 
         if ($url == '/') return;
 
