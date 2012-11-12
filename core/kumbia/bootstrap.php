@@ -65,7 +65,10 @@ if (!defined('PRODUCTION')) {
 
 // Carga la cache y verifica si esta cacheado el template, al estar en produccion
 if (PRODUCTION) {
-    // @see Cache
+    
+	error_reporting(0);	
+	
+	// @see Cache
     require_once CORE_PATH . 'libs/cache/cache.php';
 
     //Asigna el driver por defecto usando el config.ini
@@ -78,6 +81,9 @@ if (PRODUCTION) {
         echo '<!-- Tiempo: ' . round(microtime(1) - START_TIME, 4) . ' seg. -->';
         exit(0);
     }
+}else{
+	error_reporting(E_ALL ^ E_STRICT); 
+	ini_set('display_errors', 'On'); 
 }
 
 // Asignando locale
