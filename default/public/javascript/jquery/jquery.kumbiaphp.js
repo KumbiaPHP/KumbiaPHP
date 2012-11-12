@@ -43,7 +43,8 @@
 		 * @param Object event
 		 */
 		cConfirm: function(event) {
-			if(!confirm(this.title)) {
+			var este=$(this);
+			if(!confirm(este.data('msg'))) {
 				event.preventDefault();
 			}
 		},
@@ -54,9 +55,10 @@
 		 * @param String fx
 		 */
 		cFx: function(fx) {
+			var este=$(this), rel = $('#'+este.data('to'));
 			return function(event) {
 				event.preventDefault();
-				(($(this.rel))[fx])();
+				(rel[fx])();
 			}
 		},
 
@@ -66,8 +68,9 @@
 		 * @param Object event
 		 */
 		cRemote: function(event) {
+			var este=$(this), rel = $('#'+este.data('to'));
 			event.preventDefault();
-			$(this.rel).load(this.href);
+			rel.load(this.href);
 		},
 
 		/**
@@ -76,9 +79,10 @@
 		 * @param Object event
 		 */
 		cRemoteConfirm: function(event) {
+			var este=$(this), rel = $('#'+este.data('to'));
 			event.preventDefault();
-			if(confirm(this.title)) {
-				$(this.rel).load(this.href);
+			if(confirm(este.data('msg'))) {
+				rel.load(this.href);
 			}
 		},
 
@@ -92,7 +96,7 @@
 			var button = $('[type=submit]', este);
 			button.attr('disabled', 'disabled');
 			var url = este.attr('action');
-			var div = este.attr('data-div');
+			var div = este.attr('data-to');
 			$.post(url, este.serialize(), function(data, status){
 				var capa = $('#'+div);
 				capa.html(data);
@@ -108,8 +112,15 @@
 		 * @param Object event
 		 */
 		cUpdaterSelect: function(event) {
-            var este = $(this);
-			$('#' + este.attr('data-update')).load(este.attr('data-action') + this.value);
+            var $t = $(this),$u= $('#' + $t.data('update'))
+				url = $t.data('url');
+            $u.empty();
+            $.get(url, {'id':$t.val()}, function(d){
+				for(i in d){
+					var a = $('<option />').text(d[i]).val(i);
+					$u.append(a);
+				}
+			}, 'json');
 		},
 
 		/**
