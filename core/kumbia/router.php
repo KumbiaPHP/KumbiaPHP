@@ -303,7 +303,7 @@ final class Router
             header("Refresh: $seconds; url=$route");
         } else {
             header("Location: $route");
-            $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
+            Session::set('KUMBIA.CONTENT', ob_get_clean());
             View::select(null, null);
         }
     }
