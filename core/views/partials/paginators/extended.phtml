@@ -38,12 +38,12 @@ $e_item = $s_item + count($page->items) - 1;
 ?>
 
 <div class="paginator">
-    <?php if($page->prev==1) echo Html::link("$url/", 'Anterior', 'title="Ir a la pág. anterior" class="nextprev"'); // Se coloca el link sin numero de pagina para la pagina 1
-        elseif($page->prev) echo Html::link("$url/$page->prev/", 'Anterior', 'title="Ir a la pág. anterior" class="nextprev"'); ?>
+    <?php if($page->prev==1) echo Html::link("$url/", 'Anterior', 'title="Ir a la pág. anterior" class="nextprev" rel="prev"'); // Se coloca el link sin número de página para la página 1
+        elseif($page->prev) echo Html::link("$url/$page->prev/", 'Anterior', 'title="Ir a la pág. anterior" class="nextprev" rel="prev"') ?>
 
     pag. <?php echo $page->current ?> de <?php echo $page->total ?>
     |
     items <?php echo $s_item ?>-<?php echo $e_item ?>
 
-    <?php if($page->next) echo Html::link("$url/$page->next/", 'Siguiente', 'title="Ir a la pág. siguiente" class="nextprev"'); ?>
+    <?php if($page->next) echo Html::link("$url/$page->next/", 'Siguiente', 'title="Ir a la pág. siguiente" class="nextprev" rel="next"') ?>
 </div>

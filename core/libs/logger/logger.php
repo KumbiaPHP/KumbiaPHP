@@ -92,7 +92,7 @@ abstract class Logger
     {
         self::$log_path = APP_PATH . 'temp/logs/';
         if ($name === '' || $name === true) {
-            $name = 'log' . date('dmY') . '.txt';
+            $name = 'log' . date('Y-m-d') . '.txt';
         }
         self::$fileLogger = fopen(self::$log_path . $name, 'a');
         if (!self::$fileLogger) {
