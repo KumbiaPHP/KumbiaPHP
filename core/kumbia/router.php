@@ -50,7 +50,7 @@ final class Router
 	 * 
 	 * @var boolean
 	 */
-	private static $_routed = false;
+	private static $_routed = FALSE;
     
     /**
 	 * Ejecuta una url
@@ -207,9 +207,9 @@ final class Router
         //Corre los filtros after y finalize
         $cont->k_callback();
 
-        //Si esta routed volver a ejecutar
+        //Si esta routed internamente volver a ejecutar
         if (self::$_routed) {
-            self::$_routed = false;
+            self::$_routed = FALSE;
             return self::_dispatch(); // Vuelve a ejecutar el dispatcher
         }
 
@@ -319,4 +319,16 @@ final class Router
     {
         self::redirect(self::$_vars['controller_path'] . "/$action", $seconds);
     }
+	
+	/**
+     * Redirecciona la ejecución internamente o externamente con un routes propio
+     * 
+     * @param array $params array de $_vars (móddulo, controller, action, params, ...)
+     * @param boolean $intern si la redirección es interna
+     */
+	public static function to($params, $intern = FALSE)
+	{
+		if($intern) self::$_routed = TRUE;
+		self::$_vars = array_merge(self::$_vars, $params);
+	}
 }
