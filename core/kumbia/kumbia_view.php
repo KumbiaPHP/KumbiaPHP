@@ -138,7 +138,7 @@ class KumbiaView
      *
      * @return string
      */
-    private static function getPath()
+    public static function getPath()
     {
         if (self::$_response && self::$_response != 'view') {
             return self::$_path . self::$_view . '.' . self::$_response . '.phtml';
@@ -220,7 +220,7 @@ class KumbiaView
 
                 // carga la vista
                 if (!include $file)
-                    throw new KumbiaException('Vista "' . self::getPath() . '" no encontrada');
+                    throw new KumbiaException('Vista "' . self::getPath() . '" no encontrada', 'no_view');
 
                 // si esta en produccion y se cachea la vista
                 if (PRODUCTION && self::$_cache['type'] == 'view') {
