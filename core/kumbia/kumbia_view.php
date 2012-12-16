@@ -314,6 +314,7 @@ class KumbiaView
 
     /**
      * Carga los helpers
+     * @deprecated ahora se cargan automaticamente
      *
      * @param string $helper
      * @throw KumbiaException
@@ -341,7 +342,7 @@ class KumbiaView
 	 */
 	public static function getVar($var)
 	{
-		return isset(self::$_controller->$var) ? self::$_controller->$var : null;
+		return isset(self::$_controller->$var) ? self::$_controller->$var : NULL;
 	}
 }
 
