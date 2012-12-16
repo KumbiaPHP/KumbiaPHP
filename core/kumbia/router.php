@@ -170,7 +170,7 @@ final class Router
         //Asigna el controlador activo
         $app_controller = Util::camelcase($controller) . 'Controller';
         $cont = new $app_controller($module, $controller, $action, $parameters);
-        View::select($action);
+        View::select($action); //TODO: mover al constructor del controller base las 2 lineas
         View::setPath($controller_path);
 
         // Se ejecutan los filtros initialize y before
@@ -178,23 +178,16 @@ final class Router
             return $cont;
         }
 
-        //Se ejecuta el metodo con el nombre de la accion
-        //en la clase de acuerdo al convenio
-        if (!method_exists($cont, $cont->action_name)) {
-            throw new KumbiaException(null, 'no_action');
-        }
-
         //Obteniendo el metodo
-        $reflectionMethod = new ReflectionMethod($cont, $cont->action_name);
+		try {
+			$reflectionMethod = new ReflectionMethod($cont, $cont->action_name);
+		} catch (ReflectionException $e) {
+			throw new KumbiaException(null, 'no_action'); //TODO: enviar a un método del controller
+		}
 
         //k_callback y __constructor metodo reservado
-        if ($reflectionMethod->name == 'k_callback' || $reflectionMethod->isConstructor()) {
+        if ($cont->action_name == 'k_callback' || $reflectionMethod->isConstructor()) {
             throw new KumbiaException('Esta intentando ejecutar un método reservado de KumbiaPHP');
-        }
-
-        //se verifica que el metodo sea public
-        if (!$reflectionMethod->isPublic()) {
-            throw new KumbiaException(null, 'no_action');
         }
 
         //se verifica que los parametros que recibe
@@ -204,7 +197,12 @@ final class Router
                 $num_params > $reflectionMethod->getNumberOfParameters())) {
             throw new KumbiaException(NULL,'num_params');
         }
-        $reflectionMethod->invokeArgs($cont, $cont->parameters);
+		
+		try {
+			$reflectionMethod->invokeArgs($cont, $cont->parameters);
+		} catch (ReflectionException $e) {
+			throw new KumbiaException(null, 'no_action'); //TODO: mejor no_public
+		}
 
         //Corre los filtros after y finalize
         $cont->k_callback();
@@ -220,7 +218,7 @@ final class Router
 
     /**
      * Enruta el controlador actual a otro módulo, controlador, o a otra acción
-     * 
+     * @deprecated
      * @example
      * Router::route_to("module: modulo", "controller: nombre", "action: accion", "parameters: 1/2")
      */
@@ -290,6 +288,7 @@ final class Router
     /**
      * Redirecciona la ejecución a otro controlador en un
      * tiempo de ejecución determinado
+     * @deprecated
      *
      * @param string $route
      * @param integer $seconds
@@ -311,6 +310,7 @@ final class Router
     /**
      * Redirecciona la ejecución a una accion del controlador actual en un
      * tiempo de ejecución determinado
+     * @deprecated
      * 
      * @param string $action
      * @param integer $seconds
