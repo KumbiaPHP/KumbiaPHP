@@ -855,7 +855,7 @@ class KumbiaActiveRecord
                 ActiveRecord::sql_item_sanizite($this->primary_key[0]);
                 if (isset($what[0])) {
                     if (is_numeric($what[0])) {
-                        $what['conditions'] = "{$this->primary_key[0]} = {$this->db->add_quotes($what[0]) }";
+                        $what['conditions'] = "{$this->primary_key[0]} = ".(int)$what[0] ;
                     } else {
                         if ($what[0] == '') {
                             $what['conditions'] = "{$this->primary_key[0]} = ''";
@@ -883,10 +883,10 @@ class KumbiaActiveRecord
             }
             $limit_args = array($select);
             if (isset($what['limit'])) {
-                array_push($limit_args, "limit: $what[limit]");
+                array_push($limit_args, "limit: ".(int)$what['limit']);
             }
             if (isset($what['offset'])) {
-                array_push($limit_args, "offset: $what[offset]");
+                array_push($limit_args, "offset: ".(int)$what['offset']);
             }
             if (count($limit_args) > 1) {
                 $select = call_user_func_array(array($this, 'limit'), $limit_args);
@@ -894,7 +894,7 @@ class KumbiaActiveRecord
         } else {
             if (strlen($what)) {
                 if (is_numeric($what)) {
-                    $select.= "WHERE {$this->primary_key[0]} = '$what'";
+                    $select.= "WHERE {$this->primary_key[0]} = ".(int)$what[0] ;
                 } else {
                     $select.= "WHERE $what";
                 }

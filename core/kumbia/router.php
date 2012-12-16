@@ -36,11 +36,12 @@ final class Router
      * @var array
      */
     private static $_vars = array(
-        'route' => null, //Ruta pasada en el GET
-        'module' => null, //Nombre del modulo actual
+        'method' => NULL, //Método usado GET, POST, ...
+        'route' => NULL, //Ruta pasada en el GET
+        'module' => NULL, //Nombre del módulo actual
         'controller' => 'index', //Nombre del controlador actual
         'action' => 'index', //Nombre de la acción actual, por defecto index
-        'parameters' => array(), //Lista los parametros adicionales de la URL
+        'parameters' => array(), //Lista los parámetros adicionales de la URL
         'controller_path' => 'index'
     );
 
@@ -49,8 +50,33 @@ final class Router
 	 * 
 	 * @var boolean
 	 */
-	private static $_routed = false;
-
+	private static $_routed = FALSE;
+    
+    /**
+	 * Ejecuta una url
+	 * 
+	 * @param string $url
+	 * @return Controller
+	 */
+	public static function execute($url)
+	{
+		
+		// Se miran los parametros por seguridad
+        str_replace(array('\\', '/../', '//'), '', $url, $errors);
+        
+        // Si hay intento de hack TODO: añadir la ip y referer en el log
+        if ($errors) throw new KumbiaException("Posible intento de hack en URL: '$url'");
+        
+        //Si config.ini tiene routes activados, mira si esta routed
+        if (Config::get('config.application.routes')) {
+            $url = self::_ifRouted($url);
+        }
+		// Descompone la url
+		self::_rewrite($url);
+		// Despacha la ruta actual
+		return self::_dispatch();
+	}
+    
     /**
      * Busca en la tabla de entutamiento si hay una ruta en config/routes.ini
      * para el controlador, accion, id actual
@@ -91,18 +117,9 @@ final class Router
     {
         //Valor por defecto
         self::$_vars['route'] = $url;
+        //Métod usado
+        self::$_vars['method'] = $_SERVER['REQUEST_METHOD'];
 
-        // Se miran los parametros por seguridad
-        str_replace(array('\\', '/../', '//'), '', $url, $errors);
-        
-        // Si hay intento de hack TODO: añadir la ip y referer en el log
-        if ($errors) throw new KumbiaException("Posible intento de hack en URL: '$url'");
-
-        //Si config.ini tiene routes activados, mira si esta routed
-        if (Config::get('config.application.routes')) {
-            $url = self::_ifRouted($url);
-        }
-        
         if ($url == '/') return;
 
         //Se limpia la url, en caso de que la hallan escrito con el último parámetro sin valor, es decir controller/action/
@@ -153,7 +170,7 @@ final class Router
         //Asigna el controlador activo
         $app_controller = Util::camelcase($controller) . 'Controller';
         $cont = new $app_controller($module, $controller, $action, $parameters);
-        View::select($action);
+        View::select($action); //TODO: mover al constructor del controller base las 2 lineas
         View::setPath($controller_path);
 
         // Se ejecutan los filtros initialize y before
@@ -161,23 +178,16 @@ final class Router
             return $cont;
         }
 
-        //Se ejecuta el metodo con el nombre de la accion
-        //en la clase de acuerdo al convenio
-        if (!method_exists($cont, $cont->action_name)) {
-            throw new KumbiaException(null, 'no_action');
-        }
-
         //Obteniendo el metodo
-        $reflectionMethod = new ReflectionMethod($cont, $cont->action_name);
+		try {
+			$reflectionMethod = new ReflectionMethod($cont, $cont->action_name);
+		} catch (ReflectionException $e) {
+			throw new KumbiaException(null, 'no_action'); //TODO: enviar a un método del controller
+		}
 
         //k_callback y __constructor metodo reservado
-        if ($reflectionMethod->name == 'k_callback' || $reflectionMethod->isConstructor()) {
+        if ($cont->action_name == 'k_callback' || $reflectionMethod->isConstructor()) {
             throw new KumbiaException('Esta intentando ejecutar un método reservado de KumbiaPHP');
-        }
-
-        //se verifica que el metodo sea public
-        if (!$reflectionMethod->isPublic()) {
-            throw new KumbiaException(null, 'no_action');
         }
 
         //se verifica que los parametros que recibe
@@ -185,39 +195,30 @@ final class Router
         $num_params = count($cont->parameters);
         if ($cont->limit_params && ($num_params < $reflectionMethod->getNumberOfRequiredParameters() ||
                 $num_params > $reflectionMethod->getNumberOfParameters())) {
-            throw new KumbiaException("Número de parámetros erróneo para ejecutar la acción \"{$cont->action_name}\" en el controlador \"$controller\"");
+            throw new KumbiaException(NULL,'num_params');
         }
-        $reflectionMethod->invokeArgs($cont, $cont->parameters);
+		
+		try {
+			$reflectionMethod->invokeArgs($cont, $cont->parameters);
+		} catch (ReflectionException $e) {
+			throw new KumbiaException(null, 'no_action'); //TODO: mejor no_public
+		}
 
         //Corre los filtros after y finalize
         $cont->k_callback();
 
-        //Si esta routed volver a ejecutar
+        //Si esta routed internamente volver a ejecutar
         if (self::$_routed) {
-            self::$_routed = false;
+            self::$_routed = FALSE;
             return self::_dispatch(); // Vuelve a ejecutar el dispatcher
         }
 
         return $cont;
     }
 
-	/**
-	 * Ejecuta una url
-	 * 
-	 * @param string $url
-	 * @return Controller
-	 */
-	public static function execute($url)
-	{
-		// Descompone la url
-		self::_rewrite($url);
-		// Despacha la ruta actual
-		return self::_dispatch();
-	}
-
     /**
      * Enruta el controlador actual a otro módulo, controlador, o a otra acción
-     * 
+     * @deprecated
      * @example
      * Router::route_to("module: modulo", "controller: nombre", "action: accion", "parameters: 1/2")
      */
@@ -287,6 +288,7 @@ final class Router
     /**
      * Redirecciona la ejecución a otro controlador en un
      * tiempo de ejecución determinado
+     * @deprecated
      *
      * @param string $route
      * @param integer $seconds
@@ -308,6 +310,7 @@ final class Router
     /**
      * Redirecciona la ejecución a una accion del controlador actual en un
      * tiempo de ejecución determinado
+     * @deprecated
      * 
      * @param string $action
      * @param integer $seconds
@@ -316,4 +319,16 @@ final class Router
     {
         self::redirect(self::$_vars['controller_path'] . "/$action", $seconds);
     }
+	
+	/**
+     * Redirecciona la ejecución internamente o externamente con un routes propio
+     * 
+     * @param array $params array de $_vars (móddulo, controller, action, params, ...)
+     * @param boolean $intern si la redirección es interna
+     */
+	public static function to($params, $intern = FALSE)
+	{
+		if($intern) self::$_routed = TRUE;
+		self::$_vars = array_merge(self::$_vars, $params);
+	}
 }

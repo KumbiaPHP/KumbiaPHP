@@ -105,19 +105,21 @@ class DbPdoMsSQL extends DbPDO
      * @param integer $number
      * @return string
      */
-    public function limit($sql, $number)
+    public function limit($sql)
     {
-        if (!is_numeric($number)) {
-            return $sql;
-        }
-        $orderby = stristr($sql, 'ORDER BY');
-        if ($orderby !== false) {
+        $params = Util::getParams(func_get_args());
+
+        if(!isset($params['offset']) && isset($params['limit'])){
+			return $sql = str_ireplace("SELECT ", "SELECT TOP $params[limit] ", $sql);
+		}
+		$orderby = stristr($sql, 'ORDER BY');
+		if ($orderby !== false) {
             $sort = (stripos($orderby, 'desc') !== false) ? 'desc' : 'asc';
             $order = str_ireplace('ORDER BY', '', $orderby);
             $order = trim(preg_replace('/ASC|DESC/i', '', $order));
         }
-        $sql = preg_replace('/^SELECT\s/i', 'SELECT TOP ' . ($number) . ' ', $sql);
-        $sql = 'SELECT * FROM (SELECT TOP ' . $number . ' * FROM (' . $sql . ') AS itable';
+        $sql = preg_replace('/^SELECT\s/i', 'SELECT TOP ' . $params[offset] . ' ', $sql);
+        $sql = 'SELECT * FROM (SELECT TOP ' . $params[limit] . ' * FROM (' . $sql . ') AS itable';
         if ($orderby !== false) {
             $sql.= ' ORDER BY ' . $order . ' ';
             $sql.= ( stripos($sort, 'asc') !== false) ? 'DESC' : 'ASC';
