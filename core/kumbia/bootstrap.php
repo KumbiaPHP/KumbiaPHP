@@ -101,14 +101,16 @@ if (isset($config['application']['charset'])) {
 function auto($class)
 {
 
-    // Optimizando carga de ActiveRecord
+    // Optimizando carga
     if ($class == 'ActiveRecord') {
         return require_once APP_PATH . 'libs/active_record.php';
     }
+    if ($class == 'Load') {
+        return require_once CORE_PATH . 'kumbia/load.php';
+    }   
 
     // Pasando a smallcase
     $class = Util::smallcase($class);
-
     if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
         return require_once APP_PATH . "extensions/helpers/$class.php";
     }
@@ -129,9 +131,6 @@ function auto($class)
 
 // @see Router
 require_once CORE_PATH . 'kumbia/router.php';
-
-//@see Load
-require_once CORE_PATH . 'kumbia/load.php';
 
 // @see Controller
 require_once APP_PATH . 'libs/app_controller.php';
