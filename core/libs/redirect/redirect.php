@@ -36,22 +36,22 @@ class Redirect
      * @param string $route
      * @param integer $seconds
      */
-    public static function to($route = null, $seconds = null, $statusCode = 302)
-    {
-        $route || $route = Router::get('controller_path') . '/';
-        
-	$route = PUBLIC_PATH . ltrim($route, '/');
-	
-	header('HTTP/1.0 ' . $statusCode);
-	
-        if ($seconds) {
-            header("Refresh: $seconds; url=$route");
-        } else {
-            header("Location: $route");
-            $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
-            View::select(null, null);
-        }
-    }
+	public static function to($route = null, $seconds = null, $statusCode = 302)
+	{
+		$route || $route = Router::get('controller_path') . '/';
+		
+		$route = PUBLIC_PATH . ltrim($route, '/');
+		
+		header('HTTP/1.0 ' . $statusCode);
+		
+		if ($seconds) {
+		    header("Refresh: $seconds; url=$route");
+		} else {
+		    header("Location: $route");
+		    $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
+		    View::select(null, null);
+		}
+	}
     
     /**
      * Redirecciona la ejecución a una accion del controlador actual en un
