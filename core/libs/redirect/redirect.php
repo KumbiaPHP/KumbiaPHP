@@ -24,7 +24,8 @@
  * @category   Kumbia
  * @package    Redirect
  */
-class Redirect{
+class Redirect
+{
     
     
     
@@ -35,11 +36,14 @@ class Redirect{
      * @param string $route
      * @param integer $seconds
      */
-    public static function to($route = null, $seconds = null)
+    public static function to($route = null, $seconds = null, $statusCode = 302)
     {
-        if (!$route)
-            $route = Router::get('controller_path') . '/';
-			$route = PUBLIC_PATH . ltrim($route, '/');
+        $route || $route = Router::get('controller_path') . '/';
+        
+	$route = PUBLIC_PATH . ltrim($route, '/');
+	
+	header('HTTP/1.0 ' . $statusCode);
+	
         if ($seconds) {
             header("Refresh: $seconds; url=$route");
         } else {
@@ -56,9 +60,9 @@ class Redirect{
      * @param string $action
      * @param integer $seconds
      */
-    public static function toAction($action, $seconds = null)
+    public static function toAction($action, $seconds = null, $statusCode = 302)
     {
-        self::to(Router::get('controller_path') . "/$action", $seconds);
+        self::to(Router::get('controller_path') . "/$action", $seconds, $statusCode);
     }
     
     /**
