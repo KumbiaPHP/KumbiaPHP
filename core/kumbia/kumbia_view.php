@@ -277,12 +277,13 @@ class KumbiaView
      * @param string $partial vista a renderizar
      * @param string $time tiempo de cache
      * @param array $params
+     * @param string $group grupo de cache
      * @return string
      * @throw KumbiaException
      */
-    public static function partial($partial, $__time=FALSE, $params=array())
+    public static function partial($partial, $__time=FALSE, $params=array(), $group ='kumbia.partials')
     {
-        if (PRODUCTION && $__time && !Cache::driver()->start($__time, $partial, 'kumbia.partials')) {
+        if (PRODUCTION && $__time && !Cache::driver()->start($__time, $partial, $group)) {
             return;
         }
 
