@@ -24,7 +24,8 @@
  * @category   Kumbia
  * @package    Redirect
  */
-class Redirect{
+class Redirect
+{
     
     
     
@@ -35,19 +36,21 @@ class Redirect{
      * @param string $route
      * @param integer $seconds
      */
-    public static function to($route = null, $seconds = null)
-    {
-        if (!$route)
-            $route = Router::get('controller_path') . '/';
-			$route = PUBLIC_PATH . ltrim($route, '/');
-        if ($seconds) {
-            header("Refresh: $seconds; url=$route");
-        } else {
-            header("Location: $route");
-            $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
-            View::select(null, null);
-        }
-    }
+	public static function to($route = null, $seconds = null, $statusCode = 302)
+	{
+    	$route || $route = Router::get('controller_path') . '/';
+    	
+    	$route = PUBLIC_PATH . ltrim($route, '/');
+    	    	
+    	if ($seconds) {
+    	    header("Refresh: $seconds; url=$route");
+    	} else {
+            header('HTTP/1.1 ' . $statusCode);
+    	    header("Location: $route");
+    	    $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
+    	    View::select(null, null);
+    	}
+	}
     
     /**
      * Redirecciona la ejecución a una accion del controlador actual en un
@@ -56,9 +59,9 @@ class Redirect{
      * @param string $action
      * @param integer $seconds
      */
-    public static function toAction($action, $seconds = null)
+    public static function toAction($action, $seconds = null, $statusCode = 302)
     {
-        self::to(Router::get('controller_path') . "/$action", $seconds);
+        self::to(Router::get('controller_path') . "/$action", $seconds, $statusCode);
     }
     
     /**
