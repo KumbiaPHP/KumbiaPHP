@@ -38,19 +38,18 @@ class Redirect
      */
 	public static function to($route = null, $seconds = null, $statusCode = 302)
 	{
-		$route || $route = Router::get('controller_path') . '/';
-		
-		$route = PUBLIC_PATH . ltrim($route, '/');
-		
-		header('HTTP/1.0 ' . $statusCode);
-		
-		if ($seconds) {
-		    header("Refresh: $seconds; url=$route");
-		} else {
-		    header("Location: $route");
-		    $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
-		    View::select(null, null);
-		}
+    	$route || $route = Router::get('controller_path') . '/';
+    	
+    	$route = PUBLIC_PATH . ltrim($route, '/');
+    	    	
+    	if ($seconds) {
+    	    header("Refresh: $seconds; url=$route");
+    	} else {
+            header('HTTP/1.1 ' . $statusCode);
+    	    header("Location: $route");
+    	    $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
+    	    View::select(null, null);
+    	}
 	}
     
     /**
