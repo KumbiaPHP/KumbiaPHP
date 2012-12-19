@@ -293,7 +293,7 @@ class KumbiaActiveRecord
     protected function _model_name()
     {
         if (!$this->source) {
-            $this->source = Util::uncamelize(get_class($this));
+            $this->source = Util::smallcase(get_class($this));
         }
     }
 
@@ -496,7 +496,7 @@ class KumbiaActiveRecord
             return call_user_func_array(array($this, "find"), array_merge($arg, $args));
         }
         $model = preg_replace('/^get/', '', $method);
-        $mmodel = Util::uncamelize($model);
+        $mmodel = Util::smallcase($model);
         if (($data = $this->_get_relation_data($mmodel)) !== FALSE) {
             return $data;
         }
@@ -855,7 +855,7 @@ class KumbiaActiveRecord
                 ActiveRecord::sql_item_sanizite($this->primary_key[0]);
                 if (isset($what[0])) {
                     if (is_numeric($what[0])) {
-                        $what['conditions'] = "{$this->primary_key[0]} = {$this->db->add_quotes($what[0]) }";
+                        $what['conditions'] = "{$this->primary_key[0]} = ".(int)$what[0] ;
                     } else {
                         if ($what[0] == '') {
                             $what['conditions'] = "{$this->primary_key[0]} = ''";
@@ -883,10 +883,10 @@ class KumbiaActiveRecord
             }
             $limit_args = array($select);
             if (isset($what['limit'])) {
-                array_push($limit_args, "limit: $what[limit]");
+                array_push($limit_args, "limit: ".(int)$what['limit']);
             }
             if (isset($what['offset'])) {
-                array_push($limit_args, "offset: $what[offset]");
+                array_push($limit_args, "offset: ".(int)$what['offset']);
             }
             if (count($limit_args) > 1) {
                 $select = call_user_func_array(array($this, 'limit'), $limit_args);
@@ -894,7 +894,7 @@ class KumbiaActiveRecord
         } else {
             if (strlen($what)) {
                 if (is_numeric($what)) {
-                    $select.= "WHERE {$this->primary_key[0]} = '$what'";
+                    $select.= "WHERE {$this->primary_key[0]} = ".(int)$what[0] ;
                 } else {
                     $select.= "WHERE $what";
                 }
@@ -2238,13 +2238,13 @@ class KumbiaActiveRecord
     {
         $params = Util::getParams(func_get_args());
         for ($i = 0; isset($params[$i]); $i++) {
-            $relation = Util::uncamelize($params[$i]);
+            $relation = Util::smallcase($params[$i]);
             $index = explode('/', $relation); 
             $index = end($index);
             if (!array_key_exists($index, $this->_has_one)) {
                 $this->_has_one[$index] = new stdClass();
                 $this->_has_one[$index]->model = isset($params['model']) ? $params['model'] : $relation;
-                $this->_has_one[$index]->fk = isset($params['fk']) ? $params['fk'] : Util::uncamelize(get_class($this)) . '_id';
+                $this->_has_one[$index]->fk = isset($params['fk']) ? $params['fk'] : Util::smallcase(get_class($this)) . '_id';
             }
         }
     }
@@ -2261,7 +2261,7 @@ class KumbiaActiveRecord
     {
         $params = Util::getParams(func_get_args());
         for ($i = 0; isset($params[$i]); $i++) {
-            $relation = Util::uncamelize($params[$i]);
+            $relation = Util::smallcase($params[$i]);
             $index = explode('/', $relation); 
             $index = end($index);
             if (!array_key_exists($index, $this->_belongs_to)) {
@@ -2284,13 +2284,13 @@ class KumbiaActiveRecord
     {
         $params = Util::getParams(func_get_args());
         for ($i = 0; isset($params[$i]); $i++) {
-            $relation = Util::uncamelize($params[$i]);
+            $relation = Util::smallcase($params[$i]);
             $index = explode('/', $relation); 
             $index = end($index);
             if (!array_key_exists($index, $this->_has_many)) {
                 $this->_has_many[$index] = new stdClass();
                 $this->_has_many[$index]->model = isset($params['model']) ? $params['model'] : $relation;
-                $this->_has_many[$index]->fk = isset($params['fk']) ? $params['fk'] : Util::uncamelize(get_class($this)) . '_id';
+                $this->_has_many[$index]->fk = isset($params['fk']) ? $params['fk'] : Util::smallcase(get_class($this)) . '_id';
             }
         }
     }
@@ -2309,12 +2309,12 @@ class KumbiaActiveRecord
     {
         $params = Util::getParams(func_get_args());
         for ($i = 0; isset($params[$i]); $i++) {
-            $relation = Util::uncamelize($params[$i]);
+            $relation = Util::smallcase($params[$i]);
             if (!array_key_exists($relation, $this->_has_and_belongs_to_many)) {
                 $this->_has_and_belongs_to_many[$relation] = new stdClass();
                 $this->_has_and_belongs_to_many[$relation]->model = isset($params['model']) ? $params['model'] : $relation;
                 $this->_has_and_belongs_to_many[$relation]->fk = isset($params['fk']) ? $params['fk'] : "{$relation}_id";
-                $this->_has_and_belongs_to_many[$relation]->key = isset($params['key']) ? $params['key'] : Util::uncamelize(get_class($this)) . '_id';
+                $this->_has_and_belongs_to_many[$relation]->key = isset($params['key']) ? $params['key'] : Util::smallcase(get_class($this)) . '_id';
                 if (isset($params['through'])) {
                     $this->_has_and_belongs_to_many[$relation]->through = $params['through'];
                 }

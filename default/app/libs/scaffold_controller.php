@@ -32,7 +32,7 @@ class ScaffoldController extends AdminController
                 $this->{$this->model} = $obj;
                 return;
             }
-            return Router::redirect();
+            return Redirect::to();
         }
         // Solo es necesario para el autoForm
         $this->{$this->model} = Load::model($this->model);
@@ -53,7 +53,7 @@ class ScaffoldController extends AdminController
                 //se hacen persistente los datos en el formulario
                 $this->{$this->model} = Input::post($this->model);
             } else {
-                return Router::redirect();
+                return Redirect::to();
             }
         }
 
@@ -70,7 +70,7 @@ class ScaffoldController extends AdminController
             Flash::error('Falló Operación');
         }
         //enrutando al index para listar los articulos
-        Router::redirect();
+        Redirect::to();
     }
 
     /**

@@ -49,6 +49,7 @@ class Util
 
     /**
      * Descameliza una cadena camelizada y la convierte a smallcase
+     * @deprecated mejor usar el metodo smallcase directamente
      *
      * @param string $s
      * @return string

@@ -138,7 +138,7 @@ class KumbiaView
      *
      * @return string
      */
-    private static function getPath()
+    public static function getPath()
     {
         if (self::$_response && self::$_response != 'view') {
             return self::$_path . self::$_view . '.' . self::$_response . '.phtml';
@@ -220,7 +220,7 @@ class KumbiaView
 
                 // carga la vista
                 if (!include $file)
-                    throw new KumbiaException('Vista "' . self::getPath() . '" no encontrada');
+                    throw new KumbiaException('Vista "' . self::getPath() . '" no encontrada', 'no_view');
 
                 // si esta en produccion y se cachea la vista
                 if (PRODUCTION && self::$_cache['type'] == 'view') {
@@ -277,12 +277,13 @@ class KumbiaView
      * @param string $partial vista a renderizar
      * @param string $time tiempo de cache
      * @param array $params
+     * @param string $group grupo de cache
      * @return string
      * @throw KumbiaException
      */
-    public static function partial($partial, $__time=FALSE, $params=array())
+    public static function partial($partial, $__time=FALSE, $params=array(), $group ='kumbia.partials')
     {
-        if (PRODUCTION && $__time && !Cache::driver()->start($__time, $partial, 'kumbia.partials')) {
+        if (PRODUCTION && $__time && !Cache::driver()->start($__time, $partial, $group)) {
             return;
         }
 
@@ -313,6 +314,7 @@ class KumbiaView
 
     /**
      * Carga los helpers
+     * @deprecated ahora se cargan automaticamente
      *
      * @param string $helper
      * @throw KumbiaException
@@ -340,7 +342,7 @@ class KumbiaView
 	 */
 	public static function getVar($var)
 	{
-		return isset(self::$_controller->$var) ? self::$_controller->$var : null;
+		return isset(self::$_controller->$var) ? self::$_controller->$var : NULL;
 	}
 }
 
