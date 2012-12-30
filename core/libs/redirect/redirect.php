@@ -24,25 +24,27 @@
  * @category   Kumbia
  * @package    Redirect
  */
-class Redirect{
-    
-    
+class Redirect
+{
     
     /**
      * Redirecciona la ejecución a otro controlador en un
      * tiempo de ejecución determinado
      *
-     * @param string $route
-     * @param integer $seconds
+     * @param string $route ruta a la que será redirigida la petición.
+     * @param integer $seconds segundos que se esperarán antes de redirigir
+     * @param integer $statusCode código http de la respuesta, por defecto 302
      */
-    public static function to($route = null, $seconds = null)
+    public static function to($route = null, $seconds = null, $statusCode = 302)
     {
-        if (!$route)
-            $route = Router::get('controller_path') . '/';
-			$route = PUBLIC_PATH . ltrim($route, '/');
+        $route || $route = Router::get('controller_path') . '/';
+        
+        $route = PUBLIC_PATH . ltrim($route, '/');
+        
         if ($seconds) {
             header("Refresh: $seconds; url=$route");
         } else {
+            header('HTTP/1.1 ' . $statusCode);
             header("Location: $route");
             $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
             View::select(null, null);
@@ -53,12 +55,13 @@ class Redirect{
      * Redirecciona la ejecución a una accion del controlador actual en un
      * tiempo de ejecución determinado
      * 
-     * @param string $action
-     * @param integer $seconds
+     * @param string $action acción del controlador actual a la que se redirige
+     * @param integer $seconds segundos que se esperarán antes de redirigir
+     * @param integer $statusCode código http de la respuesta, por defecto 302
      */
-    public static function toAction($action, $seconds = null)
+    public static function toAction($action, $seconds = null, $statusCode = 302)
     {
-        self::to(Router::get('controller_path') . "/$action", $seconds);
+        self::to(Router::get('controller_path') . "/$action", $seconds, $statusCode);
     }
     
     /**
