@@ -120,9 +120,7 @@ class DbMySQL extends DbBase implements DbBaseInterface
         if (!extension_loaded('mysql')) {
             throw new KumbiaException('Debe cargar la extensión de PHP llamada php_mysql');
         }
-        if (!isset($config['port']) || !$config['port']) {
-            $config['port'] = 3306;
-        }
+        if (!isset($config['port']) || !$config['port']) $config['port'] = 3306;
 
         if ($this->id_connection = mysql_connect("{$config['host']}:{$config['port']}", $config['username'], $config['password'], true)) {
             if ($config['name'] !== '') {
@@ -131,10 +129,8 @@ class DbMySQL extends DbBase implements DbBaseInterface
                 }
             }
             //Selecciona charset
-            if (isset($config['charset'])) {
-                mysql_query("SET NAMES {$config['charset']}");
-                //mysql_set_charset($config['charset'],$this->id_connection); //Necesita mysql > 5.0.7
-            }
+            if (isset($config['charset'])) mysql_query("SET NAMES {$config['charset']}");
+            //mysql_set_charset($config['charset'],$this->id_connection); //Necesita mysql > 5.0.7
             return true;
         } else {
             throw new KumbiaException($this->error());

@@ -117,21 +117,14 @@ class DbMySQLi extends DbBase implements DbBaseInterface
      */
     public function connect($config)
     {
-
-        if (!extension_loaded('mysqli')) {
-            throw new KumbiaException('Debe cargar la extensión de PHP llamada php_mysqli');
-        }
+        if (!extension_loaded('mysqli')) throw new KumbiaException('Debe cargar la extensión de PHP llamada php_mysqli');
 
         $this->id_connection = new mysqli($config['host'], $config['username'], $config['password'], $config['name'], $config['port']);
-        if (mysqli_connect_error ()) { //no se usa $object->error() ya que solo funciona a partir de 5.2.9 y 5.3
-            throw new KumbiaException(mysqli_connect_error());
-        } else {
-            //Selecciona charset
-            if (isset($config['charset'])) {
-                $this->id_connection->set_charset($config['charset']);
-            }
-            return TRUE;
-        }
+        //no se usa $object->error() ya que solo funciona a partir de 5.2.9 y 5.3
+        if (mysqli_connect_error ()) throw new KumbiaException(mysqli_connect_error());
+        //Selecciona charset
+        if (isset($config['charset'])) $this->id_connection->set_charset($config['charset']);
+        return TRUE;
     }
 
     /**
