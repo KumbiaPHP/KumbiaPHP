@@ -169,7 +169,7 @@ abstract class Upload
      * Guarda el archivo subido
      *
      * @param string $name nombre con el que se guardara el archivo
-     * @return boolean
+     * @return boolean|string Nombre de archivo generado con la extensión o FALSE si falla
      */
     public function save($name = NULL)
     {
@@ -184,8 +184,9 @@ abstract class Upload
         // Guarda el archivo
         if ($this->_beforeSave($name) !== FALSE && $this->_overwrite($name) && $this->_validates() && $this->_saveFile($name)) {
             $this->_afterSave($name);
-            return TRUE;
+            return $name;
         }
+        return FALSE;
     }
 
     /**
