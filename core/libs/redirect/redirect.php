@@ -37,7 +37,7 @@ class Redirect
      */
     public static function to($route = null, $seconds = null, $statusCode = 302)
     {
-        $route || $route = Router::get('controller_path') . '/';
+        $route OR $route = Router::get('controller_path') . '/';
         
         $route = PUBLIC_PATH . ltrim($route, '/');
         
