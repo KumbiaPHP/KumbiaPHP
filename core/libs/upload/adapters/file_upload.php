@@ -44,7 +44,7 @@ class FileUpload extends Upload
         parent::__construct($name);
 
         // Ruta donde se guardara el archivo
-        $this->_path = dirname(APP_PATH) . '/public/files/upload';
+        $this->_path = dirname($_SERVER['SCRIPT_FILENAME']) . '/files/upload';
     }
 
     /**
