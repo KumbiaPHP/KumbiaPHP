@@ -289,13 +289,10 @@ abstract class Upload
      */
     protected function _getExtension()
     {
-        if ($ext = explode('.', $_FILES[$this->_name]['name'])) {
-            $ext = '.' . end($ext);
-        } else {
-            $ext = NULL;
+        if($ext = pathinfo($_FILES[$this->_name]['name'], PATHINFO_EXTENSION)){
+            return '.'. $ext;
         }
-
-        return $ext;
+        return NULL;
     }
 
     /**
