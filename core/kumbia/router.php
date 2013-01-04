@@ -329,6 +329,6 @@ final class Router
 	public static function to($params, $intern = FALSE)
 	{
 		if($intern) self::$_routed = TRUE;
-		self::$_vars = array_merge(self::$_vars, $params);
+		self::$_vars = $params + self::$_vars;
 	}
 }
