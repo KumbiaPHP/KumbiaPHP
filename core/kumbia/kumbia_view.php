@@ -335,13 +335,15 @@ class KumbiaView
     }
 
 	/**
-	 * Obtiene el valor una variable pasada a la vista desde el controlador
+	 * Obtiene el valor un atributo público o todos del controlador
 	 * 
-	 * @param string $var nombre de variable
+	 * @param string $var nombre de variable 
 	 * @return mixed valor de la variable
 	 */
-	public static function getVar($var)
+	public static function getVar($var = NULL)
 	{
+		if(!$var) return get_object_vars(self::$_controller);
+		
 		return isset(self::$_controller->$var) ? self::$_controller->$var : NULL;
 	}
 }
