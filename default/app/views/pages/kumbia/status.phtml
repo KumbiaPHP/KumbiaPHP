@@ -16,7 +16,6 @@
      */
     $config = Config::read('config');
 
-    $databases = ($config['application']['database']) ? 'On' : 'Off';
     $status = ($config['application']['production']) ? 'Production' : 'Development';
 
     if(isset($config['application']['locale'])){
@@ -45,14 +44,8 @@
         <h4>Estado Actual del Framework: <span><?php echo $status ?></span></h4>
         <p>Ver <a href='http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#Modos_de_una_Aplicaci.C3.B3n'>Modos de ejecución</a></p>
 
-        <h4>Carga Automática de Modelos: <span><?php echo $databases?></span></h4>
-        <p>Habilita la carga de modelos automática.</p>
-
         <h4>Base de Datos: <span><?php echo $config['application']['database'] ?></span></h4>
         <p>Datos de la conexión a la BD que será utilizada, ver configuración <a href="http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#databases.ini">databases.ini</a>.</p>
-
-        <h4>Carga de Modelos:</h4>
-        <p>Ver <a href="http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#Carga_selectiva_de_modelos">Carga Selectiva de Modelos</a>.</p>
 
         <h4>Charset: <span><?php echo $config['application']['charset'] ?></span></h4>
         <p>Codificación de caracteres. Recomendado UTF-8</p>
