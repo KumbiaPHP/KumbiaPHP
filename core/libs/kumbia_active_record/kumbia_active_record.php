@@ -473,6 +473,17 @@ class KumbiaActiveRecord
             }
             return call_user_func_array(array($this, "find_first"), array_merge($arg, $args));
         }
+        if (substr($method, 0, 14) == "find_first_by_") {
+            $field = substr($method, 14);
+            ActiveRecord::sql_item_sanizite($field);
+            if (isset($args[0])) {
+                $arg = array("conditions: $field = {$this->db->add_quotes($args[0])}");
+                unset($args[0]);
+            } else {
+                $arg = array();
+            }
+            return call_user_func_array(array($this, "find_first"), array_merge($arg, $args));
+        }
         if (substr($method, 0, 9) == "count_by_") {
             $field = substr($method, 9);
             ActiveRecord::sql_item_sanizite($field);
@@ -726,6 +737,17 @@ class KumbiaActiveRecord
             return false;
         }
     }
+    
+    /**
+     * Find a record in this table using a SQL Statement
+     *
+     * @param string $sqlQuery
+     * @return ActiveRecord Cursor
+     */
+    public function find_first_by_sql($sqlQuery)
+    {
+        return $this->find_by_sql($sqlQuery);
+    }
 
     /**
      * Execute a SQL Statement directly
@@ -834,6 +856,25 @@ class KumbiaActiveRecord
         }
     }
 
+    /**
+     * Find data on Relational Map table
+     *
+     * @param string $what
+     * @return ActiveRecord Cursor
+     *
+     * columns: columnas a utilizar
+     * conditions : condiciones de busqueda en WHERE
+     * join: inclusion inner join o outer join
+     * group : campo para grupo en GROUP BY
+     * having : condicion para el grupo
+     * order : campo para criterio de ordenamiento ORDER BY
+     * distinct: campos para hacer select distinct
+     */
+    public function find_all($what = '')
+    {
+        return $this->find($what);
+    }
+    
     /*
      * Arma una consulta SQL con el parametro $what, así:
      * 	$what = Util::getParams(func_get_args());
