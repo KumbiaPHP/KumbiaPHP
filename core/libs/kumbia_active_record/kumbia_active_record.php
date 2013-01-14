@@ -997,8 +997,14 @@ class KumbiaActiveRecord
                 $select.= $this->convert_params_to_sql($what);
             }
         } else {
-            $select = "SELECT COUNT(*) FROM $table ";
-            $select.= $this->convert_params_to_sql($what);
+            if(isset($what['group'])) {
+                $select = "SELECT COUNT(*) FROM (SELECT $table.* FROM $table ";
+                $select.= $this->convert_params_to_sql($what);
+                $select.=') AS t';
+            } else {
+                $select = "SELECT COUNT(*) FROM $table ";
+                $select.= $this->convert_params_to_sql($what);
+            }            
         }
         $num = $this->db->fetch_one($select);
         return $num[0];
