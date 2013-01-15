@@ -101,20 +101,23 @@ abstract class Auth2
     }
 
     /**
-     * Realiza el proceso de identificacion.
-     *
-     * @param void
-     * @return bool
-     */
-    public function identify()
+    * Realiza el proceso de identificacion.
+    *
+    * @param $login (opcional) Valor del campo de usuario a validar
+    * @param $pass (opcional) Valor de la contraseña del usuario
+    * @param $mode (opcional) Método de autenticación
+    * @return bool
+    */
+    public function ($login=NULL, $pass=NULL, $mode=NULL)
     {
         if ($this->isValid()) {
             return TRUE;
         } else {
             // check
-            if (isset($_POST['mode']) && $_POST['mode'] === 'auth') {
-                //data was posted.
-                return $this->_check($_POST[$this->_login], $_POST[$this->_pass]);
+            if ( ($mode=='auth') or (isset($_POST['mode']) && $_POST['mode'] === 'auth') ) {
+                $login = empty($login) ? Input::post($this->_login) : $login;
+                $pass = empty($pass) ? Input::post($this->_pass) : $pass;
+                return $this->_check($login, $pass);
             } else {
                 //FAIL
                 return FALSE;
