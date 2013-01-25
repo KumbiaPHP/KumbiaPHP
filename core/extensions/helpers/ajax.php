@@ -42,7 +42,7 @@ class Ajax
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote $class\" data-to=\"#{$update}\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote $class\" data-to=\"{$update}\" $attrs>$text</a>";
     }
 
     /**
@@ -60,7 +60,7 @@ class Ajax
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote $class\" data-to=\"#{$update}\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote $class\" data-to=\"{$update}\" $attrs>$text</a>";
     }
 
     /**
@@ -80,7 +80,7 @@ class Ajax
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote-confirm $class\" data-to=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote-confirm $class\" data-to=\"{$update}\" title=\"$confirm\" $attrs>$text</a>";
     }
 
     /**
@@ -100,7 +100,7 @@ class Ajax
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote-confirm $class\" data-to=\"#{$update}\" title=\"$confirm\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote-confirm $class\" data-to=\"{$update}\" title=\"$confirm\" $attrs>$text</a>";
     }
 
     /**
