@@ -67,6 +67,9 @@ final class Router
         // Si hay intento de hack TODO: añadir la ip y referer en el log
         if ($errors) throw new KumbiaException("Posible intento de hack en URL: '$url'");
         
+        self::$_vars['route'] = $url;
+        //Método usado
+        self::$_vars['method'] = $_SERVER['REQUEST_METHOD'];
         //Si config.ini tiene routes activados, mira si esta routed
         if (Config::get('config.application.routes')) {
             $url = self::_ifRouted($url);
@@ -116,10 +119,6 @@ final class Router
     private static function _rewrite($url)
     {
         //Valor por defecto
-        self::$_vars['route'] = $url;
-        //Métod usado
-        self::$_vars['method'] = $_SERVER['REQUEST_METHOD'];
-
         if ($url == '/') return;
 
         //Se limpia la url, en caso de que la hallan escrito con el último parámetro sin valor, es decir controller/action/

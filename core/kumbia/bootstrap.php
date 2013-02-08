@@ -50,10 +50,10 @@ spl_autoload_register('auto');
 set_exception_handler('handle_exception');
 
 // @see Util
-require_once CORE_PATH . 'kumbia/util.php';
+require CORE_PATH . 'kumbia/util.php';
 
 // @see Config
-require_once CORE_PATH . 'kumbia/config.php';
+require CORE_PATH . 'kumbia/config.php';
 
 // Lee la configuracion
 $config = Config::read('config');
@@ -66,7 +66,7 @@ if (!defined('PRODUCTION')) {
 // Carga la cache y verifica si esta cacheado el template, al estar en produccion
 if (PRODUCTION) {
     // @see Cache
-    require_once CORE_PATH . 'libs/cache/cache.php';
+    require CORE_PATH . 'libs/cache/cache.php';
 
     //Asigna el driver por defecto usando el config.ini
     if (isset($config['application']['cache_driver']))
@@ -103,40 +103,40 @@ function auto($class)
 
     // Optimizando carga
     if ($class == 'ActiveRecord') {
-        return require_once APP_PATH . 'libs/active_record.php';
+        return include APP_PATH . 'libs/active_record.php';
     }
     if ($class == 'Load') {
-        return require_once CORE_PATH . 'kumbia/load.php';
+        return include CORE_PATH . 'kumbia/load.php';
     }   
 
     // Pasando a smallcase
     $class = Util::smallcase($class);
     if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
-        return require_once APP_PATH . "extensions/helpers/$class.php";
+        return include APP_PATH . "extensions/helpers/$class.php";
     }
     if (is_file(CORE_PATH . "extensions/helpers/$class.php")) {
-        return require_once CORE_PATH . "extensions/helpers/$class.php";
+        return include CORE_PATH . "extensions/helpers/$class.php";
     }
     if (is_file(APP_PATH . "libs/$class.php")) {
-        return require_once APP_PATH . "libs/$class.php";
+        return include APP_PATH . "libs/$class.php";
     }
     if (is_file(CORE_PATH . "libs/$class/$class.php")) {
-        return require_once CORE_PATH . "libs/$class/$class.php";
+        return include CORE_PATH . "libs/$class/$class.php";
     }
 
     if ($class == 'kumbia_exception') {
-        require_once CORE_PATH . 'kumbia/kumbia_exception.php';
+        include CORE_PATH . 'kumbia/kumbia_exception.php';
     }
 }
 
 // @see Router
-require_once CORE_PATH . 'kumbia/router.php';
+require CORE_PATH . 'kumbia/router.php';
 
 // @see Controller
-require_once APP_PATH . 'libs/app_controller.php';
+require APP_PATH . 'libs/app_controller.php';
 
 // @see KumbiaView
-require_once APP_PATH . 'libs/view.php';
+require APP_PATH . 'libs/view.php';
 
 // Ejecuta el request
 try {
