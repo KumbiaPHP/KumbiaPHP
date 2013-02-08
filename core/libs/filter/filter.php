@@ -135,25 +135,30 @@ class Filter
      * @param array $fields arreglo donde los indices son los campos a devolver
      * del array original, y el valor de cada indice es el filtro que se 
      * aplicará. si no se desea especificar ningun filtro para algun indice,
-     * se coloca solo el nombre del mismo como un valor mas del arreglo.
+     * se coloca solo el nombre del mismo como un valor mas del arreglo. Si no se especifica
+     * los fields a filtrar, aplicará el $filterAll para todos los datos
      * @param string $filterAll filtros que se aplicaran a todos los elementos.
      * @return array datos filtrados. (Ademas solo devuelve los indices
      * especificados en el segundo parametro).
      */
-    public static function data(array $data, array $fields, $filterAll = NULL)
+    public static function data(array $data, $fields=NULL, $filterAll = NULL)
     {
         $filtered = array(); //datos filtrados a devolver.
-        foreach ($fields as $index => $filters) {
-            if (is_numeric($index) && array_key_exists($filters, $data)) {
-                //si el indice es numerico, no queremos usar filtro para ese campo
-                $filtered[$filters] = $data[$filters];
-                continue;
-            } elseif (array_key_exists($index, $data)) {//verificamos de nuevo la existencia del indice en $data
-                $filters = explode('|',$filters);//convertimos el filtro en arreglo
-                array_unshift($filters, $data[$index]);
-                $filtered[$index] = call_user_func_array(array('self', 'get'), $filters);
-                //$filtered[$index] = self::get($data[$index], $filters); //por ahora sin opciones adicionales.
-            }
+        if(is_array($fields)) { //Si hay campos a filtrar, de lo contrario aplica el filttersAll para todo                   
+            foreach ($fields as $index => $filters) {
+                if (is_numeric($index) && array_key_exists($filters, $data)) {
+                    //si el indice es numerico, no queremos usar filtro para ese campo
+                    $filtered[$filters] = $data[$filters];
+                    continue;
+                } elseif (array_key_exists($index, $data)) {//verificamos de nuevo la existencia del indice en $data
+                    $filters = explode('|',$filters);//convertimos el filtro en arreglo
+                    array_unshift($filters, $data[$index]);
+                    $filtered[$index] = call_user_func_array(array('self', 'get'), $filters);
+                    //$filtered[$index] = self::get($data[$index], $filters); //por ahora sin opciones adicionales.
+                }
+            }            
+        } else {
+            $filtered = $data;
         }
         if ($filterAll) {
             $filterAll = explode('|',$filterAll);
