@@ -33,6 +33,8 @@ class Form
      * @var array
      */
     protected static $_radios = array();
+
+    
     /**
      * Utilizado para avisar al programador,si usa Form::file()
      * y no tiene el form mulipart muestra un error
@@ -614,7 +616,7 @@ class Form
     }
 
     /**
-     * Crea un campo fecha
+     * Crea un campo fecha nativo (HTML5)
      *
      * @param string $field Nombre de campo
      * @param string $class Clase de estilo (opcional)
@@ -622,7 +624,7 @@ class Form
      * @param string $value (opcional)
      * @return string
      */
-    public static function date($field, $class = NULL, $attrs = NULL, $value = NULL)
+    public static function date($field, $attrs = NULL, $value = NULL)
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
@@ -631,7 +633,30 @@ class Form
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
 
-        return "<input id=\"$id\" name=\"$name\" class=\"js-datepicker $class\" type=\"date\" value=\"$value\" $attrs/>";
+        return "<input id=\"$id\" name=\"$name\" type=\"date\" value=\"$value\" $attrs/>";
     }
+    
+     /**
+     * Crea un campo de texo para fecha (Requiere JS )
+     *
+     * @param string $field Nombre de campo
+     * @param string $class Clase de estilo (opcional)
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value (opcional)
+     * @return string
+     */
+    public static function datepicker($field, $class = NULL, $attrs = NULL, $value = NULL)
+    {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
+		return "<input id=\"$id\" name=\"$name\" class=\"js-datepicker $class\" type=\"text\" value=\"$value\" $attrs/>";
+
+    }
+    
+    
 
 }
