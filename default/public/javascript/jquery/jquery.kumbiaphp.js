@@ -158,7 +158,10 @@
 
             // Lista desplegable que actualiza con ajax
             $("select.js-remote").on('change', this.cUpdaterSelect);
-
+            
+            // Enlazar DatePicker
+			$.KumbiaPHP.bindDatePicker();
+			
 		},
 
         /**
@@ -185,6 +188,50 @@
 				$.getScript($.KumbiaPHP.publicPath + 'javascript/jquery/jquery.' + $.KumbiaPHP.plugin[i] + '.js', function(data, text){});
             }
 		},
+		
+		/**
+		 * Carga y Enlaza Unobstrusive DatePicker en caso de ser necesario
+		 *
+		 */
+		bindDatePicker: function() {
+			
+			// Selecciona los campos input
+			var inputs = $('input.js-datepicker');
+			/**
+			 * Funcion encargada de enlazar el DatePicker a los Input
+			 *
+			 */
+			var bindInputs = function() {
+				inputs.each(function() {
+					var opts = {monthSelector: true,yearSelector:true};
+					var input = $(this);
+					// Verifica si hay mínimo
+					if(input.attr('min') != undefined) {
+						opts.dateMin = input.attr('min').split('-');
+					}
+					// Verifica si ha máximo
+					if(input.attr('max') != undefined) {
+						opts.dateMax = input.attr('max').split('-');
+					}
+
+					// Crea el calendario
+					input.pickadate(opts);
+				});
+			}
+
+			// Si ya esta cargado Unobstrusive DatePicker, lo integra de una vez
+			if(typeof($.pickadate) != "undefined") {
+				return bindInputs();
+			}
+
+			// Carga la hoja de estilos
+			$('head').append('<link href="' + this.publicPath + 'css/pickadate.css" type="text/css" rel="stylesheet"/>');
+
+			// Carga Unobstrusive DatePicker, para poder usar cache
+			jQuery.ajax({ dataType: "script",cache: true, url: this.publicPath + 'javascript/jquery/pickadate.js'}).done(function(){
+				bindInputs();
+			});
+		},
 
 		/**
 		 * Inicializa el plugin
@@ -201,6 +248,7 @@
 			$(function(){
 				$.KumbiaPHP.bind();
 				$.KumbiaPHP.autoload();
+				
 			});
 		}
 	}
