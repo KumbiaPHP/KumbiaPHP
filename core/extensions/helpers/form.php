@@ -656,6 +656,116 @@ class Form
 		return "<input id=\"$id\" name=\"$name\" class=\"js-datepicker $class\" type=\"text\" value=\"$value\" $attrs/>";
 
     }
+
+    /**
+     * Crea un campo tiempo nativo (HTML5)
+     *
+     * @param string $field Nombre de campo
+     * @param string $class Clase de estilo (opcional)
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value (opcional)
+     * @return string
+     */
+    public static function time($field, $attrs = NULL, $value = NULL)
+    {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
+
+        return "<input id=\"$id\" name=\"$name\" type=\"datetime\" value=\"$value\" $attrs/>";
+    }
+
+    /**
+     * Crea un campo fecha/tiempo nativo (HTML5)
+     *
+     * @param string $field Nombre de campo
+     * @param string $class Clase de estilo (opcional)
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value (opcional)
+     * @return string
+     */
+    public static function datetime($field, $attrs = NULL, $value = NULL)
+    {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
+
+        return "<input id=\"$id\" name=\"$name\" type=\"datetime\" value=\"$value\" $attrs/>";
+    }
+
+    /**
+     * Crea un campo numerico nativo (HTML5)
+     *
+     * @param string $field Nombre de campo
+     * @param string $class Clase de estilo (opcional)
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value (opcional)
+     * @return string
+     */
+    public static function number($field, $attrs = NULL, $value = NULL)
+    {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
+
+        return "<input id=\"$id\" name=\"$name\" type=\"numeric\" value=\"$value\" $attrs/>";
+    }
+
+
+    /**
+     * Crea un campo url nativo (HTML5)
+     *
+     * @param string $field Nombre de campo
+     * @param string $class Clase de estilo (opcional)
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value (opcional)
+     * @return string
+     */
+    public static function url($field, $attrs = NULL, $value = NULL)
+    {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
+
+        return "<input id=\"$id\" name=\"$name\" type=\"url\" value=\"$value\" $attrs/>";
+    }
+
+    /**
+     * Crea un campo email nativo (HTML5)
+     *
+     * @param string $field Nombre de campo
+     * @param string $class Clase de estilo (opcional)
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value (opcional)
+     * @return string
+     */
+    public static function email($field, $attrs = NULL, $value = NULL)
+    {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
+
+        return "<input id=\"$id\" name=\"$name\" type=\"email\" value=\"$value\" $attrs/>";
+    }
+
+
+
+
     
     
 
