@@ -103,7 +103,7 @@ class ModelAuth implements AuthInterface
         }
         $result = Load::model($this->class)->count(join(" AND ", $where_condition));
         if ($result) {
-            $model = ActiveRecord::get($this->class)->find_first(join(" AND ", $where_condition));
+            $model = KumbiaActiveRecord::get($this->class)->find_first(join(" AND ", $where_condition));
             $identity = array();
             foreach ($model->fields as $field) {
                 /**
