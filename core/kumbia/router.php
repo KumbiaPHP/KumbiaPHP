@@ -223,41 +223,7 @@ final class Router
      */
     public static function route_to()
     {
-        static $cyclic = 0;
-        self::$_routed = true;
-        $url = Util::getParams(func_get_args());
-
-        if (isset($url['module'])) {
-            self::$_vars['module'] = $url['module'];
-            self::$_vars['controller'] = 'index';
-            self::$_vars['action'] = 'index';
-            self::$_vars['parameters'] = array();
-            self::$_vars['controller_path'] = $url['module'] . '/index';
-        }
-
-        if (isset($url['controller'])) {
-            self::$_vars['controller'] = $url['controller'];
-            self::$_vars['action'] = 'index';
-            self::$_vars['parameters'] = array();
-            self::$_vars['controller_path'] = (isset($url['module'])) ? $url['module'] . '/' . $url['controller'] : $url['controller'];
-        }
-
-        if (isset($url['action'])) {
-            self::$_vars['action'] = $url['action'];
-            self::$_vars['parameters'] = array();
-        }
-
-        if (isset($url['parameters'])) {
-            self::$_vars['parameters'] = explode('/', $url['parameters']);
-        } elseif (isset($url['id'])) {
-            // Deprecated
-            self::$_vars['parameters'] = array($url['id']);
-        } else {
-            self::$_vars['parameters'] = array();
-        }
-
-        if (++$cyclic > 1000)
-            throw new KumbiaException('Se ha detectado un enrutamiento cíclico. Esto puede causar problemas de estabilidad');
+        call_user_func_array(array('Redirect', 'route_to'), func_get_args());
     }
     
     /**
@@ -287,23 +253,14 @@ final class Router
     /**
      * Redirecciona la ejecución a otro controlador en un
      * tiempo de ejecución determinado
-     * @deprecated
+     * @deprecated  Ahora solo es un alias al nuevo
      *
      * @param string $route
      * @param integer $seconds
      */
     public static function redirect($route = null, $seconds = null)
     {
-        if (!$route)
-            $route = self::$_vars['controller_path'] . '/';
-			$route = PUBLIC_PATH . ltrim($route, '/');
-        if ($seconds) {
-            header("Refresh: $seconds; url=$route");
-        } else {
-            header("Location: $route");
-            $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
-            View::select(null, null);
-        }
+        Redirect::to($route, $seconds);
     }
 
     /**
@@ -316,7 +273,7 @@ final class Router
      */
     public static function toAction($action, $seconds = null)
     {
-        self::redirect(self::$_vars['controller_path'] . "/$action", $seconds);
+        Redirect::toAction($action, $seconds);
     }
 	
 	/**
