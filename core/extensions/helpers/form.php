@@ -563,7 +563,14 @@ class Form
         if (!self::$_multipart) {
             Flash::error('Para poder subir ficheros, debe abrir el form con Form::openMultipart()');
         }
-        return self::input('file',$field, $attrs, $value);
+        
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+ 
+        // Obtiene name y id, y los carga en el scope
+        extract(self::getFieldData($field, false), EXTR_OVERWRITE);-
+        return "<input id=\"$id\" name=\"$name\" type=\"file\" $attrs/>";
     }
 
     /**
