@@ -1,0 +1,14 @@
+<?php
+/* data to formatted*/
+$data = is_array($data)? $data:array($data);
+/* delimiter between fields */
+$delimiter = empty($delimiter)? ',': $delimiter;
+
+/*mime type for content*/
+header("Content-type: text/html");
+/*open output buffer*/
+$buffer = fopen('php://output', 'w');
+foreach($data as $key){
+	fputcsv($buffer, get_object_vars($key), $delimiter);
+}
+fclose($buffer);
