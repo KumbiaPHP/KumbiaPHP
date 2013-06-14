@@ -1,12 +1,12 @@
 <?php
-/* data to formatted*/
+/* datos a formatear*/
 $data = is_array($data)? $data:array($data);
-/* delimiter between fields */
+/* delimitador entre campos */
 $delimiter = empty($delimiter)? ',': $delimiter;
 
-/*mime type for content*/
-header("Content-type: text/html");
-/*open output buffer*/
+/*mime type para el contenido*/
+header("Content-type: text/csv");
+/*apertura del buffer de salida*/
 $buffer = fopen('php://output', 'w');
 foreach($data as $key){
 	fputcsv($buffer, get_object_vars($key), $delimiter);
