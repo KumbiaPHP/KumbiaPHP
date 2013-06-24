@@ -569,7 +569,7 @@ class Form
         }
  
         // Obtiene name y id, y los carga en el scope
-        extract(self::getFieldData($field, false), EXTR_OVERWRITE);-
+        extract(self::getFieldData($field, false), EXTR_OVERWRITE);
         return "<input id=\"$id\" name=\"$name\" type=\"file\" $attrs/>";
     }
 
