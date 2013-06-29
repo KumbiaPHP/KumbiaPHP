@@ -1,0 +1,20 @@
+<?php
+/*mime type para el contenido content*/
+header('Content-type: text/xml');
+$xml=new XMLWriter();
+$xml->openMemory();
+$xml->startDocument('1.0','UTF-8');
+$xml->startElement('xml');
+$xml->setIndent(true);
+foreach($data as $elem) {
+	$xml->startElement(get_class($elem));
+	$a = get_object_vars($elem);
+	foreach($a as $key=>$value) {
+		$xml->startElement($key);
+	    $xml->text($value);
+		$xml->endElement();
+	}
+	$xml->endElement();
+}
+$xml->endElement();
+echo $xml->outputMemory(true);
