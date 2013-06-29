@@ -20,11 +20,11 @@
 /**
  * @see DbBaseInterface
  */
-require_once CORE_PATH . 'libs/db/db_base_interface.php';
+require_once dirname(__FILE__) . '/db_base_interface.php';
 /**
  * @see DbBase
  */
-require_once CORE_PATH . 'libs/db/db_base.php';
+require_once dirname(__FILE__) . '/db_base.php';
 
 /**
  * Clase que maneja el pool de conexiones
@@ -79,18 +79,20 @@ class Db
         // carga los valores por defecto para la conexión, si no existen
         $default = array('port' => 0, 'dsn' => NULL, 'dbname' => NULL, 'host' => 'localhost', 'username' => NULL, 'password' => NULL);
         $config = $config + $default;
+        $path = dirname(__FILE__); 
 
         //Si usa PDO
         if (isset($config['pdo'])) {
             $dbclass = "DbPdo{$config['type']}";
-            $db_file = "libs/db/adapters/pdo/{$config['type']}.php";
+            $db_file = "$path/adapters/pdo/{$config['type']}.php";
         } else {
+            if($config['type'] = 'mysql') $config['type'] = 'mysqli';
             $dbclass = "Db{$config['type']}";
-            $db_file = "libs/db/adapters/{$config['type']}.php";
+            $db_file = "$path/adapters/{$config['type']}.php";
         }
 
         //Carga la clase adaptadora necesaria
-        if (!include_once CORE_PATH . $db_file) {
+        if (!include_once $db_file) {
             throw new KumbiaException("No existe la clase $dbclass, necesaria para iniciar el adaptador");
         }
 

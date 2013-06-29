@@ -26,7 +26,7 @@
  * @package    Db
  * @subpackage Adapters
  */
-class DbMySQL extends DbBase implements DbBaseInterface
+class DbMySQLOld extends DbBase implements DbBaseInterface
 {
 
     /**
