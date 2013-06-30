@@ -166,11 +166,11 @@ final class Router
         if (!include_once APP_PATH . "controllers/$controller_path" . '_controller.php')
             throw new KumbiaException(null, 'no_controller');
 
-        //Asigna el controlador activo
-        $app_controller = Util::camelcase($controller) . 'Controller';
-        $cont = new $app_controller($module, $controller, $action, $parameters);
         View::select($action); //TODO: mover al constructor del controller base las 2 lineas
         View::setPath($controller_path);
+		//Asigna el controlador activo
+        $app_controller = Util::camelcase($controller) . 'Controller';
+        $cont = new $app_controller($module, $controller, $action, $parameters);
 
         // Se ejecutan los filtros initialize y before
         if ($cont->k_callback(true) === false) {
