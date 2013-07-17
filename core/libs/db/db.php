@@ -86,7 +86,7 @@ class Db
             $dbclass = "DbPdo{$config['type']}";
             $db_file = "$path/adapters/pdo/{$config['type']}.php";
         } else {
-            if($config['type'] = 'mysql') $config['type'] = 'mysqli';
+            if($config['type'] == 'mysql') $config['type'] = 'mysqli';
             $dbclass = "Db{$config['type']}";
             $db_file = "$path/adapters/{$config['type']}.php";
         }
