@@ -19,7 +19,7 @@ Seguimos trabajando para actualizar bien el phpdoc y tener actualizado el API.
 
 Comunidad
 ===
-http://www.kumbiaphp.com  Web oficial (pronto en KumbiaPHP http://proto.kumbiaphp.com)
+http://www.kumbiaphp.com  Web oficial  (pronto en KumbiaPHP http://proto.kumbiaphp.com, bienvenida ayuda con el diseño)
 
 http://wiki.kumbiaphp.com Wiki
 
