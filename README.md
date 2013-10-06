@@ -13,13 +13,25 @@ CRUD en beta2: http://wiki.kumbiaphp.com/Beta2_CRUD_en_KumbiaPHP_Framework
 API para usuarios de la beta2: http://www.kumbiaphp.com/api/beta2/
 
 API para los desarrolladores del core: http://www.kumbiaphp.com/api/beta2-dev/
+
 Seguimos trabajando para actualizar bien el phpdoc y tener actualizado el API.
 
 
+Comunidad
+===
 http://www.kumbiaphp.com  Web oficial (pronto en KumbiaPHP)
+
 http://wiki.kumbiaphp.com Wiki
+
 http://foro.kumbiaphp.com Foro de KumbiaPHP
+
 http://groups.google.com/group/kumbia/   Grupo de KumbiaPHP
 
+
 Largo historial de repos durante estos años ;)
+
 cvs(sf.net), svn(sf.net), bzr(launchpad.com) y ahora git(github.com)
+
+Licencia
+===
+New BSD
