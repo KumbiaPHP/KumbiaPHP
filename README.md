@@ -27,6 +27,7 @@ http://foro.kumbiaphp.com Foro de KumbiaPHP
 
 http://groups.google.com/group/kumbia/   Grupo de KumbiaPHP +1.500 programadores
 
+irc://irc.freenode.org/#kumbiaphp  IRC
 
 Largo historial de repos durante estos años ;)
 
