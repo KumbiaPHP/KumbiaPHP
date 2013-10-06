@@ -1,3 +1,5 @@
+![KumbiaPHP](http://proto.kumbiaphp.com/img/kumbiaphp.png)
+===
 Bienvenidos a KumbiaPHP Framework 
 
 Preparando la salida de la beta2.
