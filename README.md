@@ -1,5 +1,7 @@
 ![KumbiaPHP](http://proto.kumbiaphp.com/img/kumbiaphp.png)
 ===
+Fácil, rápido y en español
+---
 Bienvenidos a KumbiaPHP Framework 
 
 Preparando la salida de la beta2.
