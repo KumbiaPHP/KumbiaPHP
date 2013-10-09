@@ -44,6 +44,52 @@ class Validate
      * @var String
      */
     public static $regex = NULL;
+
+    /**
+     * Objeto a validar
+     * @var Object
+     */
+    protected $obj = null;
+
+    /**
+     * Mensajes de error armacenados
+     * @var array
+     */
+    protected $messages = array();
+
+	/**
+	 * Contructor
+	 * @param Object $obj Objeto a validar
+	 */
+    public function __construct($obj){
+    	$this->obj = $obj;
+    	
+    }
+
+    /**
+     * Ejecuta una validación
+     * @return bool Devuelve true si todo es válido
+     */
+    public function exec(){
+    	if(!is_callable(array($obj, 'rules'))
+    		throw new KumbiaException("El objeto no contiene el método 'rules'");
+    	$rules =  $obj->rules();
+    	if(!is_array($rules)
+    		throw new KumbiaException("El método 'rules' debe devolver un array");
+    	/*Recorrido por todos los campos*/
+    	foreach ($rules as $field => $rulesField) {
+    		$value = $obj->$field;//obtengo el valor del campo
+    		/*Regla individual para cada campo*/
+    		foreach ($rulesField as $param) {
+    			if(!call_user_func_array($param['cb'], $param['args'])){
+    				$this->messages[] = $param['msg'];
+    			}
+    		}
+    	}
+    	/*Si no hay errores devuelve true*/
+    	return empty($this->messages);
+    }
+
     /**
      * Valida que int
      *
@@ -90,7 +136,7 @@ class Validate
 
     /**
      * Valida que un valor se encuentre en una lista
-     * Retorna tru si el string $value se encuentra en la lista $list
+     * Retorna true si el string $value se encuentra en la lista $list
      *
      * @param string $value
      * @param array $list
