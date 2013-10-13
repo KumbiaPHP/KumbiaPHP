@@ -67,7 +67,16 @@ class Validate
     }
 
     /**
-     * Ejecuta una validación
+     * Ejecuta las validaciones
+     * El método "rules" debe devolver un array de la siguiente manera
+     * return array(
+     * 	 'user' => //este es el nombre del campo
+     * 	 	array(
+     * 	 		'alpha' =>  //nombre del filtro
+     * 	 		null, //parametros pasados (en array o null si no se requiere)
+     * 	 		'lenght' => array('min'=>4, 'max'=>10)
+     * 	 	)
+     * )
      * @return bool Devuelve true si todo es válido
      */
     public function exec(){
@@ -76,19 +85,23 @@ class Validate
     	$rules =  $obj->rules();
     	if(!is_array($rules)
     		throw new KumbiaException("El método 'rules' debe devolver un array");
+
     	/*Recorrido por todos los campos*/
     	foreach ($rules as $field => $rulesField) {
     		$value = $obj->$field;//obtengo el valor del campo
     		/*Regla individual para cada campo*/
-    		foreach ($rulesField as $param) {
-    			if(!call_user_func_array($param['cb'], $param['args'])){
-    				$this->messages[] = $param['msg'];
+    		foreach ($ruleName as $param) {
+    			include_once $ruleName; //TODO agregar el path completo
+    			$param = is_array($param)?$param:array(); //param siempre es un array
+    			if(!$ruleName($value, $param)){
+    				$this->messages[] = isset($param['msg']) ? $param['msg']: "El campo $field no es válido";
     			}
     		}
     	}
     	/*Si no hay errores devuelve true*/
     	return empty($this->messages);
     }
+
 
     /**
      * Valida que int
