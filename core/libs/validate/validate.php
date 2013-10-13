@@ -85,13 +85,12 @@ class Validate
     	$rules =  $obj->rules();
     	if(!is_array($rules)
     		throw new KumbiaException("El método 'rules' debe devolver un array");
-
     	/*Recorrido por todos los campos*/
     	foreach ($rules as $field => $rulesField) {
     		$value = $obj->$field;//obtengo el valor del campo
     		/*Regla individual para cada campo*/
     		foreach ($ruleName as $param) {
-    			include_once $ruleName; //TODO agregar el path completo
+    			include_once APP_PATH . "extensions/filters/{$ruleName}.php";
     			$param = is_array($param)?$param:array(); //param siempre es un array
     			if(!$ruleName($value, $param)){
     				$this->messages[] = isset($param['msg']) ? $param['msg']: "El campo $field no es válido";
