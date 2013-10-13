@@ -81,7 +81,7 @@ class Validate
      */
     public function exec(){
     	if(!is_callable(array($obj, 'rules'))
-    		throw new KumbiaException("El objeto no contiene el método 'rules'");
+    		return true;
     	$rules =  $obj->rules();
     	if(!is_array($rules)
     		throw new KumbiaException("El método 'rules' debe devolver un array");
