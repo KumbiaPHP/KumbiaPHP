@@ -52,7 +52,7 @@ class Validate
     protected $obj = null;
 
     /**
-     * Mensajes de error armacenados
+     * Mensajes de error almacenados
      * @var array
      */
     protected $messages = array();
@@ -80,6 +80,7 @@ class Validate
      * @return bool Devuelve true si todo es válido
      */
     public function exec(){
+        /*Cuando no hay método rules asume todo correcto*/
     	if(!is_callable(array($obj, 'rules'))
     		return true;
     	$rules =  $obj->rules();
@@ -90,9 +91,8 @@ class Validate
     		$value = $obj->$field;//obtengo el valor del campo
     		/*Regla individual para cada campo*/
     		foreach ($ruleName as $param) {
-    			include_once APP_PATH . "extensions/filters/{$ruleName}.php";
     			$param = is_array($param)?$param:array(); //param siempre es un array
-    			if(!$ruleName($value, $param)){
+    			if(!self::$ruleName($value, $param)){
     				$this->messages[] = isset($param['msg']) ? $param['msg']: "El campo $field no es válido";
     			}
     		}
