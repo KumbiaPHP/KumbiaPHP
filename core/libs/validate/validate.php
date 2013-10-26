@@ -92,9 +92,12 @@ class Validate
     		$value = isset($obj->$field)?$obj->$field:null;//obtengo el valor del campo
     		/*Regla individual para cada campo*/
     		foreach ($fRule as $ruleName => $param) {
-    			$param = is_array($param)?$param:array(); //param siempre es un array
-    			if(!self::$ruleName($value, $param)){
-    				$this->messages[] = isset($param['error']) ? $param['error']: "El campo $field no es válido";
+                /*Evita tener que colocar un null cuando no se pasan parametros*/
+                $ruleName = is_integer($ruleName) && is_string($param)?$param:$ruleName;
+                /*param siempre es un array*/
+    			$param = is_array($param)?$param:array(); 
+    			if(!self::$ruleName($value, $param)){ 
+    				$this->messages[] = isset($param['error']) ? $param['error']: "El campo '$field' no es válido";
     			}
     		}
     	}
