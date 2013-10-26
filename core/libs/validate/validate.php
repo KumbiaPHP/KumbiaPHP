@@ -103,6 +103,15 @@ class Validate
 
 
     /**
+     * Valida que sea numerico
+     * @param  mixed $check Valor a ser chequeado
+     * @return bool        [description]
+     */
+    public static function numeric($check){
+        return is_numeric($check);
+    }
+
+    /**
      * Valida que int
      *
      * @param int $check
