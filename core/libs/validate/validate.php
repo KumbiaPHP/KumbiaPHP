@@ -30,8 +30,6 @@ class Validate
 	 */
 	const IS_ALPHANUM = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu';
 	 
-	 
-	 
     /**
      * Almacena el mensaje de error
      *
@@ -57,13 +55,26 @@ class Validate
      */
     protected $messages = array();
 
+    /**
+     * Reglas a a seguir para la validación
+     * @var array
+     */
+    protected $rules = array();
 	/**
 	 * Contructor
 	 * @param Object $obj Objeto a validar
 	 */
-    public function __construct($obj){
-    	$this->obj = $obj;
-    	
+	
+	/**
+	 * Almacena si la variable a validar es un objeto antes de convertirlo
+	 * @var boolean
+	 */
+	protected $is_obj = false;
+    
+    public function __construct($obj, Array $rules){
+    	$this->is_obj = is_object($obj);
+    	$this->obj = (object)$obj;
+    	$this->rules = $rules;
     }
 
     /**
@@ -81,12 +92,7 @@ class Validate
      */
     public function exec(){
         $obj = $this->obj;
-        /*Cuando no hay método rules asume todo correcto*/
-    	if(!is_callable(array($obj, 'rules')))
-    		return true;
-    	$rules =  $obj->rules();
-    	if(!is_array($rules))
-    		throw new KumbiaException("El método 'rules' debe devolver un array");
+    	$rules =  $this->rules;
     	/*Recorrido por todos los campos*/
     	foreach ($rules as $field => $fRule){
     		$value = isset($obj->$field)?$obj->$field:null;//obtengo el valor del campo
@@ -95,8 +101,15 @@ class Validate
                 /*Evita tener que colocar un null cuando no se pasan parametros*/
                 $ruleName = is_integer($ruleName) && is_string($param)?$param:$ruleName;
                 /*param siempre es un array*/
-    			$param = is_array($param)?$param:array(); 
-    			if(!self::$ruleName($value, $param)){ 
+    			$param = is_array($param)?$param:array();
+    			/*Es una validación de modelo*/
+    			if($ruleName[0] == '@' and $this->is_obj){
+    				$ruleName = substr($ruleName, 1);
+    				if(!$obj->$ruleName($param)){ 
+    					$this->messages[] = isset($param['error']) ?
+    					 $param['error']: "El campo '$field' no es válido";
+    				}
+    			}elseif($ruleName[0] != '@' && !self::$ruleName($value, $param)){ 
     				$this->messages[] = isset($param['error']) ? $param['error']: "El campo '$field' no es válido";
     			}
     		}
