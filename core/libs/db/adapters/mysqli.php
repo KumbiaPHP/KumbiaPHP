@@ -265,6 +265,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface
         if (($success = mysqli_data_seek($result_query, $number)) !== false) {
             return $success;
         } else {
+            $this->lastError = $this->error();
             throw new KumbiaException($this->error());
         }
         return false;
