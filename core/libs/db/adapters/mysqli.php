@@ -242,6 +242,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface
             $field = mysqli_fetch_field($result_query);
             return $field->name;
         } else {
+            $this->lastError = $this->error();
             throw new KumbiaException($this->error());
         }
         return false;
