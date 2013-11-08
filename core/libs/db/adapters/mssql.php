@@ -325,7 +325,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		if ($row = mssql_fetch_row($result)) {
 			$this->id_connection = trim($row[0]);
 		}
-		mssql_free_result($res);
+		mssql_free_result($result);
 		return $this->id_connection;
 	}
 	/**
