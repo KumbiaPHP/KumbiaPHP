@@ -61,11 +61,10 @@ final class Router
 	public static function execute($url)
 	{
 		
-		// Se miran los parametros por seguridad
-        str_replace(array('\\', '/../', '//'), '', $url, $errors);
-        
-        // Si hay intento de hack TODO: añadir la ip y referer en el log
-        if ($errors) throw new KumbiaException("Posible intento de hack en URL: '$url'");
+		// Se miran los parámetros por seguridad
+        if (stripos($url, '/../') !== false)
+			throw new KumbiaException("Posible intento de hack en URL: '$url'");
+			// Si hay intento de hack TODO: añadir la ip y referer en el log
         
         self::$_vars['route'] = $url;
         //Método usado
@@ -217,7 +216,7 @@ final class Router
 
     /**
      * Enruta el controlador actual a otro módulo, controlador, o a otra acción
-     * @deprecated
+     * @deprecated  Ahora Redirect::route_to()
      * @example
      * Router::route_to("module: modulo", "controller: nombre", "action: accion", "parameters: 1/2")
      */
@@ -253,7 +252,7 @@ final class Router
     /**
      * Redirecciona la ejecución a otro controlador en un
      * tiempo de ejecución determinado
-     * @deprecated  Ahora solo es un alias al nuevo
+     * @deprecated  Ahora Redirect::to()
      *
      * @param string $route
      * @param integer $seconds
@@ -266,7 +265,7 @@ final class Router
     /**
      * Redirecciona la ejecución a una accion del controlador actual en un
      * tiempo de ejecución determinado
-     * @deprecated
+     * @deprecated Ahora Redirect::toAction()
      * 
      * @param string $action
      * @param integer $seconds
