@@ -210,7 +210,7 @@ class KumbiaView
         extract(get_object_vars($controller), EXTR_OVERWRITE);
 
         // carga la vista si tiene view y no esta cacheada
-        if ($__view = self::$_view && self::$_content === NULL) {
+        if (($__view = self::$_view) && self::$_content === NULL) {
             // Carga el contenido del buffer de salida
             self::$_content = ob_get_clean();
 
