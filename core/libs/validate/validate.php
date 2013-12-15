@@ -31,12 +31,6 @@ class Validate
 	const IS_ALPHANUM = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu';
 	 
     /**
-     * Almacena el mensaje de error
-     *
-     * @var String
-     */
-    public static $error = NULL;
-    /**
      * Almacena la Expresion Regular
      *
      * @var String
@@ -104,11 +98,12 @@ class Validate
     			$param = is_array($param)?$param:array();
     			/*Es una validación de modelo*/
     			if($ruleName[0] == '@' and $this->is_obj){
-    				$ruleName = substr($ruleName, 1);
+    				$ruleName = ltrim($ruleName, '@');
     				if(!$obj->$ruleName($param)){ 
     					$this->messages[] = isset($param['error']) ?
     					 $param['error']: "El campo '$field' no es válido";
     				}
+
     			}elseif($ruleName[0] != '@' && !self::$ruleName($value, $param)){ 
     				$this->messages[] = isset($param['error']) ? $param['error']: "El campo '$field' no es válido";
     			}
@@ -116,6 +111,19 @@ class Validate
     	}
     	/*Si no hay errores devuelve true*/
     	return empty($this->messages);
+    }
+
+    /**
+     * Devuelve los mensajes de error
+     * 
+     */
+    public function getMessages(){
+        return $this->messages;
+    }
+
+    public static function fail($obj, Array $rules){
+        $val = new self($obj, $rules);
+        return $val->exec() ? false:$val->getMessages();
     }
 
 
