@@ -62,6 +62,10 @@ $config = Config::read('config');
 if (!defined('PRODUCTION')) {
     define('PRODUCTION', $config['application']['production']);
 }
+//Constante que indica cual sera el tamplate por default a usar
+if (!defined('TEMPLATE')) {
+    define('TEMPLATE', $config['application']['template']);
+}
 
 // Carga la cache y verifica si esta cacheado el template, al estar en produccion
 if (PRODUCTION) {

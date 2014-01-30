@@ -44,7 +44,7 @@ class KumbiaView
      *
      * @var string
      */
-    protected static $_template = 'default';
+    protected static $_template = TEMPLATE;
     /**
      * Indica el tipo de salida generada por el controlador
      *
@@ -216,6 +216,7 @@ class KumbiaView
 
             // Renderizar vista
             ob_start();
+
 
             $__file = APP_PATH . 'views/' . self::getPath();
             //Si no existe el view y es scaffold
