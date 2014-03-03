@@ -283,7 +283,7 @@ class KumbiaView
      * @return string
      * @throw KumbiaException
      */
-    public static function partial($partial, $__time=FALSE, $params, $group ='kumbia.partials')
+    public static function partial($partial, $__time=FALSE, $params=NULL, $group ='kumbia.partials')
     {
         if (PRODUCTION && $__time && !Cache::driver()->start($__time, $partial, $group)) {
             return;
