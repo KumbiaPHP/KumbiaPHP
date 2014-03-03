@@ -295,7 +295,7 @@ class DbBase
     protected function debug($sql)
     {
         if ($this->debug) {
-            Flash::notice($sql);
+            Flash::info($sql);
         }
     }
 

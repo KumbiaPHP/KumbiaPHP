@@ -172,7 +172,7 @@ class Html
     public static function lists($array, $type = 'ul', $attrs = NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
 
         $list = "<$type $attrs>" . PHP_EOL;
@@ -207,7 +207,7 @@ class Html
     public static function headLink($href, $attrs = NULL)
     {
         if (is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+            $attrs = Tag::getAttrs($attrs);
         }
 
         self::$_headLinks[] = array('href' => $href, 'attrs' => $attrs);

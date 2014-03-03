@@ -141,7 +141,7 @@ require APP_PATH . 'libs/view.php';
 // Ejecuta el request
 try {
     // Dispatch y renderiza la vista
-    View::render(Router::execute($url), $url);
+    View::render(Router::execute($url));
 } catch (KumbiaException $e) {
     KumbiaException::handle_exception($e);
 }

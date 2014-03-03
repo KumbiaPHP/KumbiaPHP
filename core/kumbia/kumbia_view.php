@@ -196,9 +196,8 @@ class KumbiaView
      * Renderiza la vista
      *
      * @param Controller $controller
-     * @param string $url url a renderizar
      */
-    public static function render(/* Controller */ $controller, /* Router */  $_url)
+    public static function render($controller)
     {
         if (!self::$_view && !self::$_template)
             return ob_end_flush();
@@ -284,7 +283,7 @@ class KumbiaView
      * @return string
      * @throw KumbiaException
      */
-    public static function partial($partial, $__time=FALSE, $params=array(), $group ='kumbia.partials')
+    public static function partial($partial, $__time=FALSE, $params=NULL, $group ='kumbia.partials')
     {
         if (PRODUCTION && $__time && !Cache::driver()->start($__time, $partial, $group)) {
             return;
@@ -298,12 +297,14 @@ class KumbiaView
             $__file = CORE_PATH . "views/partials/$partial.phtml";
         }
 
-        if (is_string($params)) {
-            $params = Util::getParams($params);
-        }
+        if($params){
+        	if (is_string($params)) {
+            		$params = Util::getParams($params);
+        	}
 
-        // carga los parametros en el scope
-        extract($params, EXTR_OVERWRITE);
+        	// carga los parametros en el scope
+        	extract($params, EXTR_OVERWRITE);
+        }
 
         // carga la vista parcial
         if (!include $__file) {
