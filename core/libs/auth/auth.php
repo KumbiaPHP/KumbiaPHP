@@ -112,7 +112,7 @@ class Auth
      * Obtiene el nombre del adaptador actual
      * @return boolean
      */
-    public function get_adapter_name($adapter)
+    public function get_adapter_name()
     {
         return $this->adapter;
     }
