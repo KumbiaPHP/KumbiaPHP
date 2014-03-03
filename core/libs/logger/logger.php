@@ -97,7 +97,6 @@ abstract class Logger
         self::$fileLogger = fopen(self::$log_path . $name, 'a');
         if (!self::$fileLogger) {
             throw new KumbiaException("No se puede abrir el log llamado: " . $name);
-            return false;
         }
     }
 
