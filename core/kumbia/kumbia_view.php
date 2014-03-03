@@ -297,12 +297,14 @@ class KumbiaView
             $__file = CORE_PATH . "views/partials/$partial.phtml";
         }
 
-        if (is_string($params)) {
-            $params = Util::getParams($params);
-        }
+        if($params){
+        	if (is_string($params)) {
+            		$params = Util::getParams($params);
+        	}
 
-        // carga los parametros en el scope
-        extract($params, EXTR_OVERWRITE);
+        	// carga los parametros en el scope
+        	extract($params, EXTR_OVERWRITE);
+        }
 
         // carga la vista parcial
         if (!include $__file) {
