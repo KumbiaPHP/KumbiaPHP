@@ -110,7 +110,7 @@ class DbPdoMsSQL extends DbPDO
         $params = Util::getParams(func_get_args());
 
         if(!isset($params['offset']) && isset($params['limit'])){
-			return $sql = str_ireplace("SELECT ", "SELECT TOP $params[limit] ", $sql);
+			return str_ireplace("SELECT ", "SELECT TOP $params[limit] ", $sql);
 		}
 		$orderby = stristr($sql, 'ORDER BY');
 		if ($orderby !== false) {
@@ -174,8 +174,8 @@ class DbPdoMsSQL extends DbPDO
         $index = array();
         $unique_index = array();
         $primary = array();
-        $not_null = "";
-        $size = "";
+        //$not_null = "";
+        //$size = "";
         foreach ($definition as $field => $field_def) {
             if (isset($field_def['not_null'])) {
                 $not_null = $field_def['not_null'] ? 'NOT NULL' : '';

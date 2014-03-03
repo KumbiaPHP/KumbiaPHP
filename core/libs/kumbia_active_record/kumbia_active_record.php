@@ -547,7 +547,7 @@ class KumbiaActiveRecord
         if ($this->_dumped) {
             return false;
         }
-        $a = array();
+        //$a = array();
         if ($this->source) {
             $this->source = str_replace(";", '', strtolower($this->source));
         } else {
@@ -564,7 +564,6 @@ class KumbiaActiveRecord
             if (!count($this->primary_key)) {
                 if (!$this->is_view) {
                     throw new KumbiaException("No se ha definido una llave primaria para la tabla '$table' esto imposibilita crear el ActiveRecord para esta entidad");
-                    return false;
                 }
             }
         } else {
@@ -646,7 +645,6 @@ class KumbiaActiveRecord
         } else {
             throw new KumbiaException("No se pudo obtener el Alias, porque el key: \"$key\" no existe.");
         }
-        return $this->alias;
     }
 
     /**

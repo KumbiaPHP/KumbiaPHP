@@ -218,7 +218,6 @@ class DbSQLite extends DbBase implements DbBaseInterface
         } else {
             throw new KumbiaException($this->error());
         }
-        return false;
     }
 
     /**
@@ -244,7 +243,6 @@ class DbSQLite extends DbBase implements DbBaseInterface
         } else {
             throw new KumbiaException($this->error());
         }
-        return false;
     }
 
     /**
@@ -267,7 +265,6 @@ class DbSQLite extends DbBase implements DbBaseInterface
         } else {
             throw new KumbiaException($this->error());
         }
-        return false;
     }
 
     /**
@@ -292,7 +289,6 @@ class DbSQLite extends DbBase implements DbBaseInterface
         } else {
             throw new KumbiaException($this->error());
         }
-        return false;
     }
 
     /**

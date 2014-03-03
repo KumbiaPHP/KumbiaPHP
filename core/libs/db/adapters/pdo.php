@@ -265,7 +265,6 @@ abstract class DbPDO extends DbBase implements DbPDOInterface
         } catch (PDOException $e) {
             throw new KumbiaException($this->error($e->getMessage()));
         }
-        return false;
     }
 
     /**
@@ -305,7 +304,6 @@ abstract class DbPDO extends DbBase implements DbPDOInterface
         } else {
             return $this->affected_rows;
         }
-        return false;
     }
 
     /**
@@ -402,7 +400,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface
      */
     public function insert($table, $values, $fields=null)
     {
-        $insert_sql = "";
+        //$insert_sql = "";
         if (is_array($values)) {
             if (!count($values)) {
                 throw new KumbiaException("Imposible realizar inserción en $table sin datos");
