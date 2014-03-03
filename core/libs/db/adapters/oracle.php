@@ -220,9 +220,7 @@ class DbOracle extends DbBase implements DbBaseInterface
                 $result_to_lower[strtolower($key)] = $value;
             }
             return $result_to_lower;
-        } else {
-            return false;
-        }
+        } 
         return false;
     }
 
@@ -266,7 +264,6 @@ class DbOracle extends DbBase implements DbBaseInterface
         if (!@oci_execute($resultQuery, $commit)) {
             $this->last_result_query = false;
             throw new KumbiaException($this->error($php_errormsg . " al ejecutar <em>'{$this->lastQuery}'</em>"));
-            return false;
         }
         $tmp = array();
         $this->num_rows = oci_fetch_all($resultQuery, $tmp);
@@ -299,7 +296,6 @@ class DbOracle extends DbBase implements DbBaseInterface
         } else {
             throw new KumbiaException($this->error());
         }
-        return false;
     }
 
     /**
@@ -359,7 +355,6 @@ class DbOracle extends DbBase implements DbBaseInterface
         } else {
             throw new KumbiaException($this->error('Resource invalido para db::affected_rows'));
         }
-        return false;
     }
 
     /**
@@ -475,8 +470,8 @@ class DbOracle extends DbBase implements DbBaseInterface
         $index = array();
         $unique_index = array();
         $primary = array();
-        $not_null = "";
-        $size = "";
+        //$not_null = "";
+        //$size = "";
         foreach ($definition as $field => $field_def) {
             if (isset($field_def['not_null'])) {
                 $not_null = $field_def['not_null'] ? 'NOT NULL' : '';
