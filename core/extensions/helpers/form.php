@@ -348,7 +348,7 @@ class Form
      * Crea un campo select
      *
      * @param string $field Nombre de campo
-     * @param string $data Array de valores para la lista desplegable
+     * @param array $data Array de valores para la lista desplegable
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string|array $value Array para select multiple (opcional)
      * @return string
