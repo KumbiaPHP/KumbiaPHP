@@ -215,7 +215,6 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		} else {
 			throw new KumbiaException($this->error());
 		}
-		return false;
 	}
  
 	/**
@@ -240,7 +239,6 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		} else {
 			throw new KumbiaException($this->error());
 		}
-		return false;
 	}
 	/**
 	 * Se Mueve al resultado indicado por $number en un select
@@ -261,7 +259,6 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		} else {
 			throw new KumbiaException($this->error());
 		}
-		return false;
 	}
  
 	/**
@@ -277,7 +274,6 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 			$this->lastError = $this->error();
 			throw new KumbiaException($this->error());
 		}
-		return false;
 	}
  
 	/**
@@ -320,7 +316,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		if(!$this->id_connection){
 			return false;
 		}
-		$id = false;
+		//$id = false;
 		$result = mssql_query("select max({$primary_key}) from $table");
 		if ($row = mssql_fetch_row($result)) {
 			$this->id_connection = trim($row[0]);
