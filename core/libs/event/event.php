@@ -85,7 +85,7 @@ class Event
         if ($i === false) {
             self::$_events[$event][] = $handler2;
         } else {
-            Util::array_insert(self::$_events[$event], $i, $handler2);
+            array_splice(self::$_events[$event], $i, 0, $handler2);
         }
     }
 
@@ -105,7 +105,7 @@ class Event
         if ($i === false) {
             self::$_events[$event][] = $handler2;
         } else {
-            Util::array_insert(self::$_events[$event], $i + 1, $handler2);
+            array_splice(self::$_events[$event], $i + 1, 0, $handler2);
         }
     }
 

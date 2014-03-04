@@ -33,7 +33,7 @@ ini_set('display_errors', 'On');
 /**
  * Define marca de tiempo en que inicio el Request
  */
-define('START_TIME', microtime(1));
+define('START_TIME', microtime(TRUE));
 
 /**
  * Define el APP_PATH
