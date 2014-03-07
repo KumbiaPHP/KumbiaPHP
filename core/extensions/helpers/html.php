@@ -158,7 +158,7 @@ class Html
      */
     public static function includeMetatags()
     {
-        return implode(array_unique(PHP_EOL, self::$_metatags));
+        return implode(PHP_EOL, array_unique(self::$_metatags));
     }
 
     /**
