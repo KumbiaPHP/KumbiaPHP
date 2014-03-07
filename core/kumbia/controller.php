@@ -46,6 +46,12 @@ class Controller
      */
     public $action_name;
     /**
+     * Parámetros de la acción
+     *
+     * @var array
+     */
+    public $parameters;
+    /**
      * Limita la cantidad correcta de 
      * parametros de una action
      *
