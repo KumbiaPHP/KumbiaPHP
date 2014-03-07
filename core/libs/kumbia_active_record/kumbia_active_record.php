@@ -514,8 +514,6 @@ class KumbiaActiveRecord
 
     /**
      * Se conecta a la base de datos y descarga los meta-datos si es necesario
-     *
-     * @param boolean $new_connection
      */
     protected function _connect(//$new_connection = false)
     {
