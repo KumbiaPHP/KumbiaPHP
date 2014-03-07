@@ -74,6 +74,7 @@ class Redirect
     {
         static $cyclic = 0;
         $url = Util::getParams(func_get_args());
+        $vars = array();
 
         if (isset($url['module'])) {
             $vars['module'] = $url['module'];
