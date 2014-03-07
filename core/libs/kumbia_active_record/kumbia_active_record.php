@@ -514,13 +514,11 @@ class KumbiaActiveRecord
 
     /**
      * Se conecta a la base de datos y descarga los meta-datos si es necesario
-     *
-     * @param boolean $new_connection
      */
-    protected function _connect($new_connection = false)
+    protected function _connect(//$new_connection = false)
     {
-        if (!is_object($this->db) || $new_connection) {
-            $this->db = Db::factory($this->database, $new_connection);
+        if (!is_object($this->db)) {
+            $this->db = Db::factory($this->database);
         }
         $this->db->debug = $this->debug;
         $this->db->logger = $this->logger;
