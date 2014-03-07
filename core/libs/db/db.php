@@ -45,11 +45,10 @@ class Db
     /**
      * Devuelve la conexión, si no existe llama a Db::connect para crearla
      *
-     * @param boolean $new nueva conexion //TODO mirar si es necesaria
      * @param string $database base de datos a donde conectar
      * @return db
      */
-    public static function factory($database = null, $new = false)
+    public static function factory($database = null)
     {
 
         //Cargo el mode para mi aplicacion
