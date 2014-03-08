@@ -52,7 +52,7 @@ class DbBase
      *
      * @var string
      */
-    private $last_query;
+    protected $last_query;
 
     /**
      * Hace un select de una forma mas corta, listo para usar en un foreach
