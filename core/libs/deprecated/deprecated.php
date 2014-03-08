@@ -124,7 +124,7 @@ function value_num($a){
 			if($a==30) return  "TREINTA";
 			if($a>=31&&$a<=39)
 			return "TREINTA Y ".value_num($a % 10);
-			if($a==40) $b = "CUARENTA";
+			if($a==40) return "CUARENTA";
 			if($a>=41&&$a<=49)
 			return "CUARENTA Y ".value_num($a % 10);
 			if($a==50) return "CINCUENTA";
@@ -478,7 +478,7 @@ function age(){
 	$params = get_params(func_get_args());
 	$error = false;
 	
-	$active_app = Router::get_application();
+	$active_app = basename(dirname(APP_PATH));
 	
 	if(!isset($params['order'])){
 		if($kumbia_config = Config::read('config')){
