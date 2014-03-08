@@ -47,7 +47,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 *
 	 * @var string
 	 */
-	private $last_query;
+	protected $last_query;
  
 	/**
 	 * Último error generado por MsSQL
@@ -146,18 +146,12 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		if($this->logger){
 		    Logger::debug($sql_query);
 		}
-		if(!$this->id_connection){
-			$this->connect();
-			if(!$this->id_connection){
-				return false;
-			}
-		}
+		
 		$this->last_query = $sql_query;
 		if($result_query = mssql_query($sql_query, $this->id_connection)){
 			$this->last_result_query = $result_query;
 			return $result_query;
 		}else{
-			$this->last_result_query = false;
 			throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
 		}
 	}
@@ -178,9 +172,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * @return array
 	 */
 	public function fetch_array($result_query='', $opt=MSSQL_BOTH){
-		if(!$this->id_connection){
-			return false;
-		}
+
 		if(!$result_query){
 			$result_query = $this->last_result_query;
 			if(!$result_query){
@@ -201,9 +193,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * Devuelve el número de filas de un select
 	 */
 	public function num_rows($result_query=''){
-		if(!$this->id_connection){
-			return false;
-		}
+
 		if(!$result_query){
 			$result_query = $this->last_result_query;
 			if(!$result_query){
@@ -225,9 +215,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * @return string
 	 */
 	public function field_name($number, $result_query=''){
-		if(!$this->id_connection){
-			return false;
-		}
+
 		if(!$result_query){
 			$result_query = $this->last_result_query;
 			if(!$result_query){
@@ -271,7 +259,6 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		if(($numberRows = mssql_affected_rows())!==false){
 			return $numberRows;
 		} else {
-			$this->lastError = $this->error();
 			throw new KumbiaException($this->error());
 		}
 	}
@@ -313,9 +300,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * @return int
 	 */
 	public function last_insert_id($table='', $primary_key=''){
-		if(!$this->id_connection){
-			return false;
-		}
+
 		//$id = false;
 		$result = mssql_query("select max({$primary_key}) from $table");
 		if ($row = mssql_fetch_row($result)) {
@@ -434,14 +419,13 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * Devuelve fila por fila el contenido de un select
 	 *
 	 * @param resource $result_query
-	 * @param string $class clase de objeto
 	 * @return object 
 	 */
-	public function fetch_object($result_query=null, $class='stdClass'){
+	public function fetch_object($result_query = NULL){
 		if(!$result_query){
 			$result_query = $this->last_result_query;
 		}
-		return mssql_fetch_object($result_query, $class);
+		return mssql_fetch_object($result_query);
 	}
 	
 	public function create_table ($table, $definition, $index = array()){
