@@ -194,9 +194,6 @@ class DbMySQLi extends DbBase implements DbBaseInterface
      */
     public function num_rows($result_query='')
     {
-        if (!$this->id_connection) {
-            return false;
-        }
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -252,7 +249,6 @@ class DbMySQLi extends DbBase implements DbBaseInterface
         if (($success = mysqli_data_seek($result_query, $number)) !== false) {
             return $success;
         } else {
-            $this->lastError = $this->error();
             throw new KumbiaException($this->error());
         }
     }
@@ -304,9 +300,6 @@ class DbMySQLi extends DbBase implements DbBaseInterface
      */
     public function last_insert_id($table='', $primary_key='')
     {
-        if (!$this->id_connection) {
-            return false;
-        }
         return mysqli_insert_id($this->id_connection);
     }
 
