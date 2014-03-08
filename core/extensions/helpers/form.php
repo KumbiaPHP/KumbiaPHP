@@ -52,7 +52,7 @@ class Form
      * @param string $field
      * @param mixed $value valor de campo
      * @param boolean $filter filtrar caracteres especiales html
-     * @return mixed
+     * @return Array devuelve un array de longitud 3 con la forma array(id, name, value)
      */
     public static function getFieldData($field, $value = null, $filter = true)
     {
@@ -97,7 +97,7 @@ class Form
         }
 
 		// Devuelve los datos
-        return array('id' => $id, 'name' => $name, 'value' => $value);
+        return array($id, $name, $value);
     }
     
 	/**
@@ -109,7 +109,7 @@ class Form
      * @param string $field
      * @param string $checkValue
      * @param boolean $checked
-     * @return array
+     * @return array Devuelve un array de longitud 3 con la forma array(id, name, checked);
      */
     public static function getFieldDataCheck($field, $checkValue, $checked = null)
     {
@@ -149,7 +149,7 @@ class Form
 		}
 
 		// Devuelve los datos
-        return array('id' => $id, 'name' => $name, 'checked' => $checked);
+        return array($id, $name, $checked);
     }
 
     /**
