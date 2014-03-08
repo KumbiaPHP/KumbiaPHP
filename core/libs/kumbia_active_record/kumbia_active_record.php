@@ -457,7 +457,7 @@ class KumbiaActiveRecord
     }
 
     /**
-     * Devuelve un valor o un listado dependiendo del tipo de Relaci&oacute;n
+     * Devuelve un valor o un listado dependiendo del tipo de Relación
      *
      */
     public function __call($method, $args = array())
@@ -507,7 +507,7 @@ class KumbiaActiveRecord
                 throw new KumbiaException("No existe el método '$method' en ActiveRecord::" . get_class($this));
             }
         } catch (Exception $e) {
-            $this->exceptions($e);
+            throw new KumbiaException("Problema: ");
         }
         return $this->$method($args);
     }
@@ -687,7 +687,7 @@ class KumbiaActiveRecord
      */
     public function begin()
     {
-        $this->_connect(true);
+        $this->_connect();//(true);
         return $this->db->begin();
     }
 
@@ -771,7 +771,7 @@ class KumbiaActiveRecord
                 $resp = $this->dump_result($result);
             }
         } catch (Exception $e) {
-            $this->exceptions($e);
+            throw new KumbiaException("Problema: ");
         }
         return $resp;
     }
@@ -836,7 +836,7 @@ class KumbiaActiveRecord
      * 	$select = "SELECT * FROM Clientes";
      * 	$select.= $this->convert_params_to_sql($what);
      *
-     * @param string $what
+     * @param string|array $what
      * @return string
      */
 
@@ -1953,7 +1953,7 @@ class KumbiaActiveRecord
      */
     public function delete_all($conditions = '')
     {
-        $limit = '';
+        //$limit = '';
         if ($this->schema) {
             $table = $this->schema . "." . $this->source;
         } else {
