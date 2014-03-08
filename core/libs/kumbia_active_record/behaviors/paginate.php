@@ -67,6 +67,7 @@ class Paginator
      *  $page = paginate('Usuario', 'sexo="F"' , 'per_page: 5', "page: $page_num"); <br>
      *  $page = paginate($this->Usuario, 'conditions: sexo="F"' , 'per_page: 5', "page: $page_num"); <br>
      *
+     * @params object $model 
      * @return object
      * */
     public static function paginate($model)
@@ -148,7 +149,7 @@ class Paginator
     /**
      * páginador por sql
      *
-     * @param string $model Nombre del modelo
+     * @param object $model Modelo a paginar
      * @param string $sql Consulta sql
      *
      * page: número de página a mostrar (por defecto la página 1)
