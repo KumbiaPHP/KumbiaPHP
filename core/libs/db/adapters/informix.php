@@ -157,12 +157,7 @@ class DbInformix extends DbBase implements DbBaseInterface
         if ($this->logger) {
             Logger::debug($sql_query);
         }
-        if (!$this->id_connection) {
-            $this->connect();
-            if (!$this->id_connection) {
-                return false;
-            }
-        }
+
         $this->last_query = $sql_query;
 
         // Los resultados que devuelven filas usan cursores tipo SCROLL
@@ -173,7 +168,6 @@ class DbInformix extends DbBase implements DbBaseInterface
         }
         $this->set_return_rows(true);
         if ($result_query === false) {
-            $this->last_result_query = false;
             throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
         } else {
             $this->last_result_query = $result_query;
@@ -200,11 +194,9 @@ class DbInformix extends DbBase implements DbBaseInterface
      * @param int $opt
      * @return array
      */
-    public function fetch_array($result_query='', $opt=2)
+    public function fetch_array($result_query=NULL, $opt=2)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -262,11 +254,9 @@ class DbInformix extends DbBase implements DbBaseInterface
      * @param resource $result_query
      * @return int
      */
-    public function num_rows($result_query='')
+    public function num_rows($result_query=NULL)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -293,11 +283,9 @@ class DbInformix extends DbBase implements DbBaseInterface
      * @param resource $result_query
      * @return string
      */
-    public function field_name($number, $result_query='')
+    public function field_name($number, $result_query=NULL)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -321,7 +309,7 @@ class DbInformix extends DbBase implements DbBaseInterface
      * @param resource $result_query
      * @return boolean
      */
-    public function data_seek($number, $result_query='')
+    public function data_seek($number, $result_query=NULL)
     {
         if (!$result_query) {
             $result_query = $this->last_result_query;
@@ -342,7 +330,7 @@ class DbInformix extends DbBase implements DbBaseInterface
      * @param resource $result_query
      * @return int
      */
-    public function affected_rows($result_query='')
+    public function affected_rows($result_query=NULL)
     {
         if (!$result_query) {
             $result_query = $this->last_result_query;
@@ -353,7 +341,6 @@ class DbInformix extends DbBase implements DbBaseInterface
         if (($numberRows = ifx_affected_rows($result_query)) !== false) {
             return $numberRows;
         } else {
-            $this->lastError = $this->error();
             throw new KumbiaException($this->error());
         }
     }
@@ -400,9 +387,6 @@ class DbInformix extends DbBase implements DbBaseInterface
      */
     public function last_insert_id($table='', $primary_key='')
     {
-        if (!$this->id_connection) {
-            return false;
-        }
         $sqlca = ifx_getsqlca($this->last_result_query);
         return $sqlca["sqlerrd1"];
     }
@@ -559,7 +543,7 @@ class DbInformix extends DbBase implements DbBaseInterface
         // Informix no soporta schemas
         // TODO: No hay un metodo identificable para obtener llaves primarias
         // no nulos y tamaños reales de campos
-        // Primary Key, Null?
+        // Primary Key, Null
         $describe = $this->fetch_all("SELECT c.colname AS Field, c.coltype AS Type,
 				'YES' AS NULL FROM systables t, syscolumns c WHERE
 		 		c.tabid = t.tabid AND t.tabname = '$table' ORDER BY c.colno");
