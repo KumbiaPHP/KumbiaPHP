@@ -139,18 +139,12 @@ class DbMySQLi extends DbBase implements DbBaseInterface
         if ($this->logger) {
             Logger::debug($sql_query);
         }
-        if (!$this->id_connection) {
-            $this->connect();
-            if (!$this->id_connection) {
-                return false;
-            }
-        }
+        
         $this->last_query = $sql_query;
         if ($result_query = mysqli_query($this->id_connection, $sql_query)) {
             $this->last_result_query = $result_query;
             return $result_query;
         } else {
-            $this->last_result_query = false;
             throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
         }
     }
@@ -176,9 +170,6 @@ class DbMySQLi extends DbBase implements DbBaseInterface
      */
     public function fetch_array($result_query='', $opt=MYSQLI_BOTH)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -228,9 +219,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface
      */
     public function field_name($number, $result_query='')
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -241,7 +230,6 @@ class DbMySQLi extends DbBase implements DbBaseInterface
             $field = mysqli_fetch_field($result_query);
             return $field->name;
         } else {
-            $this->lastError = $this->error();
             throw new KumbiaException($this->error());
         }
     }
