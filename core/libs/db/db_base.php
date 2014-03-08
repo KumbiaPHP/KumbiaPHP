@@ -65,9 +65,9 @@ class DbBase
      */
     public function find($table, $where="1=1", $fields="*", $orderBy="1")
     {
-        ActiveRecord::sql_item_sanizite($table);
-        ActiveRecord::sql_sanizite($fields);
-        ActiveRecord::sql_sanizite($orderBy);
+        ActiveRecord::sql_item_sanitize($table);
+        ActiveRecord::sql_sanitize($fields);
+        ActiveRecord::sql_sanitize($orderBy);
         $q = $this->query("SELECT $fields FROM $table WHERE $where ORDER BY $orderBy");
         $results = array();
         while ($row = $this->fetch_array($q)) {
