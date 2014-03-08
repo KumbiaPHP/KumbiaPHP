@@ -140,12 +140,7 @@ class DbSQLite extends DbBase implements DbBaseInterface
         if ($this->logger) {
             Logger::debug($sqlQuery);
         }
-        if (!$this->id_connection) {
-            $this->connect();
-            if (!$this->id_connection) {
-                return false;
-            }
-        }
+
         $this->last_query = $sqlQuery;
         if ($resultQuery = @sqlite_query($this->id_connection, $sqlQuery)) {
             $this->last_result_query = $resultQuery;
@@ -176,9 +171,7 @@ class DbSQLite extends DbBase implements DbBaseInterface
      */
     function fetch_array($resultQuery='', $opt=SQLITE_BOTH)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
             if (!$resultQuery) {
@@ -204,9 +197,6 @@ class DbSQLite extends DbBase implements DbBaseInterface
      */
     function num_rows($resultQuery='')
     {
-        if (!$this->id_connection) {
-            return false;
-        }
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
             if (!$resultQuery) {
@@ -229,9 +219,7 @@ class DbSQLite extends DbBase implements DbBaseInterface
      */
     function field_name($number, $resultQuery='')
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
             if (!$resultQuery) {
@@ -275,9 +263,7 @@ class DbSQLite extends DbBase implements DbBaseInterface
      */
     function affected_rows($resultQuery='')
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
             if (!$resultQuery) {
@@ -299,7 +285,7 @@ class DbSQLite extends DbBase implements DbBaseInterface
     function error($err='')
     {
         if (!$this->id_connection) {
-            $this->last_error = sqlite_last_error() ? sqlite_last_error() . $err : "[Error Desconocido en SQLite \"$err\"]";
+            $this->last_error = sqlite_last_error($this->id_connection) ? sqlite_last_error($this->id_connection) . $err : "[Error Desconocido en SQLite \"$err\"]";
             if ($this->logger) {
                 Logger::error($this->last_error);
             }
@@ -333,9 +319,6 @@ class DbSQLite extends DbBase implements DbBaseInterface
      */
     public function last_insert_id($table='', $primary_key='')
     {
-        if (!$this->id_connection) {
-            return false;
-        }
         $last_id = $this->fetch_one("SELECT COUNT(*) FROM $table");
         return $last_id[0];
     }
