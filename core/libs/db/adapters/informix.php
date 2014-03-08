@@ -46,7 +46,7 @@ class DbInformix extends DbBase implements DbBaseInterface
      *
      * @var string
      */
-    private $last_query;
+    protected $last_query;
     /**
      * Ultimo error generado por Informix
      *

@@ -46,7 +46,7 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
      *
      * @var string
      */
-    private $last_query;
+    protected $last_query;
     /**
      * Último error generado por MySQL
      *
