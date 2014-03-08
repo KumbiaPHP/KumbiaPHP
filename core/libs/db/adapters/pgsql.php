@@ -46,7 +46,7 @@ class DbPgSQL extends DbBase implements DbBaseInterface
      *
      * @var string
      */
-    private $last_query;
+    protected $last_query;
     /**
      * Ultimo error generado por PostgreSQL
      *
@@ -113,7 +113,7 @@ class DbPgSQL extends DbBase implements DbBaseInterface
      * Hace una conexion a la base de datos de PostgreSQL
      *
      * @param array $config
-     * @return resource_connection
+     * @return bool
      */
     public function connect($config)
     {
@@ -145,12 +145,7 @@ class DbPgSQL extends DbBase implements DbBaseInterface
         if ($this->logger) {
             Logger::debug($sqlQuery);
         }
-        if (!$this->id_connection) {
-            $this->connect();
-            if (!$this->id_connection) {
-                return false;
-            }
-        }
+        
         $this->last_query = $sqlQuery;
         if ($resultQuery = @pg_query($this->id_connection, $sqlQuery)) {
             $this->last_result_query = $resultQuery;
@@ -179,11 +174,9 @@ class DbPgSQL extends DbBase implements DbBaseInterface
      * @param int $opt
      * @return array
      */
-    function fetch_array($resultQuery='', $opt=PGSQL_BOTH)
+    function fetch_array($resultQuery=NULL, $opt=PGSQL_BOTH)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
             if (!$resultQuery) {
@@ -206,11 +199,9 @@ class DbPgSQL extends DbBase implements DbBaseInterface
     /**
      * Devuelve el numero de filas de un select
      */
-    function num_rows($resultQuery='')
+    function num_rows($resultQuery=NULL)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
             if (!$resultQuery) {
@@ -231,11 +222,9 @@ class DbPgSQL extends DbBase implements DbBaseInterface
      * @param resource $resultQuery
      * @return string
      */
-    function field_name($number, $resultQuery='')
+    function field_name($number, $resultQuery=NULL)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
             if (!$resultQuery) {
@@ -256,7 +245,7 @@ class DbPgSQL extends DbBase implements DbBaseInterface
      * @param resource $resultQuery
      * @return boolean
      */
-    function data_seek($number, $resultQuery='')
+    function data_seek($number, $resultQuery=NULL)
     {
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
@@ -277,11 +266,9 @@ class DbPgSQL extends DbBase implements DbBaseInterface
      * @param resource $resultQuery
      * @return int
      */
-    function affected_rows($resultQuery='')
+    function affected_rows($resultQuery=NULL)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
             if (!$resultQuery) {
@@ -320,14 +307,12 @@ class DbPgSQL extends DbBase implements DbBaseInterface
     /**
      * Devuelve el no error de PostgreSQL
      *
-     * @return int
+     * @return int ??
      */
     function no_error()
     {
-        if (!$this->id_connection) {
-            return false;
-        }
-        return "0"; //Codigo de Error?
+
+        return 0; //Codigo de Error?
     }
 
     /**
@@ -337,9 +322,7 @@ class DbPgSQL extends DbBase implements DbBaseInterface
      */
     public function last_insert_id($table='', $primary_key='')
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         $last_id = $this->fetch_one("SELECT CURRVAL('{$table}_{$primary_key}_seq')");
         return $last_id[0];
     }
@@ -417,7 +400,7 @@ class DbPgSQL extends DbBase implements DbBaseInterface
      *
      * @param string $table
      * @param array $definition
-     * @return boolean
+     * @return resource
      */
     public function create_table($table, $definition, $index=array())
     {
@@ -536,16 +519,16 @@ class DbPgSQL extends DbBase implements DbBaseInterface
     /**
      * Devuelve fila por fila el contenido de un select
      *
-     * @param resource $result_query
+     * @param resource $query_result
      * @param string $class clase de objeto
      * @return object
      */
-    public function fetch_object($queryResult=null, $class='stdClass')
+    public function fetch_object($query_result=null, $class='stdClass')
     {
-        if (!$queryResult) {
-            $queryResult = $this->last_result_query;
+        if (!$query_result) {
+            $query_result = $this->last_result_query;
         }
-        return pg_fetch_object($queryResult, null, $class);
+        return pg_fetch_object($query_result, null, $class);
     }
 
     /**

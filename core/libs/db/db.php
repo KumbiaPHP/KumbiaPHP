@@ -46,7 +46,7 @@ class Db
      * Devuelve la conexión, si no existe llama a Db::connect para crearla
      *
      * @param string $database base de datos a donde conectar
-     * @return db
+     * @return DbBase
      */
     public static function factory($database = null)
     {
@@ -68,7 +68,7 @@ class Db
      * usando el driver de Kumbia
      *
      * @param string $database base de datos a donde conectar
-     * @return db
+     * @return DbBase
      */
     private static function connect($database)
     {

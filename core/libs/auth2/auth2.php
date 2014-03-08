@@ -210,7 +210,7 @@ abstract class Auth2
     /**
      * Indica el mensaje de error
      * 
-     * @param string $_error
+     * @param string $error
      */
     public function setError($error)
     {

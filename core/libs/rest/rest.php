@@ -63,7 +63,7 @@ class Rest
     /**
      * Establece los tipos de respuesta aceptados
      * 
-     * @param string $acceptcada uno de los tipos separados por coma ','
+     * @param string $accept Cada uno de los tipos separados por coma ','
      */
     static public function accept($accept)
     {

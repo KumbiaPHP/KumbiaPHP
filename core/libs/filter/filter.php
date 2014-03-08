@@ -68,7 +68,7 @@ class Filter
     /**
      * Aplica los filtros a un array
      *
-     * @param array $s variable a filtrar
+     * @param array $array array a filtrar
      * @param string $filter filtro
      * @param array $options
      * @return array

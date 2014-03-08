@@ -38,7 +38,7 @@ class Input
 	/**
 	 * Indica si el request es AJAX
 	 *
-	 * @return Bolean
+	 * @return boolean
 	 */
 	public static function isAjax()
 	{
@@ -122,7 +122,7 @@ class Input
 	 * Elimina elemento indicado en $_POST
 	 *
 	 * @param string $var elemento a verificar
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public static function delete($var = NULL) 
 	{

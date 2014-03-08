@@ -108,7 +108,6 @@ class Html
      *
      * @param string $class class css
      * @param string|array $attrs
-     * @param unknown_type $start
      * @return string
      * @deprecated Mejor usar CSS
      */
@@ -164,7 +163,7 @@ class Html
     /**
      * Crea una lista a partir de un array
      *
-     * @param string $content contenido del metatag
+     * @param array $array Array con el contenido del metatag
      * @param string $type por defecto ul, y si no ol
      * @param string|array $attrs atributos 
      * @return string
