@@ -81,7 +81,7 @@ function array_insert(&$form, $index, $value, $key=null){
  * @param $value valor a insertar
  **/
 function array_num_insert(&$array, $index, $value) {
-    $array_splice($array, $index, 0, $value);
+    array_splice($array, $index, 0, $value);
 }
 
 /**
