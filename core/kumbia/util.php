@@ -173,9 +173,7 @@ class Util
      */
     public static function mkpath($path)
     {
-        if (file_exists($path) or @mkdir($path))
-            return TRUE;
-        return (self::mkpath(dirname($path)) and mkdir($path));
+        return FileUtil::mkdir($path);
     }
 
     /**
@@ -189,21 +187,7 @@ class Util
      */
     public static function removedir($dir)
     {
-        // Obtengo los archivos en el directorio a eliminar
-        if ($files = array_merge(glob("$dir/*"), glob("$dir/.*"))) {
-            // Elimino cada subdirectorio o archivo
-            foreach ($files as $file) {
-                // Si no son los directorios "." o ".." 
-                if (!preg_match("/^.*\/?[\.]{1,2}$/", $file)) {
-                    if (is_dir($file)) {
-                        return self::removedir($file);
-                    } elseif (!@unlink($file)) {
-                        return FALSE;
-                    }
-                }
-            }
-        }
-        return @rmdir($dir);
+        return FileUtil::rmdir($dir);
     }
 
     /**
