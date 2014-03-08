@@ -277,7 +277,7 @@ class KumbiaView
      * Renderiza una vista parcial
      *
      * @param string $partial vista a renderizar
-     * @param string $time tiempo de cache
+     * @param FALSE|string $time tiempo de cache
      * @param array $params
      * @param string $group grupo de cache
      * @return string
