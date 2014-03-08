@@ -423,7 +423,7 @@ class Form
         }
 
         // Obtiene name y id para el campo y los carga en el scope
-        list($id, $name, $checked) = self::getFieldDataCheck($field, $checkValue, $checked);
+        list($id, $name, $checked) = self::getFieldDataCheck($field, $radioValue, $checked);
 
         if ($checked) {
             $checked = 'checked="checked"';
@@ -569,7 +569,7 @@ class Form
         }
  
         // Obtiene name y id, y los carga en el scope
-        list($id, $name, $value) = self::getFieldData($field, $value);
+        list($id, $name, $value) = self::getFieldData($field, FALSE);
         return "<input id=\"$id\" name=\"$name\" type=\"file\" $attrs/>";
     }
 
