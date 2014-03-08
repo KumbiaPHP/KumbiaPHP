@@ -159,7 +159,7 @@ class DbOracle extends DbBase implements DbBaseInterface
         }
 
         $this->num_rows = false;
-        $this->lastQuery = $sqlQuery;
+        $this->last_query = $sqlQuery;
         $resultQuery = @oci_parse($this->id_connection, $sqlQuery);
         if ($resultQuery) {
             $this->last_result_query = $resultQuery;
