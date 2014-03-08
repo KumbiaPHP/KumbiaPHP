@@ -52,7 +52,7 @@ class DbOracle extends DbBase implements DbBaseInterface
      *
      * @var string
      */
-    public $lastError;
+    public $last_error;
     /**
      * Indica si los modelos usan autocommit
      *
@@ -157,19 +157,13 @@ class DbOracle extends DbBase implements DbBaseInterface
         if ($this->logger) {
             Logger::debug($sqlQuery);
         }
-        if (!$this->id_connection) {
-            $this->connect();
-            if (!$this->id_connection) {
-                return false;
-            }
-        }
+
         $this->num_rows = false;
         $this->lastQuery = $sqlQuery;
         $resultQuery = @oci_parse($this->id_connection, $sqlQuery);
         if ($resultQuery) {
             $this->last_result_query = $resultQuery;
         } else {
-            $this->last_result_query = false;
             throw new KumbiaException($this->error($php_errormsg));
         }
         if ($this->autocommit) {
@@ -179,7 +173,6 @@ class DbOracle extends DbBase implements DbBaseInterface
         }
 
         if (!@oci_execute($resultQuery, $commit)) {
-            $this->last_result_query = false;
             throw new KumbiaException($this->error($php_errormsg));
         }
         return $resultQuery;
@@ -202,11 +195,9 @@ class DbOracle extends DbBase implements DbBaseInterface
      * @param int $opt
      * @return array
      */
-    function fetch_array($resultQuery='', $opt=OCI_BOTH)
+    function fetch_array($resultQuery=NULL, $opt=OCI_BOTH)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
             if (!$resultQuery) {
@@ -237,11 +228,9 @@ class DbOracle extends DbBase implements DbBaseInterface
     /**
      * Devuelve el numero de filas de un select
      */
-    function num_rows($resultQuery='')
+    function num_rows($resultQuery=NULL)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
             if (!$resultQuery) {
@@ -262,7 +251,6 @@ class DbOracle extends DbBase implements DbBaseInterface
             $commit = OCI_DEFAULT;
         }
         if (!@oci_execute($resultQuery, $commit)) {
-            $this->last_result_query = false;
             throw new KumbiaException($this->error($php_errormsg . " al ejecutar <em>'{$this->lastQuery}'</em>"));
         }
         $tmp = array();
@@ -279,11 +267,9 @@ class DbOracle extends DbBase implements DbBaseInterface
      * @param resource $resultQuery
      * @return string
      */
-    function field_name($number, $resultQuery='')
+    function field_name($number, $resultQuery=NULL)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
             if (!$resultQuery) {
@@ -305,7 +291,7 @@ class DbOracle extends DbBase implements DbBaseInterface
      * @param resource $resultQuery
      * @return boolean
      */
-    function data_seek($number, $resultQuery='')
+    function data_seek($number, $resultQuery=NULL)
     {
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
@@ -339,11 +325,9 @@ class DbOracle extends DbBase implements DbBaseInterface
      * @param resource $resultQuery
      * @return int
      */
-    function affected_rows($resultQuery='')
+    function affected_rows($resultQuery=NULL)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$resultQuery) {
             $resultQuery = $this->last_result_query;
             if (!$resultQuery) {
@@ -370,7 +354,7 @@ class DbOracle extends DbBase implements DbBaseInterface
                 $error['message'].=" > $err ";
                 return $error['message'];
             } else {
-                $error.=" $php_errormsg ";
+                //$error.=" $php_errormsg ";
                 return $error;
             }
         }
