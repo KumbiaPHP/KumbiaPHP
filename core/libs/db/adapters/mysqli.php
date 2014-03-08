@@ -113,7 +113,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface
      * Hace una conexión a la base de datos de MySQL
      *
      * @param array $config
-     * @return resource_connection
+     * @return bool
      */
     public function connect($config)
     {
@@ -130,7 +130,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface
     /**
      * Efectua operaciones SQL sobre la base de datos
      *
-     * @param string $sqlQuery
+     * @param string $sql_query
      * @return resource or false
      */
     public function query($sql_query)
@@ -347,7 +347,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface
      * Borra una tabla de la base de datos
      *
      * @param string $table
-     * @return boolean
+     * @return resource
      */
     public function drop_table($table, $if_exists=true)
     {
@@ -369,7 +369,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface
      *
      * @param string $table
      * @param array $definition
-     * @return boolean
+     * @return resource
      */
     public function create_table($table, $definition, $index=array())
     {

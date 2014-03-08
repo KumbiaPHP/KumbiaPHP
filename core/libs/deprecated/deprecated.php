@@ -266,7 +266,7 @@ function camelize($str) {
  * Descameliza una cadena camelizada
  *
  * @deprecated
- * @param string $s
+ * @param string $str
  * @return string
  */
 function uncamelize($str) {
@@ -379,7 +379,7 @@ function roundnumber($n, $d = 0) {
  *
  * @param integer $number
  * @param integer $n
- * @return integer
+ * @return resource
  */
 function my_round($number, $n=2){
 	$number = (float) $number;
@@ -756,7 +756,7 @@ function content(){
  * @param $text
  * @param $word
  * @param $number
- * @return unknown_type
+ * @return string
  */
 function truncate($text, $word, $number=0){
 	if($number){

@@ -102,7 +102,7 @@ class DbPdoMsSQL extends DbPDO
     /**
      * Devuelve un LIMIT valido para un SELECT del RBDM
      *
-     * @param integer $number
+     * @param string $sql
      * @return string
      */
     public function limit($sql)

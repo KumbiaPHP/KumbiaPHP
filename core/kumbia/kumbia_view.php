@@ -106,7 +106,7 @@ class KumbiaView
      * ej. View::response('xml');
      * buscara: views/controller/action.xml.phtml
      *
-     * @param string $type
+     * @param string $response 
      * @param string $template Opcional nombre del template sin .phtml
      */
     public static function response($response, $template = FALSE)
@@ -149,7 +149,7 @@ class KumbiaView
     /**
      * Obtiene un atributo de KumbiaView
      *
-     * @param string $attribute nombre de atributo (template, response, path, etc)
+     * @param string $atribute nombre de atributo (template, response, path, etc)
      */
     public static function get($atribute)
     {
@@ -277,7 +277,7 @@ class KumbiaView
      * Renderiza una vista parcial
      *
      * @param string $partial vista a renderizar
-     * @param FALSE|string $time tiempo de cache
+     * @param FALSE|string $__time tiempo de cache
      * @param array $params
      * @param string $group grupo de cache
      * @return string

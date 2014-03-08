@@ -113,7 +113,7 @@ class DbSQLite extends DbBase implements DbBaseInterface
      * Hace una conexion a la base de datos de SQLite
      *
      * @param array $config
-     * @return resource_connection
+     * @return bool
      */
     public function connect($config)
     {
@@ -306,10 +306,7 @@ class DbSQLite extends DbBase implements DbBaseInterface
      */
     function no_error()
     {
-        if (!$this->id_connection) {
-            return false;
-        }
-        return "0"; //Codigo de Error?
+        return 0; //Codigo de Error?
     }
 
     /**
@@ -385,7 +382,7 @@ class DbSQLite extends DbBase implements DbBaseInterface
      *
      * @param string $table
      * @param array $definition
-     * @return boolean
+     * @return boolean|null
      */
     public function create_table($table, $definition, $index=array())
     {

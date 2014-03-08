@@ -114,7 +114,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * Hace una conexión a la base de datos de MsSQL
 	 *
 	 * @param array $config
-	 * @return resource_connection
+	 * @return bool
 	 */
 	public function connect($config){
 		if(!extension_loaded('mssql')){
@@ -138,7 +138,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	/**
 	 * Efectua operaciones SQL sobre la base de datos
 	 *
-	 * @param string $sqlQuery
+	 * @param string $sql_query
 	 * @return resource or false
 	 */
 	public function query($sql_query){
@@ -289,9 +289,6 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * @return int
 	 */
 	public function no_error(){
-		if(!$this->id_connection){
-			return false;
-		}
 		return mssql_errno();
 	}
 	/**
@@ -350,7 +347,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * Borra una tabla de la base de datos
 	 *
 	 * @param string $table
-	 * @return boolean
+	 * @return resource
 	 */
 	public function drop_table($table, $if_exists=true){
 		if($if_exists){

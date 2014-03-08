@@ -81,7 +81,6 @@ class DbBase
      * indexada por numeros y asociativamente
      *
      * @param string $sql
-     * @param integer $type
      * @return array
      */
     public function in_query($sql)
@@ -101,7 +100,6 @@ class DbBase
      * indexada por numeros y asociativamente (Alias para in_query)
      *
      * @param string $sql
-     * @param integer $type
      * @return array
      */
     public function fetch_all($sql)
@@ -114,7 +112,6 @@ class DbBase
      * indexada asociativamente
      *
      * @param string $sql
-     * @param integer $type
      * @return array
      */
     public function in_query_assoc($sql)
@@ -134,7 +131,6 @@ class DbBase
      * numerica
      *
      * @param string $sql
-     * @param integer $type
      * @return array
      */
     public function in_query_num($sql)

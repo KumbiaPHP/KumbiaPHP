@@ -112,7 +112,7 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
      * Hace una conexión a la base de datos de MySQL
      *
      * @param array $config
-     * @return resource_connection
+     * @return bool
      */
     public function connect($config)
     {
@@ -140,7 +140,7 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
     /**
      * Efectua operaciones SQL sobre la base de datos
      *
-     * @param string $sqlQuery
+     * @param string $sql_query
      * @return resource or false
      */
     public function query($sql_query)
@@ -307,9 +307,6 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
      */
     public function no_error()
     {
-        if (!$this->id_connection) {
-            return false;
-        }
         return mysql_errno();
     }
 

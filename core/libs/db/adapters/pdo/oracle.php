@@ -214,7 +214,6 @@ class DbPdoOracle extends DbPDO
     /**
      * Listado de Tablas
      *
-     * @param string $table
      * @return boolean
      */
     function list_tables()

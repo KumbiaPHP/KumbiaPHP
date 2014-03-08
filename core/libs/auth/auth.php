@@ -82,7 +82,7 @@ class Auth
     /**
      * Constructor del Autenticador
      *
-     * @param string $adapter
+     * 
      */
     public function __construct()
     {
@@ -96,6 +96,9 @@ class Auth
         $this->set_adapter($adapter, $this, $extra_args);
     }
 
+    /**
+     * @param Auth $auth
+     */
     public function set_adapter($adapter, $auth = null, $extra_args = array())
     {
         if (!in_array($adapter, array('digest', 'http', 'model', 'kerberos5', 'radius'))) {
@@ -110,7 +113,7 @@ class Auth
 
     /**
      * Obtiene el nombre del adaptador actual
-     * @return boolean
+     * @return string
      */
     public function get_adapter_name()
     {

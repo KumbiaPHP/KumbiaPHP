@@ -96,9 +96,6 @@ class DbPdoPgSQL extends DbPDO
      */
     public function last_insert_id($table='', $primary_key='')
     {
-        if (!$this->pdo) {
-            return false;
-        }
         return $this->pdo->lastInsertId("{$table}_{$primary_key}_seq");
     }
 

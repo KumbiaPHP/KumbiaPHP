@@ -112,7 +112,7 @@ class DbFirebird extends DbBase implements DbBaseInterface
      * Hace una conexion a la base de datos de Firebird
      *
      * @param array $config
-     * @return resource_connection
+     * @return bool
      */
     public function connect($config)
     {
@@ -137,7 +137,7 @@ class DbFirebird extends DbBase implements DbBaseInterface
     /**
      * Efectua operaciones SQL sobre la base de datos
      *
-     * @param string $sqlQuery
+     * @param string $sql_query
      * @return resource or false
      */
     public function query($sql_query)
@@ -407,7 +407,7 @@ class DbFirebird extends DbBase implements DbBaseInterface
      *
      * @param string $table
      * @param array $definition
-     * @return boolean
+     * @return resource
      */
     public function create_table($table, $definition, $index=array())
     {

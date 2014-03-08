@@ -126,7 +126,7 @@ class Controller
      * Ejecuta los callback filter
      *
      * @param boolean $init filtros de inicio
-     * @return void
+     * @return bool
      */
     final public function k_callback($init = FALSE)
     {

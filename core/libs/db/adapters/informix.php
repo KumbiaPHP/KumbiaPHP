@@ -130,7 +130,7 @@ class DbInformix extends DbBase implements DbBaseInterface
      * Hace una conexión a la base de datos de Informix
      *
      * @param array $config
-     * @return resource_connection
+     * @return bool
      */
     public function connect($config)
     {
@@ -148,7 +148,7 @@ class DbInformix extends DbBase implements DbBaseInterface
     /**
      * Efectua operaciones SQL sobre la base de datos
      *
-     * @param string $sqlQuery
+     * @param string $sql_query
      * @return resource or false
      */
     public function query($sql_query)
@@ -374,9 +374,6 @@ class DbInformix extends DbBase implements DbBaseInterface
      */
     public function no_error()
     {
-        if (!$this->id_connection) {
-            return ifx_error();
-        }
         return ifx_error();
     }
 
@@ -395,7 +392,7 @@ class DbInformix extends DbBase implements DbBaseInterface
      * Verifica si una tabla existe o no
      *
      * @param string $table
-     * @return boolean
+     * @return integer
      */
     public function table_exists($table, $schema='')
     {
@@ -408,7 +405,7 @@ class DbInformix extends DbBase implements DbBaseInterface
     /**
      * Devuelve un LIMIT valido para un SELECT del RBDM
      *
-     * @param int $number
+     * @param string $sql
      * @return string
      */
     public function limit($sql){
@@ -451,7 +448,7 @@ class DbInformix extends DbBase implements DbBaseInterface
      *
      * @param string $table
      * @param array $definition
-     * @return boolean
+     * @return resource
      */
     public function create_table($table, $definition, $index=array())
     {

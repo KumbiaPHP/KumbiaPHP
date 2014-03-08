@@ -82,7 +82,9 @@ final class Router
     /**
      * Busca en la tabla de entutamiento si hay una ruta en config/routes.ini
      * para el controlador, accion, id actual
-     *
+     * 
+     * @param string $url Url para enrutar
+     * @return string
      */
     private static function _ifRouted($url)
     {
@@ -234,7 +236,7 @@ final class Router
      * ej.
      * <code>Router::get('controller')</code>
      *
-     * @param string  (opcional) un atributo: route, module, controller, action, parameters o routed
+     * @param string $var (opcional) un atributo: route, module, controller, action, parameters o routed
      * @return array|string con el valor del atributo
      */
     public static function get($var = null)

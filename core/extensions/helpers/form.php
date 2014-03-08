@@ -107,7 +107,7 @@ class Form
      * que sea un string, objeto o array.
      *
      * @param string $field
-     * @param string $checkedValue
+     * @param string $checkValue
      * @param boolean $checked
      * @return array
      */
@@ -203,7 +203,9 @@ class Form
      * Crea un campo input
      *
      * @param string|array $attrs Atributos de campo (opcional)
-     * @param string $content Contenido interno (opcional)
+     * @param string $type
+     * @param string $field
+     * @param string $value
      * @return string
      */
     public static function input($type, $field,$attrs = NULL, $value=NULL)
@@ -597,7 +599,6 @@ class Form
      * Crea un campo fecha nativo (HTML5)
      *
      * @param string $field Nombre de campo
-     * @param string $class Clase de estilo (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value (opcional)
      * @return string
@@ -632,7 +633,6 @@ class Form
      * Crea un campo tiempo nativo (HTML5)
      *
      * @param string $field Nombre de campo
-     * @param string $class Clase de estilo (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value (opcional)
      * @return string
@@ -646,7 +646,6 @@ class Form
      * Crea un campo fecha/tiempo nativo (HTML5)
      *
      * @param string $field Nombre de campo
-     * @param string $class Clase de estilo (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value (opcional)
      * @return string
@@ -660,7 +659,6 @@ class Form
      * Crea un campo numerico nativo (HTML5)
      *
      * @param string $field Nombre de campo
-     * @param string $class Clase de estilo (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value (opcional)
      * @return string
@@ -675,7 +673,6 @@ class Form
      * Crea un campo url nativo (HTML5)
      *
      * @param string $field Nombre de campo
-     * @param string $class Clase de estilo (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value (opcional)
      * @return string
@@ -689,7 +686,6 @@ class Form
      * Crea un campo email nativo (HTML5)
      *
      * @param string $field Nombre de campo
-     * @param string $class Clase de estilo (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value (opcional)
      * @return string

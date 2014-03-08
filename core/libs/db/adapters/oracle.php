@@ -125,7 +125,7 @@ class DbOracle extends DbBase implements DbBaseInterface
      * Hace una conexion a la base de datos de Oracle
      *
      * @param array $config
-     * @return resource_connection
+     * @return bool
      */
     function connect($config)
     {
@@ -375,7 +375,7 @@ class DbOracle extends DbBase implements DbBaseInterface
     function no_error()
     {
         if (!$this->id_connection) {
-            $error = oci_error() ? oci_error() : "0";
+            $error = oci_error() ? oci_error() : 0;
             if (is_array($error)) {
                 return $error['code'];
             } else {
@@ -442,7 +442,7 @@ class DbOracle extends DbBase implements DbBaseInterface
      *
      * @param string $table
      * @param array $definition
-     * @return boolean
+     * @return resource
      */
     public function create_table($table, $definition, $index=array())
     {
@@ -514,7 +514,6 @@ class DbOracle extends DbBase implements DbBaseInterface
     /**
      * Listado de Tablas
      *
-     * @param string $table
      * @return boolean
      */
     function list_tables()

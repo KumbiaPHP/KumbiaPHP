@@ -32,7 +32,7 @@ class IntFilter implements FilterInterface
     /**
      * Ejecuta el filtro
      *
-     * @param string $value
+     * @param string $s
      * @param array $options
      * @return int
      */

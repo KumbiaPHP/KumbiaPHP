@@ -113,7 +113,7 @@ class DbPgSQL extends DbBase implements DbBaseInterface
      * Hace una conexion a la base de datos de PostgreSQL
      *
      * @param array $config
-     * @return resource_connection
+     * @return bool
      */
     public function connect($config)
     {
@@ -307,14 +307,12 @@ class DbPgSQL extends DbBase implements DbBaseInterface
     /**
      * Devuelve el no error de PostgreSQL
      *
-     * @return int
+     * @return int ??
      */
     function no_error()
     {
-        if (!$this->id_connection) {
-            return false;
-        }
-        return "0"; //Codigo de Error?
+
+        return 0; //Codigo de Error?
     }
 
     /**
@@ -521,16 +519,16 @@ class DbPgSQL extends DbBase implements DbBaseInterface
     /**
      * Devuelve fila por fila el contenido de un select
      *
-     * @param resource $result_query
+     * @param resource $query_result
      * @param string $class clase de objeto
      * @return object
      */
-    public function fetch_object($queryResult=null, $class='stdClass')
+    public function fetch_object($query_result=null, $class='stdClass')
     {
-        if (!$queryResult) {
-            $queryResult = $this->last_result_query;
+        if (!$query_result) {
+            $query_result = $this->last_result_query;
         }
-        return pg_fetch_object($queryResult, null, $class);
+        return pg_fetch_object($query_result, null, $class);
     }
 
     /**

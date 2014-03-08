@@ -320,7 +320,7 @@ class KumbiaActiveRecord
     /**
      * Establece la base datos a utilizar
      *
-     * @param string $databse
+     * @param string $database
      */
     public function set_database($database)
     {
@@ -737,11 +737,9 @@ class KumbiaActiveRecord
     /**
      * Return Fist Record
      *
-     * @param mixed $what
-     * @param boolean $debug
-     *
      * Recibe los mismos parametros que find
-     *
+     * 
+     * @param mixed $what
      * @return ActiveRecord Cursor
      */
     public function find_first($what = '')
@@ -1210,7 +1208,7 @@ class KumbiaActiveRecord
      * Updates a Row using values from $_REQUEST
      *
      * @param string $form form name for request, equivalent to $_REQUEST[$form]
-     * @return boolean success
+     * @return boolean|null success
      */
     public function update_from_request($form = null)
     {
@@ -1224,7 +1222,7 @@ class KumbiaActiveRecord
      * Creates a new Row in map table
      *
      * @param mixed $values
-     * @return success boolean
+     * @return boolean success
      */
     public function create()
     {
@@ -1780,7 +1778,7 @@ class KumbiaActiveRecord
      *
      * @param string $field
      * @param string $value
-     * @return ActiveRecod Cursor
+     * @return ActiveRecord Cursor
      */
     function find_all_by($field, $value)
     {
@@ -1792,7 +1790,7 @@ class KumbiaActiveRecord
      * Updates Data in the Relational Table
      *
      * @param mixed $values
-     * @return boolean sucess
+     * @return boolean|null sucess
      */
     function update()
     {
