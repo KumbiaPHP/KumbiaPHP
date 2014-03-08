@@ -29,7 +29,7 @@
  */
 interface DbBaseInterface
 {
-    public function connect($config);
+    public function connect($config = NULL);
 
     public function query($sql);
 
