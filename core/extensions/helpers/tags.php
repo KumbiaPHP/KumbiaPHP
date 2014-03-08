@@ -18,7 +18,7 @@
  * @category   Kumbia
  * @package    Helpers
  * @deprecated Antiguo helper html (legacy). Se mantiene para facilitar portar apps antiguas. Se eliminará despues de la beta2
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 

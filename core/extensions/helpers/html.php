@@ -14,7 +14,7 @@
  *
  * @category   KumbiaPHP
  * @package    Helpers 
- * @copyright  Copyright (c) 2005-2012 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
