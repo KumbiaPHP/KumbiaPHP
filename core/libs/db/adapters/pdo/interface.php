@@ -56,10 +56,12 @@ interface DbPdoInterface
      * Este metodo no esta soportado por PDO, usar fetch_all y luego contar con count()
      *
      * @param resource $result_query
+     * @return integer
      */
     public function num_rows($result_query=NULL);
     
     /**
+     * @param resource $resultQuery
      * @return string
      */
     public function field_name($number, $resultQuery=NULL);
@@ -68,6 +70,7 @@ interface DbPdoInterface
      * Este metodo no esta soportado por PDO, usar fetch_all y luego contar con count()
      *
      * @param resource $result_query
+     * @return boolean
      */
     public function data_seek($number, $result_query=NULL);
     

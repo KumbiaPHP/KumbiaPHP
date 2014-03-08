@@ -343,7 +343,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface
     /**
      * Devuelve el ultimo id autonumerico generado en la BD
      *
-     * @return false|string
+     * @return string
      */
     public function last_insert_id($table='', $primary_key='')
     {
