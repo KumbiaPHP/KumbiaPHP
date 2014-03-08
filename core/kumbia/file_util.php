@@ -29,7 +29,7 @@ class FileUtil
      * Crea un path en caso de que no exista
      *
      * @param string $path ruta a crear
-     * @todo Esto se puede optimizar
+     * @todo Se debe optimizar
      * @return boolean
      */
     public static function mkdir($path)
@@ -43,7 +43,7 @@ class FileUtil
      * Elimina un directorio.
      *
      * @param string $dir ruta de directorio a eliminar
-     * @todo Esto se puede optimizar
+     * @todo Se debe optimizar
      * @return boolean
      */
     public static function rmdir($dir)
@@ -55,7 +55,7 @@ class FileUtil
                 // Si no son los directorios "." o ".." 
                 if (!preg_match("/^.*\/?[\.]{1,2}$/", $file)) {
                     if (is_dir($file)) {
-                        return self::removedir($file);
+                        return self::rmdir($file);
                     } elseif (!@unlink($file)) {
                         return FALSE;
                     }
