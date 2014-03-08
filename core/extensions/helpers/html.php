@@ -163,7 +163,7 @@ class Html
     /**
      * Crea una lista a partir de un array
      *
-     * @param string $array Array con el contenido del metatag
+     * @param array $array Array con el contenido del metatag
      * @param string $type por defecto ul, y si no ol
      * @param string|array $attrs atributos 
      * @return string

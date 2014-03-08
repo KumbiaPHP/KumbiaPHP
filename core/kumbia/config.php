@@ -95,7 +95,7 @@ final class Config
      *
      * @param string $file archivo .ini
      * @param boolean $force forzar lectura de .ini
-     * @return string
+     * @return array
      */
     public static function & read($file, $force = FALSE)
     {
