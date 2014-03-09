@@ -366,7 +366,6 @@ function stylesheet_link_tag($name){
 	$params['rel'] = 'stylesheet';
 	$params['type'] = 'text/css';
 	
-	$kb = substr(PUBLIC_PATH, 0, strlen(PUBLIC_PATH)-1);
 	$code = '';
 	for($i=0; isset($params[$i]); $i++){
 		$src = $params[$i];
@@ -1255,7 +1254,7 @@ function tr_color_class(){
     static $i;
     static $c = true;
     $id = "";
-    $code = "";
+    //$code = "";
     $params = Util::getParams(func_get_args());
     if(isset($params['id'])){
 	    $id = " id=\"{$params['id']}\"";
@@ -1811,9 +1810,6 @@ function get_kumbia_url($url){
 		$action = $url[0];
 		if(isset($url['module'])){
 			$module = $url['module'];
-		}
-		if(isset($url['application']) && $url['application']){
-			$application = $url['application'];
 		}
 	}
 	if($module){
