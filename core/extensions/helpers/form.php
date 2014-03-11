@@ -72,10 +72,10 @@ class Form
 			} elseif($value === null) { 
 				// Autocarga de datos
 				$form = View::getVar($formField[0]);
-				if(is_array($form)) {
-					if(isset($form[$formField[1]])) $value = $form[$formField[1]];
-				} elseif(is_object($form)) {
-					if(isset($form->$formField[1])) $value = $form->{$formField[1]};
+				if(is_array($form) && isset($form[$formField[1]])) {
+					$value = $form[$formField[1]];
+				} elseif(is_object($form) && isset($form->$formField[1])) {
+					$value = $form->{$formField[1]};
 				}
 			}
 		} else {
