@@ -69,7 +69,7 @@ class Form
 			// Verifica en $_POST
 			if(isset($_POST[$formField[0]][$formField[1]])) {
 				$value = $_POST[$formField[0]][$formField[1]];
-			} else { 
+			} elseif($value === null) { 
 				// Autocarga de datos
 				$form = View::getVar($formField[0]);
 				if(is_array($form) && isset($form[$formField[1]])) {
@@ -126,7 +126,7 @@ class Form
 			// Verifica en $_POST
 			if(isset($_POST[$formField[0]][$formField[1]])) {
 				$checked = $_POST[$formField[0]][$formField[1]] == $checkValue;
-			} else { 
+			} elseif($checked === null) { 
 				// Autocarga de datos
 				$form = View::getVar($formField[0]);
 				if(is_array($form)) {
@@ -256,7 +256,7 @@ class Form
         if ($action) {
             $action = PUBLIC_PATH . $action;
         } else {
-            $action = PUBLIC_PATH . substr(Router::get('route'), 1);
+            $action = PUBLIC_PATH . ltrim(Router::get('route'), '/');
         }
         return "<form action=\"$action\" method=\"post\" enctype=\"multipart/form-data\" $attrs>";
     }
