@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Controller 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -45,6 +45,12 @@ class Controller
      * @var string
      */
     public $action_name;
+    /**
+     * Parámetros de la acción
+     *
+     * @var array
+     */
+    public $parameters;
     /**
      * Limita la cantidad correcta de 
      * parametros de una action
@@ -120,7 +126,7 @@ class Controller
      * Ejecuta los callback filter
      *
      * @param boolean $init filtros de inicio
-     * @return void
+     * @return bool
      */
     final public function k_callback($init = FALSE)
     {

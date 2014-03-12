@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Db 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -29,22 +29,34 @@
  */
 interface DbBaseInterface
 {
+    /**
+     * @return bool
+     */
     public function connect($config);
-
+    
+    /**
+     * @return resource
+     */
     public function query($sql);
 
-    public function fetch_array($resultQuery = '', $opt = '');
+    public function fetch_array($resultQuery = NULL, $opt = '');
 
     public function close();
 
-    public function num_rows($resultQuery = '');
+    public function num_rows($resultQuery = NULL);
 
-    public function field_name($number, $resultQuery = '');
+    public function field_name($number, $resultQuery = NULL);
+    
+    /**
+     * @return bool
+     */
+    public function data_seek($number, $resultQuery = NULL);
 
-    public function data_seek($number, $resultQuery = '');
-
-    public function affected_rows($result_query = '');
-
+    public function affected_rows($result_query = NULL);
+    
+    /**
+     * @return string
+     */
     public function error($err = '');
 
     public function no_error();
@@ -58,13 +70,27 @@ interface DbBaseInterface
     public function fetch_one($sql);
 
     public function fetch_all($sql);
-
+    
+    /**
+     * @return bool
+     */
     public function insert($table, $values, $pk = '');
-
+    
+    /**
+     * @param string $where_condition
+     *
+     * @return bool
+     */
     public function update($table, $fields, $values, $where_condition = null);
-
+    
+    /**
+     * @param string $where_condition
+     */
     public function delete($table, $where_condition);
-
+    
+    /**
+     * @return string
+     */
     public function limit($sql);
 
     public function begin();

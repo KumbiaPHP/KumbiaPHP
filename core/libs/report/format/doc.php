@@ -17,7 +17,7 @@
  * @category Kumbia
  * @package Report
  * @deprecated Antiguo generar de reportes heredado (legacy). Completamente obsoleto
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 function doc($result, $sumArray, $title, $weighArray, $headerArray){

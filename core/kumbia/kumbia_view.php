@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Core
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -106,7 +106,7 @@ class KumbiaView
      * ej. View::response('xml');
      * buscara: views/controller/action.xml.phtml
      *
-     * @param string $type
+     * @param string $response 
      * @param string $template Opcional nombre del template sin .phtml
      */
     public static function response($response, $template = FALSE)
@@ -149,7 +149,7 @@ class KumbiaView
     /**
      * Obtiene un atributo de KumbiaView
      *
-     * @param string $attribute nombre de atributo (template, response, path, etc)
+     * @param string $atribute nombre de atributo (template, response, path, etc)
      */
     public static function get($atribute)
     {
@@ -196,9 +196,8 @@ class KumbiaView
      * Renderiza la vista
      *
      * @param Controller $controller
-     * @param string $url url a renderizar
      */
-    public static function render(/* Controller */ $controller, /* Router */  $_url)
+    public static function render($controller)
     {
         if (!self::$_view && !self::$_template)
             return ob_end_flush();
@@ -278,13 +277,13 @@ class KumbiaView
      * Renderiza una vista parcial
      *
      * @param string $partial vista a renderizar
-     * @param string $time tiempo de cache
+     * @param FALSE|string $__time tiempo de cache
      * @param array $params
      * @param string $group grupo de cache
      * @return string
      * @throw KumbiaException
      */
-    public static function partial($partial, $__time=FALSE, $params=array(), $group ='kumbia.partials')
+    public static function partial($partial, $__time=FALSE, $params=NULL, $group ='kumbia.partials')
     {
         if (PRODUCTION && $__time && !Cache::driver()->start($__time, $partial, $group)) {
             return;
@@ -298,12 +297,14 @@ class KumbiaView
             $__file = CORE_PATH . "views/partials/$partial.phtml";
         }
 
-        if (is_string($params)) {
-            $params = Util::getParams($params);
-        }
+        if($params){
+        	if (is_string($params)) {
+            		$params = Util::getParams(explode(',', $params));
+        	}
 
-        // carga los parametros en el scope
-        extract($params, EXTR_OVERWRITE);
+        	// carga los parametros en el scope
+        	extract($params, EXTR_OVERWRITE);
+        }
 
         // carga la vista parcial
         if (!include $__file) {

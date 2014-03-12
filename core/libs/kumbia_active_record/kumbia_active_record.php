@@ -15,7 +15,7 @@
  * @category   Kumbia
  * @package    Db
  * @subpackage ActiveRecord
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
@@ -320,7 +320,7 @@ class KumbiaActiveRecord
     /**
      * Establece la base datos a utilizar
      *
-     * @param string $databse
+     * @param string $database
      */
     public function set_database($database)
     {
@@ -457,7 +457,7 @@ class KumbiaActiveRecord
     }
 
     /**
-     * Devuelve un valor o un listado dependiendo del tipo de Relaci&oacute;n
+     * Devuelve un valor o un listado dependiendo del tipo de Relación
      *
      */
     public function __call($method, $args = array())
@@ -507,20 +507,18 @@ class KumbiaActiveRecord
                 throw new KumbiaException("No existe el método '$method' en ActiveRecord::" . get_class($this));
             }
         } catch (Exception $e) {
-            $this->exceptions($e);
+            throw new KumbiaException("Problema: ");
         }
         return $this->$method($args);
     }
 
     /**
      * Se conecta a la base de datos y descarga los meta-datos si es necesario
-     *
-     * @param boolean $new_connection
      */
-    protected function _connect($new_connection = false)
+    protected function _connect()
     {
-        if (!is_object($this->db) || $new_connection) {
-            $this->db = Db::factory($this->database, $new_connection);
+        if (!is_object($this->db)) {
+            $this->db = Db::factory($this->database);
         }
         $this->db->debug = $this->debug;
         $this->db->logger = $this->logger;
@@ -547,7 +545,7 @@ class KumbiaActiveRecord
         if ($this->_dumped) {
             return false;
         }
-        $a = array();
+        //$a = array();
         if ($this->source) {
             $this->source = str_replace(";", '', strtolower($this->source));
         } else {
@@ -564,7 +562,6 @@ class KumbiaActiveRecord
             if (!count($this->primary_key)) {
                 if (!$this->is_view) {
                     throw new KumbiaException("No se ha definido una llave primaria para la tabla '$table' esto imposibilita crear el ActiveRecord para esta entidad");
-                    return false;
                 }
             }
         } else {
@@ -646,7 +643,6 @@ class KumbiaActiveRecord
         } else {
             throw new KumbiaException("No se pudo obtener el Alias, porque el key: \"$key\" no existe.");
         }
-        return $this->alias;
     }
 
     /**
@@ -691,7 +687,7 @@ class KumbiaActiveRecord
      */
     public function begin()
     {
-        $this->_connect(true);
+        $this->_connect();//(true);
         return $this->db->begin();
     }
 
@@ -741,11 +737,9 @@ class KumbiaActiveRecord
     /**
      * Return Fist Record
      *
-     * @param mixed $what
-     * @param boolean $debug
-     *
      * Recibe los mismos parametros que find
-     *
+     * 
+     * @param mixed $what
      * @return ActiveRecord Cursor
      */
     public function find_first($what = '')
@@ -775,7 +769,7 @@ class KumbiaActiveRecord
                 $resp = $this->dump_result($result);
             }
         } catch (Exception $e) {
-            $this->exceptions($e);
+            throw new KumbiaException("Problema: ");
         }
         return $resp;
     }
@@ -840,7 +834,7 @@ class KumbiaActiveRecord
      * 	$select = "SELECT * FROM Clientes";
      * 	$select.= $this->convert_params_to_sql($what);
      *
-     * @param string $what
+     * @param string|array $what
      * @return string
      */
 
@@ -1214,7 +1208,7 @@ class KumbiaActiveRecord
      * Updates a Row using values from $_REQUEST
      *
      * @param string $form form name for request, equivalent to $_REQUEST[$form]
-     * @return boolean success
+     * @return boolean|null success
      */
     public function update_from_request($form = null)
     {
@@ -1228,7 +1222,7 @@ class KumbiaActiveRecord
      * Creates a new Row in map table
      *
      * @param mixed $values
-     * @return success boolean
+     * @return boolean success
      */
     public function create()
     {
@@ -1784,7 +1778,7 @@ class KumbiaActiveRecord
      *
      * @param string $field
      * @param string $value
-     * @return ActiveRecod Cursor
+     * @return ActiveRecord Cursor
      */
     function find_all_by($field, $value)
     {
@@ -1796,7 +1790,7 @@ class KumbiaActiveRecord
      * Updates Data in the Relational Table
      *
      * @param mixed $values
-     * @return boolean sucess
+     * @return boolean|null sucess
      */
     function update()
     {
@@ -1957,7 +1951,7 @@ class KumbiaActiveRecord
      */
     public function delete_all($conditions = '')
     {
-        $limit = '';
+        //$limit = '';
         if ($this->schema) {
             $table = $this->schema . "." . $this->source;
         } else {

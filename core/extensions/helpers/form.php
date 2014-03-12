@@ -14,7 +14,7 @@
  *
  * @category   KumbiaPHP
  * @package    Helpers 
- * @copyright  Copyright (c) 2005-2012 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -52,7 +52,7 @@ class Form
      * @param string $field
      * @param mixed $value valor de campo
      * @param boolean $filter filtrar caracteres especiales html
-     * @return mixed
+     * @return Array devuelve un array de longitud 3 con la forma array(id, name, value)
      */
     public static function getFieldData($field, $value = null, $filter = true)
     {
@@ -69,13 +69,13 @@ class Form
 			// Verifica en $_POST
 			if(isset($_POST[$formField[0]][$formField[1]])) {
 				$value = $_POST[$formField[0]][$formField[1]];
-			} elseif($value === null) { 
+			} else { 
 				// Autocarga de datos
 				$form = View::getVar($formField[0]);
-				if(is_array($form)) {
-					if(isset($form[$formField[1]])) $value = $form[$formField[1]];
-				} elseif(is_object($form)) {
-					if(isset($form->$formField[1])) $value = $form->{$formField[1]};
+				if(is_array($form) && isset($form[$formField[1]])) {
+					$value = $form[$formField[1]];
+				} elseif(is_object($form) && isset($form->$formField[1])) {
+					$value = $form->{$formField[1]};
 				}
 			}
 		} else {
@@ -97,7 +97,7 @@ class Form
         }
 
 		// Devuelve los datos
-        return array('id' => $id, 'name' => $name, 'value' => $value);
+        return array($id, $name, $value);
     }
     
 	/**
@@ -107,9 +107,9 @@ class Form
      * que sea un string, objeto o array.
      *
      * @param string $field
-     * @param string $checkedValue
+     * @param string $checkValue
      * @param boolean $checked
-     * @return array
+     * @return array Devuelve un array de longitud 3 con la forma array(id, name, checked);
      */
     public static function getFieldDataCheck($field, $checkValue, $checked = null)
     {
@@ -126,7 +126,7 @@ class Form
 			// Verifica en $_POST
 			if(isset($_POST[$formField[0]][$formField[1]])) {
 				$checked = $_POST[$formField[0]][$formField[1]] == $checkValue;
-			} elseif($checked === null) { 
+			} else { 
 				// Autocarga de datos
 				$form = View::getVar($formField[0]);
 				if(is_array($form)) {
@@ -149,7 +149,7 @@ class Form
 		}
 
 		// Devuelve los datos
-        return array('id' => $id, 'name' => $name, 'checked' => $checked);
+        return array($id, $name, $checked);
     }
 
     /**
@@ -174,10 +174,10 @@ class Form
 			} else { 
 				// Autocarga de datos
 				$form = View::getVar($formField[0]);
-				if(is_array($form)) {
-					if(isset($form[$formField[1]])) $value = $form[$formField[1]];
-				} elseif(is_object($form)) {
-					if(isset($form->$formField[1])) $value = $form->{$formField[1]};
+				if(is_array($form) && isset($form[$formField[1]])) {
+					$value = $form[$formField[1]];
+				} elseif(is_object($form) && isset($form->$formField[1])) {
+					$value = $form->{$formField[1]};
 				}
 			}
 		} else {
@@ -203,7 +203,9 @@ class Form
      * Crea un campo input
      *
      * @param string|array $attrs Atributos de campo (opcional)
-     * @param string $content Contenido interno (opcional)
+     * @param string $type
+     * @param string $field
+     * @param string $value
      * @return string
      */
     public static function input($type, $field,$attrs = NULL, $value=NULL)
@@ -213,7 +215,7 @@ class Form
             $attrs = Tag::getAttrs($attrs);
         }
          // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
+        list($id, $name, $value) = self::getFieldData($field, $value);
         return "<input id=\"$id\" name=\"$name\" type=\"$type\" value=\"$value\" $attrs/>";
     }
 
@@ -348,7 +350,7 @@ class Form
      * Crea un campo select
      *
      * @param string $field Nombre de campo
-     * @param string $data Array de valores para la lista desplegable
+     * @param array $data Array de valores para la lista desplegable
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string|array $value Array para select multiple (opcional)
      * @return string
@@ -360,7 +362,7 @@ class Form
         }
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
+        list($id, $name, $value) = self::getFieldData($field, $value);
 
         $options = '';
         foreach ($data as $k => $v) {
@@ -398,7 +400,7 @@ class Form
         }
         
         // Obtiene name y id para el campo y los carga en el scope
-        extract(self::getFieldDataCheck($field, $checkValue, $checked), EXTR_OVERWRITE);
+        list($id, $name, $checked) = self::getFieldDataCheck($field, $checkValue, $checked);
 
         if ($checked) {
             $checked = 'checked="checked"';
@@ -423,7 +425,7 @@ class Form
         }
 
         // Obtiene name y id para el campo y los carga en el scope
-        extract(self::getFieldDataCheck($field, $radioValue, $checked), EXTR_OVERWRITE);
+        list($id, $name, $checked) = self::getFieldDataCheck($field, $radioValue, $checked);
 
         if ($checked) {
             $checked = 'checked="checked"';
@@ -498,7 +500,7 @@ class Form
         }
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
+        list($id, $name, $value) = self::getFieldData($field, $value);
 
         // Si no se envía un campo por defecto, no se crea el tag option
         if ($blank != NULL) {
@@ -569,7 +571,7 @@ class Form
         }
  
         // Obtiene name y id, y los carga en el scope
-        extract(self::getFieldData($field, false), EXTR_OVERWRITE);
+        list($id, $name, $value) = self::getFieldData($field, FALSE);
         return "<input id=\"$id\" name=\"$name\" type=\"file\" $attrs/>";
     }
 
@@ -588,7 +590,7 @@ class Form
         }
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
+        list($id, $name, $value) = self::getFieldData($field, $value);
 
         return "<textarea id=\"$id\" name=\"$name\" $attrs>$value</textarea>";
     }
@@ -597,7 +599,6 @@ class Form
      * Crea un campo fecha nativo (HTML5)
      *
      * @param string $field Nombre de campo
-     * @param string $class Clase de estilo (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value (opcional)
      * @return string
@@ -623,8 +624,8 @@ class Form
         }
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
-		return "<input id=\"$id\" name=\"$name\" class=\"js-datepicker $class\" type=\"text\" value=\"$value\" $attrs/>";
+        list($id, $name, $value) = self::getFieldData($field, $value);
+	return "<input id=\"$id\" name=\"$name\" class=\"js-datepicker $class\" type=\"text\" value=\"$value\" $attrs/>";
 
     }
 
@@ -632,7 +633,6 @@ class Form
      * Crea un campo tiempo nativo (HTML5)
      *
      * @param string $field Nombre de campo
-     * @param string $class Clase de estilo (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value (opcional)
      * @return string
@@ -646,7 +646,6 @@ class Form
      * Crea un campo fecha/tiempo nativo (HTML5)
      *
      * @param string $field Nombre de campo
-     * @param string $class Clase de estilo (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value (opcional)
      * @return string
@@ -660,7 +659,6 @@ class Form
      * Crea un campo numerico nativo (HTML5)
      *
      * @param string $field Nombre de campo
-     * @param string $class Clase de estilo (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value (opcional)
      * @return string
@@ -675,7 +673,6 @@ class Form
      * Crea un campo url nativo (HTML5)
      *
      * @param string $field Nombre de campo
-     * @param string $class Clase de estilo (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value (opcional)
      * @return string
@@ -689,7 +686,6 @@ class Form
      * Crea un campo email nativo (HTML5)
      *
      * @param string $field Nombre de campo
-     * @param string $class Clase de estilo (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value (opcional)
      * @return string

@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Date 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -40,7 +40,7 @@ class Date
      */
     private $day;
     /**
-     * Valor interno del A&ntilde;o
+     * Valor interno del Año
      *
      * @var string
      */
@@ -294,11 +294,9 @@ class Date
      */
     public function isYesterday()
     {
-        if (!isset($this->yesterday)) {
-            $time = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
-            $this->yesterday = $time - 86400;
-        }
-        if ($this->timestamp == $this->yesterday) {
+        $time = mktime(0, 0, 0, date("m"), date("d"), date("Y")) - 86400;
+
+        if ($this->timestamp == $time) {
             return true;
         } else {
             return false;
@@ -312,11 +310,9 @@ class Date
      */
     public function isTomorrow()
     {
-        if (!isset($this->tomorrow)) {
-            $time = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
-            $this->tomorrow = $time - 86400;
-        }
-        if ($this->timestamp == $this->tomorrow) {
+        $time = mktime(0, 0, 0, date("m"), date("d"), date("Y")) - 86400;
+        
+        if ($this->timestamp == $time) {
             return true;
         } else {
             return false;

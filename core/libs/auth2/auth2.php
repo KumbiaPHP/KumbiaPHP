@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Auth
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -210,7 +210,7 @@ abstract class Auth2
     /**
      * Indica el mensaje de error
      * 
-     * @param string $_error
+     * @param string $error
      */
     public function setError($error)
     {

@@ -15,7 +15,7 @@
  * @category   Kumbia
  * @package    Db
  * @subpackage Adapters 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
@@ -96,9 +96,6 @@ class DbPdoPgSQL extends DbPDO
      */
     public function last_insert_id($table='', $primary_key='')
     {
-        if (!$this->pdo) {
-            return false;
-        }
         return $this->pdo->lastInsertId("{$table}_{$primary_key}_seq");
     }
 
@@ -188,8 +185,8 @@ class DbPdoPgSQL extends DbPDO
         $index = array();
         $unique_index = array();
         $primary = array();
-        $not_null = "";
-        $size = "";
+        //$not_null = "";
+        //$size = "";
         foreach ($definition as $field => $field_def) {
             if (isset($field_def['not_null'])) {
                 $not_null = $field_def['not_null'] ? 'NOT NULL' : '';

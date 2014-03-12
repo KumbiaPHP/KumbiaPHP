@@ -14,7 +14,7 @@
  * 
  * @category   Kumbia
  * @package    Core 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -51,7 +51,7 @@ class Util
      * Descameliza una cadena camelizada y la convierte a smallcase
      * @deprecated mejor usar el metodo smallcase directamente
      *
-     * @param string $s
+     * @param string $str Texto para descamelizar
      * @return string
      */
     public static function uncamelize($str)
@@ -173,9 +173,7 @@ class Util
      */
     public static function mkpath($path)
     {
-        if (file_exists($path) or @mkdir($path))
-            return TRUE;
-        return (self::mkpath(dirname($path)) and mkdir($path));
+        return FileUtil::mkdir($path);
     }
 
     /**
@@ -189,21 +187,7 @@ class Util
      */
     public static function removedir($dir)
     {
-        // Obtengo los archivos en el directorio a eliminar
-        if ($files = array_merge(glob("$dir/*"), glob("$dir/.*"))) {
-            // Elimino cada subdirectorio o archivo
-            foreach ($files as $file) {
-                // Si no son los directorios "." o ".." 
-                if (!preg_match("/^.*\/?[\.]{1,2}$/", $file)) {
-                    if (is_dir($file)) {
-                        return self::removedir($file);
-                    } elseif (!@unlink($file)) {
-                        return FALSE;
-                    }
-                }
-            }
-        }
-        return @rmdir($dir);
+        return FileUtil::rmdir($dir);
     }
 
     /**

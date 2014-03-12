@@ -16,39 +16,27 @@
  * 
  * @category   Kumbia
  * @package    Core 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
  * Merge Two Arrays Overwriting Values $a1
  * from $a2
+ * @deprecated
  *
  * @param array $a1
  * @param array $a2
  * @return array
  */
 function array_merge_overwrite($a1, $a2){
-	foreach($a2 as $key2 => $value2){
-		if(!is_array($value2)){
-			$a1[$key2] = $value2;
-		} else {
-			if(!isset($a1[$key2])){
-				$a1[$key2] = null;
-			}
-			if(!is_array($a1[$key2])){
-				$a1[$key2] = $value2;
-			} else {
-				$a1[$key2] = array_merge_overwrite($a1[$key2], $a2[$key2]);
-			}
-		}
-	}
-	return $a1;
+	return $a2 + $a1;
 }
 
 /**
  * Inserts a element into a defined position
  * in a array
+ * @deprecated
  *
  * @param array $form
  * @param mixed $index
@@ -77,10 +65,8 @@ function array_insert(&$form, $index, $value, $key=null){
 	if(!$i){
 		if(!$key){
 			$ret[$index] = $value;
-			$i = true;
 		} else {
 			$ret[$key] = $value;
-			$i = true;
 		}
 	}
 	$form = $ret;
@@ -88,21 +74,22 @@ function array_insert(&$form, $index, $value, $key=null){
 
 /**
  * Insert para arrays numericos
+ * @deprecated
+ * 
  * @param $array array donde se insertara (por referencia)
  * @param $index indice donde se realizara la insercion
  * @param $value valor a insertar
  **/
 function array_num_insert(&$array, $index, $value) {
-    $array2 = array_splice($array, $index);
-    array_push($array, $value);
-    $array = array_merge($array, $array2);
+    array_splice($array, $index, 0, $value);
 }
 
 /**
  * Las siguientes funciones son utilizadas para la generación
  * de versiones escritas de numeros
  *
- * @param numeric $a
+ * @deprecated
+ * @param integer $a
  * @return string
  */
 function value_num($a){
@@ -137,7 +124,7 @@ function value_num($a){
 			if($a==30) return  "TREINTA";
 			if($a>=31&&$a<=39)
 			return "TREINTA Y ".value_num($a % 10);
-			if($a==40) $b = "CUARENTA";
+			if($a==40) return "CUARENTA";
 			if($a>=41&&$a<=49)
 			return "CUARENTA Y ".value_num($a % 10);
 			if($a==50) return "CINCUENTA";
@@ -181,7 +168,8 @@ function value_num($a){
 /**
  * Genera una cadena de millones
  *
- * @param numeric $a
+ * @deprecated
+ * @param integer $a
  * @return string
  */
 function millones($a){
@@ -195,7 +183,8 @@ function millones($a){
 /**
  * Genera una cadena de miles
  *
- * @param numeric $a
+ * @deprecated
+ * @param integer $a
  * @return string
  */
 function miles($a){
@@ -209,7 +198,8 @@ function miles($a){
 /**
  * Escribe en letras un monto numerico
  *
- * @param numeric $valor
+ * @deprecated
+ * @param integer $valor
  * @param string $moneda
  * @param string $centavos
  * @return string
@@ -241,6 +231,7 @@ function money_letter($valor, $moneda, $centavos){
 /**
  * Escribe un valor en bytes en forma humana
  *
+ * @deprecated
  * @param integer $num
  * @return string
  */
@@ -259,6 +250,7 @@ function to_human($num){
 /**
  * Cameliza una cadena
  *
+ * @deprecated
  * @param string $str
  * @return string
  */
@@ -273,7 +265,8 @@ function camelize($str) {
 /**
  * Descameliza una cadena camelizada
  *
- * @param string $s
+ * @deprecated
+ * @param string $str
  * @return string
  */
 function uncamelize($str) {
@@ -284,6 +277,7 @@ function uncamelize($str) {
 /**
  * Convierte los parametros de una funcion o metodo de parametros por nombre a un array
  *
+ * @deprecated
  * @param array $params 
  * @return array
  */
@@ -300,7 +294,9 @@ function get_params($params){
 }
 
 /*
- * Recibe una cadena como: item1,item2,item3 y retorna una como: "item1","item2","item3".
+ * Recibe una cadena como: item1,item2,item3 y retorna una como: "item1","item2","item3"
+ * 
+ * @deprecated
  * @param string $lista Cadena con Items separados por comas (,).
  * @return string $listaEncomillada Cadena con Items encerrados en doblecomillas y separados por comas (,).
  */
@@ -317,6 +313,7 @@ function encomillar_lista($lista){
 
 /**
  * Devuelve un string encerrado en comillas
+ * @deprecated
  *
  * @param string $word
  * @return string
@@ -328,6 +325,7 @@ function comillas($word){
 
 /**
  * Resalta un Texto en otro Texto
+ * @deprecated
  *
  * @param string $sentence
  * @param string $what
@@ -339,6 +337,7 @@ function highlight($sentence, $what){
 
 /**
  * Escribe un numero usando formato numerico
+ * @deprecated
  *
  * @param string $number
  * @return string
@@ -350,8 +349,9 @@ function money($number){
 
 /**
  * Redondea un numero
+ * @deprecated
  *
- * @param numeric $n
+ * @param integer $n
  * @param integer $d
  * @return string
  */
@@ -375,19 +375,21 @@ function roundnumber($n, $d = 0) {
 /**
  * Realiza un redondeo usando la funcion round de la base
  * de datos.
+ * @deprecated
  *
- * @param numeric $number
+ * @param integer $number
  * @param integer $n
- * @return numeric
+ * @return resource
  */
 function my_round($number, $n=2){
 	$number = (float) $number;
-	$n = (int) $number;
+	$n = (int) $n;
 	return ActiveRecord::static_select_one("round($number, $n)");
 }
 
 /**
  * Copia un directorio.
+ * @deprecated
  *
  * @param string $source directorio fuente
  * @param string $target directorio destino
@@ -421,7 +423,8 @@ function copy_dir($source, $target) {
 }
 
 /**
- * Crea un path apartir de directorios.
+ * Crea un path apartir de directorios
+ * @deprecated
  * @param array $dirs array de partes de la ruta
  * @return string
  */
@@ -445,6 +448,7 @@ function join_path($dirs){
 
 /**
  * Crea un path.
+ * @deprecated
  *
  * @param string $path ruta a crear
  * @return boolean
@@ -457,6 +461,7 @@ function mkpath($path){
 
 /**
  * Calcula la edad
+ * @deprecated
  *
  * order: orden de la fecha especificada (YYYY-MM-DD, DD-MM-YYYY, ...)
  * bithdate: fecha de nacimiento
@@ -473,7 +478,7 @@ function age(){
 	$params = get_params(func_get_args());
 	$error = false;
 	
-	$active_app = Router::get_application();
+	$active_app = basename(dirname(APP_PATH));
 	
 	if(!isset($params['order'])){
 		if($kumbia_config = Config::read('config')){
@@ -611,7 +616,8 @@ function age(){
 } 
 
 /**
- * Elimina un directorio.
+ * Elimina un directorio
+ * @deprecated
  *
  * @param string $dir ruta de directorio a eliminar
  * @return boolean
@@ -647,6 +653,7 @@ function remove_dir($dir){
 
 /**
  * Obtiene un array de argumentos para usar con call_user_func_array a partir del array obtenido por get_params
+ * @deprecated
  * @param $params array array de parametros obtenido de get_params
  * @return array
  **/
@@ -664,6 +671,7 @@ function get_arguments($params) {
 
 /**
  * Coloca la primera letra en minuscula
+ * @deprecated
  * @param s string cadena a convertir
  * @return string
  **/
@@ -673,6 +681,7 @@ function lcfirst($s) {
 
 /**
  * Crea un objeto stdClass apartir de parametros con nombre
+ * @deprecated
  * @return object
  **/
 function object_from_params($s='') {
@@ -683,6 +692,7 @@ function object_from_params($s='') {
 
 /**
  * Efectua la misma operacion que range excepto que el key es identico a val
+ * @deprecated
  * @param mixed $start
  * @param mixed $end
  * @param int $step
@@ -699,6 +709,7 @@ function mirror_range($start, $end, $step=1) {
 
 /**
  * Obtiene la extension del archivo
+ * @deprecated
  * @param string $filename nombre del archivo
  * @return string 
  **/
@@ -709,6 +720,7 @@ function file_extension($filename) {
 
 /**
  * Obtiene una url completa para la accion en el servidor
+ * @deprecated
  * @param string $route ruta a la accion
  * @return string
  **/
@@ -720,6 +732,7 @@ function get_server_url($route) {
 
 /**
  * Carga uno o varios helpers (soporta argumento variable)
+ * @deprecated
  * @param string $helper nombre del helper a cargar
  **/
 function use_helper($helper) {
@@ -729,6 +742,7 @@ function use_helper($helper) {
 
 /**
  * Envia la salida en buffer al navegador
+ * @deprecated
  *
  */
 function content(){
@@ -737,11 +751,12 @@ function content(){
 
 /**
  * Trunca un texto
+ * @deprecated
  * 
  * @param $text
  * @param $word
  * @param $number
- * @return unknown_type
+ * @return string
  */
 function truncate($text, $word, $number=0){
 	if($number){
@@ -755,6 +770,7 @@ function truncate($text, $word, $number=0){
 
 /**
  * Renderiza una vista parcial
+ * @deprecated
  * 
  * @param string $partial vista a renderizar
  * @param string $time tiempo de cache
@@ -766,6 +782,7 @@ function render_partial($partial, $time=false, $params=array()) {
 
 /**
  * Redirecciona una a accion luego de transcurrir un periodo de tiempo
+ * @deprecated
  * @param string $action accion a ejecutar
  * @param float $seconds segundos a esperar
  * @return string

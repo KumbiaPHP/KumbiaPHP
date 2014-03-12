@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Config 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -29,7 +29,7 @@
  * @category   Kumbia
  * @package    Config
  */
-final class Config
+class Config
 {
 
     /**
@@ -93,7 +93,7 @@ final class Config
     /**
      * Lee un archivo de configuracion
      *
-     * @param $file archivo .ini
+     * @param string $file archivo .ini
      * @param boolean $force forzar lectura de .ini
      * @return array
      */

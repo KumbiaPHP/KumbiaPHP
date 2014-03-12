@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Console
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -48,7 +48,7 @@ class ModelConsole
         if (count($path)) {
             $dir = implode('/', $path);
             $file .= "/$dir";
-            if (!is_dir($file) && !Util::mkpath($file)) {
+            if (!is_dir($file) && !FileUtil::mkdir($file)) {
                 throw new KumbiaException("No se ha logrado crear el directorio \"$file\"");
             }
         }
@@ -89,7 +89,7 @@ class ModelConsole
 
         // si es un directorio
         if (is_dir($file)) {
-            $success = Util::removedir($file);
+            $success = FileUtil::rmdir($file);
         } else {
             // entonces es un archivo
             $file = "$file.php";

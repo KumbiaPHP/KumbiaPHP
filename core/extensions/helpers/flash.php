@@ -17,7 +17,7 @@
  * 
  * @category   Kumbia
  * @package    Flash 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -94,7 +94,7 @@ class Flash
      *
      * @param string $text
      *
-     * @deprecated  ahora Flah::info()
+     * @deprecated  ahora Flash::info()
      */
     public static function notice($text)
     {
