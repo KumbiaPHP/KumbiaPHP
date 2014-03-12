@@ -16,7 +16,7 @@
  * 
  * @category   Kumbia
  * @package    Input
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 class Input 
@@ -38,7 +38,7 @@ class Input
 	/**
 	 * Indica si el request es AJAX
 	 *
-	 * @return Bolean
+	 * @return boolean
 	 */
 	public static function isAjax()
 	{
@@ -122,7 +122,7 @@ class Input
 	 * Elimina elemento indicado en $_POST
 	 *
 	 * @param string $var elemento a verificar
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public static function delete($var = NULL) 
 	{

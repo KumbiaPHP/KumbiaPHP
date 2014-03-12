@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Db
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
@@ -45,11 +45,10 @@ class Db
     /**
      * Devuelve la conexión, si no existe llama a Db::connect para crearla
      *
-     * @param boolean $new nueva conexion //TODO mirar si es necesaria
      * @param string $database base de datos a donde conectar
-     * @return db
+     * @return DbBase
      */
-    public static function factory($database = null, $new = false)
+    public static function factory($database = null)
     {
 
         //Cargo el mode para mi aplicacion
@@ -69,7 +68,7 @@ class Db
      * usando el driver de Kumbia
      *
      * @param string $database base de datos a donde conectar
-     * @return db
+     * @return DbBase
      */
     private static function connect($database)
     {

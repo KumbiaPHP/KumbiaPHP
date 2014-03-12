@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Core
- * @copyright  Copyright (c) 2005-2012 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -75,7 +75,7 @@ if (PRODUCTION) {
     // Verifica si esta cacheado el template
     if ($template = Cache::driver()->get($url, 'kumbia.templates')) { //verifica cache de template para la url
         echo $template;
-        echo '<!-- Tiempo: ' . round(microtime(1) - START_TIME, 4) . ' seg. -->';
+        echo '<!-- Tiempo: ' . round(microtime(TRUE) - START_TIME, 4) . ' seg. -->';
         exit(0);
     }
 }
@@ -141,7 +141,7 @@ require APP_PATH . 'libs/view.php';
 // Ejecuta el request
 try {
     // Dispatch y renderiza la vista
-    View::render(Router::execute($url), $url);
+    View::render(Router::execute($url));
 } catch (KumbiaException $e) {
     KumbiaException::handle_exception($e);
 }

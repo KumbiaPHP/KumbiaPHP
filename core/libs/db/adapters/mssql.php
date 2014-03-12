@@ -15,7 +15,7 @@
  * @category   Kumbia
  * @package    Db
  * @subpackage Adapters 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -47,7 +47,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 *
 	 * @var string
 	 */
-	private $last_query;
+	protected $last_query;
  
 	/**
 	 * Último error generado por MsSQL
@@ -114,7 +114,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * Hace una conexión a la base de datos de MsSQL
 	 *
 	 * @param array $config
-	 * @return resource_connection
+	 * @return bool
 	 */
 	public function connect($config){
 		if(!extension_loaded('mssql')){
@@ -138,7 +138,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	/**
 	 * Efectua operaciones SQL sobre la base de datos
 	 *
-	 * @param string $sqlQuery
+	 * @param string $sql_query
 	 * @return resource or false
 	 */
 	public function query($sql_query){
@@ -146,18 +146,12 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		if($this->logger){
 		    Logger::debug($sql_query);
 		}
-		if(!$this->id_connection){
-			$this->connect();
-			if(!$this->id_connection){
-				return false;
-			}
-		}
+		
 		$this->last_query = $sql_query;
 		if($result_query = mssql_query($sql_query, $this->id_connection)){
 			$this->last_result_query = $result_query;
 			return $result_query;
 		}else{
-			$this->last_result_query = false;
 			throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
 		}
 	}
@@ -178,9 +172,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * @return array
 	 */
 	public function fetch_array($result_query='', $opt=MSSQL_BOTH){
-		if(!$this->id_connection){
-			return false;
-		}
+
 		if(!$result_query){
 			$result_query = $this->last_result_query;
 			if(!$result_query){
@@ -201,9 +193,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * Devuelve el número de filas de un select
 	 */
 	public function num_rows($result_query=''){
-		if(!$this->id_connection){
-			return false;
-		}
+
 		if(!$result_query){
 			$result_query = $this->last_result_query;
 			if(!$result_query){
@@ -215,7 +205,6 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		} else {
 			throw new KumbiaException($this->error());
 		}
-		return false;
 	}
  
 	/**
@@ -226,9 +215,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * @return string
 	 */
 	public function field_name($number, $result_query=''){
-		if(!$this->id_connection){
-			return false;
-		}
+
 		if(!$result_query){
 			$result_query = $this->last_result_query;
 			if(!$result_query){
@@ -240,7 +227,6 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		} else {
 			throw new KumbiaException($this->error());
 		}
-		return false;
 	}
 	/**
 	 * Se Mueve al resultado indicado por $number en un select
@@ -261,7 +247,6 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		} else {
 			throw new KumbiaException($this->error());
 		}
-		return false;
 	}
  
 	/**
@@ -274,10 +259,8 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		if(($numberRows = mssql_affected_rows())!==false){
 			return $numberRows;
 		} else {
-			$this->lastError = $this->error();
 			throw new KumbiaException($this->error());
 		}
-		return false;
 	}
  
 	/**
@@ -306,9 +289,6 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * @return int
 	 */
 	public function no_error(){
-		if(!$this->id_connection){
-			return false;
-		}
 		return mssql_errno();
 	}
 	/**
@@ -317,10 +297,8 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * @return int
 	 */
 	public function last_insert_id($table='', $primary_key=''){
-		if(!$this->id_connection){
-			return false;
-		}
-		$id = false;
+
+		//$id = false;
 		$result = mssql_query("select max({$primary_key}) from $table");
 		if ($row = mssql_fetch_row($result)) {
 			$this->id_connection = trim($row[0]);
@@ -369,7 +347,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * Borra una tabla de la base de datos
 	 *
 	 * @param string $table
-	 * @return boolean
+	 * @return resource
 	 */
 	public function drop_table($table, $if_exists=true){
 		if($if_exists){
@@ -438,14 +416,13 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 * Devuelve fila por fila el contenido de un select
 	 *
 	 * @param resource $result_query
-	 * @param string $class clase de objeto
 	 * @return object 
 	 */
-	public function fetch_object($result_query=null, $class='stdClass'){
+	public function fetch_object($result_query = NULL){
 		if(!$result_query){
 			$result_query = $this->last_result_query;
 		}
-		return mssql_fetch_object($result_query, $class);
+		return mssql_fetch_object($result_query);
 	}
 	
 	public function create_table ($table, $definition, $index = array()){

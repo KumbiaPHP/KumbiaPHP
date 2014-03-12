@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -33,7 +33,7 @@ ini_set('display_errors', 'On');
 /**
  * Define marca de tiempo en que inicio el Request
  */
-define('START_TIME', microtime(1));
+define('START_TIME', microtime(TRUE));
 
 /**
  * Define el APP_PATH

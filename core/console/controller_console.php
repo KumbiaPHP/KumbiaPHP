@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Console
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -52,7 +52,7 @@ class ControllerConsole
         if (count($path)) {
             $dir = implode('/', $path);
             $file .= "/$dir";
-            if (!is_dir($file) && !Util::mkpath($file)) {
+            if (!is_dir($file) && !FileUtil::mkdir($file)) {
                 throw new KumbiaException("No se ha logrado crear el directorio \"$file\"");
             }
         }
@@ -82,7 +82,7 @@ class ControllerConsole
 
             //si el directorio no existe
             if (!is_dir($views_dir)) {
-                if (Util::mkpath($views_dir)) {
+                if (FileUtil::mkdir($views_dir)) {
                     echo "-> Creado directorio para vistas: $views_dir" . PHP_EOL;
                 } else {
                     throw new KumbiaException("No se ha logrado crear el directorio \"$views_dir\"");
@@ -108,7 +108,7 @@ class ControllerConsole
 
         // si es un directorio
         if (is_dir($file)) {
-            $success = Util::removedir($file);
+            $success = FileUtil::rmdir($file);
         } else {
             // entonces es un archivo
             $file = "{$file}_controller.php";
@@ -129,7 +129,7 @@ class ControllerConsole
         if (is_dir($views_dir)
                 && Console::input('¿Desea eliminar el directorio de vistas? (s/n): ', array('s', 'n')) == 's') {
 
-            if (!Util::removedir($views_dir)) {
+            if (!FileUtil::rmdir($views_dir)) {
                 throw new KumbiaException("No se ha logrado eliminar \"$views_dir\"");
             }
 

@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    ControllerDeprecated
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -75,12 +75,24 @@ class ControllerDeprecated
      */
     public $action_name;
     /**
+     * Parámetros de la acción
+     *
+     * @var array
+     */
+    public $parameters = array();
+    /**
      * Limita la cantidad correcta de
      * parametros de una action
      *
      * @var bool
      */
     public $limit_params = TRUE;
+    /**
+     * Template que utilizará el view
+     *
+     * @var string
+     */
+    public $template;
     /**
      * Nombre del scaffold a usar
      *
@@ -202,27 +214,7 @@ class ControllerDeprecated
      * @return mixed
      */
     protected function get($variable = NULL)
-    { //FILTER_SANITIZE_STRING
-        if ($variable) {
-            
-        } else {
-            $value = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
-        }
-        //$value = filter_has_var(INPUT_GET, $variable) ? $_GET[$variable] : NULL;
-
-        /**
-         * Si hay mas de un argumento, toma los demas como filtros
-         */
-        if (func_num_args() > 1) {
-            $args = func_get_args();
-            $args[0] = $value;
-
-            if (is_string($value)) {
-                return call_user_func_array(array('Filter', 'get'), $args);
-            } else {
-                return call_user_func_array(array('Filter', 'get_array'), $args);
-            }
-        }
+    { 
         return Input::get($variable);
     }
 

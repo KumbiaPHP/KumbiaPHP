@@ -15,7 +15,7 @@
  * @category   Kumbia
  * @package    Db
  * @subpackage Adapters 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -46,7 +46,7 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
      *
      * @var string
      */
-    private $last_query;
+    protected $last_query;
     /**
      * Último error generado por MySQL
      *
@@ -112,7 +112,7 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
      * Hace una conexión a la base de datos de MySQL
      *
      * @param array $config
-     * @return resource_connection
+     * @return bool
      */
     public function connect($config)
     {
@@ -140,7 +140,7 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
     /**
      * Efectua operaciones SQL sobre la base de datos
      *
-     * @param string $sqlQuery
+     * @param string $sql_query
      * @return resource or false
      */
     public function query($sql_query)
@@ -149,19 +149,12 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
         if ($this->logger) {
             Logger::debug($sql_query);
         }
-        if (!$this->id_connection) {
-            $this->connect();
-            if (!$this->id_connection) {
-                return false;
-            }
-        }
 
         $this->last_query = $sql_query;
         if ($result_query = mysql_query($sql_query, $this->id_connection)) {
             $this->last_result_query = $result_query;
             return $result_query;
         } else {
-            $this->last_result_query = false;
             throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
         }
     }
@@ -186,9 +179,7 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
      */
     public function fetch_array($result_query='', $opt=MYSQL_BOTH)
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -213,9 +204,7 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
      */
     public function num_rows($result_query='')
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -227,7 +216,6 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
         } else {
             throw new KumbiaException($this->error());
         }
-        return false;
     }
 
     /**
@@ -239,9 +227,7 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
      */
     public function field_name($number, $result_query='')
     {
-        if (!$this->id_connection) {
-            return false;
-        }
+
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -253,7 +239,6 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
         } else {
             throw new KumbiaException($this->error());
         }
-        return false;
     }
 
     /**
@@ -276,7 +261,6 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
         } else {
             throw new KumbiaException($this->error());
         }
-        return false;
     }
 
     /**
@@ -290,10 +274,8 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
         if (($numberRows = mysql_affected_rows()) !== false) {
             return $numberRows;
         } else {
-            $this->lastError = $this->error();
             throw new KumbiaException($this->error());
         }
-        return false;
     }
 
     /**
@@ -325,9 +307,6 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
      */
     public function no_error()
     {
-        if (!$this->id_connection) {
-            return false;
-        }
         return mysql_errno();
     }
 
@@ -338,9 +317,6 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
      */
     public function last_insert_id($table='', $primary_key='')
     {
-        if (!$this->id_connection) {
-            return false;
-        }
         return mysql_insert_id($this->id_connection);
     }
 
@@ -422,8 +398,8 @@ class DbMySQLOld extends DbBase implements DbBaseInterface
         $index = array();
         $unique_index = array();
         $primary = array();
-        $not_null = "";
-        $size = "";
+        //$not_null = "";
+        //$size = "";
         foreach ($definition as $field => $field_def) {
             if (isset($field_def['not_null'])) {
                 $not_null = $field_def['not_null'] ? 'NOT NULL' : '';

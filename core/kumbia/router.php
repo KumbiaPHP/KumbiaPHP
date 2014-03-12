@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Router
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -82,7 +82,9 @@ final class Router
     /**
      * Busca en la tabla de entutamiento si hay una ruta en config/routes.ini
      * para el controlador, accion, id actual
-     *
+     * 
+     * @param string $url Url para enrutar
+     * @return string
      */
     private static function _ifRouted($url)
     {
@@ -231,14 +233,11 @@ final class Router
      * ej.
      * <code>Router::get()</code>
      *
-     * @param ninguno
-     * @return array con todas los atributos y sus valores
-     *
      * ej.
      * <code>Router::get('controller')</code>
      *
-     * @param string  un atributo: route, module, controller, action, parameters o routed
-     * @return string con el valor del atributo
+     * @param string $var (opcional) un atributo: route, module, controller, action, parameters o routed
+     * @return array|string con el valor del atributo
      */
     public static function get($var = null)
     {

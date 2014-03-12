@@ -17,7 +17,7 @@
  * 
  * @category   Kumbia
  * @package    Controller 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  * @deprecated since version 1  Usar rest_controller 
  */
@@ -63,7 +63,7 @@ class Rest
     /**
      * Establece los tipos de respuesta aceptados
      * 
-     * @param string $acceptcada uno de los tipos separados por coma ','
+     * @param string $accept Cada uno de los tipos separados por coma ','
      */
     static public function accept($accept)
     {

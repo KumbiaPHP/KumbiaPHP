@@ -18,7 +18,7 @@
  * @category   Kumbia
  * @package    Helpers
  * @deprecated Antiguo helper html (legacy). Se mantiene para facilitar portar apps antiguas. Se eliminará despues de la beta2
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -534,7 +534,7 @@ function end_form_tag(){
  * Crea un boton de submit para el formulario actual
  *
  * @param string $caption
- * @return html code
+ * @return string html code
  */
 function submit_tag($caption){
 	$params = is_array($caption) ? $caption : Util::getParams(func_get_args());
@@ -558,7 +558,7 @@ function submit_tag($caption){
  * before: Codigo JavaScript a ejecutar antes de la peticion AJAX
  * complete: Codigo JavaScript que se ejecuta al terminar la peticion AJAX
  *
- * @return html code
+ * @return string html code
  */
 function submit_remote_tag($caption){
 	$params = is_array($caption) ? $caption : Util::getParams(func_get_args());
@@ -608,7 +608,7 @@ function submit_remote_tag($caption){
  *
  * caption: texto del boton
  *
- * @return html code
+ * @return string html code
  */
 function submit_image_tag($caption, $src=''){
 	$params = is_array($caption) ? $caption : Util::getParams(func_get_args());
@@ -1282,7 +1282,7 @@ function tr_color_class(){
  * caption: texto del boton
  * action: accion a ejecutar
  *
- * @return HTML del Boton
+ * @return string HTML del Boton
  */
 function button_to_action($caption, $action='', $classCSS=''){
 	$params= is_array($caption) ? $caption : Util::getParams(func_get_args());
@@ -1323,7 +1323,7 @@ function button_to_action($caption, $action='', $classCSS=''){
  * @param string $caption
  * @param string $action
  * @param string $classCSS
- * @return HTML del Bot�n
+ * @return string HTML del Bot�n
  */
 function button_to_remote_action($caption, $action='', $classCSS=''){
 	$opts = is_array($caption) ? $caption : Util::getParams(func_get_args());
@@ -1382,7 +1382,7 @@ function button_to_remote_action($caption, $action='', $classCSS=''){
  *
  * Nota: soporta todas las funciones del select_tag
  *
- * @return code
+ * @return string code
  */
 function updater_select($name, $data=array()){
 	$params = is_array($name) ? $name : Util::getParams(func_get_args());

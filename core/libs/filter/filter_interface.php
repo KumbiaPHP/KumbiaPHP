@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Filter 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 

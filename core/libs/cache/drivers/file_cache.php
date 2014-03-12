@@ -15,7 +15,7 @@
  * @category   Kumbia
  * @package    Cache
  * @subpackage Drivers 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -77,7 +77,7 @@ class FileCache extends Cache
      * @param string $group
      * @param string $value
      * @param int $lifetime tiempo de vida en forma timestamp de unix
-     * @return boolean
+     * @return false|integer
      */
     public function save($value, $lifetime=null, $id=false, $group='default')
     {
@@ -117,7 +117,7 @@ class FileCache extends Cache
      *
      * @param string $id
      * @param string $group
-     * @return string
+     * @return bool
      */
     public function remove($id, $group='default')
     {

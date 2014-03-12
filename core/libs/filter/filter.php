@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Filter
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
@@ -68,7 +68,7 @@ class Filter
     /**
      * Aplica los filtros a un array
      *
-     * @param array $s variable a filtrar
+     * @param array $array array a filtrar
      * @param string $filter filtro
      * @param array $options
      * @return array
