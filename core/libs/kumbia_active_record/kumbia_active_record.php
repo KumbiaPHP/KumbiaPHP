@@ -499,16 +499,12 @@ class KumbiaActiveRecord
         $mmodel = Util::smallcase($model);
         if (($data = $this->_get_relation_data($mmodel)) !== FALSE) {
             return $data;
-        }
-        try {
-            if (method_exists($this, $method)) {
-                call_user_func_array(array($this, $method), $args);
-            } else {
-                throw new KumbiaException("No existe el método '$method' en ActiveRecord::" . get_class($this));
-            }
-        } catch (Exception $e) {
-            throw new KumbiaException("Problema: ");
-        }
+        }        
+        if (method_exists($this, $method)) {
+            call_user_func_array(array($this, $method), $args);
+        } else {
+            throw new KumbiaException("No existe el método '$method' en ActiveRecord::" . get_class($this));
+        }        
         return $this->$method($args);
     }
 
@@ -761,16 +757,12 @@ class KumbiaActiveRecord
         }
         $what['limit'] = 1;
         $select.= $this->convert_params_to_sql($what);
-        $resp = false;
-        try {
-            $result = $this->db->fetch_one($select);
-            if ($result) {
-                $this->dump_result_self($result);
-                $resp = $this->dump_result($result);
-            }
-        } catch (Exception $e) {
-            throw new KumbiaException("Problema: ");
-        }
+        $resp = false;        
+        $result = $this->db->fetch_one($select);
+        if ($result) {
+            $this->dump_result_self($result);
+            $resp = $this->dump_result($result);
+        }        
         return $resp;
     }
 
