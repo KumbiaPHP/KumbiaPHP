@@ -30,20 +30,112 @@ class Validate
 	 */
 	const IS_ALPHANUM = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu';
 	 
-	 
-	 
-    /**
-     * Almacena el mensaje de error
-     *
-     * @var String
-     */
-    public static $error = NULL;
     /**
      * Almacena la Expresion Regular
      *
      * @var String
      */
     public static $regex = NULL;
+
+    /**
+     * Objeto a validar
+     * @var Object
+     */
+    protected $obj = null;
+
+    /**
+     * Mensajes de error almacenados
+     * @var array
+     */
+    protected $messages = array();
+
+    /**
+     * Reglas a a seguir para la validación
+     * @var array
+     */
+    protected $rules = array();
+	/**
+	 * Contructor
+	 * @param Object $obj Objeto a validar
+	 */
+	
+	/**
+	 * Almacena si la variable a validar es un objeto antes de convertirlo
+	 * @var boolean
+	 */
+	protected $is_obj = false;
+    
+    public function __construct($obj, Array $rules){
+    	$this->is_obj = is_object($obj);
+    	$this->obj = (object)$obj;
+    	$this->rules = $rules;
+    }
+
+    /**
+     * Ejecuta las validaciones
+     * El método "rules" debe devolver un array de la siguiente manera
+     * return array(
+     * 	 'user' => //este es el nombre del campo
+     * 	 	array(
+     * 	 		'alpha' =>  //nombre del filtro
+     * 	 		null, //parametros pasados (en array o null si no se requiere)
+     * 	 		'lenght' => array('min'=>4, 'max'=>10)
+     * 	 	)
+     * )
+     * @return bool Devuelve true si todo es válido
+     */
+    public function exec(){
+        $obj = $this->obj;
+    	$rules =  $this->rules;
+    	/*Recorrido por todos los campos*/
+    	foreach ($rules as $field => $fRule){
+    		$value = isset($obj->$field)?$obj->$field:null;//obtengo el valor del campo
+    		/*Regla individual para cada campo*/
+    		foreach ($fRule as $ruleName => $param) {
+                /*Evita tener que colocar un null cuando no se pasan parametros*/
+                $ruleName = is_integer($ruleName) && is_string($param)?$param:$ruleName;
+                /*param siempre es un array*/
+    			$param = is_array($param)?$param:array();
+    			/*Es una validación de modelo*/
+    			if($ruleName[0] == '@' and $this->is_obj){
+    				$ruleName = ltrim($ruleName, '@');
+    				if(!$obj->$ruleName($param)){ 
+    					$this->messages[] = isset($param['error']) ?
+    					 $param['error']: "El campo '$field' no es válido";
+    				}
+
+    			}elseif($ruleName[0] != '@' && !self::$ruleName($value, $param)){ 
+    				$this->messages[] = isset($param['error']) ? $param['error']: "El campo '$field' no es válido";
+    			}
+    		}
+    	}
+    	/*Si no hay errores devuelve true*/
+    	return empty($this->messages);
+    }
+
+    /**
+     * Devuelve los mensajes de error
+     * 
+     */
+    public function getMessages(){
+        return $this->messages;
+    }
+
+    public static function fail($obj, Array $rules){
+        $val = new self($obj, $rules);
+        return $val->exec() ? false:$val->getMessages();
+    }
+
+
+    /**
+     * Valida que sea numérico
+     * @param  mixed $check Valor a ser chequeado
+     * @return bool        
+     */
+    public static function numeric($check){
+        return is_numeric($check);
+    }
+
     /**
      * Valida que int
      *
@@ -61,19 +153,15 @@ class Validate
      * Retorna true si el string $value se encuentra entre min and max
      *
      * @param string $value
-     * @param int $min
-     * @param int $max
+     * @param array $param
      * @return bool
      */
-    public static function maxLength($value, $max, $min = null)
+    public static function maxlength($value, $param)
     {
-        $length = strlen($value);
-        if($min and $length < $min){
-			return false;
-		}
-        return ($length <= $max);
+        $max= isset($param['max'])?$param['max']:0;
+        return !isset($value[$max]);
     }
-    
+
     /**
      * Valida que es un número se encuentre 
      * en un rango minímo y máximo
@@ -82,49 +170,53 @@ class Validate
      * @param int $min
      * @param int $max
      */
-    public static function range($value, $min=0, $max=NULL)
+    public static function range($value, $param)
     {
+        $min = isset($param['min']) ? $param['min'] : 0;
+        $max = isset($param['max']) ? $param['max'] : 10;
         $int_options = array('options' => array('min_range'=>$min, 'max_range'=>$max));
         return filter_var($value, FILTER_VALIDATE_INT, $int_options);
     }
 
     /**
      * Valida que un valor se encuentre en una lista
-     * Retorna tru si el string $value se encuentra en la lista $list
+     * Retorna true si el string $value se encuentra en la lista $list
      *
      * @param string $value
-     * @param array $list
+     * @param array $param
      * @return bool
      */
-    public static function inList($value, $list)
+    public static function selet($value, $param)
     {
+        $list = isset($param['list']) && is_array($param['list']) ? $param['list'] : array();
         return in_array($value, $list);
     }
     
     /**
      * Valida que una cadena sea un mail
-     *
      * @param string $mail
      * @return bool
      */
-    public static function mail($mail)
+    public static function email($mail)
     {
         return filter_var($mail, FILTER_VALIDATE_EMAIL);
     }
+    
     /**
      * Valida URL
      *
      * @param string $url
      * @return bool
      */
-    public static function url($url, $flag = 0)
+    public static function url($url, $param)
     {
+        $flag = isset($param['flag'])? $param['flag'] : 0;
         return filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED | $flag);
     }
     
     /**
      * Valida que sea una IP, por defecto v4
-     *
+     * TODO: Revisar este método
      * @param String $ip
      * @return bool
      */
@@ -146,7 +238,8 @@ class Validate
     
     /**
      * Valida que un String sea alpha-num (incluye caracteres acentuados)
-     *
+     * TODO: Revisar este método
+     * 
      * @param string $string
      * @return bool
      */
@@ -157,7 +250,7 @@ class Validate
     
     /**
      * Valida una fecha
-     *
+     * TODO: REVISAR EL ESTANDAR
      * @param string $value fecha a validar acorde al formato indicado
      * @param string $format formato de fecha. acepta: d-m-y, y-m-d, m-d-y, donde el "-" puede ser cualquier caracter 
      *                       de separacion incluso un espacio en blanco o ".", exceptuando (d,m,y o números).
@@ -196,8 +289,9 @@ class Validate
      * @param string $regex
      * @return bool
      */
-    public static function pattern($check, $regex)
+    public static function pattern($check, $param)
     {
+        $regex = isset($param['regex'])? $param['regex'] : '/.*/';
         return filter_var($check, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => $regex)));
     }
     
@@ -208,8 +302,9 @@ class Validate
      * @param string $decimal
      * @return boolean
      */
-    public static function decimal($value, $decimal = ',')
+    public static function decimal($value, $param)
     {
+        $decimal = isset($param['decimal'])? $param['decimal'] : ',';
 		return filter_var($value, FILTER_VALIDATE_FLOAT, array('options' => array('decimal' => $decimal)));
 	}
 }

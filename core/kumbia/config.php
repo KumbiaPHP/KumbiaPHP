@@ -29,7 +29,7 @@
  * @category   Kumbia
  * @package    Config
  */
-final class Config
+class Config
 {
 
     /**

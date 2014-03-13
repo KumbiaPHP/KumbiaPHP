@@ -188,7 +188,7 @@ class ControllerDeprecated
      */
     protected function route_to()
     {
-        Router::route_to(implode(',', func_get_args()));
+        Redirect::route_to(implode(',', func_get_args()));
         //call_user_func_array(array('Router', 'route_to'), func_get_args());
     }
 
@@ -302,7 +302,7 @@ class ControllerDeprecated
      */
     protected function redirect($controller, $seconds=NULL)
     {
-        Router::redirect($controller, $seconds);
+        Redirect::to($controller, $seconds);
     }
 
     /**
