@@ -294,5 +294,25 @@ class DbBase
             Flash::info($sql);
         }
     }
-
+    
+    /**
+     * Efectua operaciones SQL sobre la base de datos
+     * Este método lo extienden los adapters
+     * @param string $sql_query
+     * @return resource or false
+     */
+    public function query($sql)
+    {
+    }
+    
+    /**
+     * Devuelve fila por fila el contenido de un select
+     * Este método lo extienden los adapters
+     * @param resource $result_query
+     * @param int $opt
+     * @return array
+     */
+    public function fetch_array($result_query, $opt)
+    {
+    }
 }
