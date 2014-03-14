@@ -590,7 +590,7 @@ class Form
         }
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        list($id, $name, $value) = self::getFieldData($field, $value);
+        list($id, $name, ) = self::getFieldData($field, $value);
 
         return "<textarea id=\"$id\" name=\"$name\" $attrs>$value</textarea>";
     }
