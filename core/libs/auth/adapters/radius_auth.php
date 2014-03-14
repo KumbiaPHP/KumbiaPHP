@@ -92,14 +92,14 @@ class RadiusAuth implements AuthInterface
     {
 
         if (!extension_loaded("radius")) {
-            throw new KumbiaException("Debe cargar la extensi�n de php llamada radius");
+            throw new KumbiaException("Debe cargar la extensión de php llamada radius");
         }
 
         foreach (array('server', 'secret') as $param) {
             if (isset($extra_args[$param])) {
                 $this->$param = $extra_args[$param];
             } else {
-                throw new KumbiaException("Debe especificar el par�metro '$param' en los par�metros");
+                throw new KumbiaException("Debe especificar el parámetro '$param'");
             }
         }
 
@@ -117,7 +117,7 @@ class RadiusAuth implements AuthInterface
     public function get_identity()
     {
         if (!$this->resource) {
-            new KumbiaException("La conexi�n al servidor Radius es inv�lida");
+            new KumbiaException("La conexión al servidor Radius es inválida");
         }
         $identity = array("username" => $this->username, "realm" => $this->username);
         return $identity;
@@ -138,23 +138,23 @@ class RadiusAuth implements AuthInterface
 
         if (!radius_add_server($radius, $this->server, $this->port, $this->secret,
                         $this->timeout, $this->max_retries)) {
-            throw new KumbiaException(radius_strerror(0));
+            throw new KumbiaException(radius_strerror($radius));
         }
 
         if (!radius_create_request($radius, RADIUS_ACCESS_REQUEST)) {
-            throw new KumbiaException(radius_strerror(0));
+            throw new KumbiaException(radius_strerror($radius));
         }
 
         if (!radius_put_string($radius, RADIUS_USER_NAME, $this->username)) {
-            throw new KumbiaException(radius_strerror(0));
+            throw new KumbiaException(radius_strerror($radius));
         }
 
         if (!radius_put_string($radius, RADIUS_USER_PASSWORD, $this->password)) {
-            throw new KumbiaException(radius_strerror(0));
+            throw new KumbiaException(radius_strerror($radius));
         }
 
         if (!radius_put_int($radius, RADIUS_AUTHENTICATE_ONLY, 1)) {
-            throw new KumbiaException(radius_strerror(0));
+            throw new KumbiaException(radius_strerror($radius));
         }
 
         $this->resource = $radius;
