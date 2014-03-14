@@ -184,7 +184,7 @@ class ControllerDeprecated
      * <code>
      * return $this->route_to("controller: clientes", "action: consultar", "id: 1");
      * </code>
-     * @deprecated Mejor usar return Router::route_to()
+     * @deprecated Mejor usar return Redirect::route_to()
      */
     protected function route_to()
     {

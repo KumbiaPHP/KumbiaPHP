@@ -148,7 +148,7 @@ class DbFirebird extends DbBase implements DbBaseInterface
         }
 
         $this->last_query = $sql_query;
-        if ($result_query = @ibase_query($sql_query)) {
+        if ($result_query = ibase_query($this->id_connection, $sql_query)) {
             $this->last_result_query = $result_query;
             return $result_query;
         } else {

@@ -132,7 +132,7 @@ class RadiusAuth implements AuthInterface
     {
 
         $radius = radius_auth_open();
-        if (!$open_radiuse) {
+        if (!$radius) {
             throw new KumbiaException("No se pudo crear el autenticador de Radius");
         }
 
@@ -159,7 +159,7 @@ class RadiusAuth implements AuthInterface
 
         $this->resource = $radius;
 
-        if (radius_send_request() == RADIUS_ACCESS_ACCEPT) {
+        if (radius_send_request($radius) == RADIUS_ACCESS_ACCEPT) {
             return true;
         } else {
             return false;
