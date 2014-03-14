@@ -111,7 +111,6 @@ class DbPdoInformix extends DbPDO
          * No esta soportado por Informix
          */
         $number = (int) $number;
-        $this->limit = $number;
         return "$sql -- LIMIT $number\n";
     }
 
@@ -130,7 +129,7 @@ class DbPdoInformix extends DbPDO
                 return true;
             }
         } else {
-            $this->set_return_rows(false);
+            //$this->set_return_rows(false);
             return $this->query("DROP TABLE $table");
         }
     }
