@@ -312,7 +312,7 @@ class DbBase
      * @param int $opt
      * @return array
      */
-    public function fetch_array($result_query, $opt)
+    public function fetch_array($resultQuery = NULL, $opt = '')
     {
     }
 }
