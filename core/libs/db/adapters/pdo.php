@@ -61,6 +61,10 @@ abstract class DbPDO extends DbBase implements DbPDOInterface
      * Número de filas afectadas
      */
     protected $affected_rows;
+    /**
+     * Nombre del Driver RBDM
+     */
+    protected $db_rbdm;
 
     /**
      * Resultado de Array Asociativo

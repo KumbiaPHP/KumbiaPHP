@@ -142,7 +142,7 @@ class Acl
                         throw new KumbiaException("El Rol '{$rol_in}' no existe en la lista");
 
                     }
-                    $this->role_inherits[$role][] = $role_in;
+                    $this->role_inherits[$role][] = $rol_in;
                 }
                 $this->rebuild_access_list();
             } else {
