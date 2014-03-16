@@ -44,8 +44,7 @@ class Redirect
         if ($seconds) {
             header("Refresh: $seconds; url=$route");
         } else {
-            header('HTTP/1.1 ' . $statusCode);
-            header("Location: $route");
+            header('Location: '.$route, TRUE, $statusCode);
             $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
             View::select(null, null);
         }
