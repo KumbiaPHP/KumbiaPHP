@@ -112,7 +112,7 @@ function auto($class)
     // Pasando a smallcase
     $sclass = Util::smallcase($class);
     if (is_file(APP_PATH . "extensions/helpers/$sclass.php")) {
-        return include APP_PATH . "extensions/helpers/$class.php";
+        return include APP_PATH . "extensions/helpers/$sclass.php";
     }
     if (is_file(CORE_PATH . "extensions/helpers/$sclass.php")) {
         return include CORE_PATH . "extensions/helpers/$sclass.php";
