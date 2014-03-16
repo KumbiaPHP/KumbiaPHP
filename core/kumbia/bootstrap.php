@@ -108,25 +108,27 @@ function auto($class)
     if ($class == 'Load') {
         return include CORE_PATH . 'kumbia/load.php';
     }   
-
+    
     // Pasando a smallcase
-    $class = Util::smallcase($class);
-    if (is_file(APP_PATH . "extensions/helpers/$class.php")) {
+    $sclass = Util::smallcase($class);
+    if (is_file(APP_PATH . "extensions/helpers/$sclass.php")) {
         return include APP_PATH . "extensions/helpers/$class.php";
     }
-    if (is_file(CORE_PATH . "extensions/helpers/$class.php")) {
-        return include CORE_PATH . "extensions/helpers/$class.php";
+    if (is_file(CORE_PATH . "extensions/helpers/$sclass.php")) {
+        return include CORE_PATH . "extensions/helpers/$sclass.php";
     }
-    if (is_file(APP_PATH . "libs/$class.php")) {
-        return include APP_PATH . "libs/$class.php";
+    if (is_file(APP_PATH . "libs/$sclass.php")) {
+        return include APP_PATH . "libs/$sclass.php";
     }
-    if (is_file(CORE_PATH . "libs/$class/$class.php")) {
-        return include CORE_PATH . "libs/$class/$class.php";
+    if (is_file(CORE_PATH . "libs/$sclass/$sclass.php")) {
+        return include CORE_PATH . "libs/$sclass/$sclass.php";
     }
-
-    if ($class == 'kumbia_exception') {
+        
+    if ($sclass == 'kumbia_exception') {
         include CORE_PATH . 'kumbia/kumbia_exception.php';
     }
+    //Autoload PSR0
+    include dirname(CORE_PATH).'/vendor/'.str_replace (array ('_', '\\'), '/', $class) . '.php';
 }
 
 // @see Router
