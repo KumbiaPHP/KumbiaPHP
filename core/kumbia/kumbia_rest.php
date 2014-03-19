@@ -67,7 +67,7 @@ class KumbiaRest extends Controller {
     protected function initREST() {
         /* formato de entrada */
         $this->_fInput = static::getInputFormat();
-        $this->_fOutput = static::getOutputFormat()
+        $this->_fOutput = static::getOutputFormat();
         View::select(null, $this->_fOutput);
         $this->rewriteActionName();
 
