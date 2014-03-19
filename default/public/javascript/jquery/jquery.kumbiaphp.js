@@ -13,7 +13,7 @@
  *
  * Plugin para jQuery que incluye los callbacks basicos para los Helpers
  *
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license	http://wiki.kumbiaphp.com/Licencia	 New BSD License
  */
 
@@ -43,7 +43,8 @@
 		 * @param Object event
 		 */
 		cConfirm: function(event) {
-			if(!confirm(this.title)) {
+			var este=$(this);
+			if(!confirm(este.data('msg'))) {
 				event.preventDefault();
 			}
 		},
@@ -56,7 +57,9 @@
 		cFx: function(fx) {
 			return function(event) {
 				event.preventDefault();
-				(($(this.rel))[fx])();
+				var este=$(this),
+					rel = $('#'+este.data('to'));
+				rel[fx]();
 			}
 		},
 
@@ -66,8 +69,9 @@
 		 * @param Object event
 		 */
 		cRemote: function(event) {
+			var este=$(this), rel = $('#'+este.data('to'));
 			event.preventDefault();
-			$(this.rel).load(this.href);
+			rel.load(this.href);
 		},
 
 		/**
@@ -76,9 +80,10 @@
 		 * @param Object event
 		 */
 		cRemoteConfirm: function(event) {
+			var este=$(this), rel = $('#'+este.data('to'));
 			event.preventDefault();
-			if(confirm(this.title)) {
-				$(this.rel).load(this.href);
+			if(confirm(este.data('msg'))) {
+				rel.load(this.href);
 			}
 		},
 
@@ -92,7 +97,7 @@
 			var button = $('[type=submit]', este);
 			button.attr('disabled', 'disabled');
 			var url = este.attr('action');
-			var div = este.attr('data-div');
+			var div = este.attr('data-to');
 			$.post(url, este.serialize(), function(data, status){
 				var capa = $('#'+div);
 				capa.html(data);
@@ -108,71 +113,15 @@
 		 * @param Object event
 		 */
 		cUpdaterSelect: function(event) {
-            var este = $(this);
-			$('#' + este.attr('data-update')).load(este.attr('data-action') + this.value);
-		},
-
-		/**
-		 * Carga y Enlaza Unobstrusive DatePicker en caso de ser necesario
-		 *
-		 */
-		bindDatePicker: function() {
-			var i = document.createElement("input");
-			i.setAttribute("type", "date");
-
-			// Verifica si se soporta date
-			if(i.type == 'date') {
-				return true;
-			}
-
-			// Selecciona los campos input
-			var inputs = $('input.js-datepicker');
-
-			// Verifica si hay al menos un campo
-			if(!inputs.is('input')) {
-				return true;
-			}
-
-			/**
-			 * Funcion encargada de enlazar el DatePicker a los Input
-			 *
-			 */
-			var bindInputs = function() {
-				// Define el formato en función del estándar ISO-8601 el cual es utilizado en HTML 5
-				inputs.each(function() {
-
-					var opts = { formElements : {} };
-					opts.formElements[this.id] = "Y-ds-m-ds-d";
-
-					var input = $(this);
-
-					// Verifica si hay mínimo
-					if(input.attr('min') != undefined) {
-						opts.rangeLow = input.attr('min').replace(/\-/g, '');
-					}
-
-					// Verifica si ha máximo
-					if(input.attr('max') != undefined) {
-						opts.rangeLow = input.attr('max').replace(/\-/g, '');
-					}
-
-					// Crea el calendario
-					datePickerController.createDatePicker(opts);
-				});
-			}
-
-			// Si ya esta cargado Unobstrusive DatePicker, lo integra de una vez
-			if(typeof(datePickerController) != "undefined") {
-				return bindInputs();
-			}
-
-			// Carga la hoja de estilos
-			$('head').append('<link href="' + this.publicPath + 'css/datepicker.css" type="text/css" rel="stylesheet"/>');
-
-			// Carga Unobstrusive DatePicker
-			$.getScript(this.publicPath + 'javascript/datepicker/datepicker.js', function(){
-				bindInputs();
-			});
+            var $t = $(this),$u= $('#' + $t.data('update'))
+				url = $t.data('url');
+            $u.empty();
+            $.get(url, {'id':$t.val()}, function(d){
+				for(i in d){
+					var a = $('<option />').text(d[i]).val(i);
+					$u.append(a);
+				}
+			}, 'json');
 		},
 
 		/**
@@ -181,37 +130,38 @@
 		 */
 		bind : function() {
             // Enlace y boton con confirmacion
-			$("a.js-confirm, input.js-confirm").live('click', this.cConfirm);
+			$("a.js-confirm, input.js-confirm").on('click', this.cConfirm);
 
             // Enlace ajax
-			$("a.js-remote").live('click', this.cRemote);
+			$("a.js-remote").on('click', this.cRemote);
 
             // Enlace ajax con confirmacion
-			$("a.js-remote-confirm").live('click', this.cRemoteConfirm);
+			$("a.js-remote-confirm").on('click', this.cRemoteConfirm);
 
             // Efecto show
-			$("a.js-show").live('click', this.cFx('show'));
+			$("a.js-show").on('click', this.cFx('show'));
 
             // Efecto hide
-			$("a.js-hide").live('click', this.cFx('hide'));
+			$("a.js-hide").on('click', this.cFx('hide'));
 
             // Efecto toggle
-			$("a.js-toggle").live('click', this.cFx('toggle'));
+			$("a.js-toggle").on('click', this.cFx('toggle'));
 
             // Efecto fadeIn
-			$("a.js-fade-in").live('click', this.cFx('fadeIn'));
+			$("a.js-fade-in").on('click', this.cFx('fadeIn'));
 
             // Efecto fadeOut
-			$("a.js-fade-out").live('click', this.cFx('fadeOut'));
+			$("a.js-fade-out").on('click', this.cFx('fadeOut'));
 
             // Formulario ajax
-			$("form.js-remote").live('submit', this.cFRemote);
+			$("form.js-remote").on('submit', this.cFRemote);
 
             // Lista desplegable que actualiza con ajax
-            $("select.js-remote").live('change', this.cUpdaterSelect);
-
-			// Enlazar DatePicker
-			this.bindDatePicker();
+            $("select.js-remote").on('change', this.cUpdaterSelect);
+            
+            // Enlazar DatePicker
+			$.KumbiaPHP.bindDatePicker();
+			
 		},
 
         /**
@@ -238,6 +188,50 @@
 				$.getScript($.KumbiaPHP.publicPath + 'javascript/jquery/jquery.' + $.KumbiaPHP.plugin[i] + '.js', function(data, text){});
             }
 		},
+		
+		/**
+		 * Carga y Enlaza Unobstrusive DatePicker en caso de ser necesario
+		 *
+		 */
+		bindDatePicker: function() {
+			
+			// Selecciona los campos input
+			var inputs = $('input.js-datepicker');
+			/**
+			 * Funcion encargada de enlazar el DatePicker a los Input
+			 *
+			 */
+			var bindInputs = function() {
+				inputs.each(function() {
+					var opts = {monthSelector: true,yearSelector:true};
+					var input = $(this);
+					// Verifica si hay mínimo
+					if(input.attr('min') != undefined) {
+						opts.dateMin = input.attr('min').split('-');
+					}
+					// Verifica si ha máximo
+					if(input.attr('max') != undefined) {
+						opts.dateMax = input.attr('max').split('-');
+					}
+
+					// Crea el calendario
+					input.pickadate(opts);
+				});
+			}
+
+			// Si ya esta cargado Unobstrusive DatePicker, lo integra de una vez
+			if(typeof($.pickadate) != "undefined") {
+				return bindInputs();
+			}
+
+			// Carga la hoja de estilos
+			$('head').append('<link href="' + this.publicPath + 'css/pickadate.css" type="text/css" rel="stylesheet"/>');
+
+			// Carga Unobstrusive DatePicker, para poder usar cache
+			jQuery.ajax({ dataType: "script",cache: true, url: this.publicPath + 'javascript/jquery/pickadate.js'}).done(function(){
+				bindInputs();
+			});
+		},
 
 		/**
 		 * Inicializa el plugin
@@ -254,6 +248,7 @@
 			$(function(){
 				$.KumbiaPHP.bind();
 				$.KumbiaPHP.autoload();
+				
 			});
 		}
 	}

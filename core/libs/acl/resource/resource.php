@@ -12,43 +12,55 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * 
- * Clase para la creación de Resources ACL
- * 
  * @category   Kumbia
  * @package    Acl
  * @subpackage AclResource
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-class AclResource {
+
+/**
+ * Clase para la creación de Recursos ACL
+ *
+ * @category   Kumbia
+ * @package    Acl
+ * @subpackage AclResource
+ */
+class AclResource
+{
+
     /**
      * Nombre del Recurso
      *
      * @var $name
      */
     public $name;
+
     /**
      * Constructor de la clase Rol
      *
      * @param string $name
      * @return AclResource
      */
-    function __construct ($name) {
+    function __construct($name)
+    {
         if ($name == '*') {
             throw new KumbiaException('Nombre invalido "*" para nombre de Resource en Acl_Resoruce::__constuct');
         }
         $this->name = $name;
     }
+
     /**
      * Impide que le cambien el nombre al Rol en el Objeto
      *
      * @param string $name
      * @param string $value
      */
-    function __set ($name, $value) {
+    function __set($name, $value)
+    {
         if ($name != 'name') {
             $this->$name = $value;
         }
     }
+
 }

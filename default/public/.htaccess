@@ -1,6 +1,4 @@
-# Descomentar la linea si carga el index.html
-#DirectoryIndex index.php
-
+DirectoryIndex index.php
 # Si esta mod_rewrite habilitado
 <IfModule mod_rewrite.c>
     # Activar modo de reescritura
@@ -15,6 +13,6 @@
     RewriteCond %{REQUEST_FILENAME} !-d
 
     # Para peticiones que no son archivos ni directorios
-    # Reescribe a index.php?url=URL
+    # Reescribe a index.php?_url=URL
 	RewriteRule ^(.*)$ index.php?_url=/$1 [QSA,L]
 </IfModule>

@@ -16,7 +16,7 @@
  * 
  * @category   Kumbia
  * @package    Input
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 class Input 
@@ -38,7 +38,7 @@ class Input
 	/**
 	 * Indica si el request es AJAX
 	 *
-	 * @return Bolean
+	 * @return boolean
 	 */
 	public static function isAjax()
 	{
@@ -122,7 +122,7 @@ class Input
 	 * Elimina elemento indicado en $_POST
 	 *
 	 * @param string $var elemento a verificar
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public static function delete($var = NULL) 
 	{
@@ -134,6 +134,29 @@ class Input
 	}
 	
     /**
+    * Permite Obtener el Agente de Usuario (User Agent)
+    * @return String
+    */
+    public static function userAgent(){
+        return $_SERVER['HTTP_USER_AGENT'];
+    }
+
+    /**
+    * Permite obtene la IP del cliente, aún cuando usa proxy
+    * @return String
+    */
+    public static function ip(){
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])){
+            return $_SERVER['HTTP_CLIENT_IP'];
+        }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }else{
+            return $_SERVER['REMOTE_ADDR'];    
+        }
+    }
+
+
+    /**
 	 * Obtiene y filtra un valor del arreglo $_REQUEST
 	 * Por defecto, usa SANITIZE
  	 *
@@ -144,4 +167,6 @@ class Input
     {
 		//TODO
     }
+
+    
 }

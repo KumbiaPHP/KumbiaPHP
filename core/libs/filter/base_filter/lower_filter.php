@@ -12,16 +12,23 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
+ * @category   Kumbia
+ * @package    Filter
+ * @subpackage BaseFilter
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
+
+/**
  * Filtra una cadena para que contenga solo minuscula
  *
  * @category   Kumbia
  * @package    Filter
  * @subpackage BaseFilter
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
- * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 class LowerFilter implements FilterInterface
 {
+
     /**
      * Ejecuta el filtro
      *
@@ -29,8 +36,9 @@ class LowerFilter implements FilterInterface
      * @param array $options
      * @return string
      */
-    public static function execute ($s, $options)
+    public static function execute($s, $options)
     {
         return strtolower((string) $s);
     }
+
 }

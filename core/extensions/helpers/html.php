@@ -12,15 +12,21 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Helper para Tags Html
- * 
  * @category   KumbiaPHP
  * @package    Helpers 
- * @copyright  Copyright (c) 2005-2012 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
+
+/**
+ * Helper para Tags Html
+ *
+ * @category   KumbiaPHP
+ * @package    Helpers
  */
 class Html
 {
+
     /**
      * Alternador para tabla zebra
      *
@@ -28,14 +34,12 @@ class Html
      * @deprecated
      */
     protected static $_trClassAlternate = TRUE;
-
     /**
      * Metatags
      *
      * @var array
      */
     protected static $_metatags = array();
-
     /**
      * Enlaces de head
      *
@@ -55,13 +59,14 @@ class Html
      * @param string|array $attrs Atributos adicionales
      * @return string
      */
-    public static function link ($action, $text, $attrs = NULL)
+    public static function link($action, $text, $attrs = NULL)
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
         return '<a href="' . PUBLIC_PATH . "$action\" $attrs >$text</a>";
     }
+
     /**
      * Crea un enlace a una acción del mismo controller que estemos
      *
@@ -73,14 +78,15 @@ class Html
      * @param string|array $attrs Atributos adicionales
      * @return string
      */
-    public static function linkAction ($action, $text, $attrs = NULL)
+    public static function linkAction($action, $text, $attrs = NULL)
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        
+
         return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" $attrs >$text</a>";
     }
+
     /**
      * Permite incluir una imagen
      *
@@ -89,29 +95,28 @@ class Html
      * @param string|array $attrs Atributos adicionales
      * @return string
      */
-    public static function img ($src, $alt=NULL, $attrs = NULL)
+    public static function img($src, $alt=NULL, $attrs = NULL)
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
         return '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" $attrs />";
     }
-    
+
     /**
      * Aplica estilo zebra a una tabla.
      *
      * @param string $class class css
      * @param string|array $attrs
-     * @param unknown_type $start
      * @return string
      * @deprecated Mejor usar CSS
      */
-    public static function trClass ($class, $attrs = NULL)
+    public static function trClass($class, $attrs = NULL)
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        if(self::$_trClassAlternate){
+        if (self::$_trClassAlternate) {
             self::$_trClassAlternate = FALSE;
             return "<tr class='$class' $attrs >";
         } else {
@@ -119,17 +124,17 @@ class Html
             return "<tr $attrs >";
         }
     }
-    
+
     /**
      * Inicia el alternador de clase para tabla zebra
-     * 
-     *@deprecated Mejor usar CSS
+     *
+     * @deprecated Mejor usar CSS
      */
-    public static function trClassStart ()
+    public static function trClassStart()
     {
         self::$_trClassAlternate = TRUE;
     }
-    
+
     /**
      * Crea un metatag
      *
@@ -138,13 +143,13 @@ class Html
      */
     public static function meta($content, $attrs = NULL)
     {
-        if(is_array($attrs)) {
+        if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-    
+
         self::$_metatags[] = array('content' => $content, 'attrs' => $attrs);
     }
-    
+
     /**
      * Incluye los metatags
      *
@@ -152,32 +157,32 @@ class Html
      */
     public static function includeMetatags()
     {
-        return implode(array_unique(self::$_metatags), PHP_EOL);
+        return implode(PHP_EOL, array_unique(self::$_metatags));
     }
 
     /**
      * Crea una lista a partir de un array
      *
-     * @param string $content contenido del metatag
+     * @param array $array Array con el contenido del metatag
      * @param string $type por defecto ul, y si no ol
      * @param string|array $attrs atributos 
      * @return string
      */
     public static function lists($array, $type = 'ul', $attrs = NULL)
     {
-        if(is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
         }
-        
-        $list = "<$type $attrs>".PHP_EOL;
-        foreach($array as $item){
-            $list .= "<li>$item</li>".PHP_EOL;
+
+        $list = "<$type $attrs>" . PHP_EOL;
+        foreach ($array as $item) {
+            $list .= "<li>$item</li>" . PHP_EOL;
         }
-        $list .= "</$type>".PHP_EOL;
-        
+        $list .= "</$type>" . PHP_EOL;
+
         return $list;
     }
-    
+
     /**
      * Incluye los CSS
      *
@@ -186,12 +191,12 @@ class Html
     public static function includeCss()
     {
         $code = '';
-        foreach(Tag::getCss() as $css) {
+        foreach (Tag::getCss() as $css) {
             $code .= '<link href="' . PUBLIC_PATH . "css/{$css['src']}.css\" rel=\"stylesheet\" type=\"text/css\" media=\"{$css['media']}\" />" . PHP_EOL;
         }
         return $code;
     }
-    
+
     /**
      * Enlaza un recurso externo
      *
@@ -200,13 +205,13 @@ class Html
      */
     public static function headLink($href, $attrs = NULL)
     {
-        if(is_array($attrs)) {
-            $attrs = self::getAttrs($attrs);
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
         }
-    
+
         self::$_headLinks[] = array('href' => $href, 'attrs' => $attrs);
     }
-    
+
     /**
      * Enlaza una accion
      *
@@ -217,7 +222,7 @@ class Html
     {
         self::headLink(PUBLIC_PATH . $action, $attrs);
     }
-    
+
     /**
      * Enlaza un recurso de la aplicacion
      *
@@ -228,7 +233,7 @@ class Html
     {
         self::headLink(PUBLIC_PATH . $resource, $attrs);
     }
-    
+
     /**
      * Incluye los links para el head
      *
@@ -237,27 +242,30 @@ class Html
     public static function includeHeadLinks()
     {
         $code = '';
-        foreach(self::$_headLinks as $link) {
+        foreach (self::$_headLinks as $link) {
             $code .= "<link href=\"{$link['href']}\" {$link['attrs']} />" . PHP_EOL;
         }
         return $code;
     }
+
     /**
      * Incluye imágenes de gravatar.com
-     * 
+     *
      * Ejemplos: Html::gravatar
      * Simple: echo Html::gravatar( $email ) <br>
      * Completo: echo Html::gravatar( $email, $name, 20, 'http://www.example.com/default.jpg') <br>
      * Un gravatar que es un link: echo Html::link( Html::gravatar($email), $url)
-     * 
-     *@param string $email Correo para conseguir su gravatar
-     *@param string $alt Texto alternativo de la imagen. Por defecto: gravatar
-     *@param int $size Tamaño del gravatar. Un número de 1 a 512. Por defecto: 40
-     *@param string $default URL gravatar por defecto si no existe, o un default de gravatar. Por defecto: mm
+     *
+     * @param string $email Correo para conseguir su gravatar
+     * @param string $alt Texto alternativo de la imagen. Por defecto: gravatar
+     * @param int $size Tamaño del gravatar. Un número de 1 a 512. Por defecto: 40
+     * @param string $default URL gravatar por defecto si no existe, o un default de gravatar. Por defecto: mm
      * @return string
      */
-    public static function gravatar($email, $alt='gravatar', $size=40, $default='mm') {
-        $grav_url = "http://www.gravatar.com/avatar/" . md5( strtolower(trim($email))) . '?d=' . urlencode($default) . '&s=' . $size;        
-        return '<img src="'. $grav_url . '" alt="'. $alt .'" class="avatar" width="'.$size.'" height="'.$size.'" />';
+    public static function gravatar($email, $alt='gravatar', $size=40, $default='mm')
+    {
+        $grav_url = "http://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . '?d=' . urlencode($default) . '&s=' . $size;
+        return '<img src="' . $grav_url . '" alt="' . $alt . '" class="avatar" width="' . $size . '" height="' . $size . '" />';
     }
+
 }

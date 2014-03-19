@@ -12,36 +12,45 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * Componente para páginar
- * 
  * @category   Kumbia
  * @package    Db
  * @subpackage Behaviors 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
+
+/**
+ * Componente para páginar
+ *
+ * Permite paginar arrays y modelos
+ *
+ * @category   Kumbia
+ * @package    Db
+ * @subpackage Behaviors
  */
 class Paginator
 {
+
     /**
      * paginador
-     *  
+     *
      * page: número de página a mostrar (por defecto la página 1)
      * per_page: cantidad de registros por página (por defecto 10 registros por página)
-     *  
+     *
      * Para páginacion por array:
      *  Parámetros sin nombre en orden:
      *    Parámetro1: array a páginar
-     *  
+     *
      * Para páginacion de modelo:
      *  Parámetros sin nombre en orden:
      *   Parámetro1: nombre del modelo o objeto modelo
      *   Parámetro2: condición de busqueda
-     *          
+     *
      * Parámetros con nombre:
      *  conditions: condición de busqueda
      *  order: ordenamiento
      *  columns: columnas a mostrar
-     *  
+     *
      * Retorna un PageObject que tiene los siguientes atributos:
      *  next: número de página siguiente, si no hay página siguiente entonces es FALSE
      *  prev: numero de página anterior, si no hay página anterior entonces es FALSE
@@ -57,10 +66,11 @@ class Paginator
      *  $page = paginate('usuario', 'sexo="F"' , 'per_page: 5', "page: $page_num"); <br>
      *  $page = paginate('Usuario', 'sexo="F"' , 'per_page: 5', "page: $page_num"); <br>
      *  $page = paginate($this->Usuario, 'conditions: sexo="F"' , 'per_page: 5', "page: $page_num"); <br>
-     *  
-     * @return object
-     **/
-    public static function paginate ($model)
+     *
+     * @params object $model 
+     * @return stdClass
+     * */
+    public static function paginate($model)
     {
         $params = Util::getParams(func_get_args());
         $page_number = isset($params['page']) ? (int) $params['page'] : 1;
@@ -114,7 +124,7 @@ class Paginator
                 $find_args[] = $conditions;
             }
             //contar los registros
-            $n = call_user_func_array(array($model , 'count'), $find_args);
+            $n = call_user_func_array(array($model, 'count'), $find_args);
             //si el inicio es superior o igual al conteo de elementos,
             //entonces la página no existe, exceptuando cuando es la página 1
             if ($page_number > 1 && $start >= $n) {
@@ -124,7 +134,7 @@ class Paginator
             $find_args[] = "offset: $start";
             $find_args[] = "limit: $per_page";
             //Se efectua la busqueda
-            $page->items = call_user_func_array(array($model , 'find'), $find_args);
+            $page->items = call_user_func_array(array($model, 'find'), $find_args);
         }
         //Se efectuan los calculos para las páginas
         $page->next = ($start + $per_page) < $n ? ($page_number + 1) : false;
@@ -135,16 +145,17 @@ class Paginator
         $page->per_page = $per_page;
         return $page;
     }
+
     /**
      * páginador por sql
-     *  
-     * @param string $model Nombre del modelo
+     *
+     * @param object $model Modelo a paginar
      * @param string $sql Consulta sql
      *
      * page: número de página a mostrar (por defecto la página 1)
      * per_page: cantidad de registros por página (por defecto 10 registros por página)
-     *          
-     *  
+     *
+     *
      * Retorna un PageObject que tiene los siguientes atributos:
      *  next: numero de página siguiente, si no hay página siguiente entonces es false
      *  prev: numero de página anterior, si no hay página anterior entonces es false
@@ -155,10 +166,10 @@ class Paginator
      *
      * @example
      *  $page = paginate_by_sql('usuario', 'SELECT * FROM usuario' , 'per_page: 5', "page: $page_num");
-     *  
-     * @return object
-     **/
-    public static function paginate_by_sql ($model, $sql)
+     *
+     * @return stdClass
+     * */
+    public static function paginate_by_sql($model, $sql)
     {
         $params = Util::getParams(func_get_args());
         $page_number = isset($params['page']) ? (int) $params['page'] : 1;
@@ -187,4 +198,5 @@ class Paginator
         $page->per_page = $per_page;
         return $page;
     }
+
 }

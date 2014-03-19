@@ -12,69 +12,74 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
+ * @category   Kumbia
+ * @package    Console
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
+// carga libreria para manejo de cache
+Load::lib('cache');
+
+/**
  * Consola para manejar la cache
  *
  * @category   Kumbia
- * @package    consoles
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
- * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ * @package    Console
  */
- 
-// carga libreria para manejo de cache
-Load::lib('cache');
- 
 class CacheConsole
-{    	
+{
+
     /**
      * Comando de consola para limpiar la cache
      *
      * @param array $params parametros nombrados de la consola
      * @param string $group nombre de grupo
-	 * @throw KumbiaException
+     * @throw KumbiaException
      */
     public function clean($params, $group = FALSE)
     {
         // obtiene el driver de cache
-        if(isset($params['driver'])) {
-            $cache  = Cache::driver($params['driver']);
+        if (isset($params['driver'])) {
+            $cache = Cache::driver($params['driver']);
         } else {
-			$cache = Cache::driver();
-		}
-        
+            $cache = Cache::driver();
+        }
+
         // limpia la cache
-        if($cache->clean($group)) {
-            if($group) {
-                echo "-> Se ha limpiado el grupo $group", PHP_EOL ;
+        if ($cache->clean($group)) {
+            if ($group) {
+                echo "-> Se ha limpiado el grupo $group", PHP_EOL;
             } else {
-                echo "-> Se ha limpiado la cache", PHP_EOL ;
+                echo "-> Se ha limpiado la cache", PHP_EOL;
             }
         } else {
             throw new KumbiaException('No se ha logrado eliminar el contenido');
         }
     }
-    
+
     /**
      * Comando de consola para eliminar un elemento cacheado
      *
      * @param array $params parametros nombrados de la consola
      * @param string $id id del elemento
      * @param string $group nombre de grupo
-	 * @throw KumbiaException
+     * @throw KumbiaException
      */
     public function remove($params, $id, $group = 'default')
     {
         // obtiene el driver de cache
-        if(isset($params['driver'])) {
-            $cache  = Cache::driver($params['driver']);
+        if (isset($params['driver'])) {
+            $cache = Cache::driver($params['driver']);
         } else {
-			$cache = Cache::driver();
-		}
-        
+            $cache = Cache::driver();
+        }
+
         // elimina el elemento
-        if($cache->remove($id, $group)) {
-            echo '-> Se ha eliminado el elemento de la cache', PHP_EOL ;
+        if ($cache->remove($id, $group)) {
+            echo '-> Se ha eliminado el elemento de la cache', PHP_EOL;
         } else {
             throw new KumbiaException("No se ha logrado eliminar el elemento \"$id\" del grupo \"$group\"");
         }
     }
+
 }

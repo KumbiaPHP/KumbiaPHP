@@ -16,25 +16,36 @@
  *
  * @category   Kumbia
  * @package    Kumbia
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
+
+/**
+ * Cargador Selectivo
+ *
+ * Clase para la carga de librerias tanto del core como de la app.
+ * Carga de los modelos de una app.
+ *
+ * @category   Kumbia
+ * @package    Kumbia
  */
 class Load
 {
+
     /**
      * Carga libreria de APP, si no existe carga del CORE
      *
      * @param string $lib libreria a cargar
      * @throw KumbiaException
-     **/
-    public static function lib ($lib)
+     */
+    public static function lib($lib)
     {
-		$file = APP_PATH . "libs/$lib.php";
-		if (is_file($file)) {
-			return require_once $file;
-		} else {
+        $file = APP_PATH . "libs/$lib.php";
+        if (is_file($file)) {
+            return include $file;
+        } else {
             return self::coreLib($lib);
-		}
+        }
     }
 
     /**
@@ -42,52 +53,50 @@ class Load
      *
      * @param string $lib libreria a cargar
      * @throw KumbiaException
-     **/
-    public static function coreLib ($lib)
+     */
+    public static function coreLib($lib)
     {
-		if (! include_once CORE_PATH . "libs/$lib/$lib.php") {
-			throw new KumbiaException("Librería: \"$lib\" no encontrada");
-		}
+        if (!include CORE_PATH . "libs/$lib/$lib.php") {
+            throw new KumbiaException("Librería: \"$lib\" no encontrada");
+        }
     }
+
     /**
      * Obtiene la instancia de un modelo
      *
-     * @param string $model modelo a instanciar
+     * @param string $model modelo a instanciar en small_case
      * @param mixed $params parámetros para instanciar el modelo
      * @return obj model
      */
-    public static function model ($model, $params = NULL)
+    public static function model($model, $params = NULL)
     {
         //Nombre de la clase
         $Model = Util::camelcase(basename($model));
-        //Carga la clase
-        if (! class_exists($Model, FALSE)) {
+        //Si no esta cargada la clase
+        if (!class_exists($Model, FALSE)) {
             //Carga la clase
-            if (! include_once APP_PATH . "models/$model.php") {
-                throw new KumbiaException("No existe el modelo $model");
+            if (!include APP_PATH . "models/$model.php") {
+                throw new KumbiaException($model,'no_model');
             }
         }
         return new $Model($params);
     }
+
     /**
      * Carga modelos
      *
-     * @param string $model
+     * @param string $model en small_case
      * @throw KumbiaException
-     **/
-    public static function models ($model)
+     */
+    public static function models($model)
     {
-        if (is_array($model)) {
-            $args = $model;
-        } else {
-            $args = func_get_args();
-        }
+        $args = is_array($model) ? $model : func_get_args();
         foreach ($args as $model) {
-            $file = APP_PATH . "models/$model.php";
-            if (is_file($file)) {
-                include_once $file;
-            } else {
-                throw new KumbiaException("Modelo $model no encontrado");
+            $Model = Util::camelcase(basename($model));
+            //Si esta cargada continua con la siguiente clase
+            if (class_exists($Model, FALSE)) continue;
+            if (!include APP_PATH . "models/$model.php") {
+                throw new KumbiaException($model,'no_model');
             }
         }
     }

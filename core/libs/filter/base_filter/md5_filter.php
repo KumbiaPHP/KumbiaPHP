@@ -12,16 +12,23 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
+ * @category   Kumbia
+ * @package    Filter
+ * @subpackage BaseFilter
+ * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
+
+/**
  * Filtra una cadena cifrando con md5
  *
  * @category   Kumbia
  * @package    Filter
  * @subpackage BaseFilter
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
- * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 class Md5Filter implements FilterInterface
 {
+
     /**
      * Ejecuta el filtro
      *
@@ -29,7 +36,7 @@ class Md5Filter implements FilterInterface
      * @param array $options
      * @return string
      */
-    public static function execute ($s, $options)
+    public static function execute($s, $options)
     {
         if (isset($options['binary']) && $options['binary'] == 'true') {
             return md5((string) $s, true);
@@ -37,4 +44,5 @@ class Md5Filter implements FilterInterface
             return md5((string) $s);
         }
     }
+
 }
