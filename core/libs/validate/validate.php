@@ -107,10 +107,14 @@ class Validate
         }
         $ruleName = ltrim($rule, '@');
         $obj = $this->obj;
+        if(!method_exists($obj, $ruleName)){
+            trigger_error('El metodo para la validacion no existe', E_USER_WARNING);
+            return false;
+        }
         if(!$obj->$ruleName($param)){ 
            $this->addError($param, $field);
         }
-
+        return true;
     }
 
     /**
