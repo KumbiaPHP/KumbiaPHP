@@ -84,7 +84,7 @@ class Validate
     			/*Es una validación de modelo*/
     			if($ruleName[0] == '@'){
                     $this->modelRule($ruleName, $param, $field);
-    			}elseif(!Validations::$ruleName($value, $param)){ 
+    			}elseif(!Validations::$ruleName($value, $param)){
     				$this->addError($param, $field);
     			}
     		}
@@ -111,7 +111,7 @@ class Validate
             trigger_error('El metodo para la validacion no existe', E_USER_WARNING);
             return false;
         }
-        if(!$obj->$ruleName($param)){ 
+        if(!$obj->$ruleName($field, $param)){ 
            $this->addError($param, $field);
         }
         return true;
