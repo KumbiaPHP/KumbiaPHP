@@ -65,6 +65,19 @@ class Validate
 	 */
 	protected $is_obj = false;
     
+    /**
+     * El parametro $rules debe contener esta forma
+     *  array(
+     *   'user' => //este es el nombre del campo
+     *      array(
+     *          'alpha' =>  //nombre del filtro
+     *          null, //parametros pasados (en array o null si no se requiere)
+     *          'lenght' => array('min'=>4, 'max'=>10)
+     *      )
+     * )
+     * @param mixed $obj Objecto o Array a validar
+     * @param array $rules Aray de reglas a validar
+     */
     public function __construct($obj, Array $rules){
     	$this->is_obj = is_object($obj);
     	$this->obj = (object)$obj;
@@ -73,15 +86,6 @@ class Validate
 
     /**
      * Ejecuta las validaciones
-     * El método "rules" debe devolver un array de la siguiente manera
-     * return array(
-     * 	 'user' => //este es el nombre del campo
-     * 	 	array(
-     * 	 		'alpha' =>  //nombre del filtro
-     * 	 		null, //parametros pasados (en array o null si no se requiere)
-     * 	 		'lenght' => array('min'=>4, 'max'=>10)
-     * 	 	)
-     * )
      * @return bool Devuelve true si todo es válido
      */
     public function exec(){
@@ -92,25 +96,68 @@ class Validate
     		$value = isset($obj->$field)?$obj->$field:null;//obtengo el valor del campo
     		/*Regla individual para cada campo*/
     		foreach ($fRule as $ruleName => $param) {
-                /*Evita tener que colocar un null cuando no se pasan parametros*/
-                $ruleName = is_integer($ruleName) && is_string($param)?$param:$ruleName;
-                /*param siempre es un array*/
-    			$param = is_array($param)?$param:array();
+                $ruleName = static::getRuleName($ruleName, $param);
+    			$param =  static::getParams($param);
     			/*Es una validación de modelo*/
-    			if($ruleName[0] == '@' and $this->is_obj){
-    				$ruleName = ltrim($ruleName, '@');
-    				if(!$obj->$ruleName($param)){ 
-    					$this->messages[] = isset($param['error']) ?
-    					 $param['error']: "El campo '$field' no es válido";
-    				}
-
-    			}elseif($ruleName[0] != '@' && !self::$ruleName($value, $param)){ 
-    				$this->messages[] = isset($param['error']) ? $param['error']: "El campo '$field' no es válido";
+    			if($ruleName[0] == '@'){
+                    $this->modelRule($ruleName, $param, $field);
+    			}elseif(!self::$ruleName($value, $param)){ 
+    				$this->addError($param, $field);
     			}
     		}
     	}
     	/*Si no hay errores devuelve true*/
     	return empty($this->messages);
+    }
+
+    /**
+     * Ejecuta una validación de modelo
+     * @param string $rule nombre de la regla
+     * @param array $param
+     * @param strin $field Nombre del campo
+     * @return bool 
+     */
+    protected function modelRule($rule, $param, $field){
+        if(!$this->is_obj){
+            trigger_error('No se puede ejecutar una validacion de modelo en un array', E_USER_WARNING);
+            return false;
+        }
+        $ruleName = ltrim($rule, '@');
+        $obj = $this->obj;
+        if(!$obj->$ruleName($param)){ 
+           $this->addError($param, $field);
+        }
+
+    }
+
+    /**
+     * Agrega un nuevo error
+     * @param Array $param parametros
+     * @param string Nombre del campo
+     */
+    protected function addError(Array $param, $field){
+         $this->messages[] = isset($param['error']) ?
+                $param['error']: "El campo '$field' no es válido";
+    }
+
+    /**
+     * Devuelve el nombre de la regla
+     * @param string $rulename
+     * @param mixed $param
+     * @return string
+     */
+    protected static function getRuleName($ruleName, $param){
+         /*Evita tener que colocar un null cuando no se pasan parametros*/
+        return is_integer($ruleName) && is_string($param)?$param:$ruleName;
+    }
+
+    /**
+     * Devuelve los parametros para la regla
+     * @param mixed $param
+     * @return array
+     */
+    protected static function getParams($param){
+        return is_array($param)?$param:array();
     }
 
     /**
