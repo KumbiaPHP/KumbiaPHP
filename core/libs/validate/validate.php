@@ -143,8 +143,14 @@ class Validate
         return is_array($param)?$param:array();
     }
 
+    /**
+     * Devuelve el valor de un campo
+     * @param object $obj
+     * @param string $field
+     * @return mixed
+     */
     protected static function getValue($obj, $field){
-        return isset($obj->$field)?$obj->$field:null;//obtengo el valor del campo
+        return !empty($obj->$field)?$obj->$field:null;//obtengo el valor del campo
     }
 
     /**
