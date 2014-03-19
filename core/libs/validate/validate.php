@@ -89,11 +89,9 @@ class Validate
      * @return bool Devuelve true si todo es válido
      */
     public function exec(){
-        $obj = $this->obj;
-    	$rules =  $this->rules;
     	/*Recorrido por todos los campos*/
-    	foreach ($rules as $field => $fRule){
-    		$value = isset($obj->$field)?$obj->$field:null;//obtengo el valor del campo
+    	foreach ($this->rules as $field => $fRule){
+    		$value = static::getValue($this->obj, $field);
     		/*Regla individual para cada campo*/
     		foreach ($fRule as $ruleName => $param) {
                 $ruleName = static::getRuleName($ruleName, $param);
@@ -158,6 +156,10 @@ class Validate
      */
     protected static function getParams($param){
         return is_array($param)?$param:array();
+    }
+
+    protected static function getValue($obj, $field){
+        return isset($obj->$field)?$obj->$field:null;//obtengo el valor del campo
     }
 
     /**
