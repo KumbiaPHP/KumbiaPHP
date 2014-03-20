@@ -173,36 +173,14 @@ class Validations
     
     /**
      * Valida una fecha
-     * TODO: REVISAR EL ESTANDAR
      * @param string $value fecha a validar acorde al formato indicado
-     * @param string $format formato de fecha. acepta: d-m-y, y-m-d, m-d-y, donde el "-" puede ser cualquier caracter 
-     *                       de separacion incluso un espacio en blanco o ".", exceptuando (d,m,y o números).
+     * @param string $format como en DateTime  
      * @return boolean
      */
     public static function date($value, $format = 'd-m-y')
     {
-        // busca el separador removiendo los caracteres de formato
-        $separator = str_replace(array('d' , 'm' , 'y'), '', $format);
-        $separator = $separator[0]; // el separador es el primer caracter
-        if ($separator && substr_count($value, $separator) == 2) {
-            switch (str_replace($separator, '', $format)) {
-                case 'dmy':
-                    list ($day, $month, $year) = explode($separator, $value);
-                    break;
-                case 'mdy':
-                    list ($month, $day, $year) = explode($separator, $value);
-                    break;
-                case 'ymd':
-                    list ($year, $month, $day) = explode($separator, $value);
-                    break;
-                default:
-                    return false;
-            }
-            if (ctype_digit($month) && ctype_digit($day) && ctype_digit($year)) {
-                return checkdate($month, $day, $year);
-            }
-        }
-        return false;
+        $date = DateTime::createFromFormat($format, $value);
+        return $date && $date->format($format) == $value;
     }
     
     /**
