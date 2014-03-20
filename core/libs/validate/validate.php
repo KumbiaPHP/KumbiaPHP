@@ -76,11 +76,11 @@ class Validate
     public function exec(){
     	/*Recorrido por todos los campos*/
     	foreach ($this->rules as $field => $fRule){
-    		$value = static::getValue($this->obj, $field);
+    		$value = self::getValue($this->obj, $field);
     		/*Regla individual para cada campo*/
     		foreach ($fRule as $ruleName => $param) {
-                $ruleName = static::getRuleName($ruleName, $param);
-    			$param =  static::getParams($param);
+                $ruleName = self::getRuleName($ruleName, $param);
+    			$param =  self::getParams($param);
     			/*Es una validación de modelo*/
     			if($ruleName[0] == '@'){
                     $this->modelRule($ruleName, $param, $field);
