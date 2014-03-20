@@ -74,6 +74,18 @@ class Validations
     }
 
     /**
+     * Valida longitud de la cadena
+     */
+    public static function length($value, $param){
+        $param = array_merge(array(
+            'min' => 0,
+            'max' => 9e100,
+        ), $param);
+        $length = strlen($value);
+        return ($length >= $param['min'] && $length <= $param['max']);
+    }
+
+    /**
      * Valida que es un número se encuentre 
      * en un rango minímo y máximo
      * 
