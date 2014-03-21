@@ -76,15 +76,15 @@ class Validate
     public function exec(){
     	/*Recorrido por todos los campos*/
     	foreach ($this->rules as $field => $fRule){
-    		$value = static::getValue($this->obj, $field);
+    		$value = self::getValue($this->obj, $field);
     		/*Regla individual para cada campo*/
     		foreach ($fRule as $ruleName => $param) {
-                $ruleName = static::getRuleName($ruleName, $param);
-    			$param =  static::getParams($param);
+                $ruleName = self::getRuleName($ruleName, $param);
+    			$param =  self::getParams($param);
     			/*Es una validación de modelo*/
     			if($ruleName[0] == '@'){
                     $this->modelRule($ruleName, $param, $field);
-    			}elseif(!Validations::$ruleName($value, $param)){ 
+    			}elseif(!Validations::$ruleName($value, $param)){
     				$this->addError($param, $field);
     			}
     		}
@@ -107,10 +107,14 @@ class Validate
         }
         $ruleName = ltrim($rule, '@');
         $obj = $this->obj;
-        if(!$obj->$ruleName($param)){ 
+        if(!method_exists($obj, $ruleName)){
+            trigger_error('El metodo para la validacion no existe', E_USER_WARNING);
+            return false;
+        }
+        if(!$obj->$ruleName($field, $param)){ 
            $this->addError($param, $field);
         }
-
+        return true;
     }
 
     /**
@@ -143,8 +147,14 @@ class Validate
         return is_array($param)?$param:array();
     }
 
+    /**
+     * Devuelve el valor de un campo
+     * @param object $obj
+     * @param string $field
+     * @return mixed
+     */
     protected static function getValue($obj, $field){
-        return isset($obj->$field)?$obj->$field:null;//obtengo el valor del campo
+        return !empty($obj->$field)?$obj->$field:null;//obtengo el valor del campo
     }
 
     /**

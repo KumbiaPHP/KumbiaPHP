@@ -66,8 +66,8 @@ class KumbiaRest extends Controller {
      */
     protected function initREST() {
         /* formato de entrada */
-        $this->_fInput = static::getInputFormat();
-        $this->_fOutput = static::getOutputFormat($this->_outputType);
+        $this->_fInput = self::getInputFormat();
+        $this->_fOutput = self::getOutputFormat($this->_outputType);
         View::select(null, $this->_fOutput);
         $this->rewriteActionName();
 
@@ -293,7 +293,7 @@ class KumbiaRest extends Controller {
      */
     protected function getOutputFormat(Array $validOutput){
         /* busco un posible formato de salida */
-        $accept = static::accept();
+        $accept = self::accept();
         foreach ($accept as $key => $a) {
             if (array_key_exists($key, $validOutput)) {
                 return $validOutput[$key];
