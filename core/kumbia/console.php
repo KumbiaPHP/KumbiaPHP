@@ -189,7 +189,7 @@ class Console
      *
      * @param string $message mensaje a mostrar
      * @param array $values array de valores validos para entrada
-     * @return valor leido desde la consola
+     * @return string Valor leido desde la consola
      * */
     public static function input($message, $values=NULL)
     {
