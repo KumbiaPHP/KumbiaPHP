@@ -215,17 +215,6 @@ final class Router
 
         return $cont;
     }
-
-    /**
-     * Enruta el controlador actual a otro módulo, controlador, o a otra acción
-     * @deprecated  Ahora Redirect::route_to()
-     * @example
-     * Router::route_to("module: modulo", "controller: nombre", "action: accion", "parameters: 1/2")
-     */
-    public static function route_to()
-    {
-        call_user_func_array(array('Redirect', 'route_to'), func_get_args());
-    }
     
     /**
      * Envia el valor de un atributo o el array con todos los atributos y sus valores del router
@@ -246,32 +235,6 @@ final class Router
         } else {
             return self::$_vars;
         }
-    }
-
-    /**
-     * Redirecciona la ejecución a otro controlador en un
-     * tiempo de ejecución determinado
-     * @deprecated  Ahora Redirect::to()
-     *
-     * @param string $route
-     * @param integer $seconds
-     */
-    public static function redirect($route = null, $seconds = null)
-    {
-        Redirect::to($route, $seconds);
-    }
-
-    /**
-     * Redirecciona la ejecución a una accion del controlador actual en un
-     * tiempo de ejecución determinado
-     * @deprecated Ahora Redirect::toAction()
-     * 
-     * @param string $action
-     * @param integer $seconds
-     */
-    public static function toAction($action, $seconds = null)
-    {
-        Redirect::toAction($action, $seconds);
     }
 	
 	/**
