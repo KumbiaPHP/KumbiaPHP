@@ -123,7 +123,7 @@ function auto($class)
     }
 
     //Autoload PSR0
-    $psr0 = dirname(CORE_PATH).'/vendor/'.str_replace (array ('_', '\\'), PATH_SEPARATOR, $class) . '.php';
+    $psr0 = dirname(CORE_PATH).'/vendor/'.str_replace (array ('_', '\\'), DIRECTORY_SEPARATOR, $class) . '.php';
     if(is_file($psr0)){
     	return include $psr0;
     }
