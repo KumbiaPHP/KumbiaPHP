@@ -34,7 +34,7 @@ ob_start();
 // Versión de KumbiaPHP
 function kumbia_version()
 {
-    return '1.0 Beta 2';
+    return 'RC 0.9';
 }
 
 // @see KumbiaException
