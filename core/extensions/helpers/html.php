@@ -28,13 +28,6 @@ class Html
 {
 
     /**
-     * Alternador para tabla zebra
-     *
-     * @var boolean
-     * @deprecated
-     */
-    protected static $_trClassAlternate = TRUE;
-    /**
      * Metatags
      *
      * @var array
@@ -101,38 +94,6 @@ class Html
             $attrs = Tag::getAttrs($attrs);
         }
         return '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" $attrs />";
-    }
-
-    /**
-     * Aplica estilo zebra a una tabla.
-     *
-     * @param string $class class css
-     * @param string|array $attrs
-     * @return string
-     * @deprecated Mejor usar CSS
-     */
-    public static function trClass($class, $attrs = NULL)
-    {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-        if (self::$_trClassAlternate) {
-            self::$_trClassAlternate = FALSE;
-            return "<tr class='$class' $attrs >";
-        } else {
-            self::$_trClassAlternate = TRUE;
-            return "<tr $attrs >";
-        }
-    }
-
-    /**
-     * Inicia el alternador de clase para tabla zebra
-     *
-     * @deprecated Mejor usar CSS
-     */
-    public static function trClassStart()
-    {
-        self::$_trClassAlternate = TRUE;
     }
 
     /**
