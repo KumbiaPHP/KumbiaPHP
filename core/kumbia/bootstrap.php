@@ -25,9 +25,6 @@
  * @package    Core
  */
 
-// Inicia la sesion
-session_start();
-
 // Iniciar el buffer de salida
 ob_start();
 
