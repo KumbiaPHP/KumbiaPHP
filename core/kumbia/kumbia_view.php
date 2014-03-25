@@ -317,28 +317,6 @@ class KumbiaView
         }
     }
 
-    /**
-     * Carga los helpers
-     * @deprecated ahora se cargan automaticamente
-     *
-     * @param string $helper
-     * @throw KumbiaException
-     */
-    public static function helpers($helper)
-    {
-        $helper = Util::smallcase($helper);
-        $path = "extensions/helpers/$helper.php";
-        $file = APP_PATH . $path;
-
-        if (!is_file($file)) {
-            if (!include_once CORE_PATH . $path)
-                throw new KumbiaException("Helpers $helper no encontrado");
-            return;
-        }
-
-        require_once $file;
-    }
-
 	/**
 	 * Obtiene el valor de un atributo público o todos del controlador
 	 * 
