@@ -204,7 +204,8 @@ class KumbiaView
     }
     /**
      * Cachea el view o template
-     *
+     * 
+     * @param string $type view o template
      * @return void
      */
     protected static function saveCache($type)
