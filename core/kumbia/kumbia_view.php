@@ -215,7 +215,17 @@ class KumbiaView
         
         // Guarda el controlador
 		self::$_controller = $controller;
-
+		
+		self::generate($controller);
+	}
+	
+	/**
+     * Genera la vista
+     *
+     * @param Controller $controller
+     */
+    protected static function generate(Controller $controller)
+    {
         // Mapea los atributos del controller en el scope
         extract(get_object_vars($controller), EXTR_OVERWRITE);
 
