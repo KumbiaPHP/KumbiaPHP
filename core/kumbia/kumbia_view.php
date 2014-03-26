@@ -210,7 +210,8 @@ class KumbiaView
      */
     protected static function saveCache($type)
     {
-        if (PRODUCTION && self::$_cache['type'] == $type) {
+        // si esta en produccion y se cachea la vista
+        if (PRODUCTION && self::$_cache['type'] === $type) {
                 Cache::driver()->save(ob_get_contents(), self::$_cache['time'], Router::get('route'), self::$_cache['group']);
             }
     }
