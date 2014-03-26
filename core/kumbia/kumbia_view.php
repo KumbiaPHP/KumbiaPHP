@@ -208,7 +208,7 @@ class KumbiaView
      *
      * @param Controller $controller
      */
-    public static function render($controller)
+    public static function render(Controller $controller)
     {
         if (!self::$_view && !self::$_template)
             return ob_end_flush();
