@@ -202,6 +202,17 @@ class KumbiaView
         }
         return $file;
     }
+    /**
+     * Cachea el view o template
+     *
+     * @return void
+     */
+    protected static function saveCache($type)
+    {
+        if (PRODUCTION && self::$_cache['type'] == $type) {
+                Cache::driver()->save(ob_get_contents(), self::$_cache['time'], Router::get('route'), self::$_cache['group']);
+            }
+    }
     
     /**
      * Renderiza la vista
@@ -241,9 +252,7 @@ class KumbiaView
                 throw new KumbiaException('Vista "' . self::getPath() . '" no encontrada', 'no_view');
 
             // si esta en produccion y se cachea la vista
-            if (PRODUCTION && self::$_cache['type'] == 'view') {
-                Cache::driver()->save(ob_get_contents(), self::$_cache['time'], Router::get('route'), self::$_cache['group']);
-            }
+            self::saveCache('view');
 
             // Verifica si hay template
             if (!self::$_template) {
@@ -264,9 +273,7 @@ class KumbiaView
                 throw new KumbiaException("Template $__template no encontrado");
 
             // si esta en produccion y se cachea template
-            if (PRODUCTION && self::$_cache['type'] == 'template') {
-                Cache::driver()->save(ob_get_contents(), self::$_cache['time'], Router::get('route'), self::$_cache['group']);
-            }
+            self::saveCache('template');
 
             return ob_end_flush();
         }
