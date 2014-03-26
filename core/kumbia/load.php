@@ -65,10 +65,10 @@ class Load
      * Obtiene la instancia de un modelo
      *
      * @param string $model modelo a instanciar en small_case
-     * @param mixed $params parámetros para instanciar el modelo
+     * @param array $params parámetros para instanciar el modelo
      * @return obj model
      */
-    public static function model($model, $params = NULL)
+    public static function model($model, Array $params = array())
     {
         //Nombre de la clase
         $Model = Util::camelcase(basename($model));
