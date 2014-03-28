@@ -1663,7 +1663,7 @@ class KumbiaActiveRecord
             $fields = array();
             $values = array();
             foreach ($this->fields as $field) {
-                if ($field != $this->primary_key[0] && !$this->id) {
+                if ($field != $this->primary_key[0] || $this->{$this->primary_key[0]}) {
                     if (in_array($field, $this->_at)) {
                         if ($config['type'] == 'oracle') {
                             $this->$field = date("Y-m-d");
