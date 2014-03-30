@@ -69,7 +69,7 @@ if ($_SERVER['QUERY_STRING']) {
 /**
  * Obtiene la url
  */
-$url = isset($_GET['_url']) ? $_GET['_url'] : '/';
+$url = empty($_SERVER['PATH_INFO']) ? '/' : $_SERVER['PATH_INFO'];
 
 /**
  * Carga el gestor de arranque

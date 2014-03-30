@@ -13,6 +13,6 @@ DirectoryIndex index.php
     RewriteCond %{REQUEST_FILENAME} !-d
 
     # Para peticiones que no son archivos ni directorios
-    # Reescribe a index.php?_url=URL
-	RewriteRule ^(.*)$ index.php?_url=/$1 [QSA,L]
+    # Reescribe a index.php/
+	RewriteRule ^(.*)$ index.php/$1 [L]
 </IfModule>
