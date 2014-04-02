@@ -308,7 +308,7 @@ class DbBase
     /**
      * Devuelve fila por fila el contenido de un select
      * Este método lo extienden los adapters
-     * @param resource $result_query
+     * @param resource $resultQuery 
      * @param int $opt
      * @return array
      */
