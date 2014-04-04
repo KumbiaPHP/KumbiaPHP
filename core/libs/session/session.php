@@ -24,6 +24,9 @@
  * @category   Kumbia
  * @package    Session
  */
+
+/*Session start*/
+session_start();
 class Session
 {
 
