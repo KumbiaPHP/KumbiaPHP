@@ -254,7 +254,7 @@ class Form
             $attrs['enctype'] = 'multipart/form-data';
             $attrs = Tag::getAttrs($attrs);
         }else{
-            $attrs .= 'enctype="multipart/form-data"';
+            $attrs .= ' enctype="multipart/form-data"';
         }
         return self::open($action, $attrs);
     }
@@ -279,10 +279,7 @@ class Form
      */
     public static function submit($text, $attrs = NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-        return "<input type=\"submit\" value=\"$text\" $attrs />";
+        return self::button($text, $attrs, 'submit');
     }
 
     /**
@@ -294,10 +291,7 @@ class Form
      */
     public static function reset($text, $attrs = NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-        return "<input type=\"reset\" value=\"$text\" $attrs />";
+        return self::button($text, $attrs, 'reset');
     }
 
     /**
@@ -305,14 +299,18 @@ class Form
      *
      * @param string $text Texto del botón
      * @param array $attrs Atributos de campo (opcional)
+     * @param string $type tipo de botón
+     * @param string $value Valor para el boton
+     * @todo FALTA AGREGAR NOMBRE YA QUE SIN ESTE EL VALUE NO LLEGA AL SERVER
      * @return string
      */
-    public static function button($text, $attrs = NULL)
+    public static function button($text, $attrs = NULL, $type = 'button', $value= NULL)
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return "<input type=\"button\" value=\"$text\" $attrs />";
+        $value = is_null($value) ? '' : "value=\"$value\"";
+        return "<button type=\"$type\" $value $attrs>$text</button>";
     }
 
     /**
