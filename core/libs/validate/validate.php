@@ -165,8 +165,24 @@ class Validate
         return $this->messages;
     }
 
+    /**
+     * Version de instancias para flush error
+     */
+    public function flash(){
+        self::errorToFlash($this->getMessages());
+    }
+
     public static function fail($obj, Array $rules){
         $val = new self($obj, $rules);
         return $val->exec() ? false:$val->getMessages();
+    }
+
+    /**
+     * Envia los mensajes de error via flash
+     * @param Array $error
+     */
+    public static function errorToFlash(Array $error){
+        foreach ($error as $value)
+            Flash::error($value);
     }
 }
