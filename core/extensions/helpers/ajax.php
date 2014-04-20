@@ -39,9 +39,7 @@ class Ajax
      */
     public static function link($action, $text, $update, $class=NULL, $attrs=NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
+        $attrs = Tag::getAttrs($attrs);
         return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote $class\" data-to=\"{$update}\" $attrs>$text</a>";
     }
 
@@ -57,9 +55,7 @@ class Ajax
      */
     public static function linkAction($action, $text, $update, $class=NULL, $attrs=NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
+        $attrs = Tag::getAttrs($attrs);
         return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote $class\" data-to=\"{$update}\" $attrs>$text</a>";
     }
 
@@ -77,9 +73,7 @@ class Ajax
      */
     public static function linkConfirm($action, $text, $update, $confirm, $class=NULL, $attrs=NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
+        $attrs = Tag::getAttrs($attrs);
         return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote-confirm $class\" data-to=\"{$update}\" title=\"$confirm\" $attrs>$text</a>";
     }
 
@@ -97,9 +91,7 @@ class Ajax
      */
     public static function linkActionConfirm($action, $text, $update, $confirm, $class=NULL, $attrs=NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
+        $attrs = Tag::getAttrs($attrs);
         return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote-confirm $class\" data-to=\"{$update}\" title=\"$confirm\" $attrs>$text</a>";
     }
 
@@ -115,13 +107,9 @@ class Ajax
      */
     public static function select($field, $data, $update, $action, $class=null, $attrs=null)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
+        $attrs = Tag::getAttrs($attrs);
         // ruta a la accion
         $action = PUBLIC_PATH . rtrim($action, '/') . '/';
-
         // genera el campo
         return Form::select($field, $data, "class=\"js-remote $class\" data-update=\"$update\" data-url=\"$action\" $attrs");
     }
@@ -140,10 +128,7 @@ class Ajax
      */
     public static function dbSelect($field, $show, $data, $update, $action, $blank=null, $class=null, $attrs=null)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
+        $attrs = Tag::getAttrs($attrs);
         // ruta a la accion
         $action = PUBLIC_PATH . rtrim($action, '/') . '/';
 
@@ -163,9 +148,7 @@ class Ajax
      */
     public static function form($update, $action = NULL, $class = NULL, $method = 'post', $attrs = NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
+        $attrs = Tag::getAttrs($attrs);
         if ($action) {
             $action = PUBLIC_PATH . $action;
         } else {
