@@ -154,7 +154,7 @@ class Form
      */
     public static function input($type, $field,$attrs = NULL, $value=NULL)
     {
-        $attrs =  self::getAttr($attrs);
+        $attrs =  Tag::getAttrs($attrs);
          // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         list($id, $name, $value) = self::getFieldData($field, $value);
         return "<input id=\"$id\" name=\"$name\" type=\"$type\" value=\"$value\" $attrs/>";
@@ -170,7 +170,7 @@ class Form
      */
     public static function open($action = NULL, $method = 'post', $attrs = NULL)
     {
-        $attrs =  self::getAttr($attrs);
+        $attrs =  Tag::getAttrs($attrs);
         if ($action) {
             $action = PUBLIC_PATH . $action;
         } else {
@@ -245,7 +245,7 @@ class Form
      */
     public static function button($text, $attrs = NULL, $type = 'button', $value= NULL)
     {
-        $attrs =  self::getAttr($attrs);
+        $attrs =  Tag::getAttrs($attrs);
         $value = is_null($value) ? '' : "value=\"$value\"";
         return "<button type=\"$type\" $value $attrs>$text</button>";
     }
@@ -260,7 +260,7 @@ class Form
      */
     public static function label($text, $field, $attrs = NULL)
     {
-        $attrs =  self::getAttr($attrs);
+        $attrs =  Tag::getAttrs($attrs);
         return "<label for=\"$field\" $attrs>$text</label>";
     }
 
@@ -288,7 +288,7 @@ class Form
      */
     public static function select($field, $data, $attrs = NULL, $value = NULL)
     {
-        $attrs =  self::getAttr($attrs);
+        $attrs =  Tag::getAttrs($attrs);
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         list($id, $name, $value) = self::getFieldData($field, $value);
 
@@ -323,7 +323,7 @@ class Form
      */
     public static function check($field, $checkValue, $attrs = NULL, $checked = NULL)
     {
-        $attrs =  self::getAttr($attrs);
+        $attrs =  Tag::getAttrs($attrs);
         // Obtiene name y id para el campo y los carga en el scope
         list($id, $name, $checked) = self::getFieldDataCheck($field, $checkValue, $checked);
 
@@ -345,7 +345,7 @@ class Form
      */
     public static function radio($field, $radioValue, $attrs = NULL, $checked = NULL)
     {
-        $attrs =  self::getAttr($attrs);
+        $attrs =  Tag::getAttrs($attrs);
         // Obtiene name y id para el campo y los carga en el scope
         list($id, $name, $checked) = self::getFieldDataCheck($field, $radioValue, $checked);
 
@@ -373,7 +373,7 @@ class Form
      */
     public static function submitImage($img, $attrs = NULL)
     {
-        $attrs =  self::getAttr($attrs);
+        $attrs =  Tag::getAttrs($attrs);
         return "<input type=\"image\" src=\"" . PUBLIC_PATH . "img/$img\" $attrs/>";
     }
 
@@ -456,7 +456,7 @@ class Form
      */
     public static function selectObj($field, $data, $show, $pk='id', $blank = 'Seleccione', $attrs = NULL, $value = NULL)
     {
-        $attrs =  self::getAttr($attrs);
+        $attrs =  Tag::getAttrs($attrs);
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         list($id, $name, $value) = self::getFieldData($field, $value);
 
@@ -500,7 +500,7 @@ class Form
             Flash::error('Para poder subir ficheros, debe abrir el form con Form::openMultipart()');
         }
         
-        $attrs =  self::getAttr($attrs);
+        $attrs =  Tag::getAttrs($attrs);
  
         // Obtiene name y id, y los carga en el scope
         list($id, $name, ) = self::getFieldData($field, FALSE);
@@ -517,7 +517,7 @@ class Form
      */
     public static function textarea($field, $attrs = NULL, $value = NULL)
     {
-        $attrs =  self::getAttr($attrs);
+        $attrs =  Tag::getAttrs($attrs);
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         list($id, $name, $value) = self::getFieldData($field, $value);
 
@@ -548,7 +548,7 @@ class Form
      */
     public static function datepicker($field, $class = NULL, $attrs = NULL, $value = NULL)
     {
-        $attrs =  self::getAttr($attrs);
+        $attrs =  Tag::getAttrs($attrs);
 
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         list($id, $name, $value) = self::getFieldData($field, $value);
@@ -619,14 +619,5 @@ class Form
     public static function email($field, $attrs = NULL, $value = NULL)
     {
         return self::input('email',$field, $attrs, $value);
-    }
-
-    /**
-     * Retorna el string de atrributos HTML
-     * @param Array|String Atributos
-     * @return string
-     */
-    protected static function getAttr($attrs){
-        return  is_array($attrs) ? Tag::getAttrs($attrs) : $attrs;
     }
 }
