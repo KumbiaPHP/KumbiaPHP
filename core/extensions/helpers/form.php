@@ -123,7 +123,7 @@ class Form
      */
     public static function getFieldData($field, $value = null, $filter = true)
     {
-        return self::getField($field, $value, false, $filter);
+        return self::getField($field, $value, FALSE, $filter);
     }
     
 	/**
@@ -415,16 +415,6 @@ class Form
      */
     public static function dbSelect($field, $show = NULL, $data = NULL, $blank = 'Seleccione', $attrs = NULL, $value = NULL)
     {
-        $attrs =  self::getAttr($attrs);
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        list($id, $name, $value) = self::getFieldData($field, $value);
-
-        // Si no se envía un campo por defecto, no se crea el tag option
-        if ($blank != NULL) {
-            $options = '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
-        } else {
-            $options = '';
-        }
 
         //por defecto el modelo de modelo(_id)
         if ($data === NULL) {
@@ -450,6 +440,32 @@ class Form
                 $data = $model_asoc->$data[1]();
             }
         }
+        return self::selectObj($field, $data, $show, $pk, $blank, $attrs, $value);
+    }
+
+    /**
+     * Crea un campo select que toma los valores de un array de objetos
+     *
+     * @param string $field Nombre de campo
+     * @param string $show Campo que se mostrara (opcional)
+     * @param array $data Array('modelo','metodo','param') (opcional)
+     * @param string $blank Campo en blanco (opcional)
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string|array $value (opcional) Array en select multiple
+     * @return string
+     */
+    public static function selectObj($field, $data, $show, $pk='id', $blank = 'Seleccione', $attrs = NULL, $value = NULL)
+    {
+        $attrs =  self::getAttr($attrs);
+        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        list($id, $name, $value) = self::getFieldData($field, $value);
+
+        // Si no se envía un campo por defecto, no se crea el tag option
+        if ($blank != NULL) {
+            $options = '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
+        } else {
+            $options = '';
+        }
 
         foreach ($data as $p) {
             $options .= "<option value=\"{$p->$pk}\"";
@@ -465,9 +481,10 @@ class Form
             }
             $options .= '>' . htmlspecialchars($p->$show, ENT_COMPAT, APP_CHARSET) . '</option>';
         }
-
         return "<select id=\"$id\" name=\"$name\" $attrs>$options</select>" . PHP_EOL;
     }
+
+
 
     /**
      * Crea un campo file
