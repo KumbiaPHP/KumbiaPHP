@@ -21,15 +21,15 @@
  */
 class Validations
 {
-	/**
-	 * Constantes para definir los patrones
-	 */
+    /**
+     * Constantes para definir los patrones
+     */
   
-	/*
-	 * El valor deber ser solo letras y números
-	 */
-	const IS_ALPHANUM = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu';
-	 
+    /*
+     * El valor deber ser solo letras y números
+     */
+    const IS_ALPHANUM = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu';
+     
     /**
      * Almacena la Expresion Regular
      *
@@ -206,6 +206,19 @@ class Validations
     public static function decimal($value, $param)
     {
         $decimal = isset($param['decimal'])? $param['decimal'] : ',';
-		return filter_var($value, FILTER_VALIDATE_FLOAT, array('options' => array('decimal' => $decimal)));
-	}
+        return filter_var($value, FILTER_VALIDATE_FLOAT, array('options' => array('decimal' => $decimal)));
+    }
+
+    /**
+     * Valida si los valores son iguales
+     * 
+     * @param string $value
+     * @param string $decimal
+     * @return boolean
+     */
+    public static function equal($value, $param)
+    {
+        $equal = isset($param['to'])? $param['to'] : '';
+        return ($equal == $value);
+    }
 }
