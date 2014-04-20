@@ -68,18 +68,18 @@ class Form
             // Verifica en $_POST
             if(isset($_POST[$formField[0]][$formField[1]])) {
                 $value = $is_check ?
-                    $_POST[$formField[0]][$formField[1]] == $checkValue:
+                    $_POST[$formField[0]][$formField[1]] == $value:
                     $_POST[$formField[0]][$formField[1]];
             } elseif($value === null) { 
                 // Autocarga de datos
                 $form = View::getVar($formField[0]);
                 if(is_array($form) && isset($form[$formField[1]])) {
                     $value = $is_check ? 
-                        $form[$formField[1]] == $checkValue:
+                        $form[$formField[1]] == $value:
                         $form[$formField[1]];
                 } elseif(is_object($form) && isset($form->$formField[1])) {
                     $value =  $is_check ?
-                        $form->$formField[1] == $checkValue :
+                        $form->$formField[1] == $value :
                         $form->{$formField[1]};
                 }
             }
@@ -90,12 +90,12 @@ class Form
             // Verifica en $_POST
             if(isset($_POST[$field])) {
                 $value = $is_check ?
-                    $_POST[$field] == $checkValue :
+                    $_POST[$field] == $value :
                     $_POST[$field];
             } elseif($value === null) { 
                 // Autocarga de datos
                 $value = $is_check ?
-                    View::getVar($field) == $checkValue :
+                    View::getVar($field) == $value :
                     View::getVar($field);
             }
         }
