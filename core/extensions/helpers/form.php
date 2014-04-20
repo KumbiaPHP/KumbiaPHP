@@ -251,14 +251,12 @@ class Form
     {
         self::$_multipart = TRUE;
         if (is_array($attrs)) {
+            $attrs['enctype'] = 'multipart/form-data';
             $attrs = Tag::getAttrs($attrs);
+        }else{
+            $attrs .= 'enctype="multipart/form-data"';
         }
-        if ($action) {
-            $action = PUBLIC_PATH . $action;
-        } else {
-            $action = PUBLIC_PATH . ltrim(Router::get('route'), '/');
-        }
-        return "<form action=\"$action\" method=\"post\" enctype=\"multipart/form-data\" $attrs>";
+        return self::open($action, $attrs);
     }
 
     /**
