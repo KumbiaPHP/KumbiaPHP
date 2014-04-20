@@ -142,52 +142,6 @@ class Form
         return self::getField($field, $checkValue, TRUE, FALSE);
     }
 
-    /**
-     * Obtiene el valor del campo por autocarga de valores
-     * 
-     * @param string $field nombre de campo
-     * @param boolean $filter filtrar caracteres especiales html
-     * @return mixed retorna NULL si no existe valor por autocarga
-     */
-    public static function getFieldValue($field, $filter = true)
-    {
-		// Obtiene considerando el patrón de formato form.field
-        $formField = explode('.', $field, 2);
-        
-        $value = null;
-        
-        // Formato modelo.campo
-        if(isset($formField[1])) {
-			// Verifica en $_POST
-			if(isset($_POST[$formField[0]][$formField[1]])) {
-				$value = $_POST[$formField[0]][$formField[1]];
-			} else { 
-				// Autocarga de datos
-				$form = View::getVar($formField[0]);
-				if(is_array($form) && isset($form[$formField[1]])) {
-					$value = $form[$formField[1]];
-				} elseif(is_object($form) && isset($form->$formField[1])) {
-					$value = $form->{$formField[1]};
-				}
-			}
-		} else {
-			// Verifica en $_POST
-			if(isset($_POST[$field])) {
-				$value = $_POST[$field];
-			} else { 
-				// Autocarga de datos
-				$value = View::getVar($field);
-			}
-		}
-
-        // Filtrar caracteres especiales
-        if ($value !== null && $filter) {
-            return htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
-        }
-        
-        // Devuelve valor
-        return $value;
-    }
 
     /**
      * Crea un campo input
