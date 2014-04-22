@@ -186,6 +186,17 @@ class KumbiaRest extends Controller {
     }
 
     /**
+     * Envia un error al cliente junto con el mensaje
+     * @param String $text texto del error
+     * @param int $error Número del error HTTP
+     * @return Array data de error
+     */
+    protected function error($text, $error = 400){
+        $this->setCode($error);
+        return array('error', $text);
+    }
+
+    /**
      * Retorna los formato aceptados por el cliente ordenados por prioridad
      * interpretando la cabecera HTTP_ACCEPT
      * @return array
