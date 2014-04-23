@@ -294,7 +294,12 @@ class KumbiaRest extends Controller {
      * @return string
      */
     protected static function getInputFormat(){
-       return isset($_SERVER["CONTENT_TYPE"]) ? $_SERVER["CONTENT_TYPE"] : '';
+        $str ='';
+        if(isset($_SERVER["CONTENT_TYPE"])){
+            $s = explode(';',$_SERVER["CONTENT_TYPE"]);
+            $str = trim($s[0]);
+        }
+        return $str;
     }
 
     /**
