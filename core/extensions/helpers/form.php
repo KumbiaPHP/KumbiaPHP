@@ -391,14 +391,26 @@ class Form
         return self::input('hidden', $field, $attrs, $value);
     }
 
+
     /**
      * Crea un campo password
-     *
+     * @deprecated Obsoleta desde la versión 1.0, usar password
      * @param string $field Nombre de campo
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value
      */
     public static function pass($field, $attrs = NULL, $value = NULL)
+    {
+       return self::password($field, $attrs, $value);
+    }
+
+    /**
+     * Crea un campo password
+     * @param string $field Nombre de campo
+     * @param string|array $attrs Atributos de campo (opcional)
+     * @param string $value
+     */
+    public static function password($field, $attrs = NULL, $value = NULL)
     {
        return self::input('password',$field, $attrs, $value);
     }
