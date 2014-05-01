@@ -284,31 +284,32 @@ class Form
      * @param array $data Array de valores para la lista desplegable
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string|array $value Array para select multiple (opcional)
+     * @param string $blank agrega un item vacio si es diferente de empty
+     * @param string $idItem En caso de usar array de objeto propiedad a tomar como id
+     * @param string $show texto a mostrar, si es empty usa el to string
      * @return string
      */
-    public static function select($field, $data, $attrs = NULL, $value = NULL)
+    public static function select($field, $data, $attrs = NULL, $value = NULL, $blank = '',$itemId = 'id', $show='')
     {
         $attrs =  Tag::getAttrs($attrs);
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         list($id, $name, $value) = self::getFieldData($field, $value);
-
-        $options = '';
+        //Si se quiere agregar blank
+        $options = empty($blank) ? '' :
+            '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
         foreach ($data as $k => $v) {
-            $k = htmlspecialchars($k, ENT_COMPAT, APP_CHARSET);
+            $k = is_object($v) ? 
+                $v->$itemId: htmlspecialchars($k, ENT_COMPAT, APP_CHARSET);
             $options .= "<option value=\"$k\"";
             // Si es array $value para select multiple se seleccionan todos
-            if (is_array($value)) {
-                if (in_array($k, $value)) {
+            if ((is_array($value) && in_array($k, $value))  ||
+                ($k == $value)){
                     $options .= ' selected="selected"';
-                }
-            } else {
-                if ($k == $value) {
-                    $options .= ' selected="selected"';
-                }
             }
-            $options .= '>' . htmlspecialchars($v, ENT_COMPAT, APP_CHARSET) . '</option>';
+            /*usa el toString*/
+            $text = is_object($v) &&  !empty($show) ? $v->$show :(string) $v;
+            $options .= '>' . htmlspecialchars($text, ENT_COMPAT, APP_CHARSET) . '</option>';
         }
-
         return "<select id=\"$id\" name=\"$name\" $attrs>$options</select>";
     }
 
@@ -440,51 +441,8 @@ class Form
                 $data = $model_asoc->$data[1]();
             }
         }
-        return self::selectObj($field, $data, $show, $pk, $blank, $attrs, $value);
+        return self::select($field, $data, $attrs, $value, $blank, $pk, $show);
     }
-
-    /**
-     * Crea un campo select que toma los valores de un array de objetos
-     *
-     * @param string $field Nombre de campo
-     * @param string $show Campo que se mostrara (opcional)
-     * @param array $data Array('modelo','metodo','param') (opcional)
-     * @param string $blank Campo en blanco (opcional)
-     * @param string|array $attrs Atributos de campo (opcional)
-     * @param string|array $value (opcional) Array en select multiple
-     * @return string
-     */
-    public static function selectObj($field, $data, $show, $pk='id', $blank = 'Seleccione', $attrs = NULL, $value = NULL)
-    {
-        $attrs =  Tag::getAttrs($attrs);
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        list($id, $name, $value) = self::getFieldData($field, $value);
-
-        // Si no se envía un campo por defecto, no se crea el tag option
-        if ($blank != NULL) {
-            $options = '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
-        } else {
-            $options = '';
-        }
-
-        foreach ($data as $p) {
-            $options .= "<option value=\"{$p->$pk}\"";
-            // Si es array $value para select multiple se seleccionan todos
-            if (is_array($value)) {
-                if (in_array($p->$pk, $value)) {
-                    $options .= ' selected="selected"';
-                }
-            } else {
-                if ($p->$pk == $value) {
-                    $options .= ' selected="selected"';
-                }
-            }
-            $options .= '>' . htmlspecialchars($p->$show, ENT_COMPAT, APP_CHARSET) . '</option>';
-        }
-        return "<select id=\"$id\" name=\"$name\" $attrs>$options</select>" . PHP_EOL;
-    }
-
-
 
     /**
      * Crea un campo file
