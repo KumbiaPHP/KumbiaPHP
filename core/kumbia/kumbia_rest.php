@@ -318,4 +318,22 @@ class KumbiaRest extends Controller {
         return 'json';
     }
 
+    /**
+     * Retorna todas las cabeceras enviadas por el cliente
+     * @return Array 
+     */
+    static function getHeaders() 
+    {   
+        /*Esta función solo existe en apache*/
+        if (function_exists('getallheaders'))
+            return getallheaders();
+        $headers = array(); 
+        foreach ($_SERVER as $name => $value){ 
+           if (substr($name, 0, 5) == 'HTTP_'){ 
+               $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value; 
+            } 
+        } 
+        return $headers;  
+    } 
+
 }
