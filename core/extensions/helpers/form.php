@@ -93,11 +93,6 @@ class Form
         return array($id, $name, $value);
     }
 
-    protected function getValue(){
-
-    }
-
-
     /**
      * Obtiene el valor de un componente tomado
      * del mismo valor del nombre del campo y formulario
