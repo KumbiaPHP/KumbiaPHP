@@ -457,30 +457,18 @@ class Form
      */
     public static function dbSelect($field, $show = NULL, $data = NULL, $blank = 'Seleccione', $attrs = NULL, $value = NULL)
     {
-
-        //por defecto el modelo de modelo(_id)
+        
+        $model = ($data === NULL) ? substr($field, strpos($field, '.')+1, -3):$data[0];
+        $model_asoc = Load::model($model);
+        //por defecto el primer campo no pk
+        $show = empty($show) ? $model_asoc->non_primary[0]:$show ;
+        $pk = $model_asoc->primary_key[0];
         if ($data === NULL) {
-            $model_asoc = explode('.', $field, 2);
-            $model_asoc = substr(end($model_asoc), 0, -3); //se elimina el _id
-            $model_asoc = Load::model($model_asoc);
-            $pk = $model_asoc->primary_key[0];
-
-            if (!$show) {
-                //por defecto el primer campo no pk
-                $show = $model_asoc->non_primary[0];
-            }
-
             $data = $model_asoc->find("columns: $pk,$show", "order: $show asc"); //mejor usar array
         } else {
-            $model_asoc = Load::model($data[0]);
-            $pk = $model_asoc->primary_key[0];
-
-            // Verifica si existe el parámetro
-            if (isset($data[2])) {
-                $data = $model_asoc->$data[1]($data[2]);
-            } else {
-                $data = $model_asoc->$data[1]();
-            }
+            $data = (isset($data[2])) ?
+                $model_asoc->$data[1]($data[2]):
+                $model_asoc->$data[1]();
         }
         return self::select($field, $data, $attrs, $value, $blank, $pk, $show);
     }
