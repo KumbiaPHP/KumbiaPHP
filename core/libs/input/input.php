@@ -53,7 +53,7 @@ class Input
 	 */
 	public static function post($var)
 	{
-		return filter_has_var(INPUT_POST, $var) ? $_POST[$var] : NULL;
+		return self::getFilter($_POST, $var);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class Input
 	 */
 	public static function hasPost($var) 
 	{
-		return filter_has_var(INPUT_POST, $var);
+		return self::post($var) !== NULL;
 	}
 
 	/**
@@ -168,5 +168,25 @@ class Input
 		//TODO
     }
 
+    /**
+     * Devuelve el valor dentro de un array con clave en formato uno.dos.tres
+     * @param Array array que contiene la variable
+     * @param string clave a usar
+     * @return mixed
+     */
+    protected static function getFilter(Array $var, $str){
+    	$arr = explode('.', $str);
+    	$key = array_shift($arr);
+    	$value = isset($var[$key]) ? $var[$key] : NULL;
+    	foreach ($arr as $key) {
+    		if(isset($value[$key])){
+    			$value = $value[$key];
+    		} else{
+    			$value = NULL;
+    			break;
+    		}
+    	}
+    	return is_array($value)?filter_var_array($value): filter_var($value);
+    }
     
 }
