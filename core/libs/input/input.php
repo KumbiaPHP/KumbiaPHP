@@ -169,7 +169,7 @@ class Input
      * @return mixed
      */
     protected static function getFilter(Array $var, $str){
-    	if(empty($str)){
+    	if(empty($str))
     		return filter_var_array($var);
     	$arr = explode('.', $str);
     	$key = array_shift($arr);
