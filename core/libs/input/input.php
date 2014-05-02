@@ -51,7 +51,7 @@ class Input
 	 * @param string $var
 	 * @return mixed
 	 */
-	public static function post($var)
+	public static function post($var = '')
 	{
 		return self::getFilter($_POST, $var);
 	}
@@ -63,15 +63,9 @@ class Input
 	 * @param string $var
 	 * @return mixed
 	 */
-	public static function get($var = NULL)
+	public static function get($var = '')
 	{
-		if($var){
-			$value = filter_has_var(INPUT_GET, $var) ? filter_input(INPUT_GET, $var, FILTER_SANITIZE_STRING) : NULL;
-		} else {
-			$value = filter_input_array (INPUT_GET, FILTER_SANITIZE_STRING);
-		}
-			
-		return $value;
+		return self::getFilter($_GET, $var);
 	}
 
 	/**
@@ -80,9 +74,9 @@ class Input
 	 * @param string $var
 	 * @return mixed
 	 */
-	public static function request($var)
+	public static function request($var = '')
 	{
-		return isset($_REQUEST[$var]) ? $_REQUEST[$var] : NULL;
+		return self::getFilter($_REQUEST, $var);
 	}
 
 	/**
@@ -93,7 +87,7 @@ class Input
 	 */
 	public static function hasPost($var) 
 	{
-		return self::post($var) !== NULL;
+		return (bool)self::post($var);
 	}
 
 	/**
@@ -104,7 +98,7 @@ class Input
 	 */
 	public static function hasGet($var)
 	{
-		return filter_has_var(INPUT_GET, $var);
+		return (bool)self::get($var);
 	}
 
 	/**
@@ -115,7 +109,7 @@ class Input
 	 */
 	public static function hasRequest($var) 
 	{
-		return isset($_REQUEST[$var]);
+		return (bool)self::request($var);
 	}
         
 	/**
@@ -175,6 +169,8 @@ class Input
      * @return mixed
      */
     protected static function getFilter(Array $var, $str){
+    	if(empty($str)){
+    		return filter_var_array($var);
     	$arr = explode('.', $str);
     	$key = array_shift($arr);
     	$value = isset($var[$key]) ? $var[$key] : NULL;
