@@ -172,8 +172,7 @@ class Input
     	if(empty($str))
     		return filter_var_array($var);
     	$arr = explode('.', $str);
-    	$key = array_shift($arr);
-    	$value = isset($var[$key]) ? $var[$key] : NULL;
+    	$value = $var;
     	foreach ($arr as $key) {
     		if(isset($value[$key])){
     			$value = $value[$key];
