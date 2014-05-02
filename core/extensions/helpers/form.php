@@ -221,7 +221,7 @@ class Form
      * Crea un botón
      *
      * @param string $text Texto del botón
-     * @param array $attrs Atributos de campo (opcional)
+     * @param array|string $attrs Atributos de campo (opcional)
      * @param string $type tipo de botón
      * @param string $value Valor para el boton
      * @todo FALTA AGREGAR NOMBRE YA QUE SIN ESTE EL VALUE NO LLEGA AL SERVER
