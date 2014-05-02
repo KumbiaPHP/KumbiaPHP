@@ -298,21 +298,50 @@ class Form
         $options = empty($blank) ? '' :
             '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
         foreach ($data as $k => $v) {
-            $k = is_object($v) ? 
-                $v->$itemId: htmlspecialchars($k, ENT_COMPAT, APP_CHARSET);
-            $options .= "<option value=\"$k\"";
-            // Si es array $value para select multiple se seleccionan todos
-            if ((is_array($value) && in_array($k, $value))  ||
-                ($k == $value)){
-                    $options .= ' selected="selected"';
-            }
-            /*usa el toString*/
-            $text = is_object($v) &&  !empty($show) ? $v->$show :(string) $v;
-            $options .= '>' . htmlspecialchars($text, ENT_COMPAT, APP_CHARSET) . '</option>';
+            $val      = self::selectValue($v, $k, $itemId);
+            $text     = self::selectShow($v, $show);
+            $selected = self::selectedValue($value , $val); 
+            $options .= "<option value=\"$val\" $selected>$text</option>";
         }
         return "<select id=\"$id\" name=\"$name\" $attrs>$options</select>";
     }
 
+    /**
+     * Retorna el value de un item de un select
+     * @param mixed $item item de un array
+     * @param string $key valor de item dentro del select
+     * @param string $id valor posible de la propiedad del objecto para el value
+     * @return string
+     */
+    protected static function selectValue($item, $key, $id){
+        return htmlspecialchars(is_object($item) ? 
+            $item->$id: $key, ENT_COMPAT, APP_CHARSET);
+    }
+
+    /**
+     * retorna el atributo para que quede seleccionado el item de un 
+     * select
+     * @param string|array $value valor(es) que deben estar seleccionados
+     * @param string $key valor del item actual
+     * @return string
+     */
+    protected static function selectedValue($value, $key){
+       return ((is_array($value) && in_array($key, $value)) || ($key == $value)) ?
+            'selected="selected"': '';
+    }
+
+    /**
+     * Retorna el valor a mostrar del item del select
+     * @param mixed $item item del array
+     * @param string $show propiedad el objeto
+     * @return string
+     */
+    protected static function selectShow($item, $show){
+        return htmlspecialchars(
+                is_object($item) &&  !empty($show) ? $item->$show :(string) $item
+                , ENT_COMPAT, APP_CHARSET);
+    }
+    
     /**
      * Crea un campo checkbox
      *
