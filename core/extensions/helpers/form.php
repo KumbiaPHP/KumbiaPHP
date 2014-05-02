@@ -58,55 +58,43 @@ class Form
     {
         // Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
-        
         // Formato modelo.campo
         if(isset($formField[1])) {
             // Id de campo
             $id = "{$formField[0]}_{$formField[1]}";
             // Nombre de campo
             $name = "{$formField[0]}[{$formField[1]}]";
-            // Verifica en $_POST
-            if(isset($_POST[$formField[0]][$formField[1]])) {
-                $value = $is_check ?
-                    $_POST[$formField[0]][$formField[1]] == $value:
-                    $_POST[$formField[0]][$formField[1]];
-            } elseif($value === null) { 
-                // Autocarga de datos
-                $form = View::getVar($formField[0]);
-                if(is_array($form) && isset($form[$formField[1]])) {
-                    $value = $is_check ? 
-                        $form[$formField[1]] == $value:
-                        $form[$formField[1]];
-                } elseif(is_object($form) && isset($form->$formField[1])) {
-                    $value =  $is_check ?
-                        $form->$formField[1] == $value :
-                        $form->{$formField[1]};
-                }
-            }
         } else {
             // Asignacion de Id y Nombre de campo
             $id = $name = $field;
-            
-            // Verifica en $_POST
-            if(isset($_POST[$field])) {
-                $value = $is_check ?
-                    $_POST[$field] == $value :
-                    $_POST[$field];
-            } elseif($value === null) { 
-                // Autocarga de datos
-                $value = $is_check ?
-                    View::getVar($field) == $value :
-                    View::getVar($field);
-            }
         }
 
+        // Verifica en $_POST
+        if(Input::hasPost($field)) {
+            $value = $is_check ?
+                Input::post($field) == $value: Input::post($field);
+        } elseif($value === null) {
+            // Autocarga de datos
+            $form = View::getVar($formField[0]);
+            if(is_array($form) && isset($form[$formField[1]])) {
+                $tmp_val = $form[$formField[1]];
+            } elseif(is_object($form) && isset($form->$formField[1])) {
+                $tmp_val = $form->{$formField[1]};
+            }else{
+                $tmp_val = $form;
+            }
+            $value = $is_check ? $tmp_val == $value : $tmp_val;
+        }
         // Filtrar caracteres especiales
         if (!$is_check && $value !== null && $filter) {
             $value = htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
         }
-
         // Devuelve los datos
         return array($id, $name, $value);
+    }
+
+    protected function getValue(){
+
     }
 
 
