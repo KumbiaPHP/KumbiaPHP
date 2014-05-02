@@ -52,9 +52,10 @@ class Form
      * @param string $field
      * @param mixed $value valor de campo
      * @param boolean $filter filtrar caracteres especiales html
+     * @param boolean $check si esta marcado el checkbox
      * @return Array devuelve un array de longitud 3 con la forma array(id, name, value)
      */
-    public static function getField($field, $value = null, $is_check, $filter = true)
+    public static function getField($field, $value = null, $is_check, $filter = true, $check = null)
     {
         // Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
@@ -73,7 +74,7 @@ class Form
         if(Input::hasPost($field)) {
             $value = $is_check ?
                 Input::post($field) == $value: Input::post($field);
-        } elseif($value === null) {
+        } elseif($value === null  || $check === null) {
             // Autocarga de datos
             $form = View::getVar($formField[0]);
             if(is_array($form) && isset($form[$formField[1]])) {
@@ -122,7 +123,7 @@ class Form
      */
     public static function getFieldDataCheck($field, $checkValue, $checked = null)
     {
-        return self::getField($field, $checkValue, TRUE, FALSE);
+        return self::getField($field, $checkValue, TRUE, FALSE, $checked);
     }
 
 
