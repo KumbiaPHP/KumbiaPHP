@@ -31,7 +31,7 @@ ob_start();
 // Versión de KumbiaPHP
 function kumbia_version()
 {
-    return 'RC 0.9';
+    return 'RC 1.0';
 }
 
 // @see KumbiaException
@@ -125,7 +125,7 @@ function auto($class)
     //Autoload PSR0
     $psr0 = dirname(CORE_PATH).'/vendor/'.str_replace (array ('_', '\\'), DIRECTORY_SEPARATOR, $class) . '.php';
     if(is_file($psr0)){
-    	return include $psr0;
+    	include $psr0;
     }
 }
 
@@ -139,12 +139,8 @@ require APP_PATH . 'libs/app_controller.php';
 require APP_PATH . 'libs/view.php';
 
 // Ejecuta el request
-try {
-    // Dispatch y renderiza la vista
-    View::render(Router::execute($url));
-} catch (KumbiaException $e) {
-    KumbiaException::handle_exception($e);
-}
+// Dispatch y renderiza la vista
+View::render(Router::execute($url));
 
 // Fin del request
 exit();
