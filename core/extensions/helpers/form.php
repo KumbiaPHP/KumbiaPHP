@@ -74,7 +74,7 @@ class Form
         if(Input::hasPost($field)) {
             $value = $is_check ?
                 Input::post($field) == $value: Input::post($field);
-        } elseif($value === null  || $check === null) {
+        } elseif($value === null  || ($check === null && $is_check)) {
             // Autocarga de datos
             $form = View::getVar($formField[0]);
             if(is_array($form) && isset($form[$formField[1]])) {
