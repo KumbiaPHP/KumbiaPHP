@@ -34,7 +34,7 @@ ob_start();
 // Versión de KumbiaPHP
 function kumbia_version()
 {
-    return '1.0 Beta 2';
+    return 'RC 0.9';
 }
 
 // @see KumbiaException
@@ -100,14 +100,15 @@ if (isset($config['application']['charset'])) {
 // Autocarga de clases
 function auto($class)
 {
-
-    // Optimizando carga
-    if ($class == 'ActiveRecord') {
-        return include APP_PATH . 'libs/active_record.php';
+	// Optimizando carga
+	$clases = array(
+		'ActiveRecord'    => APP_PATH . 'libs/active_record.php',
+		'Load'            => CORE_PATH . 'kumbia/load.php',
+		'KumbiaException' => CORE_PATH . 'kumbia/kumbia_exception.php',
+	);
+	if( array_key_exists ($class, $clases)){
+        return include $clases[$class];
     }
-    if ($class == 'Load') {
-        return include CORE_PATH . 'kumbia/load.php';
-    }   
     
     // Pasando a smallcase
     $sclass = Util::smallcase($class);
@@ -123,12 +124,12 @@ function auto($class)
     if (is_file(CORE_PATH . "libs/$sclass/$sclass.php")) {
         return include CORE_PATH . "libs/$sclass/$sclass.php";
     }
-        
-    if ($sclass == 'kumbia_exception') {
-        include CORE_PATH . 'kumbia/kumbia_exception.php';
-    }
+
     //Autoload PSR0
-    include dirname(CORE_PATH).'/vendor/'.str_replace (array ('_', '\\'), '/', $class) . '.php';
+    $psr0 = dirname(CORE_PATH).'/vendor/'.str_replace (array ('_', '\\'), DIRECTORY_SEPARATOR, $class) . '.php';
+    if(is_file($psr0)){
+    	return include $psr0;
+    }
 }
 
 // @see Router

@@ -66,21 +66,18 @@ class KumbiaRest extends Controller {
      */
     protected function initREST() {
         /* formato de entrada */
-        $this->_fInput = isset($_SERVER["CONTENT_TYPE"]) ? $_SERVER["CONTENT_TYPE"] : '';
-        /* busco un posible formato de salida */
-        $accept = self::accept();
-        $keys = array_keys($this->_outputType);
-        foreach ($accept as $key => $a) {
-            if (in_array($key, $keys)) {
-                $this->_fOutput = $this->_outputType[$key];
-                break;
-            }
-        }
-        /* por defecto uso json 
-         * ¿o debería mandar un 415?
-         */
-        $this->_fOutput = empty($this->_fOutput) ? 'json' : $this->_fOutput;
+        $this->_fInput = self::getInputFormat();
+        $this->_fOutput = self::getOutputFormat($this->_outputType);
         View::select(null, $this->_fOutput);
+        $this->rewriteActionName();
+
+
+    }
+
+    /**
+     * Reescribe la acción
+     */
+    protected function rewriteActionName(){
         /**
          * reescribimos la acción a ejecutar, ahora tendra será el metodo de
          * la peticion: get(:id), getAll , put, post, delete, etc.
@@ -190,7 +187,7 @@ class KumbiaRest extends Controller {
 
     /**
      * Retorna los formato aceptados por el cliente ordenados por prioridad
-     * interpretando la cabecera HTTP_ACCEPT y
+     * interpretando la cabecera HTTP_ACCEPT
      * @return array
      */
     static function accept() {
@@ -210,6 +207,8 @@ class KumbiaRest extends Controller {
         arsort($aTypes);
         return $aTypes;
     }
+
+
 
     /**
      * Parse JSON
@@ -277,6 +276,30 @@ class KumbiaRest extends Controller {
     protected static function parseForm($input) {
         parse_str($input, $vars);
         return $vars;
+    }
+
+    /**
+     * Retorna el tipo de formato de entrada
+     * @return string
+     */
+    protected static function getInputFormat(){
+       return isset($_SERVER["CONTENT_TYPE"]) ? $_SERVER["CONTENT_TYPE"] : '';
+    }
+
+    /**
+     * Devuelve le nombre del formato de salida
+     * @param array $validOutput Array de formatos de salida soportado
+     * @return string
+     */
+    protected function getOutputFormat(Array $validOutput){
+        /* busco un posible formato de salida */
+        $accept = self::accept();
+        foreach ($accept as $key => $a) {
+            if (array_key_exists($key, $validOutput)) {
+                return $validOutput[$key];
+            }
+        }
+        return 'json';
     }
 
 }
