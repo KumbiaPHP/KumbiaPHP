@@ -85,6 +85,8 @@ class Form
                 $tmp_val = $form;
             }
             $value = $is_check ? $tmp_val == $value : $tmp_val;
+        } else if($is_check) {            
+            $value = $check ? TRUE : FALSE;
         }
         // Filtrar caracteres especiales
         if (!$is_check && $value !== null && $filter) {
