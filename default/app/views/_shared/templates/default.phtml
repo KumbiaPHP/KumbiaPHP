@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
  <head>
-  <meta http-equiv='Content-type' content='text/html; charset=<?php echo APP_CHARSET ?>' />
+  <meta charset="<?php echo APP_CHARSET ?>">
   <title>KumbiaPHP web &amp; App Framework</title>
   <?php Tag::css('bienvenida') ?>
   <?php Tag::css('style') ?>
@@ -21,7 +21,7 @@
             <h2 id='info-app'>web &amp; app Framework versión <?php echo kumbia_version() ?></h2>
         </div>
 
-        <?php View::content(); ?>
+        <?php View::content() ?>
 
         <?php View::partial('kumbia/footer') ?>
     </div>
