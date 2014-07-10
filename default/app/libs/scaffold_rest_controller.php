@@ -21,7 +21,7 @@ class ScaffoldRestController extends RestController
  
     /**
      * Lista los registros
-     * metodo get libros/
+     * metodo get objeto/
      */
     public function getAll(){	
         $this->data = Load::model($this->model)->find();
@@ -29,7 +29,7 @@ class ScaffoldRestController extends RestController
  
     /**
      * Crea un nuevo registro
-     * metodo post libros/
+     * metodo post objeto/
      */
     public function post(){
 	$obj = Load::model($this->model);
@@ -43,7 +43,7 @@ class ScaffoldRestController extends RestController
  
     /**
      * Modifica un registro por $id
-     * metodo put libros/:id
+     * metodo put objeto/:id
      */
     public function put($id){
 	$obj = Load::model($this->model);
@@ -58,7 +58,7 @@ class ScaffoldRestController extends RestController
  
     /**
      * Elimina un registro por $id
-     * metodo delete libros/:id
+     * metodo delete objeto/:id
      */
     public function delete($id){
 	$obj = Load::model($this->model);
