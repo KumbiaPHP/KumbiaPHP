@@ -40,11 +40,11 @@ function handle_exception($e)
     KumbiaException::handle_exception($e);
 }
 
-// Registrar la autocarga
-spl_autoload_register('auto');
-
 // Inicializar el ExceptionHandler
 set_exception_handler('handle_exception');
+
+// @see Autoload
+require CORE_PATH . 'kumbia/autoload.php';
 
 // @see Util
 require CORE_PATH . 'kumbia/util.php';
@@ -94,40 +94,6 @@ if (isset($config['application']['charset'])) {
     define('APP_CHARSET', 'UTF-8');
 }
 
-// Autocarga de clases
-function auto($class)
-{
-	// Optimizando carga
-	$clases = array(
-		'ActiveRecord'    => APP_PATH . 'libs/active_record.php',
-		'Load'            => CORE_PATH . 'kumbia/load.php',
-		'KumbiaException' => CORE_PATH . 'kumbia/kumbia_exception.php',
-	);
-	if( array_key_exists ($class, $clases)){
-        return include $clases[$class];
-    }
-    
-    // Pasando a smallcase
-    $sclass = Util::smallcase($class);
-    if (is_file(APP_PATH . "extensions/helpers/$sclass.php")) {
-        return include APP_PATH . "extensions/helpers/$sclass.php";
-    }
-    if (is_file(CORE_PATH . "extensions/helpers/$sclass.php")) {
-        return include CORE_PATH . "extensions/helpers/$sclass.php";
-    }
-    if (is_file(APP_PATH . "libs/$sclass.php")) {
-        return include APP_PATH . "libs/$sclass.php";
-    }
-    if (is_file(CORE_PATH . "libs/$sclass/$sclass.php")) {
-        return include CORE_PATH . "libs/$sclass/$sclass.php";
-    }
-
-    //Autoload PSR0
-    $psr0 = dirname(CORE_PATH).'/vendor/'.str_replace (array ('_', '\\'), DIRECTORY_SEPARATOR, $class) . '.php';
-    if(is_file($psr0)){
-    	include $psr0;
-    }
-}
 
 // @see Router
 require CORE_PATH . 'kumbia/router.php';
