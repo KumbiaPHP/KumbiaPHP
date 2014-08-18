@@ -59,17 +59,7 @@ class Form
     {
         // Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
-        // Formato modelo.campo
-        if(isset($formField[1])) {
-            // Id de campo
-            $id = "{$formField[0]}_{$formField[1]}";
-            // Nombre de campo
-            $name = "{$formField[0]}[{$formField[1]}]";
-        } else {
-            // Asignacion de Id y Nombre de campo
-            $id = $name = $field;
-        }
-
+        list($id, $name) = self::fieldname($formField);
         // Verifica en $_POST
         if(Input::hasPost($field)) {
             $value = $is_check ?
@@ -94,6 +84,17 @@ class Form
         }
         // Devuelve los datos
         return array($id, $name, $value);
+    }
+
+    /**
+     * Devuelve el nombre y el id de un campo d
+     * @param  Array  $field array del explode
+     * @return Array     array(id, name)
+     */
+    protected function fieldName(Array $field){
+        return isset($field[1]) ?
+            array("{$field[0]}_{$field[1]}", "{$field[0]}[{$field[1]}]"):
+            array($field[0], $field[0]);
     }
 
     /**
