@@ -129,7 +129,15 @@ class Form
     }
 
 
-    /**
+    protected static function tag ($tag, $field, $attrs = NULL, $value=NULL, $extra=''){
+        $attrs =  Tag::getAttrs($attrs);
+         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        list($id, $name, $value) = self::getFieldData($field, $value);
+        $end = is_null($value) ? '/>':">$value</$tag>";
+        return "<$tag id=\"$id\" name=\"$name\" $extra $attrs $end";
+    }
+
+    /*
      * Crea un campo input
      *
      * @param string|array $attrs Atributos de campo (opcional)
@@ -140,10 +148,7 @@ class Form
      */
     public static function input($type, $field,$attrs = NULL, $value=NULL)
     {
-        $attrs =  Tag::getAttrs($attrs);
-         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        list($id, $name, $value) = self::getFieldData($field, $value);
-        return "<input id=\"$id\" name=\"$name\" type=\"$type\" value=\"$value\" $attrs/>";
+        return self::tag('input', $field, $attrs, NULL, "type=\"$type\" value=\"$value\"");
     }
 
     /**
@@ -488,13 +493,9 @@ class Form
      * @param string $value (opcional)
      * @return string
      */
-    public static function textarea($field, $attrs = NULL, $value = NULL)
+    public static function textarea($field, $attrs = NULL, $value = '')
     {
-        $attrs =  Tag::getAttrs($attrs);
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        list($id, $name, $value) = self::getFieldData($field, $value);
-
-        return "<textarea id=\"$id\" name=\"$name\" $attrs>$value</textarea>";
+        return self::tag('textarea', $field, $attrs, $value);
     }
 
     /**
@@ -521,11 +522,7 @@ class Form
      */
     public static function datepicker($field, $class = NULL, $attrs = NULL, $value = NULL)
     {
-        $attrs =  Tag::getAttrs($attrs);
-
-        // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        list($id, $name, $value) = self::getFieldData($field, $value);
-	   return "<input id=\"$id\" name=\"$name\" class=\"js-datepicker $class\" type=\"text\" value=\"$value\" $attrs/>";
+        return self::tag('input', $field, $attrs, NULL, "class=\"js-datepicker $class\" type=\"text\" value=\"$value\" ");
     }
 
     /**
