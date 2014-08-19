@@ -91,7 +91,7 @@ class Form
      * @param  Array  $field array del explode
      * @return Array     array(id, name)
      */
-    protected function fieldName(Array $field){
+    protected static function fieldName(Array $field){
         return isset($field[1]) ?
             array("{$field[0]}_{$field[1]}", "{$field[0]}[{$field[1]}]"):
             array($field[0], $field[0]);
