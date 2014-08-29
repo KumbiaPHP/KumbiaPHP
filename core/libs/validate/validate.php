@@ -123,7 +123,7 @@ class Validate
      * @param string Nombre del campo
      */
     protected function addError(Array $param, $field){
-         $this->messages[] = isset($param['error']) ?
+         $this->messages[$field][] = isset($param['error']) ?
                 $param['error']: "El campo '$field' no es válido";
     }
 
