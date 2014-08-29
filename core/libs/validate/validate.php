@@ -84,8 +84,8 @@ class Validate
     			/*Es una validación de modelo*/
     			if($ruleName[0] == '@'){
                     $this->modelRule($ruleName, $param, $field);
-    			}elseif(!Validations::$ruleName($value, $param)){
-    				$this->addError($param, $field);
+    			}elseif(!Validations::$ruleName($value, $param, $this->obj)){
+    				$this->addError($param, $field, $ruleName);
     			}
     		}
     	}
@@ -120,11 +120,12 @@ class Validate
     /**
      * Agrega un nuevo error
      * @param Array $param parametros
-     * @param string Nombre del campo
+     * @param string $field Nombre del campo
+     * @param string $rule Nombre de la regla
      */
-    protected function addError(Array $param, $field){
+    protected function addError(Array $param, $field, $rule){
          $this->messages[$field][] = isset($param['error']) ?
-                $param['error']: "El campo '$field' no es válido";
+                $param['error']: Validations::getMessage($rule);
     }
 
     /**
