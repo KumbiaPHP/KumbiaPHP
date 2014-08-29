@@ -28,12 +28,12 @@ class Validations
     /*
      * El valor deber ser solo letras y números
      */
-    const IS_ALPHANUM = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu';
+    const IS_ALPHANUM = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]*$/mu';
 
     /**
      * Solo letras
      */
-    const IS_ALPHA    = '/^\P{L}+/';
+    const IS_ALPHA    = '/^(?:[^\W\d_]|([ ]))*$/u';
      
     /**
      * Almacena la Expresion Regular
@@ -173,20 +173,20 @@ class Validations
      */
     public static function alphanum($string)
     {
-        return self::pattern($string, self::IS_ALPHANUM);
+        return self::pattern($string, array('regexp' => self::IS_ALPHANUM));
     }
 
 
 
     /**
-     * Valida que un String sea alpha (incluye caracteres acentuados)
+     * Valida que un String sea alpha (incluye caracteres acentuados y espacio)
      * 
      * @param string $string
      * @return bool
      */
     public static function alpha($string)
     {
-        return self::pattern($string, self::IS_ALPHA);
+        return self::pattern($string, array('regexp' => self::IS_ALPHA));
     }
     
     
@@ -211,7 +211,7 @@ class Validations
      */
     public static function pattern($check, $param)
     {
-        $regex = isset($param['regex'])? $param['regex'] : '/.*/';
+        $regex = isset($param['regexp'])? $param['regexp'] : '/.*/';
         return filter_var($check, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => $regex)));
     }
     
