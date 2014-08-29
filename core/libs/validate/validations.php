@@ -114,10 +114,10 @@ class Validations
      * @param array $param
      * @return bool
      */
-    public static function selet($value, $param)
+    public static function select($value, $param)
     {
         $list = isset($param['list']) && is_array($param['list']) ? $param['list'] : array();
-        return in_array($value, $list);
+        return in_array($value, array_keys($list));
     }
     
     /**
