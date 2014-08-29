@@ -193,11 +193,12 @@ class Validations
     /**
      * Valida una fecha
      * @param string $value fecha a validar acorde al formato indicado
-     * @param string $format como en DateTime  
+     * @param array $param como en DateTime  
      * @return boolean
      */
-    public static function date($value, $format = 'd-m-y')
+    public static function date($value, $param)
     {
+        $format = isset($param['format'])? $param['format'] : 'Y-m-d';
         $date = DateTime::createFromFormat($format, $value);
         return $date && $date->format($format) == $value;
     }
@@ -212,7 +213,7 @@ class Validations
     public static function pattern($check, $param)
     {
         $regex = isset($param['regexp'])? $param['regexp'] : '/.*/';
-        return filter_var($check, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => $regex)));
+        return FALSE !== filter_var($check, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => $regex)));
     }
     
     /**
@@ -254,7 +255,8 @@ class Validations
             'alpha'    => 'Solo caracteres alfabeticos',
             'length'   => 'Longitud incorrecta',
             'email'    => 'Email no válido',
-            'pattern'  => 'El valor no posee el formato correcto'
+            'pattern'  => 'El valor no posee el formato correcto',
+            'date'     => 'Fecha no valida'
         );
         return $arr[$key];
     }
