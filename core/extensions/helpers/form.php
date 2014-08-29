@@ -130,12 +130,12 @@ class Form
     }
 
 
-    protected static function tag ($tag, $field, $attrs = NULL, $value=NULL, $extra=''){
+    protected static function tag ($tag, $field, $attrs = NULL, $value=NULL, $extra='', $close = TRUE){
         $attrs =  Tag::getAttrs($attrs);
-        $end = is_null($value) ? '/>':">$value</$tag>";
+        $end = $close ? ">{{value}}</$tag>" : '/>';
          // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         list($id, $name, $value) = self::getFieldData($field, $value);
-        return "<$tag id=\"$id\" name=\"$name\" $extra $attrs $end";
+        return str_replace('{{value}}', $value, "<$tag id=\"$id\" name=\"$name\" $extra $attrs $end");
     }
 
     /*
@@ -149,7 +149,7 @@ class Form
      */
     public static function input($type, $field,$attrs = NULL, $value=NULL)
     {
-        return self::tag('input', $field, $attrs, NULL, "type=\"$type\" value=\"$value\"");
+        return self::tag('input', $field, $attrs, NULL, "type=\"$type\" value=\"{{value}}\"", FALSE);
     }
 
     /**
