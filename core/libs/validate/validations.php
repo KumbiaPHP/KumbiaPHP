@@ -161,7 +161,7 @@ class Validations
      */
     public static function required($check)
     {
-        return !empty($check) && $check!='0';
+        return strlen(trim($check));
     }
     
     /**
