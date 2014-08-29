@@ -132,9 +132,9 @@ class Form
 
     protected static function tag ($tag, $field, $attrs = NULL, $value=NULL, $extra=''){
         $attrs =  Tag::getAttrs($attrs);
+        $end = is_null($value) ? '/>':">$value</$tag>";
          // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         list($id, $name, $value) = self::getFieldData($field, $value);
-        $end = is_null($value) ? '/>':">$value</$tag>";
         return "<$tag id=\"$id\" name=\"$name\" $extra $attrs $end";
     }
 
