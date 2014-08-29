@@ -253,7 +253,8 @@ class Validations
             'alphanum' => 'Debe ser un valor alfanumérico',
             'alpha'    => 'Solo caracteres alfabeticos',
             'length'   => 'Longitud incorrecta',
-            'email'    => 'Email no válido'
+            'email'    => 'Email no válido',
+            'pattern'  => 'El valor no posee el formato correcto'
         );
         return $arr[$key];
     }
