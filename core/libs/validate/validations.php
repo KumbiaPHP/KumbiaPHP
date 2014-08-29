@@ -214,11 +214,27 @@ class Validations
      * 
      * @param string $value
      * @param string $decimal
+     * @param object $obj
      * @return boolean
      */
-    public static function equal($value, $param)
+    public static function equal($value, $param, $obj)
     {
         $equal = isset($param['to'])? $param['to'] : '';
-        return ($equal == $value);
+        return ($obj->$equal == $value);
+    }
+
+    /**
+     * Devuelve el mensaje por defecto de una validación
+     * @param string $key 
+     * @return string
+     */
+    public static function getMessage($key){
+        $arr  = array(
+            'required' => 'Este campo es requerido',
+            'alphanum' => 'Debe ser un valor alfanumérico',
+            'length'   => 'Longitud incorrecta',
+            'email'    => 'Email no válido'
+        );
+        return $arr[$key];
     }
 }
