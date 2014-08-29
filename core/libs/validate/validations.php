@@ -29,6 +29,11 @@ class Validations
      * El valor deber ser solo letras y números
      */
     const IS_ALPHANUM = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu';
+
+    /**
+     * Solo letras
+     */
+    const IS_ALPHA    = '/^\P{L}+/';
      
     /**
      * Almacena la Expresion Regular
@@ -170,6 +175,20 @@ class Validations
     {
         return self::pattern($string, self::IS_ALPHANUM);
     }
+
+
+
+    /**
+     * Valida que un String sea alpha (incluye caracteres acentuados)
+     * 
+     * @param string $string
+     * @return bool
+     */
+    public static function alpha($string)
+    {
+        return self::pattern($string, self::IS_ALPHA);
+    }
+    
     
     /**
      * Valida una fecha
@@ -232,6 +251,7 @@ class Validations
         $arr  = array(
             'required' => 'Este campo es requerido',
             'alphanum' => 'Debe ser un valor alfanumérico',
+            'alpha'    => 'Solo caracteres alfabeticos',
             'length'   => 'Longitud incorrecta',
             'email'    => 'Email no válido'
         );
