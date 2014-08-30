@@ -67,12 +67,11 @@ class Form
         } elseif($value === null  || ($check === null && $is_check)) {
             // Autocarga de datos
             $form = View::getVar($formField[0]);
-            if(is_array($form) && isset($form[$formField[1]])) {
-                $tmp_val = $form[$formField[1]];
-            } elseif(is_object($form) && isset($form->$formField[1])) {
-                $tmp_val = $form->{$formField[1]};
-            }else{
+            if(is_scalar($form)){
                 $tmp_val = $form;
+            }else{
+                $form = (object)$form; 
+                $tmp_val = isset($form->$formField[1])?$form->$formField[1]:NULL;
             }
             $value = $is_check ? $tmp_val == $value : $tmp_val;
         } else if($is_check) {            
