@@ -112,7 +112,7 @@ class Validate
             return false;
         }
         if(!$obj->$ruleName($field, $param)){ 
-           $this->addError($param, $field);
+           $this->addError($param, $field, $this->obj);
         }
         return true;
     }
