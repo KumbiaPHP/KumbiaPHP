@@ -6,7 +6,7 @@
  * @category Kumbia
  * @package Controller
  */
-class ScaffoldController extends AdminController
+class ScaffoldController extends AppController
 {
 
     public $scaffold = 'kumbia';
@@ -14,7 +14,7 @@ class ScaffoldController extends AdminController
 
     public function index($page=1)
     {
-        $this->results = Load::model($this->model)->paginate("page: $page", 'order: id desc');
+        $this->results = Load::model($this->model)->paginate("page: $page","per_page: 10, 'order: id desc');
     }
 
     /**
