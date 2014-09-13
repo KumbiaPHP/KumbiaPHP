@@ -67,7 +67,7 @@ class Form
         } elseif($value === null  || ($check === null && $is_check)) {
             // Autocarga de datos
             $form = View::getVar($formField[0]);
-            if(is_scalar($form)){
+            if(is_scalar($form) || is_null($form)){
                 $tmp_val = $form;
             }else{
                 $form = (object)$form; 
@@ -304,7 +304,7 @@ class Form
      * @param string $id valor posible de la propiedad del objecto para el value
      * @return string
      */
-    protected static function selectValue($item, $key, $id){
+    public static function selectValue($item, $key, $id){
         return htmlspecialchars(is_object($item) ? 
             $item->$id: $key, ENT_COMPAT, APP_CHARSET);
     }
@@ -316,7 +316,7 @@ class Form
      * @param string $key valor del item actual
      * @return string
      */
-    protected static function selectedValue($value, $key){
+    public static function selectedValue($value, $key){
        return ((is_array($value) && in_array($key, $value)) || ($key == $value)) ?
             'selected="selected"': '';
     }
@@ -327,10 +327,9 @@ class Form
      * @param string $show propiedad el objeto
      * @return string
      */
-    protected static function selectShow($item, $show){
-        return htmlspecialchars(
-                is_object($item) &&  !empty($show) ? $item->$show :(string) $item
-                , ENT_COMPAT, APP_CHARSET);
+    public static function selectShow($item, $show){
+        $value = (is_object($item) &&  !empty($show)) ? $item->$show :(string) $item;
+        return htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
     }
     
     /**
