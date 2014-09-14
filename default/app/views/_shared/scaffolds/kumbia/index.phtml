@@ -1,9 +1,11 @@
-<?php Tag::css('scaffold')?>
 <div id="scaffold">
 <?php View::content()?>
 <h1><?php echo ucwords("$model"),": <span>$action_name</span>" ?></h1>
+<div class="actions">
+    <?php echo Html::linkAction("crear/",'Crear registro', 'class="btn btn-primary"')?>
+</div>
 <?php if ($results->items) : ?>
-<table>
+<table class="t">
     <thead><tr>
     <?php foreach (current($results->items)->fields as $field) : ?>
         <th><?php echo (current($results->items)->get_alias($field))?></th>
@@ -31,7 +33,5 @@
 <?php endif ?>
 
 </div>
-<div class="actions">
-	<?php echo Html::linkAction("crear/",'Crear registro')?>
-</div>
+
 <?php //var_dump($results)?>

@@ -1,4 +1,3 @@
-<?php Tag::css('scaffold') ?>
 <div id="scaffold">
 <?php View::content()?>
 <?php if($result) : ?>
@@ -10,10 +9,10 @@
 	</ul>
 
 	<div class="actions">
-		<a href="../">Listado</a>
-		<a href="../crear/">Crear registro</a>
-		<a href="../editar/<?php echo $result->id?>">Editar</a>
-		<a class="del" title="¿Seguro que quiere borrar?" href="../borrar/<?php echo $result->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
+		<a href="../" class="btn btn-default">Listado</a>
+		<a href="../crear/" class="btn btn-primary">Crear registro</a>
+		<a href="../editar/<?php echo $result->id?>" class="btn btn-warning">Editar</a>
+		<a class="del btn btn-danger" title="¿Seguro que quiere borrar?" href="../borrar/<?php echo $result->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
 	</div>
 <?php else : ?>
 	<?php header("HTTP/1.0 404 Not Found")?>

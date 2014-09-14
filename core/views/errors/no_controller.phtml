@@ -5,11 +5,9 @@
 <div class="valid flash round">
 <h1>Solución</h1>
     <h3><strong>Crea la clase <em><?php echo $Controller;?>Controller</em> de abajo en el fichero : <em><?php echo APP_PATH,'controllers/',$controller,'_controller.php'?></em></strong></h3>
-        
-<pre>
-&lt;?php
-class <?php echo $Controller,'Controller';?> extends AppController {
+<pre><?php highlight_string("<?php
+class {$Controller}Controller extends AppController {
 
-}
+}");?>
 </pre>
 </div>

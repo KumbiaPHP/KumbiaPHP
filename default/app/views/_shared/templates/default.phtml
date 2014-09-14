@@ -2,28 +2,21 @@
 <html lang="es">
  <head>
   <meta http-equiv='Content-type' content='text/html; charset=<?php echo APP_CHARSET ?>' />
-  <title>KumbiaPHP web &amp; App Framework</title>
-  <?php Tag::css('bienvenida') ?>
-  <?php Tag::css('style') ?>
+  <title>KumbiaPHP Framework</title>
+  <?php Tag::css('kumbia') ?>
   <?php echo Html::includeCss() ?>
 </head>
 <body>
-    <div id='content'>
-        <div id='head'>
-            <div class='alignright'>
-                <p id='config'>
-                    <span class='app'><?php echo basename(dirname(APP_PATH)) ?></span>
-                    <?php echo Html::link('pages/show/kumbia/status/', 'Config', 'title="Ver configuración de la aplicación"') ?>
-                </p>
-             </div>
-             
-            <h1 id='logo'>KumbiaPHP</h1>
-            <h2 id='info-app'>web &amp; app Framework versión <?php echo kumbia_version() ?></h2>
-        </div>
-
-        <?php View::content(); ?>
-
-        <?php View::partial('kumbia/footer') ?>
+<header class="row">
+    <div class="col-8">
+    <h2><?php echo Html::img('logo.png','KumbiaPHP logo') ?>
+    <?php echo kumbia_version() ?></h2>
     </div>
+    <div class="col-4">
+        Entorno:  <strong><?php echo basename(dirname(APP_PATH)) ?></strong>
+    </div>
+</header>
+<div class="container"><?php View::content(); ?></div>
+<?php View::partial('kumbia/footer') ?>
 </body>
 </html>
