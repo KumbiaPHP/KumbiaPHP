@@ -65,6 +65,7 @@ class Form
             $value = $is_check ?
                 Input::post($field) == $value: Input::post($field);
         } elseif($value === null  || ($check === null && $is_check)) {
+
             // Autocarga de datos
             $form = View::getVar($formField[0]);
             if(is_scalar($form) || is_null($form)){
@@ -492,7 +493,7 @@ class Form
      * @param string $value (opcional)
      * @return string
      */
-    public static function textarea($field, $attrs = NULL, $value = '')
+    public static function textarea($field, $attrs = NULL, $value = NULL)
     {
         return self::tag('textarea', $field, $attrs, $value);
     }
