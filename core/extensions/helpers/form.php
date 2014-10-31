@@ -147,9 +147,9 @@ class Form
      * @param string $value
      * @return string
      */
-    public static function input($type, $field,$attrs = NULL, $value=NULL)
+    public static function input($type, $field, $attrs = NULL, $value=NULL)
     {
-        return self::tag('input', $field, $attrs, NULL, "type=\"$type\" value=\"{{value}}\"", FALSE);
+        return self::tag('input', $field, $attrs, $value, "type=\"$type\" value=\"{{value}}\"", FALSE);
     }
 
     /**
