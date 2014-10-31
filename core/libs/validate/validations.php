@@ -33,7 +33,7 @@ class Validations
     /**
      * Solo letras
      */
-    const IS_ALPHA    = '/^(?:[^\W\d_]|([ ]))*$/u';
+    const IS_ALPHA    = '/^(?:[^\W\d_]|([ ]))*$/mu';
      
     /**
      * Almacena la Expresion Regular
@@ -213,7 +213,7 @@ class Validations
     public static function pattern($check, $param)
     {
         $regex = isset($param['regexp'])? $param['regexp'] : '/.*/';
-        return FALSE !== filter_var($check, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => $regex)));
+        return empty($check) || FALSE !== filter_var($check, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => $regex)));
     }
     
     /**
