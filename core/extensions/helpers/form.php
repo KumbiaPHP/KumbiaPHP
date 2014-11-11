@@ -187,7 +187,7 @@ class Form
         }else{
             $attrs .= ' enctype="multipart/form-data"';
         }
-        return self::open($action, $attrs);
+        return self::open($action,'post', $attrs);
     }
 
     /**
@@ -425,7 +425,7 @@ class Form
     }
 
     /**
-     * Crea un campo password
+     * Crea un campo passwordop
      * @param string $field Nombre de campo
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value
