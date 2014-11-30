@@ -46,9 +46,6 @@ set_exception_handler('handle_exception');
 // @see Autoload
 require CORE_PATH . 'kumbia/autoload.php';
 
-// @see Util
-require CORE_PATH . 'kumbia/util.php';
-
 // @see Config
 require CORE_PATH . 'kumbia/config.php';
 

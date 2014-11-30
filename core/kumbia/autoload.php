@@ -18,6 +18,9 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
+// @see Util
+require CORE_PATH . 'kumbia/util.php';
+
 // Autocarga de clases
 function kumbiaphp_autoload($class)
 {
