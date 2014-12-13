@@ -226,7 +226,7 @@ class Router {
 		//Si esta routed internamente volver a ejecutar
 		if (self::$_routed) {
 			self::$_routed = FALSE;
-			return self::dispatch(); // Vuelve a ejecutar el dispatcher
+			return self::dispatch(self::getController()); // Vuelve a ejecutar el dispatcher
 		}
 
 		return $cont;
