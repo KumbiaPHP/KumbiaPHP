@@ -23,7 +23,7 @@ define('START_TIME', microtime(TRUE));
 
 /**
  * Esta sección prepara el entorno
- * Todo esto se puede hacer desde la configuracion del 
+ * Todo esto se puede hacer desde la configuracion del
  * Servidor/PHP, en caso de no poder usarlo desde ahí
  * Puedes descomentar  estas lineas
  */
@@ -37,7 +37,7 @@ define('START_TIME', microtime(TRUE));
 /**
  * @TODO
  * REVISAR ESTA SECCIÓN
- * 
+ *
  */
 define('APP_CHARSET', 'UTF-8');
 /**
@@ -49,10 +49,7 @@ define('APP_CHARSET', 'UTF-8');
 /**
  * Establece polí­tica de informe de errores
  */
-//error_reporting(0); // Usar este en producción, no envia errores
-error_reporting(E_ALL ^ E_STRICT); // Comentar en producción
-//comentar la siguiente linea en producción
-ini_set('display_errors', 'On'); 
+//error_reporting(E_ALL ^ E_STRICT);ini_set('display_errors', 'On');
 
 /**
  * Define el APP_PATH
@@ -78,11 +75,11 @@ define('CORE_PATH', dirname(dirname(APP_PATH)) . '/core/');
  * - Path para genera la Url en los links a acciones y controladores
  * - Esta ruta la utiliza Kumbia como base para generar las Urls para acceder de lado de
  *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
- * 
+ *
  *  EN PRODUCCION ESTA CONSTANTE DEBERÍA SER ESTABLECIDA MANUALMENTE
  */
-$number  =  isset($_SERVER['PATH_INFO'])  ?  strlen(urldecode($_SERVER['PATH_INFO'])) - 1: 0;
-$number += empty($_SERVER['QUERY_STRING'])? 0:strlen(urldecode($_SERVER['QUERY_STRING']))+1;
+$number = isset($_SERVER['PATH_INFO']) ? strlen(urldecode($_SERVER['PATH_INFO'])) - 1 : 0;
+$number += empty($_SERVER['QUERY_STRING']) ? 0 : strlen(urldecode($_SERVER['QUERY_STRING'])) + 1;
 define('PUBLIC_PATH', substr(urldecode($_SERVER['REQUEST_URI']), 0, -$number));
 
 /**
@@ -97,4 +94,4 @@ $url = empty($_SERVER['PATH_INFO']) ? '/' : $_SERVER['PATH_INFO'];
  * @see Bootstrap
  */
 //require APP_PATH . 'libs/bootstrap.php'; //bootstrap de app
-require CORE_PATH . 'kumbia/bootstrap.php'; //bootstrap del core 
+require CORE_PATH . 'kumbia/bootstrap.php'; //bootstrap del core
