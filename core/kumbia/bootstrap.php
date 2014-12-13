@@ -29,15 +29,13 @@
 ob_start();
 
 // Versión de KumbiaPHP
-function kumbia_version()
-{
-    return 'RC 1.0';
+function kumbia_version() {
+	return 'RC 1.0';
 }
 
 // @see KumbiaException
-function handle_exception($e)
-{
-    KumbiaException::handle_exception($e);
+function handle_exception($e) {
+	KumbiaException::handle_exception($e);
 }
 
 // Inicializar el ExceptionHandler
@@ -52,28 +50,24 @@ require CORE_PATH . 'kumbia/config.php';
 // Lee la configuracion
 $config = Config::read('config');
 
-// Constante que indica si la aplicacion se encuentra en produccion
-if (!defined('PRODUCTION')) {
-    define('PRODUCTION', $config['application']['production']);
-}
-
 // Carga la cache y verifica si esta cacheado el template, al estar en produccion
 if (PRODUCTION) {
-    // @see Cache
-    require CORE_PATH . 'libs/cache/cache.php';
+	// @see Cache
+	require CORE_PATH . 'libs/cache/cache.php';
 
-    //Asigna el driver por defecto usando el config.ini
-    if (isset($config['application']['cache_driver']))
-        Cache::setDefault($config['application']['cache_driver']);
+	//Asigna el driver por defecto usando el config.ini
+	if (isset($config['application']['cache_driver'])) {
+		Cache::setDefault($config['application']['cache_driver']);
+	}
 
-    // Verifica si esta cacheado el template
-    if ($template = Cache::driver()->get($url, 'kumbia.templates')) { //verifica cache de template para la url
-        echo $template;
-        echo '<!-- Tiempo: ' . round(microtime(TRUE) - START_TIME, 4) . ' seg. -->';
-        exit(0);
-    }
+	// Verifica si esta cacheado el template
+	if ($template = Cache::driver()->get($url, 'kumbia.templates')) {
+		//verifica cache de template para la url
+		echo $template;
+		echo '<!-- Tiempo: ' . round(microtime(TRUE) - START_TIME, 5) . ' seg. -->';
+		exit(0);
+	}
 }
-
 
 // @see Router
 require CORE_PATH . 'kumbia/router.php';

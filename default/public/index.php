@@ -29,10 +29,10 @@ define('START_TIME', microtime(TRUE));
  */
 
 //*Locale*
-//setlocale(LC_ALL, $config['application']['locale']);
+//setlocale(LC_ALL, 'es_ES');
 
 //*Timezone*
-//ini_set('date.timezone', $config['application']['timezone']);
+//ini_set('date.timezone', 'America/New_York');
 
 /**
  * @TODO
@@ -44,7 +44,7 @@ define('APP_CHARSET', 'UTF-8');
  * Indicar si la aplicacion se encuentra en produccion
  * directamente desde el index.php
  */
-//define('PRODUCTION', TRUE);
+define('PRODUCTION', FALSE);
 
 /**
  * Establece polí­tica de informe de errores
