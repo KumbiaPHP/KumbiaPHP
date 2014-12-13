@@ -80,7 +80,7 @@ class Router {
 		// Descompone la url
 		self::rewrite($url);
 		// Despacha la ruta actual
-		return self::dispatch();
+		return self::dispatch(self::getController());
 	}
 
 	/**
@@ -164,24 +164,25 @@ class Router {
 	}
 
 	/**
+	 * Carga y devuelve una instancia del controllador
+	 */
+	static function getController() {
+		// Extrae las variables para manipularlas facilmente
+		extract(self::$_vars, EXTR_OVERWRITE);
+		if (!include_once "$default_path{$dir}/$controller_path{$suffix}") {
+			throw new KumbiaException(null, 'no_controller');
+		}
+		//Asigna el controlador activo
+		$app_controller = Util::camelcase($controller) . 'Controller';
+		return new $app_controller(self::$_vars);
+	}
+
+	/**
 	 * Realiza el dispatch de la ruta actual
 	 *
 	 * @return Controller
 	 */
-	static function dispatch() {
-		// Extrae las variables para manipularlas facilmente
-		extract(self::$_vars, EXTR_OVERWRITE);
-
-		if (!include_once "$default_path{$dir}/$controller_path{$suffix}") {
-			throw new KumbiaException(null, 'no_controller');
-		}
-
-		View::select($action); //TODO: mover al constructor del controller base las 2 lineas
-		View::setPath($controller_path);
-		//Asigna el controlador activo
-		$app_controller = Util::camelcase($controller) . 'Controller';
-		$cont = new $app_controller($module, $controller, $action, $parameters);
-
+	static function dispatch($cont) {
 		// Se ejecutan los filtros initialize y before
 		if ($cont->k_callback(true) === false) {
 			return $cont;

@@ -72,17 +72,19 @@ class Controller {
 	/**
 	 * Constructor
 	 *
-	 * @param string $module modulo al que pertenece el controlador
+	 * @param string $module
 	 * @param string $controller nombre del controlador
 	 * @param string $action nombre de la accion
 	 * @param array $parameters parametros enviados por url
 	 */
-	public function __construct($module, $controller, $action, $parameters) {
-		//TODO: enviar un objeto
-		$this->module_name = $module;
-		$this->controller_name = $controller;
-		$this->parameters = $parameters;
-		$this->action_name = $action;
+	public function __construct($args) {
+		/*modulo al que pertenece el controlador*/
+		$this->module_name = $args['module'];
+		$this->controller_name = $args['controller'];
+		$this->parameters = $args['parameters'];
+		$this->action_name = $args['action'];
+		View::select($args['action']);
+		View::setPath($args['controller_path']);
 	}
 
 	/**
