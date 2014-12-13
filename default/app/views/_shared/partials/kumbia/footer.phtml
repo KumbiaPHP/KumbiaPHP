@@ -16,5 +16,5 @@
         <a href='http://wiki.kumbiaphp.com/Team_Development_KumbiaPHP_Framework'>© 2007 - <?php echo date('Y');?> KumbiaPHP Team</a>
         
     </div>
-    <div class="col-12 text-center"> <?php echo 'Ejecutado en '.round((microtime(1)-START_TIME),4).' seg. usando '.number_format(memory_get_usage() / 1048576, 2).' MB de memoria';?></div>
+    <div class="col-12 text-center"> <?php echo 'Ejecutado en '.round((microtime(1)-START_TIME)*1000,4).' ms. usando '.number_format(memory_get_usage() / 1048576, 2).' MB de memoria';?></div>
 </footer>
