@@ -56,23 +56,29 @@ class Router {
 	protected static $_routed = FALSE;
 
 	/**
+	 * Procesamiento basico del router
+	 * @param string $url
+	 * @return void
+	 */
+	public static function init($url) {
+		// Se miran los parámetros por seguridad
+		if (stripos($url, '/../') !== false) {
+			throw new KumbiaException("Posible intento de hack en URL: '$url'");
+		}
+		// Si hay intento de hack TODO: añadir la ip y referer en el log
+		self::$_vars['route'] = $url;
+		//Método usado
+		self::$_vars['method'] = $_SERVER['REQUEST_METHOD'];
+	}
+
+	/**
 	 * Ejecuta una url
 	 *
 	 * @param string $url
 	 * @return Controller
 	 */
 	public static function execute($url) {
-
-		// Se miran los parámetros por seguridad
-		if (stripos($url, '/../') !== false) {
-			throw new KumbiaException("Posible intento de hack en URL: '$url'");
-		}
-
-		// Si hay intento de hack TODO: añadir la ip y referer en el log
-
-		self::$_vars['route'] = $url;
-		//Método usado
-		self::$_vars['method'] = $_SERVER['REQUEST_METHOD'];
+		self::init($url);
 		//Si config.ini tiene routes activados, mira si esta routed
 		if (Config::get('config.application.routes')) {
 			$url = self::_ifRouted($url);
