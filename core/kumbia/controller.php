@@ -13,7 +13,7 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    Controller 
+ * @package    Controller
  * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
@@ -24,121 +24,119 @@
  * @category   Kumbia
  * @package    Controller
  */
-class Controller
-{
+class Controller {
 
-    /**
-     * Nombre del modulo actual
-     *
-     * @var string
-     */
-    public $module_name;
-    /**
-     * Nombre del controlador actual
-     *
-     * @var string
-     */
-    public $controller_name;
-    /**
-     * Nombre de la acción actual
-     *
-     * @var string
-     */
-    public $action_name;
-    /**
-     * Parámetros de la acción
-     *
-     * @var array
-     */
-    public $parameters;
-    /**
-     * Limita la cantidad correcta de 
-     * parametros de una action
-     *
-     * @var bool
-     */
-    public $limit_params = TRUE;
-    /**
-     * Nombre del scaffold a usar
-     *
-     * @var string
-     */
-    public $scaffold;
+	/**
+	 * Nombre del modulo actual
+	 *
+	 * @var string
+	 */
+	public $module_name;
+	/**
+	 * Nombre del controlador actual
+	 *
+	 * @var string
+	 */
+	public $controller_name;
+	/**
+	 * Nombre de la acción actual
+	 *
+	 * @var string
+	 */
+	public $action_name;
+	/**
+	 * Parámetros de la acción
+	 *
+	 * @var array
+	 */
+	public $parameters;
+	/**
+	 * Limita la cantidad correcta de
+	 * parametros de una action
+	 *
+	 * @var bool
+	 */
+	public $limit_params = TRUE;
+	/**
+	 * Nombre del scaffold a usar
+	 *
+	 * @var string
+	 */
+	public $scaffold;
 
-    /**
-     * Constructor
-     *
-     * @param string $module modulo al que pertenece el controlador
-     * @param string $controller nombre del controlador
-     * @param string $action nombre de la accion
-     * @param array $parameters parametros enviados por url
-     */
-    public function __construct($module, $controller, $action, $parameters)
-    {
-        //TODO: enviar un objeto
-        $this->module_name = $module;
-        $this->controller_name = $controller;
-        $this->parameters = $parameters;
-        $this->action_name = $action;
-    }
+	/**
+	 * Data disponble para mostrar
+	 */
+	public $data;
 
-    /**
-     * BeforeFilter
-     * 
-     * @return bool
-     */
-    protected function before_filter()
-    {
-        
-    }
+	/**
+	 * Constructor
+	 *
+	 * @param string $module modulo al que pertenece el controlador
+	 * @param string $controller nombre del controlador
+	 * @param string $action nombre de la accion
+	 * @param array $parameters parametros enviados por url
+	 */
+	public function __construct($module, $controller, $action, $parameters) {
+		//TODO: enviar un objeto
+		$this->module_name = $module;
+		$this->controller_name = $controller;
+		$this->parameters = $parameters;
+		$this->action_name = $action;
+	}
 
-    /**
-     * AfterFilter
-     * 
-     * @return bool
-     */
-    protected function after_filter()
-    {
-        
-    }
+	/**
+	 * BeforeFilter
+	 *
+	 * @return bool
+	 */
+	protected function before_filter() {
 
-    /**
-     * Initialize
-     * 
-     * @return bool
-     */
-    protected function initialize()
-    {
-        
-    }
+	}
 
-    /**
-     * Finalize
-     * 
-     * @return bool
-     */
-    protected function finalize()
-    {
+	/**
+	 * AfterFilter
+	 *
+	 * @return bool
+	 */
+	protected function after_filter() {
 
-    }
+	}
 
-    /**
-     * Ejecuta los callback filter
-     *
-     * @param boolean $init filtros de inicio
-     * @return bool
-     */
-    final public function k_callback($init = FALSE)
-    {
-        if ($init) {
-            if ($this->initialize() !== FALSE) {
-                return $this->before_filter();
-            }
-            return FALSE;
-        }
+	/**
+	 * Initialize
+	 *
+	 * @return bool
+	 */
+	protected function initialize() {
 
-        $this->after_filter();
-        $this->finalize();
-    }
+	}
+
+	/**
+	 * Finalize
+	 *
+	 * @return bool
+	 */
+	protected function finalize() {
+
+	}
+
+	/**
+	 * Ejecuta los callback filter
+	 *
+	 * @param boolean $init filtros de inicio
+	 * @return bool
+	 */
+	final public function k_callback($init = FALSE) {
+		if ($init) {
+			if ($this->initialize() !== FALSE) {
+				return $this->before_filter();
+			}
+			return FALSE;
+		}
+
+		$this->after_filter();
+		$this->finalize();
+	}
 
 }
