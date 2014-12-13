@@ -1,4 +1,0 @@
-filter:
-    excluded_paths:
-        - core/libs/db/*
-        - core/libs/kumbia_active_record/*
