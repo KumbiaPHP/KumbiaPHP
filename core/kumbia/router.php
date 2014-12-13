@@ -78,9 +78,9 @@ class Router {
 			$url = self::_ifRouted($url);
 		}
 		// Descompone la url
-		self::_rewrite($url);
+		self::rewrite($url);
 		// Despacha la ruta actual
-		return self::_dispatch();
+		return self::dispatch();
 	}
 
 	/**
@@ -121,7 +121,7 @@ class Router {
 	 *
 	 * @param string $url
 	 */
-	private static function _rewrite($url) {
+	static function rewrite($url) {
 		//Valor por defecto
 		if ($url == '/') {
 			return;
@@ -168,11 +168,11 @@ class Router {
 	 *
 	 * @return Controller
 	 */
-	private static function _dispatch() {
+	static function dispatch() {
 		// Extrae las variables para manipularlas facilmente
 		extract(self::$_vars, EXTR_OVERWRITE);
 
-		if (!include_once "$default_path/$dir/$controller_path{$suffix}") {
+		if (!include_once "$default_path{$dir}/$controller_path{$suffix}") {
 			throw new KumbiaException(null, 'no_controller');
 		}
 
