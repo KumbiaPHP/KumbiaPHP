@@ -28,7 +28,7 @@
  * @category   Kumbia
  * @package    Router
  */
-final class Router
+class Router
 {
     /**
      * Array estatico con las variables del router
