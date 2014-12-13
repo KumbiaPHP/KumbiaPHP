@@ -74,23 +74,6 @@ if (PRODUCTION) {
     }
 }
 
-// Asignando locale
-if (isset($config['application']['locale'])) {
-    setlocale(LC_ALL, $config['application']['locale']);
-}
-
-// Establecer el timezone para las fechas y horas
-if (isset($config['application']['timezone'])) {
-    ini_set('date.timezone', $config['application']['timezone']);
-}
-
-// Establecer el charset de la app en la constante APP_CHARSET
-if (isset($config['application']['charset'])) {
-    define('APP_CHARSET', strtoupper($config['application']['charset']));
-} else {
-    define('APP_CHARSET', 'UTF-8');
-}
-
 
 // @see Router
 require CORE_PATH . 'kumbia/router.php';

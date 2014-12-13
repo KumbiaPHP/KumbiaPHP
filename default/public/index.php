@@ -17,6 +17,30 @@
  */
 
 /**
+ * Define marca de tiempo en que inicio el Request
+ */
+define('START_TIME', microtime(TRUE));
+
+/**
+ * Esta sección prepara el entorno
+ * Todo esto se puede hacer desde la configuracion del 
+ * Servidor/PHP, en caso de no poder usarlo desde ahí
+ * Puedes descomentar  estas lineas
+ */
+
+//*Locale*
+//setlocale(LC_ALL, $config['application']['locale']);
+
+//*Timezone*
+//ini_set('date.timezone', $config['application']['timezone']);
+
+/**
+ * @TODO
+ * REVISAR ESTA SECCIÓN
+ * 
+ */
+define('APP_CHARSET', 'UTF-8');
+/**
  * Indicar si la aplicacion se encuentra en produccion
  * directamente desde el index.php
  */
@@ -29,11 +53,6 @@
 error_reporting(E_ALL ^ E_STRICT); // Comentar en producción
 //comentar la siguiente linea en producción
 ini_set('display_errors', 'On'); 
-
-/**
- * Define marca de tiempo en que inicio el Request
- */
-define('START_TIME', microtime(TRUE));
 
 /**
  * Define el APP_PATH
