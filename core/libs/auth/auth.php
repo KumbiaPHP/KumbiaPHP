@@ -123,7 +123,7 @@ class Auth
     /**
      * Realiza el proceso de autenticación
      *
-     * @return array
+     * @return array|bool
      */
     public function authenticate()
     {
