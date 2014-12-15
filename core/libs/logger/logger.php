@@ -113,7 +113,7 @@ abstract class Logger
     /**
      * Obtener el path actual
      *
-     * @return $path
+     * @return string
      */
     public static function get_path()
     {
