@@ -311,7 +311,7 @@ class Auth
     {
         self::$is_valid = null;
         unset($_SESSION['KUMBIA_AUTH_VALID'][Config::get('config.application.namespace_auth')]);
-        self::$active_identity = null;
+        self::$active_identity = array();
         unset($_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')]);
     }
 
