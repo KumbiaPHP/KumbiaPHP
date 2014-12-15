@@ -33,6 +33,12 @@ abstract class Upload
      * @var string
      */
     protected $_name;
+     /**
+     * Ruta donde se guardara el archivo
+     *
+     * @var string
+     */
+    protected $_path;
     /**
      * Permitir subir archivos de scripts ejecutables
      *
