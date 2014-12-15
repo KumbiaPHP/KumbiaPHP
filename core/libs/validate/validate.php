@@ -97,7 +97,7 @@ class Validate
      * Ejecuta una validación de modelo
      * @param string $rule nombre de la regla
      * @param array $param
-     * @param strin $field Nombre del campo
+     * @param string $field Nombre del campo
      * @return bool 
      */
     protected function modelRule($rule, $param, $field){
