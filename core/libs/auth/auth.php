@@ -205,7 +205,7 @@ class Auth
     /**
      * Permite controlar que usuario no se loguee mas de una vez en el sistema desde cualquier parte
      *
-     * @param string $value
+     * @bool string $value
      */
     public function set_active_session($value, $time = 3600)
     {
