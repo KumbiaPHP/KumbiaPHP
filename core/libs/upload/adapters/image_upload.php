@@ -26,19 +26,12 @@
  */
 class ImageUpload extends Upload
 {
-
     /**
      * Información de la imagen
      *
      * @var array|boolean
      */
     protected $_imgInfo;
-    /**
-     * Ruta donde se guardara el archivo
-     *
-     * @var string
-     */
-    protected $_path;
     /**
      * Ancho mínimo de la imagen
      * 
