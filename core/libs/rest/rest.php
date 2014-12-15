@@ -125,6 +125,7 @@ class Rest
     /**
      * Retorna los parametros de la petición el función del método
      * de la petición
+     * @return Array
      */
     static function param()
     {
