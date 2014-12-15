@@ -36,19 +36,19 @@ class Date
     /**
      * Valor interno del Dia
      *
-     * @var int
+     * @var int|string
      */
     private $day;
     /**
      * Valor interno del Año
      *
-     * @var int
+     * @var int|string
      */
     private $year;
     /**
      * Valor interno del Mes
      *
-     * @var int
+     * @var int|string
      */
     private $month;
     /**
