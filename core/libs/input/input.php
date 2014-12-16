@@ -165,7 +165,7 @@ class Input
     /**
      * Devuelve el valor dentro de un array con clave en formato uno.dos.tres
      * @param Array array que contiene la variable
-     * @param string clave a usar
+     * @param string $str clave a usar
      * @return mixed
      */
     protected static function getFilter(Array $var, $str){
