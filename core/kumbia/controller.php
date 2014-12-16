@@ -87,7 +87,7 @@ class Controller {
 	/**
 	 * BeforeFilter
 	 *
-	 * @return bool
+	 * @return false|null
 	 */
 	protected function before_filter() {
 
@@ -96,7 +96,7 @@ class Controller {
 	/**
 	 * AfterFilter
 	 *
-	 * @return bool
+	 * @return false|null
 	 */
 	protected function after_filter() {
 
@@ -105,7 +105,7 @@ class Controller {
 	/**
 	 * Initialize
 	 *
-	 * @return bool
+	 * @return false|null
 	 */
 	protected function initialize() {
 
@@ -114,7 +114,7 @@ class Controller {
 	/**
 	 * Finalize
 	 *
-	 * @return bool
+	 * @return false|null
 	 */
 	protected function finalize() {
 
