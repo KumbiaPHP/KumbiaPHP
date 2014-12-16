@@ -115,7 +115,7 @@ class SqliteCache extends Cache
             return sqlite_exec($this->_db, " UPDATE cache SET value='$value', lifetime='$lifetime' WHERE id='$id' AND \"group\"='$group' ");
         }
 
-        return sqlite_exec($this->_db, " INSERT INTO cache (id, \"group\", value, lifetime) VALUES ('$id','$group','$value','$lifetime', $error)");
+        return sqlite_exec($this->_db, " INSERT INTO cache (id, \"group\", value, lifetime) VALUES ('$id','$group','$value','$lifetime')");
     }
 
     /**
