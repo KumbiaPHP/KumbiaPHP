@@ -51,7 +51,7 @@ class SqliteCache extends Cache
         $count = sqlite_fetch_single($result);
 
         if (!$count) {
-            sqlite_exec($this->_db, ' CREATE TABLE cache (id TEXT, "group" TEXT, value TEXT, lifetime TEXT) ', $error);
+            sqlite_exec($this->_db, ' CREATE TABLE cache (id TEXT, "group" TEXT, value TEXT, lifetime TEXT) ');
         }
 
         return $this->_db;
@@ -112,10 +112,10 @@ class SqliteCache extends Cache
 
         // Ya existe el elemento cacheado
         if ($count) {
-            return sqlite_exec($this->_db, " UPDATE cache SET value='$value', lifetime='$lifetime' WHERE id='$id' AND \"group\"='$group' ", $error);
+            return sqlite_exec($this->_db, " UPDATE cache SET value='$value', lifetime='$lifetime' WHERE id='$id' AND \"group\"='$group' ");
         }
 
-        return sqlite_exec($this->_db, " INSERT INTO cache (id, \"group\", value, lifetime) VALUES ('$id','$group','$value','$lifetime', $error) , $error");
+        return sqlite_exec($this->_db, " INSERT INTO cache (id, \"group\", value, lifetime) VALUES ('$id','$group','$value','$lifetime', $error)");
     }
 
     /**
@@ -128,9 +128,9 @@ class SqliteCache extends Cache
     {
         if ($group) {
             $group = addslashes($group);
-            return sqlite_exec($this->_db, " DELETE FROM cache WHERE \"group\"='$group' ", $error);
+            return sqlite_exec($this->_db, " DELETE FROM cache WHERE \"group\"='$group' ");
         }
-        return sqlite_exec($this->_db, " DELETE FROM cache ", $error);
+        return sqlite_exec($this->_db, " DELETE FROM cache ");
     }
 
     /**
@@ -145,7 +145,7 @@ class SqliteCache extends Cache
         $id = addslashes($id);
         $group = addslashes($group);
 
-        return sqlite_exec($this->_db, " DELETE FROM cache WHERE id='$id' AND \"group\"='$group' ", $error);
+        return sqlite_exec($this->_db, " DELETE FROM cache WHERE id='$id' AND \"group\"='$group' ");
     }
 
 }
