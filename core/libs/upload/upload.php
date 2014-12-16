@@ -154,7 +154,7 @@ abstract class Upload
      * Acciones antes de guardar
      *
      * @param string $name nombre con el que se va a guardar el archivo
-     * @return boolean
+     * @return  boolean|null
      */
     protected function _beforeSave($name)
     {
@@ -165,6 +165,7 @@ abstract class Upload
      * Acciones después de guardar
      * 
      * @param string $name nombre con el que se guardo el archivo
+     * @return  boolean|null
      */
     protected function _afterSave($name)
     {
@@ -198,7 +199,7 @@ abstract class Upload
     /**
      * Guarda el archivo con un nombre aleatorio
      * 
-     * @return string|boolean Nombre de archivo generado o FALSE si falla
+     * @return string|false Nombre de archivo generado o FALSE si falla
      */
     public function saveRandom()
     {
