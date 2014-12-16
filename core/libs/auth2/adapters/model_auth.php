@@ -49,7 +49,18 @@ class ModelAuth extends Auth2
      * @var array
      */
     protected $_fields = array('id');
-
+     /**
+     * 
+     * 
+     * @var string
+     */
+    protected $_algos ;
+     /**
+     * 
+     * 
+     * @var string
+     */
+    protected $_key;
     /**
      * Asigna el modelo a utilizar
      *  
