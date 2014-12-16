@@ -72,10 +72,7 @@ class Controller {
 	/**
 	 * Constructor
 	 *
-	 * @param string $module
-	 * @param string $controller nombre del controlador
-	 * @param string $action nombre de la accion
-	 * @param array $parameters parametros enviados por url
+	 * @param array $args
 	 */
 	public function __construct($args) {
 		/*modulo al que pertenece el controlador*/
