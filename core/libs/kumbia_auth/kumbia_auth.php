@@ -83,7 +83,7 @@ class KumbiaAuth{
 
     /**
      * Retorna una varible
-     * @param string $nombre de la variable
+     * @param string $name de la variable
      * @return mixed
      */
     static function get($name){
