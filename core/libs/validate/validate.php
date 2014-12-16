@@ -130,7 +130,7 @@ class Validate
 
     /**
      * Devuelve el nombre de la regla
-     * @param string $rulename
+     * @param string $ruleName
      * @param mixed $param
      * @return string
      */
