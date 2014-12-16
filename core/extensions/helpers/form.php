@@ -53,6 +53,7 @@ class Form
      * @param mixed $value valor de campo
      * @param boolean $filter filtrar caracteres especiales html
      * @param boolean $check si esta marcado el checkbox
+     * @param boolean $is_check
      * @return Array devuelve un array de longitud 3 con la forma array(id, name, value)
      */
     public static function getField($field, $value = null, $is_check, $filter = true, $check = null)
@@ -129,7 +130,12 @@ class Form
         return self::getField($field, $checkValue, TRUE, FALSE, $checked);
     }
 
-
+	/**
+	 * @param string $tag
+	 * @param string $field
+	 * @param string $value
+	 * @params string|array $attrs
+	 */
     protected static function tag ($tag, $field, $attrs = NULL, $value=NULL, $extra='', $close = TRUE){
         $attrs =  Tag::getAttrs($attrs);
         $end = $close ? ">{{value}}</$tag>" : '/>';
@@ -277,7 +283,7 @@ class Form
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string|array $value Array para select multiple (opcional)
      * @param string $blank agrega un item vacio si es diferente de empty
-     * @param string $idItem En caso de usar array de objeto propiedad a tomar como id
+     * @param string $itemId En caso de usar array de objeto propiedad a tomar como id
      * @param string $show texto a mostrar, si es empty usa el to string
      * @return string
      */
