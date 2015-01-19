@@ -105,8 +105,8 @@ class Acl
      * Ej:
      * <code>$acl->add_role(new Acl_Role('administrador'), 'consultor');</code>
      *
-     * @param string $roleObject
-     * @return boolean
+     * @param AclRole $roleObject
+     * @return false|null
      */
     public function add_role(AclRole $roleObject, $access_inherits='')
     {
@@ -202,7 +202,7 @@ class Acl
      * </code>
      *
      * @param AclResource $resource
-     * @return boolean
+     * @return boolean|null
      */
     public function add_resource(AclResource $resource)
     {
@@ -221,7 +221,7 @@ class Acl
     /**
      * Agrega accesos a un Resource
      *
-     * @param $resource
+     * @param string $resource
      * @param $access_list
      */
     public function add_resource_access($resource, $access_list)
@@ -393,8 +393,8 @@ class Acl
      *
      * @param string $role
      * @param string $resource
-     * @param mixed $access
-     * @return boolean
+     * @param mixed $access_list
+     * @return boolean|null
      */
     public function is_allowed($role, $resource, $access_list)
     {
