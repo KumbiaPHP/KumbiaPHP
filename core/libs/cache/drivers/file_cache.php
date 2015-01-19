@@ -77,7 +77,7 @@ class FileCache extends Cache
      * @param string $group
      * @param string $value
      * @param int $lifetime tiempo de vida en forma timestamp de unix
-     * @return false|integer
+     * @return bool
      */
     public function save($value, $lifetime=null, $id=false, $group='default')
     {
