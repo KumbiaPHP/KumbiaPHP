@@ -17,22 +17,19 @@
     $config = Config::read('config');
 
     $status = ($config['application']['production']) ? 'Production' : 'Development';
-
-    if(isset($config['application']['locale'])){
-        $locale = $config['application']['locale'];
-    } else {
-        $locale = 'No se ha especificado un locale';
-    }
-    if(isset($config['application']['timezone'])){
-        $timezone = $config['application']['timezone'];
-    } else {
-        $timezone = 'No se ha especificado un Timezone en el config.ini. Pero el servidor tiene <strong>'.date_default_timezone_get().'</strong>';
-    }
+    
     if(isset($config['application']['cache_driver'])){
         $cahe_driver = $config['application']['cache_driver'];
     } else {
         $cache_driver = 'No ha seleccionado un driver para la cache';
     }
+
+    $locale = setlocale(LC_ALL, '0');
+    
+    if(! $timezone = date_default_timezone_get()){
+        $timezone = 'No se ha especificado un Timezone.';
+    }
+    
 
 ?>
         <h2>config.ini <span class='app'> de <?php echo basename(dirname(APP_PATH)) ?></span></h2>
@@ -46,17 +43,20 @@
 
         <h4>Base de Datos: <span><?php echo $config['application']['database'] ?></span></h4>
         <p>Datos de la conexión a la BD que será utilizada, ver configuración <a href="http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#databases.ini">databases.ini</a>.</p>
+        
+        <h4>Cache Driver: <span><?php echo $cahe_driver ?></span></h4>
+        <p>Driver que se utilizará para realizar las operaciones de cache.</p>
 
         <h4>Charset: <span><?php echo APP_CHARSET ?></span></h4>
         <p>Codificación de caracteres. Recomendado UTF-8</p>
 
+        <h2>Valores del servidor</h2>
+        <p>Como cambiar estos valores <a href=#>enlace TODO</a></p>
+        
         <h4>TimeZone: <span><?php echo $timezone ?></span></h4>
-        <p>Zona horaria que usará el Framework.</p>
-
-        <h4>Cache Driver: <span><?php echo $cahe_driver ?></span></h4>
-        <p>Driver que se utilizara para realizar las operaciones de cache.</p>
+        <p>Zona horaria que usará la aplicación.</p>
 
         <h4>Locale: <span><?php echo $locale ?></span></h4>
-        <p>Localización. Característica que depende de los locale instalado en el servidor.</p>
+        <p>Localización. Característica que depende de los locale instalados en el servidor.</p>
         </div>
 </div>
