@@ -92,7 +92,7 @@ class FileCache extends Cache
             $lifetime = 'undefined';
         }
 
-        return (boolean) file_put_contents(APP_PATH . 'temp/cache/' . $this->_getFilename($id, $group), "$lifetime\n$value");
+        return (bool) file_put_contents(APP_PATH . 'temp/cache/' . $this->_getFilename($id, $group), "$lifetime\n$value");
     }
 
     /**
