@@ -20,6 +20,9 @@
 
 interface KumbiaAuthInterface{
     public function login();
+    /**
+     * @param string $name
+     */
     public function get($name);
 }
 
