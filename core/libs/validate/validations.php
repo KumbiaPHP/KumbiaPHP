@@ -160,7 +160,7 @@ class Validations
      */
     public static function required($check)
     {
-        return (strlen(trim($check)));
+        return (boolean) strlen(trim($check));
     }
     
     /**
