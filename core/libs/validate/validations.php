@@ -95,8 +95,7 @@ class Validations
      * en un rango minímo y máximo
      * 
      * @param int $value
-     * @param int $min
-     * @param int $max
+     * @param array $param min, max
      */
     public static function range($value, $param)
     {
@@ -161,7 +160,7 @@ class Validations
      */
     public static function required($check)
     {
-        return strlen(trim($check));
+        return (strlen(trim($check)));
     }
     
     /**
@@ -207,7 +206,7 @@ class Validations
      * Valida un string dada una Expresion Regular
      *
      * @param string $check
-     * @param string $regex
+     * @param string $param  regex
      * @return bool
      */
     public static function pattern($check, $param)
@@ -220,7 +219,7 @@ class Validations
      * Valida si es un número decimal
      * 
      * @param string $value
-     * @param string $decimal
+     * @param array $param
      * @return boolean
      */
     public static function decimal($value, $param)
@@ -233,7 +232,7 @@ class Validations
      * Valida si los valores son iguales
      * 
      * @param string $value
-     * @param string $decimal
+     * @param array $param
      * @param object $obj
      * @return boolean
      */
