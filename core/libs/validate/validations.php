@@ -206,7 +206,7 @@ class Validations
      * Valida un string dada una Expresion Regular
      *
      * @param string $check
-     * @param string $param  regex
+     * @param array $param  regex
      * @return bool
      */
     public static function pattern($check, $param)
