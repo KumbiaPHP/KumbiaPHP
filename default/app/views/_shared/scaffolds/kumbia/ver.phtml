@@ -1,18 +1,18 @@
 <div id="scaffold">
 <?php View::content()?>
-<?php if($result) : ?>
+<?php if($data) : ?>
 	<h1><?php echo ucwords("$model"),": <span>$action_name</span>" ?></h1>
 	<ul>
-	<?php foreach ($result->fields as $field) : ?>
-		<li><strong><?php echo $result->alias[$field]?> :</strong>  <?php eh($result->$field) ?></li>
+	<?php foreach ($data->fields as $field) : ?>
+		<li><strong><?php echo $data->alias[$field]?> :</strong>  <?php eh($data->$field) ?></li>
 	<?php endforeach ?>
 	</ul>
 
 	<div class="actions">
 		<a href="../" class="btn btn-default">Listado</a>
 		<a href="../crear/" class="btn btn-primary">Crear registro</a>
-		<a href="../editar/<?php echo $result->id?>" class="btn btn-warning">Editar</a>
-		<a class="del btn btn-danger" title="¿Seguro que quiere borrar?" href="../borrar/<?php echo $result->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
+		<a href="../editar/<?php echo $data->id?>" class="btn btn-warning">Editar</a>
+		<a class="del btn btn-danger" title="¿Seguro que quiere borrar?" href="../borrar/<?php echo $data->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
 	</div>
 <?php else : ?>
 	<?php header("HTTP/1.0 404 Not Found")?>
@@ -22,5 +22,5 @@
 		<a href="../crear/">Crear registro</a>
 	</div>
 <?php endif ?>
-	<pre><?php //var_dump($result)?></pre>
+	<pre><?php //var_dump($data)?></pre>
 	</div>

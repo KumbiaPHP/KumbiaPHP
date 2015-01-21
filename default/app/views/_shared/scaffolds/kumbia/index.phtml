@@ -4,16 +4,16 @@
 <div class="actions">
     <?php echo Html::linkAction("crear/",'Crear registro', 'class="btn btn-primary"')?>
 </div>
-<?php if ($results->items) : ?>
+<?php if ($data->items) : ?>
 <table class="t">
     <thead><tr>
-    <?php foreach (current($results->items)->fields as $field) : ?>
-        <th><?php echo (current($results->items)->get_alias($field))?></th>
+    <?php foreach (current($data->items)->fields as $field) : ?>
+        <th><?php echo (current($data->items)->get_alias($field))?></th>
     <?php endforeach?>
 	<th>Acciones</th>
     </tr></thead>
 	<tbody>
-    <?php foreach ($results->items as $item) : ?>
+    <?php foreach ($data->items as $item) : ?>
         <tr>
             <?php foreach ($item->fields as $field) : ?>
             <td><?php eh($item->$field)?></td>
@@ -26,7 +26,7 @@
     <?php endforeach?>
 	</tbody>
 </table>
-<?php View::partial('paginators/digg', false, array('page' => $results ,'url' => Router::get('controller_path').'/index')); ?>
+<?php View::partial('paginators/digg', false, array('page' => $data ,'url' => Router::get('controller_path').'/index')); ?>
 
 <?php else : // Si no hay items?>
 <h2>No hay ningún registro</h2>
@@ -34,4 +34,4 @@
 
 </div>
 
-<?php //var_dump($results)?>
+<?php //var_dump($data)?>
