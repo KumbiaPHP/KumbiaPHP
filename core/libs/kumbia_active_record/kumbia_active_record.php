@@ -15,7 +15,7 @@
  * @category   Kumbia
  * @package    Db
  * @subpackage ActiveRecord
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
@@ -61,7 +61,7 @@ require CORE_PATH . 'libs/db/db.php';
  * cambiados (En Desarrollo)
  * $subselect : Permitira crear una entidad ActiveRecord de solo lectura que
  * mapearia los resultados de un select directamente a un Objeto (En Desarrollo)
- * 
+ *
  * @category   Kumbia
  * @package    Db
  * @subpackage ActiveRecord
@@ -500,13 +500,13 @@ class KumbiaActiveRecord
         if (($data = $this->_get_relation_data($mmodel)) !== FALSE) {
             return $data;
         }
-        
+
         if (method_exists($this, $method)) {
             call_user_func_array(array($this, $method), $args);
         } else {
             throw new KumbiaException("No existe el método '$method' en ActiveRecord::" . get_class($this));
         }
-        
+
         return $this->$method($args);
     }
 
@@ -736,7 +736,7 @@ class KumbiaActiveRecord
      * Return Fist Record
      *
      * Recibe los mismos parametros que find
-     * 
+     *
      * @param mixed $what
      * @return ActiveRecord Cursor
      */
@@ -760,13 +760,13 @@ class KumbiaActiveRecord
         $what['limit'] = 1;
         $select.= $this->convert_params_to_sql($what);
         $resp = false;
-        
+
         $result = $this->db->fetch_one($select);
         if ($result) {
             $this->dump_result_self($result);
             $resp = $this->dump_result($result);
         }
-        
+
         return $resp;
     }
 
@@ -2229,7 +2229,7 @@ class KumbiaActiveRecord
         $params = Util::getParams(func_get_args());
         for ($i = 0; isset($params[$i]); $i++) {
             $relation = Util::smallcase($params[$i]);
-            $index = explode('/', $relation); 
+            $index = explode('/', $relation);
             $index = end($index);
             if (!array_key_exists($index, $this->_has_one)) {
                 $this->_has_one[$index] = new stdClass();
@@ -2252,7 +2252,7 @@ class KumbiaActiveRecord
         $params = Util::getParams(func_get_args());
         for ($i = 0; isset($params[$i]); $i++) {
             $relation = Util::smallcase($params[$i]);
-            $index = explode('/', $relation); 
+            $index = explode('/', $relation);
             $index = end($index);
             if (!array_key_exists($index, $this->_belongs_to)) {
                 $this->_belongs_to[$index] = new stdClass();
@@ -2275,7 +2275,7 @@ class KumbiaActiveRecord
         $params = Util::getParams(func_get_args());
         for ($i = 0; isset($params[$i]); $i++) {
             $relation = Util::smallcase($params[$i]);
-            $index = explode('/', $relation); 
+            $index = explode('/', $relation);
             $index = end($index);
             if (!array_key_exists($index, $this->_has_many)) {
                 $this->_has_many[$index] = new stdClass();
