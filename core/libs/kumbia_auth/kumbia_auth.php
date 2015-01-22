@@ -13,8 +13,8 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   extensions
- * @package    Auth 
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    Auth
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -56,7 +56,7 @@ class KumbiaAuth{
             throw new Exception('Objeto de autenticación nulo');
         return self::$_obj;
     }
-    
+
     /**
      * Verifica si el usuario está logueado
      * @return bool

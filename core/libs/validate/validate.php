@@ -13,10 +13,10 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * Validate es una Clase que realiza validaciones Lógicas
- * 
+ *
  * @category   KumbiaPHP
- * @package    validate 
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    validate
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 require dirname(__FILE__).'/validations.php';
@@ -43,13 +43,13 @@ class Validate
 	 * Contructor
 	 * @param Object $obj Objeto a validar
 	 */
-	
+
 	/**
 	 * Almacena si la variable a validar es un objeto antes de convertirlo
 	 * @var boolean
 	 */
 	protected $is_obj = false;
-    
+
     /**
      * El parametro $rules debe contener esta forma
      *  array(
@@ -98,7 +98,7 @@ class Validate
      * @param string $rule nombre de la regla
      * @param array $param
      * @param string $field Nombre del campo
-     * @return bool 
+     * @return bool
      */
     protected function modelRule($rule, $param, $field){
         if(!$this->is_obj){
@@ -111,7 +111,7 @@ class Validate
             trigger_error('El metodo para la validacion no existe', E_USER_WARNING);
             return false;
         }
-        if(!$obj->$ruleName($field, $param)){ 
+        if(!$obj->$ruleName($field, $param)){
            $this->addError($param, $field, $ruleName);
         }
         return true;
@@ -160,7 +160,7 @@ class Validate
 
     /**
      * Devuelve los mensajes de error
-     * 
+     *
      */
     public function getMessages(){
         return $this->messages;
