@@ -14,8 +14,8 @@
  *
  * @category   Kumbia
  * @package    Db
- * @subpackage Behaviors 
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @subpackage Behaviors
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -67,7 +67,7 @@ class Paginator
      *  $page = paginate('Usuario', 'sexo="F"' , 'per_page: 5', "page: $page_num"); <br>
      *  $page = paginate($this->Usuario, 'conditions: sexo="F"' , 'per_page: 5', "page: $page_num"); <br>
      *
-     * @params object $model 
+     * @params object $model
      * @return stdClass
      * */
     public static function paginate($model)

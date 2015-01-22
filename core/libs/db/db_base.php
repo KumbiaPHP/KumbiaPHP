@@ -11,10 +11,10 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
- * 
+ *
  * @category   Kumbia
- * @package    Db 
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    Db
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -22,13 +22,13 @@
  * Clase principal de los adaptadores de base de datos de KumbiaPHP
  *
  * Contiene metodos utiles y variables generales.
- * 
+ *
  * $debug : Indica si se muestran por pantalla todas las operaciones sql que se
  * realizen con el driver
  * $logger : Indica si se va a logear a un archivo todas las transacciones que
  * se realizen en en driver. $logger = true crea un archivo con la fecha actual
  * en logs/ y $logger="nombre", crea un log con el nombre indicado.
- * 
+ *
  * @category   Kumbia
  * @package    Db
  */
@@ -294,7 +294,7 @@ class DbBase
             Flash::info($sql);
         }
     }
-    
+
     /**
      * Efectua operaciones SQL sobre la base de datos
      * Este método lo extienden los adapters
@@ -304,11 +304,11 @@ class DbBase
     public function query($sql)
     {
     }
-    
+
     /**
      * Devuelve fila por fila el contenido de un select
      * Este método lo extienden los adapters
-     * @param resource $resultQuery 
+     * @param resource $resultQuery
      * @param int $opt
      * @return array
      */

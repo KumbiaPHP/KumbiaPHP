@@ -13,8 +13,8 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    Db 
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    Db
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -25,7 +25,7 @@
  * de KumbiaPHP
  *
  * @category   Kumbia
- * @package    Db 
+ * @package    Db
  */
 interface DbBaseInterface
 {
@@ -33,7 +33,7 @@ interface DbBaseInterface
      * @return bool
      */
     public function connect($config);
-    
+
     /**
      * @return resource
      */
@@ -46,14 +46,14 @@ interface DbBaseInterface
     public function num_rows($resultQuery = NULL);
 
     public function field_name($number, $resultQuery = NULL);
-    
+
     /**
      * @return bool
      */
     public function data_seek($number, $resultQuery = NULL);
 
     public function affected_rows($result_query = NULL);
-    
+
     /**
      * @return string
      */
@@ -70,24 +70,24 @@ interface DbBaseInterface
     public function fetch_one($sql);
 
     public function fetch_all($sql);
-    
+
     /**
      * @return bool
      */
     public function insert($table, $values, $pk = '');
-    
+
     /**
      * @param string $where_condition
      *
      * @return bool
      */
     public function update($table, $fields, $values, $where_condition = null);
-    
+
     /**
      * @param string $where_condition
      */
     public function delete($table, $where_condition);
-    
+
     /**
      * @return string
      */

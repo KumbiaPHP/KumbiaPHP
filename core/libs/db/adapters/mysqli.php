@@ -14,8 +14,8 @@
  *
  * @category   Kumbia
  * @package    Db
- * @subpackage Adapters 
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @subpackage Adapters
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -139,7 +139,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface
         if ($this->logger) {
             Logger::debug($sql_query);
         }
-        
+
         $this->last_query = $sql_query;
         if ($result_query = mysqli_query($this->id_connection, $sql_query)) {
             $this->last_result_query = $result_query;
