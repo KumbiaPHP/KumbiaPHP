@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * KumbiaPHP web & app Framework
  *
@@ -19,13 +19,13 @@
  *   show: numero de paginas que se mostraran en el paginador
  *   url: url para la accion que efectua la paginacion, por defecto "module/controller/page/"
  *        y se envia por parametro el numero de pagina
- * 
+ *
  * @category   Kumbia
- * @package    Partials 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    Partials
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
- 
+
 if(!isset($url)) {
     extract(Router::get());
     $url = "$controller/page";
@@ -33,13 +33,13 @@ if(!isset($url)) {
         $url = "$module/$url";
     }
 }
-    
+
 if(!isset($show)) {
     $show = 10;
 }
-    
+
 $half = floor($show/2);
-    
+
 
 //Calculando el inicio de paginador centrado
 if ($page->current <= $half) {
@@ -75,7 +75,7 @@ if($start==$page->total){
         <?php if ($page->total > ($i+1)): ?>
             ...
         <?php endif ?>
-        
+
         <?php $i = $page->total-1; ?>
         <?php echo Html::link("$url/$i/", $i) ?>
         <?php echo Html::link("$url/$page->total/", $page->total) ?>

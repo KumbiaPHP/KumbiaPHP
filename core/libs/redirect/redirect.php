@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Router
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -26,7 +26,7 @@
  */
 class Redirect
 {
-    
+
     /**
      * Redirecciona la ejecución a otro controlador en un
      * tiempo de ejecución determinado
@@ -38,9 +38,9 @@ class Redirect
     public static function to($route = null, $seconds = null, $statusCode = 302)
     {
         $route OR $route = Router::get('controller_path') . '/';
-        
+
         $route = PUBLIC_PATH . ltrim($route, '/');
-        
+
         if ($seconds) {
             header("Refresh: $seconds; url=$route");
         } else {
@@ -50,11 +50,11 @@ class Redirect
             View::select(null, null);
         }
     }
-    
+
     /**
      * Redirecciona la ejecución a una accion del controlador actual en un
      * tiempo de ejecución determinado
-     * 
+     *
      * @param string $action acción del controlador actual a la que se redirige
      * @param integer $seconds segundos que se esperarán antes de redirigir
      * @param integer $statusCode código http de la respuesta, por defecto 302
@@ -63,7 +63,7 @@ class Redirect
     {
         self::to(Router::get('controller_path') . "/$action", $seconds, $statusCode);
     }
-    
+
     /**
      * Enruta el controlador actual a otro módulo, controlador, o a otra acción
      * @deprecated Se mantiene por legacy temporalmente
@@ -106,7 +106,7 @@ class Redirect
 
         if (++$cyclic > 1000)
             throw new KumbiaException('Se ha detectado un enrutamiento cíclico. Esto puede causar problemas de estabilidad');
-        
+
         Router::to($vars, TRUE);
     }
 }

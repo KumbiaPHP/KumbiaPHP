@@ -14,13 +14,13 @@
  *
  * @category   Kumbia
  * @package    Auth
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
  * Clase Base para la gestion de autenticación
- * 
+ *
  * @category   Kumbia
  * @package    Auth
  */
@@ -41,7 +41,7 @@ abstract class Auth2
     protected $_login = 'login';
     /**
      * Campo de la BD donde se guarda la clave/pass
-     * 
+     *
      * @var String
      */
     protected $_pass = 'password';
@@ -53,7 +53,7 @@ abstract class Auth2
     protected $_algos = 'md5';
     /**
      * Clave de sesion
-     * 
+     *
      * @var string
      */
     protected $_key = 'jt2D14KIdRs7LA==';
@@ -116,7 +116,7 @@ abstract class Auth2
             // check
             if ( ($mode=='auth') or (isset($_POST['mode']) && $_POST['mode'] === 'auth') ) {
                 $login = empty($login) ? Input::post($this->_login) : $login;
-                $pass = empty($pass) ? Input::post($this->_pass) : $pass;                
+                $pass = empty($pass) ? Input::post($this->_pass) : $pass;
                 return $this->_check($login, $pass);
             } else {
                 //FAIL
@@ -127,7 +127,7 @@ abstract class Auth2
 
     /**
      * Realiza el proceso de autenticacion segun para cada adapter
-     * 
+     *
      * @param $username
      * @param $password
      * @return bool
@@ -148,7 +148,7 @@ abstract class Auth2
 
     /**
      * Verifica que exista una identidad válida para la session actual
-     * 
+     *
      * @return bool
      */
     public function isValid()
@@ -164,7 +164,7 @@ abstract class Auth2
 
     /**
      * Verificar que no se inicie sesion desde browser distinto con la misma IP
-     * 
+     *
      */
     private function _checkSession()
     {
@@ -179,7 +179,7 @@ abstract class Auth2
 
     /**
      * Indica que no se inicie sesion desde browser distinto con la misma IP
-     * 
+     *
      * @param bool $check
      */
     public function setCheckSession($check)
@@ -189,7 +189,7 @@ abstract class Auth2
 
     /**
      * Indica algoritmo de cifrado
-     * 
+     *
      * @param string $algos
      */
     public function setAlgos($algos, $salt = NULL)
@@ -199,7 +199,7 @@ abstract class Auth2
 
     /**
      * Obtiene el mensaje de error
-     * 
+     *
      * @return string
      */
     public function getError()
@@ -209,7 +209,7 @@ abstract class Auth2
 
     /**
      * Indica el mensaje de error
-     * 
+     *
      * @param string $_error
      */
     public function setError($error)

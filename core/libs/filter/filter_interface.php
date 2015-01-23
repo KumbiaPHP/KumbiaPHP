@@ -13,8 +13,8 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    Filter 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    Filter
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 

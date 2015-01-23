@@ -13,8 +13,8 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   KumbiaPHP
- * @package    Helpers 
- * @copyright  Copyright (c) 2005-2012 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @package    Helpers
+ * @copyright  Copyright (c) 2005-2015 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -49,7 +49,7 @@ class Html
 
     /**
      * Crea un enlace usando la constante PUBLIC_PATH, para que siempre funcione
-     * 
+     *
      * @example Html::link
      * echo Html::link('controller/action','Enlace')
      * Crea un enlace a ese controller y acción con el nombre Enlace
@@ -71,7 +71,7 @@ class Html
      * Crea un enlace a una acción del mismo controller que estemos
      *
      * @example Html::linkAction
-     * echo Html::linkAction('accion/','Enlace a la acción del mismo controller') 
+     * echo Html::linkAction('accion/','Enlace a la acción del mismo controller')
      *
      * @param string $action
      * @param string $text Texto a mostrar
@@ -166,7 +166,7 @@ class Html
      *
      * @param string $content contenido del metatag
      * @param string $type por defecto ul, y si no ol
-     * @param string|array $attrs atributos 
+     * @param string|array $attrs atributos
      * @return string
      */
     public static function lists($array, $type = 'ul', $attrs = NULL)

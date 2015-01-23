@@ -13,13 +13,13 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * Clase para manejar los datos del request
- * 
+ *
  * @category   Kumbia
  * @package    Input
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-class Input 
+class Input
 {
 	/**
 	 * Verifica o obtiene el metodo de la peticion
@@ -29,12 +29,12 @@ class Input
 	 */
 	public static function is($method = NULL)
 	{
-		if($method){			
+		if($method){
 			return $method == $_SERVER['REQUEST_METHOD'];
 		}
 		return $_SERVER['REQUEST_METHOD'];
 	}
-        
+
 	/**
 	 * Indica si el request es AJAX
 	 *
@@ -44,7 +44,7 @@ class Input
 	{
 		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
 	}
-        
+
 	/**
 	 * Obtiene un valor del arreglo $_POST
 	 *
@@ -70,7 +70,7 @@ class Input
 		} else {
 			$value = filter_input_array (INPUT_GET, FILTER_SANITIZE_STRING);
 		}
-			
+
 		return $value;
 	}
 
@@ -91,7 +91,7 @@ class Input
 	 * @param string $var elemento a verificar
 	 * @return boolean
 	 */
-	public static function hasPost($var) 
+	public static function hasPost($var)
 	{
 		return filter_has_var(INPUT_POST, $var);
 	}
@@ -113,18 +113,18 @@ class Input
 	 * @param string $var elemento a verificar
 	 * @return boolean
 	 */
-	public static function hasRequest($var) 
+	public static function hasRequest($var)
 	{
 		return isset($_REQUEST[$var]);
 	}
-        
+
 	/**
 	 * Elimina elemento indicado en $_POST
 	 *
 	 * @param string $var elemento a verificar
 	 * @return boolean
 	 */
-	public static function delete($var = NULL) 
+	public static function delete($var = NULL)
 	{
 		if($var){
 			unset($_POST[$var]);
@@ -132,7 +132,7 @@ class Input
 			unset($_POST);
 		}
 	}
-	
+
     /**
     * Permite Obtener el Agente de Usuario (User Agent)
     * @return String
@@ -151,7 +151,7 @@ class Input
         }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
             return $_SERVER['HTTP_X_FORWARDED_FOR'];
         }else{
-            return $_SERVER['REMOTE_ADDR'];    
+            return $_SERVER['REMOTE_ADDR'];
         }
     }
 
@@ -168,5 +168,5 @@ class Input
 		//TODO
     }
 
-    
+
 }

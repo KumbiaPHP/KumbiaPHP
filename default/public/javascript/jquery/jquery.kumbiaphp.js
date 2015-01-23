@@ -13,7 +13,7 @@
  *
  * Plugin para jQuery que incluye los callbacks basicos para los Helpers
  *
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license	http://wiki.kumbiaphp.com/Licencia	 New BSD License
  */
 
@@ -158,10 +158,10 @@
 
             // Lista desplegable que actualiza con ajax
             $("select.js-remote").on('change', this.cUpdaterSelect);
-            
+
             // Enlazar DatePicker
 			$.KumbiaPHP.bindDatePicker();
-			
+
 		},
 
         /**
@@ -188,13 +188,13 @@
 				$.getScript($.KumbiaPHP.publicPath + 'javascript/jquery/jquery.' + $.KumbiaPHP.plugin[i] + '.js', function(data, text){});
             }
 		},
-		
+
 		/**
 		 * Carga y Enlaza Unobstrusive DatePicker en caso de ser necesario
 		 *
 		 */
 		bindDatePicker: function() {
-			
+
 			// Selecciona los campos input
 			var inputs = $('input.js-datepicker');
 			/**
@@ -248,7 +248,7 @@
 			$(function(){
 				$.KumbiaPHP.bind();
 				$.KumbiaPHP.autoload();
-				
+
 			});
 		}
 	}

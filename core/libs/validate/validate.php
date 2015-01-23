@@ -13,10 +13,10 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * Validate es una Clase que realiza validaciones Lógicas
- * 
+ *
  * @category   KumbiaPHP
- * @package    validate 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    validate
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 class Validate
@@ -24,14 +24,14 @@ class Validate
 	/**
 	 * Constantes para definir los patrones
 	 */
-  
+
 	/*
 	 * El valor deber ser solo letras y números
 	 */
 	const IS_ALPHANUM = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu';
-	 
-	 
-	 
+
+
+
     /**
      * Almacena el mensaje de error
      *
@@ -54,7 +54,7 @@ class Validate
     {
         return filter_var($check, FILTER_VALIDATE_INT);
     }
-    
+
     /**
      * Valida que una cadena este entre un rango.
      * Los espacios son contados
@@ -73,11 +73,11 @@ class Validate
 		}
         return ($length <= $max);
     }
-    
+
     /**
-     * Valida que es un número se encuentre 
+     * Valida que es un número se encuentre
      * en un rango minímo y máximo
-     * 
+     *
      * @param int $value
      * @param int $min
      * @param int $max
@@ -100,7 +100,7 @@ class Validate
     {
         return in_array($value, $list);
     }
-    
+
     /**
      * Valida que una cadena sea un mail
      *
@@ -121,7 +121,7 @@ class Validate
     {
         return filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED | $flag);
     }
-    
+
     /**
      * Valida que sea una IP, por defecto v4
      *
@@ -132,7 +132,7 @@ class Validate
     {
         return filter_var($ip, FILTER_VALIDATE_IP, $flags);
     }
-    
+
     /**
      * Valida que un string no sea null
      *
@@ -143,7 +143,7 @@ class Validate
     {
         return !empty($check) && $check!='0';
     }
-    
+
     /**
      * Valida que un String sea alpha-num (incluye caracteres acentuados)
      *
@@ -154,12 +154,12 @@ class Validate
     {
         return self::pattern($string, self::IS_ALPHANUM);
     }
-    
+
     /**
      * Valida una fecha
      *
      * @param string $value fecha a validar acorde al formato indicado
-     * @param string $format formato de fecha. acepta: d-m-y, y-m-d, m-d-y, donde el "-" puede ser cualquier caracter 
+     * @param string $format formato de fecha. acepta: d-m-y, y-m-d, m-d-y, donde el "-" puede ser cualquier caracter
      *                       de separacion incluso un espacio en blanco o ".", exceptuando (d,m,y o números).
      * @return boolean
      */
@@ -188,7 +188,7 @@ class Validate
         }
         return false;
     }
-    
+
     /**
      * Valida un string dada una Expresion Regular
      *
@@ -200,10 +200,10 @@ class Validate
     {
         return filter_var($check, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => $regex)));
     }
-    
+
     /**
      * Valida si es un número decimal
-     * 
+     *
      * @param string $value
      * @param string $decimal
      * @return boolean

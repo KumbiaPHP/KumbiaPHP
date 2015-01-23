@@ -13,11 +13,11 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * Clase de Autenticacón por BD
- * 
+ *
  * @category   Kumbia
  * @package    Auth
  * @subpackage Adapters
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -39,20 +39,20 @@ class ModelAuth extends Auth2
     protected $_model = 'users';
     /**
      * Namespace de sesion donde se cargaran los campos del modelo
-     * 
+     *
      * @var string
      */
     protected $_sessionNamespace = 'default';
     /**
      * Campos que se cargan del modelo
-     * 
+     *
      * @var array
      */
     protected $_fields = array('id');
 
     /**
      * Asigna el modelo a utilizar
-     *  
+     *
      * @param string $model nombre de modelo
      */
     public function setModel($model)
@@ -62,7 +62,7 @@ class ModelAuth extends Auth2
 
     /**
      * Asigna el namespace de sesion donde se cargaran los campos de modelo
-     *  
+     *
      * @param string $namespace namespace de sesion
      */
     public function setSessionNamespace($namespace)
@@ -72,7 +72,7 @@ class ModelAuth extends Auth2
 
     /**
      * Indica que campos del modelo se cargaran en sesion
-     *  
+     *
      * @param array $fields campos a cargar
      */
     public function setFields($fields)
@@ -82,7 +82,7 @@ class ModelAuth extends Auth2
 
     /**
      * Check
-     * 
+     *
      * @param $username
      * @param $password
      * @return bool

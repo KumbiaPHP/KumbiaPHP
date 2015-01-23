@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    ControllerDeprecated
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -204,7 +204,7 @@ class ControllerDeprecated
     protected function get($variable = NULL)
     { //FILTER_SANITIZE_STRING
         if ($variable) {
-            
+
         } else {
             $value = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
         }
@@ -356,7 +356,7 @@ class ControllerDeprecated
      */
     protected function before_filter()
     {
-        
+
     }
 
     /**
@@ -366,7 +366,7 @@ class ControllerDeprecated
      */
     protected function after_filter()
     {
-        
+
     }
 
     /**
@@ -376,13 +376,13 @@ class ControllerDeprecated
      */
     protected function initialize()
     {
-        
+
     }
 
     /**
      * Finalize, si se usa tambien en el Application Controller se debe llamar a este tambien
      * parent::finalize()
-     * 
+     *
      * @return bool
      */
     protected function finalize()

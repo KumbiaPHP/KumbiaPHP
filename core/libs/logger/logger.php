@@ -13,8 +13,8 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    Flash 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    Flash
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -28,7 +28,7 @@
  * Ej:
  * <code>
  * //Empieza un log en logs/logDDMMYY.txt
- * 
+ *
  *
  * Logger::debug('Loggear esto como un debug');
  *
@@ -51,7 +51,7 @@
  * </code>
  *
  * @category   Kumbia
- * @package    Flash 
+ * @package    Flash
  */
 abstract class Logger
 {
@@ -190,8 +190,8 @@ abstract class Logger
 
     /**
      * Genera un log de tipo WARNING
-     * 
-     * @return 
+     *
+     * @return
      * @param string $msg
      * @param string $name_log
      */
@@ -202,8 +202,8 @@ abstract class Logger
 
     /**
      * Genera un log de tipo ERROR
-     * 
-     * @return 
+     *
+     * @return
      * @param string $msg
      * @param string $name_log
      */
@@ -214,8 +214,8 @@ abstract class Logger
 
     /**
      * Genera un log de tipo DEBUG
-     * 
-     * @return 
+     *
+     * @return
      * @param string $msg
      * @param string $name_log
      */
@@ -226,8 +226,8 @@ abstract class Logger
 
     /**
      * Genera un log de tipo ALERT
-     * 
-     * @return 
+     *
+     * @return
      * @param string $msg
      * @param string $name_log
      */
@@ -238,8 +238,8 @@ abstract class Logger
 
     /**
      * Genera un log de tipo CRITICAL
-     * 
-     * @return 
+     *
+     * @return
      * @param string $msg
      * @param string $name_log
      */
@@ -250,8 +250,8 @@ abstract class Logger
 
     /**
      * Genera un log de tipo NOTICE
-     * 
-     * @return 
+     *
+     * @return
      * @param string $msg
      * @param string $name_log
      */
@@ -262,8 +262,8 @@ abstract class Logger
 
     /**
      * Genera un log de tipo INFO
-     * 
-     * @return 
+     *
+     * @return
      * @param string $msg
      * @param string $name_log
      */
@@ -274,8 +274,8 @@ abstract class Logger
 
     /**
      * Genera un log de tipo EMERGENCE
-     * 
-     * @return 
+     *
+     * @return
      * @param string $msg
      * @param string $name_log
      */
@@ -286,7 +286,7 @@ abstract class Logger
 
     /**
      * Genera un log Personalizado
-     * 
+     *
      * @param string $type
      * @param string $msg
      * @param string $name_log

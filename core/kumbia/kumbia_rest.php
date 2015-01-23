@@ -1,10 +1,28 @@
 <?php
+/**
+ * KumbiaPHP web & app Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://wiki.kumbiaphp.com/Licencia
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@kumbiaphp.com so we can send you a copy immediately.
+ *
+ * @category   Kumbia
+ * @package    Core
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
 
 require_once dirname(__FILE__) . '/controller.php';
 
 /**
  * Controlador para manejar peticiones REST
- * 
+ *
  * Por defecto cada acción se llama como el método usado por el cliente
  * (GET, POST, PUT, DELETE, OPTIONS, HEADERS, PURGE...)
  * ademas se puede añadir mas acciones colocando delante el nombre del método
@@ -26,7 +44,7 @@ class KumbiaRest extends Controller {
     /**
      * Permite definir parser personalizados por MIME TYPE
      * Esto es necesario para interpretar las entradas
-     * Se define como un MIME type como clave y el valor debe ser un 
+     * Se define como un MIME type como clave y el valor debe ser un
      * callback que devuelva los datos interpretado
      */
     protected $_inputType = array(
@@ -44,7 +62,7 @@ class KumbiaRest extends Controller {
     protected $_fOutput = null;
 
     /**
-     * Permite definir las salidas disponibles, 
+     * Permite definir las salidas disponibles,
      * de esta manera se puede presentar la misma salida en distintos
      * formatos a requerimientos del cliente
      */
@@ -76,7 +94,7 @@ class KumbiaRest extends Controller {
                 break;
             }
         }
-        /* por defecto uso json 
+        /* por defecto uso json
          * ¿o debería mandar un 415?
          */
         $this->_fOutput = empty($this->_fOutput) ? 'json' : $this->_fOutput;
@@ -251,7 +269,7 @@ class KumbiaRest extends Controller {
     /**
      * Parse CSV
      *
-     * Convierte CSV en arrays numéricos, 
+     * Convierte CSV en arrays numéricos,
      * cada item es una linea
      * @param  string $input
      * @return array
@@ -270,7 +288,7 @@ class KumbiaRest extends Controller {
 
     /**
      * Realiza la conversion de formato de Formulario a array
-     * 
+     *
      * @param string $input
      * @return arrat
      */

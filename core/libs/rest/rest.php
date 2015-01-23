@@ -14,12 +14,12 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * Rest. Clase estática para el manejo de API basada en REST
- * 
+ *
  * @category   Kumbia
- * @package    Controller 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    Controller
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
- * @deprecated since version 1  Usar rest_controller 
+ * @deprecated since version 1  Usar rest_controller
  */
 
 /**
@@ -62,7 +62,7 @@ class Rest
 
     /**
      * Establece los tipos de respuesta aceptados
-     * 
+     *
      * @param string $acceptcada uno de los tipos separados por coma ','
      */
     static public function accept($accept)
@@ -72,7 +72,7 @@ class Rest
 
     /**
      * Define el inicio de un servicio REST
-     * 
+     *
      * @param Controller $controller controlador que se convertira en un servicio REST
      */
     static public function init(Controller $controller)
