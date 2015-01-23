@@ -14,8 +14,8 @@
  *
  * @category   Kumbia
  * @package    Db
- * @subpackage Adapters 
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @subpackage Adapters
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -32,21 +32,21 @@
 interface DbPdoInterface
 {
     public function initialize();
-    
+
     /**
      * @return bool
      */
     public function connect($config);
 
     public function query($sql);
-    
+
     /**
      * @return integer
      */
     public function exec($sql);
 
     public function fetch_array($resultQuery=NULL, $opt='');
-    
+
     /**
      * @return bool
      */
@@ -59,7 +59,7 @@ interface DbPdoInterface
      * @return integer
      */
     public function num_rows($result_query=NULL);
-    
+
     /**
      * @param resource $resultQuery
      * @return string
@@ -73,17 +73,17 @@ interface DbPdoInterface
      * @return boolean
      */
     public function data_seek($number, $result_query=NULL);
-    
+
     /**
      * @return integer
      */
     public function affected_rows($result_query=NULL);
-    
+
     /**
      * @return string
      */
     public function error($err='');
-    
+
     /**
      * @return integer
      */
@@ -100,12 +100,12 @@ interface DbPdoInterface
     public function fetch_all($sql);
 
     public function last_insert_id($name='');
-    
+
     /**
      * @return integer
      */
     public function insert($table, $values, $pk='');
-    
+
     /**
      * @param string $where_condition
      *

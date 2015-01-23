@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Core
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -66,10 +66,10 @@ class KumbiaView
      * @var array
      */
     protected static $_cache = array('type' => FALSE, 'time' => FALSE, 'group' => FALSE);
-    
+
     /**
      * Controlador actual
-     * 
+     *
      * @var Controller
      */
     protected static $_controller;
@@ -106,7 +106,7 @@ class KumbiaView
      * ej. View::response('xml');
      * buscara: views/controller/action.xml.phtml
      *
-     * @param string $response 
+     * @param string $response
      * @param string $template Opcional nombre del template sin .phtml
      */
     public static function response($response, $template = FALSE)
@@ -170,16 +170,16 @@ class KumbiaView
         self::$_cache['type'] = $type;
         self::$_cache['time'] = $time;
         self::$_cache['group'] = $group;
-        //Si está en producción para view 
+        //Si está en producción para view
         if (PRODUCTION && $type === 'view') {
             return getCache(); //TRUE si está cacheada
         }
     }
-    
+
     /**
      * Obtiene la cache de view
      *
-     * @return boolean 
+     * @return boolean
      */
     protected static function getCache()
     {
@@ -187,7 +187,7 @@ class KumbiaView
         self::$_content = Cache::driver()->get(Router::get('route'), self::$_cache['group']);
         return self::$_content !== NULL;
     }
-    
+
     /**
      * Obtiene el view
      *
@@ -204,7 +204,7 @@ class KumbiaView
     }
     /**
      * Cachea el view o template
-     * 
+     *
      * @param string $type view o template
      * @return void
      */
@@ -215,7 +215,7 @@ class KumbiaView
                 Cache::driver()->save(ob_get_contents(), self::$_cache['time'], Router::get('route'), self::$_cache['group']);
             }
     }
-    
+
     /**
      * Renderiza la vista
      *
@@ -225,13 +225,13 @@ class KumbiaView
     {
         if (!self::$_view && !self::$_template)
             return ob_end_flush();
-        
+
         // Guarda el controlador
 		self::$_controller = $controller;
-		
+
 		self::generate($controller);
 	}
-	
+
 	/**
      * Genera la vista
      *
@@ -263,7 +263,7 @@ class KumbiaView
             }
 
             self::$_content = ob_get_clean();
-            
+
         }
 
         // Renderizar template
@@ -342,14 +342,14 @@ class KumbiaView
 
 	/**
 	 * Obtiene el valor de un atributo público o todos del controlador
-	 * 
-	 * @param string $var nombre de variable 
+	 *
+	 * @param string $var nombre de variable
 	 * @return mixed valor de la variable
 	 */
 	public static function getVar($var = NULL)
 	{
 		if(!$var) return get_object_vars(self::$_controller);
-		
+
 		return isset(self::$_controller->$var) ? self::$_controller->$var : NULL;
 	}
 }

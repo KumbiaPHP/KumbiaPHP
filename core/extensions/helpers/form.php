@@ -13,8 +13,8 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   KumbiaPHP
- * @package    Helpers 
- * @copyright  Copyright (c) 2005-2014 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @package    Helpers
+ * @copyright  Copyright (c) 2005-2015 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -34,7 +34,7 @@ class Form
      */
     protected static $_radios = array();
 
-    
+
     /**
      * Utilizado para avisar al programador,si usa Form::file()
      * y no tiene el form mulipart muestra un error
@@ -72,11 +72,11 @@ class Form
             if(is_scalar($form) || is_null($form)){
                 $tmp_val = $form;
             }else{
-                $form = (object)$form; 
+                $form = (object)$form;
                 $tmp_val = isset($form->$formField[1])?$form->$formField[1]:NULL;
             }
             $value = $is_check ? $tmp_val == $value : $tmp_val;
-        } else if($is_check) {            
+        } else if($is_check) {
             $value = $check ? TRUE : FALSE;
         }
         // Filtrar caracteres especiales
@@ -113,7 +113,7 @@ class Form
     {
         return self::getField($field, $value, FALSE, $filter);
     }
-    
+
 	/**
      * Obtiene el valor de un componente check tomado
      * del mismo valor del nombre del campo y formulario
@@ -298,7 +298,7 @@ class Form
         foreach ($data as $k => $v) {
             $val      = self::selectValue($v, $k, $itemId);
             $text     = self::selectShow($v, $show);
-            $selected = self::selectedValue($value , $val); 
+            $selected = self::selectedValue($value , $val);
             $options .= "<option value=\"$val\" $selected>$text</option>";
         }
         return "<select id=\"$id\" name=\"$name\" $attrs>$options</select>";
@@ -312,12 +312,12 @@ class Form
      * @return string
      */
     public static function selectValue($item, $key, $id){
-        return htmlspecialchars(is_object($item) ? 
+        return htmlspecialchars(is_object($item) ?
             $item->$id: $key, ENT_COMPAT, APP_CHARSET);
     }
 
     /**
-     * retorna el atributo para que quede seleccionado el item de un 
+     * retorna el atributo para que quede seleccionado el item de un
      * select
      * @param string|array $value valor(es) que deben estar seleccionados
      * @param string $key valor del item actual
@@ -338,7 +338,7 @@ class Form
         $value = (is_object($item) &&  !empty($show)) ? $item->$show :(string) $item;
         return htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
     }
-    
+
     /**
      * Crea un campo checkbox
      *
@@ -393,7 +393,7 @@ class Form
 
     /**
      * Crea un botón de tipo imagen
-     *  
+     *
      * @param string $img Nombre o ruta de la imagen
      * @param string|array $attrs Atributos de campo (opcional)
      * @return string
@@ -454,7 +454,7 @@ class Form
      */
     public static function dbSelect($field, $show = NULL, $data = NULL, $blank = 'Seleccione', $attrs = NULL, $value = NULL)
     {
-        
+
         $model = ($data === NULL) ? substr($field, strpos($field, '.')+1, -3):$data[0];
         $model_asoc = Load::model($model);
         //por defecto el primer campo no pk
@@ -483,9 +483,9 @@ class Form
         if (!self::$_multipart) {
             Flash::error('Para poder subir ficheros, debe abrir el form con Form::openMultipart()');
         }
-        
+
         $attrs =  Tag::getAttrs($attrs);
- 
+
         // Obtiene name y id, y los carga en el scope
         list($id, $name, ) = self::getFieldData($field, FALSE);
         return "<input id=\"$id\" name=\"$name\" type=\"file\" $attrs/>";
@@ -516,7 +516,7 @@ class Form
     {
         return self::input('date',$field, $attrs, $value);
     }
-    
+
      /**
      * Crea un campo de texo para fecha (Requiere JS )
      *
