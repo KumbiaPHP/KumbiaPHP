@@ -13,12 +13,12 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * Helpers HTML
- * 
+ *
  * @deprecated
  * @category   Kumbia
  * @package    Helpers
  * @deprecated Antiguo helper html (legacy). Se mantiene para facilitar portar apps antiguas. Se eliminará despues de la beta2
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -44,7 +44,7 @@ function xhtml_start_tag($tag, $attrs=null) {
 	} else {
 		$attrs = $params;
 	}
-	
+
     $xw->startElement($tag);
 
     foreach ($attrs as $k => $v) {
@@ -87,7 +87,7 @@ function xhtml_tag($tag, $attrs=null) {
 	$params = is_array($tag) ? $tag : Util::getParams(func_get_args());
     $xw = new xmlWriter();
     $xw->openMemory();
-    
+
     if(APP_CHARSET != 'UTF-8'){
         $params = utf8_encode($params);
     }
@@ -103,7 +103,7 @@ function xhtml_tag($tag, $attrs=null) {
 
 	$tag = $params[0];
 	unset($params[0]);
-	
+
 	/**
 	 * Cargo el contenido interno para el tag
 	 */
@@ -113,7 +113,7 @@ function xhtml_tag($tag, $attrs=null) {
 	} else {
 		$content = '';
 	}
-	
+
 	if(isset($params[1]) && is_array($params[1])) {
 		$attrs = $params[1];
 		unset($params[1]);
@@ -151,7 +151,7 @@ function xhtml_tag($tag, $attrs=null) {
  */
 function link_to($action, $text=''){
 	$params = is_array($action) ? $action : Util::getParams(func_get_args());
-	
+
 	if(isset($params['confirm'])&&$params['confirm']){
 		if(isset($params['onclick'])) {
 			$params['onclick'] = "if(!confirm(\"{$params['confirm']}\")) { return false; }; ".$params['onclick'];
@@ -160,19 +160,19 @@ function link_to($action, $text=''){
 		}
 		unset($params['confirm']);
 	}
-	
+
 	if(isset($params['text'])) {
 		$params[1] = $params['text'];
 		unset($params['text']);
 	}
-	
+
 	if(!isset($params[1])) {
 		$text = strtr($params[0], '_/', '  ');
 		$params[1] = ucwords($text);
 	}
-	
+
 	$params['href'] = get_kumbia_url($params[0]);
-	
+
 	return xhtml_tag('a', $params, "content: {$params[1]}");
 }
 
@@ -188,7 +188,7 @@ function link_to($action, $text=''){
  */
 function link_to_action($action, $text=''){
 	$params = is_array($action) ? $action : Util::getParams(func_get_args());
-	
+
 	if(isset($params['confirm'])&&$params['confirm']){
 		if(isset($params['onclick'])) {
 			$params['onclick'] = "if(!confirm(\"{$params['confirm']}\")) { return false; }; ".$params['onclick'];
@@ -197,17 +197,17 @@ function link_to_action($action, $text=''){
 		}
 		unset($params['confirm']);
 	}
-	
+
 	if(isset($params['text'])) {
 		$params[1] = $params['text'];
 		unset($params['text']);
 	}
-	
+
 	if(!isset($params[1])) {
 		$text = strtr($params[0], '_/', '  ');
 		$params[1] = ucwords($text);
 	}
-	
+
 	$module_name = Router::get('module');
 	$controller_name = Router::get('controller');
 	if($module_name) {
@@ -216,7 +216,7 @@ function link_to_action($action, $text=''){
 		$path = $controller_name;
 	}
 	$params['href'] = get_kumbia_url("$path/{$params[0]}");
-	
+
 	return xhtml_tag('a', $params, "content: {$params[1]}");
 }
 
@@ -236,7 +236,7 @@ function link_to_action($action, $text=''){
  */
 function link_to_remote($action){
 	$params = is_array($action) ? $action : Util::getParams(func_get_args());
-	
+
 	if(!isset($params['update'])||!$params['update']){
 		$update = isset($params[2]) ? $params[2] : "";
 	} else {
@@ -255,7 +255,7 @@ function link_to_remote($action){
 	} else {
 		$action = $params['action'];
 	}
-	
+
 	$code = '';
 	if(isset($params['confirm'])){
 		$code.= "if(confirm('{$params['confirm']}')) {";
@@ -283,10 +283,10 @@ function link_to_remote($action){
 		$code.=" }";
 	}
 	$code.="; return false;";
-	
+
 	$params['onclick'] = $code;
 	$params['href'] = '#';
-	
+
 	unset($params['action']);
 	unset($params['before']);
 	unset($params['oncomplete']);
@@ -294,7 +294,7 @@ function link_to_remote($action){
 	unset($params['loading']);
 	unset($params['update']);
 	unset($params['confirm']);
-	
+
 	return xhtml_tag('a',$params, "content: $text");
 }
 
@@ -310,18 +310,18 @@ function link_to_remote($action){
  */
 function javascript_include_tag($src=''){
 	$params = is_array($src) ? $src : Util::getParams(func_get_args());
-	
+
 	if(isset($params['cache']) && $params['cache']=='false') {
 		$cache = false;
 		unset($params['cache']);
 	} else {
 		$cache = true;
 	}
-	
+
 	if(!isset($params[0])) {
 		$params[0] = Router::get('controller');
 	}
-	
+
 	$code = '';
 	foreach($params as $src) {
 		$src.=".js";
@@ -331,7 +331,7 @@ function javascript_include_tag($src=''){
 		$src = PUBLIC_PATH."javascript/$src";
 		$code.=xhtml_tag('script', $params, 'type: text/javascript', "src: $src");
 	}
-	
+
 	return $code;
 }
 
@@ -365,7 +365,7 @@ function stylesheet_link_tag($name){
 	$params = is_array($name) ? $name : Util::getParams(func_get_args());
 	$params['rel'] = 'stylesheet';
 	$params['type'] = 'text/css';
-	
+
 	$code = '';
 	for($i=0; isset($params[$i]); $i++){
 		$src = $params[$i];
@@ -402,7 +402,7 @@ function img_tag($img){
 	if(!isset($params['alt'])) {
 		$params['alt'] = '';
 	}
-	
+
 	if(isset($params['drag'])&&$params['drag']) {
 		$drag = true;
 		unset($params['drag']);
@@ -423,7 +423,7 @@ function img_tag($img){
 	if($reflect){
 		$code.=xhtml_tag('script', 'type: text/javascript', "content: new Reflector.reflect('{$atts['id']}')");
 	}
-	
+
 	return $code;
 }
 
@@ -441,13 +441,13 @@ function img_tag($img){
  */
 function form_remote_tag($data){
 	$params = is_array($data) ? $data : Util::getParams(func_get_args());
-	
+
 	if(!isset($params['action'])||!$params['action']) {
 		$params['action'] = $params[0];
 	}else{
 		$params['action'] = $params['action'];
 	}
-	
+
 	if(!isset($params['method'])||!$params['method']) {
 		$params['method'] = 'post';
 	}
@@ -481,7 +481,7 @@ function form_remote_tag($data){
 		$params['onsubmit'] = "return ajaxRemoteForm(this, \"{$update}\", { ".join(",", $callbacks)." });";
 	}
 	$params['action'] = get_kumbia_url("{$params['action']}/$id");
-	
+
 	return xhtml_start_tag('form', $params);
 }
 
@@ -561,21 +561,21 @@ function submit_tag($caption){
  */
 function submit_remote_tag($caption){
 	$params = is_array($caption) ? $caption : Util::getParams(func_get_args());
-	
+
 	if(isset($params['caption'])) {
 		$params['value'] = $params['caption'];
 		unset($params['caption']);
 	} elseif(isset($params[0])) {
 		$params['value'] = $params[0];
 	}
-	
+
 	if(isset($params['update'])) {
 		$update = $params['update'];
 		unset($params['update']);
 	} else {
 		$update = '';
 	}
-	
+
 	$callbacks = array();
 	if(isset($params['complete']) && $params['complete']){
 		$callbacks[] = " complete: function(){ ".$params['complete']." }";
@@ -589,14 +589,14 @@ function submit_remote_tag($caption){
 		$callbacks[] = " success: function(){ ".$params['success']." }";
 		unset($params['success']);
 	}
-	
+
 	if(isset($params['onclick'])) {
 		$params['onclick'].= "; return ajaxRemoteForm(this.form, \"$update\", { ".join(",", $callbacks)." });";
 	} else {
 		$params['onclick'] = "return ajaxRemoteForm(this.form, \"$update\", { ".join(",", $callbacks)." });";
 	}
-	
-	
+
+
 	return xhtml_tag('input', $params, 'type: submit');
 }
 
@@ -779,44 +779,44 @@ function textupper_field_tag($name){
 function date_field_tag($name){
     static $i = false;
 	$params = is_array($name) ? $name : Util::getParams(func_get_args());
-	
+
 	if(isset($params['format'])){
 		$format = $params['format'];
 		unset($params['format']);
 	} else {
 		$format = "d-m-Y";
 	}
-	
+
 	if(isset($params['language'])){
 		$lang = $params['language'];
 		unset($params['language']);
 	} else {
 		$lang = "es";
 	}
-	
+
 	if(isset($params[0])) {
 		$params = array_merge(get_id_and_name($params[0]), $params);
 	}
-	
+
 	$code = '';
 	if($i == false){
 	    $i = true;
 		$code .= javascript_include_tag("datepicker/lang/$lang");
-	    $code .= javascript_include_tag('datepicker/datepicker'); 
+	    $code .= javascript_include_tag('datepicker/datepicker');
 		stylesheet_link_tag('datepicker');
 	}
-	
+
 	$data = get_id_and_name($name);
 	$format = str_replace('-', '-ds-', $format);
 	$code .= "
 		<script type=\"text/javascript\">
-			var opts = {                            
+			var opts = {
 			  formElements:{'{$data['id']}':'$format'}
-			};      
+			};
 			datePickerController.createDatePicker(opts);
 		</script>
 	";
-		
+
 	return text_field_tag($params) . $code;
 }
 
@@ -856,16 +856,16 @@ function textarea_tag($name, $value=null){
 	/**
 	 * Obtengo id, name y value
 	 **/
-	$params = array_merge(get_id_and_name($name), $params);	
+	$params = array_merge(get_id_and_name($name), $params);
 
 	if(isset($params[1])) {
 		$value = $params[1];
 	} else {
-		$value = get_value_from_action($name);	
+		$value = get_value_from_action($name);
 	}
-	
+
 	$value = htmlspecialchars($value, ENT_QUOTES, APP_CHARSET);
-	
+
 	if(!isset($params['rows'])) {
 		$params['rows'] = '25';
 	}
@@ -927,7 +927,7 @@ function hidden_field_tag($name){
  */
 function select_tag($name, $data=array()){
 	$params = is_array($name) ? $name : Util::getParams(func_get_args());
-	
+
 	/**
 	 * Obtengo id, name y value
 	 **/
@@ -938,11 +938,11 @@ function select_tag($name, $data=array()){
             $params['selected'] = $value;
         }
     }
-	
+
     if(!isset($params[1])) {
         return xhtml_start_tag('select', $params);
     }
-    
+
 	if(isset($params['selected'])) {
 		$selected = $params['selected'];
 		unset($params['selected']);
@@ -953,7 +953,7 @@ function select_tag($name, $data=array()){
     } else {
         $separator = '';
     }
-	
+
 	$options = '';
 	if(isset($params['include_blank'])) {
 		$options.="\t".xhtml_tag('option', array('value'=>''), "content: {$params['include_blank']}");
@@ -968,17 +968,17 @@ function select_tag($name, $data=array()){
             } else {
                 $fields = array('id');
             }
-            
+
             foreach($params[1] as $item) {
                 $value = $item->primary_key[0];
                 $vals = array();
                 foreach($fields as $option) {
                     array_push($vals, $item->$option);
                 }
-                
+
                 $k = $item->$value;
                 $v = implode($vals, $separator);
-                
+
                 if(isset($selected) && $selected==$k) {
                     $options.="\t".option_tag($k, $v, 'selected: selected');
                 } else {
@@ -1001,12 +1001,12 @@ function select_tag($name, $data=array()){
 		} else {
 			$fields = array('id');
 		}
-			
+
 		/**
 		 * combo creado a partir de un modelo
 		 **/
 		$m = ActiveRecord::get($params[1]);
-		
+
 		if(isset($params['value'])) {
 			$value = $params['value'];
 			unset($params['value']);
@@ -1015,7 +1015,7 @@ function select_tag($name, $data=array()){
 			$m2->dump_model();
 			$value = $m2->primary_key[0];
 		}
-		
+
 		if(isset($params[2]) && $params[2]) {
 			$items = $m2->find_all_by_sql($params[2]);
 		} else {
@@ -1023,7 +1023,7 @@ function select_tag($name, $data=array()){
 			 * Arreglo que contiene los argumentos para el find
 			 **/
 			$find_args = array();
-			
+
 			/**
 			 * Asignando parametros de busqueda
 			 **/
@@ -1066,16 +1066,16 @@ function select_tag($name, $data=array()){
 
 			$items = call_user_func_array(array($m2, 'find'), $find_args);
 		}
-		
+
 		foreach($items as $item) {
 			$vals = array();
 			foreach($fields as $option) {
 				array_push($vals, $item->$option);
 			}
-			
+
 			$k = $item->$value;
 			$v = implode($vals, $separator);
-			
+
 			if(isset($selected) && $selected==$k) {
 				$options.="\t".option_tag($k, $v, 'selected: selected');
 			} else {
@@ -1095,7 +1095,7 @@ function select_tag($name, $data=array()){
  */
 function option_tag($value, $text=''){
 	$params = is_array($value) ? $value : Util::getParams(func_get_args());
-	
+
 	$params['value'] = $params[0];
 	if(isset($params[1])) {
 		$text = $params[1];
@@ -1115,7 +1115,7 @@ function option_tag($value, $text=''){
 function upload_image_tag($name){
 	$opts = is_array($name) ? $name : Util::getParams(func_get_args());
 	$code = '';
-	
+
 	if(isset($opts[0])){
 		$opts['name'] = $opts[0];
 	} else {
@@ -1126,9 +1126,9 @@ function upload_image_tag($name){
 	} else {
 	    $opts['value'] = '';
 	}
-	
+
 	$path = PUBLIC_PATH;
-	
+
 	$code.="<span id='{$opts['name']}_span_pre'>
 	<select name='{$opts[0]}' id='{$opts[0]}' onchange='show_upload_image(this, \"$path\")'>";
 	$code.="<option value='@'>Seleccione...\n";
@@ -1246,7 +1246,7 @@ function tr_color(){
 }
 /**
  * Crea un <tr> pasando como parametro las class
- * 
+ *
  * tr_color_class('browse_primary', 'browse_secondary')
  * @return string
  */
@@ -1258,7 +1258,7 @@ function tr_color_class(){
     $params = Util::getParams(func_get_args());
     if(isset($params['id'])){
 	    $id = " id=\"{$params['id']}\"";
-	} 
+	}
     if($c){
 	    $code = "<tr class='$params[0]' $id";
             $c = false;
@@ -1285,7 +1285,7 @@ function tr_color_class(){
  */
 function button_to_action($caption, $action='', $classCSS=''){
 	$params= is_array($caption) ? $caption : Util::getParams(func_get_args());
-	
+
 	if(isset($params['caption'])) {
 		$caption = $params['caption'];
 		unset($params['caption']);
@@ -1305,13 +1305,13 @@ function button_to_action($caption, $action='', $classCSS=''){
 	if(isset($params[2])) {
 		$params['class'] = $params[2];
 	}
-	
+
 	if(isset($params['onclick'])) {
 		$params['onclick'].=';window.location="'.get_kumbia_url($action).'";';
 	} else {
 		$params['onclick'] = 'window.location="'.get_kumbia_url($action).'";';
 	}
-	
+
 	return xhtml_tag('button', $params, "content: $caption");
 }
 
@@ -1337,13 +1337,13 @@ function button_to_remote_action($caption, $action='', $classCSS=''){
 			$opts['caption'] = $opts[0];
 		}
 	}
-	
+
 	$opts['action'] = PUBLIC_PATH . $opts['action'];
-	
+
 	if(!isset($opts['update'])){
 		$opts['update'] = "";
 	}
-    
+
     if(!isset($opts['success'])){
         $opts['success'] = '';
     }
@@ -1385,7 +1385,7 @@ function button_to_remote_action($caption, $action='', $classCSS=''){
  */
 function updater_select($name, $data=array()){
 	$params = is_array($name) ? $name : Util::getParams(func_get_args());
-	
+
 	/**
 	 * Obtengo id, name y value
 	 **/
@@ -1408,7 +1408,7 @@ function updater_select($name, $data=array()){
 	} else {
 		$update = '';
 	}
-	
+
 	if(isset($params['action'])) {
 		$action = $params['action'];
 		unset($params['action']);
@@ -1450,7 +1450,7 @@ function updater_select($name, $data=array()){
 
 /**
  * Caja de texto con autocompletacion
- * 
+ *
  * @param string $name id de la caja de texto
  *
  * action: accion a ejecutar
@@ -1461,7 +1461,7 @@ function updater_select($name, $data=array()){
  **/
 function text_field_with_autocomplete($name){
 	$params = is_array($name) ? $name : Util::getParams(func_get_args());
-	
+
 	/**
 	 * Obtengo id, name y value
 	 **/
@@ -1474,7 +1474,7 @@ function text_field_with_autocomplete($name){
 			}
 		}
 	}
-	
+
 	$hash = md5(uniqid());
 
 	if(isset($params['after_update'])) {
@@ -1497,7 +1497,7 @@ function text_field_with_autocomplete($name){
 	}
 
 	$code = text_field_tag($params);
-	
+
 	$code.= "
 	<span id='indicator$hash' style='display: none'><img src='".PUBLIC_PATH."img/spinner.gif' alt='$message'/></span>
 	<div id='{$params[0]}_choices' class='autocomplete'></div>
@@ -1520,7 +1520,7 @@ function xhtml_template($template='template'){
 	<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 	<title>Kumbia PHP Framework</title>
-	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />'; 
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />';
 	print stylesheet_link_tag("style", 'use_variables: true');
 	kumbia::stylesheet_link_tags().
 	print '</head>
@@ -1621,10 +1621,10 @@ function js_alert($s) {
 /**
  * Campo para tipo hora
  * @param string $name id del campo
- * 
+ *
  * format: %h:%m:%s  (%h=hora, %m=minutos, %s=segundos)
  *
- * @return string 
+ * @return string
  **/
 function time_field_tag($name='') {
 	$params = is_array($name) ? $name : Util::getParams(func_get_args());
@@ -1633,7 +1633,7 @@ function time_field_tag($name='') {
 		'07' => '07', '08' => '08', '09' => '09', '10' => '10', '11' => '11', '12' => '12', '13' => '13',
 		'14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19', '20' => '20',
 		'21' => '21', '22' => '22', '23' => '23');
-		
+
 	$mins = array ('00' => '00', '01' => '01', '02' => '02', '03' => '03', '04' => '04', '05' => '05' , '06' => '06',
 		'07' => '07', '08' => '08', '09' => '09', '10' => '10', '11' => '11', '12' => '12', '13' => '13',
 		'14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19', '20' => '20',
@@ -1643,29 +1643,29 @@ function time_field_tag($name='') {
 		'42' => '42', '43' => '43', '44' => '44', '45' => '45', '46' => '46', '47' => '47', '48' => '48', '49' => '49',
 		'50' => '50', '51' => '51' , '52' => '52', '53' => '53', '54' => '54', '55' => '55', '56' => '56',
 		'57' => '57', '58' => '58', '59' => '59' );
-	
+
 	if(isset($params['value'])) {
 		$value = $params['value'];
 		unset($params['value']);
 	} else {
 		$value = get_value_from_action($name);
 	}
-	
+
 	if(is_null($value)) {
 		$value = '00:00:00';
 	}
-	
+
 	$format = isset($params['format']) ? $params['format']: '%h:%m';
 	$hidden = hidden_field_tag($params[0], "value: $value");
-		
+
 	if($value) {
 		$value = explode(':', $value);
 	}
-		
+
 	$data = get_id_and_name($params[0]);
 	$code = '';
 	$format = explode(':', $format);
-	
+
 	$onchange = "
 		var hora = document.getElementById('{$data['id']}_h');
 		var min = document.getElementById('{$data['id']}_m');
@@ -1690,13 +1690,13 @@ function time_field_tag($name='') {
 		}
 		document.getElementById('{$data['id']}').value = value;
 	";
-	
+
 	if(isset($params['onchange'])) {
 		$params['onchange'].=$onchange;
 	} else {
 		$params['onchange'] = $onchange;
 	}
-	
+
 	foreach($format as $f) {
 		if($f=='%h') {
 			if($code) {
@@ -1707,7 +1707,7 @@ function time_field_tag($name='') {
 			}
 			$params[1] = $hours;
 			$code.=select_tag(array_merge($params, array('name'=>'', 'id'=>$data['id'].'_h')));
-			unset($params['selected']);			
+			unset($params['selected']);
 		} elseif($f=='%m') {
 			if($code) {
 				$code.=':';
@@ -1717,7 +1717,7 @@ function time_field_tag($name='') {
 			}
 			$params[1] = $mins;
 			$code.=select_tag(array_merge($params, array('name'=>'', 'id'=>$data['id'].'_m')));
-			unset($params['selected']);	
+			unset($params['selected']);
 		} elseif($f=='%s') {
 			if($code) {
 				$code.=':';
@@ -1730,7 +1730,7 @@ function time_field_tag($name='') {
 			unset($params['selected']);
 		}
 	}
-	
+
 	return $code.$hidden;
 }
 
@@ -1767,7 +1767,7 @@ function month_field_tag($name) {
  */
 function swf_tag($data){
 	$params = is_array($data) ? $data : Util::getParams(func_get_args());
-	
+
 	if(!isset($params['data']) && isset($params[0])){
 		$temp = str_replace(".swf", "", $params[0]);
 		$params['data'] = PUBLIC_PATH."swf/{$temp}.swf";
@@ -1776,23 +1776,23 @@ function swf_tag($data){
 		$temp = str_replace(".swf", "", $params['data']);
 		$params['data'] = PUBLIC_PATH."swf/{$temp}.swf";
 	}
-	
+
 	if(!isset($params['type'])){
 		$params['type'] = 'application/x-shockwave-flash';
 	}
-	
+
 	if(!isset($params['wmode'])){
 		$wmode = 'transparent';
 	}else{
 		$wmode = $params['wmode'];
 		unset($params['wmode']);
 	}
-	
+
 	$code = xhtml_start_tag('object', $params);
 	$code .= '<param name="movie" value="'.$params['data'].'" />';
 	$code .= '<param name="wmode" value="'.$wmode.'" />';
 	$code .= xhtml_end_tag('object');
-	
+
 	return $code;
 }
 /**
@@ -1803,7 +1803,7 @@ function swf_tag($data){
  */
 function get_kumbia_url($url){
 	$return_url = PUBLIC_PATH;
-	
+
 	$action = $url;
 	$module = '';
 	if(is_array($url)){

@@ -13,10 +13,10 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * Validate es una Clase que realiza validaciones Lógicas
- * 
+ *
  * @category   KumbiaPHP
- * @package    validate 
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    validate
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 class Validations
@@ -24,12 +24,12 @@ class Validations
 	/**
 	 * Constantes para definir los patrones
 	 */
-  
+
 	/*
 	 * El valor deber ser solo letras y números
 	 */
 	const IS_ALPHANUM = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu';
-	 
+
     /**
      * Almacena la Expresion Regular
      *
@@ -37,11 +37,11 @@ class Validations
      */
     public static $regex = NULL;
 
-    
+
     /**
      * Valida que sea numérico
      * @param  mixed $check Valor a ser chequeado
-     * @return bool        
+     * @return bool
      */
     public static function numeric($check){
         return is_numeric($check);
@@ -57,7 +57,7 @@ class Validations
     {
         return filter_var($check, FILTER_VALIDATE_INT);
     }
-    
+
     /**
      * Valida que una cadena este entre un rango.
      * Los espacios son contados
@@ -86,9 +86,9 @@ class Validations
     }
 
     /**
-     * Valida que es un número se encuentre 
+     * Valida que es un número se encuentre
      * en un rango minímo y máximo
-     * 
+     *
      * @param int $value
      * @param int $min
      * @param int $max
@@ -114,7 +114,7 @@ class Validations
         $list = isset($param['list']) && is_array($param['list']) ? $param['list'] : array();
         return in_array($value, $list);
     }
-    
+
     /**
      * Valida que una cadena sea un mail
      * @param string $mail
@@ -124,7 +124,7 @@ class Validations
     {
         return filter_var($mail, FILTER_VALIDATE_EMAIL);
     }
-    
+
     /**
      * Valida URL
      *
@@ -136,7 +136,7 @@ class Validations
         $flag = isset($param['flag'])? $param['flag'] : 0;
         return filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED | $flag);
     }
-    
+
     /**
      * Valida que sea una IP, por defecto v4
      * TODO: Revisar este método
@@ -147,7 +147,7 @@ class Validations
     {
         return filter_var($ip, FILTER_VALIDATE_IP, $flags);
     }
-    
+
     /**
      * Valida que un string no sea null
      *
@@ -158,11 +158,11 @@ class Validations
     {
         return !empty($check) && $check!='0';
     }
-    
+
     /**
      * Valida que un String sea alpha-num (incluye caracteres acentuados)
      * TODO: Revisar este método
-     * 
+     *
      * @param string $string
      * @return bool
      */
@@ -170,11 +170,11 @@ class Validations
     {
         return self::pattern($string, self::IS_ALPHANUM);
     }
-    
+
     /**
      * Valida una fecha
      * @param string $value fecha a validar acorde al formato indicado
-     * @param string $format como en DateTime  
+     * @param string $format como en DateTime
      * @return boolean
      */
     public static function date($value, $format = 'd-m-y')
@@ -182,7 +182,7 @@ class Validations
         $date = DateTime::createFromFormat($format, $value);
         return $date && $date->format($format) == $value;
     }
-    
+
     /**
      * Valida un string dada una Expresion Regular
      *
@@ -195,10 +195,10 @@ class Validations
         $regex = isset($param['regex'])? $param['regex'] : '/.*/';
         return filter_var($check, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => $regex)));
     }
-    
+
     /**
      * Valida si es un número decimal
-     * 
+     *
      * @param string $value
      * @param string $decimal
      * @return boolean

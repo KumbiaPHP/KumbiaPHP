@@ -13,8 +13,8 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    Date 
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    Date
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -311,7 +311,7 @@ class Date
     public function isTomorrow()
     {
         $time = mktime(0, 0, 0, date("m"), date("d"), date("Y")) - 86400;
-        
+
         if ($this->timestamp == $time) {
             return true;
         } else {

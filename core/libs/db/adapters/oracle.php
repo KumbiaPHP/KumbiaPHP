@@ -14,8 +14,8 @@
  *
  * @category   Kumbia
  * @package    Db
- * @subpackage Adapters 
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @subpackage Adapters
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -211,7 +211,7 @@ class DbOracle extends DbBase implements DbBaseInterface
                 $result_to_lower[strtolower($key)] = $value;
             }
             return $result_to_lower;
-        } 
+        }
         return false;
     }
 

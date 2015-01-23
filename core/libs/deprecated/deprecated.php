@@ -13,10 +13,10 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * Helper para Tags HTML
- * 
+ *
  * @category   Kumbia
- * @package    Core 
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    Core
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -75,7 +75,7 @@ function array_insert(&$form, $index, $value, $key=null){
 /**
  * Insert para arrays numericos
  * @deprecated
- * 
+ *
  * @param $array array donde se insertara (por referencia)
  * @param $index indice donde se realizara la insercion
  * @param $value valor a insertar
@@ -254,11 +254,11 @@ function to_human($num){
  * @param string $str
  * @return string
  */
-function camelize($str) {	
+function camelize($str) {
 	$str = strtr($str, '_', ' ');
 	$str = ucwords($str);
 	$str = str_replace(' ', '', $str);
-	
+
 	return $str;
 }
 
@@ -270,7 +270,7 @@ function camelize($str) {
  * @return string
  */
 function uncamelize($str) {
-		
+
 	return strtolower(preg_replace('/([A-Z])/', "_\\1", $str));
 }
 
@@ -278,7 +278,7 @@ function uncamelize($str) {
  * Convierte los parametros de una funcion o metodo de parametros por nombre a un array
  *
  * @deprecated
- * @param array $params 
+ * @param array $params
  * @return array
  */
 function get_params($params){
@@ -295,7 +295,7 @@ function get_params($params){
 
 /*
  * Recibe una cadena como: item1,item2,item3 y retorna una como: "item1","item2","item3"
- * 
+ *
  * @deprecated
  * @param string $lista Cadena con Items separados por comas (,).
  * @return string $listaEncomillada Cadena con Items encerrados en doblecomillas y separados por comas (,).
@@ -396,26 +396,26 @@ function my_round($number, $n=2){
  */
 function copy_dir($source, $target) {
 	if (is_dir($source)) {
-		
+
 		if (!is_dir($target)){
 			@mkdir($target);
 		}
-           
+
 		$d = dir($source);
-           
+
 		while (false !== ($entry = $d->read())) {
 			if ($entry == '.' || $entry == '..') {
 				continue;
 			}
-               
-			$Entry = $source.'/'.$entry;           
+
+			$Entry = $source.'/'.$entry;
 			if (is_dir($Entry)) {
 				copy_dir($Entry, $target.'/'.$entry);
 				continue;
 			}
 			copy($Entry, $target.'/'. $entry);
 		}
-           
+
 		$d->close();
 	}else {
 		copy($source, $target);
@@ -433,7 +433,7 @@ function join_path($dirs){
 		$dirs = func_get_args();
 	}
 	$n = count($dirs);
-	
+
 	$path= '';
 	for($i=0; $i<$n; $i++) {
 		$dir = $dirs[$i];
@@ -442,7 +442,7 @@ function join_path($dirs){
 			if($i<($n-1) && $dir[strlen($dir)-1]!='/') $path.='/';
 		}
 	}
-	
+
 	return $path;
 }
 
@@ -477,9 +477,9 @@ function mkpath($path){
 function age(){
 	$params = get_params(func_get_args());
 	$error = false;
-	
+
 	$active_app = basename(dirname(APP_PATH));
-	
+
 	if(!isset($params['order'])){
 		if($kumbia_config = Config::read('config')){
 			if(preg_match('/^DD[^DMY]MM[^DMY]YYYY$/', $kumbia_config->$active_app->dbdate)){
@@ -499,7 +499,7 @@ function age(){
 	}
 
 	if(isset($params['month'], $params['day'], $params['year'])){
-		$time_nac = mktime(0, 0, 0, $params['month'], $params['day'], $params['year']);	
+		$time_nac = mktime(0, 0, 0, $params['month'], $params['day'], $params['year']);
 	} elseif(isset($params['birthdate'])) {
 		if (preg_match( '/^([0-9]+)[^0-9]([0-9]+)[^0-9]([0-9]+)$/', $params['birthdate'], $date)) {
 			if($params['order'] == 'd-m-Y'){
@@ -545,7 +545,7 @@ function age(){
 	} else {
 		$time_nac = time();
 	}
-	
+
 	if(isset($params['today_month'], $params['today_day'], $params['today_year'])){
 		$time = mktime(0, 0, 0, $params['today_month'], $params['today_day'], $params['today_year']);
 	} elseif(isset($params['today'])) {
@@ -586,14 +586,14 @@ function age(){
 				} else {
 					$error = true;
 				}
-			}	
+			}
 		} else {
 			$error = true;
 		}
 	} else {
 		$time = time();
 	}
- 
+
 	if(!$error){
 		$edad = idate('Y' ,$time) - idate('Y' ,$time_nac);
 	} else {
@@ -613,7 +613,7 @@ function age(){
 	}
 
 	return $edad;
-} 
+}
 
 /**
  * Elimina un directorio
@@ -627,7 +627,7 @@ function remove_dir($dir){
 		Si no es una variable vacia
 	**/
 	$dir = join_path(func_get_args());
-	
+
 	/**
 		Obtengo los archivos en el directorio a eliminar
 	**/
@@ -637,7 +637,7 @@ function remove_dir($dir){
 		**/
 		foreach($files as $file) {
 			/**
-				Si no son los directorios "." o ".." 
+				Si no son los directorios "." o ".."
 			**/
 			if(!preg_match("/^.*\/?[\.]{1,2}$/",$file)) {
 				if(is_dir($file)) {
@@ -698,7 +698,7 @@ function object_from_params($s='') {
  * @param int $step
  **/
 function mirror_range($start, $end, $step=1) {
-	$args = func_get_args(); 
+	$args = func_get_args();
 	$arr = call_user_func_array('range', $args);
 	$mirror = array();
 	foreach($arr as $v) {
@@ -711,12 +711,12 @@ function mirror_range($start, $end, $step=1) {
  * Obtiene la extension del archivo
  * @deprecated
  * @param string $filename nombre del archivo
- * @return string 
+ * @return string
  **/
 function file_extension($filename) {
 	$ext = strchr($filename,".");
 	return $ext;
-} 
+}
 
 /**
  * Obtiene una url completa para la accion en el servidor
@@ -752,7 +752,7 @@ function content(){
 /**
  * Trunca un texto
  * @deprecated
- * 
+ *
  * @param $text
  * @param $word
  * @param $number
@@ -764,14 +764,14 @@ function truncate($text, $word, $number=0){
 	} else {
 		$word = rtrim($word);
 	}
-	
+
 	return $word.$text;
 }
 
 /**
  * Renderiza una vista parcial
  * @deprecated
- * 
+ *
  * @param string $partial vista a renderizar
  * @param string $time tiempo de cache
  * @param array $params
