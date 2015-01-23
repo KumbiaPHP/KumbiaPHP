@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Core
- * @copyright  Copyright (c) 2005-2012 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -107,7 +107,7 @@ function auto($class)
     }
     if ($class == 'Load') {
         return include CORE_PATH . 'kumbia/load.php';
-    }   
+    }
 
     // Pasando a smallcase
     $class = Util::smallcase($class);

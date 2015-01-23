@@ -14,8 +14,8 @@
  *
  * @category   Kumbia
  * @package    Db
- * @subpackage Adapters 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @subpackage Adapters
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -27,89 +27,89 @@
  * @subpackage Adapters
  */
 class DbMsSQL extends DbBase implements DbBaseInterface  {
- 
+
 	/**
 	 * Resource de la Conexión a MsSQL
 	 *
 	 * @var resource
 	 */
 	public $id_connection;
- 
+
 	/**
 	 * Último Resultado de una Query
 	 *
 	 * @var resource
 	 */
 	public $last_result_query;
- 
+
 	/**
 	 * Última sentencia SQL enviada a MsSQL
 	 *
 	 * @var string
 	 */
 	private $last_query;
- 
+
 	/**
 	 * Último error generado por MsSQL
 	 *
 	 * @var string
 	 */
 	public $last_error;
- 
+
 	/**
 	 * Resultado de Array Asociativo
 	 *
 	 */
 	const DB_ASSOC = MSSQL_ASSOC;
- 
+
 	/**
 	 * Resultado de Array Asociativo y Numérico
 	 *
 	 */
 	const DB_BOTH = MSSQL_BOTH;
- 
+
 	/**
 	 * Resultado de Array Numérico
 	 *
 	 */
 	const DB_NUM = MSSQL_NUM;
- 
+
 	/**
 	 * Tipo de Dato Integer
 	 *
 	 */
 	const TYPE_INTEGER = 'INT';
- 
+
 	/**
 	 * Tipo de Dato Date
 	 *
 	 */
 	const TYPE_DATE = 'SMALLDATETIME';
- 
+
 	/**
 	 * Tipo de Dato Varchar
 	 *
 	 */
 	const TYPE_VARCHAR = 'VARCHAR';
- 
+
 	/**
 	 * Tipo de Dato Decimal
 	 *
 	 */
 	const TYPE_DECIMAL = 'DECIMAL';
- 
+
 	/**
 	 * Tipo de Dato Datetime
 	 *
 	 */
 	const TYPE_DATETIME = 'DATETIME';
- 
+
 	/**
 	 * Tipo de Dato Char
 	 *
 	 */
 	const TYPE_CHAR = 'CHAR';
- 
+
 	/**
 	 * Hace una conexión a la base de datos de MsSQL
 	 *
@@ -217,7 +217,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		}
 		return false;
 	}
- 
+
 	/**
 	 * Devuelve el nombre de un campo en el resultado de un select
 	 *
@@ -263,7 +263,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		}
 		return false;
 	}
- 
+
 	/**
 	 * Número de Filas afectadas en un insert, update o delete
 	 *
@@ -279,7 +279,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		}
 		return false;
 	}
- 
+
 	/**
 	 * Devuelve el error de MsSQL
 	 *
@@ -357,14 +357,14 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	 */
 	public function limit($sql){
 		$params = Util::getParams(func_get_args());
-		
+
 		//TODO: añadirle el offset
 		if(isset($params['limit'])){
 			$sql = str_ireplace("SELECT ", "SELECT TOP $params[limit] ", $sql);
-		}		
+		}
 		return $sql;
 	}
- 
+
 	/**
 	 * Borra una tabla de la base de datos
 	 *
@@ -389,7 +389,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 	public function list_tables(){
 		return $this->fetch_all("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
 	}
- 
+
 	/**
 	 * Listar los campos de una tabla
 	 *
@@ -407,7 +407,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 			left join  sysobjects B on A.id = B.id
 			left join systypes C on C.xtype = A.xtype
 			WHERE  B.name = '$table'";
-		return $this->fetch_all($sql);		
+		return $this->fetch_all($sql);
 	}
  	*/
         public function describe_table($table, $schema=''){
@@ -433,13 +433,13 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
                 return $finalDescribe;
         }
 
-	
+
 	/**
 	 * Devuelve fila por fila el contenido de un select
 	 *
 	 * @param resource $result_query
 	 * @param string $class clase de objeto
-	 * @return object 
+	 * @return object
 	 */
 	public function fetch_object($result_query=null, $class='stdClass'){
 		if(!$result_query){
@@ -447,8 +447,8 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
 		}
 		return mssql_fetch_object($result_query, $class);
 	}
-	
+
 	public function create_table ($table, $definition, $index = array()){
-		
+
 	}
 }

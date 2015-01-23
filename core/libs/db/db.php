@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Db
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
@@ -79,7 +79,7 @@ class Db
         // carga los valores por defecto para la conexión, si no existen
         $default = array('port' => 0, 'dsn' => NULL, 'dbname' => NULL, 'host' => 'localhost', 'username' => NULL, 'password' => NULL);
         $config = $config + $default;
-        $path = dirname(__FILE__); 
+        $path = dirname(__FILE__);
 
         //Si usa PDO
         if (isset($config['pdo'])) {

@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Router
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -47,25 +47,25 @@ final class Router
 
 	/**
 	 * Indica si esta pendiente la ejecución de una ruta por parte del dispatcher
-	 * 
+	 *
 	 * @var boolean
 	 */
 	private static $_routed = FALSE;
-    
+
     /**
 	 * Ejecuta una url
-	 * 
+	 *
 	 * @param string $url
 	 * @return Controller
 	 */
 	public static function execute($url)
 	{
-		
+
 		// Se miran los parámetros por seguridad
         if (stripos($url, '/../') !== false)
 			throw new KumbiaException("Posible intento de hack en URL: '$url'");
 			// Si hay intento de hack TODO: añadir la ip y referer en el log
-        
+
         self::$_vars['route'] = $url;
         //Método usado
         self::$_vars['method'] = $_SERVER['REQUEST_METHOD'];
@@ -78,7 +78,7 @@ final class Router
 		// Despacha la ruta actual
 		return self::_dispatch();
 	}
-    
+
     /**
      * Busca en la tabla de entutamiento si hay una ruta en config/routes.ini
      * para el controlador, accion, id actual
@@ -109,7 +109,7 @@ final class Router
 
         return $url;
     }
-    
+
 	/**
      * Toma $url y la descompone en (modulo), controlador, accion y argumentos
      *
@@ -138,20 +138,20 @@ final class Router
         // Controlador
         self::$_vars['controller'] = current($url_items);
         self::$_vars['controller_path'] = (self::$_vars['module']) ? "$url_items[0]/$url_items[1]" : current($url_items);
-        
+
         // Si no hay mas parametros sale
         if (next($url_items) === false) return;
 
         // Acción
         self::$_vars['action'] = current($url_items);
-        
+
         // Si no hay mas parametros sale
         if (next($url_items) === false) return;
 
         // Crea los parámetros y los pasa
         self::$_vars['parameters'] = array_slice($url_items, key($url_items));
     }
-    
+
 	/**
      * Realiza el dispatch de la ruta actual
      *
@@ -195,7 +195,7 @@ final class Router
                 $num_params > $reflectionMethod->getNumberOfParameters())) {
             throw new KumbiaException(NULL,'num_params');
         }
-		
+
 		try {
 			$reflectionMethod->invokeArgs($cont, $cont->parameters);
 		} catch (ReflectionException $e) {
@@ -224,7 +224,7 @@ final class Router
     {
         call_user_func_array(array('Redirect', 'route_to'), func_get_args());
     }
-    
+
     /**
      * Envia el valor de un atributo o el array con todos los atributos y sus valores del router
      * Mirar el atributo vars del router
@@ -266,7 +266,7 @@ final class Router
      * Redirecciona la ejecución a una accion del controlador actual en un
      * tiempo de ejecución determinado
      * @deprecated Ahora Redirect::toAction()
-     * 
+     *
      * @param string $action
      * @param integer $seconds
      */
@@ -274,10 +274,10 @@ final class Router
     {
         Redirect::toAction($action, $seconds);
     }
-	
+
 	/**
      * Redirecciona la ejecución internamente o externamente con un routes propio
-     * 
+     *
      * @param array $params array de $_vars (móddulo, controller, action, params, ...)
      * @param boolean $intern si la redirección es interna
      */

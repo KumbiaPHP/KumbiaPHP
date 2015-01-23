@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Upload
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -36,7 +36,7 @@ class FileUpload extends Upload
 
     /**
      * Constructor
-     * 
+     *
      * @param string $name nombre de archivo por metodo POST
      */
     public function __construct($name)
@@ -49,7 +49,7 @@ class FileUpload extends Upload
 
     /**
      * Asigna la ruta al directorio de destino para el archivo
-     * 
+     *
      * @param string $path ruta al directorio de destino (Ej: /home/usuario/data)
      */
     public function setPath($path)
@@ -59,7 +59,7 @@ class FileUpload extends Upload
 
     /**
      * Guardar el archivo en el servidor
-     * 
+     *
      * @param string $name nombre con el que se guardará el archivo
      * @return boolean
      */
@@ -70,7 +70,7 @@ class FileUpload extends Upload
 
     /**
      * Valida el archivo antes de guardar
-     * 
+     *
      * @return boolean
      */
     protected function _validates()

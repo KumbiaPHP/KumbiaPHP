@@ -14,10 +14,10 @@
  *
  * Flash Es la clase standard para enviar advertencias,
  * informacion y errores a la pantalla
- * 
+ *
  * @category   Kumbia
- * @package    Flash 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    Flash
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 

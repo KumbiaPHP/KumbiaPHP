@@ -14,16 +14,16 @@
  *
  * Permite almacenar valores durante la ejecución de la aplicación. Implementa el
  * patrón de diseño Registry
- * 
+ *
  * @category   Kumbia
- * @package    security 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    security
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
  * Clase para el almacenar valores durante una petición.
- * 
+ *
  * Permite almacenar valores durante la ejecución de la aplicación. Implementa el
  * patrón de diseño Registry
  *

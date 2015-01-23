@@ -14,8 +14,8 @@
  *
  * @category   Kumbia
  * @package    Db
- * @subpackage Adapters 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @subpackage Adapters
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -524,7 +524,7 @@ class DbFirebird extends DbBase implements DbBaseInterface
 
     /**
      * Devuelve la ultima sentencia sql ejecutada por el Adaptador
-     * 
+     *
      * @return string
      */
     public function last_sql_query()

@@ -13,8 +13,8 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    Core 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    Core
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -92,7 +92,7 @@ final class Benchmark
 
     /**
      * Retorna el tiempo de ejecucion del scripts (profiling)
-     * 
+     *
      * @return string time_execution
      */
     public static function time_execution($name)

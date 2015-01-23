@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Filter
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
@@ -87,13 +87,13 @@ class Filter
 
     /**
      * Aplica los filtros a un array de datos.
-     * 
+     *
      * Muy util cuando queremos validar que de un formulario solo nos lleguen
      * los datos necesarios para cierta situación, eliminando posibles elementos
      * indeseados.
-     * 
+     *
      * Ejemplos de uso:
-     * 
+     *
      * $form = array(
      *          'nombre' => "Pedro José",
      *          'apellido' => "  Perez Aguilar  ",
@@ -101,39 +101,39 @@ class Filter
      *          'input_coleado' => "valor coleado",
      *          'edad' => "25"
      *      );
-     * 
+     *
      * Filter::data($form, array(
      *                      'nombre',
      *                      'apellido',
      *                      'fecha_nac' => 'date',
      *                      'edad' => 'int'
      *                  ), 'trim');
-     * 
+     *
      * Devuelve: array(
      *          'nombre' => "Pedro José",
      *          'apellido' => "Perez Aguilar",
      *          'fecha_nac' => "2000-05-20",
      *          'edad' => "25"
      *      );
-     * 
+     *
      * Otro ejemplo para el mismo $form:
-     * 
+     *
      * Filter::data($form, array(
      *                      'nombre' => 'upper|alpha',
      *                      apellido => 'lower|htmlentities|addslashes'
      *                      'fecha_nac' => 'date',
      *                      'edad' => 'int'
      *                  ), 'trim');
-     * 
+     *
      * Otros ejemplos más:
-     * 
+     *
      * Filter::data($form, array('nombre', 'apellido','fecha_nac','edad'),'trim');
-     * 
+     *
      * Filter::data($form, array('nombre', 'apellido','fecha_nac'));
      *
      * @param array $data datos a filtrar.
      * @param array $fields arreglo donde los indices son los campos a devolver
-     * del array original, y el valor de cada indice es el filtro que se 
+     * del array original, y el valor de cada indice es el filtro que se
      * aplicará. si no se desea especificar ningun filtro para algun indice,
      * se coloca solo el nombre del mismo como un valor mas del arreglo.
      * @param string $filterAll filtros que se aplicaran a todos los elementos.

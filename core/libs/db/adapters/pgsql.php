@@ -14,8 +14,8 @@
  *
  * @category   Kumbia
  * @package    Db
- * @subpackage Adapters 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @subpackage Adapters
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -520,7 +520,7 @@ class DbPgSQL extends DbBase implements DbBaseInterface
 			 	CASE WHEN attnotnull=false THEN 'YES' ELSE 'NO' END AS Null,
 			 	CASE WHEN (select cc.contype FROM pg_catalog.pg_constraint cc WHERE
 			 	cc.conrelid = c.oid AND cc.conkey[1] = a.attnum limit 1)='p' THEN 'PRI' ELSE ''
-			 	END AS Key, CASE WHEN atthasdef=true THEN TRUE ELSE NULL END AS Default 
+			 	END AS Key, CASE WHEN atthasdef=true THEN TRUE ELSE NULL END AS Default
                 FROM pg_catalog.pg_class c, pg_catalog.pg_attribute a,
 			 	pg_catalog.pg_type t WHERE c.relname = '$table' AND c.oid = a.attrelid
 			 	AND a.attnum > 0 AND t.oid = a.atttypid order by a.attnum");

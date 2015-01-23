@@ -14,8 +14,8 @@
  *
  * @category   Kumbia
  * @package    Cache
- * @subpackage Drivers 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @subpackage Drivers
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -24,13 +24,13 @@
  *
  * @category   Kumbia
  * @package    Cache
- * @subpackage Drivers 
+ * @subpackage Drivers
  */
 class NixfileCache extends Cache
 {
     /**
      * Maxima marca de tiempo aproximada para procesadores de 32bits
-     * 
+     *
      * 18 de Enero de 2038
      */
     const MAX_TIMESTAMP = 2147401800;

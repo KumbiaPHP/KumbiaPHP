@@ -13,8 +13,8 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    Controller 
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @package    Controller
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -46,7 +46,7 @@ class Controller
      */
     public $action_name;
     /**
-     * Limita la cantidad correcta de 
+     * Limita la cantidad correcta de
      * parametros de una action
      *
      * @var bool
@@ -78,37 +78,37 @@ class Controller
 
     /**
      * BeforeFilter
-     * 
+     *
      * @return bool
      */
     protected function before_filter()
     {
-        
+
     }
 
     /**
      * AfterFilter
-     * 
+     *
      * @return bool
      */
     protected function after_filter()
     {
-        
+
     }
 
     /**
      * Initialize
-     * 
+     *
      * @return bool
      */
     protected function initialize()
     {
-        
+
     }
 
     /**
      * Finalize
-     * 
+     *
      * @return bool
      */
     protected function finalize()

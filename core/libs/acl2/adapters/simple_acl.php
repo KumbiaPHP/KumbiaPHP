@@ -13,10 +13,10 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * Implementacion de ACL con definicion de reglas en PHP
- * 
+ *
  * @category   Kumbia
  * @package    Acl
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -48,9 +48,9 @@ class SimpleAcl extends Acl2
     protected $_roles = array();
     /**
      * Usuarios del sistema con sus respectivos roles
-     * 
+     *
      * @var array
-     * 
+     *
      * @example SimpleAcl-users
      * protected $_users = array(
      *     'usuario1' => array('rol1', 'rol2'),

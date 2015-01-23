@@ -17,7 +17,7 @@
  * @category Kumbia
  * @package Report
  * @deprecated Antiguo generador de reportes (legacy)
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -28,35 +28,35 @@ include_once LIBRARY_PATH.'fpdf/fpdf.php';
 
 class PDF extends FPDF
 {
-	//Cabecera de página
+	//Cabecera de pï¿½gina
 	function Header()
 	{
 		$this->Ln(10);
 	}
 
-	//Pie de página
+	//Pie de pï¿½gina
 	function Footer()
 	{
 
 		$config = Config::read('config');
 		$active_app = Router::get_application();
-		//Posición: a 1,5 cm del final
+		//Posiciï¿½n: a 1,5 cm del final
 		$this->SetY(-21);
 		//Arial italic 8
 		$this->SetFont('Arial', '', 7);
 
-		//Posición: a 1,5 cm del final
+		//Posiciï¿½n: a 1,5 cm del final
 		$this->SetY(-18);
 		//Arial italic 8
 		$this->SetFont('Arial','',7);
-		//Número de página
+		//Nï¿½mero de pï¿½gina
 		$this->Cell(0,10, $config->$active_app->name,0,0,'C');
 
-		//Posición: a 1,5 cm del final
+		//Posiciï¿½n: a 1,5 cm del final
 		$this->SetY(-10);
 		//Arial italic 8
 		$this->SetFont('Arial','',8);
-		//Número de página
+		//Nï¿½mero de pï¿½gina
 		$this->Cell(0,10,'-- '.$this->PageNo().' --',0,0,'C');
 
 	}
@@ -77,7 +77,7 @@ function pdf($result, $sumArray, $title, $weightArray, $headerArray){
 	$config = Config::read('config');
 	$active_app = Router::get_application();
 
-	//Orientación
+	//Orientaciï¿½n
 	if($sumArray>200) {
 		$orientation = 'L';
 	} else {
@@ -133,7 +133,7 @@ function pdf($result, $sumArray, $title, $weightArray, $headerArray){
 	}
 	$pdf->Ln();
 
-	//Colores, ancho de línea y fuente en negrita
+	//Colores, ancho de lï¿½nea y fuente en negrita
 	$pdf->SetFillColor(0xF2,0xF2, 0xF2);
 	$pdf->SetTextColor(0);
 	$pdf->SetDrawColor(0,0,0);
@@ -152,7 +152,7 @@ function pdf($result, $sumArray, $title, $weightArray, $headerArray){
 	}
 	$pdf->Ln();
 
-	//Restauración de colores y fuentes
+	//Restauraciï¿½n de colores y fuentes
 	$pdf->SetFillColor(224, 235, 255);
 	$pdf->SetTextColor(0);
 	$pdf->SetFont('Arial','B', 7);
@@ -207,9 +207,9 @@ function pdf($result, $sumArray, $title, $weightArray, $headerArray){
 	/*print "<div style='background: url(img/bg2.jpg) #F2f2f2;border:1px solid #c0c0c0'>
 	<table><td><img src='img/information.gif' width='64' height='64'/></td><td>";
 	print "Papel: $paper<br>";
-	print "Orientación: $orientation<br>";
-	print "Ancho Página: $widthPage mm<br>";
-	print "Número Páginas: $p<br>";
+	print "Orientaciï¿½n: $orientation<br>";
+	print "Ancho Pï¿½gina: $widthPage mm<br>";
+	print "Nï¿½mero Pï¿½ginas: $p<br>";
 	print "</td></table></div><br>";*/
 
 	$file = md5(uniqid());

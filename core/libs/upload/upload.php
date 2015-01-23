@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Upload
- * @copyright  Copyright (c) 2005-2012 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -29,7 +29,7 @@ abstract class Upload
 
     /**
      * Nombre de archivo subido por método POST
-     * 
+     *
      * @var string
      */
     protected $_name;
@@ -41,7 +41,7 @@ abstract class Upload
     protected $_allowScripts = FALSE;
     /**
      * Tamaño mínimo del archivo
-     * 
+     *
      * @var string
      */
     protected $_minSize = NULL;
@@ -53,7 +53,7 @@ abstract class Upload
     protected $_maxSize = NULL;
     /**
      * Tipos de archivo permitidos utilizando mime
-     * 
+     *
      * @var array
      */
     protected $_types = NULL;
@@ -65,7 +65,7 @@ abstract class Upload
     protected $_extensions = NULL;
     /**
      * Permitir sobrescribir ficheros
-     * 
+     *
      * @var bool Por defecto FALSE
      */
     protected $_overwrite = FALSE;
@@ -152,12 +152,12 @@ abstract class Upload
      */
     protected function _beforeSave($name)
     {
-        
+
     }
 
     /**
      * Acciones después de guardar
-     * 
+     *
      * @param string $name nombre con el que se guardo el archivo
      */
     protected function _afterSave($name)
@@ -191,7 +191,7 @@ abstract class Upload
 
     /**
      * Guarda el archivo con un nombre aleatorio
-     * 
+     *
      * @return string|boolean Nombre de archivo generado o FALSE si falla
      */
     public function saveRandom()
@@ -209,7 +209,7 @@ abstract class Upload
 
     /**
      * Verifica si el archivo esta subido en el servidor y listo para guardarse
-     * 
+     *
      * @return boolean
      */
     public function isUploaded()
@@ -234,7 +234,7 @@ abstract class Upload
 
     /**
      * Valida el archivo antes de guardar
-     * 
+     *
      * @return boolean
      */
     protected function _validates()
@@ -347,7 +347,7 @@ abstract class Upload
 
     /**
      * Guardar el archivo en el servidor
-     * 
+     *
      * @param string $name nombre con el que se guardará el archivo
      * @return boolean
      */
