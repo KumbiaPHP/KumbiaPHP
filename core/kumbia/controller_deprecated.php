@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    ControllerDeprecated
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -214,7 +214,7 @@ class ControllerDeprecated
      * @return mixed
      */
     protected function get($variable = NULL)
-    { 
+    {
         return Input::get($variable);
     }
 
@@ -348,7 +348,7 @@ class ControllerDeprecated
      */
     protected function before_filter()
     {
-        
+
     }
 
     /**
@@ -358,7 +358,7 @@ class ControllerDeprecated
      */
     protected function after_filter()
     {
-        
+
     }
 
     /**
@@ -368,13 +368,13 @@ class ControllerDeprecated
      */
     protected function initialize()
     {
-        
+
     }
 
     /**
      * Finalize, si se usa tambien en el Application Controller se debe llamar a este tambien
      * parent::finalize()
-     * 
+     *
      * @return bool
      */
     protected function finalize()

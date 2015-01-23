@@ -13,8 +13,8 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   KumbiaPHP
- * @package    Helpers 
- * @copyright  Copyright (c) 2005-2014 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @package    Helpers
+ * @copyright  Copyright (c) 2005-2015 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -34,7 +34,7 @@ class Form
      */
     protected static $_radios = array();
 
-    
+
     /**
      * Utilizado para avisar al programador,si usa Form::file()
      * y no tiene el form mulipart muestra un error
@@ -58,18 +58,18 @@ class Form
     {
         // Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
-        
+
         // Formato modelo.campo
         if(isset($formField[1])) {
 			// Id de campo
             $id = "{$formField[0]}_{$formField[1]}";
             // Nombre de campo
             $name = "{$formField[0]}[{$formField[1]}]";
-			
+
 			// Verifica en $_POST
 			if(isset($_POST[$formField[0]][$formField[1]])) {
 				$value = $_POST[$formField[0]][$formField[1]];
-			} elseif($value === null) { 
+			} elseif($value === null) {
 				// Autocarga de datos
 				$form = View::getVar($formField[0]);
 				if(is_array($form) && isset($form[$formField[1]])) {
@@ -81,11 +81,11 @@ class Form
 		} else {
 			// Asignacion de Id y Nombre de campo
 			$id = $name = $field;
-			
+
 			// Verifica en $_POST
 			if(isset($_POST[$field])) {
 				$value = $_POST[$field];
-			} elseif($value === null) { 
+			} elseif($value === null) {
 				// Autocarga de datos
 				$value = View::getVar($field);
 			}
@@ -99,7 +99,7 @@ class Form
 		// Devuelve los datos
         return array($id, $name, $value);
     }
-    
+
 	/**
      * Obtiene el valor de un componente check tomado
      * del mismo valor del nombre del campo y formulario
@@ -115,18 +115,18 @@ class Form
     {
         // Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
-        
+
         // Formato modelo.campo
         if(isset($formField[1])) {
 			// Id de campo
             $id = "{$formField[0]}_{$formField[1]}";
             // Nombre de campo
             $name = "{$formField[0]}[{$formField[1]}]";
-			
+
 			// Verifica en $_POST
 			if(isset($_POST[$formField[0]][$formField[1]])) {
 				$checked = $_POST[$formField[0]][$formField[1]] == $checkValue;
-			} elseif($checked === null) { 
+			} elseif($checked === null) {
 				// Autocarga de datos
 				$form = View::getVar($formField[0]);
 				if(is_array($form)) {
@@ -138,11 +138,11 @@ class Form
 		} else {
 			// Asignacion de Id y Nombre de campo
 			$id = $name = $field;
-			
+
 			// Verifica en $_POST
 			if(isset($_POST[$field])) {
 				$checked = $_POST[$field] == $checkValue;
-			} elseif($checked === null) { 
+			} elseif($checked === null) {
 				// Autocarga de datos
 				$checked = View::getVar($field) == $checkValue;
 			}
@@ -154,7 +154,7 @@ class Form
 
     /**
      * Obtiene el valor del campo por autocarga de valores
-     * 
+     *
      * @param string $field nombre de campo
      * @param boolean $filter filtrar caracteres especiales html
      * @return mixed retorna NULL si no existe valor por autocarga
@@ -163,15 +163,15 @@ class Form
     {
 		// Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
-        
+
         $value = null;
-        
+
         // Formato modelo.campo
         if(isset($formField[1])) {
 			// Verifica en $_POST
 			if(isset($_POST[$formField[0]][$formField[1]])) {
 				$value = $_POST[$formField[0]][$formField[1]];
-			} else { 
+			} else {
 				// Autocarga de datos
 				$form = View::getVar($formField[0]);
 				if(is_array($form) && isset($form[$formField[1]])) {
@@ -184,7 +184,7 @@ class Form
 			// Verifica en $_POST
 			if(isset($_POST[$field])) {
 				$value = $_POST[$field];
-			} else { 
+			} else {
 				// Autocarga de datos
 				$value = View::getVar($field);
 			}
@@ -194,7 +194,7 @@ class Form
         if ($value !== null && $filter) {
             return htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
         }
-        
+
         // Devuelve valor
         return $value;
     }
@@ -210,7 +210,7 @@ class Form
      */
     public static function input($type, $field,$attrs = NULL, $value=NULL)
     {
-       
+
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
@@ -398,7 +398,7 @@ class Form
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        
+
         // Obtiene name y id para el campo y los carga en el scope
         list($id, $name, $checked) = self::getFieldDataCheck($field, $checkValue, $checked);
 
@@ -444,7 +444,7 @@ class Form
 
     /**
      * Crea un botón de tipo imagen
-     *  
+     *
      * @param string $img Nombre o ruta de la imagen
      * @param string|array $attrs Atributos de campo (opcional)
      * @return string
@@ -565,11 +565,11 @@ class Form
         if (!self::$_multipart) {
             Flash::error('Para poder subir ficheros, debe abrir el form con Form::openMultipart()');
         }
-        
+
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
- 
+
         // Obtiene name y id, y los carga en el scope
         list($id, $name, ) = self::getFieldData($field, FALSE);
         return "<input id=\"$id\" name=\"$name\" type=\"file\" $attrs/>";
@@ -607,7 +607,7 @@ class Form
     {
         return self::input('date',$field, $attrs, $value);
     }
-    
+
      /**
      * Crea un campo de texo para fecha (Requiere JS )
      *
