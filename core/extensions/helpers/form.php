@@ -68,7 +68,7 @@ class Form
         } elseif($value === null  || ($check === null && $is_check)) {
 
             // Autocarga de datos
-            $tmp_val == self::getFromModel($formField);
+            $tmp_val = self::getFromModel($formField);
             $value = $is_check ? $tmp_val == $value : $tmp_val;
         } else if($is_check) {
             $value = $check ? TRUE : FALSE;
