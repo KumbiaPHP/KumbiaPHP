@@ -53,7 +53,7 @@ class KumbiaException extends Exception
      * */
     public static function handle_exception($e)
     {
-        self::setHeader();
+        self::setHeader($e);
         extract(Router::get(), EXTR_OVERWRITE);
 
         $Controller = Util::camelcase($controller);
@@ -82,7 +82,7 @@ class KumbiaException extends Exception
     /**
      * Añade la cabezera de error http
      * */
-    private static function setHeader()
+    private static function setHeader($e)
     {
         if (isset($e->_view) && ($e->_view == 'no_controller' || $e->_view == 'no_action')) {
             header('HTTP/1.1 404 Not Found');
