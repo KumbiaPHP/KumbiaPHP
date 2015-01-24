@@ -68,13 +68,7 @@ class Form
         } elseif($value === null  || ($check === null && $is_check)) {
 
             // Autocarga de datos
-            $form = View::getVar($formField[0]);
-            if(is_scalar($form) || is_null($form)){
-                $tmp_val = $form;
-            }else{
-                $form = (object)$form;
-                $tmp_val = isset($form->$formField[1])?$form->$formField[1]:NULL;
-            }
+            $tmp_val == self::fromModel($formField);
             $value = $is_check ? $tmp_val == $value : $tmp_val;
         } else if($is_check) {
             $value = $check ? TRUE : FALSE;
@@ -85,6 +79,22 @@ class Form
         }
         // Devuelve los datos
         return array($id, $name, $value);
+    }
+
+    /**
+     * Devuelve el valor del modelo
+     * @param  Array  $field array [modelo, campo]
+     * @return String|Null
+     */
+    protected static function fromModel(Array $formField){
+        $form = View::getVar($formField[0]);
+        if(is_scalar($form) || is_null($form)){
+            return $form;
+        }else{
+            $form = (object) $form;
+            $val = isset ($form->$formField[1]) ? $form->$formField[1] : NULL;
+            return $val;
+        }
     }
 
     /**
