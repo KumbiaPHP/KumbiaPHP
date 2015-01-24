@@ -76,14 +76,6 @@ class KumbiaException extends Exception
             ob_end_clean();
         }
 
-        // verifica si esta cargado el View
-        if (class_exists('View')) {
-            if (View::get('template') === NULL) {
-                echo $content;
-                exit;
-            }
-        }
-
         include CORE_PATH . $Template;
     }
 
