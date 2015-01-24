@@ -68,7 +68,7 @@ class Form
         } elseif($value === null  || ($check === null && $is_check)) {
 
             // Autocarga de datos
-            $tmp_val == self::fromModel($formField);
+            $tmp_val == self::getFromModel($formField);
             $value = $is_check ? $tmp_val == $value : $tmp_val;
         } else if($is_check) {
             $value = $check ? TRUE : FALSE;
@@ -86,7 +86,7 @@ class Form
      * @param  Array  $formField array [modelo, campo]
      * @return Mixed
      */
-    protected static function fromModel(Array $formField){
+    protected static function getFromModel(Array $formField){
         $form = View::getVar($formField[0]);
         if(is_scalar($form) || is_null($form)){
             return $form;
