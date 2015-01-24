@@ -83,8 +83,8 @@ class Form
 
     /**
      * Devuelve el valor del modelo
-     * @param  Array  $field array [modelo, campo]
-     * @return String|Null
+     * @param  Array  $formField array [modelo, campo]
+     * @return Mixed
      */
     protected static function fromModel(Array $formField){
         $form = View::getVar($formField[0]);
