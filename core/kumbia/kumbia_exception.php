@@ -53,12 +53,7 @@ class KumbiaException extends Exception
      * */
     public static function handle_exception($e)
     {
-        if (isset($e->_view) && ($e->_view == 'no_controller' || $e->_view == 'no_action')) {
-            header('HTTP/1.1 404 Not Found');
-        } else {
-            header('HTTP/1.1 500 Internal Server Error');
-        }
-
+        self::setHeader();
         extract(Router::get(), EXTR_OVERWRITE);
 
         $Controller = Util::camelcase($controller);
@@ -92,4 +87,15 @@ class KumbiaException extends Exception
         include CORE_PATH . $Template;
     }
 
+    /**
+     * Añade la cabezera de error http
+     * */
+    private static function setHeader()
+    {
+        if (isset($e->_view) && ($e->_view == 'no_controller' || $e->_view == 'no_action')) {
+            header('HTTP/1.1 404 Not Found');
+        } else {
+            header('HTTP/1.1 500 Internal Server Error');
+        }
+    }
 }
