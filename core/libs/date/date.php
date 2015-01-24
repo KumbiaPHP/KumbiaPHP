@@ -304,13 +304,13 @@ class Date
     }
 
     /**
-     * Devuelve true si la fecha interna es la de ma#ana
+     * Devuelve true si la fecha interna es la de mañana
      *
      * @return boolean
      */
     public function isTomorrow()
     {
-        $time = mktime(0, 0, 0, date("m"), date("d"), date("Y")) - 86400;
+        $time = mktime(0, 0, 0, date("m"), date("d"), date("Y")) + 86400;
 
         if ($this->timestamp == $time) {
             return true;
