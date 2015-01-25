@@ -1,20 +1,69 @@
 <!DOCTYPE html>
 <html lang="es">
- <head>
-  <meta http-equiv='Content-type' content='text/html; charset=<?php echo APP_CHARSET ?>' />
-	<title>Error - KumbiaPHP Framework</title>
-    <link rel="stylesheet" href="<?php echo PUBLIC_PATH ?>css/kumbia.css" />
+<head>
+    <meta charset="<?php echo APP_CHARSET ?>" />
+    <title>Oh! Hay un error - KumbiaPHP Framework</title>
+    <style>
+    * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    }
+    html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+    /* Formatea los mensajes Flash::xxx() de KumbiaPHP */
+    .flash {
+        margin: 5px 0;
+        min-height: 32px;
+        padding:3px 10px 3px 50px;
+        background-repeat: no-repeat;
+        background-position: 10px center;
+        line-height: 32px;
+        border-radius: 2px;
+    }
+
+    .error {
+        color: #D8000C;
+        background-color: #FFBABA;
+    }
+
+    .info {
+        color: #00529B;
+        background-color: #BDE5F8;
+    }
+
+    .valid {
+        color: #4F8A10;
+        background-color: #DFF2BF;
+    }
+    .warning {
+        color: #9F6000;
+        background-color: #FEEFB3;
+    }
+    pre{display:block;padding:10.5px;margin:0 0 11px;line-height:1.5;word-break:break-all;word-wrap:break-word;color:#333;background-color:#f5f5f5;border-radius: 5px;}
+    pre code{padding:0;font-size:inherit;color:inherit;white-space:pre-wrap;border:0}
+    
+    .container{margin-right:auto;margin-left:auto;padding-left:15px;padding-right:15px}
+    .container:before,.container:after{content:" ";display:table;}
+    .container:after{clear:both}
+    .col-6{width:50%;float:left}
+    
+    
+    .file{word-break: break-word;}
+    .php {width: 100%;border-spacing: 2px 2px;color: white;margin:1em 0}
+    .php td{background-color:#00A1CB; text-align:center;padding-bottom:.5em}
+    </style>
 </head>
 <body>
+<div class="">
 <header class="row">
-    <div class="col-8">
     <h2><?php echo Html::img('logo.png','KumbiaPHP logo') ?>
     <?php echo kumbia_version() ?></h2>
-    </div>
 </header>
-<div class="container">
-	<?php echo $content ?>
 
+	<?php echo $content ?> 
+
+</div>
+<div id="trace">
 <h2>Rastro</h2>
 <?php foreach ($e->getTrace() as $trace): ?>
     <?php if (isset ( $trace ['file'] ) )//&&
@@ -40,7 +89,7 @@
 
         <?php endif; ?>
     <?php endforeach; ?>
-
+</div>
     <table class="t">
         <thead>
             <tr>
@@ -66,6 +115,7 @@
     </table>
 
 <h2>Información Adicional</h2>
+<div class="container">
 <div class="col-6">
     <strong>En producción:</strong> <?php echo PRODUCTION ?  'Sí' : 'No' ?><br />
     <strong>Ubicación actual:</strong> <?php echo $route ?><br />
@@ -77,9 +127,19 @@
     <strong>IP Server: </strong> <?php echo $_SERVER['SERVER_ADDR'] ?><br />
     <strong>IP Visitante: </strong> <?php echo $_SERVER['REMOTE_ADDR'] ?><br />
     <strong>Archivos incluidos: </strong> <?php echo count($files) ?>
-</div> 
-
 </div>
+</div></div>
+
+<table class="php"><tr>
+<td><h3><?php echo round((microtime(1)-START_TIME),4),' seg.'?></h3>Tiempo</td><td><h3><?php echo number_format(memory_get_usage() / 1048576, 2),' MB';?></h3>Memoria Usada</td><td><h3><?php echo count($files) ?> ficheros</h3>Includes</td>
+</tr>
+<tr>
+<td><h3><?php echo ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</td><td><h3><?php echo ini_get('memory_limit');?></h3>Memoria PHP</td><td><h3><?php echo PHP_VERSION?></h3>Versión PHP</td>
+</tr>
+</table>
+<?php //var_dump($files) ?>
+
+
 <?php include APP_PATH.'views/_shared/partials/kumbia/footer.phtml' ?>
 </body>
 </html>
