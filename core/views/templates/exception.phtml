@@ -65,11 +65,12 @@
     
     #files li[title ^='<?php echo CORE_PATH?>']{color: red;}
     #files li[title ^='<?php echo APP_PATH?>']{color: green;}
+    #files li[title ^='<?php echo dirname(CORE_PATH).'/vendor/'?>']{color: #ffcc00;}
     
     .status{padding:5px;border-radius:5px;margin-left:5px;color:#FFF}
     .status.red{background-color:#a33}
     .status.green{background-color:#759e1a}
-    .status.yellow{background-color:#ffcc00;color:#000}
+    .status.blue{background-color:#0A29FF}
     
     #viewfiles{display:none}
     #viewfiles:target{display:block}
@@ -168,7 +169,7 @@ foreach($files as $file) : ?>
 </ol>
 <span class="status red">core</span>
 <span class="status green">app</span>
-<span class="status yellow">vendor</span>
+<span class="status blue">vendor</span>
 </div>
 
 <table class="php"><tr>

@@ -87,7 +87,7 @@ class KumbiaException extends Exception
      * */
     private static function setHeader($e)
     {
-        if (isset($e->_view) && ($e->_view == 'no_controller' || $e->_view == 'no_action')) {
+        if (isset($e->_view) && ($e->_view == 'no_controller' || $e->_view == 'no_action' || $e->_view == 'num_params')) {
             header('HTTP/1.1 404 Not Found');
         } else {
             header('HTTP/1.1 500 Internal Server Error');

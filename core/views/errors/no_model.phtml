@@ -8,8 +8,10 @@
 <h1>Solución</h1>
     <h4><strong>Crea la clase <em><?php echo $Model ?></em> de abajo en el fichero  : <br> <em class="file"><?php echo APP_PATH ?>models/<?php echo $model ?>.php</em></strong></h4>
 <pre>
-&lt;?php
-class <?php echo $Model; ?>{	
-}
+<?php highlight_string("<?php
+class {$Model}
+{	
+
+}") ?>
 </pre>
 </div>

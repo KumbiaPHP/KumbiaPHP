@@ -7,14 +7,14 @@
 <h1>Solución</h1>
     <h4><strong>Crea el método <em><?php echo $action?></em> de abajo en la clase <em><?php echo $Controller?></em> del fichero : <br> <em class="file"><?php echo APP_PATH,'controllers/',$controller,'_controller.php'?></em></strong></h4>
 <pre>
-&lt;?php
-class <?php echo $Controller,'Controller';?> extends AppController 
+<?php highlight_string("<?php
+class {$Controller} extends AppController 
 {
-    public function <?php echo $action?>() 
+    public function {$action}() 
     {
     
     }
 	
-}
+}") ?>
 </pre>
 </div>
