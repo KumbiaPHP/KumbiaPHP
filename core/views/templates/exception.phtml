@@ -62,7 +62,7 @@
     .php td{background-color:#00A1CB; text-align:center;padding-bottom:.5em}
     .php tr:nth-child(even) td{background-color:#007493}
     
-    footer{border-top:4px solid #00A1CB;margin-top:-5px}
+    footer{border-top:4px solid #00A1CB;margin-top:-5px;padding:1em}
     </style>
 </head>
 <body>
@@ -76,14 +76,14 @@
 
 </div>
 <div id="trace">
-<h2>Rastro</h2>
+<h1>Rastro</h1>
 <?php foreach ($e->getTrace() as $trace): ?>
     <?php if (isset ( $trace ['file'] ) )//&&
         //!(strpos ( $trace ['file'], APP_PATH) ===false) &&
         //!(strpos ( $trace ['file'], 'index.php')))
     : ?>
         <p><strong class="file"><?php echo htmlentities($trace['file'], ENT_NOQUOTES, 'UTF-8') . "(" . $trace ['line'] . ")" ?></strong></p>
-            <p>La excepción se ha generado en el archivo <em class="file"><?php echo $trace['file'] ?></em> en la línea: <em><?php echo $trace['line'] ?></em>:</p>
+        <!-- <p>La excepción se ha generado en el archivo <em class="file"><?php echo $trace['file'] ?></em> en la línea: <em><?php echo $trace['line'] ?></em>:</p> -->
 
         <?php
             $lines = file ( $trace ['file'] );
@@ -92,15 +92,15 @@
         ?>
         <table>
         <?php for($i = $start; $i <= $end; $i ++): ?>
-        <tr <?php if ($i == $trace ['line'] - 1): ?> style="background:#ff0" <?php endif; ?>>
+        <tr <?php if ($i == $trace ['line'] - 1): ?> style="background:#BDE5F8" <?php endif; ?>>
             <th><?php echo ($i + 1) ?></th>
             <td><?php echo str_replace('&lt;?php', '', highlight_string('<?php '.$lines[$i], true)) ?></td>
         </tr>
-        <?php endfor; ?>
+        <?php endfor ?>
         </table>
 
-        <?php endif; ?>
-    <?php endforeach; ?>
+    <?php endif ?>
+<?php endforeach ?> 
 </div>
     <table class="t">
         <thead>
@@ -137,6 +137,13 @@
 </div>
 </div></div>
 
+<ol id="files"><!-- TODO: mostrar al pulsar en ficheros incluidos -->
+<?php 
+foreach($files as $file) : ?>
+    <li><?php echo $file ?></li>
+<?php endforeach ?> 
+</ol>
+
 <table class="php"><tr>
 <td><h3><?php echo round((microtime(1)-START_TIME),4),' seg.'?></h3>Tiempo</td><td><h3><?php echo number_format(memory_get_usage() / 1048576, 2),' MB';?></h3>Memoria Usada</td><td><h3><?php echo count($files) ?> ficheros</h3>Includes</td><td><h3>Disponible</h3>Sin especificar</td>
 </tr>
@@ -144,14 +151,32 @@
 <td><h3><?php echo ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</td><td><h3><?php echo ini_get('memory_limit');?></h3>Memoria PHP</td><td><h3><?php echo PHP_VERSION?></h3>Versión PHP</td><td><h3><?php echo $_SERVER['SERVER_SOFTWARE'] ?> <br><small>IP: </strong> <?php echo $_SERVER['SERVER_ADDR'] ?></small></h3>Servidor</td>
 </tr>
 </table>
-<?php //var_dump($files) ?>
 
 <div class="flash info">
 <p>En <b>PRODUCCIÓN</b> no sale este error, muestra el template de error de la app: <br>
 <em class="file"><?php echo APP_PATH ?>views/_shared/errors/404.phtml</em> <br>
 ¡ Modifica el template de error 404 a tu gusto !</p>
-</div> 
-
-<?php include APP_PATH.'views/_shared/partials/kumbia/footer.phtml' ?>
+</div>
+ 
+<footer>
+    <div class="col-6">
+        <ul class="inline">
+        	<li><a href="http://www.kumbiaphp.com/">KumbiaPHP Framework</a> |</li>
+        	<li><a href="http://wiki.kumbiaphp.com/">Wiki</a> |</li>
+        	<li><a href="https://docs.google.com/document/d/1kth1GhrmMEBK2cAMyiy_4Dw1qlJFNdXVuXajJ6nMTQg/edit?hl=es">Manual</a> |</li>
+        	<li><a href="http://wiki.kumbiaphp.com/Licencia" title="New BSD">Licencia</a></li>
+        </ul>
+        <div>
+            <a href="http://wiki.kumbiaphp.com/Team_Development_KumbiaPHP_Framework">© 2007 - 2015 KumbiaPHP Team</a>
+        </div>
+    </div>
+    <div class="col-6">
+        <p>Ayuda Online: <a href="irc://irc.freenode.org/#kumbiaphp" title="IRC donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">IRC</a> | 
+        				 <a href="http://webchat.freenode.net/?channels=kumbiaphp" title="Web Chat IRC donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">Web IRC</a> | 
+        				 <a href="http://groups.google.com/group/kumbia" title="Lista de Correo de KumbiaPHP donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">Grupo</a> | <a href="http://foro.kumbiaphp.com" title="Foro de KumbiaPHP donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">Foro</a></p>
+    </div>
+    
+    <p>Ejecutado en <?php echo round((microtime(1)-START_TIME),4),' seg.'?> usando <?php echo number_format(memory_get_usage() / 1048576, 2),' MB' ?> de memoria</p>
+</footer>
 </body>
 </html>
