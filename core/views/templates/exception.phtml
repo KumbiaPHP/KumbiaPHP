@@ -10,6 +10,13 @@
     box-sizing: border-box;
     }
     html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+    body{margin:0}
+    a{color:#0ac;font-weight:bold;text-decoration:none}
+    a:hover,a:focus{color:#ff4d4d;text-decoration:underline}
+    a:focus{outline:thin dotted #333;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}
+    ul.inline {padding-left: 0px;list-style: outside none none}
+    ul.inline > li {display: inline-block;padding-left: 5px;padding-right: 5px;}
+    
     /* Formatea los mensajes Flash::xxx() de KumbiaPHP */
     .flash {
         margin: 5px 0;
@@ -47,10 +54,15 @@
     .container:after{clear:both}
     .col-6{width:50%;float:left}
     
+    #trace{background-color:#DDD;padding:2em;margin-bottom:1.5em}
+    #trace table {background-color:white;width:100%}
     
     .file{word-break: break-word;}
-    .php {width: 100%;border-spacing: 2px 2px;color: white;margin:1em 0}
+    .php {width: 100%;border-spacing: 2px 2px;color: white;margin:1em 0;table-layout: fixed}
     .php td{background-color:#00A1CB; text-align:center;padding-bottom:.5em}
+    .php tr:nth-child(even) td{background-color:#007493}
+    
+    footer{border-top:4px solid #00A1CB;margin-top:-5px}
     </style>
 </head>
 <body>
@@ -70,8 +82,8 @@
         //!(strpos ( $trace ['file'], APP_PATH) ===false) &&
         //!(strpos ( $trace ['file'], 'index.php')))
     : ?>
-        <p><strong><?php echo htmlentities($trace['file'], ENT_NOQUOTES, 'UTF-8') . "(" . $trace ['line'] . ")" ?></strong></p>
-            <p>La excepción se ha generado en el archivo <em><?php echo $trace['file'] ?></em> en la línea: <em><?php echo $trace['line'] ?></em>:</p>
+        <p><strong class="file"><?php echo htmlentities($trace['file'], ENT_NOQUOTES, 'UTF-8') . "(" . $trace ['line'] . ")" ?></strong></p>
+            <p>La excepción se ha generado en el archivo <em class="file"><?php echo $trace['file'] ?></em> en la línea: <em><?php echo $trace['line'] ?></em>:</p>
 
         <?php
             $lines = file ( $trace ['file'] );
@@ -117,28 +129,28 @@
 <h2>Información Adicional</h2>
 <div class="container">
 <div class="col-6">
-    <strong>En producción:</strong> <?php echo PRODUCTION ?  'Sí' : 'No' ?><br />
     <strong>Ubicación actual:</strong> <?php echo $route ?><br />
-    <strong>Librerías:</strong> <?php //echo $boot['modules']['libs'] ?><br />
-    <strong>Server: </strong> <?php echo $_SERVER['SERVER_SOFTWARE'] ?><br />
 </div>
 
 <div class="col-6">
-    <strong>IP Server: </strong> <?php echo $_SERVER['SERVER_ADDR'] ?><br />
     <strong>IP Visitante: </strong> <?php echo $_SERVER['REMOTE_ADDR'] ?><br />
-    <strong>Archivos incluidos: </strong> <?php echo count($files) ?>
 </div>
 </div></div>
 
 <table class="php"><tr>
-<td><h3><?php echo round((microtime(1)-START_TIME),4),' seg.'?></h3>Tiempo</td><td><h3><?php echo number_format(memory_get_usage() / 1048576, 2),' MB';?></h3>Memoria Usada</td><td><h3><?php echo count($files) ?> ficheros</h3>Includes</td>
+<td><h3><?php echo round((microtime(1)-START_TIME),4),' seg.'?></h3>Tiempo</td><td><h3><?php echo number_format(memory_get_usage() / 1048576, 2),' MB';?></h3>Memoria Usada</td><td><h3><?php echo count($files) ?> ficheros</h3>Includes</td><td><h3>Disponible</h3>Sin especificar</td>
 </tr>
 <tr>
-<td><h3><?php echo ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</td><td><h3><?php echo ini_get('memory_limit');?></h3>Memoria PHP</td><td><h3><?php echo PHP_VERSION?></h3>Versión PHP</td>
+<td><h3><?php echo ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</td><td><h3><?php echo ini_get('memory_limit');?></h3>Memoria PHP</td><td><h3><?php echo PHP_VERSION?></h3>Versión PHP</td><td><h3><?php echo $_SERVER['SERVER_SOFTWARE'] ?> <br><small>IP: </strong> <?php echo $_SERVER['SERVER_ADDR'] ?></small></h3>Servidor</td>
 </tr>
 </table>
 <?php //var_dump($files) ?>
 
+<div class="flash info">
+<p>En <b>PRODUCCIÓN</b> no sale este error, muestra el template de error de la app: <br>
+<em class="file"><?php echo APP_PATH ?>views/_shared/errors/404.phtml</em> <br>
+¡ Modifica el template de error 404 a tu gusto !</p>
+</div> 
 
 <?php include APP_PATH.'views/_shared/partials/kumbia/footer.phtml' ?>
 </body>
