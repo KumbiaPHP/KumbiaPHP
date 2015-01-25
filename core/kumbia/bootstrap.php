@@ -35,7 +35,7 @@ function kumbia_version() {
 
 // @see KumbiaException
 function handle_exception($e) {
-	KumbiaException::handle_exception($e);
+	KumbiaException::handleException($e);
 }
 
 // Inicializar el ExceptionHandler

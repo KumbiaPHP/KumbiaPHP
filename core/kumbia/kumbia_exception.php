@@ -58,7 +58,7 @@ class KumbiaException extends Exception
      *
      * @param Exception $e
      * */
-    public static function handle_exception($e)
+    public static function handleException($e)
     {
         self::setHeader($e);
         extract(Router::get(), EXTR_OVERWRITE);
@@ -91,6 +91,6 @@ class KumbiaException extends Exception
             header('HTTP/1.1 404 Not Found');
         } else {
             header('HTTP/1.1 500 Internal Server Error');
-        }
+        } //TODO: mover a los views
     }
 }
