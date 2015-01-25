@@ -61,14 +61,31 @@
     .php {width: 100%;border-spacing: 2px 2px;color: white;margin:1em 0;table-layout: fixed}
     .php td{background-color:#00A1CB; text-align:center;padding-bottom:.5em}
     .php tr:nth-child(even) td{background-color:#007493}
+    .php a{color:#FFF}
     
+    #files li[title ^='<?php echo CORE_PATH?>']{color: red;}
+    #files li[title ^='<?php echo APP_PATH?>']{color: green;}
+    
+    .status{padding:5px;border-radius:5px;margin-left:5px;color:#FFF}
+    .status.red{background-color:#a33}
+    .status.green{background-color:#759e1a}
+    .status.yellow{background-color:#ffcc00;color:#000}
+    
+    #viewfiles{display:none}
+    #viewfiles:target{display:block}
+    
+    table.t{margin:auto;margin-bottom:22px;width:100%}
+    table.t tr>th,table.t tr>td{padding:8px;line-height:1.5;border-top:1px solid #ddd}
+    table.t thead>tr>th{vertical-align:bottom;border-bottom:2px solid #ddd}
+    table.t tbody tr:hover{background-color:#BDE5F8}
+       
     footer{border-top:4px solid #00A1CB;margin-top:-5px;padding:1em}
     </style>
 </head>
 <body>
 <div class="">
 <header class="row">
-    <h2><?php echo Html::img('logo.png','KumbiaPHP logo') ?>
+    <h2><?php echo Html::img('logo.png','KumbiaPHP logo')//TODO: embed png data: ?>
     <?php echo kumbia_version() ?></h2>
 </header>
 
@@ -137,18 +154,28 @@
 </div>
 </div></div>
 
-<ol id="files"><!-- TODO: mostrar al pulsar en ficheros incluidos -->
+<div class="view">
+
+
+</div>
+
+<div id="viewfiles">
+<ol id="files"><!-- TODO: usar :hover para mostrarlos -->
 <?php 
 foreach($files as $file) : ?>
-    <li><?php echo $file ?></li>
+    <li title="<?php echo $file ?>"><?php echo $file ?></li>
 <?php endforeach ?> 
 </ol>
+<span class="status red">core</span>
+<span class="status green">app</span>
+<span class="status yellow">vendor</span>
+</div>
 
 <table class="php"><tr>
-<td><h3><?php echo round((microtime(1)-START_TIME),4),' seg.'?></h3>Tiempo</td><td><h3><?php echo number_format(memory_get_usage() / 1048576, 2),' MB';?></h3>Memoria Usada</td><td><h3><?php echo count($files) ?> ficheros</h3>Includes</td><td><h3>Disponible</h3>Sin especificar</td>
+<td><h3><?php echo round((microtime(1)-START_TIME),4),' seg.'?></h3>Tiempo</td><td><h3><?php echo number_format(memory_get_usage() / 1048576, 2),' MB';?></h3>Memoria Usada</td><td><h3><span class="status <?php echo extension_loaded('xdebug') ? 'green' : 'red' ?>" title="Recomendable en desarrollo. Nunca en producción">xdebug</span><span class="status <?php echo extension_loaded('apc') ? 'green' : 'red'; ?>" title="Siempre muy recomendable">apc</span></h3>PHP extensions</td><td><h3><a href="#viewfiles"><?php echo count($files) ?> ficheros</a></h3>Includes</td>
 </tr>
 <tr>
-<td><h3><?php echo ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</td><td><h3><?php echo ini_get('memory_limit');?></h3>Memoria PHP</td><td><h3><?php echo PHP_VERSION?></h3>Versión PHP</td><td><h3><?php echo $_SERVER['SERVER_SOFTWARE'] ?> <br><small>IP: </strong> <?php echo $_SERVER['SERVER_ADDR'] ?></small></h3>Servidor</td>
+<td><h3><?php echo ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</td><td><h3><?php echo ini_get('memory_limit') ?></h3>Memoria PHP</td><td><h3><?php echo PHP_VERSION?><br><small title="PHP SAPI"><?php echo PHP_SAPI ?></small></h3>Versión PHP</td><td><h3><?php echo $_SERVER['SERVER_SOFTWARE'] ?> <br><small>IP: </strong> <?php echo $_SERVER['SERVER_ADDR'] ?></small></h3>Servidor</td>
 </tr>
 </table>
 

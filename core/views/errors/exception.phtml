@@ -1,5 +1,5 @@
 <h1><?php echo get_class($e) ?></h1>
 <div class="error flash">
 <?php echo htmlspecialchars("{$e->getMessage()} ({$e->getCode() })",  ENT_NOQUOTES, 'UTF-8') ?>
-    <p>En el archivo <em><?php echo htmlspecialchars($e->getFile(), ENT_NOQUOTES, 'UTF-8') ?></em> en la línea: <em><?php echo $e->getLine() ?></em></p>
+    <p>En el archivo <em class="file"><?php echo htmlspecialchars($e->getFile(), ENT_NOQUOTES, 'UTF-8') ?></em> en la línea: <em><?php echo $e->getLine() ?></em></p>
 </div>
