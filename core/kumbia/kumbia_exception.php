@@ -35,6 +35,13 @@ class KumbiaException extends Exception
     protected $_view;
 
     /**
+     * Path del template de exception
+     *
+     * @var string
+     */
+    protected $template = 'views/templates/exception.phtml';
+    
+    /**
      * Constructor de la clase;
      *
      * @param string $message mensaje
@@ -58,17 +65,13 @@ class KumbiaException extends Exception
 
         $Controller = Util::camelcase($controller);
         ob_start();
-        if (PRODUCTION) {
+        if (PRODUCTION) { //TODO: añadir error 500.phtml
             include APP_PATH . 'views/_shared/errors/404.phtml';
             return;
-        } else {
-            $Template = 'views/templates/exception.phtml';
-            if (isset($e->_view)) {
-                include CORE_PATH . "views/errors/{$e->_view}.phtml";
-            } else {
-                include CORE_PATH . "views/errors/exception.phtml";
-            }
         }
+
+        include CORE_PATH . "views/errors/{$e->_view}.phtml";
+ 
         $content = ob_get_clean();
 
         // termina los buffers abiertos
@@ -76,7 +79,7 @@ class KumbiaException extends Exception
             ob_end_clean();
         }
 
-        include CORE_PATH . $Template;
+        include CORE_PATH . $e->template;
     }
 
     /**
