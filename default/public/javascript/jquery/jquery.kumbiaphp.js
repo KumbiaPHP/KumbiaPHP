@@ -13,7 +13,7 @@
  *
  * Plugin para jQuery que incluye los callbacks basicos para los Helpers
  *
- * @copyright  Copyright (c) 2005-2014 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license	http://wiki.kumbiaphp.com/Licencia	 New BSD License
  */
 
