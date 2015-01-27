@@ -28,11 +28,18 @@ class KumbiaException extends Exception
 {
 
     /**
-     * Codigo de error de la Excepcion
+     * View de error de la Excepción
      *
      * @var string
      */
     protected $_view;
+    
+    /**
+     * Error 404 para los siguientes views
+     *
+     * @var array
+     */
+    protected static $view404 = array('no_controller', 'no_action', 'num_params');
 
     /**
      * Path del template de exception
@@ -87,7 +94,7 @@ class KumbiaException extends Exception
      * */
     private static function setHeader($e)
     {
-        if (isset($e->_view) && ($e->_view == 'no_controller' || $e->_view == 'no_action' || $e->_view == 'num_params')) {
+        if (isset($e->_view) && in_array($e->_view, self::$view404)){
             header('HTTP/1.1 404 Not Found');
         } else {
             header('HTTP/1.1 500 Internal Server Error');
