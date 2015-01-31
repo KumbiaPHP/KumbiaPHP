@@ -82,12 +82,7 @@ class I18n
          * Si se pasan multiples parametros
          * */
         if (func_num_args() > 3) {
-            $args = func_get_args();
-            /**
-             * Se remplaza con vsprintf
-             * */
-            unset($args[0], $args[1], $args[2]);
-            $sentence = vsprintf($sentence, $args);
+            $sentence = vsprintf( $sentence, array_slice( func_get_args(), 3));
         }
 
         return $sentence;
@@ -111,12 +106,7 @@ class I18n
          * Si se pasan multiples parametros
          * */
         if (func_num_args() > 2) {
-            $args = func_get_args();
-            /**
-             * Se remplaza con vsprintf
-             * */
-            unset($args[0], $args[1]);
-            $sentence = vsprintf($sentence, $args);
+            $sentence = vsprintf( $sentence, array_slice( func_get_args(), 2));
         }
 
         return $sentence;
@@ -142,12 +132,7 @@ class I18n
          * Si se pasan multiples parametros
          * */
         if (func_num_args() > 4) {
-            $args = func_get_args();
-            /**
-             * Se remplaza con vsprintf
-             * */
-            unset($args[0], $args[1], $args[2], $args[3]);
-            $sentence = vsprintf($sentence, $args);
+            $sentence = vsprintf( $sentence, array_slice( func_get_args(), 4));
         }
 
         return $sentence;
