@@ -237,11 +237,10 @@ abstract class Upload {
 	 * @return boolean
 	 */
 	protected function _validates() {
-		$validations = array('allowScripts', 'validateTypes', 'extensions', 'maxSize', 'minSize');
+		$validations = array('allowScripts', 'types', 'extensions', 'maxSize', 'minSize');
 		foreach ($validations as $value) {
-			echo $value;
 			$func = "_{$value}";
-			if (!$this->$func()) {
+			if ($this->$func && !$this->$func()) {
 				return FALSE;
 			}
 		}
@@ -354,7 +353,7 @@ abstract class Upload {
 	 *
 	 * @return boolean
 	 */
-	function _validateTypes() {
+	function _types() {
 		if (!in_array($_FILES[$this->_name]['type'], $this->_types)) {
 			Flash::error('Error: el tipo de archivo no es válido');
 			return FALSE;
