@@ -338,14 +338,19 @@ abstract class Upload {
 		return new $class($name);
 	}
 
-	protected function _allowScripts() {
-
-		// Denegar subir archivos de scripts ejecutables
-		if (!$this->_allowScripts && preg_match('/\.(php|phtml|php3|php4|js|shtml|pl|py|rb|rhtml)$/i', $_FILES[$this->_name]['name'])) {
-			Flash::error('Error: no esta permitido subir scripts ejecutables');
+	function _cond($cond, $message) {
+		if ($cond) {
+			Flash::error("Error: $message");
 			return FALSE;
 		}
 		return TRUE;
+	}
+
+	function _allowScripts() {
+		return $this->_cond(
+			!$this->_allowScripts && preg_match('/\.(php|phtml|php3|php4|js|shtml|pl|py|rb|rhtml)$/i', $_FILES[$this->_name]['name']),
+			'no esta permitido subir scripts ejecutables'
+		);
 	}
 
 	/**
@@ -354,38 +359,30 @@ abstract class Upload {
 	 * @return boolean
 	 */
 	function _types() {
-		if (!in_array($_FILES[$this->_name]['type'], $this->_types)) {
-			Flash::error('Error: el tipo de archivo no es válido');
-			return FALSE;
-		}
-		return TRUE;
+		return $this->_cond(
+			!in_array($_FILES[$this->_name]['type'], $this->_types),
+			'el tipo de archivo no es válido'
+		);
 	}
 
 	function _extensions() {
-		if (!preg_match('/\.(' . implode('|', $this->_extensions) . ')$/i', $_FILES[$this->_name]['name'])) {
-			Flash::error('Error: la extensión del archivo no es válida');
-			return FALSE;
-		}
-		return TRUE;
+		return $this->_cond(
+			!preg_match('/\.(' . implode('|', $this->_extensions) . ')$/i', $_FILES[$this->_name]['name']),
+			'la extensión del archivo no es válida'
+		);
 	}
 
 	function _maxSize() {
-
-		// Verifica si es superior al tamaño indicado
-		if ($_FILES[$this->_name]['size'] > $this->_toBytes($this->_maxSize)) {
-			Flash::error("Error: no se admiten archivos superiores a $this->_maxSize" . 'b');
-			return FALSE;
-		}
-		return TRUE;
+		return $this->_cond(
+			$_FILES[$this->_name]['size'] > $this->_toBytes($this->_maxSize),
+			"no se admiten archivos superiores a $this->_maxSize b"
+		);
 	}
 
 	function _minSize() {
-
-		// Verifica si es inferior al tamaño indicado
-		if ($_FILES[$this->_name]['size'] < $this->_toBytes($this->_minSize)) {
-			Flash::error("Error: no se admiten archivos inferiores a $this->_minSize" . 'b');
-			return FALSE;
-		}
-		return TRUE;
+		return $this->_cond(
+			$_FILES[$this->_name]['size'] < $this->_toBytes($this->_minSize),
+			"Error: no se admiten archivos inferiores a $this->_minSize b"
+		);
 	}
 }
