@@ -43,7 +43,6 @@ class AclRole
      * Constructor de la clase Rol
      *
      * @param string $name
-     * @return Acl_Role
      */
     function __construct($name)
     {
