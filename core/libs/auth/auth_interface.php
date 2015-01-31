@@ -29,8 +29,6 @@ interface AuthInterface
 
     /**
      * Constructor del adaptador
-     *
-     * @return void
      */
     public function __construct($auth, $extra_args);
 
