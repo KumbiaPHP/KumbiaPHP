@@ -53,8 +53,6 @@ class SqliteCache extends Cache
         if (!$count) {
             sqlite_exec($this->_db, ' CREATE TABLE cache (id TEXT, "group" TEXT, value TEXT, lifetime TEXT) ');
         }
-
-        return $this->_db;
     }
 
     /**
