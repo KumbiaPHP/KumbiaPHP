@@ -1,4 +1,6 @@
 ![KumbiaPHP](http://proto.kumbiaphp.com/img/kumbiaphp.png)
+
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP/badges/quality-score.png?b=1.0)](https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP/?branch=1.0)
 Fácil, rápido y en español
 ---
 Bienvenidos a KumbiaPHP Framework 
