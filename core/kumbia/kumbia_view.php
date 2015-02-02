@@ -176,7 +176,7 @@ class KumbiaView
         self::$_cache['group'] = $group;
         //Si está en producción para view 
         if (PRODUCTION && $type === 'view') {
-            return self::getCache(); //TRUE si está cacheada
+            return getCache(); //TRUE si está cacheada
         }
     }
     
