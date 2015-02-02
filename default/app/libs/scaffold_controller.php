@@ -14,7 +14,7 @@ class ScaffoldController extends AdminController
 
     public function index($page=1)
     {
-        $this->data = Load::model($this->model)->paginate("page: $page", 'order: id desc');
+        $this->data = Load::model($this->model)->paginate("page: $page","per_page: 10", 'order: id desc');
     }
 
     /**
