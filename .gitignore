@@ -1,2 +1,4 @@
 vendor/*
 
+*.properties
+*.xml
