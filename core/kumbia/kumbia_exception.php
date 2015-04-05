@@ -76,8 +76,8 @@ class KumbiaException extends Exception
             include APP_PATH . 'views/_shared/errors/404.phtml';
             return;
         }
-
-        include CORE_PATH . "views/errors/{$e->_view}.phtml";
+        $view = isset($e->_view) ? $e->_view : 'exception';
+        include CORE_PATH . "views/errors/{$view}.phtml";
  
         $content = ob_get_clean();
 
@@ -85,8 +85,11 @@ class KumbiaException extends Exception
         while (ob_get_level ()) {
             ob_end_clean();
         }
-
-        include CORE_PATH . $e->template;
+        /*No todas las exceptiones tienen la propiedad "template"
+        * TODO: siempre debe ir el CORE_PATH?
+        */
+        $tpl = isset($e->template) ? $e->template : 'views/templates/exception.phtml';
+        include CORE_PATH . $tpl;
     }
 
     /**
