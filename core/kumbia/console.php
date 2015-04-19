@@ -37,6 +37,14 @@ require CORE_PATH . 'kumbia/config.php';
 require CORE_PATH . 'kumbia/load.php';
 
 /**
+ * modificado por nelsonrojas
+ * el problema: al usar console controller create produce un error en linea 85.
+ *              no reconoce FileUtil
+ * solucion: incluir la libreria con la linea siguiente
+ */
+require CORE_PATH . 'libs/file_util/file_util.php';
+
+/**
  * Manejador de consolas de KumbiaPHP
  *
  * Consola para la creación de modelos.
