@@ -56,7 +56,7 @@ class Form
      * @param boolean $is_check
      * @return Array devuelve un array de longitud 3 con la forma array(id, name, value)
      */
-    public static function getField($field, $value = null, $is_check, $filter = true, $check = null)
+    public static function getField($field, $value = null, $is_check, $filter = TRUE, $check = FALSE)
     {
         // Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
@@ -176,7 +176,7 @@ class Form
      * @param string|array $attrs Atributos de etiqueta (opcional)
      * @return string
      */
-    public static function open($action = NULL, $method = 'post', $attrs = NULL)
+    public static function open($action = '', $method = 'post', $attrs = '')
     {
         $attrs =  Tag::getAttrs($attrs);
         if ($action) {
