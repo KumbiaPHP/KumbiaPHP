@@ -32,7 +32,7 @@ abstract class Auth2
      *
      * @var String
      */
-    protected $_error = null;
+    protected $_error = '';
     /**
      * Campo de la BD donde se guarda el nombre de usuario
      *
@@ -108,7 +108,7 @@ abstract class Auth2
      * @param $mode string Valor opcional del método de identificación (auth)
      * @return bool
      */
-    public function identify($login=NULL, $pass=NULL, $mode=NULL)
+    public function identify($login='', $pass='', $mode='')
     {
         if ($this->isValid()) {
             return TRUE;
@@ -192,7 +192,7 @@ abstract class Auth2
      *
      * @param string $algos
      */
-    public function setAlgos($algos, $salt = NULL)
+    public function setAlgos($algos, $salt = '')
     {
         $this->_algos = $algos;
     }
@@ -232,7 +232,7 @@ abstract class Auth2
      *
      * @param string $adapter (model, openid, oauth)
      */
-    public static function factory($adapter = NULL)
+    public static function factory($adapter = '')
     {
         if (!$adapter) {
             $adapter = self::$_defaultAdapter;
