@@ -71,7 +71,7 @@ class Auth
      *
      * @var boolean
      */
-    private static $is_valid = null;
+    private static $is_valid = false;
     /**
      * Ultima identidad obtenida por Authenticate (persistente en sesion)
      *
@@ -99,10 +99,10 @@ class Auth
     /**
      * @param Auth $auth
      */
-    public function set_adapter($adapter, $auth = null, $extra_args = array())
+    public function set_adapter($adapter, $auth = '', $extra_args = array())
     {
         if (!in_array($adapter, array('digest', 'http', 'model', 'kerberos5', 'radius'))) {
-            throw new kumbiaException("Adaptador de autenticaci&oacute;n '$adapter' no soportado");
+            throw new kumbiaException("Adaptador de autenticación '$adapter' no soportado");
         }
         $this->adapter = Util::camelcase($adapter);
         require_once CORE_PATH . "libs/auth/adapters/{$adapter}_auth.php";
@@ -296,7 +296,7 @@ class Auth
      * @param string $var
      * @return string
      */
-    public static function get($var = null)
+    public static function get($var = '')
     {
         if ($var) {
             return $_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')][$var];
