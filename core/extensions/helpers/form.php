@@ -135,7 +135,7 @@ class Form
      * @param boolean $checked
      * @return array Devuelve un array de longitud 3 con la forma array(id, name, checked);
      */
-    public static function getFieldDataCheck($field, $checkValue, $checked = null)
+    public static function getFieldDataCheck($field, $checkValue, $checked = false)
     {
         return self::getField($field, $checkValue, TRUE, FALSE, $checked);
     }
