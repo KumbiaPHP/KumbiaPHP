@@ -148,13 +148,8 @@ class Ajax
      */
     public static function form($update, $action = '', $class = '', $method = 'post', $attrs = '')
     {
-        $attrs = Tag::getAttrs($attrs);
-        if ($action) {
-            $action = PUBLIC_PATH . $action;
-        } else {
-            $action = PUBLIC_PATH . ltrim(Router::get('route'), '/');
-        }
-        return "<form action=\"$action\" method=\"$method\" class=\"js-remote $class\" data-to=\"$update\" $attrs>";
+        $attrs = "class=\"js-remote $class\" data-to=\"$update\" ".Tag::getAttrs($attrs);
+        return Form::open($action, $method, $attrs);
     }
 
 }
