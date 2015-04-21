@@ -358,7 +358,7 @@ class Form
      * @param boolean $checked Indica si se marca el campo (opcional)
      * @return string
      */
-    public static function check($field, $checkValue, $attrs = NULL, $checked = NULL)
+    public static function check($field, $checkValue, $attrs = '', $checked = false)
     {
         $attrs =  Tag::getAttrs($attrs);
         // Obtiene name y id para el campo y los carga en el scope
