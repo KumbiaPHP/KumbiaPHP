@@ -244,7 +244,7 @@ class Router {
 	 * @param string $var (opcional) un atributo: route, module, controller, action, parameters o routed
 	 * @return array|string con el valor del atributo
 	 */
-	public static function get($var = null) {
+	public static function get($var = '') {
 		if ($var) {
 			return self::$_vars[$var];
 		} else {
