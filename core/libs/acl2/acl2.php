@@ -111,7 +111,7 @@ abstract class Acl2
      *
      * @param string $adapter (simple, model, xml, ini)
      */
-    public static function factory($adapter = NULL)
+    public static function factory($adapter = '')
     {
         if (!$adapter) {
             $adapter = self::$_defaultAdapter;
