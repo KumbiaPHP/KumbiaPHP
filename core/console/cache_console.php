@@ -36,7 +36,7 @@ class CacheConsole
      * @param string $group nombre de grupo
      * @throw KumbiaException
      */
-    public function clean($params, $group = FALSE)
+    public function clean($params, $group = '')
     {
         // obtiene el driver de cache
         if (isset($params['driver'])) {
