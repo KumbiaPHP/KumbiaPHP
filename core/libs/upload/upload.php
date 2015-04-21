@@ -53,14 +53,14 @@ abstract class Upload {
 	 *
 	 * @var string
 	 */
-	protected $_minSize = NULL;
+	protected $_minSize = '';
 
 	/**
 	 * Tamaño máximo del archivo
 	 *
 	 * @var string
 	 */
-	protected $_maxSize = NULL;
+	protected $_maxSize = '';
 
 	/**
 	 * Tipos de archivo permitidos utilizando mime
@@ -74,7 +74,7 @@ abstract class Upload {
 	 *
 	 * @var array
 	 */
-	protected $_extensions = NULL;
+	protected $_extensions = array();
 
 	/**
 	 * Permitir sobrescribir ficheros
@@ -178,7 +178,7 @@ abstract class Upload {
 	 * @param string $name nombre con el que se guardara el archivo
 	 * @return boolean|string Nombre de archivo generado con la extensión o FALSE si falla
 	 */
-	public function save($name = NULL) {
+	public function save($name = '') {
 		if (!$this->isUploaded()) {
 			return FALSE;
 		}

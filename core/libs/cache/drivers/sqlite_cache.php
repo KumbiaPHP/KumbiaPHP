@@ -87,7 +87,7 @@ class SqliteCache extends Cache
      * @param int $lifetime tiempo de vida en forma timestamp de unix
      * @return boolean
      */
-    public function save($value, $lifetime=null, $id=false, $group='default')
+    public function save($value, $lifetime='', $id='', $group='default')
     {
         if (!$id) {
             $id = $this->_id;
@@ -122,7 +122,7 @@ class SqliteCache extends Cache
      * @param string $group
      * @return boolean
      */
-    public function clean($group=false)
+    public function clean($group='')
     {
         if ($group) {
             $group = addslashes($group);

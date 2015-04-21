@@ -77,7 +77,7 @@ class NixfileCache extends Cache
      * @param int $lifetime tiempo de vida en forma timestamp de unix
      * @return boolean
      */
-    public function save($value, $lifetime = NULL, $id = FALSE, $group = 'default')
+    public function save($value, $lifetime = '', $id = '', $group = 'default')
     {
         if (!$id) {
             $id = $this->_id;
@@ -102,7 +102,7 @@ class NixfileCache extends Cache
      * @param string $group
      * @return boolean
      */
-    public function clean($group = FALSE)
+    public function clean($group = '')
     {
         $pattern = $group ? APP_PATH . 'temp/cache/' . '*.' . md5($group) : APP_PATH . 'temp/cache/*';
         foreach (glob($pattern) as $filename) {

@@ -140,7 +140,7 @@ class Filter
      * @return array datos filtrados. (Ademas solo devuelve los indices
      * especificados en el segundo parametro).
      */
-    public static function data(array $data, array $fields, $filterAll = NULL)
+    public static function data(array $data, array $fields, $filterAll = '')
     {
         $filtered = array(); //datos filtrados a devolver.
         foreach ($fields as $index => $filters) {

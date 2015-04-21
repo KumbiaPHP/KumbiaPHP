@@ -27,7 +27,7 @@ class Input
 	 * @param string $method
 	 * @return mixed
 	 */
-	public static function is($method = NULL)
+	public static function is($method = '')
 	{
 		if($method){
 			return $method == $_SERVER['REQUEST_METHOD'];
@@ -118,7 +118,7 @@ class Input
 	 * @param string $var elemento a verificar
 	 * @return boolean|null
 	 */
-	public static function delete($var = NULL)
+	public static function delete($var = '')
 	{
 		if($var){
 			unset($_POST[$var]);

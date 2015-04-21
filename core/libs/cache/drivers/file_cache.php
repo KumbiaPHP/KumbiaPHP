@@ -79,7 +79,7 @@ class FileCache extends Cache
      * @param int $lifetime tiempo de vida en forma timestamp de unix
      * @return bool
      */
-    public function save($value, $lifetime=null, $id=false, $group='default')
+    public function save($value, $lifetime='', $id='', $group='default')
     {
         if (!$id) {
             $id = $this->_id;
@@ -101,7 +101,7 @@ class FileCache extends Cache
      * @param string $group
      * @return boolean
      */
-    public function clean($group=false)
+    public function clean($group='')
     {
         $pattern = $group ? APP_PATH . 'temp/cache/' . '*.' . md5($group) : APP_PATH . 'temp/cache/*';
         foreach (glob($pattern) as $filename) {

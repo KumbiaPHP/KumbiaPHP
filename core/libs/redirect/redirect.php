@@ -35,7 +35,7 @@ class Redirect
      * @param integer $seconds segundos que se esperarán antes de redirigir
      * @param integer $statusCode código http de la respuesta, por defecto 302
      */
-    public static function to($route = null, $seconds = null, $statusCode = 302)
+    public static function to($route = '', $seconds = 0, $statusCode = 302)
     {
         $route OR $route = Router::get('controller_path') . '/';
 
@@ -58,7 +58,7 @@ class Redirect
      * @param integer $seconds segundos que se esperarán antes de redirigir
      * @param integer $statusCode código http de la respuesta, por defecto 302
      */
-    public static function toAction($action, $seconds = null, $statusCode = 302)
+    public static function toAction($action, $seconds = 0, $statusCode = 302)
     {
         self::to(Router::get('controller_path') . "/$action", $seconds, $statusCode);
     }
