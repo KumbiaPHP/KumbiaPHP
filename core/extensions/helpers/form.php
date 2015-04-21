@@ -144,7 +144,7 @@ class Form
 	 * @param string $tag
 	 * @param string $field
 	 * @param string $value
-	 * @params string|array $attrs
+	 * @param string|array $attrs
 	 */
     protected static function tag ($tag, $field, $attrs = '', $value='', $extra='', $close = TRUE){
         $attrs =  Tag::getAttrs($attrs);
@@ -462,7 +462,7 @@ class Form
      * @param string|array $value (opcional) Array en select multiple
      * @return string
      */
-    public static function dbSelect($field, $show = '', $data = NULL, $blank = 'Seleccione', $attrs = '', $value = NULL)
+    public static function dbSelect($field, $show = '', $data = NULL, $blank = 'Seleccione', $attrs = '', $value = '')
     {
 
         $model = ($data === NULL) ? substr($field, strpos($field, '.')+1, -3):$data[0];
