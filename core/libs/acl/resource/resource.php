@@ -41,7 +41,7 @@ class AclResource
      *
      * @param string $name
      */
-    function __construct($name)
+    public function __construct($name)
     {
         if ($name == '*') {
             throw new KumbiaException('Nombre invalido "*" para nombre de Resource en Acl_Resoruce::__constuct');
@@ -55,7 +55,7 @@ class AclResource
      * @param string $name
      * @param string $value
      */
-    function __set($name, $value)
+    public function __set($name, $value)
     {
         if ($name != 'name') {
             $this->$name = $value;

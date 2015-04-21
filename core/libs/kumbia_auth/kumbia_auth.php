@@ -51,7 +51,7 @@ class KumbiaAuth{
      * Retorna el objeto de autenticación haciendo la verificacion
      * @return KumbiaAuthInterface
      */
-    static function getObj(){
+    public static function getObj(){
         if(!self::$_obj instanceof KumbiaAuthInterface)
             throw new Exception('Objeto de autenticación nulo');
         return self::$_obj;
