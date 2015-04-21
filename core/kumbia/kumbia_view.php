@@ -300,13 +300,13 @@ class KumbiaView
      * Renderiza una vista parcial
      *
      * @param string $partial vista a renderizar
-     * @param FALSE|string $__time tiempo de cache
+     * @param string $__time tiempo de cache
      * @param array $params
      * @param string $group grupo de cache
      * @return string
      * @throw KumbiaException
      */
-    public static function partial($partial, $__time=FALSE, $params=NULL, $group ='kumbia.partials')
+    public static function partial($partial, $__time='', $params=NULL, $group ='kumbia.partials')
     {
         if (PRODUCTION && $__time && !Cache::driver()->start($__time, $partial, $group)) {
             return;
@@ -346,7 +346,7 @@ class KumbiaView
 	 * @param string $var nombre de variable
 	 * @return mixed valor de la variable
 	 */
-	public static function getVar($var = NULL)
+	public static function getVar($var = '')
 	{
 		if(!$var) return get_object_vars(self::$_controller);
 
