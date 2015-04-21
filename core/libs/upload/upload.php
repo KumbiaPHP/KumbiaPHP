@@ -338,7 +338,7 @@ abstract class Upload {
 		return new $class($name);
 	}
 
-	function _cond($cond, $message) {
+	protected function _cond($cond, $message) {
 		if ($cond) {
 			Flash::error("Error: $message");
 			return FALSE;
@@ -346,7 +346,7 @@ abstract class Upload {
 		return TRUE;
 	}
 
-	function _allowScripts() {
+	protected function _allowScripts() {
 		return $this->_cond(
 			!$this->_allowScripts && preg_match('/\.(php|phtml|php3|php4|js|shtml|pl|py|rb|rhtml)$/i', $_FILES[$this->_name]['name']),
 			'no esta permitido subir scripts ejecutables'
@@ -358,28 +358,28 @@ abstract class Upload {
 	 *
 	 * @return boolean
 	 */
-	function _types() {
+	protected function _types() {
 		return $this->_cond(
 			!in_array($_FILES[$this->_name]['type'], $this->_types),
 			'el tipo de archivo no es válido'
 		);
 	}
 
-	function _extensions() {
+	protected function _extensions() {
 		return $this->_cond(
 			!preg_match('/\.(' . implode('|', $this->_extensions) . ')$/i', $_FILES[$this->_name]['name']),
 			'la extensión del archivo no es válida'
 		);
 	}
 
-	function _maxSize() {
+	protected function _maxSize() {
 		return $this->_cond(
 			$_FILES[$this->_name]['size'] > $this->_toBytes($this->_maxSize),
 			"no se admiten archivos superiores a $this->_maxSize b"
 		);
 	}
 
-	function _minSize() {
+	protected function _minSize() {
 		return $this->_cond(
 			$_FILES[$this->_name]['size'] < $this->_toBytes($this->_minSize),
 			"Error: no se admiten archivos inferiores a $this->_minSize b"

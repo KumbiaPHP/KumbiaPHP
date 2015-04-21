@@ -218,7 +218,7 @@ class KumbiaRest extends Controller {
 	 * interpretando la cabecera HTTP_ACCEPT
 	 * @return array
 	 */
-	static function accept() {
+	protected static function accept() {
 		/* para almacenar los valores acceptados por el cliente */
 		$aTypes = array();
 		/* Elimina espacios, convierte a minusculas, y separa */
@@ -337,7 +337,7 @@ class KumbiaRest extends Controller {
 	 * Retorna todas las cabeceras enviadas por el cliente
 	 * @return Array
 	 */
-	static function getHeaders() {
+	protected static function getHeaders() {
 
 		/*Esta función solo existe en apache*/
 		if (function_exists('getallheaders')) {

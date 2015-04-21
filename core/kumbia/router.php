@@ -127,7 +127,7 @@ class Router {
 	 *
 	 * @param string $url
 	 */
-	static function rewrite($url) {
+	private static function rewrite($url) {
 		//Valor por defecto
 		if ($url == '/') {
 			return;
@@ -172,7 +172,7 @@ class Router {
 	/**
 	 * Carga y devuelve una instancia del controllador
 	 */
-	static function getController() {
+	private static function getController() {
 		// Extrae las variables para manipularlas facilmente
 		extract(self::$_vars, EXTR_OVERWRITE);
 		if (!include_once "$default_path{$dir}/$controller_path{$suffix}") {
@@ -188,7 +188,7 @@ class Router {
 	 *
 	 * @return Controller
 	 */
-	static function dispatch($cont) {
+	private static function dispatch($cont) {
 		// Se ejecutan los filtros initialize y before
 		if ($cont->k_callback(true) === false) {
 			return $cont;

@@ -127,7 +127,7 @@ class Rest
      * de la petición
      * @return Array
      */
-    static function param()
+    public static function param()
     {
         $input = file_get_contents('php://input');
         if (strncmp(self::$_iFormat, 'json', 4) == 0) {
