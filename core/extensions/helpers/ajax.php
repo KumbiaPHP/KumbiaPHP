@@ -146,7 +146,7 @@ class Ajax
      * @param string|array $attrs atributos
      * @return string
      */
-    public static function form($update, $action = NULL, $class = NULL, $method = 'post', $attrs = NULL)
+    public static function form($update, $action = '', $class = NULL, $method = 'post', $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
         if ($action) {

@@ -56,7 +56,7 @@ abstract class Cache
      *
      * @var string
      */
-    protected $_lifetime = null;
+    protected $_lifetime = '';
 
     /**
      * Carga un elemento cacheado
@@ -76,7 +76,7 @@ abstract class Cache
      * @param string $group
      * @return boolean
      */
-    public abstract function save($value, $lifetime = NULL, $id = FALSE, $group = 'default');
+    public abstract function save($value, $lifetime = '', $id = FALSE, $group = 'default');
 
     /**
      * Limpia la cache
@@ -147,7 +147,7 @@ abstract class Cache
      *
      * @param string $driver (file, sqlite, memsqlite, APC)
      * */
-    public static function driver($driver = NULL)
+    public static function driver($driver = '')
     {
         if (!$driver) {
             $driver = self::$_default_driver;
