@@ -73,11 +73,8 @@ class Html
      */
     public static function linkAction($action, $text, $attrs = NULL)
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-
-        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" $attrs >$text</a>";
+        $action = Router::get('controller_path') . "/$action";
+        return self::link($action, $text, $attrs);
     }
 
     /**
