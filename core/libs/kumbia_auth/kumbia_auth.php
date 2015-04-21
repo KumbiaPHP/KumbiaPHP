@@ -19,7 +19,7 @@
  */
 
 interface KumbiaAuthInterface{
-    public function login();
+    public function login($array);
     /**
      * @param string $name
      */
