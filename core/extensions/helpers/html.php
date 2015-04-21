@@ -52,7 +52,7 @@ class Html
      * @param string|array $attrs Atributos adicionales
      * @return string
      */
-    public static function link($action, $text, $attrs = NULL)
+    public static function link($action, $text, $attrs = '')
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
@@ -71,7 +71,7 @@ class Html
      * @param string|array $attrs Atributos adicionales
      * @return string
      */
-    public static function linkAction($action, $text, $attrs = NULL)
+    public static function linkAction($action, $text, $attrs = '')
     {
         $action = Router::get('controller_path') . "/$action";
         return self::link($action, $text, $attrs);
@@ -85,12 +85,9 @@ class Html
      * @param string|array $attrs Atributos adicionales
      * @return string
      */
-    public static function img($src, $alt=NULL, $attrs = NULL)
+    public static function img($src, $alt='', $attrs = '')
     {
-        if (is_array($attrs)) {
-            $attrs = Tag::getAttrs($attrs);
-        }
-        return '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" $attrs />";
+        return '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" ".Tag::getAttrs($attrs).' />';
     }
 
     /**
@@ -99,7 +96,7 @@ class Html
      * @param string $content contenido del metatag
      * @param string|array $attrs atributos
      */
-    public static function meta($content, $attrs = NULL)
+    public static function meta($content, $attrs = '')
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
@@ -126,7 +123,7 @@ class Html
      * @param string|array $attrs atributos
      * @return string
      */
-    public static function lists($array, $type = 'ul', $attrs = NULL)
+    public static function lists($array, $type = 'ul', $attrs = '')
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
@@ -161,7 +158,7 @@ class Html
      * @param string $href direccion url del recurso a enlazar
      * @param string|array $attrs atributos
      */
-    public static function headLink($href, $attrs = NULL)
+    public static function headLink($href, $attrs = '')
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
@@ -176,7 +173,7 @@ class Html
      * @param string $action ruta de accion
      * @param string|array $attrs atributos
      */
-    public static function headLinkAction($action, $attrs = NULL)
+    public static function headLinkAction($action, $attrs = '')
     {
         self::headLink(PUBLIC_PATH . $action, $attrs);
     }
@@ -187,7 +184,7 @@ class Html
      * @param string $resource ubicacion del recurso en public
      * @param string|array $attrs atributos
      */
-    public static function headLinkResource($resource, $attrs = NULL)
+    public static function headLinkResource($resource, $attrs = '')
     {
         self::headLink(PUBLIC_PATH . $resource, $attrs);
     }

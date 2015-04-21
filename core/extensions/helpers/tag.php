@@ -37,7 +37,7 @@ class Tag
     /**
      * Convierte los argumentos de un metodo de parametros por nombre a un string con los atributos
      *
-     * @param mixed $params argumentos a convertir
+     * @param string|array $params argumentos a convertir
      * @return string
      */
     public static function getAttrs($params)
