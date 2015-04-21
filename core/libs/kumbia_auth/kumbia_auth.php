@@ -43,8 +43,8 @@ class KumbiaAuth{
      * Inyecta el objeto de autenticación
      * @param KumbiaAuthInterface $auth
      */
-    static function inject(KumbiaAuthInterface $auth){
-        self::$_obj = $auth;
+    protected static function inject(KumbiaAuthInterface $auth){
+        self::$_obj = $auth;  //TODO
     }
 
     /**
@@ -61,14 +61,14 @@ class KumbiaAuth{
      * Verifica si el usuario está logueado
      * @return bool
      */
-    static function isLogin(){
+    public static function isLogin(){
         return (bool) Session::get('login', self::$_ns);
     }
 
     /**
      * Desloguea a un usuario
      */
-    static function logout(){
+    public static function logout(){
         Session::set('login', FALSE, self::$_ns);
     }
 
@@ -77,7 +77,7 @@ class KumbiaAuth{
      * @param Array $args Agumentos para autentica
      * @return bool
      */
-    static function login(Array $args = array()){
+    public static function login(Array $args = array()){
         $auth = self::getObj();
         $login =  $auth->login($args);
         Session::set('login', $login, self::$_ns);
@@ -89,7 +89,7 @@ class KumbiaAuth{
      * @param string $name de la variable
      * @return mixed
      */
-    static function get($name){
+    public static function get($name){
         $auth = self::getObj();
         return $auth->get($name);
     }
