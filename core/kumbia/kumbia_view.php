@@ -174,6 +174,7 @@ class KumbiaView
         if (PRODUCTION && $type === 'view') {
             return self::getCache(); //TRUE si está cacheada
         }
+        return False;
     }
 
     /**
