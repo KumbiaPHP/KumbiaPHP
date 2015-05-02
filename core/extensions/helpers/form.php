@@ -146,7 +146,7 @@ class Form
 	 * @param string $value
 	 * @param string|array $attrs
 	 */
-    protected static function tag ($tag, $field, $attrs = '', $value='', $extra='', $close = TRUE){
+    protected static function tag ($tag, $field, $attrs = NULL, $value=NULL, $extra='', $close = TRUE){
         $attrs =  Tag::getAttrs($attrs);
         $end = $close ? ">{{value}}</$tag>" : '/>';
          // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
@@ -163,7 +163,7 @@ class Form
      * @param string $value
      * @return string
      */
-    public static function input($type, $field, $attrs = '', $value='')
+    public static function input($type, $field, $attrs = NULL, $value=NULL)
     {
         return self::tag('input', $field, $attrs, $value, "type=\"$type\" value=\"{{value}}\"", FALSE);
     }
@@ -194,7 +194,7 @@ class Form
      * @param string|array $attrs Atributos de etiqueta (opcional)
      * @return string
      */
-    public static function openMultipart($action = '', $attrs = '')
+    public static function openMultipart($action = NULL, $attrs = NULL)
     {
         self::$_multipart = TRUE;
         if (is_array($attrs)) {
@@ -224,7 +224,7 @@ class Form
      * @param string|array $attrs Atributos de campo (opcional)
      * @return string
      */
-    public static function submit($text, $attrs = '')
+    public static function submit($text, $attrs = NULL)
     {
         return self::button($text, $attrs, 'submit');
     }
@@ -236,7 +236,7 @@ class Form
      * @param string|array $attrs Atributos de campo (opcional)
      * @return string
      */
-    public static function reset($text, $attrs = '')
+    public static function reset($text, $attrs = NULL)
     {
         return self::button($text, $attrs, 'reset');
     }
@@ -251,7 +251,7 @@ class Form
      * @todo FALTA AGREGAR NOMBRE YA QUE SIN ESTE EL VALUE NO LLEGA AL SERVER
      * @return string
      */
-    public static function button($text, $attrs = '', $type = 'button', $value= '')
+    public static function button($text, $attrs = NULL, $type = 'button', $value= NULL)
     {
         $attrs =  Tag::getAttrs($attrs);
         $value = is_null($value) ? '' : "value=\"$value\"";
@@ -266,7 +266,7 @@ class Form
      * @param string|array Atributos de campo (opcional)
      * @return string
      */
-    public static function label($text, $field, $attrs = '')
+    public static function label($text, $field, $attrs = NULL)
     {
         $attrs =  Tag::getAttrs($attrs);
         return "<label for=\"$field\" $attrs>$text</label>";
@@ -280,7 +280,7 @@ class Form
      * @param string $value (opcional)
      * @return string
      */
-    public static function text($field, $attrs = '', $value = '')
+    public static function text($field, $attrs = NULL, $value = NULL)
     {
         return self::input('text', $field, $attrs, $value);
     }
@@ -297,7 +297,7 @@ class Form
      * @param string $show texto a mostrar, si es empty usa el to string
      * @return string
      */
-    public static function select($field, $data, $attrs = '', $value = '', $blank = '',$itemId = 'id', $show='')
+    public static function select($field, $data, $attrs = NULL, $value = NULL, $blank = '',$itemId = 'id', $show='')
     {
         $attrs =  Tag::getAttrs($attrs);
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
@@ -380,7 +380,7 @@ class Form
      * @param boolean $checked Indica si se marca el campo (opcional)
      * @return string
      */
-    public static function radio($field, $radioValue, $attrs = '', $checked = false)
+    public static function radio($field, $radioValue, $attrs = NULL, $checked = NULL)
     {
         $attrs =  Tag::getAttrs($attrs);
         // Obtiene name y id para el campo y los carga en el scope
@@ -408,7 +408,7 @@ class Form
      * @param string|array $attrs Atributos de campo (opcional)
      * @return string
      */
-    public static function submitImage($img, $attrs = '')
+    public static function submitImage($img, $attrs = NULL)
     {
         $attrs =  Tag::getAttrs($attrs);
         return "<input type=\"image\" src=\"" . PUBLIC_PATH . "img/$img\" $attrs/>";
@@ -422,7 +422,7 @@ class Form
      * @param string $value
      * @return string
      */
-    public static function hidden($field, $attrs = '', $value = '')
+    public static function hidden($field, $attrs = NULL, $value = NULL)
     {
         return self::input('hidden', $field, $attrs, $value);
     }
@@ -435,7 +435,7 @@ class Form
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value
      */
-    public static function pass($field, $attrs = '', $value = '')
+    public static function pass($field, $attrs = NULL, $value = NULL)
     {
        return self::password($field, $attrs, $value);
     }
@@ -446,7 +446,7 @@ class Form
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value
      */
-    public static function password($field, $attrs = '', $value = '')
+    public static function password($field, $attrs = NULL, $value = NULL)
     {
        return self::input('password',$field, $attrs, $value);
     }
@@ -462,8 +462,9 @@ class Form
      * @param string|array $value (opcional) Array en select multiple
      * @return string
      */
-    public static function dbSelect($field, $show = '', $data = NULL, $blank = 'Seleccione', $attrs = '', $value = '')
-    {
+
+    public static function dbSelect($field, $show = NULL, $data = NULL, $blank = 'Seleccione', $attrs = NULL, $value = NULL)
+	{
 
         $model = ($data === NULL) ? substr($field, strpos($field, '.')+1, -3):$data[0];
         $model_asoc = Load::model($model);
@@ -487,7 +488,7 @@ class Form
      * @param string|array $attrs Atributos de campo (opcional)
      * @return string
      */
-    public static function file($field, $attrs = '')
+    public static function file($field, $attrs = NULL)
     {
         // aviso al programador
         if (!self::$_multipart) {
@@ -509,7 +510,7 @@ class Form
      * @param string $value (opcional)
      * @return string
      */
-    public static function textarea($field, $attrs = '', $value = '')
+    public static function textarea($field, $attrs = NULL, $value = NULL)
     {
         return self::tag('textarea', $field, $attrs, $value);
     }
@@ -522,7 +523,7 @@ class Form
      * @param string $value (opcional)
      * @return string
      */
-    public static function date($field, $attrs = '', $value = '')
+    public static function date($field, $attrs = NULL, $value = NULL)
     {
         return self::input('date',$field, $attrs, $value);
     }
@@ -536,7 +537,7 @@ class Form
      * @param string $value (opcional)
      * @return string
      */
-    public static function datepicker($field, $class = '', $attrs = '', $value = '')
+    public static function datepicker($field, $class = NULL, $attrs = NULL, $value = NULL)
     {
         return self::tag('input', $field, $attrs, NULL, "class=\"js-datepicker $class\" type=\"text\" value=\"$value\" ");
     }
@@ -549,7 +550,7 @@ class Form
      * @param string $value (opcional)
      * @return string
      */
-    public static function time($field, $attrs = '', $value = '')
+    public static function time($field, $attrs = NULL, $value = NULL)
     {
        return self::input('time',$field, $attrs, $value);
     }
@@ -562,7 +563,7 @@ class Form
      * @param string $value (opcional)
      * @return string
      */
-    public static function datetime($field, $attrs = '', $value = '')
+    public static function datetime($field, $attrs = NULL, $value = NULL)
     {
         return self::input('datetime',$field, $attrs, $value);
     }
@@ -575,7 +576,7 @@ class Form
      * @param string $value (opcional)
      * @return string
      */
-    public static function number($field, $attrs = '', $value = '')
+    public static function number($field, $attrs = NULL, $value = NULL)
     {
         return self::input('number',$field, $attrs, $value);
     }
@@ -589,7 +590,7 @@ class Form
      * @param string $value (opcional)
      * @return string
      */
-    public static function url($field, $attrs = '', $value = '')
+    public static function url($field, $attrs = NULL, $value = NULL)
     {
         return self::input('url',$field, $attrs, $value);
     }
@@ -602,7 +603,7 @@ class Form
      * @param string $value (opcional)
      * @return string
      */
-    public static function email($field, $attrs = '', $value = '')
+    public static function email($field, $attrs = NULL, $value = NULL)
     {
         return self::input('email',$field, $attrs, $value);
     }
