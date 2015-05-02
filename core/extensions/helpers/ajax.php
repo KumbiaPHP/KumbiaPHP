@@ -37,7 +37,7 @@ class Ajax
      * @param string|array $attrs atributos adicionales
      * @return string
      */
-    public static function link($action, $text, $update, $class=NULL, $attrs=NULL)
+    public static function link($action, $text, $update, $class = '', $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
         return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote $class\" data-to=\"{$update}\" $attrs>$text</a>";
@@ -53,7 +53,7 @@ class Ajax
      * @param string|array $attrs atributos adicionales
      * @return string
      */
-    public static function linkAction($action, $text, $update, $class=NULL, $attrs=NULL)
+    public static function linkAction($action, $text, $update, $class = '', $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
         return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote $class\" data-to=\"{$update}\" $attrs>$text</a>";
@@ -71,7 +71,7 @@ class Ajax
      * @param string|array $attrs atributos adicionales
      * @return string
      */
-    public static function linkConfirm($action, $text, $update, $confirm, $class=NULL, $attrs=NULL)
+    public static function linkConfirm($action, $text, $update, $confirm, $class = '', $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
         return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote-confirm $class\" data-to=\"{$update}\" title=\"$confirm\" $attrs>$text</a>";
@@ -89,7 +89,7 @@ class Ajax
      * @param string|array $attrs atributos adicionales
      * @return string
      */
-    public static function linkActionConfirm($action, $text, $update, $confirm, $class=NULL, $attrs=NULL)
+    public static function linkActionConfirm($action, $text, $update, $confirm, $class = '', $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
         return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote-confirm $class\" data-to=\"{$update}\" title=\"$confirm\" $attrs>$text</a>";
@@ -105,7 +105,7 @@ class Ajax
      * @param string $class
      * @param string|array $attrs
      */
-    public static function select($field, $data, $update, $action, $class=null, $attrs=null)
+    public static function select($field, $data, $update, $action, $class = '', $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
         // ruta a la accion
@@ -126,7 +126,7 @@ class Ajax
      * @param string $class
      * @param string|array $attrs
      */
-    public static function dbSelect($field, $show, $data, $update, $action, $blank=null, $class=null, $attrs=null)
+    public static function dbSelect($field, $show, $data, $update, $action, $blank=null, $class = '', $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
         // ruta a la accion
@@ -146,7 +146,7 @@ class Ajax
      * @param string|array $attrs atributos
      * @return string
      */
-    public static function form($update, $action = '', $class = NULL, $method = 'post', $attrs = '')
+    public static function form($update, $action = '', $class = '', $method = 'post', $attrs = '')
     {
         $attrs = "class=\"js-remote $class\" data-to=\"$update\" ".Tag::getAttrs($attrs);
         return Form::open($action, $method, $attrs);
