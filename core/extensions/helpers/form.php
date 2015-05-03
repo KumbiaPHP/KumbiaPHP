@@ -173,7 +173,7 @@ class Form
      *
      * @param string $action Acción del formulario (opcional)
      * @param string $method Por defecto es post (opcional)
-     * @param string|array $attrs Atributos de etiqueta (opcional)
+     * @param string $attrs Atributos de etiqueta (opcional)
      * @return string
      */
     public static function open($action = '', $method = 'post', $attrs = '')
