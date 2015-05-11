@@ -96,7 +96,7 @@ class ModelForm
                     break;
 
                 default: //text,tinytext,varchar, char,etc se comprobara su tamaño
-                    echo "<input id=\"$formId\" type=\"text\" name=\"$formName\" value=\"{$model->$field}\">" . PHP_EOL;
+                    echo "<input id=\"$formId\" type=\"text\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
                 //break;
             }
         }

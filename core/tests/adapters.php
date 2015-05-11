@@ -73,13 +73,13 @@
 	catch(Exception $e){
 		$test = false;
 		print "<div style='background:#FFBBBB;border:1px solid red'>";
-		print "Primer Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
+		echo "Primer Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
 		print "</div>";
 	}
 	if($test){
 		$end_benckmark = microtime(true) - $start_benchmark;
 		print "<div style='background:#CCFF99;border:1px solid green'>";
-		print "Primer Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
+		echo "Primer Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
 		print "</div>";
 	}
 
@@ -107,13 +107,13 @@
 	catch(Exception $e){
 		$test = false;
 		print "<div style='background:#FFBBBB;border:1px solid red'>";
-		print "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
+		echo "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
 		print "</div>";
 	}
 	if($test){
 		$end_benckmark = microtime(true) - $start_benchmark;
 		print "<div style='background:#CCFF99;border:1px solid green'>";
-		print "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
+		echo "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
 		print "</div>";
 	}
 
@@ -132,13 +132,13 @@
 	}
 	catch(Exception $e){
 		print "<div style='background:#FFBBBB;border:1px solid red'>";
-		print "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
+		echo "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
 		print "</div>";
 	}
 	if($test){
 		$end_benckmark = microtime(true) - $start_benchmark;
 		print "<div style='background:#CCFF99;border:1px solid green'>";
-		print "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
+		echo "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
 		print "</div>";
 	}
 
@@ -153,13 +153,13 @@
 	}
 	catch(Exception $e){
 		print "<div style='background:#FFBBBB;border:1px solid red'>";
-		print "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
+		echo "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
 		print "</div>";
 	}
 	if($test){
 		$end_benckmark = microtime(true) - $start_benchmark;
 		print "<div style='background:#CCFF99;border:1px solid green'>";
-		print "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
+		echo "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
 		print "</div>";
 	}
 
@@ -214,13 +214,13 @@
 	}
 	catch(Exception $e){
 		print "<div style='background:#FFBBBB;border:1px solid red'>";
-		print "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
+		echo "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
 		print "</div>";
 	}
 	if($test){
 		$end_benckmark = microtime(true) - $start_benchmark;
 		print "<div style='background:#CCFF99;border:1px solid green'>";
-		print "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
+		echo "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
 		print "</div>";
 	}
 
@@ -239,13 +239,13 @@
 	}
 	catch(Exception $e){
 		print "<div style='background:#FFBBBB;border:1px solid red'>";
-		print "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
+		echo "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
 		print "</div>";
 	}
 	if($test){
 		$end_benckmark = microtime(true) - $start_benchmark;
 		print "<div style='background:#CCFF99;border:1px solid green'>";
-		print "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
+		echo "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
 		print "</div>";
 	}
 
@@ -262,13 +262,13 @@
 	}
 	catch(Exception $e){
 		print "<div style='background:#FFBBBB;border:1px solid red'>";
-		print "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
+		echo "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
 		print "</div>";
 	}
 	if($test){
 		$end_benckmark = microtime(true) - $start_benchmark;
 		print "<div style='background:#CCFF99;border:1px solid green'>";
-		print "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
+		echo "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
 		print "</div>";
 	}
 
@@ -281,13 +281,13 @@
 	}
 	catch(Exception $e){
 		print "<div style='background:#FFBBBB;border:1px solid red'>";
-		print "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
+		echo "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
 		print "</div>";
 	}
 	if($test){
 		$end_benckmark = microtime(true) - $start_benchmark;
 		print "<div style='background:#CCFF99;border:1px solid green'>";
-		print "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
+		echo "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
 		print "</div>";
 	}
 
@@ -302,19 +302,19 @@
 	}
 	catch(Exception $e){
 		print "<div style='background:#FFBBBB;border:1px solid red'>";
-		print "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
+		echo "Test '$test_name' (FALL&Oacute;) con mensaje: ({$e->getMessage()})";
 		print "</div>";
 	}
 	if($test){
 		$end_benckmark = microtime(true) - $start_benchmark;
 		print "<div style='background:#CCFF99;border:1px solid green'>";
-		print "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
+		echo "Test '$test_name' (OK) con tiempo: ({$end_benckmark})";
 		print "</div>";
 	}
 
 
 	print "<div style='background:#CCFF99;border:1px solid green'>";
-	print "<strong>Tiempo total de los Test ".(microtime(true) - $init_time)."</strong>";
+	echo "<strong>Tiempo total de los Test ", microtime(true - $init_time),"</strong>";
 	print "</div>";
 
 
