@@ -40,10 +40,6 @@ class KumbiaAuth {
 	 */
 	static protected $_obj = null;
 
-	function __construct(KumbiaAuthBase $auth) {
-		$this->auth = $auth;
-	}
-
 	/**
 	 * Inyecta el objeto de autenticación
 	 * @param KumbiaAuthInterface $auth
