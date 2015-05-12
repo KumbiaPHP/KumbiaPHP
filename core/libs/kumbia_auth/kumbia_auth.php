@@ -18,79 +18,63 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
-interface KumbiaAuthInterface{
-    public function login($array);
-    /**
-     * @param string $name
-     */
-    public function get($name);
-}
+include 'kumbia_auth_base.php';
+include 'kumbia_auth_interface.php';
 
-class KumbiaAuth{
-    /**
-     * Espacio de nombre para las variables de login
-     * @var String
-     */
-    static protected $_ns = 'KumbiaAuthNameSpace';
+class KumbiaAuth {
+	/**
+	 * Espacio de nombre para las variables de login
+	 * @var String
+	 */
+	protected $_ns = 'KumbiaAuthNameSpace';
 
-    /**
-     * Objeto de autenticacion
-     * @var KumbiaAuthInterface
-     */
-    static protected $_obj = null;
+	/**
+	 * Auth instance
+	 * @var KumbiaAuthInterface
+	 */
+	protected $auth = NULL;
 
-    /**
-     * Inyecta el objeto de autenticación
-     * @param KumbiaAuthInterface $auth
-     */
-    protected static function inject(KumbiaAuthInterface $auth){
-        self::$_obj = $auth;  //TODO
-    }
+	/**
+	 * Objeto de autenticacion
+	 * @var KumbiaAuth
+	 */
+	static protected $_obj = null;
 
-    /**
-     * Retorna el objeto de autenticación haciendo la verificacion
-     * @return KumbiaAuthInterface
-     */
-    public static function getObj(){
-        if(!self::$_obj instanceof KumbiaAuthInterface)
-            throw new Exception('Objeto de autenticación nulo');
-        return self::$_obj;
-    }
+	function __construct(KumbiaAuthBase $auth) {
+		$this->auth = $auth;
+	}
 
-    /**
-     * Verifica si el usuario está logueado
-     * @return bool
-     */
-    public static function isLogin(){
-        return (bool) Session::get('login', self::$_ns);
-    }
+	/**
+	 * Inyecta el objeto de autenticación
+	 * @param KumbiaAuthInterface $auth
+	 */
+	static function init(KumbiaAuthInterface $auth) {
+		if (self::$_obj instanceof KumbiaAuthBase) {
+			throw new Exception('Object was initialized');
+		}
+		self::$_obj = new KumbiaAuthBase($auth);
+	}
 
-    /**
-     * Desloguea a un usuario
-     */
-    public static function logout(){
-        Session::set('login', FALSE, self::$_ns);
-    }
+	/**
+	 * Can get login with load class
+	 * @return boolean [
+	 */
+	static public function isLogin() {
+		return (bool) Session::get('login', KumbiaAuthBase::$namespace);
+	}
 
-    /**
-     * Hace el login
-     * @param Array $args Agumentos para autentica
-     * @return bool
-     */
-    public static function login(Array $args = array()){
-        $auth = self::getObj();
-        $login =  $auth->login($args);
-        Session::set('login', $login, self::$_ns);
-        return $login;
-    }
+	/**
+	 * Make the facade
+	 * @param  [type] $method [description]
+	 * @param  [type] $args   [description]
+	 * @return mixed
+	 */
+	public static function __callStatic($method, $args) {
+		if (!self::$_obj instanceof KumbiaAuthBase) {
+			throw new Exception('Objeto de autenticación nulo');
+		}
+		$instance = self::$_obj;
+		return call_user_func_array(array($instance, $method), $args);
+	}
 
-    /**
-     * Retorna una varible
-     * @param string $name de la variable
-     * @return mixed
-     */
-    public static function get($name){
-        $auth = self::getObj();
-        return $auth->get($name);
-    }
 }
