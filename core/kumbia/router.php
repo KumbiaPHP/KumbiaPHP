@@ -49,6 +49,13 @@ class Router {
 	);
 
 	/**
+	 * This is the name of router class
+	 * @var String
+	 */
+	protected static $router = 'KumbiaRouter';
+	//Es el router por defecto;
+
+	/**
 	 * Indica si esta pendiente la ejecución de una ruta por parte del dispatcher
 	 *
 	 * @var boolean
@@ -79,8 +86,7 @@ class Router {
 	 */
 	public static function execute($url) {
 		self::init($url);
-		$router = 'KumbiaRouter';//Es el router por defecto
-		$conf   = Config::get('config.application.routes');
+		$conf = Config::get('config.application.routes');
 		//Si config.ini tiene routes activados, mira si esta routed
 		if ($conf) {
 			/*Esta activado el router*/
@@ -89,9 +95,10 @@ class Router {
 				$url = call_user_func(array($router, '_ifRouted'), $url);
 			} else {
 				/*Es otra clase de router*/
-				$router = $conf;
+				self::$router = $conf;
 			}
 		}
+		$router = self::$router;
 		// Descompone la url
 		self::$_vars = array_merge(self::$_vars, $router::rewrite($url));
 		$controller  = call_user_func(array($router, 'getController'), self::$_vars);
@@ -142,9 +149,10 @@ class Router {
 		//Si esta routed internamente volver a ejecutar
 		if (self::$_routed) {
 			self::$_routed = FALSE;
-			return self::dispatch(self::getController());// Vuelve a ejecutar el dispatcher
+			$controller    = call_user_func(array(self::$router, 'getController'), self::$_vars);
+			// Despacha la ruta actual
+			return self::dispatch($controller);
 		}
-
 		return $cont;
 	}
 
