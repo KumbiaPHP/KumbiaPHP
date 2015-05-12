@@ -79,28 +79,24 @@ class Router {
 	 */
 	public static function execute($url) {
 		self::init($url);
+		$router = 'KumbiaRouter';//Es el router por defecto
+		$conf   = Config::get('config.application.routes');
 		//Si config.ini tiene routes activados, mira si esta routed
-		if (Config::get('config.application.routes')) {
-			$url = KumbiaRouter::_ifRouted($url);
+		if ($conf) {
+			/*Esta activado el router*/
+			/* This if for back compatibility*/
+			if ($conf === TRUE) {
+				$url = call_user_func(array($router, '_ifRouted'), $url);
+			} else {
+				/*Es otra clase de router*/
+				$router = $conf;
+			}
 		}
 		// Descompone la url
-		self::$_vars = array_merge(self::$_vars, KumbiaRouter::rewrite($url));
+		self::$_vars = array_merge(self::$_vars, $router::rewrite($url));
+		$controller  = call_user_func(array($router, 'getController'), self::$_vars);
 		// Despacha la ruta actual
-		return self::dispatch(self::getController());
-	}
-
-	/**
-	 * Carga y devuelve una instancia del controllador
-	 */
-	private static function getController() {
-		// Extrae las variables para manipularlas facilmente
-		extract(self::$_vars, EXTR_OVERWRITE);
-		if (!include_once "$default_path{$dir}/$controller_path{$suffix}") {
-			throw new KumbiaException(null, 'no_controller');
-		}
-		//Asigna el controlador activo
-		$app_controller = Util::camelcase($controller).'Controller';
-		return new $app_controller(self::$_vars);
+		return self::dispatch($controller);
 	}
 
 	/**

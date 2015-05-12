@@ -50,7 +50,7 @@ class KumbiaRouter {
 
 		// Controlador
 		$router['controller']      = current($url_items);
-		$router['controller_path'] = ($router['module'])?"$url_items[0]/$url_items[1]":current($url_items);
+		$router['controller_path'] = !empty($router['module'])?"$url_items[0]/$url_items[1]":current($url_items);
 
 		// Si no hay mas parametros sale
 		if (next($url_items) === false) {
@@ -101,5 +101,19 @@ class KumbiaRouter {
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Carga y devuelve una instancia del controllador
+	 */
+	static function getController($param) {
+		// Extrae las variables para manipularlas facilmente
+		extract($param, EXTR_OVERWRITE);
+		if (!include_once "$default_path{$dir}/$controller_path{$suffix}") {
+			throw new KumbiaException(null, 'no_controller');
+		}
+		//Asigna el controlador activo
+		$app_controller = Util::camelcase($controller).'Controller';
+		return new $app_controller($param);
 	}
 }
