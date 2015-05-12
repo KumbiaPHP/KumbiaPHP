@@ -53,7 +53,7 @@ class KumbiaAuth {
 
 	/**
 	 * Can get login with load class
-	 * @return boolean [
+	 * @return boolean
 	 */
 	static public function isLogin() {
 		return (bool) Session::get('login', KumbiaAuthBase::$namespace);
@@ -61,8 +61,8 @@ class KumbiaAuth {
 
 	/**
 	 * Make the facade
-	 * @param  [type] $method [description]
-	 * @param  [type] $args   [description]
+	 * @param  string $method
+	 * @param  array $args
 	 * @return mixed
 	 */
 	public static function __callStatic($method, $args) {
