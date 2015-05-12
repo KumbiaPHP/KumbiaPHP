@@ -45,7 +45,7 @@ set_exception_handler('handle_exception');
 require CORE_PATH . 'kumbia/autoload.php';
 
 // @see Config
-require CORE_PATH . 'kumbia/config.php';
+require_once CORE_PATH . 'kumbia/config.php';
 
 // Lee la configuracion
 $config = Config::read('config');
