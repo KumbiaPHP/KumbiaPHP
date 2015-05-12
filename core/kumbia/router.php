@@ -92,16 +92,17 @@ class Router {
 			/*Esta activado el router*/
 			/* This if for back compatibility*/
 			if ($conf === TRUE) {
-				$url = call_user_func(array($router, '_ifRouted'), $url);
+				$url = call_user_func(array(self::$router, '_ifRouted'), $url);
 			} else {
 				/*Es otra clase de router*/
 				self::$router = $conf;
 			}
 		}
-		$router = self::$router;
+
 		// Descompone la url
-		self::$_vars = array_merge(self::$_vars, $router::rewrite($url));
-		$controller  = call_user_func(array($router, 'getController'), self::$_vars);
+		// $router = self::$router;
+		self::$_vars = call_user_func(array(self::$router, 'rewrite'), $url)+self::$_vars;
+		$controller  = call_user_func(array(self::$router, 'getController'), self::$_vars);
 		// Despacha la ruta actual
 		return self::dispatch($controller);
 	}
