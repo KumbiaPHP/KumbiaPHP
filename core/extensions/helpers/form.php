@@ -144,7 +144,6 @@ class Form {
 		$end   = $close?">{{value}}</$tag>":'/>';
 		// Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
 		list($id, $name, $value) = self::getFieldData($field, $value);
-		var_dump($value);
 		return str_replace('{{value}}', $value, "<$tag id=\"$id\" name=\"$name\" $extra $attrs $end");
 	}
 
