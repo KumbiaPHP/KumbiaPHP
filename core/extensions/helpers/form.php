@@ -362,7 +362,7 @@ class Form {
 	 * @param boolean $checked Indica si se marca el campo (opcional)
 	 * @return string
 	 */
-	public static function radio($field, $radioValue, $attrs = '', $checked = NULL) {
+	public static function radio($field, $radioValue, $attrs = '', $checked = FALSE) {
 		$attrs = Tag::getAttrs($attrs);
 		// Obtiene name y id para el campo y los carga en el scope
 		list($id, $name, $checked) = self::getFieldDataCheck($field, $radioValue, $checked);
