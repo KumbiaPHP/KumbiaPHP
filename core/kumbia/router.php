@@ -91,7 +91,7 @@ class Router {
 		if ($conf) {
 			/*Esta activado el router*/
 			/* This if for back compatibility*/
-			if ($conf === TRUE) {
+			if ($conf === '1') {
 				$url = call_user_func(array(self::$router, '_ifRouted'), $url);
 			} else {
 				/*Es otra clase de router*/
