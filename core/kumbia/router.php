@@ -86,14 +86,15 @@ class Router {
 	 */
 	public static function execute($url) {
 		self::init($url);
-		$conf = Config::get('config.application.routes');
+		//alias
+		$router = self::$router;
+		$conf   = Config::get('config.application.routes');
 		//Si config.ini tiene routes activados, mira si esta routed
 		if ($conf) {
 			/*Esta activado el router*/
 			/* This if for back compatibility*/
 			if ($conf === '1') {
-				$router = self::$router;
-				$url    = $router::_ifRouted($url);
+				$url = $router::_ifRouted($url);
 			} else {
 				/*Es otra clase de router*/
 				self::$router = $conf;
@@ -102,7 +103,6 @@ class Router {
 		}
 
 		// Descompone la url
-
 		self::$_vars = $router::rewrite($url)+self::$_vars;
 
 		$controller = $router::getController(self::$_vars);
