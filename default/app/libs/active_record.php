@@ -2,7 +2,7 @@
 /**
  * @see KumbiaActiveRecord
  */
-Load::coreLib('kumbia_active_record');
+require_once CORE_PATH.'kumbia/kumbia_active_record';
 
 /**
  * ActiveRecord
