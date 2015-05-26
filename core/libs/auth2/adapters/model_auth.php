@@ -112,7 +112,7 @@ class ModelAuth extends Auth2
         //$username = addslashes($username);
         $username = filter_var($username, FILTER_SANITIZE_MAGIC_QUOTES);
 
-        $Model = Load::model($this->_model);
+        $Model = new $this->_model;
         if ($user = $Model->find_first("$this->_login = '$username' AND $this->_pass = '$password'")) {
             // Carga los atributos indicados en sesion
             foreach ($this->_fields as $field) {
