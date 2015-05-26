@@ -69,7 +69,9 @@ class KumbiaException extends Exception
     {
         self::setHeader($e);
         extract(Router::get(), EXTR_OVERWRITE);
-
+        // Registra la autocarga de helpers
+        spl_autoload_register('kumbia_autoload_helper', true, true);
+        
         $Controller = Util::camelcase($controller);
         ob_start();
         if (PRODUCTION) { //TODO: añadir error 500.phtml
