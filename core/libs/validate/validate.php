@@ -19,7 +19,7 @@
  * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-require dirname(__FILE__).'/validations.php';
+require __DIR__.'/validations.php';
 class Validate
 {
     /**

@@ -332,7 +332,7 @@ abstract class Upload {
 	 * @return Upload
 	 */
 	public static function factory($name, $adapter = 'file') {
-		require_once dirname(__FILE__) . "/adapters/{$adapter}_upload.php";
+		require_once __DIR__ . "/adapters/{$adapter}_upload.php";
 		$class = $adapter . 'upload';
 
 		return new $class($name);

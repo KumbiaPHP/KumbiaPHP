@@ -20,7 +20,7 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 // Define el CORE_PATH
-define('CORE_PATH', dirname(dirname(__FILE__)) . '/');
+define('CORE_PATH', dirname(__DIR__) . '/');
 
 /**
  * @see Console

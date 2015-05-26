@@ -57,8 +57,9 @@ define('PRODUCTION', FALSE);
  * APP_PATH:
  * - Ruta al directorio de la aplicación (por defecto la ruta al directorio app)
  * - Esta ruta se utiliza para cargar los archivos de la aplicacion
+ * - En producción, es recomendable ponerla manual
  */
-define('APP_PATH', dirname(dirname(__FILE__)) . '/app/');
+define('APP_PATH', dirname(__DIR__) . '/app/');
 
 /**
  * Define el CORE_PATH

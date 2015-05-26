@@ -18,7 +18,7 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
-require_once dirname(__FILE__) . '/controller.php';
+require_once __DIR__ . '/controller.php';
 
 /**
  * Controlador para manejar peticiones REST
