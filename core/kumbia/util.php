@@ -41,7 +41,7 @@ class Util
     {
         // Notacion lowerCamelCase
         if ($lower) {
-            return self::lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $s))));
+            return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $s))));
         }
 
         return str_replace(' ', '', ucwords(str_replace('_', ' ', $s)));
@@ -66,7 +66,7 @@ class Util
      * */
     public static function smallcase($s)
     {
-        return strtolower(preg_replace('/([A-Z])/', "_\\1", self::lcfirst($s)));
+        return strtolower(preg_replace('/([A-Z])/', "_\\1", lcfirst($s)));
     }
 
     /**
@@ -133,18 +133,6 @@ class Util
     {
         $items = explode(',', $lista);
         return '"' . implode('","', $items) . '"';
-    }
-
-    /**
-     * Coloca la primera letra en minuscula
-     *
-     * @param string $s cadena a convertir
-     * @return string
-     */
-    public static function lcfirst($s)
-    {
-        $s[0] = strtolower($s[0]);
-        return $s;
     }
 
 }
