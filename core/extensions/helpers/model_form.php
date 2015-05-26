@@ -39,7 +39,7 @@ class ModelForm
 
         echo '<form action="', PUBLIC_PATH . $action, '" method="post" id="', $model_name, '" class="scaffold">' , PHP_EOL;
         $pk = $model->primary_key[0];
-        echo '<input id="', $model_name, '_', $pk, '" name="', $model_name, '[', $pk, ']" class="id" value="', $model->$pk . '" type="hidden">' , PHP_EOL;
+        echo '<input id="', $model_name, '_', $pk, '" name="', $model_name, '[', $pk, ']" class="id" value="', $model->$pk , '" type="hidden">' , PHP_EOL;
 
         $fields = array_diff($model->fields, $model->_at, $model->_in, $model->primary_key);
 

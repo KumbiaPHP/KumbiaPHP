@@ -240,6 +240,8 @@ class KumbiaView
      */
     protected static function generate(Controller $controller)
     {
+        // Registra la autocarga de helpers
+        spl_autoload_register('kumbia_autoload_helper', true, true);
         // Mapea los atributos del controller en el scope
         extract(get_object_vars($controller), EXTR_OVERWRITE);
 
