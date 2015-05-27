@@ -442,6 +442,7 @@ class Form {
 	public static function dbSelect($field, $show = NULL, $data = NULL, $blank = 'Seleccione', $attrs = '', $value = NULL) {
 
 		$model      = ($data === NULL)?substr($field, strpos($field, '.')+1, -3):$data[0];
+		$model = Util::camelcase($model);
 		$model_asoc = new $model;
 		//por defecto el primer campo no pk
 		$show = empty($show)?$model_asoc->non_primary[0]:$show;
