@@ -97,17 +97,15 @@ class Router {
 				$url = $router::_ifRouted($url);
 			} else {
 				/*Es otra clase de router*/
-				self::$router = $conf;
-				$router       = self::$router;
+				$router = self::$router = $conf;
 			}
 		}
 
 		// Descompone la url
-		self::$_vars = $router::rewrite($url)+self::$_vars;
+		self::$_vars = $router::rewrite($url) + self::$_vars;
 
-		$controller = $router::getController(self::$_vars);
 		// Despacha la ruta actual
-		return self::dispatch($controller);
+		return self::dispatch( $router::getController(self::$_vars) );
 	}
 
 	/**
@@ -153,9 +151,9 @@ class Router {
 		//Si esta routed internamente volver a ejecutar
 		if (self::$_routed) {
 			self::$_routed = FALSE;
-			$controller    = call_user_func(array(self::$router, 'getController'), self::$_vars);
+			$router    = self::$router;
 			// Despacha la ruta actual
-			return self::dispatch($controller);
+			return self::dispatch( $router::getController(self::$_vars) );
 		}
 		return $cont;
 	}
@@ -191,6 +189,6 @@ class Router {
 			self::$_routed = TRUE;
 		}
 
-		self::$_vars = $params+self::$_vars;
+		self::$_vars = $params + self::$_vars;
 	}
 }

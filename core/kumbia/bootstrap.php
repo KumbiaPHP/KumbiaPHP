@@ -83,4 +83,4 @@ require APP_PATH . 'libs/view.php';
 View::render(Router::execute($url));
 
 // Fin del request
-exit();
+//exit();
