@@ -52,14 +52,11 @@ class Config
             case 3:
                 return isset(self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]]) ?
                              self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]] : NULL;
-                break;
             case 2:
                 return isset(self::$_vars[$namespaces[0]][$namespaces[1]]) ?
                              self::$_vars[$namespaces[0]][$namespaces[1]] : NULL;
-                break;
             case 1:
                 return isset(self::$_vars[$namespaces[0]]) ? self::$_vars[$namespaces[0]] : NULL;
-                break;
         }
         return NULL;
     }
