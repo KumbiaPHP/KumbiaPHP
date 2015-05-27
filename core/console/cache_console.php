@@ -39,11 +39,7 @@ class CacheConsole
     public function clean($params, $group = '')
     {
         // obtiene el driver de cache
-        if (isset($params['driver'])) {
-            $cache = Cache::driver($params['driver']);
-        } else {
-            $cache = Cache::driver();
-        }
+        $cache = $this->setDriver($params);
 
         // limpia la cache
         if ($cache->clean($group)) {
@@ -53,7 +49,7 @@ class CacheConsole
                 echo "-> Se ha limpiado la cache", PHP_EOL;
             }
         } else {
-            throw new KumbiaException('No se ha logrado eliminar el contenido');
+            throw new KumbiaException('No se ha logrado eliminar el contenido de la cache');
         }
     }
 
@@ -68,11 +64,7 @@ class CacheConsole
     public function remove($params, $id, $group = 'default')
     {
         // obtiene el driver de cache
-        if (isset($params['driver'])) {
-            $cache = Cache::driver($params['driver']);
-        } else {
-            $cache = Cache::driver();
-        }
+        $cache = $this->setDriver($params);
 
         // elimina el elemento
         if ($cache->remove($id, $group)) {
@@ -80,6 +72,20 @@ class CacheConsole
         } else {
             throw new KumbiaException("No se ha logrado eliminar el elemento \"$id\" del grupo \"$group\"");
         }
+    }
+    
+    /**
+     * Devuelve una instancia de cache del driver pasado
+     *
+     * @param array $params parametros nombrados
+     */
+    private function setDriver($params)
+    {
+        if (isset($params['driver'])) {
+            return Cache::driver($params['driver']);
+        } 
+        return Cache::driver();
+        
     }
 
 }
