@@ -61,7 +61,7 @@ class Event {
 	 * @param mixed $handler retrollamada
 	 */
 	public static function bind($event, $handler) {
-		self::setEnvent($event);
+		self::setEvent($event);
 		self::$_events[$event][] = $handler;
 	}
 
