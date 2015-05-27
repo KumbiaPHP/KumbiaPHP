@@ -61,9 +61,7 @@ class Event {
 	 * @param mixed $handler retrollamada
 	 */
 	public static function bind($event, $handler) {
-		if (!isset(self::$_events[$event])) {
-			self::$_events[$event] = array();
-		}
+		self::setEnvent($event);
 		self::$_events[$event][] = $handler;
 	}
 
@@ -75,15 +73,8 @@ class Event {
 	 * @param mixed $handler2
 	 */
 	public static function before($event, $handler1, $handler2) {
-		if (!isset(self::$_events[$event])) {
-			self::$_events[$event] = array();
-		}
-		$i = array_search($handler1, self::$_events[$event]);
-		if ($i === false) {
-			self::$_events[$event][] = $handler2;
-		} else {
-			array_splice(self::$_events[$event], $i, 0, $handler2);
-		}
+		self::setEvent($event);
+		self::addHandler($event, $handler1, $handler2);
 	}
 
 	/**
@@ -94,15 +85,8 @@ class Event {
 	 * @param mixed $handler2
 	 */
 	public static function after($event, $handler1, $handler2) {
-		if (!isset(self::$_events[$event])) {
-			self::$_events[$event] = array();
-		}
-		$i = array_search($handler1, self::$_events[$event]);
-		if ($i === false) {
-			self::$_events[$event][] = $handler2;
-		} else {
-			array_splice(self::$_events[$event], $i+1, 0, $handler2);
-		}
+		self::setEvent($event);
+		self::addHandler($event, $handler1, $handler2, true);
 	}
 
 	/**
@@ -158,5 +142,34 @@ class Event {
 		self::$data = null;
 		return $value;
 	}
+	
+	/**
+	 * Crea el array de eventos si no existe
+	 *
+	 * @param string $event evento
+	 */
+	private static function setEvent($event) {
+		if (!isset(self::$_events[$event])) {
+			self::$_events[$event] = array();
+		}
+	}
+	
+	/**
+	 * Añade un handler 
+	 *
+	 * @param string $event     evento
+	 * @param mixed  $handler1
+	 * @param mixed  $handler2
+	 * @param bool   $after    Añadir antes o despues (por defecto antes)
+	 */
+	private static function addHandler($event, $handler1, $handler2, $after = false) {
+		$i = array_search($handler1, self::$_events[$event]);
+		if ($i === false) {
+			self::$_events[$event][] = $handler2;
+			return;
+		}
+		if ($after) ++$i;
 
+		array_splice(self::$_events[$event], $i, 0, $handler2);	
+	}
 }
