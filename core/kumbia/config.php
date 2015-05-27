@@ -50,19 +50,15 @@ class Config
         $namespaces = explode('.', $var);
         switch (count($namespaces)) {
             case 3:
-                if (isset(self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]])) {
-                    return self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]];
-                }
+                return isset(self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]]) ?
+                             self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]] : NULL;
                 break;
             case 2:
-                if (isset(self::$_vars[$namespaces[0]][$namespaces[1]])) {
-                    return self::$_vars[$namespaces[0]][$namespaces[1]];
-                }
+                return isset(self::$_vars[$namespaces[0]][$namespaces[1]]) ?
+                             self::$_vars[$namespaces[0]][$namespaces[1]] : NULL;
                 break;
             case 1:
-                if (isset(self::$_vars[$namespaces[0]])) {
-                    return self::$_vars[$namespaces[0]];
-                }
+                return isset(self::$_vars[$namespaces[0]]) ? self::$_vars[$namespaces[0]] : NULL;
                 break;
         }
         return NULL;
@@ -102,7 +98,6 @@ class Config
         if (isset(self::$_vars[$file]) && !$force) {
             return self::$_vars[$file];
         }
-
         self::$_vars[$file] = parse_ini_file(APP_PATH . "config/$file.ini", TRUE);
         return self::$_vars[$file];
     }
