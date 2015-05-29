@@ -171,11 +171,8 @@ class Router {
 	 * @return array|string con el valor del atributo
 	 */
 	public static function get($var = '') {
-		if ($var) {
-			return self::$_vars[$var];
-		} else {
-			return self::$_vars;
-		}
+
+		return ($var) ? self::$_vars[$var] : self::$_vars;
 	}
 
 	/**

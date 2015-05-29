@@ -73,37 +73,21 @@ class Redirect
     {
         static $cyclic = 0;
         $url = Util::getParams(func_get_args());
+        $default = array('controller' => 'index', 'action' => 'index');
         $vars = array();
 
+        $url['parameters'] = isset($url['parameters']) ? explode('/', $url['parameters']) : array();
+        
         if (isset($url['module'])) {
-            $vars['module'] = $url['module'];
-            $vars['controller'] = 'index';
-            $vars['action'] = 'index';
-            $vars['parameters'] = array();
-            $vars['controller_path'] = $url['module'] . '/index';
-        }
-
-        if (isset($url['controller'])) {
-            $vars['controller'] = $url['controller'];
-            $vars['action'] = 'index';
-            $vars['parameters'] = array();
-            $vars['controller_path'] = (isset($url['module'])) ? $url['module'] . '/' . $url['controller'] : $url['controller'];
-        }
-
-        if (isset($url['action'])) {
-            $vars['action'] = $url['action'];
-            $vars['parameters'] = array();
-        }
-
-        if (isset($url['parameters'])) {
-            $vars['parameters'] = explode('/', $url['parameters']);
-        } elseif (isset($url['id'])) {
-            // Deprecated
-            $vars['parameters'] = array($url['id']);
+            $vars = $url + $default;
+            $vars['controller_path'] = $vars['module'] . '/' . $vars['controller'];
+        } elseif (isset($url['controller'])) {
+            $vars = $url + $default;
+            $vars['controller_path'] = $vars['controller'];
         } else {
-            $vars['parameters'] = array();
+            $vars = $url;
         }
-
+        
         if (++$cyclic > 1000)
             throw new KumbiaException('Se ha detectado un enrutamiento cíclico. Esto puede causar problemas de estabilidad');
 
