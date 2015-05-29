@@ -42,7 +42,7 @@ class AlnumFilter implements FilterInterface
          * Revisa si PCRE esta compilado para soportar UNICODE
          * de esta forma filtra tambien tildes y otros caracteres latinos
          */
-        if (@preg_match('/\pL/u', 'a')) {
+        if (preg_match('/\pL/u', 'a')) {
             $patron = '/[^\p{L}\p{N}]/';
         } else {
             $patron = '/[^a-zA-Z0-9\s]/';
