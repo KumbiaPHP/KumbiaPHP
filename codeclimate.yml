@@ -1,4 +1,5 @@
 # Save as .codeclimate.yml (note leading .) in project root directory
+# Excluded deprecated libs
 languages:
   Ruby: false
   JavaScript: true
@@ -6,3 +7,4 @@ languages:
 exclude_paths:
 - "core/libs/db/*"
 - "core/libs/kumbia_activerecord/*"
+- "core/libs/acl/*"
