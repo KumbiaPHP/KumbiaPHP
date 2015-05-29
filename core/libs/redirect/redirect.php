@@ -74,7 +74,6 @@ class Redirect
         static $cyclic = 0;
         $url = Util::getParams(func_get_args());
         $default = array('controller' => 'index', 'action' => 'index');
-        $vars = array();
 
         $url['parameters'] = isset($url['parameters']) ? explode('/', $url['parameters']) : array();
         
