@@ -64,12 +64,11 @@ class Redirect
     }
 
     /**
-     * Enruta el controlador actual a otro módulo, controlador, o a otra acción
-     * @deprecated Se mantiene por legacy temporalmente
+     * Enrutamiento interno
      * @example
-     * Redirect::route_to("module: modulo", "controller: nombre", "action: accion", "parameters: 1/2")
+     * Redirect::intern("module: modulo", "controller: nombre", "action: accion", "parameters: 1/2")
      */
-    public static function route_to()
+    public static function internal()
     {
         static $cyclic = 0;
         $url = Util::getParams(func_get_args());
@@ -91,5 +90,14 @@ class Redirect
             throw new KumbiaException('Se ha detectado un enrutamiento cíclico. Esto puede causar problemas de estabilidad');
 
         Router::to($vars, TRUE);
+    }
+    /**
+     * Enrutamiento interno
+     * @deprecated Se mantiene por legacy temporalmente
+     * @example
+     * Redirect::route_to("module: modulo", "controller: nombre", "action: accion", "parameters: 1/2")
+     */
+    public static function route_to() {
+        self::internal(func_get_args());
     }
 }
