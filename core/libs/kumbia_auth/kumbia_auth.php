@@ -44,7 +44,7 @@ class KumbiaAuth {
 	 * Inyecta el objeto de autenticación
 	 * @param KumbiaAuthInterface $auth
 	 */
-	static function init(KumbiaAuthInterface $auth) {
+	public static function init(KumbiaAuthInterface $auth) {
 		if (self::$_obj instanceof KumbiaAuthBase) {
 			throw new Exception('Object was initialized');
 		}
@@ -55,7 +55,7 @@ class KumbiaAuth {
 	 * Can get login with load class
 	 * @return boolean
 	 */
-	static public function isLogin() {
+	public static function isLogin() {
 		return (bool) Session::get('login', KumbiaAuthBase::$namespace);
 	}
 
