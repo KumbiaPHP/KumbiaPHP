@@ -113,15 +113,19 @@
 		 * @param Object event
 		 */
 		cUpdaterSelect: function(event) {
+            var este = $(this);
+            $('#' + este.attr('data-update')).load(este.attr('data-url') + this.value);
+			
+            /* 
             var $t = $(this),$u= $('#' + $t.data('update'))
-				url = $t.data('url');
+                url = $t.data('url');
             $u.empty();
             $.get(url, {'id':$t.val()}, function(d){
-				for(i in d){
-					var a = $('<option />').text(d[i]).val(i);
-					$u.append(a);
-				}
-			}, 'json');
+                for(i in d){
+                    var a = $('<option />').text(d[i]).val(i);
+                    $u.append(a);
+                }
+            }, 'json');*/
 		},
 
 		/**
@@ -129,35 +133,35 @@
 		 *
 		 */
 		bind : function() {
-            // Enlace y boton con confirmacion
-			$("a.js-confirm, input.js-confirm").on('click', this.cConfirm);
+             // Enlace y botón con confirmación
+            $(document).on('click', "a.js-confirm, input.js-confirm",this.cConfirm);
 
             // Enlace ajax
-			$("a.js-remote").on('click', this.cRemote);
+            $(document).on('click', "a.js-remote",this.cRemote);
 
             // Enlace ajax con confirmacion
-			$("a.js-remote-confirm").on('click', this.cRemoteConfirm);
+            $(document).on('click', "a.js-remote-confirm",this.cRemoteConfirm);
 
             // Efecto show
-			$("a.js-show").on('click', this.cFx('show'));
+            $(document).on('click', "a.js-show",this.cFx('show'));
 
             // Efecto hide
-			$("a.js-hide").on('click', this.cFx('hide'));
+            $(document).on('click', "a.js-hide",this.cFx('hide'));
 
             // Efecto toggle
-			$("a.js-toggle").on('click', this.cFx('toggle'));
+            $(document).on('click', "a.js-toggle",this.cFx('toggle'));
 
             // Efecto fadeIn
-			$("a.js-fade-in").on('click', this.cFx('fadeIn'));
+            $(document).on('click', "a.js-fade-in",this.cFx('fadeIn'));
 
             // Efecto fadeOut
-			$("a.js-fade-out").on('click', this.cFx('fadeOut'));
+            $(document).on('click', "a.js-fade-out",this.cFx('fadeOut'));
 
             // Formulario ajax
-			$("form.js-remote").on('submit', this.cFRemote);
+            $(document).on('submit',"form.js-remote", this.cFRemote);
 
             // Lista desplegable que actualiza con ajax
-            $("select.js-remote").on('change', this.cUpdaterSelect);
+            $(document).on('change',"select.js-remote", this.cUpdaterSelect);
             
             // Enlazar DatePicker
 			$.KumbiaPHP.bindDatePicker();
@@ -242,7 +246,7 @@
 			// de la ruta, respecto a la ruta de ubicacion del plugin de KumbiaPHP
 			// "javascript/jquery/jquery.kumbiaphp.js"
 			var src = $('script:last').attr('src');
-			this.publicPath = src.substr(0, src.length - 37);
+			this.publicPath = src.substr(0, src.length - 44);
 
 			// Enlaza a las clases por defecto
 			$(function(){
