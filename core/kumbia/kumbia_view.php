@@ -111,7 +111,14 @@ class KumbiaView
      */
     public static function response($response, $template = FALSE)
     {
-        self::$_response = $response;
+        //self::$_response = $response;
+        
+        //se mantiene pero ya esta deprecated
+        if ($response == 'view') { 
+            self::$_template = NULL;
+        } else {
+            self::$_response = $response;
+        }
 
         // verifica si se indico template
         if ($template !== FALSE) {
