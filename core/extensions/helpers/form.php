@@ -57,7 +57,7 @@ class Form {
 	public static function getField($field, $value = null, $is_check, $filter = TRUE, $check = FALSE) {
 		// Obtiene considerando el patrón de formato form.field
 		$formField       = explode('.', $field, 2);
-		list($id, $name) = self::fieldname($formField);
+		list($id, $name) = self::fieldName($formField);
 		// Verifica en $_POST
 		if (Input::hasPost($field)) {
 			$value = $is_check?
