@@ -6,5 +6,5 @@ languages:
   PHP: true
 exclude_paths:
 - core/libs/db/*
-- core/libs/kumbia_activerecord/*
+- core/libs/kumbia_active_record/*
 - core/libs/acl/*
