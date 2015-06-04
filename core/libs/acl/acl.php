@@ -20,12 +20,12 @@
 /**
  * @see AclRole
  */
-include CORE_PATH.'libs/acl/role/role.php';
+include __DIR__ .'/role/role.php';
 
 /**
  * @see AclResource
  */
-include CORE_PATH.'libs/acl/resource/resource.php';
+include __DIR__ .'/resource/resource.php';
 
 /**
  * Listas ACL (Access Control List)

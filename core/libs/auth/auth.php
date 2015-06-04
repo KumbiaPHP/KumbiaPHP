@@ -20,7 +20,7 @@
 /**
  * @see AuthInterface
  */
-require_once CORE_PATH.'libs/auth/auth_interface.php';
+require_once __DIR__ .'/auth_interface.php';
 
 /**
  * Esta clase permite autenticar usuarios
@@ -103,7 +103,7 @@ class Auth {
 			throw new kumbiaException("Adaptador de autenticación '$adapter' no soportado");
 		}
 		$this->adapter = Util::camelcase($adapter);
-		require_once CORE_PATH."libs/auth/adapters/{$adapter}_auth.php";
+		require_once __DIR__ ."/adapters/{$adapter}_auth.php";
 		$adapter_class        = $this->adapter.'Auth';
 		$this->extra_args     = $extra_args;
 		$this->adapter_object = new $adapter_class($auth, $extra_args);

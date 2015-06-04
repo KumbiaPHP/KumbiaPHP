@@ -225,7 +225,7 @@ abstract class Auth2 {
 			$adapter = self::$_defaultAdapter;
 		}
 
-		require_once CORE_PATH."libs/auth2/adapters/{$adapter}_auth.php";
+		require_once __DIR__ ."/adapters/{$adapter}_auth.php";
 		$class = $adapter.'auth';
 
 		return new $class;

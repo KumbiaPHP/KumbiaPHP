@@ -67,7 +67,7 @@ class ControllerConsole
 
             // codigo de controlador
             ob_start();
-            include CORE_PATH . 'console/generators/controller.php';
+            include __DIR__ . '/generators/controller.php';
             $code = '<?php' . PHP_EOL . ob_get_clean();
 
             // genera el archivo

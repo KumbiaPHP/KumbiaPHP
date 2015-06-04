@@ -63,7 +63,7 @@ class ModelConsole
 
             // codigo de modelo
             ob_start();
-            include CORE_PATH . 'console/generators/model.php';
+            include __DIR__ . '/generators/model.php';
             $code = '<?php' . PHP_EOL . ob_get_clean();
 
             // genera el archivo
