@@ -117,7 +117,7 @@ abstract class Acl2
             $adapter = self::$_defaultAdapter;
         }
 
-        require_once CORE_PATH . "libs/acl2/adapters/{$adapter}_acl.php";
+        require_once __DIR__ . "/adapters/{$adapter}_acl.php";
         $class = $adapter . 'acl';
 
         return new $class;
