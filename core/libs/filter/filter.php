@@ -20,7 +20,7 @@
 /**
  * @see FilterInterface
  * */
-require_once CORE_PATH.'libs/filter/filter_interface.php';
+require_once __DIR__.'/filter_interface.php';
 
 /**
  * Implementación de Filtros para Kumbia
