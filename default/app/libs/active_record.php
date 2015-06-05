@@ -2,7 +2,7 @@
 /**
  * @see KumbiaActiveRecord
  */
-require_once CORE_PATH.'kumbia/kumbia_active_record';
+require_once CORE_PATH.'libs/kumbia_active_record/kumbia_active_record.php';
 
 /**
  * ActiveRecord
