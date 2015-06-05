@@ -48,18 +48,6 @@ class Util
     }
 
     /**
-     * Descameliza una cadena camelizada y la convierte a smallcase
-     * @deprecated mejor usar el metodo smallcase directamente
-     *
-     * @param string $str Texto para descamelizar
-     * @return string
-     */
-    public static function uncamelize($str)
-    {
-        return self::smallcase($str);
-    }
-
-    /**
      * Convierte la cadena CamelCase en notacion smallcase
      * @param string $s cadena a convertir
      * @return string
