@@ -154,7 +154,7 @@ abstract class Cache
         }
 
         if (!isset(self::$_drivers[$driver])) {
-            require_once __DIR__ . "/drivers/{$driver}_cache.php";
+            require __DIR__ . "/drivers/{$driver}_cache.php";
             $class = $driver . 'cache';
             self::$_drivers[$driver] = new $class();
         }
