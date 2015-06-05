@@ -89,28 +89,4 @@ class Flash
         return self::show('valid', $text);
     }
 
-    /**
-     * Visualiza informacion en pantalla
-     *
-     * @param string $text
-     *
-     * @deprecated  ahora Flash::info()
-     */
-    public static function notice($text)
-    {
-        return self::show('info', $text);
-    }
-
-    /**
-     * Visualiza informacion de Suceso en pantalla
-     *
-     * @param string $text
-     *
-     * @deprecated  ahora Flash::valid()
-     */
-    public static function success($text)
-    {
-        return self::show('valid', $text);
-    }
-
 }
