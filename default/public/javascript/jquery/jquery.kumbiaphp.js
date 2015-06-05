@@ -130,34 +130,34 @@
 		 */
 		bind : function() {
             // Enlace y boton con confirmacion
-            $(document).on('click', "a.js-confirm, input.js-confirm",this.cConfirm);
+            $("body").on('click', "a.js-confirm, input.js-confirm",this.cConfirm);
 
             // Enlace ajax
-            $(document).on('click', "a.js-remote",this.cRemote);
+            $("body").on('click', "a.js-remote",this.cRemote);
 
             // Enlace ajax con confirmacion
-            $(document).on('click', "a.js-remote-confirm",this.cRemoteConfirm);
+            $("body").on('click', "a.js-remote-confirm",this.cRemoteConfirm);
 
             // Efecto show
-            $(document).on('click', "a.js-show",this.cFx('show'));
+            $("body").on('click', "a.js-show",this.cFx('show'));
 
             // Efecto hide
-            $(document).on('click', "a.js-hide",this.cFx('hide'));
+            $("body").on('click', "a.js-hide",this.cFx('hide'));
 
             // Efecto toggle
-            $(document).on('click', "a.js-toggle",this.cFx('toggle'));
+            $("body").on('click', "a.js-toggle",this.cFx('toggle'));
 
             // Efecto fadeIn
-            $(document).on('click', "a.js-fade-in",this.cFx('fadeIn'));
+            $("body").on('click', "a.js-fade-in",this.cFx('fadeIn'));
 
             // Efecto fadeOut
-            $(document).on('click', "a.js-fade-out",this.cFx('fadeOut'));
+            $("body").on('click', "a.js-fade-out",this.cFx('fadeOut'));
 
             // Formulario ajax
-            $(document).on('submit',"form.js-remote", this.cFRemote);
+            $("body").on('submit',"form.js-remote", this.cFRemote);
 
             // Lista desplegable que actualiza con ajax
-            $(document).on('change',"select.js-remote", this.cUpdaterSelect);
+            $("body").on('change',"select.js-remote", this.cUpdaterSelect);
 
             // Enlazar DatePicker
 			$.KumbiaPHP.bindDatePicker();
