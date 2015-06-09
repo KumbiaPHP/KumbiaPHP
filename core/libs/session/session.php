@@ -53,8 +53,6 @@ class Session
     {
         if (isset($_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index])) {
             return $_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index];
-        } else {
-            return;
         }
     }
 

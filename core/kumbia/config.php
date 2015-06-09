@@ -58,7 +58,6 @@ class Config
             case 1:
                 return isset(self::$_vars[$namespaces[0]]) ? self::$_vars[$namespaces[0]] : NULL;
         }
-        return;
     }
 
     /**

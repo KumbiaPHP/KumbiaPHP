@@ -90,9 +90,6 @@ class Registry
     {
         if (isset(self::$registry[$index])) {
             return self::$registry[$index];
-        } else {
-            return;
-        }
+        } 
     }
-
 }

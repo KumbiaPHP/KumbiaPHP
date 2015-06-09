@@ -64,8 +64,6 @@ class NixfileCache extends Cache
         if (is_file($filename) && filemtime($filename) >= time()) {
             return file_get_contents($filename);
         }
-
-        return;
     }
 
     /**
