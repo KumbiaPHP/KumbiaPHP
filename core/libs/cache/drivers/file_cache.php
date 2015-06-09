@@ -67,7 +67,7 @@ class FileCache extends Cache
             fclose($fh);
             return $data;
         }
-        return null;
+        return;
     }
 
     /**

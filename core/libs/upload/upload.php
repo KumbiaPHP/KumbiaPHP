@@ -256,7 +256,7 @@ abstract class Upload {
 		if ($ext = pathinfo($_FILES[$this->_name]['name'], PATHINFO_EXTENSION)) {
 			return '.' . $ext;
 		}
-		return NULL;
+		return;
 	}
 
 	/**

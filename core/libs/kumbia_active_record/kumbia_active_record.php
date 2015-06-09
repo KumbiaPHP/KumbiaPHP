@@ -370,7 +370,7 @@ class KumbiaActiveRecord
             if ($this->{$this->primary_key[0]}) {
                 return self::get($relation->model)->find_first("{$relation->fk}={$this->db->add_quotes($this->{$this->primary_key[0]}) }");
             } else {
-                return NULL;
+                return;
             }
         } elseif (array_key_exists($mmodel, $this->_has_many)) {
             $relation = $this->_has_many[$mmodel];

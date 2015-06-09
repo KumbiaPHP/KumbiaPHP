@@ -65,7 +65,7 @@ class NixfileCache extends Cache
             return file_get_contents($filename);
         }
 
-        return null;
+        return;
     }
 
     /**

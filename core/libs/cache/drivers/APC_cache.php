@@ -43,7 +43,7 @@ class APCCache extends Cache
 
         $data = apc_fetch("$id.$group");
         if ($data === FALSE) {
-            return null;
+            return;
         }
         return $data;
     }

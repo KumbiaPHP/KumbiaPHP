@@ -41,7 +41,7 @@ abstract class Security
             return $xCode;
         }
 
-        return null;
+        return;
     }
 
     public static function createSecureRSAKey($kumbia=true)
@@ -62,7 +62,7 @@ abstract class Security
                 return self::generateRSAKey($kumbia);
             }
         }
-        return null;
+        return;
     }
 
 }
