@@ -337,6 +337,9 @@ abstract class Upload {
 		return new $class($name);
 	}
 
+	/**
+	 * @param boolean $cond
+	 */
 	protected function _cond($cond, $message) {
 		if ($cond) {
 			Flash::error("Error: $message");
