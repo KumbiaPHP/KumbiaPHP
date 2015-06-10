@@ -32,7 +32,7 @@ class KumbiaException extends Exception
      *
      * @var string
      */
-    protected $_view;
+    protected $_view = 'exception';
     
     /**
      * Error 404 para los siguientes views
@@ -68,6 +68,7 @@ class KumbiaException extends Exception
     public static function handleException($e)
     {
         self::setHeader($e);
+        //TODO quitar el extract, que el view pida los que necesite
         extract(Router::get(), EXTR_OVERWRITE);
         // Registra la autocarga de helpers
         spl_autoload_register('kumbia_autoload_helper', true, true);
@@ -78,7 +79,14 @@ class KumbiaException extends Exception
             include APP_PATH . 'views/_shared/errors/404.phtml';
             return;
         }
-        $view = isset($e->_view) ? $e->_view : 'exception';
+        if($e instanceof KumbiaException) {
+            $view = $e->view;
+            $tpl = $e->template;
+        } else {
+            $view = 'exception';
+            $tpl = 'views/templates/exception.phtml';
+        }
+        
         include CORE_PATH . "views/errors/{$view}.phtml";
  
         $content = ob_get_clean();
@@ -87,10 +95,6 @@ class KumbiaException extends Exception
         while (ob_get_level ()) {
             ob_end_clean();
         }
-        /*No todas las exceptiones tienen la propiedad "template"
-        * TODO: siempre debe ir el CORE_PATH?
-        */
-        $tpl = isset($e->template) ? $e->template : 'views/templates/exception.phtml';
         include CORE_PATH . $tpl;
     }
 
