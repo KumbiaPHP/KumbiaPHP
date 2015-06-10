@@ -60,9 +60,7 @@ class Registry
      */
     public static function append($index, $value)
     {
-        if (!isset(self::$registry[$index])) {
-            self::$registry[$index] = array();
-        }
+        self::exist($index);
         self::$registry[$index][] = $value;
     }
 
@@ -74,9 +72,7 @@ class Registry
      */
     public static function prepend($index, $value)
     {
-        if (!isset(self::$registry[$index])) {
-            self::$registry[$index] = array();
-        }
+        self::exist($index);
         array_unshift(self::$registry[$index], $value);
     }
 
@@ -91,5 +87,16 @@ class Registry
         if (isset(self::$registry[$index])) {
             return self::$registry[$index];
         } 
+    }
+    
+    /**
+     * Crea un index si no existe
+     *
+     * @param string $index
+     */
+    protected function exist($index) {
+        if (!isset(self::$registry[$index])) {
+            self::$registry[$index] = array();
+        }
     }
 }
