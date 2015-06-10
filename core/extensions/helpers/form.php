@@ -54,7 +54,7 @@ class Form {
 	 * @param boolean $is_check
 	 * @return Array devuelve un array de longitud 3 con la forma array(id, name, value)
 	 */
-	public static function getField($field, $value = null, $is_check, $filter = TRUE, $check = FALSE) {
+	public static function getField($field, $value = null, $is_check = FALSE, $filter = TRUE, $check = FALSE) {
 		// Obtiene considerando el patrón de formato form.field
 		$formField       = explode('.', $field, 2);
 		list($id, $name) = self::fieldName($formField);
@@ -439,11 +439,11 @@ class Form {
 
 	public static function dbSelect($field, $show = NULL, $data = NULL, $blank = 'Seleccione', $attrs = '', $value = NULL) {
 
-		$model      = ($data === NULL)?substr($field, strpos($field, '.')+1, -3):$data[0];
+		$model = ($data === NULL) ? substr($field, strpos($field, '.')+1, -3) : $data[0];
 		$model = Util::camelcase($model);
 		$model_asoc = new $model;
 		//por defecto el primer campo no pk
-		$show = empty($show)?$model_asoc->non_primary[0]:$show;
+		$show = $show ? : $model_asoc->non_primary[0];
 		$pk   = $model_asoc->primary_key[0];
 		if ($data === NULL) {
 			$data = $model_asoc->find("columns: $pk,$show", "order: $show asc");//mejor usar array
