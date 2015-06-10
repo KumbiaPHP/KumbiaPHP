@@ -87,11 +87,13 @@ abstract class Logger
 
     /**
      * Inicializa el Logger
+     * 
+     * @param string $name
      */
     public static function initialize($name='')
     {
-        self::$log_path = APP_PATH . 'temp/logs/';
-        if ($name === '' || $name === true) {
+        self::$log_path = APP_PATH . 'temp/logs/'; //TODO poder cambiar el path
+        if ($name === '') {
             $name = 'log' . date('Y-m-d') . '.txt';
         }
         self::$fileLogger = fopen(self::$log_path . $name, 'a');
@@ -139,7 +141,7 @@ abstract class Logger
             self::$queue[] = $msg;
             return;
         }
-        self::write($msg);
+        self::write($msg, $name_log);
     }
     
     /**
@@ -147,7 +149,7 @@ abstract class Logger
      * 
      * @param string $msg
      */
-    protected static function write($msg)
+    protected static function write($msg, $name_log)
     {
         self::initialize($name_log);  //TODO dejarlo abierto cuando es un commit
         fputs(self::$fileLogger, $msg . PHP_EOL);
@@ -176,11 +178,13 @@ abstract class Logger
 
     /**
      * Commit a una transacción
+     *
+     * @param string $name_log
      */
-    public static function commit()
+    public static function commit($name_log = '')
     {
         foreach (self::$queue as $msg) {
-            self::write($msg);
+            self::write($msg, $name_log);
         }
         self::$queue = array();
         self::$transaction = false;
