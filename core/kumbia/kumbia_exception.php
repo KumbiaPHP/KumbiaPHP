@@ -32,7 +32,7 @@ class KumbiaException extends Exception
      *
      * @var string
      */
-    protected $_view = 'exception';
+    protected $view;
     
     /**
      * Error 404 para los siguientes views
@@ -56,7 +56,7 @@ class KumbiaException extends Exception
      */
     public function __construct($message, $view = 'exception')
     {
-        $this->_view = $view;
+        $this->view = $view;
         parent::__construct($message);
     }
 
