@@ -69,7 +69,7 @@ abstract class Logger
     /**
      * Indica si hay transaccion o no
      *
-     * @var boolean
+     * @var boolean|string
      */
     private static $transaction = false;
     /**
