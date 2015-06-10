@@ -60,13 +60,13 @@ class Form {
 		list($id, $name) = self::fieldName($formField);
 		// Verifica en $_POST
 		if (Input::hasPost($field)) {
-			$value = $is_check?
-			Input::post($field) == $value:Input::post($field);
+			$value = $is_check ?
+			Input::post($field) == $value : Input::post($field);
 		} else if ($is_check) {
-			$value = $check?TRUE:FALSE;
+			$value = (bool) $check;
 		} elseif ($tmp_val = self::getFromModel($formField)) {
 			// Autocarga de datos
-			$value = $is_check?$tmp_val == $value:$tmp_val;
+			$value = $is_check ? $tmp_val == $value : $tmp_val;
 		}
 		// Filtrar caracteres especiales
 		if (!$is_check && $value !== null && $filter) {
@@ -85,21 +85,19 @@ class Form {
 		$form = View::getVar($formField[0]);
 		if (is_scalar($form) || is_null($form)) {
 			return $form;
-		} else {
-			$form = (object) $form;
-			$val  = isset($form->$formField[1])?$form->$formField[1]:NULL;
-			return $val;
 		}
+		$form = (object) $form;
+		return isset($form->$formField[1]) ? $form->$formField[1] : NULL;
 	}
 
 	/**
-	 * Devuelve el nombre y el id de un campo d
+	 * Devuelve el nombre y el id de un campo
 	 * @param  Array  $field array del explode
 	 * @return Array     array(id, name)
 	 */
 	protected static function fieldName(Array $field) {
-		return isset($field[1])?
-		array("{$field[0]}_{$field[1]}", "{$field[0]}[{$field[1]}]"):
+		return isset($field[1]) ?
+		array("{$field[0]}_{$field[1]}", "{$field[0]}[{$field[1]}]") :
 		array($field[0], $field[0]);
 	}
 
