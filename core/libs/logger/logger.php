@@ -69,7 +69,7 @@ abstract class Logger
     /**
      * Indica si hay transaccion o no
      *
-     * @var boolean|string
+     * @var boolean
      */
     private static $transaction = false;
     /**
@@ -132,23 +132,28 @@ abstract class Logger
         if (is_array($msg)) {
             $msg = print_r($msg, true);
         }
+        //TODO poder añadir otros formatos de log
         $date = date(DATE_RFC1036);
-        if (self::$transaction === true) {
-            self::$queue[] = "[$date][$type] " . $msg ;
+        $msg = "[$date][$type] " . $msg ;
+        if (self::$transaction) {
+            self::$queue[] = $msg;
             return;
         }
-        self::initialize($name_log);
-        if (self::$transaction === 'commit') {
-            foreach (self::$queue as $msg) {
-                fputs(self::$fileLogger, $msg . PHP_EOL);
-            }
-            self::$transaction = false;
-            return;
-        }
-        
-        fputs(self::$fileLogger, "[$date][$type] " . $msg . PHP_EOL);
+        self::write($msg);
+    }
+    
+    /**
+     * Escribir en el log
+     * 
+     * @param string $msg
+     */
+    protected static function write($msg)
+    {
+        self::initialize($name_log);  //TODO dejarlo abierto cuando es un commit
+        fputs(self::$fileLogger, $msg . PHP_EOL);
         self::close();
     }
+
 
     /**
      * Inicia una transacción
@@ -174,7 +179,11 @@ abstract class Logger
      */
     public static function commit()
     {
-        self::$transaction = 'commit';
+        foreach (self::$queue as $msg) {
+            self::write($msg);
+        }
+        self::$queue = array();
+        self::$transaction = false;
     }
 
     /**
