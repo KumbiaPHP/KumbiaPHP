@@ -23,7 +23,7 @@
  *
  * $fileLogger = Es el File Handle para escribir los logs
  * $transaction = Indica si hay o no transaccion
- * $quenue = array con lista de logs pendientes
+ * $queue = array con lista de logs pendientes
  *
  * Ej:
  * <code>
@@ -77,7 +77,7 @@ abstract class Logger
      *
      * @var array
      */
-    private static $quenue = array();
+    private static $queue = array();
     /**
      * Path donde se guardaran los logs
      *
@@ -128,20 +128,25 @@ abstract class Logger
      * @param string $name_log
      */
     public static function log($type='DEBUG', $msg, $name_log)
-    {
-        self::initialize($name_log);
-        if (!self::$fileLogger) {
-            throw new KumbiaException('No se puede enviar mensaje al log porque es invalido');
-        }
+    {  
         if (is_array($msg)) {
             $msg = print_r($msg, true);
         }
         $date = date(DATE_RFC1036);
-        if (self::$transaction) {
-            self::$quenue[] = "[$date][$type] " . $msg;
-        } else {
-            fputs(self::$fileLogger, "[$date][$type] " . $msg . PHP_EOL);
+        if (self::$transaction === true) {
+            self::$queue[] = "[$date][$type] " . $msg ;
+            return;
         }
+        self::initialize($name_log);
+        if (self::$transaction === 'commit') {
+            foreach (self::$queue as $msg) {
+                fputs(self::$fileLogger, $msg . PHP_EOL);
+            }
+            self::$transaction = false;
+            return;
+        }
+        
+        fputs(self::$fileLogger, "[$date][$type] " . $msg . PHP_EOL);
         self::close();
     }
 
@@ -161,7 +166,7 @@ abstract class Logger
     public static function rollback()
     {
         self::$transaction = false;
-        self::$quenue = array();
+        self::$queue = array();
     }
 
     /**
@@ -169,10 +174,7 @@ abstract class Logger
      */
     public static function commit()
     {
-        self::$transaction = false;
-        foreach (self::$quenue as $msg) {
-            self::log($msg);
-        }
+        self::$transaction = 'commit';
     }
 
     /**
