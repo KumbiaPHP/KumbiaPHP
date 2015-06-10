@@ -102,16 +102,22 @@ class DbPdoInformix extends DbPDO
     /**
      * Devuelve un LIMIT valido para un SELECT del RBDM
      *
-     * @param integer $number
+     * @param string $sql
      * @return string
      */
-    public function limit($sql, $number)
+    public function limit($sql)
     {
-        /**
-         * No esta soportado por Informix
-         */
-        $number = (int) $number;
-        return "$sql -- LIMIT $number\n";
+        $params = Util::getParams(func_get_args());
+        
+        $limit ='';
+        if(isset($params['offset'])){
+            $limit .= " SKIP $params[offset]";
+        }
+        if(isset($params['limit'])){
+            $limit .= " FIRST $params[limit]";
+        }
+
+        return str_ireplace("SELECT ", "SELECT $limit ", $sql);
     }
 
     /**
@@ -236,7 +242,7 @@ class DbPdoInformix extends DbPDO
         /**
          * Informix no soporta schemas
          * TODO: No hay un metodo identificable para obtener llaves primarias
-         * no nulos y tama�os reales de campos
+         * no nulos y tamaños reales de campos
          * Primary Key, Null?
          */
         $describe = $this->fetch_all("SELECT c.colname AS Field, c.coltype AS Type,
