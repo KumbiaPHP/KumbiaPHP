@@ -121,9 +121,9 @@ class Input
 	public static function delete($var = '')
 	{
 		if($var){
-			unset($_POST[$var]);
+			$_POST[$var] = array();
 		} else {
-			unset($_POST);
+			$_POST = array();
 		}
 	}
 
