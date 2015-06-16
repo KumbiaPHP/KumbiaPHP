@@ -16,7 +16,7 @@
     <?php foreach ($data->items as $item) : ?>
         <tr>
             <?php foreach ($item->fields as $field) : ?>
-            <td><?php eh($item->$field)?></td>
+            <td><?= h($item->$field)?></td>
             <?php endforeach?>
 			<td><?= Html::linkAction("ver/$item->id",'Ver')?> |
 			<?= Html::linkAction("editar/$item->id",'Editar')?> |
