@@ -67,14 +67,14 @@ if ($page->current <= $half) {
     <?php endif; ?>
 
     <?php for($i=$start; $i<=$page->total && $i<($start + $show); $i++): ?>
-        <?php echo $i==$page->current ? "<strong>$i</strong>" : Html::link("$url/$i/", $i); ?>
+        <?= $i==$page->current ? "<strong>$i</strong>" : Html::link("$url/$i/", $i); ?>
     <?php endfor; ?>
 
     <?php if ($page->total > $i): ?>
         ...
-        <?php echo Html::link("$url/$page->total/", $page->total); ?>
+        <?= Html::link("$url/$page->total/", $page->total); ?>
     <?php elseif ($i == $page->total): ?>
-        <?php echo Html::link("$url/$i/", $i); ?>
+        <?= Html::link("$url/$i/", $i); ?>
     <?php endif; ?>
 
     <?php if($page->next) echo Html::link("$url/$page->next/", 'Siguiente', 'title="Ir a la pág. siguiente" class="nextprev" rel="next"') ?>

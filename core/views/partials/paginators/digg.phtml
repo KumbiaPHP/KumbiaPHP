@@ -68,7 +68,7 @@ if($start==$page->total){
     }?>
 
     <?php for($i=$start; $i<=$page->total && $i<($start + $show); $i++): ?>
-        <?php echo $i==$page->current ? "<strong>$i</strong>" : Html::link("$url/$i/", $i, "title=\"Ir a la pág. $i\""); ?>
+        <?= $i==$page->current ? "<strong>$i</strong>" : Html::link("$url/$i/", $i, "title=\"Ir a la pág. $i\""); ?>
     <?php endfor; ?>
 
     <?php if ($page->total > $i): ?>
@@ -77,13 +77,13 @@ if($start==$page->total){
         <?php endif ?>
 
         <?php $i = $page->total-1; ?>
-        <?php echo Html::link("$url/$i/", $i) ?>
-        <?php echo Html::link("$url/$page->total/", $page->total) ?>
+        <?= Html::link("$url/$i/", $i) ?>
+        <?= Html::link("$url/$page->total/", $page->total) ?>
     <?php elseif ($i == $page->total): ?>
     	<?php if($last): ?>
-        	<?php echo "<strong>$i</strong>" ?>
+        	<?= "<strong>$i</strong>" ?>
         <?php else: ?>
-        	<?php echo Html::link("$url/$i/", $i) ?>
+        	<?= Html::link("$url/$i/", $i) ?>
         <?php endif; ?>
     <?php endif; ?>
 

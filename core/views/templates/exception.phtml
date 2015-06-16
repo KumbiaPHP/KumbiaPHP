@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="<?php echo APP_CHARSET ?>" />
+    <meta charset="<?= APP_CHARSET ?>" />
     <title>Oh! Hay un error - KumbiaPHP Framework</title>
     <style>
     * {
@@ -63,9 +63,9 @@
     .php tr:nth-child(even) td{background-color:#007493}
     .php a{color:#FFF}
     
-    #files li[title ^='<?php echo CORE_PATH?>']{color: red;}
-    #files li[title ^='<?php echo APP_PATH?>']{color: green;}
-    #files li[title ^='<?php echo dirname(CORE_PATH).'/vendor/'?>']{color: #ffcc00;}
+    #files li[title ^='<?= CORE_PATH?>']{color: red;}
+    #files li[title ^='<?= APP_PATH?>']{color: green;}
+    #files li[title ^='<?= dirname(CORE_PATH).'/vendor/'?>']{color: #ffcc00;}
     
     .status{padding:5px;border-radius:5px;margin-left:5px;color:#FFF}
     .status.red{background-color:#a33}
@@ -86,11 +86,11 @@
 <body>
 <div class="">
 <header class="row">
-    <h2><?php echo Html::img('logo.png','KumbiaPHP logo')//TODO: embed png data: ?>
-    <?php echo kumbia_version() ?></h2>
+    <h2><?= Html::img('logo.png','KumbiaPHP logo')//TODO: embed png data: ?>
+    <?= kumbia_version() ?></h2>
 </header>
 
-	<?php echo $content ?> 
+	<?= $content ?> 
 
 </div>
 <div id="trace">
@@ -100,8 +100,8 @@
         //!(strpos ( $trace ['file'], APP_PATH) ===false) &&
         //!(strpos ( $trace ['file'], 'index.php')))
     : ?>
-        <p><strong class="file"><?php echo htmlentities($trace['file'], ENT_NOQUOTES, 'UTF-8') . "(" . $trace ['line'] . ")" ?></strong></p>
-        <!-- <p>La excepción se ha generado en el archivo <em class="file"><?php echo $trace['file'] ?></em> en la línea: <em><?php echo $trace['line'] ?></em>:</p> -->
+        <p><strong class="file"><?= htmlentities($trace['file'], ENT_NOQUOTES, 'UTF-8') . "(" . $trace ['line'] . ")" ?></strong></p>
+        <!-- <p>La excepción se ha generado en el archivo <em class="file"><?= $trace['file'] ?></em> en la línea: <em><?= $trace['line'] ?></em>:</p> -->
 
         <?php
             $lines = file ( $trace ['file'] );
@@ -111,8 +111,8 @@
         <table>
         <?php for($i = $start; $i <= $end; $i ++): ?>
         <tr <?php if ($i == $trace ['line'] - 1): ?> style="background:#BDE5F8" <?php endif; ?>>
-            <th><?php echo ($i + 1) ?></th>
-            <td><?php echo str_replace('&lt;?php', '', highlight_string('<?php '.$lines[$i], true)) ?></td>
+            <th><?= ($i + 1) ?></th>
+            <td><?= str_replace('&lt;?php', '', highlight_string('<?php '.$lines[$i], true)) ?></td>
         </tr>
         <?php endfor ?>
         </table>
@@ -136,8 +136,8 @@
 	       $line = explode(" ",$line);
         ?>
 	    <tr>
-            <td><?php echo $line[0] ?></td>
-            <td><?php echo $line[1] ?></td>
+            <td><?= $line[0] ?></td>
+            <td><?= $line[1] ?></td>
             <td><?php if(isset($line[2])) echo $line[2] ?></td>
         </tr>
 	 <?php } ?>
@@ -147,11 +147,11 @@
 <h2>Información Adicional</h2>
 <div class="container">
 <div class="col-6">
-    <strong>Ubicación actual:</strong> <?php echo $route ?><br />
+    <strong>Ubicación actual:</strong> <?= $route ?><br />
 </div>
 
 <div class="col-6">
-    <strong>IP Visitante: </strong> <?php echo $_SERVER['REMOTE_ADDR'] ?><br />
+    <strong>IP Visitante: </strong> <?= $_SERVER['REMOTE_ADDR'] ?><br />
 </div>
 </div></div>
 
@@ -164,7 +164,7 @@
 <ol id="files"><!-- TODO: usar :hover para mostrarlos -->
 <?php 
 foreach($files as $file) : ?>
-    <li title="<?php echo $file ?>"><?php echo $file ?></li>
+    <li title="<?= $file ?>"><?= $file ?></li>
 <?php endforeach ?> 
 </ol>
 <span class="status red">core</span>
@@ -173,16 +173,16 @@ foreach($files as $file) : ?>
 </div>
 
 <table class="php"><tr>
-<td><h3><?php echo round((microtime(1)-START_TIME),4),' seg.'?></h3>Tiempo</td><td><h3><?php echo number_format(memory_get_usage() / 1048576, 2),' MB';?></h3>Memoria Usada</td><td><h3><span class="status <?php echo extension_loaded('xdebug') ? 'green' : 'red' ?>" title="Recomendable en desarrollo. Nunca en producción">xdebug</span><span class="status <?php echo extension_loaded('apc') ? 'green' : 'red'; ?>" title="Siempre muy recomendable">apc</span></h3>PHP extensions</td><td><h3><a href="#viewfiles"><?php echo count($files) ?> ficheros</a></h3>Includes</td>
+<td><h3><?= round((microtime(1)-START_TIME),4),' seg.'?></h3>Tiempo</td><td><h3><?= number_format(memory_get_usage() / 1048576, 2),' MB';?></h3>Memoria Usada</td><td><h3><span class="status <?= extension_loaded('xdebug') ? 'green' : 'red' ?>" title="Recomendable en desarrollo. Nunca en producción">xdebug</span><span class="status <?= extension_loaded('apc') ? 'green' : 'red'; ?>" title="Siempre muy recomendable">apc</span></h3>PHP extensions</td><td><h3><a href="#viewfiles"><?= count($files) ?> ficheros</a></h3>Includes</td>
 </tr>
 <tr>
-<td><h3><?php echo ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</td><td><h3><?php echo ini_get('memory_limit') ?></h3>Memoria PHP</td><td><h3><?php echo PHP_VERSION?><br><small title="PHP SAPI"><?php echo PHP_SAPI ?></small></h3>Versión PHP</td><td><h3><?php echo $_SERVER['SERVER_SOFTWARE'] ?> <br><small>IP: </strong> <?php echo $_SERVER['SERVER_ADDR'] ?></small></h3>Servidor</td>
+<td><h3><?= ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</td><td><h3><?= ini_get('memory_limit') ?></h3>Memoria PHP</td><td><h3><?= PHP_VERSION?><br><small title="PHP SAPI"><?= PHP_SAPI ?></small></h3>Versión PHP</td><td><h3><?= $_SERVER['SERVER_SOFTWARE'] ?> <br><small>IP: </strong> <?= $_SERVER['SERVER_ADDR'] ?></small></h3>Servidor</td>
 </tr>
 </table>
 
 <div class="flash info">
 <p>En <b>PRODUCCIÓN</b> no sale este error, muestra el template de error de la app: <br>
-<em class="file"><?php echo APP_PATH ?>views/_shared/errors/404.phtml</em> <br>
+<em class="file"><?= APP_PATH ?>views/_shared/errors/404.phtml</em> <br>
 ¡ Modifica el template de error 404 a tu gusto !</p>
 </div>
  
@@ -204,7 +204,7 @@ foreach($files as $file) : ?>
         				 <a href="http://groups.google.com/group/kumbia" title="Lista de Correo de KumbiaPHP donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">Grupo</a> | <a href="http://foro.kumbiaphp.com" title="Foro de KumbiaPHP donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">Foro</a></p>
     </div>
     
-    <p>Ejecutado en <?php echo round((microtime(1)-START_TIME),4),' seg.'?> usando <?php echo number_format(memory_get_usage() / 1048576, 2),' MB' ?> de memoria</p>
+    <p>Ejecutado en <?= round((microtime(1)-START_TIME),4),' seg.'?> usando <?= number_format(memory_get_usage() / 1048576, 2),' MB' ?> de memoria</p>
 </footer>
 </body>
 </html>

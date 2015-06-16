@@ -22,7 +22,7 @@
  * Al ir a dominio.com/organizacion/privacidad enseñará la vista en views/organizacion/privacidad.phtml
  * 
  * Ademas se pueden utilizar Helpers
- * <?php echo link_to('pages/show/aviso', 'Ir Aviso') ?>
+ * <?= link_to('pages/show/aviso', 'Ir Aviso') ?>
  * Mostrara un link que al hacer click ira a dominio.com/pages/show/aviso
  * 
  */

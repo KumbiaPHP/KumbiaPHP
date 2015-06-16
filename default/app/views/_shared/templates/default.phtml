@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
  <head>
-  <meta charset=<?php echo APP_CHARSET ?> >
+  <meta charset=<?= APP_CHARSET ?> >
   <title>KumbiaPHP Framework</title>
   <?php Tag::css('kumbia') ?>
-  <?php echo Html::includeCss() ?>
+  <?= Html::includeCss() ?>
 </head>
 <body>
 <header class="row">
     <div class="col-8">
-    <h2><?php echo Html::img('logo.png','KumbiaPHP logo') ?>
-    <?php echo kumbia_version() ?></h2>
+    <h2><?= Html::img('logo.png','KumbiaPHP logo') ?>
+    <?= kumbia_version() ?></h2>
     </div>
     <div class="col-4">
-        Entorno:  <strong><?php echo basename(dirname(APP_PATH)) ?></strong>
+        Entorno:  <strong><?= basename(dirname(APP_PATH)) ?></strong>
     </div>
 </header>
 <div class="container"><?php View::content() ?></div>

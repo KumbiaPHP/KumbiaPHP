@@ -1,14 +1,14 @@
 <div id="scaffold">
 <?php View::content()?>
-<h1><?php echo ucwords("$model"),": <span>$action_name</span>" ?></h1>
+<h1><?= ucwords("$model"),": <span>$action_name</span>" ?></h1>
 <div class="actions">
-    <?php echo Html::linkAction("crear/",'Crear registro', 'class="btn btn-primary"')?>
+    <?= Html::linkAction("crear/",'Crear registro', 'class="btn btn-primary"')?>
 </div>
 <?php if ($data->items) : ?>
 <table class="t">
     <thead><tr>
     <?php foreach (current($data->items)->fields as $field) : ?>
-        <th><?php echo (current($data->items)->get_alias($field))?></th>
+        <th><?= (current($data->items)->get_alias($field))?></th>
     <?php endforeach?>
 	<th>Acciones</th>
     </tr></thead>
@@ -18,9 +18,9 @@
             <?php foreach ($item->fields as $field) : ?>
             <td><?php eh($item->$field)?></td>
             <?php endforeach?>
-			<td><?php echo Html::linkAction("ver/$item->id",'Ver')?> |
-			<?php echo Html::linkAction("editar/$item->id",'Editar')?> |
-			<?php echo Html::linkAction("borrar/$item->id",'Borrar', 'onclick="return confirm(\'¿Está seguro?\')"')?>
+			<td><?= Html::linkAction("ver/$item->id",'Ver')?> |
+			<?= Html::linkAction("editar/$item->id",'Editar')?> |
+			<?= Html::linkAction("borrar/$item->id",'Borrar', 'onclick="return confirm(\'¿Está seguro?\')"')?>
 			</td>
         </tr>
     <?php endforeach?>
