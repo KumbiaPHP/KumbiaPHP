@@ -1,0 +1,18 @@
+{
+    "name": "kumbia/core",
+    "description": "KumbiaPHP Core package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alberto Berroteran",
+            "email": "alberroteran+dev@gmail.com"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "core/kumbia/",
+            "core/extensions/",
+            "core/libs/"
+        ]
+    }
+}
