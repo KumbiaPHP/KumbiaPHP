@@ -71,7 +71,7 @@ class KumbiaException extends Exception
         //TODO quitar el extract, que el view pida los que necesite
         extract(Router::get(), EXTR_OVERWRITE);
         // Registra la autocarga de helpers
-        spl_autoload_register('kumbia_autoload_helper', true, true);
+        spl_autoload_register(array('kumbiaautoload', 'helper'), true, true);
         
         $Controller = Util::camelcase($controller);
         ob_start();
