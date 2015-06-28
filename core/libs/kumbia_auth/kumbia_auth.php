@@ -35,42 +35,11 @@ class KumbiaAuth {
 	protected $auth = NULL;
 
 	/**
-	 * Objeto de autenticacion
-	 * @var KumbiaAuth
-	 */
-	static protected $_obj = null;
-
-	/**
-	 * Inyecta el objeto de autenticación
-	 * @param KumbiaAuthInterface $auth
-	 */
-	public static function init(KumbiaAuthInterface $auth) {
-		if (self::$_obj instanceof KumbiaAuthBase) {
-			throw new Exception('Object was initialized');
-		}
-		self::$_obj = new KumbiaAuthBase($auth);
-	}
-
-	/**
 	 * Can get login with load class
 	 * @return boolean
 	 */
 	public static function isLogin() {
 		return (bool) Session::get('login', KumbiaAuthBase::$namespace);
-	}
-
-	/**
-	 * Make the facade
-	 * @param  string $method
-	 * @param  array $args
-	 * @return mixed
-	 */
-	public static function __callStatic($method, $args) {
-		if (!self::$_obj instanceof KumbiaAuthBase) {
-			throw new Exception('Objeto de autenticación nulo');
-		}
-		$instance = self::$_obj;
-		return call_user_func_array(array($instance, $method), $args);
 	}
 
 }
