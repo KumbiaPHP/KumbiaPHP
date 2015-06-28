@@ -42,11 +42,9 @@ trait KumbiaFacade {
 	 */
 	public static function init($obj) {
 		$class = get_called_class();
-		if (isset(self::$store[$class]))) {
+		if (isset(self::$store[$class])){
 			throw new Exception('Object was initialized');
 		}
 		self::$store[$class] = $obj;
 	}
-
-
 }
