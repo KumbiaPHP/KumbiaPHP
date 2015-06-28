@@ -29,8 +29,8 @@ trait KumbiaFacade {
 	public static function __callStatic($method, $args) {
 		$class = get_called_class();
 
-		if (!isset(self::$store[$class]) || !(self::$store[$class] instanceof $class)) {
-			throw new Exception('Objeto de autenticación nulo');
+		if (!isset(self::$store[$class])) {
+			throw new Exception('Object wasn\'t initialized');
 		}
 		$instance = self::$store[$class];
 		return call_user_func_array(array($instance, $method), $args);
