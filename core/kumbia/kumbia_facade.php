@@ -18,7 +18,7 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
-class KumbiaFacade {
+trait KumbiaFacade {
 	static $store = [];
 	/**
 	 * Make the facade

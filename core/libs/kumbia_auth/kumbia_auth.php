@@ -22,6 +22,7 @@ include 'kumbia_auth_base.php';
 include 'kumbia_auth_interface.php';
 
 class KumbiaAuth {
+	use KumbiaFacade;
 	/**
 	 * Espacio de nombre para las variables de login
 	 * @var String
