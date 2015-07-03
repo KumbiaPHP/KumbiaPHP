@@ -108,12 +108,11 @@ class ModelAuth extends Auth2
         }
 
         // TODO: revisar seguridad
-        $password = hash($this->_algos, $password);
+        $password = ($this->_algos)? hash($this->_algos, $password) : $password;
         //$username = addslashes($username);
         $username = filter_var($username, FILTER_SANITIZE_MAGIC_QUOTES);
 
-        $Model = new $this->_model;
-        if ($user = $Model->find_first("$this->_login = '$username' AND $this->_pass = '$password'")) {
+        if ($user = Load::model($this->_model)->find_first("$this->_login = '$username' AND $this->_pass = '$password'")) {
             // Carga los atributos indicados en sesion
             foreach ($this->_fields as $field) {
                 Session::set($field, $user->$field, $this->_sessionNamespace);
