@@ -1,12 +1,7 @@
 <?php
 /*mime type para el contenido content*/
 header('Content-type: text/xml');
-$xml=new XMLWriter();
-$xml->openMemory();
-$xml->startDocument('1.0','UTF-8');
-$xml->startElement('xml');
-$xml->setIndent(true);
-foreach($data as $elem) {
+function printElem($xml, $elem){
 	$xml->startElement(get_class($elem));
 	$a = get_object_vars($elem);
 	foreach($a as $key=>$value) {
@@ -16,5 +11,20 @@ foreach($data as $elem) {
 	}
 	$xml->endElement();
 }
+
+$xml=new XMLWriter();
+$xml->openMemory();
+$xml->startDocument('1.0','UTF-8');
+$xml->startElement('xml');
+$xml->setIndent(true);
+
+if(is_array($data)){
+	foreach($data as $elem) {
+		printElem($xml, $elem);
+	}
+}else{
+	printElem($xml, $data);
+}
+
 $xml->endElement();
 echo $xml->outputMemory(true);
