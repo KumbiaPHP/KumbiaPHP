@@ -123,7 +123,7 @@ class Router {
 		try {
 			$reflectionMethod = new ReflectionMethod($cont, $cont->action_name);
 		} catch (ReflectionException $e) {
-			throw new KumbiaException(null, 'no_action');//TODO: enviar a un método del controller
+			throw new KumbiaException($cont->action_name, 'no_action');//TODO: enviar a un método del controller
 		}
 
 		//k_callback y __constructor metodo reservado

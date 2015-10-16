@@ -72,7 +72,7 @@ class KumbiaException extends Exception
         extract(Router::get(), EXTR_OVERWRITE);
         // Registra la autocarga de helpers
         spl_autoload_register('kumbia_autoload_helper', true, true);
-        
+
         $Controller = Util::camelcase($controller);
         ob_start();
         if (PRODUCTION) { //TODO: añadir error 500.phtml
@@ -86,7 +86,9 @@ class KumbiaException extends Exception
             $view = 'exception';
             $tpl = 'views/templates/exception.phtml';
         }
-        
+        //Fix problem with action name in REST
+        $action =  $e->getMessage() ? $e->getMessage(): $action;
+
         include CORE_PATH . "views/errors/{$view}.phtml";
  
         $content = ob_get_clean();
