@@ -1,8 +1,39 @@
 <?php
 /*mime type para el contenido content*/
 header('Content-type: text/xml');
+function generate_xml_from_array($array, $node_name) {
+	$xml = '';
+	if (is_array($array) || is_object($array)) {
+		foreach ($array as $key=>$value) {
+			if (is_numeric($key)) {
+				$key = $node_name;
+			}
+			$xml .= '<' . $key . '>' . "\n" . generate_xml_from_array($value, $node_name) . '</' . $key . '>' . "\n";
+		}
+	} else {
+		$xml = htmlspecialchars($array, ENT_QUOTES) . "\n";
+	}
+	return $xml;
+}
+
+function generate_valid_xml_from_array($array, $node_block='nodes', $node_name='node') {
+	$xml = '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
+	$xml .= '<' . $node_block . '>' . "\n";
+	$xml .= generate_xml_from_array($array, $node_name);
+	$xml .= '</' . $node_block . '>' . "\n";
+	return $xml;
+}
+
+//First element
+$first =  is_array($data) ? $data[key($data)] : $data;
+$block =  $first == $data && is_object($first) ? strtolower(get_class($first)) : 'data';
+$node  =  is_object($first) ? strtolower(get_class($first)) : 'node';
+
+echo generate_valid_xml_from_array($data, $block, $node);
+/*
+TODO use Simple XML
 function printElem($xml, $elem){
-	$xml->startElement(get_class($elem));
+	$xml->startElement();
 	$a = get_object_vars($elem);
 	foreach($a as $key=>$value) {
 		$xml->startElement($key);
@@ -28,3 +59,4 @@ if(is_array($data)){
 
 $xml->endElement();
 echo $xml->outputMemory(true);
+*/
