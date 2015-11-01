@@ -81,6 +81,8 @@ class Validate
     		foreach ($fRule as $ruleName => $param) {
                 $ruleName = self::getRuleName($ruleName, $param);
     			$param =  self::getParams($param);
+                /*Ignore the rule is starts with "#"*/
+                if($ruleName[0] == '#') continue;
     			/*Es una validación de modelo*/
     			if($ruleName[0] == '@'){
                     $this->modelRule($ruleName, $param, $field);
