@@ -210,7 +210,7 @@ class KumbiaRest extends Controller {
 	 */
 	protected function error($text, $error = 400) {
 		$this->setCode($error);
-		return array('error', $text);
+		return array('error' => $text);
 	}
 
 	/**
