@@ -1,0 +1,11 @@
+{
+    "name": "kumbia/core",
+    "description": "KumbiaPHP",
+    "license": "MIT",
+    "autoload": {
+        "classmap": [
+            "core/kumbia/",
+            "core/libs/"
+        ]
+    }
+}
