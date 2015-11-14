@@ -57,6 +57,17 @@ class Input
 	}
 
 	/**
+	 * Obtiene un valor del arreglo $_SERVER
+	 *
+	 * @param string $var
+	 * @return mixed
+	 */
+	public static function server($var = '')
+	{
+		return self::getFilter($_POST, $var);
+	}
+
+	/**
 	 * Obtiene un valor del arreglo $_GET, aplica el filtro FILTER_SANITIZE_STRING
 	 * por defecto
 	 *

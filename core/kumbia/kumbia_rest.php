@@ -222,7 +222,7 @@ class KumbiaRest extends Controller {
 		/* para almacenar los valores acceptados por el cliente */
 		$aTypes = array();
 		/* Elimina espacios, convierte a minusculas, y separa */
-		$accept = explode(',', strtolower(str_replace(' ', '', $_SERVER['HTTP_ACCEPT'])));
+		$accept = explode(',', strtolower(str_replace(' ', '', Input::server('HTTP_ACCEPT'))));
 		foreach ($accept as $a) {
 			$q = 1; /* Por defecto la proridad es uno, el siguiente verifica si es otra */
 			if (strpos($a, ';q=')) {
