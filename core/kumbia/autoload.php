@@ -30,12 +30,13 @@ function kumbia_autoload($class) {
 			'ActiveRecord'    => APP_PATH.'libs/active_record.php',
 			'Load'            => CORE_PATH.'kumbia/load.php',
 			'KumbiaException' => CORE_PATH.'kumbia/kumbia_exception.php',
-			'KumbiaRouter'    => CORE_PATH.'kumbia/kumbia_router.php',
-			'Flash'           => CORE_PATH.'extensions/helpers/flash.php'
+			'KumbiaRouter'    => CORE_PATH.'kumbia/kumbia_router.php'
 		);
 	}
 	if (array_key_exists($class, $classes)) {
 		return include $classes[$class];
+	}elseif($class == 'Flash'){
+		return kumbia_autoload_helper('Flash');
 	}
 
 	// Pasando a smallcase
@@ -66,5 +67,7 @@ function kumbia_autoload_helper($class) {
 		return include CORE_PATH."extensions/helpers/$sclass.php";
 	}
 }
+
+
 // Registrar la autocarga
 spl_autoload_register('kumbia_autoload');
