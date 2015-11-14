@@ -79,6 +79,18 @@ class Input
 		return self::getFilter($_REQUEST, $var);
 	}
 
+
+	/**
+	 * Obtiene un valor del arreglo $_SERVER
+ 	 *
+	 * @param string $var
+	 * @return mixed
+	 */
+	public static function server($var = '')
+	{
+		return self::getFilter($_SERVER, $var);
+	}
+
 	/**
 	 * Verifica si existe el elemento indicado en $_POST
 	 *
