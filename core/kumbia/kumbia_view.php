@@ -177,7 +177,7 @@ class KumbiaView
     {
         if ($time === FALSE) { //TODO borrar cache
             self::$_cache['type'] = FALSE;
-            return;
+            return FALSE;
         }
         self::$_cache['type'] = $type;
         self::$_cache['time'] = $time;
@@ -186,7 +186,7 @@ class KumbiaView
         if (PRODUCTION && $type === 'view') {
             return self::getCache(); //TRUE si está cacheada
         }
-        return False;
+        return FALSE;
     }
 
     /**
