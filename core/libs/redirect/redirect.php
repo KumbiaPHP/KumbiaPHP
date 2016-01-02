@@ -26,18 +26,6 @@
  */
 class Redirect
 {   
-    /**
-    * Redirect() alias de Redirect::to()
-    *
-    * 
-    * @param string $route ruta a la que será redirigida la petición.
-    * @param integer $seconds segundos que se esperarán antes de redirigir
-    * @param integer $statusCode código http de la respuesta, por defecto 302
-    */
-    public function __invoke($route = '', $seconds = 0, $statusCode = 302)
-    {
-        self::to($route, $seconds, $statusCode);
-    }
 
     /**
      * Redirecciona la ejecución a otro controlador en un

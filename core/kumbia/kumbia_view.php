@@ -73,18 +73,6 @@ class KumbiaView
      * @var Controller
      */
     protected static $_controller;
-    
-    /**
-    * View() alias de View::select()
-    *
-    * 
-    * @param string $view nombre del view a utilizar sin .phtml
-    * @param string $template	opcional nombre del template a utilizar sin .phtml
-    */
-    public function __invoke($view, $template = FALSE)
-    {
-        self::select($view, $template);
-    }
 
     /**
      * Cambia el view y opcionalmente el template
