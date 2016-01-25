@@ -38,6 +38,13 @@
 		plugin: [],
 
 		/**
+		 * Crea un enlace para usar en otras etiquetas html como por ejemplo en etiquetas TR
+		 */
+		cLink: function() {
+			location.href=$(this).data('to');
+		},
+
+		/**
 		 * Muestra mensaje de confirmacion
 		 *
 		 * @param Object event
@@ -129,6 +136,9 @@
 		 *
 		 */
 		bind : function() {
+            // Crea un enlace para usar en otras etiquetas html como por ejemplo en etiquetas TR
+            $("body").on('click', ".js-link",this.cLink);
+            
             // Enlace y boton con confirmacion
             $("body").on('click', "a.js-confirm, input.js-confirm",this.cConfirm);
 
@@ -162,6 +172,8 @@
             // Enlazar DatePicker
 			$.KumbiaPHP.bindDatePicker();
 			
+			// Añadimos el cursor de tipo enlace para todos los eventos onclick
+			$("[class*='js-']").css('cursor','pointer');
 		},
 
         /**
