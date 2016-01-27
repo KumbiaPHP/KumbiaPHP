@@ -22,6 +22,9 @@
  */
 require_once __DIR__ .'/auth_interface.php';
 
+// Evita problemas al actualizar de la beta2
+if (!isset($_SESSION)) { session_start(); }
+
 /**
  * Esta clase permite autenticar usuarios
  *
