@@ -1644,7 +1644,7 @@ class KumbiaActiveRecord
                 }
                 if (isset($this->$np)) {
                     $fields[] = $np;
-                    if (is_null($this->$np) || $this->$np == '') {
+                    if (is_null($this->$np) || $this->$np == '' and $this->$np!='0') {
                         $values[] = 'NULL';
                     } else {
                         /**
