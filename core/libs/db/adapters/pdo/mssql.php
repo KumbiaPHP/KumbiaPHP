@@ -110,10 +110,10 @@ class DbPdoMsSQL extends DbPDO
         $params = Util::getParams(func_get_args());
 
         if(!isset($params['offset']) && isset($params['limit'])){
-			return str_ireplace("SELECT ", "SELECT TOP $params[limit] ", $sql);
-		}
-		$orderby = stristr($sql, 'ORDER BY');
-		if ($orderby !== false) {
+            return str_ireplace("SELECT ", "SELECT TOP $params[limit] ", $sql);
+        }
+        $orderby = stristr($sql, 'ORDER BY');
+        if ($orderby !== false) {
             $sort = (stripos($orderby, 'desc') !== false) ? 'desc' : 'asc';
             $order = str_ireplace('ORDER BY', '', $orderby);
             $order = trim(preg_replace('/ASC|DESC/i', '', $order));

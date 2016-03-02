@@ -409,11 +409,11 @@ class DbInformix extends DbBase implements DbBaseInterface
      * @return string
      */
     public function limit($sql){
-		   /**
+           /**
                  * No esta soportado por Informix
                  */
                 return "$sql \n";
-	}
+    }
 
 
     /**
@@ -542,8 +542,8 @@ class DbInformix extends DbBase implements DbBaseInterface
         // no nulos y tamaños reales de campos
         // Primary Key, Null
         $describe = $this->fetch_all("SELECT c.colname AS Field, c.coltype AS Type,
-				'YES' AS NULL FROM systables t, syscolumns c WHERE
-		 		c.tabid = t.tabid AND t.tabname = '$table' ORDER BY c.colno");
+                'YES' AS NULL FROM systables t, syscolumns c WHERE
+                c.tabid = t.tabid AND t.tabname = '$table' ORDER BY c.colno");
         $final_describe = array();
         foreach ($describe as $field) {
             //Serial

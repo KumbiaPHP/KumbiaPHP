@@ -37,8 +37,8 @@ class Flash
     /**
      * Visualiza un mensaje flash
      *
-     * @param string $name	Para tipo de mensaje y para CSS class='$name'.
-     * @param string $text 	Mensaje a mostrar
+     * @param string $name  Para tipo de mensaje y para CSS class='$name'.
+     * @param string $text  Mensaje a mostrar
      */
     public static function show($name, $text)
     {

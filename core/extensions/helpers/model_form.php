@@ -83,12 +83,12 @@ class ModelForm
                     break;
 
                 case 'enum': case 'set': case 'bool':
-					$enumList = explode(",", str_replace("'", "", substr($model->_data_type[$field], 5, (strlen($model->_data_type[$field])-6))));
-					echo "<select id=\"$formId\" class=\"select\" name=\"$formName\" >", PHP_EOL;
-					foreach($enumList as $value)
-						echo "<option value=\"{$value}\">$value</option>", PHP_EOL;
-					echo '</select>', PHP_EOL;
-					break;
+                    $enumList = explode(",", str_replace("'", "", substr($model->_data_type[$field], 5, (strlen($model->_data_type[$field])-6))));
+                    echo "<select id=\"$formId\" class=\"select\" name=\"$formName\" >", PHP_EOL;
+                    foreach($enumList as $value)
+                        echo "<option value=\"{$value}\">$value</option>", PHP_EOL;
+                    echo '</select>', PHP_EOL;
+                    break;
 
                 case 'text': case 'mediumtext': case 'longtext':
                 case 'blob': case 'mediumblob': case 'longblob': // Usar textarea

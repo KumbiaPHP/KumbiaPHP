@@ -826,9 +826,9 @@ class KumbiaActiveRecord
 
     /*
      * Arma una consulta SQL con el parametro $what, así:
-     * 	$what = Util::getParams(func_get_args());
-     * 	$select = "SELECT * FROM Clientes";
-     * 	$select.= $this->convert_params_to_sql($what);
+     *  $what = Util::getParams(func_get_args());
+     *  $select = "SELECT * FROM Clientes";
+     *  $select.= $this->convert_params_to_sql($what);
      *
      * @param string|array $what
      * @return string

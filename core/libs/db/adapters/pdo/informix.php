@@ -246,9 +246,9 @@ class DbPdoInformix extends DbPDO
          * Primary Key, Null?
          */
         $describe = $this->fetch_all("SELECT c.colname AS Field, c.coltype AS Type,
-				'YES' AS NULL, c.collength as Length
-				 FROM systables t, syscolumns c WHERE
-		 		c.tabid = t.tabid AND t.tabname = '$table' ORDER BY c.colno");
+                'YES' AS NULL, c.collength as Length
+                 FROM systables t, syscolumns c WHERE
+                c.tabid = t.tabid AND t.tabname = '$table' ORDER BY c.colno");
         $final_describe = array();
         foreach ($describe as $field) {
             //Serial

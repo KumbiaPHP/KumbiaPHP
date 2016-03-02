@@ -78,7 +78,7 @@ class KumbiaView
      * Cambia el view y opcionalmente el template
      *
      * @param string $view nombre del view a utilizar sin .phtml
-     * @param string $template	opcional nombre del template a utilizar sin .phtml
+     * @param string $template  opcional nombre del template a utilizar sin .phtml
      */
     public static function select($view, $template = FALSE)
     {
@@ -228,12 +228,12 @@ class KumbiaView
             return ob_end_flush();
 
         // Guarda el controlador
-		self::$_controller = $controller;
+        self::$_controller = $controller;
 
-		self::generate($controller);
-	}
+        self::generate($controller);
+    }
 
-	/**
+    /**
      * Genera la vista
      *
      * @param Controller $controller
@@ -324,12 +324,12 @@ class KumbiaView
         }
 
         if($params){
-        	if (is_string($params)) {
-            		$params = Util::getParams(explode(',', $params));
-        	}
+            if (is_string($params)) {
+                    $params = Util::getParams(explode(',', $params));
+            }
 
-        	// carga los parametros en el scope
-        	extract($params, EXTR_OVERWRITE);
+            // carga los parametros en el scope
+            extract($params, EXTR_OVERWRITE);
         }
 
         // carga la vista parcial
@@ -343,18 +343,18 @@ class KumbiaView
         }
     }
 
-	/**
-	 * Obtiene el valor de un atributo público o todos del controlador
-	 *
-	 * @param string $var nombre de variable
-	 * @return mixed valor de la variable
-	 */
-	public static function getVar($var = '')
-	{
-		if(!$var) return get_object_vars(self::$_controller);
+    /**
+     * Obtiene el valor de un atributo público o todos del controlador
+     *
+     * @param string $var nombre de variable
+     * @return mixed valor de la variable
+     */
+    public static function getVar($var = '')
+    {
+        if(!$var) return get_object_vars(self::$_controller);
 
-		return isset(self::$_controller->$var) ? self::$_controller->$var : NULL;
-	}
+        return isset(self::$_controller->$var) ? self::$_controller->$var : NULL;
+    }
 }
 
 /**

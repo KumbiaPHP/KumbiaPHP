@@ -19,16 +19,16 @@
  */
 
 interface KumbiaAuthInterface {
-	/**
-	 * It makes a login
-	 * @param  array $array params
-	 * @return bool        do it had success?
-	 */
-	public function login(Array $array);
+    /**
+     * It makes a login
+     * @param  array $array params
+     * @return bool        do it had success?
+     */
+    public function login(Array $array);
 
-	/**
-	 * Get information
-	 * @param string $name
-	 */
-	public function get($name);
+    /**
+     * Get information
+     * @param string $name
+     */
+    public function get($name);
 }
