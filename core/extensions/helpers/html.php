@@ -39,7 +39,14 @@ class Html
      * @var array
      */
     protected static $_headLinks = array();
-
+    
+    /**
+     * Directorio javascript
+     *
+     * @var array
+     * */
+    protected static $js_dir = 'javascript/';
+    
     /**
      * Crea un enlace usando la constante PUBLIC_PATH, para que siempre funcione
      *
@@ -148,6 +155,23 @@ class Html
         $code = '';
         foreach (Tag::getCss() as $css) {
             $code .= '<link href="' . PUBLIC_PATH . "css/{$css['src']}.css\" rel=\"stylesheet\" type=\"text/css\" media=\"{$css['media']}\" />" . PHP_EOL;
+        }
+        return $code;
+    }
+    
+    /**
+     * Incluye los JS
+     *
+     * @return string
+     */
+    public static function includeJs()
+    {
+        $code = '';
+        $js = Tag::getJs();
+        $js = array_unique($js);
+        ksort($js);
+        foreach ($js as $src) {
+            $code .= '<script type="text/javascript" src="' . PUBLIC_PATH . self::$js_dir .$src . '.js"></script>';
         }
         return $code;
     }
