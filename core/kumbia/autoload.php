@@ -31,7 +31,8 @@ function kumbia_autoload($class)
             'ActiveRecord'    => APP_PATH.'libs/active_record.php',
             'Load'            => CORE_PATH.'kumbia/load.php',
             'KumbiaException' => CORE_PATH.'kumbia/kumbia_exception.php',
-            'KumbiaRouter'    => CORE_PATH.'kumbia/kumbia_router.php'
+            'KumbiaRouter'    => CORE_PATH.'kumbia/kumbia_router.php',
+            'KumbiaFacade'    => CORE_PATH.'kumbia/kumbia_facade.php'
         );
     }
     if (array_key_exists($class, $classes)) {
