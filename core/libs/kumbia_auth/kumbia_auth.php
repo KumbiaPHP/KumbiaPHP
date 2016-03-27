@@ -19,8 +19,7 @@
  */
 
 class KumbiaAuth extends KumbiaFacade{
-
-    static function getAlias(){
+    protected static function getAlias(){
         return 'auth';
     }
 }

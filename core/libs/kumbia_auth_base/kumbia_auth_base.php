@@ -53,7 +53,7 @@ abstract class KumbiaAuthBase {
      * @param boolean $status [description]
      */
     protected function setStatus($status){
-        return Session::set('login', $status, self::$namespace);
+        Session::set('login', $status, self::$namespace);
     }
 
     /**
@@ -61,7 +61,7 @@ abstract class KumbiaAuthBase {
      * @param Array $data object
      */
     protected function setData($data){
-        return Session::set('store', $data, self::$namespace);
+        Session::set('store', $data, self::$namespace);
     }
 
     /**
