@@ -18,27 +18,13 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
-class KumbiaAuthBase {
-
-    /**
-     * Object of auth
-     * @var KumbiaAuthInterface
-     */
-    protected $auth;
+abstract class KumbiaAuthBase {
 
     /**
      * Namespace of session
      * @var string
      */
     static public $namespace = 'Addssfsweds';
-
-    /**
-     * Create auth object
-     * @param KumbiaAuthInterface $auth interfaz
-     */
-    public function __construct(KumbiaAuthInterface $auth) {
-        $this->auth = $auth;
-    }
 
     /**
      * Verifica si el usuario está logueado
@@ -56,22 +42,35 @@ class KumbiaAuthBase {
     }
 
     /**
-     * Hace el login
-     * @param Array $args Agumentos para autentica
-     * @return bool
+     * It makes a login
+     * @param  array $array params
+     * @return bool        do it had success?
      */
-    public function login(Array $args = array()) {
-        $login = $this->auth->login($args);
-        Session::set('login', $login, self::$namespace);
-        return $login;
+    abstract public function login(Array $array);
+
+    /**
+     * Set the status of the login
+     * @param boolean $status [description]
+     */
+    protected function setStatus($status){
+        return Session::set('login', $status, self::$namespace);
+    }
+
+    /**
+     * Set the Auth data
+     * @param Array $data object
+     */
+    protected function setData($data){
+        return Session::set('store', $data, self::$namespace);
     }
 
     /**
      * Get information of auth
-     * @param  string $name name
+     * @param  string $var name
      * @return mixed
      */
-    public function get($name) {
-        return $this->auth->get($name);
+    public function get($var) {
+        $store = Session::set('store', self::$namespace);
+        return isset($store[$var])?$store[$var]:null;
     }
 }
