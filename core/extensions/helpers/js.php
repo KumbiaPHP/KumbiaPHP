@@ -26,6 +26,26 @@
  */
 class Js
 {
+    /**
+     * Javascripts que son requisito de otros
+     *
+     * @var array
+     * */
+    protected static $_dep = array();
+    
+    /**
+     * Javascript
+     *
+     * @var array
+     * */
+    protected static $_js = array();
+    
+    /**
+     * Directorio Javascript
+     *
+     * @var array
+     * */
+    protected static $js_dir = 'js/';
 
     /**
      * Crea un enlace en una Aplicacion con mensaje de confirmacion respetando
@@ -89,6 +109,36 @@ class Js
     {
         $attrs = Tag::getAttrs($attrs);
         return "<input type=\"image\" data-msg=\"$confirm\" src=\"" . PUBLIC_PATH . "img/$img\" class=\"js-confirm $class\" $attrs/>";
+    }
+
+    /**
+     * Añade un archivo Javascript para ser incluido en el template
+     *
+     * @param string $src nombre del archivo a añadir
+     * @param array $dep archivos que son requisito del archivo a añadir
+     */
+    public static function add( $src, $dep=array() )
+    {
+        self::$_js[$src] = $src;
+        foreach ($dep as $src) self::$_dep[$src] = $src;
+    }
+    
+    /**
+     * Incluye todos los archivo Javascript en el template añadidos con el metodo add
+     *
+     * @return string
+     */
+    public static function inc()
+    {
+        $js = self::$_dep + self::$_js;
+        $s = '';
+        foreach ($js as $src)
+        {
+            $a = strstr($src, '?') ? explode('?', $src, 2) : array($src, '');
+            $q = ($a[1]) ? "?$a[1]" : '';
+            $s .= '<script type="text/javascript" src="' . PUBLIC_PATH . self::$js_dir . "$a[0].js$q" . '"></script>';
+        }
+        return $s;
     }
 
 }
