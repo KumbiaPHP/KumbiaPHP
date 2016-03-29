@@ -31,7 +31,7 @@ class Js
      *
      * @var array
      * */
-    protected static $_dep = array();
+    protected static $_dependencies = array();
     
     /**
      * Javascript
@@ -45,7 +45,7 @@ class Js
      *
      * @var array
      * */
-    protected static $js_dir = 'js/';
+    protected static $js_dir = 'javascript/';
 
     /**
      * Crea un enlace en una Aplicacion con mensaje de confirmacion respetando
@@ -114,13 +114,13 @@ class Js
     /**
      * Añade un archivo Javascript para ser incluido en el template
      *
-     * @param string $src nombre del archivo a añadir
-     * @param array $dep archivos que son requisito del archivo a añadir
+     * @param string $file nombre del archivo a añadir
+     * @param array $dependencies archivos que son requisito del archivo a añadir
      */
-    public static function add( $src, $dep=array() )
+    public static function add( $file, $dependencies=array() )
     {
-        self::$_js[$src] = $src;
-        foreach ($dep as $src) self::$_dep[$src] = $src;
+        self::$_js[$file] = $file;
+        foreach ($dependencies as $file) self::$_dependencies[$file] = $file;
     }
     
     /**
@@ -130,15 +130,14 @@ class Js
      */
     public static function inc()
     {
-        $js = self::$_dep + self::$_js;
-        $s = '';
-        foreach ($js as $src)
+        $js = self::$_dependencies + self::$_js;
+        $html = '';
+        foreach ($js as $file)
         {
-            $a = strstr($src, '?') ? explode('?', $src, 2) : array($src, '');
+            $a = strstr($file, '?') ? explode('?', $file, 2) : array($file, '');
             $q = ($a[1]) ? "?$a[1]" : '';
-            $s .= '<script type="text/javascript" src="' . PUBLIC_PATH . self::$js_dir . "$a[0].js$q" . '"></script>';
+            $html .= '<script type="text/javascript" src="' . PUBLIC_PATH . self::$js_dir . "$a[0].js$q" . '"></script>';
         }
-        return $s;
+        return $html;
     }
-
 }
