@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Cache
- * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2016 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -32,7 +32,7 @@ abstract class Cache
      *
      * @var array
      * */
-    protected static $_drivers = array();
+    protected static $_drivers = [];
     /**
      * Driver por defecto
      *
@@ -57,15 +57,21 @@ abstract class Cache
      * @var string
      */
     protected $_lifetime = '';
+    /**
+     * Start - end data
+     *
+     * @var array
+     */
+    protected $_start = [];
 
     /**
      * Carga un elemento cacheado
      *
-     * @param string $id
-     * @param string $group
+     * @param string $id    identificador
+     * @param string $group grupo
      * @return string
      */
-    public abstract function get($id, $group = 'default');
+    abstract public function get($id, $group = 'default');
 
     /**
      * Guarda un elemento en la cache con nombre $id y valor $value
@@ -76,7 +82,7 @@ abstract class Cache
      * @param string $group
      * @return boolean
      */
-    public abstract function save($value, $lifetime = '', $id = FALSE, $group = 'default');
+    abstract public function save($value, $lifetime = '', $id = false, $group = 'default');
 
     /**
      * Limpia la cache
@@ -84,7 +90,7 @@ abstract class Cache
      * @param string $group
      * @return boolean
      */
-    public abstract function clean($group=false);
+    abstract public function clean($group = false);
 
     /**
      * Elimina un elemento de la cache
@@ -93,7 +99,7 @@ abstract class Cache
      * @param string $group
      * @return boolean
      */
-    public abstract function remove($id, $group = 'default');
+    abstract public function remove($id, $group = 'default');
 
     /**
      * Inicia el cacheo del buffer de salida hasta que se llame a end
@@ -109,15 +115,19 @@ abstract class Cache
             echo $data;
 
             // No es necesario cachear
-            return FALSE;
+            return false;
         }
-        $this->_lifetime = $lifetime;
+        $this->_start = [
+                'lifetime' => $lifetime,
+                'id'       => $id,
+                'group'    => $group
+            ];
 
         // inicia la captura del buffer
         ob_start();
 
         // Inicia cacheo
-        return TRUE;
+        return true;
     }
 
     /**
@@ -126,11 +136,11 @@ abstract class Cache
      * @param boolean $save indica si al terminar guarda la cache
      * @return boolean
      */
-    public function end($save = TRUE)
+    public function end($save = true)
     {
         if (!$save) {
             ob_end_flush();
-            return FALSE;
+            return false;
         }
 
         // obtiene el contenido del buffer
@@ -139,7 +149,7 @@ abstract class Cache
         // libera el buffer
         ob_end_flush();
 
-        return $this->save($value, $this->_lifetime, $this->_id, $this->_group);
+        return $this->save($value, $this->_start['lifetime'], $this->_start['id'], $this->_start['group']);
     }
 
     /**
@@ -171,5 +181,4 @@ abstract class Cache
     {
         self::$_default_driver = $driver;
     }
-
 }

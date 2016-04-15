@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Config
- * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2016 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -33,6 +33,8 @@ class Config
 {
 
     /**
+     * Contain all the config
+     * -
      * Contenido de variables de configuracion
      *
      * @var array
@@ -40,6 +42,8 @@ class Config
     protected static $_vars = array();
 
     /**
+     * Get config vars
+     * -
      * Obtiene un atributo de configuracion
      *
      * @param string $var nombre de variable de configuracion
@@ -59,12 +63,24 @@ class Config
                 return isset(self::$_vars[$namespaces[0]]) ? self::$_vars[$namespaces[0]] : NULL;
         }
     }
+    /**
+     * Get all configs
+     * -
+     * Obtiene toda la configuración
+     *
+     * @return array
+     */
+    public static function getAll() {
+        return self::$_vars;
+    }
 
     /**
+     * Set variable in config
+     * -
      * Asigna un atributo de configuracion
      *
-     * @param string $var variable de configuracion
-     * @param mixed $value valor para atributo
+     * @param string $var   variable de configuracion
+     * @param mixed  $value valor para atributo
      */
     public static function set($var, $value)
     {
@@ -83,9 +99,11 @@ class Config
     }
 
     /**
+     * Read config file
+     * -
      * Lee un archivo de configuracion
      *
-     * @param string $file archivo .ini
+     * @param string  $file  archivo .ini
      * @param boolean $force forzar lectura de .ini
      * @return array
      */

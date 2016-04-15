@@ -16,7 +16,7 @@
  *
  * @category   KumbiaPHP
  * @package    validate
- * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2016 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 require __DIR__.'/validations.php';
@@ -39,16 +39,16 @@ class Validate
      * @var array
      */
     protected $rules = array();
-	/**
-	 * Contructor
-	 * @param Object $obj Objeto a validar
-	 */
+    /**
+     * Contructor
+     * @param Object $obj Objeto a validar
+     */
 
-	/**
-	 * Almacena si la variable a validar es un objeto antes de convertirlo
-	 * @var boolean
-	 */
-	protected $is_obj = false;
+    /**
+     * Almacena si la variable a validar es un objeto antes de convertirlo
+     * @var boolean
+     */
+    protected $is_obj = false;
 
     /**
      * El parametro $rules debe contener esta forma
@@ -64,9 +64,9 @@ class Validate
      * @param array $rules Aray de reglas a validar
      */
     public function __construct($obj, Array $rules){
-    	$this->is_obj = is_object($obj);
-    	$this->obj = (object)$obj;
-    	$this->rules = $rules;
+        $this->is_obj = is_object($obj);
+        $this->obj = (object)$obj;
+        $this->rules = $rules;
     }
 
     /**
@@ -74,25 +74,25 @@ class Validate
      * @return bool Devuelve true si todo es válido
      */
     public function exec(){
-    	/*Recorrido por todos los campos*/
-    	foreach ($this->rules as $field => $fRule){
-    		$value = self::getValue($this->obj, $field);
-    		/*Regla individual para cada campo*/
-    		foreach ($fRule as $ruleName => $param) {
+        /*Recorrido por todos los campos*/
+        foreach ($this->rules as $field => $fRule){
+            $value = self::getValue($this->obj, $field);
+            /*Regla individual para cada campo*/
+            foreach ($fRule as $ruleName => $param) {
                 $ruleName = self::getRuleName($ruleName, $param);
-    			$param =  self::getParams($param);
+                $param =  self::getParams($param);
                 /*Ignore the rule is starts with "#"*/
                 if($ruleName[0] == '#') continue;
-    			/*Es una validación de modelo*/
-    			if($ruleName[0] == '@'){
+                /*Es una validación de modelo*/
+                if($ruleName[0] == '@'){
                     $this->modelRule($ruleName, $param, $field);
-    			}elseif(!Validations::$ruleName($value, $param, $this->obj)){
-    				$this->addError($param, $field, $ruleName);
-    			}
-    		}
-    	}
-    	/*Si no hay errores devuelve true*/
-    	return empty($this->messages);
+                }elseif(!Validations::$ruleName($value, $param, $this->obj)){
+                    $this->addError($param, $field, $ruleName);
+                }
+            }
+        }
+        /*Si no hay errores devuelve true*/
+        return empty($this->messages);
     }
 
     /**

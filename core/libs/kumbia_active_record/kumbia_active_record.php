@@ -15,7 +15,7 @@
  * @category   Kumbia
  * @package    Db
  * @subpackage ActiveRecord
- * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2016 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
@@ -826,9 +826,9 @@ class KumbiaActiveRecord
 
     /*
      * Arma una consulta SQL con el parametro $what, así:
-     * 	$what = Util::getParams(func_get_args());
-     * 	$select = "SELECT * FROM Clientes";
-     * 	$select.= $this->convert_params_to_sql($what);
+     *  $what = Util::getParams(func_get_args());
+     *  $select = "SELECT * FROM Clientes";
+     *  $select.= $this->convert_params_to_sql($what);
      *
      * @param string|array $what
      * @return string

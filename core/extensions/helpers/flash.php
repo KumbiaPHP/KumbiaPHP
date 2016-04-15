@@ -17,7 +17,7 @@
  *
  * @category   Kumbia
  * @package    Flash
- * @copyright  Copyright (c) 2005-2015 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2016 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -37,8 +37,8 @@ class Flash
     /**
      * Visualiza un mensaje flash
      *
-     * @param string $name	Para tipo de mensaje y para CSS class='$name'.
-     * @param string $text 	Mensaje a mostrar
+     * @param string $name  Para tipo de mensaje y para CSS class='$name'.
+     * @param string $text  Mensaje a mostrar
      */
     public static function show($name, $text)
     {
