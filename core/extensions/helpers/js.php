@@ -26,6 +26,26 @@
  */
 class Js
 {
+    /**
+     * Javascripts que son requisito de otros
+     *
+     * @var array
+     * */
+    protected static $_dependencies = array();
+    
+    /**
+     * Javascript
+     *
+     * @var array
+     * */
+    protected static $_js = array();
+    
+    /**
+     * Directorio Javascript
+     *
+     * @var array
+     * */
+    protected static $js_dir = 'javascript/';
 
     /**
      * Crea un enlace en una Aplicacion con mensaje de confirmacion respetando
@@ -91,4 +111,33 @@ class Js
         return "<input type=\"image\" data-msg=\"$confirm\" src=\"" . PUBLIC_PATH . "img/$img\" class=\"js-confirm $class\" $attrs/>";
     }
 
+    /**
+     * Añade un archivo Javascript para ser incluido en el template
+     *
+     * @param string $file nombre del archivo a añadir
+     * @param array $dependencies archivos que son requisito del archivo a añadir
+     */
+    public static function add( $file, $dependencies=array() )
+    {
+        self::$_js[$file] = $file;
+        foreach ($dependencies as $file) self::$_dependencies[$file] = $file;
+    }
+    
+    /**
+     * Incluye todos los archivo Javascript en el template añadidos con el metodo add
+     *
+     * @return string
+     */
+    public static function inc()
+    {
+        $js = self::$_dependencies + self::$_js;
+        $html = '';
+        foreach ($js as $file)
+        {
+            $a = strstr($file, '?') ? explode('?', $file, 2) : array($file, '');
+            $q = ($a[1]) ? "?$a[1]" : '';
+            $html .= '<script type="text/javascript" src="' . PUBLIC_PATH . self::$js_dir . "$a[0].js$q" . '"></script>';
+        }
+        return $html;
+    }
 }
