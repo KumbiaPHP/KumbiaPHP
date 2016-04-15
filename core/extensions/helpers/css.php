@@ -50,7 +50,7 @@ class Css
     /**
      * Añade un archivo Css fuera del template para ser incluido en el template
      *
-     * @param string $scr nombre del archivo a añadir
+     * @param string $file nombre del archivo a añadir
      * @param array $dependencies  archivos que son requisito del archivo a añadir
      */
     public static function add( $file, array $dependencies = [] )
