@@ -11,28 +11,29 @@
     /**
      * Verificando permisos del dir temp/
      */
-    if(!is_writable(APP_PATH.'temp')){
+    if (!is_writable(APP_PATH.'temp')) {
         $tmp = "Debes darle permiso a: '".basename(APP_PATH)."/temp/'";
     } else {
         $tmp = 'Directorio temp... ok';
     }
+    
+    $status = PRODUCTION ? 'Production' : 'Development';
+
 
     /**
      * Configuracion del config.ini
      */
     $config = Config::read('config');
 
-    $status = ($config['application']['production']) ? 'Production' : 'Development';
-    
-    if(isset($config['application']['cache_driver'])){
+    if (isset($config['application']['cache_driver'])) {
         $cahe_driver = $config['application']['cache_driver'];
     } else {
         $cache_driver = 'No ha seleccionado un driver para la cache';
     }
 
-    $locale = setlocale(LC_ALL, '0');
+    $locale = str_replace(';', '<br>', setlocale(LC_ALL, '0'));
     
-    if(! $timezone = date_default_timezone_get()){
+    if (! $timezone = date_default_timezone_get()){
         $timezone = 'No se ha especificado un Timezone.';
     }
     
@@ -62,7 +63,8 @@
         <h4>TimeZone: <span><?= $timezone ?></span></h4>
         <p>Zona horaria que usará la aplicación.</p>
 
-        <h4>Locale: <span><?= $locale ?></span></h4>
+        <h4>Locale:</h4>
+        <span><?= $locale ?></span>
         <p>Localización. Característica que depende de los locale instalados en el servidor.</p>
         </div>
 </div>
