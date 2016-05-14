@@ -87,7 +87,7 @@ class Form {
             return $form;
         }
         $form = (object) $form;
-        return isset($form->$formField[1]) ? $form->$formField[1] : NULL;
+        return isset($form->{$formField[1]}) ? $form->{$formField[1]} : NULL;
     }
 
     /**
@@ -326,7 +326,7 @@ class Form {
      * @return string
      */
     public static function selectShow($item, $show) {
-        $value = (is_object($item) && !empty($show))?$item->$show:(string) $item;
+        $value = (is_object($item) && !empty($show)) ? $item->$show : (string) $item;
         return htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
     }
 
@@ -449,8 +449,8 @@ class Form {
             $data = $model_asoc->find("columns: $pk,$show", "order: $show asc");//mejor usar array
         } else {
             $data = (isset($data[2]))?
-            $model_asoc->$data[1]($data[2]):
-            $model_asoc->$data[1]();
+            $model_asoc->{$data[1]}($data[2]):
+            $model_asoc->{$data[1]}();
         }
         return self::select($field, $data, $attrs, $value, $blank, $pk, $show);
     }
