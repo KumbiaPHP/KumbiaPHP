@@ -7,16 +7,17 @@
   <?= Html::includeCss() ?>
 </head>
 <body>
-<header class="row">
-    <div class="col-8">
-    <h2><?= Html::img('kumbiaphp.svg','KumbiaPHP logo') ?>
-    <?= kumbia_version() ?></h2>
-    </div>
-    <div class="col-4">
-        Entorno:  <strong><?= basename(dirname(APP_PATH)) ?></strong>
-    </div>
-</header>
-<div class="container"><?php View::content() ?></div>
-<?php View::partial('kumbia/footer') ?>
+<div class="container">
+  <header class="row">
+      <div class="col-8">
+        <?= Html::img('kumbiaphp.svg','KumbiaPHP logo') ?>
+      </div>
+      <div class="col-4 text-right">
+          Entorno:  <strong><?= basename(dirname(APP_PATH)) ?></strong>
+      </div>
+  </header>
+  <?php View::content() ?>
+  <?php View::partial('kumbia/footer') ?>
+</div>
 </body>
 </html>
