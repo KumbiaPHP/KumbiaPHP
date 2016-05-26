@@ -134,9 +134,7 @@ class Js
         $html = '';
         foreach ($js as $file)
         {
-            $a = strstr($file, '?') ? explode('?', $file, 2) : array($file, '');
-            $q = ($a[1]) ? "?$a[1]" : '';
-            $html .= '<script type="text/javascript" src="' . PUBLIC_PATH . self::$js_dir . "$a[0].js$q" . '"></script>';
+            $html .= '<script type="text/javascript" src="' . PUBLIC_PATH . self::$js_dir . "$file.js" . '"></script>';
         }
         return $html;
     }
