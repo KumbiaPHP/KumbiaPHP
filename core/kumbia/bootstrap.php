@@ -51,7 +51,7 @@ require_once CORE_PATH . 'kumbia/config.php';
 $config = Config::read('config');
 
 // Carga la cache y verifica si esta cacheado el template, al estar en produccion
-if (PRODUCTION) {
+if (PRODUCTION && isset($config['application']['cache_template'])) {
     // @see Cache
     require CORE_PATH . 'libs/cache/cache.php';
 
