@@ -173,11 +173,12 @@ padding:.5em;
 margin: .5em .1em;
 }
 .actions {
-border-top: dotted 1px grey;
-padding-top: 1em;
-margin: .5em 0 0;
+border-top: dotted 1px grey; padding-top: 1em; margin: .5em 0 0;
 }
 
 label, input, textarea, select{
    display: block;
+}
+footer{
+    padding-top: 1em; margin-top:2em; border-top: 1px solid #ccc; 
 }
