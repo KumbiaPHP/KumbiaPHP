@@ -22,6 +22,9 @@ if (!isset($_SESSION)) { session_start(); }
 
 defined('CORE_PATH') or define('CORE_PATH', dirname(__DIR__) . '/');
 defined('APP_PATH') or define('APP_PATH', __DIR__ . '/');
+defined('PUBLIC_PATH') or define('PUBLIC_PATH', 'http://127.0.0.1/');
 
 require_once CORE_PATH.'kumbia/autoload.php';
 require_once __DIR__.'/../../vendor/autoload.php';
+
+spl_autoload_register('kumbia_autoload_helper', true, true);
