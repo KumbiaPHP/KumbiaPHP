@@ -36,9 +36,9 @@ class Router {
      */
 
     protected static $_vars = array(
-        'method'          => NULL, //Método usado GET, POST, ...
-        'route'           => NULL, //Ruta pasada en el GET
-        'module'          => NULL, //Nombre del módulo actual
+        'method'          => null, //Método usado GET, POST, ...
+        'route'           => null, //Ruta pasada en el GET
+        'module'          => null, //Nombre del módulo actual
         'controller'      => 'index', //Nombre del controlador actual
         'action'          => 'index', //Nombre de la acción actual, por defecto index
         'parameters'      => array(), //Lista los parámetros adicionales de la URL
@@ -60,7 +60,7 @@ class Router {
      *
      * @var boolean
      */
-    protected static $_routed = FALSE;
+    protected static $_routed = false;
 
     /**
      * Procesamiento basico del router
@@ -136,7 +136,7 @@ class Router {
         $num_params = count($cont->parameters);
         if ($cont->limit_params && ($num_params < $reflectionMethod->getNumberOfRequiredParameters() ||
                 $num_params > $reflectionMethod->getNumberOfParameters())) {
-            throw new KumbiaException(NULL, 'num_params');
+            throw new KumbiaException(null, 'num_params');
         }
 
         try {
@@ -149,15 +149,24 @@ class Router {
         $cont->k_callback();
 
         //Si esta routed internamente volver a ejecutar
-        if (self::$_routed) {
-            self::$_routed = FALSE;
-            $router    = self::$router;
-            // Despacha la ruta actual
-            return self::dispatch( $router::getController(self::$_vars) );
-        }
+        self::isRouted();
+        
         return $cont;
     }
-
+    
+    /**
+     * Redirecciona la ejecución internamente
+     */
+    protected static function isRouted() {
+        
+        if (self::$_routed) {
+            self::$_routed = false;
+            $router = self::$router;
+            // Despacha la ruta actual
+            self::dispatch( $router::getController(self::$_vars) );
+        }
+    }
+    
     /**
      * Envia el valor de un atributo o el array con todos los atributos y sus valores del router
      * Mirar el atributo vars del router
@@ -181,9 +190,9 @@ class Router {
      * @param array $params array de $_vars (móddulo, controller, action, params, ...)
      * @param boolean $intern si la redirección es interna
      */
-    public static function to($params, $intern = FALSE) {
+    public static function to($params, $intern = false) {
         if ($intern) {
-            self::$_routed = TRUE;
+            self::$_routed = true;
         }
 
         self::$_vars = $params + self::$_vars;
