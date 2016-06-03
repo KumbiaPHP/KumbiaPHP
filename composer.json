@@ -1,7 +1,7 @@
 {
     "name": "kumbia/core",
     "description": "KumbiaPHP",
-    "license": "MIT",
+    "license": "BSD-3-Clause",
     "autoload": {
         "classmap": [
             "core/kumbia/",
