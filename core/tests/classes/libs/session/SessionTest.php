@@ -1,5 +1,4 @@
 <?php
-
 /**
  * KumbiaPHP web & app Framework
  *
@@ -17,6 +16,10 @@
  * @package    Session
  * @copyright  Copyright (c) 2005 - 2016 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
+
+/**
+ * @category Test
  */
 class SessionTest extends PHPUnit_Framework_TestCase
 {

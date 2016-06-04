@@ -1,15 +1,25 @@
 <?php
-/*
- * This file is part of the Manuel Aguirre Project.
+/**
+ * KumbiaPHP web & app Framework
  *
- * (c) Manuel Aguirre <programador.manuel@gmail.com>
+ * LICENSE
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://wiki.kumbiaphp.com/Licencia
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@kumbiaphp.com so we can send you a copy immediately.
+ *
+ * @category   Kumbia
+ * @package    Session
+ * @copyright  Copyright (c) 2005 - 2016 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
- * @author Manuel Aguirre <programador.manuel@gmail.com>
+ * @category Test
  */
 class TagTest extends PHPUnit_Framework_TestCase
 {
