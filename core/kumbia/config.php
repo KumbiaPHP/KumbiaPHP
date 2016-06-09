@@ -35,16 +35,16 @@ class Config
     /**
      * Contain all the config
      * -
-     * Contenido de variables de configuracion
+     * Contenido de variables de configuración
      *
      * @var array
      */
-    protected static $_vars = array();
+    protected static $vars = [];
 
     /**
      * Get config vars
      * -
-     * Obtiene configuracion
+     * Obtiene configuración
      *
      * @param string $var fichero.sección.variable
      * @return mixed
@@ -52,18 +52,18 @@ class Config
     public static function get($var)
     {
         $namespaces = explode('.', $var);
-        if (! isset(self::$_vars[$namespaces[0]])) {
+        if (! isset(self::$vars[$namespaces[0]])) {
             self::load($namespaces[0]);
         }
         switch (count($namespaces)) {
             case 3:
-                return isset(self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]]) ?
-                             self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]] : NULL;
+                return isset(self::$vars[$namespaces[0]][$namespaces[1]][$namespaces[2]]) ?
+                             self::$vars[$namespaces[0]][$namespaces[1]][$namespaces[2]] : null;
             case 2:
-                return isset(self::$_vars[$namespaces[0]][$namespaces[1]]) ?
-                             self::$_vars[$namespaces[0]][$namespaces[1]] : NULL;
+                return isset(self::$vars[$namespaces[0]][$namespaces[1]]) ?
+                             self::$vars[$namespaces[0]][$namespaces[1]] : null;
             case 1:
-                return isset(self::$_vars[$namespaces[0]]) ? self::$_vars[$namespaces[0]] : NULL;
+                return isset(self::$vars[$namespaces[0]]) ? self::$vars[$namespaces[0]] : null;
             
             default:
                 trigger_error('Máximo 3 niveles en Config::get(fichero.sección.variable), pedido: '. $var);
@@ -76,16 +76,17 @@ class Config
      *
      * @return array
      */
-    public static function getAll() {
-        return self::$_vars;
+    public static function getAll()
+    {
+        return self::$vars;
     }
 
     /**
      * Set variable in config
      * -
-     * Asigna un atributo de configuracion
+     * Asigna un atributo de configuración
      *
-     * @param string $var   variable de configuracion
+     * @param string $var   variable de configuración
      * @param mixed  $value valor para atributo
      */
     public static function set($var, $value)
@@ -93,13 +94,13 @@ class Config
         $namespaces = explode('.', $var);
         switch (count($namespaces)) {
             case 3:
-                self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]] = $value;
+                self::$vars[$namespaces[0]][$namespaces[1]][$namespaces[2]] = $value;
                 break;
             case 2:
-                self::$_vars[$namespaces[0]][$namespaces[1]] = $value;
+                self::$vars[$namespaces[0]][$namespaces[1]] = $value;
                 break;
             case 1:
-                self::$_vars[$namespaces[0]] = $value;
+                self::$vars[$namespaces[0]] = $value;
                 break;
             default:
                 trigger_error('Máximo 3 niveles en Config::set(fichero.sección.variable), pedido: '. $var);
@@ -115,13 +116,13 @@ class Config
      * @param boolean $force forzar lectura de .ini
      * @return array
      */
-    public static function & read($file, $force = FALSE)
+    public static function & read($file, $force = false)
     {
-        if (isset(self::$_vars[$file]) && !$force) {
-            return self::$_vars[$file];
+        if (isset(self::$vars[$file]) && !$force) {
+            return self::$vars[$file];
         }
         self::load($file);
-        return self::$_vars[$file];
+        return self::$vars[$file];
     }
 
     /**
@@ -133,6 +134,6 @@ class Config
      */
     private static function load($file)
     {
-        self::$_vars[$file] = parse_ini_file(APP_PATH . "config/$file.ini", true);
+        self::$vars[$file] = parse_ini_file(APP_PATH . "config/$file.ini", true);
     }
 }
