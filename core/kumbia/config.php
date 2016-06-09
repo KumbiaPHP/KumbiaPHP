@@ -44,14 +44,17 @@ class Config
     /**
      * Get config vars
      * -
-     * Obtiene un atributo de configuracion
+     * Obtiene configuracion
      *
-     * @param string $var nombre de variable de configuracion
+     * @param string $var fichero.sección.variable
      * @return mixed
      */
     public static function get($var)
     {
         $namespaces = explode('.', $var);
+        if (! isset(self::$_vars[$namespaces[0]])) {
+            self::load($namespaces[0]);
+        }
         switch (count($namespaces)) {
             case 3:
                 return isset(self::$_vars[$namespaces[0]][$namespaces[1]][$namespaces[2]]) ?
@@ -61,6 +64,9 @@ class Config
                              self::$_vars[$namespaces[0]][$namespaces[1]] : NULL;
             case 1:
                 return isset(self::$_vars[$namespaces[0]]) ? self::$_vars[$namespaces[0]] : NULL;
+            
+            default:
+                trigger_error('Máximo 3 niveles en Config::get(fichero.sección.variable), pedido: '. $var);
         }
     }
     /**
@@ -95,13 +101,15 @@ class Config
             case 1:
                 self::$_vars[$namespaces[0]] = $value;
                 break;
+            default:
+                trigger_error('Máximo 3 niveles en Config::set(fichero.sección.variable), pedido: '. $var);
         }
     }
 
     /**
      * Read config file
      * -
-     * Lee un archivo de configuracion
+     * Lee y devuelve un archivo de configuración
      *
      * @param string  $file  archivo .ini
      * @param boolean $force forzar lectura de .ini
@@ -112,8 +120,19 @@ class Config
         if (isset(self::$_vars[$file]) && !$force) {
             return self::$_vars[$file];
         }
-        self::$_vars[$file] = parse_ini_file(APP_PATH . "config/$file.ini", TRUE);
+        self::load($file);
         return self::$_vars[$file];
     }
 
+    /**
+     * Load config file
+     * -
+     * Lee un archivo de configuración
+     *
+     * @param string  $file  archivo .ini
+     */
+    private static function load($file)
+    {
+        self::$_vars[$file] = parse_ini_file(APP_PATH . "config/$file.ini", true);
+    }
 }
