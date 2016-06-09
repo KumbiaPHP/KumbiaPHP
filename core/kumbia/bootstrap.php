@@ -45,26 +45,22 @@ set_exception_handler('handle_exception');
 require CORE_PATH . 'kumbia/autoload.php';
 
 // @see Config
-require_once CORE_PATH . 'kumbia/config.php';
+require CORE_PATH . 'kumbia/config.php';
 
-// Lee la configuracion
-$config = Config::read('config');
-
-// Carga la cache y verifica si esta cacheado el template, al estar en produccion
-if (PRODUCTION && isset($config['application']['cache_template'])) {
+if (PRODUCTION && Config::get('config.application.cache_template')) {
     // @see Cache
     require CORE_PATH . 'libs/cache/cache.php';
 
     //Asigna el driver por defecto usando el config.ini
-    if (isset($config['application']['cache_driver'])) {
-        Cache::setDefault($config['application']['cache_driver']);
+    if ($config = Config::get('config.application.cache_driver')) {
+        Cache::setDefault($config);
     }
 
     // Verifica si esta cacheado el template
     if ($template = Cache::driver()->get($url, 'kumbia.templates')) {
         //verifica cache de template para la url
         echo $template;
-        echo '<!-- Tiempo: ' . round(microtime(TRUE) - START_TIME, 5) . ' seg. -->';
+        echo '<!-- Time: ' . round((microtime(1)-START_TIME)*1000,4) . ' ms -->';
         exit(0);
     }
 }
