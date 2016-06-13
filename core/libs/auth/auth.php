@@ -72,9 +72,9 @@ class Auth {
     /**
      * Indica si el ultimo llamado a authenticate tuvo exito o no (persistente en sesion)
      *
-     * @var boolean
+     * @var boolean|null
      */
-    private static $is_valid = false;
+    private static $is_valid = null;
     /**
      * Ultima identidad obtenida por Authenticate (persistente en sesion)
      *
