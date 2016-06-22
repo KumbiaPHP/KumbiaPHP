@@ -1,6 +1,6 @@
 <div id="scaffold">
 <?php View::content()?>
-<?php if($data) : ?>
+<?php if ($data) : ?>
 	<h1><?= ucwords("$model"),": <span>$action_name</span>" ?></h1>
 	<ul>
 	<?php foreach ($data->fields as $field) : ?>
@@ -22,5 +22,4 @@
 		<a href="../crear/">Crear registro</a>
 	</div>
 <?php endif ?>
-	<pre><?php //var_dump($data)?></pre>
-	</div>
+</div>

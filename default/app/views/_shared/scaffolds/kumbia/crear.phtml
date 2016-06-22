@@ -1,7 +1,7 @@
 <?php Tag::css('scaffold') ?>
 <div id="scaffold">
 <?php View::content();?>
-<h1><?= ucwords("$model"),": <span>$action_name</span>" ?></h1>
+<h1><?= ucwords("$model"), ": <span>$action_name</span>" ?></h1>
 
 <div class="col-8 offset-2">
 <?php ModelForm::create($$model)?>

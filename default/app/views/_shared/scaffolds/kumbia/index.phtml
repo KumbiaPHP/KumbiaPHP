@@ -1,8 +1,8 @@
 <div id="scaffold">
 <?php View::content()?>
-<h1><?= ucwords("$model"),": <span>$action_name</span>" ?></h1>
+<h1><?= ucwords("$model"), ": <span>$action_name</span>" ?></h1>
 <div class="actions">
-    <?= Html::linkAction("crear/",'Crear registro', 'class="btn btn-primary"')?>
+    <?= Html::linkAction("crear/", 'Crear registro', 'class="btn btn-primary"')?>
 </div>
 <?php if ($data->items) : ?>
 <table class="t">
@@ -18,20 +18,18 @@
             <?php foreach ($item->fields as $field) : ?>
             <td><?= h($item->$field)?></td>
             <?php endforeach?>
-			<td><?= Html::linkAction("ver/$item->id",'Ver')?> |
-			<?= Html::linkAction("editar/$item->id",'Editar')?> |
-			<?= Html::linkAction("borrar/$item->id",'Borrar', 'onclick="return confirm(\'¿Está seguro?\')"')?>
+			<td><?= Html::linkAction("ver/$item->id", 'Ver')?> |
+			<?= Html::linkAction("editar/$item->id", 'Editar')?> |
+			<?= Html::linkAction("borrar/$item->id", 'Borrar', 'onclick="return confirm(\'¿Está seguro?\')"') ?>
 			</td>
         </tr>
     <?php endforeach?>
 	</tbody>
 </table>
-<?php View::partial('paginators/digg', false, array('page' => $data ,'url' => Router::get('controller_path').'/index')); ?>
+<?php View::partial('paginators/digg', false, array('page' => $data ,'url' => Router::get('controller_path').'/index')) ?>
 
 <?php else : // Si no hay items?>
 <h2>No hay ningún registro</h2>
 <?php endif ?>
 
 </div>
-
-<?php //var_dump($data)?>

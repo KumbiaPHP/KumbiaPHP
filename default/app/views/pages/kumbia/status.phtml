@@ -33,11 +33,9 @@
 
     $locale = str_replace(';', '<br>', setlocale(LC_ALL, '0'));
     
-    if (! $timezone = date_default_timezone_get()){
+    if (! $timezone = date_default_timezone_get()) {
         $timezone = 'No se ha especificado un Timezone.';
     }
-    
-
 ?>
         <h2>config.ini <span class='app'> de <?= basename(dirname(APP_PATH)) ?></span></h2>
 

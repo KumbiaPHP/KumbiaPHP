@@ -1,27 +1,29 @@
 <?php
 /*mime type para el contenido content*/
 header('Content-type: text/xml');
-function generate_xml_from_array($array, $node_name) {
-	$xml = '';
-	if (is_array($array) || is_object($array)) {
-		foreach ($array as $key=>$value) {
-			if (is_numeric($key)) {
-				$key = $node_name;
-			}
-			$xml .= '<' . $key . '>' . "\n" . generate_xml_from_array($value, $node_name) . '</' . $key . '>' . "\n";
-		}
-	} else {
-		$xml = htmlspecialchars($array, ENT_QUOTES) . "\n";
-	}
-	return $xml;
+function generate_xml_from_array($array, $nodeName)
+{
+    $xml = '';
+    if (is_array($array) || is_object($array)) {
+        foreach ($array as $key => $value) {
+            if (is_numeric($key)) {
+                $key = $nodeName;
+            }
+            $xml .= '<' . $key . '>' . "\n" . generate_xml_from_array($value, $nodeName) . '</' . $key . '>' . "\n";
+        }
+    } else {
+        $xml = htmlspecialchars($array, ENT_QUOTES) . "\n";
+    }
+    return $xml;
 }
 
-function generate_valid_xml_from_array($array, $node_block='nodes', $node_name='node') {
-	$xml = '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
-	$xml .= '<' . $node_block . '>' . "\n";
-	$xml .= generate_xml_from_array($array, $node_name);
-	$xml .= '</' . $node_block . '>' . "\n";
-	return $xml;
+function generate_valid_xml_from_array($array, $nodeBlock = 'nodes', $nodeName = 'node')
+{
+    $xml = '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
+    $xml .= '<' . $nodeBlock  . '>' . "\n";
+    $xml .= generate_xml_from_array($array, $nodeName);
+    $xml .= '</' . $nodeBlock  . '>' . "\n";
+    return $xml;
 }
 
 //First element
@@ -33,14 +35,14 @@ echo generate_valid_xml_from_array($data, $block, $node);
 /*
 TODO use Simple XML
 function printElem($xml, $elem){
-	$xml->startElement();
-	$a = get_object_vars($elem);
-	foreach($a as $key=>$value) {
-		$xml->startElement($key);
-	    $xml->text($value);
-		$xml->endElement();
-	}
-	$xml->endElement();
+    $xml->startElement();
+    $a = get_object_vars($elem);
+    foreach($a as $key=>$value) {
+        $xml->startElement($key);
+        $xml->text($value);
+        $xml->endElement();
+    }
+    $xml->endElement();
 }
 
 $xml=new XMLWriter();
@@ -50,11 +52,11 @@ $xml->startElement('xml');
 $xml->setIndent(true);
 
 if(is_array($data)){
-	foreach($data as $elem) {
-		printElem($xml, $elem);
-	}
+    foreach($data as $elem) {
+        printElem($xml, $elem);
+    }
 }else{
-	printElem($xml, $data);
+    printElem($xml, $data);
 }
 
 $xml->endElement();

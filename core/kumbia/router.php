@@ -28,14 +28,15 @@
  * @category   Kumbia
  * @package    Router
  */
-class Router {
+class Router
+{
     /**
      * Array estatico con las variables del router
      *
      * @var array
      */
 
-    protected static $_vars = array(
+    protected static $vars = array(
         'method'          => null, //Método usado GET, POST, ...
         'route'           => null, //Ruta pasada en el GET
         'module'          => null, //Nombre del módulo actual
@@ -60,22 +61,23 @@ class Router {
      *
      * @var boolean
      */
-    protected static $_routed = false;
+    protected static $routed = false;
 
     /**
      * Procesamiento basico del router
      * @param string $url
      * @return void
      */
-    public static function init($url) {
+    public static function init($url)
+    {
         // Se miran los parámetros por seguridad
         if (stripos($url, '/../') !== false) {
             throw new KumbiaException("Posible intento de hack en URL: '$url'");
         }
         // Si hay intento de hack TODO: añadir la ip y referer en el log
-        self::$_vars['route'] = $url;
+        self::$vars['route'] = $url;
         //Método usado
-        self::$_vars['method'] = $_SERVER['REQUEST_METHOD'];
+        self::$vars['method'] = $_SERVER['REQUEST_METHOD'];
     }
 
     /**
@@ -84,7 +86,8 @@ class Router {
      * @param string $url
      * @return Controller
      */
-    public static function execute($url) {
+    public static function execute($url)
+    {
         self::init($url);
         //alias
         $router = self::$router;
@@ -102,10 +105,10 @@ class Router {
         }
 
         // Descompone la url
-        self::$_vars = $router::rewrite($url) + self::$_vars;
+        self::$vars = $router::rewrite($url) + self::$vars;
 
         // Despacha la ruta actual
-        return self::dispatch( $router::getController(self::$_vars) );
+        return self::dispatch($router::getController(self::$vars));
     }
 
     /**
@@ -113,7 +116,8 @@ class Router {
      *
      * @return Controller
      */
-    private static function dispatch($cont) {
+    private static function dispatch($cont)
+    {
         // Se ejecutan los filtros initialize y before
         if ($cont->k_callback(true) === false) {
             return $cont;
@@ -150,23 +154,23 @@ class Router {
 
         //Si esta routed internamente volver a ejecutar
         self::isRouted();
-        
+
         return $cont;
     }
-    
+
     /**
      * Redirecciona la ejecución internamente
      */
-    protected static function isRouted() {
-        
-        if (self::$_routed) {
-            self::$_routed = false;
+    protected static function isRouted()
+    {
+        if (self::$routed) {
+            self::$routed = false;
             $router = self::$router;
             // Despacha la ruta actual
-            self::dispatch( $router::getController(self::$_vars) );
+            self::dispatch($router::getController(self::$vars));
         }
     }
-    
+
     /**
      * Envia el valor de un atributo o el array con todos los atributos y sus valores del router
      * Mirar el atributo vars del router
@@ -179,22 +183,22 @@ class Router {
      * @param string $var (opcional) un atributo: route, module, controller, action, parameters o routed
      * @return array|string con el valor del atributo
      */
-    public static function get($var = '') {
-
-        return ($var) ? self::$_vars[$var] : self::$_vars;
+    public static function get($var = '')
+    {
+        return ($var) ? self::$vars[$var] : self::$vars;
     }
 
     /**
      * Redirecciona la ejecución internamente o externamente con un routes propio
      *
-     * @param array $params array de $_vars (móddulo, controller, action, params, ...)
+     * @param array $params array de $vars (móddulo, controller, action, params, ...)
      * @param boolean $intern si la redirección es interna
      */
-    public static function to($params, $intern = false) {
+    public static function to($params, $intern = false)
+    {
         if ($intern) {
-            self::$_routed = true;
+            self::$routed = true;
         }
-
-        self::$_vars = $params + self::$_vars;
+        self::$vars = $params + self::$vars;
     }
 }
