@@ -86,31 +86,31 @@
 <body>
 <div class="">
 <header class="row">
-    <h2><?= Html::img('logo.png','KumbiaPHP logo')//TODO: embed png data: ?>
+    <h2><?= Html::img('logo.png', 'KumbiaPHP logo')//TODO: embed png data: ?>
     <?= kumbia_version() ?></h2>
 </header>
 
-	<?= $content ?> 
+    <?= $content ?> 
 
 </div>
 <div id="trace">
 <h1>Rastro</h1>
-<?php foreach ($e->getTrace() as $trace): ?>
-    <?php if (isset ( $trace ['file'] ) )//&&
+<?php foreach ($e->getTrace() as $trace) : ?>
+    <?php if (isset($trace['file'])) //&&
         //!(strpos ( $trace ['file'], APP_PATH) ===false) &&
         //!(strpos ( $trace ['file'], 'index.php')))
     : ?>
-        <p><strong class="file"><?= htmlentities($trace['file'], ENT_NOQUOTES, 'UTF-8') . "(" . $trace ['line'] . ")" ?></strong></p>
+        <p><strong class="file"><?= htmlentities($trace['file'], ENT_NOQUOTES, 'UTF-8'), "(", $trace['line'], ")" ?></strong></p>
         <!-- <p>La excepción se ha generado en el archivo <em class="file"><?= $trace['file'] ?></em> en la línea: <em><?= $trace['line'] ?></em>:</p> -->
 
         <?php
-            $lines = file ( $trace ['file'] );
+            $lines = file($trace['file']);
             $start = ($trace ['line'] - 4) < 0 ? 0 : $trace ['line'] - 4;
-            $end = ($trace ['line'] + 2) > count ( $lines ) - 1 ? count ( $lines ) - 1 : $trace ['line'] + 2;
+            $end = ($trace ['line'] + 2) > count($lines) - 1 ? count($lines) - 1 : $trace['line'] + 2;
         ?>
         <table>
-        <?php for($i = $start; $i <= $end; $i ++): ?>
-        <tr <?php if ($i == $trace ['line'] - 1): ?> style="background:#BDE5F8" <?php endif; ?>>
+        <?php for ($i = $start; $i <= $end; $i ++) : ?>
+        <tr<?= ($i == $trace['line'] - 1) ? ' style="background:#BDE5F8"' : '' ?>>
             <th><?= ($i + 1) ?></th>
             <td><?= str_replace('&lt;?php', '', highlight_string('<?php '.$lines[$i], true)) ?></td>
         </tr>
@@ -130,28 +130,28 @@
         </thead>
         <tbody>
         <?php
-        $lines = explode("\n",$e->getTraceAsString());
-	   $files = get_included_files();
-	   foreach ($lines as $line){
-	       $line = explode(" ",$line);
+        $lines = explode("\n", $e->getTraceAsString());
+        $files = get_included_files();
+        foreach ($lines as $line) {
+            $line = explode(" ", $line);
         ?>
-	    <tr>
+        <tr>
             <td><?= $line[0] ?></td>
             <td><?= $line[1] ?></td>
-            <td><?php if(isset($line[2])) echo $line[2] ?></td>
+            <td><?= (isset($line[2])) ? $line[2] : '' ?></td>
         </tr>
-	 <?php } ?>
-	</tbody>
+        <?php } ?>
+    </tbody>
     </table>
 
 <h2>Información Adicional</h2>
 <div class="container">
 <div class="col-6">
-    <strong>Ubicación actual:</strong> <?= $route ?><br />
+    <strong>Ubicación actual:</strong> <?= $route ?><br>
 </div>
 
 <div class="col-6">
-    <strong>IP Visitante: </strong> <?= $_SERVER['REMOTE_ADDR'] ?><br />
+    <strong>IP Visitante: </strong> <?= $_SERVER['REMOTE_ADDR'] ?><br>
 </div>
 </div></div>
 
@@ -162,8 +162,7 @@
 
 <div id="viewfiles">
 <ol id="files"><!-- TODO: usar :hover para mostrarlos -->
-<?php 
-foreach($files as $file) : ?>
+<?php foreach ($files as $file) : ?>
     <li title="<?= $file ?>"><?= $file ?></li>
 <?php endforeach ?> 
 </ol>
@@ -173,10 +172,17 @@ foreach($files as $file) : ?>
 </div>
 
 <table class="php"><tr>
-<td><h3><?= round((microtime(1)-START_TIME),4),' seg.'?></h3>Tiempo</td><td><h3><?= number_format(memory_get_usage() / 1048576, 2),' MB';?></h3>Memoria Usada</td><td><h3><span class="status <?= extension_loaded('xdebug') ? 'green' : 'red' ?>" title="Recomendable en desarrollo. Nunca en producción">xdebug</span><span class="status <?= extension_loaded('apc') ? 'green' : 'red'; ?>" title="Siempre muy recomendable">apc</span></h3>PHP extensions</td><td><h3><a href="#viewfiles"><?= count($files) ?> ficheros</a></h3>Includes</td>
+<td><h3><?= round((microtime(1)-START_TIME), 4),' seg.'?></h3>Tiempo</td>
+<td><h3><?= number_format(memory_get_usage() / 1048576, 2),' MB'?></h3>Memoria Usada</td>
+<td><h3><span class="status <?= extension_loaded('xdebug') ? 'green' : 'red' ?>" title="Recomendable en desarrollo. Nunca en producción">xdebug</span>
+<span class="status <?= extension_loaded('apc') ? 'green' : 'red' ?>" title="Siempre muy recomendable">apc</span></h3>PHP extensions</td>
+<td><h3><a href="#viewfiles"><?= count($files) ?> ficheros</a></h3>Includes</td>
 </tr>
 <tr>
-<td><h3><?= ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</td><td><h3><?= ini_get('memory_limit') ?></h3>Memoria PHP</td><td><h3><?= PHP_VERSION?><br><small title="PHP SAPI"><?= PHP_SAPI ?></small></h3>Versión PHP</td><td><h3><?= $_SERVER['SERVER_SOFTWARE'] ?> <br><small>IP: </strong> <?= $_SERVER['SERVER_ADDR'] ?></small></h3>Servidor</td>
+<td><h3><?= ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</td>
+<td><h3><?= ini_get('memory_limit') ?></h3>Memoria PHP</td>
+<td><h3><?= PHP_VERSION?><br><small title="PHP SAPI"><?= PHP_SAPI ?></small></h3>Versión PHP</td>
+<td><h3><?= $_SERVER['SERVER_SOFTWARE'] ?> <br><small>IP: </strong> <?= $_SERVER['SERVER_ADDR'] ?></small></h3>Servidor</td>
 </tr>
 </table>
 
@@ -189,10 +195,10 @@ foreach($files as $file) : ?>
 <footer>
     <div class="col-6">
         <ul class="inline">
-        	<li><a href="http://www.kumbiaphp.com/">KumbiaPHP Framework</a> |</li>
-        	<li><a href="http://wiki.kumbiaphp.com/">Wiki</a> |</li>
-        	<li><a href="https://docs.google.com/document/d/1kth1GhrmMEBK2cAMyiy_4Dw1qlJFNdXVuXajJ6nMTQg/edit?hl=es">Manual</a> |</li>
-        	<li><a href="http://wiki.kumbiaphp.com/Licencia" title="New BSD">Licencia</a></li>
+            <li><a href="http://www.kumbiaphp.com/">KumbiaPHP Framework</a> |</li>
+            <li><a href="http://wiki.kumbiaphp.com/">Wiki</a> |</li>
+            <li><a href="https://docs.google.com/document/d/1kth1GhrmMEBK2cAMyiy_4Dw1qlJFNdXVuXajJ6nMTQg/edit?hl=es">Manual</a> |</li>
+            <li><a href="http://wiki.kumbiaphp.com/Licencia" title="New BSD">Licencia</a></li>
         </ul>
         <div>
             <a href="http://wiki.kumbiaphp.com/Team_Development_KumbiaPHP_Framework">© 2007 - 2015 KumbiaPHP Team</a>
@@ -200,11 +206,11 @@ foreach($files as $file) : ?>
     </div>
     <div class="col-6">
         <p>Ayuda Online: <a href="irc://irc.freenode.org/#kumbiaphp" title="IRC donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">IRC</a> | 
-        				 <a href="http://webchat.freenode.net/?channels=kumbiaphp" title="Web Chat IRC donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">Web IRC</a> | 
-        				 <a href="http://groups.google.com/group/kumbia" title="Lista de Correo de KumbiaPHP donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">Grupo</a> | <a href="http://foro.kumbiaphp.com" title="Foro de KumbiaPHP donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">Foro</a></p>
+                         <a href="http://webchat.freenode.net/?channels=kumbiaphp" title="Web Chat IRC donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">Web IRC</a> | 
+                         <a href="http://groups.google.com/group/kumbia" title="Lista de Correo de KumbiaPHP donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">Grupo</a> | <a href="http://foro.kumbiaphp.com" title="Foro de KumbiaPHP donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">Foro</a></p>
     </div>
     
-    <p>Ejecutado en <?= round((microtime(1)-START_TIME),4),' seg.'?> usando <?= number_format(memory_get_usage() / 1048576, 2),' MB' ?> de memoria</p>
+    <p>Ejecutado en <?= round((microtime(1)-START_TIME), 4),' seg.'?> usando <?= number_format(memory_get_usage() / 1048576, 2),' MB' ?> de memoria</p>
 </footer>
 </body>
 </html>
