@@ -78,8 +78,7 @@ class KumbiaRouter {
      * @return string
      */
     public static function _ifRouted($url) {
-        $routes = Config::read('routes');
-        $routes = $routes['routes'];
+        $routes = Config::get('routes.routes');
 
         // Si existe una ruta exacta la devuelve
         if (isset($routes[$url])) {
