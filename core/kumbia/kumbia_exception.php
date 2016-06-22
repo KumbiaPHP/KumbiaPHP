@@ -79,7 +79,7 @@ class KumbiaException extends Exception
             include APP_PATH . 'views/_shared/errors/404.phtml';
             return;
         }
-        if($e instanceof KumbiaException) {
+        if ($e instanceof KumbiaException) {
             $view = $e->view;
             $tpl = $e->template;
         } else {
@@ -87,7 +87,7 @@ class KumbiaException extends Exception
             $tpl = 'views/templates/exception.phtml';
         }
         //Fix problem with action name in REST
-        $action =  $e->getMessage() ? $e->getMessage(): $action;
+        $action =  $e->getMessage() ? $e->getMessage() : $action;
 
         include CORE_PATH . "views/errors/{$view}.phtml";
  
@@ -107,8 +107,9 @@ class KumbiaException extends Exception
     {
         if (isset($e->view) && in_array($e->view, self::$view404)){
             header('HTTP/1.1 404 Not Found');
-        } else {
-            header('HTTP/1.1 500 Internal Server Error');
-        } //TODO: mover a los views
+            return;
+        }
+        header('HTTP/1.1 500 Internal Server Error');
+        //TODO: mover a los views
     }
 }
