@@ -24,7 +24,8 @@
  * @category   Kumbia
  * @package    Controller
  */
-class Controller {
+class Controller
+{
 
     /**
      * Nombre del modulo actual
@@ -56,7 +57,7 @@ class Controller {
      *
      * @var bool
      */
-    public $limit_params = TRUE;
+    public $limit_params = true;
     /**
      * Nombre del scaffold a usar
      *
@@ -74,7 +75,8 @@ class Controller {
      *
      * @param array $args
      */
-    public function __construct($args) {
+    public function __construct($args)
+    {
         /*modulo al que pertenece el controlador*/
         $this->module_name = $args['module'];
         $this->controller_name = $args['controller'];
@@ -89,8 +91,8 @@ class Controller {
      *
      * @return false|null
      */
-    protected function before_filter() {
-
+    protected function before_filter()
+    {
     }
 
     /**
@@ -98,8 +100,8 @@ class Controller {
      *
      * @return false|null
      */
-    protected function after_filter() {
-
+    protected function after_filter()
+    {
     }
 
     /**
@@ -107,8 +109,8 @@ class Controller {
      *
      * @return false|null
      */
-    protected function initialize() {
-
+    protected function initialize()
+    {
     }
 
     /**
@@ -116,8 +118,8 @@ class Controller {
      *
      * @return false|null
      */
-    protected function finalize() {
-
+    protected function finalize()
+    {
     }
 
     /**
@@ -126,16 +128,16 @@ class Controller {
      * @param boolean $init filtros de inicio
      * @return false|null
      */
-    final public function k_callback($init = FALSE) {
+    final public function k_callback($init = false)
+    {
         if ($init) {
-            if ($this->initialize() !== FALSE) {
+            if ($this->initialize() !== false) {
                 return $this->before_filter();
             }
-            return FALSE;
+            return false;
         }
 
         $this->after_filter();
         $this->finalize();
     }
-
 }
