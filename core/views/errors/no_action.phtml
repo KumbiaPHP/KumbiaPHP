@@ -5,7 +5,8 @@
 </div>
 <div class="flash valid">
 <h1>Solución</h1>
-    <h4><strong>Crea el método <em><?= $action?></em> de abajo en la clase <b><?= $Controller?></b> del fichero : <br> <em class="file"><?= APP_PATH,'controllers/',$controller,'_controller.php'?></em></strong></h4>
+    <h4><strong>Crea el método <em><?= $action?></em> de abajo en la clase <b><?= $Controller?></b> del fichero : <br>
+    <em class="file"><?= APP_PATH,'controllers/', $controller_path,'_controller.php'?></em></strong></h4>
 <pre>
 <?php highlight_string("<?php
 class {$Controller} extends AppController 
