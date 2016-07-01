@@ -17,11 +17,6 @@
  */
 
 /**
- * Define marca de tiempo en que inicio el Request
- */
-define('START_TIME', microtime(TRUE));
-
-/**
  * Esta sección prepara el entorno
  * Todo esto se puede hacer desde la configuracion del
  * Servidor/PHP, en caso de no poder usarlo desde ahí

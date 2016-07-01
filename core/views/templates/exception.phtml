@@ -172,7 +172,7 @@
 </div>
 
 <table class="php"><tr>
-<td><h3><?= round((microtime(1)-START_TIME), 4),' seg.'?></h3>Tiempo</td>
+<td><h3><?= round((microtime(1) - $_SERVER['REQUEST_TIME_FLOAT']), 4),' seg.'?></h3>Tiempo</td>
 <td><h3><?= number_format(memory_get_usage() / 1048576, 2),' MB'?></h3>Memoria Usada</td>
 <td><h3><span class="status <?= extension_loaded('xdebug') ? 'green' : 'red' ?>" title="Recomendable en desarrollo. Nunca en producción">xdebug</span>
 <span class="status <?= extension_loaded('apc') ? 'green' : 'red' ?>" title="Siempre muy recomendable">apc</span></h3>PHP extensions</td>
@@ -210,7 +210,7 @@
                          <a href="http://groups.google.com/group/kumbia" title="Lista de Correo de KumbiaPHP donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">Grupo</a> | <a href="http://foro.kumbiaphp.com" title="Foro de KumbiaPHP donde podrás encontrar ayuda a problemas que tengas, hacer comentarios, proponer ideas, reportar bugs, socializar temas relacionados y disfrutar de KumbiaPHP.">Foro</a></p>
     </div>
     
-    <p>Ejecutado en <?= round((microtime(1)-START_TIME)*1000, 4), ' ms'?> usando <?= number_format(memory_get_usage() / 1048576, 2),' MB' ?> de memoria</p>
+    <p>Ejecutado en <?= round((microtime(1) - $_SERVER['REQUEST_TIME_FLOAT'])*1000, 4), ' ms'?> usando <?= number_format(memory_get_usage() / 1048576, 2),' MB' ?> de memoria</p>
 </footer>
 </body>
 </html>
