@@ -30,7 +30,9 @@ Comunidad
 * http://wiki.kumbiaphp.com Wiki
 * http://foro.kumbiaphp.com Foro de KumbiaPHP
 * http://groups.google.com/group/kumbia/   Grupo de KumbiaPHP +1.500 programadores
-* irc://irc.freenode.org/#kumbiaphp  IRC [![Visita nuestro canal IRC channel](https://kiwiirc.com/buttons/irc.freenode.org/kumbiaphp.png)](https://kiwiirc.com/client/irc.freenode.org/?nick=invitado|?&theme=cli#kumbiaphp)
+* https://twitter.com/KumbiaPHP Twitter
+* http://slack.kumbiaphp.com  Slack (nuevo y recomendado)
+* irc://irc.freenode.org/#kumbiaphp  IRC [![Visita nuestro canal IRC channel](https://kiwiirc.com/buttons/irc.freenode.org/kumbiaphp.png)](https://kiwiirc.com/client/irc.freenode.org/?nick=invitado|?&theme=cli#kumbiaphp) Actualmente no usamos el IRC
 * Largo historial de repos durante estos años ;)  cvs(sf.net), svn(sf.net), bzr(launchpad.com) y ahora git(github.com)
 
 Licencia
