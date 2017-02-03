@@ -20,6 +20,10 @@ English : https://github.com/KumbiaPHP/Documentation/tree/master/en
 
 Ayúdanos a traducir el manual al inglés https://crowdin.com/project/kumbiaphp-doc
 
+## Slack KumbiaPHP Channel in spanish and english
+http://slack.kumbiaphp.com
+
+
 ##Change Log
 * Requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.0 o 7.1
 
