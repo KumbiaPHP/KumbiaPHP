@@ -14,7 +14,7 @@ Bienvenidos a KumbiaPHP Framework  Versión 1.0
 Manual en construcción de la 1.0: https://github.com/KumbiaPHP/
 
 ##Change Log
-* Requiere PHP 5.4 como mínimo (usa la 0.9 para PHP 5.2 y 5.3)
+* Requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.0 o 7.1
 
 
 Rápida introducción a lo nuevo de la beta2 (faltan por añadir): http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Beta2
