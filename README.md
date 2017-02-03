@@ -18,7 +18,7 @@ Español : https://github.com/KumbiaPHP/Documentation/tree/master/es
 
 English : https://github.com/KumbiaPHP/Documentation/tree/master/en
 
-Ayudanos a traducir el manual al inglés https://crowdin.com/project/kumbiaphp-doc
+Ayúdanos a traducir el manual al inglés https://crowdin.com/project/kumbiaphp-doc
 
 ##Change Log
 * Requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.0 o 7.1
