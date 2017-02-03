@@ -19,10 +19,11 @@ Manual en construcción de la 1.0: https://github.com/KumbiaPHP/
 
 Rápida introducción a lo nuevo de la beta2 (faltan por añadir): http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Beta2
 
-CRUD: http://wiki.kumbiaphp.com/V1.0_CRUD_en_KumbiaPHP_Framework
-~ API para usuarios de la beta2: http://www.kumbiaphp.com/api/beta2/
-~ API para los desarrolladores del core: http://www.kumbiaphp.com/api/beta2-dev/
-~ Seguimos trabajando para actualizar bien el phpdoc y tener actualizado el API.
+* CRUD: http://wiki.kumbiaphp.com/V1.0_CRUD_en_KumbiaPHP_Framework
+* API para usuarios de la beta2: http://www.kumbiaphp.com/api/beta2/
+* API para los desarrolladores del core: http://www.kumbiaphp.com/api/beta2-dev/
+ 
+Seguimos trabajando para actualizar bien el phpdoc y tener actualizado el API.
 
 
 Comunidad
