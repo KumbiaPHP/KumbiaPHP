@@ -18,7 +18,7 @@ Español : https://github.com/KumbiaPHP/Documentation/tree/master/es
 
 English : https://github.com/KumbiaPHP/Documentation/tree/master/en
 
-Ayudanos a traducir el manual al ingles https://crowdin.com/project/kumbiaphp-doc
+Ayudanos a traducir el manual al inglés https://crowdin.com/project/kumbiaphp-doc
 
 ##Change Log
 * Requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.0 o 7.1
@@ -27,7 +27,7 @@ Ayudanos a traducir el manual al ingles https://crowdin.com/project/kumbiaphp-do
 * API para usuarios de la beta2: http://www.kumbiaphp.com/api/beta2/
 * API para los desarrolladores del core: http://www.kumbiaphp.com/api/beta2-dev/
  
-Seguimos trabajando para actualizar bien el phpdoc y tener actualizado el API.
+Seguimos trabajando para actualizar bien el phpdoc y API.
 
 
 Comunidad
