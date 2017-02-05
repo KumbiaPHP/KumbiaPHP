@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Session
- * @copyright  Copyright (c) 2005 - 2016 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -128,8 +128,8 @@ class TagTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateWithoutContent($tag, $attrs, $content, $expectedResult)
     {
-        $this->markTestSkipped("Se debe corregir el mÈtodo Tag::create para que el test corra");
-        // TODO: el mÈtodo tiene un if, pero igual el proceso despues del if se ejecuta.
+        $this->markTestSkipped("Se debe corregir el m√©todo Tag::create para que el test corra");
+        // TODO: el m√©todo tiene un if, pero igual el proceso despues del if se ejecuta.
         ob_start();
         Tag::create($tag, $content, $attrs);
         $html = ob_get_clean();
