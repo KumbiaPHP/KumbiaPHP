@@ -35,7 +35,7 @@ function kumbia_autoload($class)
             'KumbiaFacade'    => CORE_PATH.'kumbia/kumbia_facade.php'
         );
     }
-    if (array_key_exists($class, $classes)) {
+    if (isset($classes[$class])) {
         return include $classes[$class];
     }
     // PSR0
@@ -49,14 +49,14 @@ function kumbia_autoload($class)
 
     // Convert to smallcase
     $sclass = Util::smallcase($class);
-    if (is_file(APP_PATH."models/$sclass.php")) {
-        return include APP_PATH."models/$sclass.php";
+    if (is_file(APP_PATH . "models/$sclass.php")) {
+        return include APP_PATH . "models/$sclass.php";
     }
-    if (is_file(APP_PATH."libs/$sclass.php")) {
-        return include APP_PATH."libs/$sclass.php";
+    if (is_file(APP_PATH . "libs/$sclass.php")) {
+        return include APP_PATH . "libs/$sclass.php";
     }
-    if (is_file(CORE_PATH."libs/$sclass/$sclass.php")) {
-        return include CORE_PATH."libs/$sclass/$sclass.php";
+    if (is_file(CORE_PATH . "libs/$sclass/$sclass.php")) {
+        return include CORE_PATH . "libs/$sclass/$sclass.php";
     }
     // Perhaps is PEAR,  zend framework 1, ...
     return kumbia_autoload_vendor($class);
@@ -74,11 +74,11 @@ function kumbia_autoload_vendor($class)
 function kumbia_autoload_helper($class)
 {
     $sclass = Util::smallcase($class);
-    if (is_file(APP_PATH."extensions/helpers/$sclass.php")) {
-        return include APP_PATH."extensions/helpers/$sclass.php";
+    if (is_file(APP_PATH . "extensions/helpers/$sclass.php")) {
+        return include APP_PATH . "extensions/helpers/$sclass.php";
     }
-    if (is_file(CORE_PATH."extensions/helpers/$sclass.php")) {
-        return include CORE_PATH."extensions/helpers/$sclass.php";
+    if (is_file(CORE_PATH . "extensions/helpers/$sclass.php")) {
+        return include CORE_PATH . "extensions/helpers/$sclass.php";
     }
 }
 
