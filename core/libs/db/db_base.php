@@ -177,7 +177,7 @@ class DbBase
         //$insert_sql = "";
         if (is_array($values)) {
             if (!count($values)) {
-                new KumbiaException("Imposible realizar inserci&oacute;n en $table sin datos");
+                throw new KumbiaException("Imposible realizar inserci&oacute;n en $table sin datos");
             }
             if (is_array($fields)) {
                 $insert_sql = "INSERT INTO $table (" . join(",", $fields) . ") VALUES (" . join(",", $values) . ")";

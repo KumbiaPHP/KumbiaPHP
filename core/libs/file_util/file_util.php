@@ -34,9 +34,9 @@ class FileUtil
      */
     public static function mkdir($path)
     {
-        if (file_exists($path) or @mkdir($path))
+        if (file_exists($path) || @mkdir($path))
             return TRUE;
-        return (self::mkdir(dirname($path)) and mkdir($path));
+        return (self::mkdir(dirname($path)) && mkdir($path));
     }
 
     /**

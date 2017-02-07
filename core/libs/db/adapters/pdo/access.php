@@ -165,8 +165,7 @@ class DbPdoAccess extends DbPDO
     {
         $create_sql = "CREATE TABLE $table (";
         if (!is_array($definition)) {
-            new KumbiaException("Definici&oacute;n invalida para crear la tabla '$table'");
-            return false;
+            throw new KumbiaException("Definición inválida para crear la tabla '$table'");
         }
         $create_lines = array();
         $index = array();

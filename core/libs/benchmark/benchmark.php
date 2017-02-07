@@ -60,10 +60,9 @@ final class Benchmark
     private static function _stop_clock($name)
     {
         if (isset(self::$_benchmark[$name])) {
+            $load = 0;
             if (PHP_OS == 'Linux') {
                 $load = sys_getloadavg();
-            } else {
-                $load = 0;
             }
             self::$_avgload = $load[0];
             self::$_benchmark[$name]['memory_stop'] = memory_get_usage();
@@ -85,9 +84,8 @@ final class Benchmark
         if (self::$_benchmark[$name]) {
             self::$_benchmark[$name]['memory_usage'] = number_format((self::$_benchmark[$name]['memory_stop'] - self::$_benchmark[$name]['memory_start']) / 1048576, 2);
             return self::$_benchmark[$name]['memory_usage'];
-        } else {
-            throw new KumbiaException("No existe el Benchmark para el nombre: '$name', especificado \n");
         }
+        throw new KumbiaException("No existe el Benchmark para el nombre: '$name', especificado");
     }
 
     /**
@@ -99,21 +97,20 @@ final class Benchmark
     {
         if (isset(self::$_benchmark[$name])) {
             return self::_stop_clock($name);
-        } else {
-            throw new KumbiaException("No existe el Benchmark para el nombre: $name, especificado \n");
         }
+        throw new KumbiaException("No existe el Benchmark para el nombre: $name, especificado");
     }
 
     /**
      *
-     *
+     * @deprecated
      */
     public static function test($func, $loops)
     {
         self::start_clock($func);
         ob_start();
         for ($i = 1; $i <= $loops; $i++) {
-            eval($func);
+            $func;
         }
         ob_end_flush();
         $time = self::time_execution($func);

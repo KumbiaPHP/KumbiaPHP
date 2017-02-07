@@ -199,7 +199,7 @@ class Console
      * @param array $values array de valores validos para entrada
      * @return string Valor leido desde la consola
      * */
-    public static function input($message, $values=NULL)
+    public static function input($message, $values = null)
     {
         // abre la entrada
         $stdin = fopen('php://stdin', 'r');

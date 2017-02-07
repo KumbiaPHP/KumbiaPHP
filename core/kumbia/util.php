@@ -37,7 +37,7 @@ class Util
      * @param boolean $lower indica si es lower camelcase
      * @return string
      * */
-    public static function camelcase($s, $lower=FALSE)
+    public static function camelcase($s, $lower = false)
     {
         // Notacion lowerCamelCase
         if ($lower) {

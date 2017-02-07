@@ -37,19 +37,19 @@ class Kerberos5Auth implements AuthInterface
      */
     private $filename;
     /**
-     * Servidor de autenticaci�n (si es utilizado)
+     * Servidor de autenticación (si es utilizado)
      *
      * @var string
      */
     private $server;
     /**
-     * Nombre de usuario para conectar al servidor de autenticacion (si es utilizado)
+     * Nombre de usuario para conectar al servidor de autenticación (si es utilizado)
      *
      * @var string
      */
     private $username;
     /**
-     * Password de usuario para conectar al servidor de autenticacion (si es utilizado)
+     * Password de usuario para conectar al servidor de autenticación (si es utilizado)
      *
      * @var string
      */
@@ -100,7 +100,7 @@ class Kerberos5Auth implements AuthInterface
     public function get_identity()
     {
         if (!$this->resource) {
-            new KumbiaException("La conexi�n al servidor kerberos5 es inv�lida");
+            throw new KumbiaException("La conexión al servidor kerberos5 es inválida");
         }
         $identity = array("username" => $this->username, "realm" => $this->username);
         return $identity;
@@ -128,7 +128,7 @@ class Kerberos5Auth implements AuthInterface
     public function get_principals()
     {
         if (!$this->resource) {
-            new KumbiaException("La conexi�n al servidor kerberos5 es inv�lida");
+            throw new KumbiaException("La conexión al servidor kerberos5 es inválida");
         }
         return kadm5_get_principals($this->resource);
     }
@@ -140,7 +140,7 @@ class Kerberos5Auth implements AuthInterface
     public function get_policies()
     {
         if (!$this->resource) {
-            new KumbiaException("La conexi�n al servidor kerberos5 es inv�lida");
+            throw new KumbiaException("La conexión al servidor kerberos5 es inválida");
         }
         return kadm5_get_policies($this->resource);
     }

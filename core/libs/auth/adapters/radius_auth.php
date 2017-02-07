@@ -117,7 +117,7 @@ class RadiusAuth implements AuthInterface
     public function get_identity()
     {
         if (!$this->resource) {
-            new KumbiaException("La conexión al servidor Radius es inválida");
+            throw new KumbiaException("La conexión al servidor Radius es inválida");
         }
         $identity = array("username" => $this->username, "realm" => $this->username);
         return $identity;
