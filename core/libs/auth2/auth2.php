@@ -110,14 +110,13 @@ abstract class Auth2 {
             return TRUE;
         } else {
             // check
-            if (($mode == 'auth') or (isset($_POST['mode']) && $_POST['mode'] === 'auth')) {
+            if (($mode == 'auth') || (isset($_POST['mode']) && $_POST['mode'] === 'auth')) {
                 $login = empty($login)?Input::post($this->_login):$login;
                 $pass  = empty($pass)?Input::post($this->_pass):$pass;
                 return $this->_check($login, $pass);
-            } else {
-                //FAIL
-                return FALSE;
             }
+            //FAIL
+            return false;
         }
     }
 

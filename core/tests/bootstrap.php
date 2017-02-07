@@ -20,9 +20,9 @@
 
 if (!isset($_SESSION)) { session_start(); }
 
-defined('CORE_PATH') or define('CORE_PATH', dirname(__DIR__) . '/');
-defined('APP_PATH') or define('APP_PATH', __DIR__ . '/');
-defined('PUBLIC_PATH') or define('PUBLIC_PATH', 'http://127.0.0.1/');
+defined('CORE_PATH') || define('CORE_PATH', dirname(__DIR__) . '/');
+defined('APP_PATH') || define('APP_PATH', __DIR__ . '/');
+defined('PUBLIC_PATH') || define('PUBLIC_PATH', 'http://127.0.0.1/');
 
 require_once CORE_PATH.'kumbia/autoload.php';
 require_once __DIR__.'/../../vendor/autoload.php';

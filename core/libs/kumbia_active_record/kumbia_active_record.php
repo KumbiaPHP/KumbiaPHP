@@ -1644,7 +1644,7 @@ class KumbiaActiveRecord
                 }
                 if (isset($this->$np)) {
                     $fields[] = $np;
-                    if (is_null($this->$np) || $this->$np == '' and $this->$np!='0') {
+                    if (is_null($this->$np) || $this->$np == '' && $this->$np!='0') {
                         $values[] = 'NULL';
                     } else {
                         /**
@@ -1678,7 +1678,7 @@ class KumbiaActiveRecord
                     if (isset($this->$field) && $this->$field !== '' && $this->$field !== NULL) {
                         $fields[] = self::sql_sanitize($field);
 
-                        if (($this->_data_type[$field] == 'datetime' OR $this->_data_type[$field] == 'date') && ($config['type'] == 'mysql' OR $config['type'] == 'mysqli')) {
+                        if (($this->_data_type[$field] == 'datetime' || $this->_data_type[$field] == 'date') && ($config['type'] == 'mysql' || $config['type'] == 'mysqli')) {
                             $values[] = $this->db->add_quotes(date("Y-m-d G:i:s", strtotime($this->$field)));
                         } elseif ($this->_data_type[$field] == 'date' && $config['type'] == 'oracle') {
                             //Se debe especificar el formato de fecha en Oracle

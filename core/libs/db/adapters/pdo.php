@@ -108,7 +108,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface
                 $this->pdo->setAttribute(PDO::ATTR_CURSOR, PDO::CURSOR_FWDONLY);
             }
             //Selecciona charset
-            if ($config['type'] == 'mysql' and isset($config['charset'])) {
+            if ($config['type'] == 'mysql' && isset($config['charset'])) {
                 $this->pdo->exec('set character set ' . $config['charset']);
             }
             $this->initialize();

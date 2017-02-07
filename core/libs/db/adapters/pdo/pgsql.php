@@ -156,9 +156,8 @@ class DbPdoPgSQL extends DbPDO
             } else {
                 return true;
             }
-        } else {
-            return $this->query("DROP TABLE $table");
         }
+        return $this->query("DROP TABLE $table");
     }
 
     /**
@@ -178,8 +177,7 @@ class DbPdoPgSQL extends DbPDO
     {
         $create_sql = "CREATE TABLE $table (";
         if (!is_array($definition)) {
-            new KumbiaException("Definici&oacute;n invalida para crear la tabla '$table'");
-            return false;
+            throw new KumbiaException("Definición inválida para crear la tabla '$table'");
         }
         $create_lines = array();
         $index = array();

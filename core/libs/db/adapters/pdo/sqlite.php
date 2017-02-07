@@ -130,9 +130,8 @@ class DbPdoSQLite extends DbPDO
     {
         if ($if_exists) {
             return $this->query("DROP TABLE IF EXISTS $table");
-        } else {
-            return $this->query("DROP TABLE $table");
         }
+        return $this->query("DROP TABLE $table");
     }
 
     /**
@@ -152,8 +151,7 @@ class DbPdoSQLite extends DbPDO
     {
         $create_sql = "CREATE TABLE $table (";
         if (!is_array($definition)) {
-            new KumbiaException("Definici&oacute;n invalida para crear la tabla '$table'");
-            return false;
+            throw new KumbiaException("Definici&oacute;n invalida para crear la tabla '$table'");
         }
         $create_lines = array();
         $index = array();

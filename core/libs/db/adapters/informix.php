@@ -169,10 +169,9 @@ class DbInformix extends DbBase implements DbBaseInterface
         $this->set_return_rows(true);
         if ($result_query === false) {
             throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
-        } else {
-            $this->last_result_query = $result_query;
-            return $result_query;
         }
+        $this->last_result_query = $result_query;
+        return $result_query;
     }
 
     /**

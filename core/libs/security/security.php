@@ -50,11 +50,7 @@ abstract class Security
                 if ((time() % 8) == 0) {
                     return self::generateRSAKey($kumbia);
                 } else {
-                    if ($kumbia) {
-                        echo "<input type='hidden' id='rsa32_key' value=\"{$_SESSION['rsa_key']}\"/>";
-                    } else {
-                        echo "<input type='hidden' id='rsa32_key' value=\"{$_SESSION['rsa_key']}\"/>";
-                    }
+                    echo "<input type='hidden' id='rsa32_key' value=\"{$_SESSION['rsa_key']}\"/>";
                 }
             } else {
                 return self::generateRSAKey($kumbia);
