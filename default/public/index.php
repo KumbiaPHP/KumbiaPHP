@@ -42,7 +42,7 @@ define('APP_CHARSET', 'UTF-8');
 define('PRODUCTION', FALSE);
 
 /**
- * Establece polí­tica de informe de errores
+ * Descomentar para mostrar los errores
  */
 //error_reporting(E_ALL ^ E_STRICT);ini_set('display_errors', 'On');
 
