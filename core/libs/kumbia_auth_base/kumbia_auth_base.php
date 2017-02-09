@@ -30,14 +30,16 @@ abstract class KumbiaAuthBase {
      * Verifica si el usuario está logueado
      * @return bool
      */
-    public function isLogin() {
+    public function isLogin()
+    {
         return (bool) Session::get('login', self::$namespace);
     }
 
     /**
      * Desloguea a un usuario
      */
-    public function logout() {
+    public function logout()
+    {
         Session::set('login', FALSE, self::$namespace);
     }
 
@@ -52,7 +54,8 @@ abstract class KumbiaAuthBase {
      * Set the status of the login
      * @param boolean $status [description]
      */
-    protected function setStatus($status){
+    protected function setStatus($status)
+    {
         Session::set('login', $status, self::$namespace);
     }
 
@@ -60,7 +63,8 @@ abstract class KumbiaAuthBase {
      * Set the Auth data
      * @param Array $data object
      */
-    protected function setData($data){
+    protected function setData($data)
+    {
         Session::set('store', $data, self::$namespace);
     }
 
@@ -69,8 +73,9 @@ abstract class KumbiaAuthBase {
      * @param  string $var name
      * @return mixed
      */
-    public function get($var) {
-        $store = Session::set('store', self::$namespace);
-        return isset($store[$var])?$store[$var]:null;
+    public function get($var)
+    {
+        $store = Session::get('store', self::$namespace);
+        return isset($store[$var]) ? $store[$var] : null;
     }
 }
