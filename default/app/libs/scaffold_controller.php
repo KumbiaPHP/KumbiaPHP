@@ -1,16 +1,17 @@
 <?php
 
 /**
- * Controlador base para la construcción de CRUD para modelos rapidamente
+ * Controlador base para la construcción de CRUD para modelos rápidamente
  *
  * @category Kumbia
  * @package Controller
  */
 class ScaffoldController extends AdminController
 {
-
+    /** @var string Carpeta en views/_shared/scaffolds/ */
     public $scaffold = 'kumbia';
-    public $model;
+    /** @var string Nombre del modelo en CamelCase */
+    public $model = '';
 
     public function index($page=1)
     {
