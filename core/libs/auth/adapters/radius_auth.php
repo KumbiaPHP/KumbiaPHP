@@ -161,9 +161,8 @@ class RadiusAuth implements AuthInterface
 
         if (radius_send_request($radius) == RADIUS_ACCESS_ACCEPT) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**

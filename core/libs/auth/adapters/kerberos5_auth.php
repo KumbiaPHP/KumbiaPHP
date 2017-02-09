@@ -88,7 +88,7 @@ class Kerberos5Auth implements AuthInterface
             if (isset($extra_args[$param])) {
                 $this->$param = $extra_args[$param];
             } else {
-                throw new KumbiaException("Debe especificar el par�metro '$param' en los par�metros");
+                throw new KumbiaException("Debe especificar el parámetro '$param'");
             }
         }
     }
@@ -116,9 +116,8 @@ class Kerberos5Auth implements AuthInterface
         $this->resource = kadm5_init_with_password($this->server, $this->realm, $this->principal, $this->password);
         if ($this->resource === false) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
