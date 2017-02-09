@@ -2478,6 +2478,7 @@ class KumbiaActiveRecord
             /**
              * Carga la clase
              * */
+			$model = Util::smallcase($Model);
             $file = APP_PATH . "models/$model.php";
             if (is_file($file)) {
                 include $file;
