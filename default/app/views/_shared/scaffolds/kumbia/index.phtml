@@ -4,7 +4,7 @@
 <div class="actions">
     <?= Html::linkAction("crear/", 'Crear registro', 'class="btn btn-primary"')?>
 </div>
-<?php if ($data->items) : ?>
+<?php if (isset($data->items)) : ?>
 <table class="t">
     <thead><tr>
     <?php foreach (current($data->items)->fields as $field) : ?>
