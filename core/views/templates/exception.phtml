@@ -175,7 +175,7 @@
 <td><h3><?= round((microtime(1) - $_SERVER['REQUEST_TIME_FLOAT']), 4),' seg.'?></h3>Tiempo</td>
 <td><h3><?= number_format(memory_get_usage() / 1048576, 3),' MB'?></h3>Memoria Usada</td>
 <td><h3><span class="status <?= extension_loaded('xdebug') ? 'green' : 'red' ?>" title="Recomendable en desarrollo. Nunca en producción">xdebug</span>
-<span class="status <?= extension_loaded('apc') ? 'green' : 'red' ?>" title="Siempre muy recomendable">apc</span></h3>PHP extensions</td>
+<span class="status <?= extension_loaded('Zend OPcache') ? 'green' : 'red' ?>" title="Siempre muy recomendable">OPcache</span></h3>PHP extensions</td>
 <td><h3><a href="#viewfiles"><?= count($files) ?> ficheros</a></h3>Includes</td>
 </tr>
 <tr>
