@@ -219,8 +219,7 @@ class Html
      */
     public static function gravatar($email, $alt='gravatar', $size=40, $default='mm')
     {
-        $grav_url = "http://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . '?d=' . urlencode($default) . '&s=' . $size;
+        $grav_url = "//www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . '?d=' . urlencode($default) . '&s=' . $size;
         return '<img src="' . $grav_url . '" alt="' . $alt . '" class="avatar" width="' . $size . '" height="' . $size . '" />';
     }
-
 }
