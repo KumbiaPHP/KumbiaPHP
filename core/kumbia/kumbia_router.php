@@ -50,9 +50,9 @@ class KumbiaRouter
             }
         }
 
-        // Controlador
-        $router['controller']      = current($urlItems);
-        $router['controller_path'] = !empty($router['module']) ? "$urlItems[0]/$urlItems[1]" : current($urlItems);
+        // Controlador, cambia - por _
+        $router['controller']      = str_replace('-', '_', current($urlItems));
+        $router['controller_path'] = !empty($router['module']) ? "$urlItems[0]/".$router['controller'] : $router['controller'];
 
         // Si no hay mas parametros sale
         if (next($urlItems) === false) {
