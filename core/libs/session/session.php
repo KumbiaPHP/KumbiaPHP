@@ -18,18 +18,16 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
+/*Session start*/
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 /**
  * Modelo orientado a objetos para el acceso a datos en Sesiones
  *
  * @category   Kumbia
  * @package    Session
  */
-
-/*Session start*/
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
-
 class Session
 {
     const SESSION = 'KUMBIA_SESSION';
@@ -38,11 +36,12 @@ class Session
      * actual
      *
      * @param string $index
+     * @param mixed  $value
      * @param string $namespace
      */
     public static function set($index, $value, $namespace = 'default')
     {
-        $_SESSION[SESSION][APP_PATH][$namespace][$index] = $value;
+        $_SESSION[self::SESSION][APP_PATH][$namespace][$index] = $value;
     }
 
     /**
@@ -54,8 +53,8 @@ class Session
      */
     public static function get($index, $namespace='default')
     {
-        if (isset($_SESSION[SESSION][APP_PATH][$namespace][$index])) {
-            return $_SESSION[SESSION][APP_PATH][$namespace][$index];
+        if (isset($_SESSION[self::SESSION][APP_PATH][$namespace][$index])) {
+            return $_SESSION[self::SESSION][APP_PATH][$namespace][$index];
         }
     }
 
@@ -67,7 +66,7 @@ class Session
      */
     public static function delete($index, $namespace='default')
     {
-        unset($_SESSION[SESSION][APP_PATH][$namespace][$index]);
+        unset($_SESSION[self::SESSION][APP_PATH][$namespace][$index]);
     }
 
     /**
@@ -79,7 +78,6 @@ class Session
      */
     public static function has($index, $namespace='default')
     {
-        return isset($_SESSION[SESSION][APP_PATH][$namespace][$index]);
+        return isset($_SESSION[self::SESSION][APP_PATH][$namespace][$index]);
     }
-
 }
