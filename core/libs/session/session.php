@@ -45,6 +45,18 @@ class Session
     }
 
     /**
+     * Añade un elemento a una matriz con el indice de sesion indicado
+     *
+     * @param string $index
+     * @param mixed  $value
+     * @param string $namespace
+     */
+    public static function add($index, $value, $namespace='default')
+    {
+        $_SESSION['KUMBIA_SESSION'][APP_PATH][$namespace][$index][] = $value;
+    }
+
+    /**
      * Obtener el valor para un indice de la sesión
      *
      * @param string $index
