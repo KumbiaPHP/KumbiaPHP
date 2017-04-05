@@ -35,6 +35,11 @@ class PagesController extends AppController
         if (Input::isAjax()) {
           View::template(null);
         }
+        // Usar directamente controlador/pagina
+        if (! method_exists($this, $this->action_name)) {
+            array_unshift($this->parameters, $this->action_name);
+            $this->action_name = 'show';
+        }
     }
 
     public function show()
