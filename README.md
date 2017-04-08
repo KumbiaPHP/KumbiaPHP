@@ -17,7 +17,7 @@ Español : https://github.com/KumbiaPHP/Documentation/tree/master/es
 
 English : https://github.com/KumbiaPHP/Documentation/tree/master/en
 
-Ayúdanos a traducir el manual al inglés https://crowdin.com/project/kumbiaphp-doc
+Ayúdanos a traducir el manual al inglés http://translate.kumbiaphp.com
 
 ## Slack KumbiaPHP Channel in spanish and english
 http://slack.kumbiaphp.com (new)
