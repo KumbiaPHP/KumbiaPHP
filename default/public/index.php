@@ -80,9 +80,15 @@ define('PUBLIC_PATH', substr(urldecode($_SERVER['REQUEST_URI']), 0, -$number));
 
 
 /**
- * Obtiene la url
+ * Obtiene la url usando PATH_INFO
  */
 $url = empty($_SERVER['PATH_INFO']) ? '/' : $_SERVER['PATH_INFO'];
+
+/**
+ * Obtiene la url usando $_GET['_url']
+ * Cambiar también en el .htaccess
+ */
+ //$url = isset($_GET['_url']) ? $_GET['_url'] : '/';
 
 /**
  * Carga el gestor de arranque
