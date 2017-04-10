@@ -334,7 +334,7 @@ class KumbiaView
 
         // carga la vista parcial
         if (!include $__file) {
-            throw new KumbiaException('Vista Parcial "' . $__file . '" no se encontro');
+            throw new KumbiaException('Vista Parcial "' . $__file . '" no encontrada', 'no_partial');
         }
 
         // se guarda en la cache de ser requerido
