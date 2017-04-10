@@ -13,7 +13,10 @@ class ScaffoldController extends AdminController
     /** @var string Nombre del modelo en CamelCase */
     public $model = '';
 
-    public function index($page=1)
+    /**
+     * Resultados paginados
+     */
+    public function index($page = 1)
     {
         $this->data = (new $this->model)->paginate("page: $page", 'order: id desc');
     }
@@ -81,5 +84,4 @@ class ScaffoldController extends AdminController
     {
         $this->data = (new $this->model)->find_first((int) $id);
     }
-
 }
