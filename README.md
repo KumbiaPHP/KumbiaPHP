@@ -27,11 +27,7 @@ http://slack.kumbiaphp.com (new)
 * Requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.0 o 7.1
 
 * CRUD: http://wiki.kumbiaphp.com/V1.0_CRUD_en_KumbiaPHP_Framework
-* API para usuarios de la beta2: http://www.kumbiaphp.com/api/beta2/
-* API para los desarrolladores del core: http://www.kumbiaphp.com/api/beta2-dev/
  
-Seguimos trabajando para actualizar bien el phpdoc y API.
-
 
 Comunidad
 ===
