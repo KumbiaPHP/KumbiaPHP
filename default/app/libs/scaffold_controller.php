@@ -23,11 +23,11 @@ class ScaffoldController extends AdminController
      */
     public function crear()
     {
-        if (Input::hasPost(Util::smallcase($this->model))) {
+        if (Input::hasPost($this->model)) {
 
             $obj = new $this->model;
             //En caso que falle la operación de guardar
-            if (!$obj->save(Input::post(Util::smallcase($this->model)))) {
+            if (!$obj->save(Input::post($this->model))) {
                 Flash::error('Falló Operación');
                 //se hacen persistente los datos en el formulario
                 $this->{$this->model} = $obj;
@@ -47,12 +47,12 @@ class ScaffoldController extends AdminController
         View::select('crear');
 
         //se verifica si se ha enviado via POST los datos
-        if (Input::hasPost(Util::smallcase($this->model))) {
+        if (Input::hasPost($this->model)) {
             $obj = new $this->model;
-            if (!$obj->update(Input::post(Util::smallcase($this->model)))) {
+            if (!$obj->update(Input::post($this->model))) {
                 Flash::error('Falló Operación');
                 //se hacen persistente los datos en el formulario
-                $this->{$this->model} = Input::post(Util::smallcase($this->model));
+                $this->{$this->model} = Input::post($this->model);
             } else {
                 return Redirect::to();
             }
