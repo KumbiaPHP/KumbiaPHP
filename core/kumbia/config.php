@@ -137,3 +137,26 @@ class Config
         self::$vars[$file] = parse_ini_file(APP_PATH . "config/$file.ini", true);
     }
 }
+
+/**
+ * Guarda un archivo de configuracion
+ *
+ * @param string $file archivo .ini
+ * @param array $data matriz con grupo, llaves y valores a gruardar, ejemplo:
+ * $data['application']['production'] = Off
+ * @return int | FALSE
+ */
+public static function write($file, $data)
+{
+    $s = PHP_EOL;
+    foreach ($data as $group=>$a)
+    {
+        $s .= "[$group]" . PHP_EOL;
+        foreach ($a as $k=>$v)
+        {
+            $s .= "$k = $v" . PHP_EOL;
+        }
+        $s .= PHP_EOL;
+    }
+    return file_put_contents(APP_PATH . "config/$file.ini", $s);
+}
