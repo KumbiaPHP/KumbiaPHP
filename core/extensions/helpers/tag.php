@@ -26,13 +26,19 @@
  */
 class Tag
 {
-
     /**
      * Hojas de estilo
      *
      * @var array
      * */
     protected static $_css = array();
+    
+    /**
+     * Javascript
+     *
+     * @var array
+     * */
+    protected static $_js = array();
 
     /**
      * Convierte los argumentos de un metodo de parametros por nombre a un string con los atributos
@@ -72,22 +78,6 @@ class Tag
     }
 
     /**
-     * Incluye un archivo javascript
-     *
-     * @param string $src archivo javascript
-     * @param boolean $cache indica si se usa cache de navegador
-     */
-    public static function js($src, $cache = TRUE)
-    {
-        $src = "javascript/$src.js";
-        if (!$cache) {
-            $src .= '?nocache=' . uniqid();
-        }
-
-        return '<script type="text/javascript" src="' . PUBLIC_PATH . $src . '"></script>';
-    }
-
-    /**
      * Incluye un archivo de css
      *
      * @param string $src archivo css
@@ -99,6 +89,28 @@ class Tag
     }
 
     /**
+     * Incluye un archivo javascript
+     *
+     * @param mix $src archivo javascript
+     * @param boolean $cache indica si se usa cache de navegador
+     */
+    public static function js($src, $cache = TRUE)
+    {
+        if ( is_array($src) )
+        {
+            self::$_js = self::$_js + $src;        
+        }
+        else
+        {
+            $src = "javascript/$src.js";
+            if (!$cache) {
+                $src .= '?nocache=' . uniqid();
+            }
+            return '<script type="text/javascript" src="' . PUBLIC_PATH . $src . '"></script>';
+        }
+    }
+    
+    /**
      * Obtiene el array de hojas de estilo
      *
      * @return array
@@ -107,5 +119,14 @@ class Tag
     {
         return self::$_css;
     }
-
+    
+    /**
+     * Obtiene el array de javascripts
+     *
+     * @return array
+     */
+    public static function getJs()
+    {
+        return self::$_js;
+    }
 }
