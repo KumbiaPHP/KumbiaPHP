@@ -198,7 +198,7 @@ class KumbiaRest extends Controller {
             505 => '505 HTTP Version Not Supported',
         );
         if (isset($code[$num])) {
-            header(sprintf('HTTP/1.1 %d %s', $num, $code[$num]));
+            header(sprintf($_SERVER['SERVER_PROTOCOL'] . ' %d %s', $num, $code[$num]));
         }
     }
 
