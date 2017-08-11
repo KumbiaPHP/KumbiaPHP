@@ -19,7 +19,7 @@
  */
 
 /**
- * Helper para Tags Html
+ * Helper para tags Html
  *
  * @category   KumbiaPHP
  * @package    Helpers
@@ -43,9 +43,10 @@ class Html
     /**
      * Crea un enlace usando la constante PUBLIC_PATH, para que siempre funcione
      *
-     * @example Html::link
-     * echo Html::link('controller/action','Enlace')
-     * Crea un enlace a ese controller y acción con el nombre Enlace
+     * @example <?= Html::link('usuario/crear','Crear usuario') ?>
+     * @example Imprime un enlace al controlador usuario y a la acción crear, con el texto 'Crear usuario'
+     * @example <?= Html::link('usuario/crear','Crear usuario', 'class="button"') ?>
+     * @example El mismo anterior, pero le añade el atributo class con valor button
      *
      * @param string $action Ruta a la acción
      * @param string $text Texto a mostrar
@@ -61,12 +62,14 @@ class Html
     }
 
     /**
-     * Crea un enlace a una acción del mismo controller que estemos
+     * Crea un enlace a una acción del mismo controller en el que estemos
      *
-     * @example Html::linkAction
-     * echo Html::linkAction('accion/','Enlace a la acción del mismo controller')
+     * @example <?= Html::linkAction('crear/','Crear') ?>
+     * @example Imprime un enlace a la acción crear del mismo controlador en el que estemos, con el texto 'Crear'
+     * @example <?= Html::linkAction('usuario/crear','Crear usuario', 'class="button"') ?>
+     * @example El mismo anterior, pero le añade el atributo class con valor button
      *
-     * @param string $action
+     * @param string $action Ruta a la acción
      * @param string $text Texto a mostrar
      * @param string|array $attrs Atributos adicionales
      * @return string
@@ -78,10 +81,15 @@ class Html
     }
 
     /**
-     * Permite incluir una imagen
+     * Permite incluir una imagen, por defecto va la carpeta public/img/
      *
-     * @param string $src Atributo src
-     * @param string $alt Atributo alt
+     * @example <?= Html::img('logo.png','Logo de KumbiaPHP') ?>
+     * @example Imprime una etiqueta img <img src="/img/logo.png" alt="Logo de KumbiaPHP">
+     * @example <?= Html::img('logo.png','Logo de KumbiaPHP', 'width="100px" height="100px"') ?>
+     * @example Imprime una etiqueta img <img src="/img/logo.png" alt="Logo de KumbiaPHP" width="100px" height="100px">
+     *
+     * @param string $src Ruta de la imagen a partir de la carpeta public/img/
+     * @param string $alt Texto alternativo de la imagen.
      * @param string|array $attrs Atributos adicionales
      * @return string
      */
@@ -118,7 +126,7 @@ class Html
     /**
      * Crea una lista a partir de un array
      *
-     * @param array $array Array con el contenido del metatag
+     * @param array $array Array con el contenido de la lista
      * @param string $type por defecto ul, y si no ol
      * @param string|array $attrs atributos
      * @return string
@@ -206,10 +214,9 @@ class Html
     /**
      * Incluye imágenes de gravatar.com
      *
-     * Ejemplos: Html::gravatar
-     * Simple: echo Html::gravatar( $email ) <br>
-     * Completo: echo Html::gravatar( $email, $name, 20, 'http://www.example.com/default.jpg') <br>
-     * Un gravatar que es un link: echo Html::link( Html::gravatar($email), $url)
+     * @example Simple: <?= Html::gravatar($email); ?>
+     * @example Completo: echo Html::gravatar( $email, $name, 20, 'http://www.example.com/default.jpg') <br>
+     * @example Un gravatar que es un link: echo Html::link( Html::gravatar($email), $url)
      *
      * @param string $email Correo para conseguir su gravatar
      * @param string $alt Texto alternativo de la imagen. Por defecto: gravatar
