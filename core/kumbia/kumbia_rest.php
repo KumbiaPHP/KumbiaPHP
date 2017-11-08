@@ -104,7 +104,7 @@ class KumbiaRest extends Controller {
         $rewrite = "{$method}_{$action}";
         if ($this->actionExist($rewrite)) {
             $this->action_name = $rewrite;
-        } elseif ($action == 'index' && $method != 'post') {
+        } elseif ($action == 'index' && $method != 'get') {
             $this->action_name = 'getAll';
         } else {
             $this->action_name = $method;
