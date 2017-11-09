@@ -99,7 +99,7 @@ class Input
      */
     public static function hasPost($var)
     {
-        return (bool)self::post($var);
+        return (bool) self::post($var);
     }
 
     /**
@@ -110,7 +110,7 @@ class Input
      */
     public static function hasGet($var)
     {
-        return (bool)self::get($var);
+        return (bool) self::get($var);
     }
 
     /**
@@ -121,7 +121,7 @@ class Input
      */
     public static function hasRequest($var)
     {
-        return (bool)self::request($var);
+        return (bool) self::request($var);
     }
 
     /**
@@ -134,9 +134,9 @@ class Input
     {
         if($var){
             $_POST[$var] = array();
-        } else {
-            $_POST = array();
+            return;
         }
+        $_POST = array();
     }
 
     /**
@@ -154,11 +154,11 @@ class Input
     public static function ip(){
         if (!empty($_SERVER['HTTP_CLIENT_IP'])){
             return $_SERVER['HTTP_CLIENT_IP'];
-        }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
-            return $_SERVER['HTTP_X_FORWARDED_FOR'];
-        }else{
-            return $_SERVER['REMOTE_ADDR'];
         }
+        if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        return $_SERVER['REMOTE_ADDR'];
     }
 
 
@@ -180,20 +180,21 @@ class Input
      * @param string $str clave a usar
      * @return mixed
      */
-    protected static function getFilter(Array $var, $str){
-        if(empty($str))
+    protected static function getFilter(Array $var, $str)
+    {
+        if(empty($str)) {
             return filter_var_array($var);
+        }   
         $arr = explode('.', $str);
         $value = $var;
         foreach ($arr as $key) {
             if(isset($value[$key])){
                 $value = $value[$key];
-            } else{
+            } else {
                 $value = NULL;
                 break;
             }
         }
-        return is_array($value)?filter_var_array($value): filter_var($value);
+        return is_array($value) ? filter_var_array($value) : filter_var($value);
     }
-
 }
