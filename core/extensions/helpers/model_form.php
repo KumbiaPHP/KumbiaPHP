@@ -33,7 +33,7 @@ class ModelForm
     public static function create($model, $action = NULL)
     {
 
-        $model_name = Util::smallcase(get_class($model));
+        $model_name = get_class($model);
         if (!$action)
             $action = ltrim(Router::get('route'), '/');
 
