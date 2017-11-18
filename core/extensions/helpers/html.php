@@ -57,7 +57,7 @@ class Html
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-        return '<a href="' . PUBLIC_PATH . "$action\" $attrs >$text</a>";
+        return '<a href="' . PUBLIC_PATH . "$action\" $attrs>$text</a>";
     }
 
     /**
@@ -85,9 +85,9 @@ class Html
      * @param string|array $attrs Atributos adicionales
      * @return string
      */
-    public static function img($src, $alt='', $attrs = '')
+    public static function img($src, $alt = '', $attrs = '')
     {
-        return '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" ".Tag::getAttrs($attrs).' />';
+        return '<img src="' . PUBLIC_PATH . "img/$src\" alt=\"$alt\" " . Tag::getAttrs($attrs) . ' />';
     }
 
     /**
@@ -217,7 +217,7 @@ class Html
      * @param string $default URL gravatar por defecto si no existe, o un default de gravatar. Por defecto: mm
      * @return string
      */
-    public static function gravatar($email, $alt='gravatar', $size=40, $default='mm')
+    public static function gravatar($email, $alt = 'gravatar', $size = 40, $default = 'mm')
     {
         $grav_url = "//www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . '?d=' . urlencode($default) . '&amp;s=' . $size;
         return '<img src="' . $grav_url . '" alt="' . $alt . '" class="avatar" width="' . $size . '" height="' . $size . '" />';

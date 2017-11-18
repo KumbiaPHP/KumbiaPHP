@@ -28,7 +28,9 @@ class ModelForm
     /**
      * Genera un form de un modelo (objeto) automáticamente
      *
-     * @var object
+     * @param object $model 
+     * @param string $action 
+     * @return void 
      */
     public static function create($model, $action = '')
     {

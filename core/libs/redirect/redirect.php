@@ -43,11 +43,11 @@ class Redirect
 
         if ($seconds) {
             header("Refresh: $seconds; url=$route");
-        } else {
-            header('Location: '.$route, TRUE, $statusCode);
-            $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
-            View::select(null, null);
+            return;
         }
+        header('Location: '.$route, TRUE, $statusCode);
+        $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
+        View::select(null, null);
     }
 
     /**

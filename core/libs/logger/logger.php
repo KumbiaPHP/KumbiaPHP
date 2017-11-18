@@ -87,10 +87,10 @@ abstract class Logger
 
     /**
      * Inicializa el Logger
-     * 
+     *
      * @param string $name
      */
-    public static function initialize($name='')
+    public static function initialize($name = '')
     {
         self::$log_path = APP_PATH . 'temp/logs/'; //TODO poder cambiar el path
         if ($name === '') {
@@ -129,33 +129,32 @@ abstract class Logger
      * @param string $msg
      * @param string $name_log
      */
-    public static function log($type='DEBUG', $msg, $name_log)
-    {  
+    public static function log($type = 'DEBUG', $msg, $name_log)
+    {
         if (is_array($msg)) {
             $msg = print_r($msg, true);
         }
         //TODO poder añadir otros formatos de log
         $date = date(DATE_RFC1036);
-        $msg = "[$date][$type] " . $msg ;
+        $msg = "[$date][$type] " . $msg;
         if (self::$transaction) {
             self::$queue[] = $msg;
             return;
         }
         self::write($msg, $name_log);
     }
-    
+
     /**
      * Escribir en el log
-     * 
+     *
      * @param string $msg
      */
     protected static function write($msg, $name_log)
     {
-        self::initialize($name_log);  //TODO dejarlo abierto cuando es un commit
+        self::initialize($name_log); //TODO dejarlo abierto cuando es un commit
         fputs(self::$fileLogger, $msg . PHP_EOL);
         self::close();
     }
-
 
     /**
      * Inicia una transacción
@@ -209,7 +208,7 @@ abstract class Logger
      * @param string $msg
      * @param string $name_log
      */
-    public static function warning($msg, $name_log='')
+    public static function warning($msg, $name_log = '')
     {
         self::log('WARNING', $msg, $name_log);
     }
@@ -221,7 +220,7 @@ abstract class Logger
      * @param string $msg
      * @param string $name_log
      */
-    public static function error($msg, $name_log='')
+    public static function error($msg, $name_log = '')
     {
         self::log('ERROR', $msg, $name_log);
     }
@@ -233,7 +232,7 @@ abstract class Logger
      * @param string $msg
      * @param string $name_log
      */
-    public static function debug($msg, $name_log='')
+    public static function debug($msg, $name_log = '')
     {
         self::log('DEBUG', $msg, $name_log);
     }
@@ -245,7 +244,7 @@ abstract class Logger
      * @param string $msg
      * @param string $name_log
      */
-    public static function alert($msg, $name_log='')
+    public static function alert($msg, $name_log = '')
     {
         self::log('ALERT', $msg, $name_log);
     }
@@ -257,7 +256,7 @@ abstract class Logger
      * @param string $msg
      * @param string $name_log
      */
-    public static function critical($msg, $name_log='')
+    public static function critical($msg, $name_log = '')
     {
         self::log('CRITICAL', $msg, $name_log);
     }
@@ -269,7 +268,7 @@ abstract class Logger
      * @param string $msg
      * @param string $name_log
      */
-    public static function notice($msg, $name_log='')
+    public static function notice($msg, $name_log = '')
     {
         self::log('NOTICE', $msg, $name_log);
     }
@@ -281,7 +280,7 @@ abstract class Logger
      * @param string $msg
      * @param string $name_log
      */
-    public static function info($msg, $name_log='')
+    public static function info($msg, $name_log = '')
     {
         self::log('INFO', $msg, $name_log);
     }
@@ -293,7 +292,7 @@ abstract class Logger
      * @param string $msg
      * @param string $name_log
      */
-    public static function emergence($msg, $name_log='')
+    public static function emergence($msg, $name_log = '')
     {
         self::log('EMERGENCE', $msg, $name_log);
     }
@@ -305,7 +304,7 @@ abstract class Logger
      * @param string $msg
      * @param string $name_log
      */
-    public static function custom($type='CUSTOM', $msg, $name_log='')
+    public static function custom($type = 'CUSTOM', $msg, $name_log = '')
     {
         self::log($type, $msg, $name_log);
     }

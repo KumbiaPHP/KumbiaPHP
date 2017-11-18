@@ -15,7 +15,7 @@
 		<a class="del btn btn-danger" title="¿Seguro que quiere borrar?" href="../borrar/<?= $data->id?>" onclick="return confirm('¿Está seguro?');">Borrar</a>
 	</div>
 <?php else : ?>
-	<?php header("HTTP/1.0 404 Not Found")?>
+	<?php header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found')?>
 	<h1>No existe</h1>
 	<div class="actions">
 		<a href="../">Listado</a>
