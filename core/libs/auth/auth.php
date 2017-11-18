@@ -32,7 +32,8 @@ if (session_status() !== PHP_SESSION_ACTIVE) {session_start();}
  * @package    Auth
  * @deprecated 0.9 use KumbiaAuth
  */
-class Auth {
+class Auth
+{
 
     /**
      * Nombre del adaptador usado para autenticar
@@ -87,7 +88,8 @@ class Auth {
      *
      *
      */
-    public function __construct() {
+    public function __construct()
+    {
         $extra_args = Util::getParams(func_get_args());
         if (isset($extra_args[0])) {
             $adapter = $extra_args[0];
@@ -101,7 +103,8 @@ class Auth {
     /**
      * @param Auth $auth
      */
-    public function set_adapter($adapter, $auth = '', $extra_args = array()) {
+    public function set_adapter($adapter, $auth = '', $extra_args = array())
+    {
         if (!in_array($adapter, array('digest', 'http', 'model', 'kerberos5', 'radius'))) {
             throw new kumbiaException("Adaptador de autenticación '$adapter' no soportado");
         }
@@ -116,7 +119,8 @@ class Auth {
      * Obtiene el nombre del adaptador actual
      * @return string
      */
-    public function get_adapter_name() {
+    public function get_adapter_name()
+    {
         return $this->adapter;
     }
 
@@ -125,7 +129,8 @@ class Auth {
      *
      * @return array|bool
      */
-    public function authenticate() {
+    public function authenticate()
+    {
         $result = $this->adapter_object->authenticate();
         /**
          * Si es una sesion activa maneja un archivo persistente para control
@@ -178,16 +183,16 @@ class Auth {
      *
      * @return array
      */
-    public function authenticate_with_http() {
+    public function authenticate_with_http()
+    {
         if (!$_SERVER['PHP_AUTH_USER']) {
             header('WWW-Authenticate: Basic realm="basic"');
-            header('HTTP/1.0 401 Unauthorized');
+            header($_SERVER['SERVER_PROTOCOL'].' 401 Unauthorized');
             return false;
-        } else {
-            $options = array("username" => $_SERVER['PHP_AUTH_USER'], "password" => $_SERVER['PHP_AUTH_PW']);
-            $this->adapter_object->set_params($options);
-            return $this->authenticate();
         }
+        $options = array("username" => $_SERVER['PHP_AUTH_USER'], "password" => $_SERVER['PHP_AUTH_PW']);
+        $this->adapter_object->set_params($options);
+        return $this->authenticate();
     }
 
     /**
@@ -195,7 +200,8 @@ class Auth {
      *
      * @return array
      */
-    public function get_identity() {
+    public function get_identity()
+    {
         return $this->adapter_object->get_identity();
     }
 
@@ -204,7 +210,8 @@ class Auth {
      *
      * @bool string $value
      */
-    public function set_active_session($value, $time = 3600) {
+    public function set_active_session($value, $time = 3600)
+    {
         $this->active_session = $value;
         $this->expire_time    = $time;
     }
@@ -213,7 +220,8 @@ class Auth {
      * Destruir sesion activa del usuario autenticado
      *
      */
-    public function destroy_active_session() {
+    public function destroy_active_session()
+    {
         $user_hash = md5(serialize($this->extra_args));
         $filename  = APP_PATH.'temp/cache/'.base64_encode('auth');
         $lines     = file($filename);
@@ -231,7 +239,8 @@ class Auth {
      *
      * @return string
      */
-    public function get_adapter_instance() {
+    public function get_adapter_instance()
+    {
         return $this->adapter_object;
     }
 
@@ -241,7 +250,8 @@ class Auth {
      * @param boolean $value
      * @param integer $time
      */
-    public function sleep_on_fail($value, $time = 2) {
+    public function sleep_on_fail($value, $time = 2)
+    {
         $time = (int) $time;
         if ($time < 0) {
             $time = 0;
@@ -258,13 +268,14 @@ class Auth {
      *
      * @return boolean
      */
-    static public function is_valid() {
+    static public function is_valid()
+    {
         if (!is_null(self::$is_valid)) {
             return self::$is_valid;
-        } else {
-            self::$is_valid = isset($_SESSION['KUMBIA_AUTH_VALID'][Config::get('config.application.namespace_auth')])?$_SESSION['KUMBIA_AUTH_VALID'][Config::get('config.application.namespace_auth')]:null;
-            return self::$is_valid;
-        }
+        } 
+        self::$is_valid = isset($_SESSION['KUMBIA_AUTH_VALID'][Config::get('config.application.namespace_auth')])?$_SESSION['KUMBIA_AUTH_VALID'][Config::get('config.application.namespace_auth')]:null;
+        return self::$is_valid;
+
     }
 
     /**
@@ -272,13 +283,13 @@ class Auth {
      *
      * @return array
      */
-    static public function get_active_identity() {
+    static public function get_active_identity()
+    {
         if (count(self::$active_identity)) {
             return self::$active_identity;
-        } else {
-            self::$active_identity = $_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')];
-            return self::$active_identity;
         }
+        self::$active_identity = $_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')];
+        return self::$active_identity;
     }
 
     /**
@@ -287,7 +298,8 @@ class Auth {
      * @param string $var
      * @return string
      */
-    public static function get($var = '') {
+    public static function get($var = '')
+    {
         if ($var) {
             return $_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')][$var];
         }
@@ -297,11 +309,11 @@ class Auth {
      * Anula la identidad actual
      *
      */
-    static public function destroy_identity() {
+    static public function destroy_identity()
+    {
         self::$is_valid = null;
         unset($_SESSION['KUMBIA_AUTH_VALID'][Config::get('config.application.namespace_auth')]);
         self::$active_identity = array();
         unset($_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')]);
     }
-
 }

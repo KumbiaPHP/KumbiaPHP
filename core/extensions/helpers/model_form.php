@@ -30,12 +30,13 @@ class ModelForm
      *
      * @var object
      */
-    public static function create($model, $action = NULL)
+    public static function create($model, $action = '')
     {
 
         $model_name = get_class($model);
-        if (!$action)
+        if (!$action) {
             $action = ltrim(Router::get('route'), '/');
+        }
 
         echo '<form action="', PUBLIC_PATH . $action, '" method="post" id="', $model_name, '" class="scaffold">' , PHP_EOL;
         $pk = $model->primary_key[0];
@@ -52,8 +53,9 @@ class ModelForm
 
             if (in_array($field, $model->not_null)) {
                 echo "<label for=\"$formId\" class=\"required\">$alias *</label>" , PHP_EOL;
-            } else
+            } else {
                 echo "<label for=\"$formId\">$alias</label>" , PHP_EOL;
+            }
 
             switch ($tipo) {
                 case 'tinyint': case 'smallint': case 'mediumint':
@@ -73,13 +75,9 @@ class ModelForm
                 case 'date': // Usar el js de datetime
                     echo "<input id=\"$formId\" type=\"date\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
                     break;
+                    
                 case 'datetime': case 'timestamp':
                     echo "<input id=\"$formId\" type=\"datetime\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
-
-                    //echo '<script type="text/javascript" src="/javascript/kumbia/jscalendar/calendar.js"></script>
-                    //<script type="text/javascript" src="/javascript/kumbia/jscalendar/calendar-setup.js"></script>
-                    //<script type="text/javascript" src="/javascript/kumbia/jscalendar/calendar-es.js"></script>'.PHP_EOL;
-                    //echo date_field_tag("$formId");
                     break;
 
                 case 'enum': case 'set': case 'bool':
@@ -97,12 +95,10 @@ class ModelForm
 
                 default: //text,tinytext,varchar, char,etc se comprobara su tamaño
                     echo "<input id=\"$formId\" type=\"text\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
-                //break;
+
             }
         }
-        //echo radio_field_tag("actuacion", array("U" => "una", "D" => "dos", "N" => "Nada"), "value: N");
         echo '<input type="submit" value="Enviar" />' , PHP_EOL;
         echo '</form>' , PHP_EOL;
     }
-
 }
