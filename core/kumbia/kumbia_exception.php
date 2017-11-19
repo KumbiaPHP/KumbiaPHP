@@ -87,7 +87,7 @@ class KumbiaException extends Exception
             $tpl = 'views/templates/exception.phtml';
         }
         //Fix problem with action name in REST
-        $action =  $e->getMessage() ? $e->getMessage() : $action;
+        $action =  $e->getMessage() ?: $action;
 
         include CORE_PATH . "views/errors/{$view}.phtml";
  
@@ -102,6 +102,8 @@ class KumbiaException extends Exception
 
     /**
      * Añade la cabezera de error http
+     *
+     * @param Exception $e
      * */
     private static function setHeader($e)
     {

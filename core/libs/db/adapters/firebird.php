@@ -290,13 +290,13 @@ class DbFirebird extends DbBase implements DbBaseInterface
     public function error($err='')
     {
         if (!$this->id_connection) {
-            $this->last_error = ibase_errmsg() ? ibase_errmsg() : "[Error Desconocido en Firebird: $err]";
+            $this->last_error = ibase_errmsg() ?: "[Error Desconocido en Firebird: $err]";
             if ($this->logger) {
                 Logger::error($this->last_error);
             }
             return $this->last_error;
         }
-        $this->last_error = ibase_errmsg() ? ibase_errmsg() : "[Error Desconocido en Firebird: $err]";
+        $this->last_error = ibase_errmsg() ?: "[Error Desconocido en Firebird: $err]";
         $this->last_error.= $err;
         if ($this->logger) {
             Logger::error($this->last_error);

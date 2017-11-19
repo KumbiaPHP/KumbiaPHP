@@ -31,7 +31,7 @@ class KumbiaRouter
     {
         $router = array();
         //Valor por defecto
-        if ($url == '/') {
+        if ($url === '/') {
             return $router;
         }
 
@@ -52,7 +52,7 @@ class KumbiaRouter
 
         // Controlador, cambia - por _
         $router['controller']      = str_replace('-', '_', current($urlItems));
-        $router['controller_path'] = !empty($router['module']) ? "$urlItems[0]/".$router['controller'] : $router['controller'];
+        $router['controller_path'] = isset($router['module']) ? "$urlItems[0]/".$router['controller'] : $router['controller'];
 
         // Si no hay mas parametros sale
         if (next($urlItems) === false) {

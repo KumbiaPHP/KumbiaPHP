@@ -270,13 +270,13 @@ class DbMsSQL extends DbBase implements DbBaseInterface  {
      */
     public function error($err=''){
         if(!$this->id_connection){
-            $this->last_error = mssql_get_last_message() ? mssql_get_last_message() : "[Error Desconocido en MsSQL: $err]";
+            $this->last_error = mssql_get_last_message() ?: "[Error Desconocido en MsSQL: $err]";
             if($this->logger){
                 Logger::error($this->last_error);
             }
             return $this->last_error;
         }
-        $this->last_error = mssql_get_last_message() ? mssql_get_last_message() : "[Error Desconocido en MsSQL: $err]";
+        $this->last_error = mssql_get_last_message() ?: "[Error Desconocido en MsSQL: $err]";
         $this->last_error.= $err;
         if($this->logger){
             Logger::error($this->last_error);

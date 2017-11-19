@@ -38,7 +38,7 @@ class HtmlentitiesFilter implements FilterInterface
      */
     public static function execute($s, $options)
     {
-        $charset = (isset($options['charset']) && $options['charset']) ? $options['charset'] : APP_CHARSET;
+        $charset = (isset($options['charset'])) ? $options['charset'] : APP_CHARSET;
         return htmlentities((string) $s, ENT_QUOTES, $charset);
     }
 

@@ -275,7 +275,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface
      */
     public function error($err='')
     {
-        $this->last_error = mysqli_error($this->id_connection) ? mysqli_error($this->id_connection) : "[Error Desconocido en MySQL: $err]";
+        $this->last_error = mysqli_error($this->id_connection) ?: "[Error Desconocido en MySQL: $err]";
         $this->last_error.= $err;
         if ($this->logger) {
             Logger::error($this->last_error);

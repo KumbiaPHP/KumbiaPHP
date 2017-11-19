@@ -349,7 +349,7 @@ class DbOracle extends DbBase implements DbBaseInterface
     function error($err='')
     {
         if (!$this->id_connection) {
-            $error = oci_error() ? oci_error() : "[Error Desconocido en Oracle]";
+            $error = oci_error() ?: "[Error Desconocido en Oracle]";
             if (is_array($error)) {
                 $error['message'].=" > $err ";
                 return $error['message'];
@@ -375,12 +375,11 @@ class DbOracle extends DbBase implements DbBaseInterface
     function no_error()
     {
         if (!$this->id_connection) {
-            $error = oci_error() ? oci_error() : 0;
+            $error = oci_error() ?: 0;
             if (is_array($error)) {
                 return $error['code'];
-            } else {
-                return $error;
             }
+            return $error;
         }
         $error = oci_error($this->id_connection);
         return $error['code'];

@@ -352,13 +352,13 @@ class DbInformix extends DbBase implements DbBaseInterface
     public function error($err='')
     {
         if (!$this->id_connection) {
-            $this->last_error = ifx_errormsg() ? ifx_errormsg() : "[Error Desconocido en Informix: $err]";
+            $this->last_error = ifx_errormsg() ?: "[Error Desconocido en Informix: $err]";
             if ($this->logger) {
                 Logger::error($this->last_error);
             }
             return $this->last_error;
         }
-        $this->last_error = ifx_errormsg($this->id_connection) ? ifx_errormsg($this->id_connection) : "[Error Desconocido en Informix: $err]";
+        $this->last_error = ifx_errormsg($this->id_connection) ?: "[Error Desconocido en Informix: $err]";
         $this->last_error.= $err;
         if ($this->logger) {
             Logger::error($this->last_error);
