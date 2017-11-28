@@ -120,7 +120,7 @@ class DbOracle extends DbBase implements DbBaseInterface
             throw new KumbiaException('Debe cargar la extensión de PHP llamada php_oci8');
         }
 
-        if ($this->id_connection = @oci_pconnect($config['username'], $config['password'], "//{$config['host']}/{$config['name']}")) {
+        if ($this->id_connection = oci_pconnect($config['username'], $config['password'], "//{$config['host']}/{$config['name']}")) {
             /*
              * Cambio el formato de fecha al estandar YYYY-MM-DD
              */
@@ -147,7 +147,7 @@ class DbOracle extends DbBase implements DbBaseInterface
 
         $this->num_rows = false;
         $this->last_query = $sqlQuery;
-        $resultQuery = @oci_parse($this->id_connection, $sqlQuery);
+        $resultQuery = oci_parse($this->id_connection, $sqlQuery);
         if ($resultQuery) {
             $this->last_result_query = $resultQuery;
         } else {
@@ -159,7 +159,7 @@ class DbOracle extends DbBase implements DbBaseInterface
             $commit = OCI_DEFAULT;
         }
 
-        if (!@oci_execute($resultQuery, $commit)) {
+        if (!oci_execute($resultQuery, $commit)) {
             throw new KumbiaException($this->error($php_errormsg));
         }
 
@@ -239,13 +239,13 @@ class DbOracle extends DbBase implements DbBaseInterface
         } else {
             $commit = OCI_DEFAULT;
         }
-        if (!@oci_execute($resultQuery, $commit)) {
+        if (!oci_execute($resultQuery, $commit)) {
             throw new KumbiaException($this->error($php_errormsg." al ejecutar <em>'{$this->lastQuery}'</em>"));
         }
         $tmp = array();
         $this->num_rows = oci_fetch_all($resultQuery, $tmp);
         unset($tmp);
-        @oci_execute($resultQuery, $commit);
+        oci_execute($resultQuery, $commit);
 
         return $this->num_rows;
     }
@@ -294,7 +294,7 @@ class DbOracle extends DbBase implements DbBaseInterface
         } else {
             $commit = OCI_DEFAULT;
         }
-        if (!@oci_execute($resultQuery, $commit)) {
+        if (!oci_execute($resultQuery, $commit)) {
             throw new KumbiaException($this->error($php_errormsg." al ejecutar <em>'{$this->lastQuery}'</em>"));
         }
         if ($number) {
@@ -304,6 +304,7 @@ class DbOracle extends DbBase implements DbBaseInterface
                 }
             }
         }
+
         return true;
     }
 
@@ -386,7 +387,7 @@ class DbOracle extends DbBase implements DbBaseInterface
     {
         $number = 0;
         $params = Util::getParams(func_get_args());
-        if (isset($params['limit']) {
+        if (isset($params['limit'])) {
             $number = $params['limit'];
         }
         if (!is_numeric($number) || $number < 0) {
