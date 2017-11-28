@@ -160,7 +160,7 @@ class DbOracle extends DbBase implements DbBaseInterface
         }
 
         if (!oci_execute($resultQuery, $commit)) {
-            throw new KumbiaException($this->error($php_errormsg));
+            throw new KumbiaException($this->error(" al ejecutar <em>'$sqlQuery'</em>"));
         }
 
         return $resultQuery;
