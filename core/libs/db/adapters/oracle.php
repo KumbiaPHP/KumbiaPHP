@@ -26,25 +26,25 @@
 class DbOracle extends DbBase implements DbBaseInterface
 {
     /**
-     * Resource de la Conexion a Oracle.
+     * Resource de la Conexlón a Oracle.
      *
      * @var resource
      */
     public $id_connection;
     /**
-     * Ultimo Resultado de una Query.
+     * Último Resultado de una Query.
      *
      * @var resource
      */
     public $last_result_query;
     /**
-     * Ultima sentencia SQL enviada a Oracle.
+     * Última sentencia SQL enviada a Oracle.
      *
      * @var string
      */
     protected $last_query;
     /**
-     * Ultimo error generado por Oracle.
+     * Último error generado por Oracle.
      *
      * @var string
      */
@@ -56,7 +56,7 @@ class DbOracle extends DbBase implements DbBaseInterface
      */
     private $autocommit = false;
     /**
-     * NUmero de filas devueltas.
+     * Número de filas devueltas.
      *
      * @var bool
      */
@@ -108,7 +108,7 @@ class DbOracle extends DbBase implements DbBaseInterface
     const TYPE_CHAR = 'CHAR';
 
     /**
-     * Hace una conexion a la base de datos de Oracle.
+     * Hace una conexión a la base de datos de Oracle.
      *
      * @param array $config
      *
@@ -132,7 +132,7 @@ class DbOracle extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Efectua operaciones SQL sobre la base de datos.
+     * Efectúa operaciones SQL sobre la base de datos.
      *
      * @param string $sqlQuery
      *
@@ -148,19 +148,13 @@ class DbOracle extends DbBase implements DbBaseInterface
         $this->num_rows = false;
         $this->last_query = $sqlQuery;
         $resultQuery = oci_parse($this->id_connection, $sqlQuery);
-        if ($resultQuery) {
-            $this->last_result_query = $resultQuery;
-        } else {
-            throw new KumbiaException($this->error($php_errormsg));
+        if (!$resultQuery) {
+            throw new KumbiaException($this->error($php_errormsg." > al ejecutar <em>'$sqlQuery'</em>"));
         }
-        if ($this->autocommit) {
-            $commit = OCI_COMMIT_ON_SUCCESS;
-        } else {
-            $commit = OCI_DEFAULT;
-        }
-
+        $this->last_result_query = $resultQuery;
+        $commit = $this->autocommit ? OCI_COMMIT_ON_SUCCESS : OCI_DEFAULT;
         if (!oci_execute($resultQuery, $commit)) {
-            throw new KumbiaException($this->error(" al ejecutar <em>'$sqlQuery'</em>"));
+            throw new KumbiaException($this->error($php_errormsg." > al ejecutar <em>'$sqlQuery'</em>"));
         }
 
         return $resultQuery;
@@ -216,7 +210,7 @@ class DbOracle extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve el numero de filas de un select.
+     * Devuelve el número de filas de un select.
      */
     public function num_rows($resultQuery = null)
     {
@@ -234,17 +228,13 @@ class DbOracle extends DbBase implements DbBaseInterface
           return $this->num_rows;
           }
           } */
-        if ($this->autocommit) {
-            $commit = OCI_COMMIT_ON_SUCCESS;
-        } else {
-            $commit = OCI_DEFAULT;
-        }
+        $commit = $this->autocommit ? OCI_COMMIT_ON_SUCCESS : OCI_DEFAULT;
         if (!oci_execute($resultQuery, $commit)) {
             throw new KumbiaException($this->error($php_errormsg." al ejecutar <em>'{$this->lastQuery}'</em>"));
         }
         $tmp = array();
         $this->num_rows = oci_fetch_all($resultQuery, $tmp);
-        unset($tmp);
+        //unset($tmp);
         oci_execute($resultQuery, $commit);
 
         return $this->num_rows;
@@ -270,11 +260,11 @@ class DbOracle extends DbBase implements DbBaseInterface
         if (($fieldName = oci_field_name($resultQuery, $number + 1)) !== false) {
             return strtolower($fieldName);
         }
-        throw new KumbiaException($this->error());
+        throw new KumbiaException($this->error('No se pudo conseguir el nombre de campo'));
     }
 
     /**
-     * Se Mueve al resultado indicado por $number en un select.
+     * Se mueve al resultado indicado por $number en un select.
      *
      * @param int      $number
      * @param resource $resultQuery
@@ -289,11 +279,7 @@ class DbOracle extends DbBase implements DbBaseInterface
                 throw new KumbiaException($this->error('Resource invalido para db::data_seek'));
             }
         }
-        if ($this->autocommit) {
-            $commit = OCI_COMMIT_ON_SUCCESS;
-        } else {
-            $commit = OCI_DEFAULT;
-        }
+        $commit = $this->autocommit ? OCI_COMMIT_ON_SUCCESS : OCI_DEFAULT;
         if (!oci_execute($resultQuery, $commit)) {
             throw new KumbiaException($this->error($php_errormsg." al ejecutar <em>'{$this->lastQuery}'</em>"));
         }
@@ -309,7 +295,7 @@ class DbOracle extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Número de Filas afectadas en un insert, update ó delete.
+     * Número de Filas afectadas en un insert, update o delete.
      *
      * @param resource $resultQuery
      *
@@ -337,23 +323,19 @@ class DbOracle extends DbBase implements DbBaseInterface
     public function error($err = '')
     {
         if (!$this->id_connection) {
-            $error = oci_error() ?: '[Error Desconocido en Oracle]';
+            $error = oci_error() ?: '[Error desconocido en Oracle (sin conexión)]';
             if (is_array($error)) {
-                $error['message'] .= " > $err ";
-
-                return $error['message'];
+                return $error['message']." > $err ";
             }
-            //$error.=" $php_errormsg ";
-            return $error;
+
+            return $error." > $err ";
         }
         $error = oci_error($this->id_connection);
         if ($error) {
-            $error['message'] .= " > $err ";
-        } else {
-            $error['message'] = $err;
+            return $error['message']." > $err ";
         }
 
-        return $error['message'];
+        return $err;
     }
 
     /**
@@ -377,7 +359,7 @@ class DbOracle extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve un LIMIT valido para un SELECT del RBDM.
+     * Devuelve un LIMIT válido para un SELECT del RBDM.
      *
      * @param string $sql
      *
@@ -431,7 +413,7 @@ class DbOracle extends DbBase implements DbBaseInterface
      * Crea una tabla utilizando SQL nativo del RDBM.
      *
      * TODO:
-     * - Falta que el parametro index funcione. Este debe listar indices compuestos multipes y unicos
+     * - Falta que el parámetro index funcione. Este debe listar indices compuestos múltipes y únicos
      * - Agregar el tipo de tabla que debe usarse (Oracle)
      * - Soporte para campos autonumericos
      * - Soporte para llaves foraneas
@@ -445,7 +427,7 @@ class DbOracle extends DbBase implements DbBaseInterface
     {
         $create_sql = "CREATE TABLE $table (";
         if (!is_array($definition)) {
-            throw new KumbiaException("Definición invalida para crear la tabla '$table'");
+            throw new KumbiaException("Definición inválida para crear la tabla '$table'");
         }
         $create_lines = array();
         $index = array();
@@ -520,7 +502,7 @@ class DbOracle extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve el ultimo id autonumerico generado en la BD.
+     * Devuelve el último id autonumérico generado en la BD.
      *
      * @return int
      */
@@ -583,7 +565,7 @@ class DbOracle extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Inicia una transacci&oacute;n si es posible.
+     * Inicia una transacción si es posible.
      */
     public function begin()
     {
@@ -593,7 +575,7 @@ class DbOracle extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve la ultima sentencia sql ejecutada por el Adaptador.
+     * Devuelve la última sentencia sql ejecutada por el Adaptador.
      *
      * @return string
      */
