@@ -1,6 +1,6 @@
 <?php
 /**
- * KumbiaPHP web & app Framework
+ * KumbiaPHP web & app Framework.
  *
  * LICENSE
  *
@@ -13,124 +13,118 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    Db
- * @subpackage Adapters
+ *
  * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
- * MySQL Improved Database Support
+ * MySQL Improved Database Support.
  *
  * @category   Kumbia
- * @package    Db
- * @subpackage Adapters
  */
 class DbMySQLi extends DbBase implements DbBaseInterface
 {
-
     /**
-     * Resource de la Conexión a MySQL
+     * Resource de la Conexión a MySQL.
      *
      * @var resource
      */
     public $id_connection;
     /**
-     * Último Resultado de una Query
+     * Último Resultado de una Query.
      *
      * @var resource
      */
     public $last_result_query;
     /**
-     * Última sentencia SQL enviada a MySQL
+     * Última sentencia SQL enviada a MySQL.
      *
      * @var string
      */
     protected $last_query;
     /**
-     * Último error generado por MySQL
+     * Último error generado por MySQL.
      *
      * @var string
      */
     public $last_error;
 
     /**
-     * Resultado de Array Asociativo
-     *
+     * Resultado de Array Asociativo.
      */
     const DB_ASSOC = MYSQLI_ASSOC;
 
     /**
-     * Resultado de Array Asociativo y Númerico
-     *
+     * Resultado de Array Asociativo y Númerico.
      */
     const DB_BOTH = MYSQLI_BOTH;
 
     /**
-     * Resultado de Array Númerico
-     *
+     * Resultado de Array Númerico.
      */
     const DB_NUM = MYSQLI_NUM;
 
-
     /**
-     * Tipo de Dato Integer
-     *
+     * Tipo de Dato Integer.
      */
     const TYPE_INTEGER = 'INTEGER';
 
     /**
-     * Tipo de Dato Date
-     *
+     * Tipo de Dato Date.
      */
     const TYPE_DATE = 'DATE';
 
     /**
-     * Tipo de Dato Varchar
-     *
+     * Tipo de Dato Varchar.
      */
     const TYPE_VARCHAR = 'VARCHAR';
 
     /**
-     * Tipo de Dato Decimal
-     *
+     * Tipo de Dato Decimal.
      */
     const TYPE_DECIMAL = 'DECIMAL';
 
     /**
-     * Tipo de Dato Datetime
-     *
+     * Tipo de Dato Datetime.
      */
     const TYPE_DATETIME = 'DATETIME';
 
     /**
-     * Tipo de Dato Char
-     *
+     * Tipo de Dato Char.
      */
     const TYPE_CHAR = 'CHAR';
 
     /**
-     * Hace una conexión a la base de datos de MySQL
+     * Hace una conexión a la base de datos de MySQL.
      *
      * @param array $config
+     *
      * @return bool
      */
     public function connect($config)
     {
-        if (!extension_loaded('mysqli')) throw new KumbiaException('Debe cargar la extensión de PHP llamada php_mysqli');
-
+        if (!extension_loaded('mysqli')) {
+            throw new KumbiaException('Debe cargar la extensión de PHP llamada php_mysqli');
+        }
         $this->id_connection = new mysqli($config['host'], $config['username'], $config['password'], $config['name'], $config['port']);
         //no se usa $object->error() ya que solo funciona a partir de 5.2.9 y 5.3
-        if (mysqli_connect_error ()) throw new KumbiaException(mysqli_connect_error());
+        if (mysqli_connect_error()) {
+            throw new KumbiaException(mysqli_connect_error());
+        }
         //Selecciona charset
-        if (isset($config['charset'])) $this->id_connection->set_charset($config['charset']);
-        return TRUE;
+        if (isset($config['charset'])) {
+            $this->id_connection->set_charset($config['charset']);
+        }
+
+        return true;
     }
 
     /**
-     * Efectua operaciones SQL sobre la base de datos
+     * Efectua operaciones SQL sobre la base de datos.
      *
      * @param string $sql_query
+     *
      * @return resource or false
      */
     public function query($sql_query)
@@ -143,16 +137,16 @@ class DbMySQLi extends DbBase implements DbBaseInterface
         $this->last_query = $sql_query;
         if ($result_query = mysqli_query($this->id_connection, $sql_query)) {
             $this->last_result_query = $result_query;
+
             return $result_query;
-        } else {
-            throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
         }
+        throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
     }
 
     /**
-     * Cierra la Conexión al Motor de Base de datos
+     * Cierra la Conexión al Motor de Base de datos.
      *
-     * @return boolean
+     * @return bool
      */
     public function close()
     {
@@ -162,13 +156,14 @@ class DbMySQLi extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve fila por fila el contenido de un select
+     * Devuelve fila por fila el contenido de un select.
      *
      * @param resource $result_query
-     * @param int $opt
+     * @param int      $opt
+     *
      * @return array
      */
-    public function fetch_array($result_query='', $opt=MYSQLI_BOTH)
+    public function fetch_array($result_query = '', $opt = MYSQLI_BOTH)
     {
         if (!$result_query) {
             $result_query = $this->last_result_query;
@@ -176,11 +171,12 @@ class DbMySQLi extends DbBase implements DbBaseInterface
                 return false;
             }
         }
+
         return mysqli_fetch_array($result_query, $opt);
     }
 
     /**
-     * Constructor de la Clase
+     * Constructor de la Clase.
      *
      * @param array $config
      */
@@ -190,9 +186,9 @@ class DbMySQLi extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve el numero de filas de un select
+     * Devuelve el numero de filas de un select.
      */
-    public function num_rows($result_query='')
+    public function num_rows($result_query = '')
     {
         if (!$result_query) {
             $result_query = $this->last_result_query;
@@ -202,21 +198,20 @@ class DbMySQLi extends DbBase implements DbBaseInterface
         }
         if (($number_rows = mysqli_num_rows($result_query)) !== false) {
             return $number_rows;
-        } else {
-            throw new KumbiaException($this->error());
         }
+        throw new KumbiaException($this->error());
     }
 
     /**
-     * Devuelve el nombre de un campo en el resultado de un select
+     * Devuelve el nombre de un campo en el resultado de un select.
      *
-     * @param int $number
+     * @param int      $number
      * @param resource $result_query
+     *
      * @return string
      */
-    public function field_name($number, $result_query='')
+    public function field_name($number, $result_query = '')
     {
-
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -225,20 +220,21 @@ class DbMySQLi extends DbBase implements DbBaseInterface
         }
         if (($fieldName = mysqli_field_seek($result_query, $number)) !== false) {
             $field = mysqli_fetch_field($result_query);
+
             return $field->name;
-        } else {
-            throw new KumbiaException($this->error());
         }
+        throw new KumbiaException($this->error());
     }
 
     /**
-     * Se Mueve al resultado indicado por $number en un select
+     * Se Mueve al resultado indicado por $number en un select.
      *
-     * @param int $number
+     * @param int      $number
      * @param resource $result_query
-     * @return boolean
+     *
+     * @return bool
      */
-    public function data_seek($number, $result_query='')
+    public function data_seek($number, $result_query = '')
     {
         if (!$result_query) {
             $result_query = $this->last_result_query;
@@ -248,43 +244,43 @@ class DbMySQLi extends DbBase implements DbBaseInterface
         }
         if (($success = mysqli_data_seek($result_query, $number)) !== false) {
             return $success;
-        } else {
-            throw new KumbiaException($this->error());
         }
+        throw new KumbiaException($this->error());
     }
 
     /**
-     * Numero de Filas afectadas en un insert, update o delete
+     * Numero de Filas afectadas en un insert, update o delete.
      *
      * @param resource $result_query
+     *
      * @return int
      */
-    public function affected_rows($result_query='')
+    public function affected_rows($result_query = '')
     {
         if (($numberRows = mysqli_affected_rows($this->id_connection)) !== false) {
             return $numberRows;
-        } else {
-            throw new KumbiaException($this->error());
         }
+        throw new KumbiaException($this->error());
     }
 
     /**
-     * Devuelve el error de MySQL
+     * Devuelve el error de MySQL.
      *
      * @return string
      */
-    public function error($err='')
+    public function error($err = '')
     {
-        $this->last_error = mysqli_error($this->id_connection) ?: "[Error Desconocido en MySQL: $err]";
-        $this->last_error.= $err;
+        $this->last_error = mysqli_error($this->id_connection) ?: '[Error Desconocido en MySQLi]';
+        $this->last_error .= $err;
         if ($this->logger) {
             Logger::error($this->last_error);
         }
+
         return $this->last_error;
     }
 
     /**
-     * Devuelve el no error de MySQL
+     * Devuelve el no error de MySQL.
      *
      * @return int
      */
@@ -294,72 +290,74 @@ class DbMySQLi extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve el ultimo id autonumerico generado en la BD
+     * Devuelve el último id autonúmerico generado en la BD.
      *
      * @return int
      */
-    public function last_insert_id($table='', $primary_key='')
+    public function last_insert_id($table = '', $primary_key = '')
     {
         return mysqli_insert_id($this->id_connection);
     }
 
     /**
-     * Verifica si una tabla existe o no
+     * Verifica si una tabla existe o no.
      *
      * @param string $table
-     * @return boolean
+     *
+     * @return bool
      */
-    public function table_exists($table, $schema='')
+    public function table_exists($table, $schema = '')
     {
         $table = addslashes("$table");
-        if ($schema == '') {
-            $num = $this->fetch_one("select count(*) from information_schema.tables where table_name = '$table'");
-        } else {
+        $sql = "select count(*) from information_schema.tables where table_name = '$table'";
+        if ($schema) {
             $schema = addslashes("$schema");
-            $num = $this->fetch_one("select count(*) from information_schema.tables where table_name = '$table' and table_schema = '$schema'");
+            $sql .= " and table_schema = '$schema'";
         }
-        return $num[0];
+
+        return $this->fetch_one($sql)[0];
     }
 
     /**
-     * Devuelve un LIMIT valido para un SELECT del RBDM
+     * Devuelve un LIMIT válido para un SELECT del RBDM.
      *
      * @param string $sql consulta sql
+     *
      * @return string
      */
     public function limit($sql)
     {
         $params = Util::getParams(func_get_args());
-        $sql_new = $sql;
 
         if (isset($params['limit']) && is_numeric($params['limit'])) {
-            $sql_new.=" LIMIT $params[limit]";
+            $sql .= " LIMIT $params[limit]";
         }
 
         if (isset($params['offset']) && is_numeric($params['offset'])) {
-            $sql_new.=" OFFSET $params[offset]";
+            $sql .= " OFFSET $params[offset]";
         }
 
-        return $sql_new;
+        return $sql;
     }
 
     /**
-     * Borra una tabla de la base de datos
+     * Borra una tabla de la base de datos.
      *
      * @param string $table
+     *
      * @return resource
      */
-    public function drop_table($table, $if_exists=true)
+    public function drop_table($table, $if_exists = true)
     {
         if ($if_exists) {
             return $this->query("DROP TABLE IF EXISTS $table");
-        } else {
-            return $this->query("DROP TABLE $table");
         }
+
+        return $this->query("DROP TABLE $table");
     }
 
     /**
-     * Crea una tabla utilizando SQL nativo del RDBM
+     * Crea una tabla utilizando SQL nativo del RDBM.
      *
      * TODO:
      * - Falta que el parametro index funcione. Este debe listar indices compuestos multipes y unicos
@@ -368,10 +366,11 @@ class DbMySQLi extends DbBase implements DbBaseInterface
      * - Soporte para llaves foraneas
      *
      * @param string $table
-     * @param array $definition
+     * @param array  $definition
+     *
      * @return resource
      */
-    public function create_table($table, $definition, $index=array())
+    public function create_table($table, $definition, $index = array())
     {
         $create_sql = "CREATE TABLE $table (";
         if (!is_array($definition)) {
@@ -387,12 +386,12 @@ class DbMySQLi extends DbBase implements DbBaseInterface
             if (isset($field_def['not_null'])) {
                 $not_null = $field_def['not_null'] ? 'NOT NULL' : '';
             } else {
-                $not_null = "";
+                $not_null = '';
             }
             if (isset($field_def['size'])) {
-                $size = $field_def['size'] ? '(' . $field_def['size'] . ')' : '';
+                $size = $field_def['size'] ? '('.$field_def['size'].')' : '';
             } else {
-                $size = "";
+                $size = '';
             }
             if (isset($field_def['index'])) {
                 if ($field_def['index']) {
@@ -411,20 +410,20 @@ class DbMySQLi extends DbBase implements DbBaseInterface
             }
             if (isset($field_def['auto'])) {
                 if ($field_def['auto']) {
-                    $field_def['extra'] = isset($field_def['extra']) ? $field_def['extra'] . " AUTO_INCREMENT" : "AUTO_INCREMENT";
+                    $field_def['extra'] = isset($field_def['extra']) ? $field_def['extra'].' AUTO_INCREMENT' : 'AUTO_INCREMENT';
                 }
             }
             if (isset($field_def['extra'])) {
                 $extra = $field_def['extra'];
             } else {
-                $extra = "";
+                $extra = '';
             }
-            $create_lines[] = "`$field` " . $field_def['type'] . $size . ' ' . $not_null . ' ' . $extra;
+            $create_lines[] = "`$field` ".$field_def['type'].$size.' '.$not_null.' '.$extra;
         }
-        $create_sql.= join(',', $create_lines);
+        $create_sql .= join(',', $create_lines);
         $last_lines = array();
         if (count($primary)) {
-            $last_lines[] = 'PRIMARY KEY(' . join(",", $primary) . ')';
+            $last_lines[] = 'PRIMARY KEY('.join(',', $primary).')';
         }
         if (count($index)) {
             $last_lines[] = join(',', $index);
@@ -433,38 +432,40 @@ class DbMySQLi extends DbBase implements DbBaseInterface
             $last_lines[] = join(',', $unique_index);
         }
         if (count($last_lines)) {
-            $create_sql.= ',' . join(',', $last_lines) . ')';
+            $create_sql .= ','.join(',', $last_lines).')';
         }
+
         return $this->query($create_sql);
     }
 
     /**
-     * Listar las tablas en la base de datos
+     * Listar las tablas en la base de datos.
      *
      * @return array
      */
     public function list_tables()
     {
-        return $this->fetch_all("SHOW TABLES");
+        return $this->fetch_all('SHOW TABLES');
     }
 
     /**
-     * Listar los campos de una tabla
+     * Listar los campos de una tabla.
      *
      * @param string $table
+     *
      * @return array
      */
-    public function describe_table($table, $schema='')
+    public function describe_table($table, $schema = '')
     {
         if ($schema == '') {
             return $this->fetch_all("DESCRIBE `$table`");
-        } else {
-            return $this->fetch_all("DESCRIBE `$schema`.`$table`");
         }
+
+        return $this->fetch_all("DESCRIBE `$schema`.`$table`");
     }
 
     /**
-     * Devuelve la ultima sentencia sql ejecutada por el Adaptador
+     * Devuelve la ultima sentencia sql ejecutada por el Adaptador.
      *
      * @return string
      */
@@ -472,5 +473,4 @@ class DbMySQLi extends DbBase implements DbBaseInterface
     {
         return $this->last_query;
     }
-
 }
