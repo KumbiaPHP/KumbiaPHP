@@ -127,9 +127,8 @@ class DbOracle extends DbBase implements DbBaseInterface
             $this->query("alter session set nls_date_format = 'YYYY-MM-DD'");
 
             return true;
-        } else {
-            throw new KumbiaException($this->error($php_errormsg));
         }
+        throw new KumbiaException($this->error($php_errormsg));
     }
 
     /**
@@ -270,9 +269,8 @@ class DbOracle extends DbBase implements DbBaseInterface
 
         if (($fieldName = oci_field_name($resultQuery, $number + 1)) !== false) {
             return strtolower($fieldName);
-        } else {
-            throw new KumbiaException($this->error());
         }
+        throw new KumbiaException($this->error());
     }
 
     /**
@@ -305,10 +303,7 @@ class DbOracle extends DbBase implements DbBaseInterface
                     return false;
                 }
             }
-        } else {
-            return true;
         }
-
         return true;
     }
 
@@ -329,9 +324,8 @@ class DbOracle extends DbBase implements DbBaseInterface
         }
         if (($numberRows = oci_num_rows($resultQuery)) !== false) {
             return $numberRows;
-        } else {
-            throw new KumbiaException($this->error('Resource invalido para db::affected_rows'));
         }
+        throw new KumbiaException($this->error('Resource invalido para db::affected_rows'));
     }
 
     /**
@@ -347,10 +341,9 @@ class DbOracle extends DbBase implements DbBaseInterface
                 $error['message'] .= " > $err ";
 
                 return $error['message'];
-            } else {
-                //$error.=" $php_errormsg ";
-                return $error;
             }
+            //$error.=" $php_errormsg ";
+            return $error;
         }
         $error = oci_error($this->id_connection);
         if ($error) {
@@ -391,10 +384,10 @@ class DbOracle extends DbBase implements DbBaseInterface
      */
     public function limit($sql)
     {
-        $num = 0;
+        $number = 0;
         $params = Util::getParams(func_get_args());
         if (isset($params['limit']) {
-            $num = $params['limit'];
+            $number = $params['limit'];
         }
         if (!is_numeric($number) || $number < 0) {
             return $sql;
