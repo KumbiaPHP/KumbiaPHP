@@ -1752,7 +1752,7 @@ class KumbiaActiveRecord
                     /*
                      * Campos autonumericos en Oracle deben utilizar una sequencia auxiliar
                      */
-                    if ($config['type'] == 'oracle' && !$this->id) {
+                    if ($config['type'] === 'oracle' && !$this->id) {
                         $fields[] = 'id';
                         $values[] = $this->source.'_id_seq.NEXTVAL';
                     }

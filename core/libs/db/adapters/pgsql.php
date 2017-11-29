@@ -123,7 +123,7 @@ class DbPgSQL extends DbBase implements DbBaseInterface
      *
      * @param string $sqlQuery
      *
-     * @return resource or false
+     * @return resource|false
      */
     public function query($sqlQuery)
     {
@@ -133,7 +133,7 @@ class DbPgSQL extends DbBase implements DbBaseInterface
         }
 
         $this->last_query = $sqlQuery;
-        if ($resultQuery = @pg_query($this->id_connection, $sqlQuery)) {
+        if ($resultQuery = pg_query($this->id_connection, $sqlQuery)) {
             $this->last_result_query = $resultQuery;
 
             return $resultQuery;
@@ -273,14 +273,14 @@ class DbPgSQL extends DbBase implements DbBaseInterface
     public function error($err = '')
     {
         if (!$this->id_connection) {
-            $this->last_error = @pg_last_error() ? @pg_last_error().$err : "[Error Desconocido en PostgreSQL \"$err\"]";
+            $this->last_error = pg_last_error() ? pg_last_error().$err : "[Error Desconocido en PostgreSQL \"$err\"]";
             if ($this->logger) {
                 Logger::error($this->last_error);
             }
 
             return $this->last_error;
         }
-        $this->last_error = @pg_last_error() ? @pg_last_error().$err : "[Error Desconocido en PostgreSQL: $err]";
+        $this->last_error = pg_last_error() ? pg_last_error().$err : "[Error Desconocido en PostgreSQL: $err]";
         $this->last_error .= $err;
         if ($this->logger) {
             Logger::error($this->last_error);

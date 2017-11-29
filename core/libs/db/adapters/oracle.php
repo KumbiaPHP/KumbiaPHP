@@ -136,7 +136,7 @@ class DbOracle extends DbBase implements DbBaseInterface
      *
      * @param string $sqlQuery
      *
-     * @return resource or false
+     * @return resource|false
      */
     public function query($sqlQuery)
     {
