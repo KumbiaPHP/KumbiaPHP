@@ -413,31 +413,19 @@ class DbPgSQL extends DbBase implements DbBaseInterface
             } else {
                 $size = '';
             }
-            if (isset($field_def['index'])) {
-                if ($field_def['index']) {
-                    $index[] = "INDEX($field)";
-                }
+            if (isset($field_def['index']) && $field_def['index']) {
+                $index[] = "INDEX($field)";
             }
-            if (isset($field_def['unique_index'])) {
-                if ($field_def['unique_index']) {
-                    $index[] = "UNIQUE($field)";
-                }
+            if (isset($field_def['unique_index']) && $field_def['unique_index']) {
+                $index[] = "UNIQUE($field)";
             }
-            if (isset($field_def['primary'])) {
-                if ($field_def['primary']) {
-                    $primary[] = "$field";
-                }
+            if (isset($field_def['primary']) && $field_def['primary']) {
+                $primary[] = "$field";
             }
-            if (isset($field_def['auto'])) {
-                if ($field_def['auto']) {
-                    $field_def['type'] = 'SERIAL';
-                }
+            if (isset($field_def['auto']) && $field_def['auto']) {
+                $field_def['type'] = 'SERIAL';
             }
-            if (isset($field_def['extra'])) {
-                $extra = $field_def['extra'];
-            } else {
-                $extra = '';
-            }
+            $extra = isset($field_def['extra']) ? $field_def['extra'] : '';
             $create_lines[] = "$field ".$field_def['type'].$size.' '.$not_null.' '.$extra;
         }
         $create_sql .= join(',', $create_lines);
