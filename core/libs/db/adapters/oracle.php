@@ -128,7 +128,7 @@ class DbOracle extends DbBase implements DbBaseInterface
 
             return true;
         }
-        throw new KumbiaException($this->error($php_errormsg));
+        throw new KumbiaException($this->error('Error al conectar a Oracle'));
     }
 
     /**
@@ -149,12 +149,12 @@ class DbOracle extends DbBase implements DbBaseInterface
         $this->last_query = $sqlQuery;
         $resultQuery = oci_parse($this->id_connection, $sqlQuery);
         if (!$resultQuery) {
-            throw new KumbiaException($this->error($php_errormsg." > al ejecutar <em>'$sqlQuery'</em>"));
+            throw new KumbiaException($this->error("Error al ejecutar <em>'$sqlQuery'</em>"));
         }
         $this->last_result_query = $resultQuery;
         $commit = $this->autocommit ? OCI_COMMIT_ON_SUCCESS : OCI_DEFAULT;
         if (!oci_execute($resultQuery, $commit)) {
-            throw new KumbiaException($this->error($php_errormsg." > al ejecutar <em>'$sqlQuery'</em>"));
+            throw new KumbiaException($this->error("Error al ejecutar <em>'$sqlQuery'</em>"));
         }
 
         return $resultQuery;
@@ -230,7 +230,7 @@ class DbOracle extends DbBase implements DbBaseInterface
           } */
         $commit = $this->autocommit ? OCI_COMMIT_ON_SUCCESS : OCI_DEFAULT;
         if (!oci_execute($resultQuery, $commit)) {
-            throw new KumbiaException($this->error($php_errormsg." al ejecutar <em>'{$this->lastQuery}'</em>"));
+            throw new KumbiaException($this->error("Error al ejecutar <em>'{$this->lastQuery}'</em>"));
         }
         $tmp = array();
         $this->num_rows = oci_fetch_all($resultQuery, $tmp);
@@ -281,7 +281,7 @@ class DbOracle extends DbBase implements DbBaseInterface
         }
         $commit = $this->autocommit ? OCI_COMMIT_ON_SUCCESS : OCI_DEFAULT;
         if (!oci_execute($resultQuery, $commit)) {
-            throw new KumbiaException($this->error($php_errormsg." al ejecutar <em>'{$this->lastQuery}'</em>"));
+            throw new KumbiaException($this->error("Error al ejecutar <em>'{$this->lastQuery}'</em>"));
         }
         if ($number) {
             for ($i = 0; $i <= $number - 1; ++$i) {
