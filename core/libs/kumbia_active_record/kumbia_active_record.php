@@ -1142,7 +1142,11 @@ class KumbiaActiveRecord
         if (is_array($result)) {
             foreach ($result as $k => $r) {
                 if (!is_numeric($k)) {
-                    $obj->$k = stripslashes($r);
+                    if(!is_object($r)){
+                        $obj->$k = stripslashes($r);
+                    }else{
+                        $obj->$k=$r->load();
+                    }
                 }
             }
         }
@@ -1163,7 +1167,11 @@ class KumbiaActiveRecord
         if (is_array($result)) {
             foreach ($result as $k => $r) {
                 if (!is_numeric($k)) {
-                    $this->$k = stripslashes($r);
+                    if(!is_object($r)){
+                        $this->$k = stripslashes($r);                                               
+                    }else{
+                        $this->$k=$r->load();                         
+                    }
                 }
             }
         }
