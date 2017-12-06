@@ -119,8 +119,11 @@ class DbOracle extends DbBase implements DbBaseInterface
         if (!extension_loaded('oci8')) {
             throw new KumbiaException('Debe cargar la extensión de PHP llamada php_oci8');
         }
+        if (!$config['sid']) {
+            throw new KumbiaException('Debe especificar el sid de oracle en app/config/databases.ini');
+        }
 
-        if ($this->id_connection = oci_pconnect($config['username'], $config['password'], "//{$config['host']}/{$config['name']}")) {
+        if ($this->id_connection = oci_pconnect($config['username'], $config['password'], "//{$config['host']}/{$config['sid']}")) {
             /*
              * Cambio el formato de fecha al estandar YYYY-MM-DD
              */
