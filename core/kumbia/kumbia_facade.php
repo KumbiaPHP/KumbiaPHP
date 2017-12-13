@@ -1,6 +1,6 @@
 <?php
 /**
- * KumbiaPHP web & app Framework
+ * KumbiaPHP web & app Framework.
  *
  * LICENSE
  *
@@ -13,26 +13,24 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    Core
+ *
  * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
  /**
-  * Clase principal para el manejo de excepciones
+  * Clase principal para el manejo de excepciones.
   *
   * @category   Kumbia
-  * @package    Core
   */
  abstract class KumbiaFacade
  {
      protected static $providers = [];
 
-
      /**
-      * Set the providers
-      * @param  Array  $p key/value array with providers
-      * @return void
+      * Set the providers.
+      *
+      * @param array $p key/value array with providers
       */
      public static function providers(array $p)
      {
@@ -40,24 +38,24 @@
      }
 
      /**
-      * Getter for the alias of the component
+      * Getter for the alias of the component.
       */
      protected static function getAlias()
      {
          throw new RuntimeException('Not implement');
      }
 
-
      protected static function getInstance($name)
      {
-         return  isset(self::$providers[$name])?self::$providers[$name]:null;
+         return  isset(self::$providers[$name]) ? self::$providers[$name] : null;
      }
 
      /**
       * Handle dynamic, static calls to the object.
       *
-      * @param  string  $method
-      * @param  array   $args
+      * @param string $method
+      * @param array  $args
+      *
       * @return mixed
       *
       * @throws \RuntimeException
@@ -65,7 +63,7 @@
      public static function __callStatic($method, $args)
      {
          $instance = self::getInstance(static::getAlias());
-         if (! $instance) {
+         if (!$instance) {
              throw new RuntimeException('A facade root has not been set.');
          }
 
