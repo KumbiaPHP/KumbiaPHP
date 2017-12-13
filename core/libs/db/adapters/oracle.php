@@ -54,7 +54,7 @@ class DbOracle extends DbBase implements DbBaseInterface
      *
      * @var bool
      */
-    private $autocommit = false;
+    private $autocommit = true;
     /**
      * Número de filas devueltas.
      *
@@ -68,12 +68,12 @@ class DbOracle extends DbBase implements DbBaseInterface
     const DB_ASSOC = OCI_ASSOC;
 
     /**
-     * Resultado de Array Asociativo y Numerico.
+     * Resultado de Array Asociativo y Numérico.
      */
     const DB_BOTH = OCI_BOTH;
 
     /**
-     * Resultado de Array Numerico.
+     * Resultado de Array Numérico.
      */
     const DB_NUM = OCI_NUM;
 
@@ -108,6 +108,16 @@ class DbOracle extends DbBase implements DbBaseInterface
     const TYPE_CHAR = 'CHAR';
 
     /**
+     * Constructor de la Clase.
+     *
+     * @param array $config
+     */
+    public function __construct($config)
+    {
+        $this->connect($config);
+    }
+
+    /**
      * Hace una conexión a la base de datos de Oracle.
      *
      * @param array $config
@@ -120,7 +130,7 @@ class DbOracle extends DbBase implements DbBaseInterface
             throw new KumbiaException('Debe cargar la extensión de PHP llamada php_oci8');
         }
 
-        if ($this->id_connection = oci_pconnect($config['username'], $config['password'], "//{$config['host']}/{$config['name']}")) {
+        if ($this->id_connection = oci_pconnect($config['username'], $config['password'], "{$config['host']}/{$config['name']}", $config['charset'])) {
             /*
              * Cambio el formato de fecha al estandar YYYY-MM-DD
              */
@@ -197,16 +207,6 @@ class DbOracle extends DbBase implements DbBaseInterface
         }
 
         return false;
-    }
-
-    /**
-     * Constructor de la Clase.
-     *
-     * @param array $config
-     */
-    public function __construct($config)
-    {
-        $this->connect($config);
     }
 
     /**
@@ -557,9 +557,25 @@ class DbOracle extends DbBase implements DbBaseInterface
      */
     public function begin()
     {
-        //Siempre hay una transaccion
-        //return $this->query("BEGIN WORK");
-        return true;
+        $this->autocommit = false;
+    }
+
+    /**
+     * Inicia una transacción si es posible.
+     */
+    public function commit()
+    {
+        $this->autocommit = true;
+
+        return oci_commit($this->id_connection);
+    }
+
+    /**
+     * Revierte una transacción.
+     */
+    public function rollback()
+    {
+        return oci_rollback($this->id_connection);
     }
 
     /**
