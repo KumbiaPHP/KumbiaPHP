@@ -32,7 +32,8 @@ require_once __DIR__ . '/controller.php';
  * @package Controller
  * @author kumbiaPHP Team
  */
-class KumbiaRest extends Controller {
+class KumbiaRest extends Controller
+{
 
     /**
      * Formato de entrada usado para interpretar los datos
@@ -73,7 +74,8 @@ class KumbiaRest extends Controller {
         'text/csv' => 'csv',
     );
 
-    public function __construct($arg) {
+    public function __construct($arg)
+    {
         parent::__construct($arg);
         $this->initREST();
     }
@@ -82,19 +84,20 @@ class KumbiaRest extends Controller {
      * Hacer el router de la petición y envia los parametros correspondientes
      * a la acción, adema captura formatos de entrada y salida
      */
-    protected function initREST() {
+    protected function initREST()
+    {
         /* formato de entrada */
         $this->_fInput = self::getInputFormat();
         $this->_fOutput = self::getOutputFormat($this->_outputType);
         View::select(null, $this->_fOutput);
         $this->rewriteActionName();
-
     }
 
     /**
      * Reescribe la acción
      */
-    protected function rewriteActionName() {
+    protected function rewriteActionName()
+    {
         /**
          * reescribimos la acción a ejecutar, ahora tendra será el metodo de
          * la peticion: get(:id), getAll , put, post, delete, etc.
@@ -117,7 +120,8 @@ class KumbiaRest extends Controller {
      * @param string $name nombre de la acción
      * @return boolean
      */
-    protected function actionExist($name) {
+    protected function actionExist($name)
+    {
         if (method_exists($this, $name)) {
             $reflection = new ReflectionMethod($this, $name);
             return $reflection->isPublic();
@@ -129,7 +133,8 @@ class KumbiaRest extends Controller {
      * Retorna los parametros de la petición el función del formato de entrada
      * de los mismos. Hace uso de los parser definidos en la clase
      */
-    protected function param() {
+    protected function param()
+    {
         $input = file_get_contents('php://input');
         $format = $this->_fInput;
         /* verifica si el formato tiene un parser válido */
@@ -146,7 +151,8 @@ class KumbiaRest extends Controller {
      * Envia el codigo de respuesta $num al cliente
      * @param int $num
      */
-    protected function setCode($num) {
+    protected function setCode($num)
+    {
         $code = array(
             //Informational 1xx
             100 => '100 Continue',
@@ -208,7 +214,8 @@ class KumbiaRest extends Controller {
      * @param int $error Número del error HTTP
      * @return Array data de error
      */
-    protected function error($text, $error = 400) {
+    protected function error($text, $error = 400)
+    {
         $this->setCode($error);
         return array('error' => $text);
     }
@@ -218,7 +225,8 @@ class KumbiaRest extends Controller {
      * interpretando la cabecera HTTP_ACCEPT
      * @return array
      */
-    protected static function accept() {
+    protected static function accept()
+    {
         /* para almacenar los valores acceptados por el cliente */
         $aTypes = array();
         /* Elimina espacios, convierte a minusculas, y separa */
@@ -243,7 +251,8 @@ class KumbiaRest extends Controller {
      * @param  string       $input
      * @return array|string
      */
-    protected static function parseJSON($input) {
+    protected static function parseJSON($input)
+    {
         if (function_exists('json_decode')) {
             $result = json_decode($input, true);
             if ($result) {
@@ -261,7 +270,8 @@ class KumbiaRest extends Controller {
      * @param  string                  $input
      * @return \SimpleXMLElement|string
      */
-    protected static function parseXML($input) {
+    protected static function parseXML($input)
+    {
         if (class_exists('SimpleXMLElement')) {
             try {
                 return new SimpleXMLElement($input);
@@ -281,7 +291,8 @@ class KumbiaRest extends Controller {
      * @param  string $input
      * @return array
      */
-    protected static function parseCSV($input) {
+    protected static function parseCSV($input)
+    {
         $temp = fopen('php://memory', 'rw');
         fwrite($temp, $input);
         fseek($temp, 0);
@@ -299,7 +310,8 @@ class KumbiaRest extends Controller {
      * @param string $input
      * @return arrat
      */
-    protected static function parseForm($input) {
+    protected static function parseForm($input)
+    {
         parse_str($input, $vars);
         return $vars;
     }
@@ -308,7 +320,8 @@ class KumbiaRest extends Controller {
      * Retorna el tipo de formato de entrada
      * @return string
      */
-    protected static function getInputFormat() {
+    protected static function getInputFormat()
+    {
         $str = '';
         if (isset($_SERVER["CONTENT_TYPE"])) {
             $s = explode(';', $_SERVER["CONTENT_TYPE"]);
@@ -322,7 +335,8 @@ class KumbiaRest extends Controller {
      * @param array $validOutput Array de formatos de salida soportado
      * @return string
      */
-    protected function getOutputFormat(Array $validOutput) {
+    protected function getOutputFormat(array $validOutput)
+    {
         /* busco un posible formato de salida */
         $accept = self::accept();
         foreach ($accept as $key => $a) {
@@ -337,7 +351,8 @@ class KumbiaRest extends Controller {
      * Retorna todas las cabeceras enviadas por el cliente
      * @return Array
      */
-    protected static function getHeaders() {
+    protected static function getHeaders()
+    {
 
         /*Esta función solo existe en apache*/
         if (function_exists('getallheaders')) {
@@ -347,17 +362,11 @@ class KumbiaRest extends Controller {
         $headers = array();
 
         foreach ($_SERVER as $name => $value) {
-
             if (substr($name, 0, 5) == 'HTTP_') {
-
                 $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
-
             }
-
         }
 
         return $headers;
-
     }
-
 }

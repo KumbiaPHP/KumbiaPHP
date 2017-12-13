@@ -18,7 +18,7 @@
 
 /**
  * Esta sección prepara el entorno
- * Todo esto se puede hacer desde la configuracion del
+ * Todo esto se puede hacer desde la configuración del
  * Servidor/PHP, en caso de no poder usarlo desde ahí
  * Puedes descomentar  estas lineas.
  */

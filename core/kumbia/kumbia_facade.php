@@ -26,48 +26,50 @@
   */
  abstract class KumbiaFacade
  {
-    protected static $providers = [];
+     protected static $providers = [];
 
 
-    /**
-     * Set the providers
-     * @param  Array  $p key/value array with providers
-     * @return void
-     */
-    public static function providers(Array $p){
-        self::$providers = $p;
-    }
+     /**
+      * Set the providers
+      * @param  Array  $p key/value array with providers
+      * @return void
+      */
+     public static function providers(array $p)
+     {
+         self::$providers = $p;
+     }
 
-    /**
-     * Getter for the alias of the component
-     */
-    protected static function getAlias(){
-        throw new RuntimeException('Not implement');
-    }
+     /**
+      * Getter for the alias of the component
+      */
+     protected static function getAlias()
+     {
+         throw new RuntimeException('Not implement');
+     }
 
 
-    protected static function getInstance($name)
-    {
-        return  isset(self::$providers[$name])?self::$providers[$name]:null;
-    }
+     protected static function getInstance($name)
+     {
+         return  isset(self::$providers[$name])?self::$providers[$name]:null;
+     }
 
-    /**
-     * Handle dynamic, static calls to the object.
-     *
-     * @param  string  $method
-     * @param  array   $args
-     * @return mixed
-     *
-     * @throws \RuntimeException
-     */
-    public static function __callStatic($method, $args)
-    {
-        $instance = self::getInstance(static::getAlias());
-        if (! $instance) {
-            throw new RuntimeException('A facade root has not been set.');
-        }
+     /**
+      * Handle dynamic, static calls to the object.
+      *
+      * @param  string  $method
+      * @param  array   $args
+      * @return mixed
+      *
+      * @throws \RuntimeException
+      */
+     public static function __callStatic($method, $args)
+     {
+         $instance = self::getInstance(static::getAlias());
+         if (! $instance) {
+             throw new RuntimeException('A facade root has not been set.');
+         }
 
-        switch (count($args)) {
+         switch (count($args)) {
             case 0:
                 return $instance->$method();
             case 1:
@@ -77,6 +79,5 @@
             default:
                 return call_user_func_array([$instance, $method], $args);
         }
-    }
-
+     }
  }
