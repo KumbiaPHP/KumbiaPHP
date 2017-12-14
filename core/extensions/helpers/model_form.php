@@ -89,7 +89,6 @@ class ModelForm
 
                 case 'text': case 'mediumtext': case 'longtext': // Usar textarea
                 case 'blob': case 'mediumblob': case 'longblob':
-                case 'varchar': case 'varchar2': // Oracle
                     echo "<textarea id=\"$formId\" name=\"$formName\">{$model->$field}</textarea>" , PHP_EOL;
                     break;
 
