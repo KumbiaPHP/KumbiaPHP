@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category   Kumbia
+ * @category   Db adapter
  *
  * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
@@ -21,9 +21,9 @@
 /**
  * MySQL Improved Database Support.
  *
- * @category   Kumbia
+ * @category   Db adapter
  */
-class DbMySQLi extends DbBase implements DbBaseInterface
+class DbMySQL extends DbBase implements DbBaseInterface
 {
     /**
      * Resource de la Conexión a MySQL.
@@ -280,7 +280,7 @@ class DbMySQLi extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve el no error de MySQL.
+     * Devuelve el número de error MySQL.
      *
      * @return int
      */

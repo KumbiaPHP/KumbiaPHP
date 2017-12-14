@@ -1,6 +1,6 @@
 <?php
 /**
- * KumbiaPHP web & app Framework
+ * KumbiaPHP web & app Framework.
  *
  * LICENSE
  *
@@ -12,45 +12,43 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category   Kumbia
- * @package    Db
+ * @category   Db
+ *
  * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
  * @see DbBaseInterface
  */
-require_once __DIR__ . '/db_base_interface.php';
+require_once __DIR__.'/db_base_interface.php';
 /**
  * @see DbBase
  */
-require_once __DIR__ . '/db_base.php';
+require_once __DIR__.'/db_base.php';
 
 /**
- * Clase que maneja el pool de conexiones
+ * Clase que maneja el pool de conexiones.
  *
  * @category   Kumbia
- * @package    Db
  */
 class Db
 {
-
     /**
-     * Singleton de conexiones a base de datos
+     * Singleton de conexiones a base de datos.
      *
      * @var array
      */
     protected static $_connections = array();
 
     /**
-     * Devuelve la conexión, si no existe llama a Db::connect para crearla
+     * Devuelve la conexión, si no existe llama a Db::connect para crearla.
      *
      * @param string $database base de datos a donde conectar
+     *
      * @return DbBase
      */
     public static function factory($database = null)
     {
-
         //Cargo el mode para mi aplicacion
         if (!$database) {
             $database = Config::get('config.application.database');
@@ -65,9 +63,10 @@ class Db
 
     /**
      * Realiza una conexión directa al motor de base de datos
-     * usando el driver de Kumbia
+     * usando el driver de Kumbia.
      *
      * @param string $database base de datos a donde conectar
+     *
      * @return DbBase
      */
     private static function connect($database)
@@ -76,7 +75,7 @@ class Db
         $config = $databases[$database];
 
         // carga los valores por defecto para la conexión, si no existen
-        $default = array('port' => 0, 'dsn' => NULL, 'dbname' => NULL, 'host' => 'localhost', 'username' => NULL, 'password' => NULL);
+        $default = array('port' => 0, 'dsn' => null, 'dbname' => null, 'host' => 'localhost', 'username' => null, 'password' => null);
         $config = $config + $default;
         $path = __DIR__;
 
@@ -85,7 +84,9 @@ class Db
             $dbclass = "DbPdo{$config['type']}";
             $db_file = "$path/adapters/pdo/{$config['type']}.php";
         } else {
-            if($config['type'] == 'mysql') $config['type'] = 'mysqli';
+            if ($config['type'] === 'mysqli') {
+                $config['type'] = 'mysql';
+            }
             $dbclass = "Db{$config['type']}";
             $db_file = "$path/adapters/{$config['type']}.php";
         }
@@ -97,5 +98,4 @@ class Db
 
         return new $dbclass($config);
     }
-
 }
