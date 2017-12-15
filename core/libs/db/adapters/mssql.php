@@ -105,7 +105,7 @@ class DbMsSQL extends DbBase implements DbBaseInterface
      *
      * @return bool
      */
-    public function connect($config)
+    public function connect(array $config)
     {
         if (!extension_loaded('mssql')) {
             throw new KumbiaException('Debe cargar la extensión de PHP llamada php_mssql');
