@@ -96,6 +96,16 @@ class DbPgSQL extends DbBase implements DbBaseInterface
     const TYPE_CHAR = 'CHAR';
 
     /**
+     * Constructor de la Clase.
+     *
+     * @param array $config
+     */
+    public function __construct($config)
+    {
+        $this->connect($config);
+    }
+
+    /**
      * Hace una conexion a la base de datos de PostgreSQL.
      *
      * @param array $config
@@ -171,16 +181,6 @@ class DbPgSQL extends DbBase implements DbBaseInterface
         }
 
         return pg_fetch_array($resultQuery, null, $opt);
-    }
-
-    /**
-     * Constructor de la Clase.
-     *
-     * @param array $config
-     */
-    public function __construct($config)
-    {
-        $this->connect($config);
     }
 
     /**
@@ -482,13 +482,13 @@ class DbPgSQL extends DbBase implements DbBaseInterface
                 pg_catalog.pg_type t WHERE c.relname = '$table' AND c.oid = a.attrelid
                 AND a.attnum > 0 AND t.oid = a.atttypid order by a.attnum");
         $final_describe = array();
-        foreach ($describe as $key => $value) {
+        foreach ($describe as $field) {
             $final_describe[] = array(
-                'Field' => $value['field'],
-                'Type' => $value['type'],
-                'Null' => $value['null'],
-                'Key' => $value['key'],
-                'Default' => $value['default'],
+                'Field' => $field['field'],
+                'Type' => $field['type'],
+                'Null' => $field['null'],
+                'Key' => $field['key'],
+                'Default' => $field['default'],
             );
         }
 

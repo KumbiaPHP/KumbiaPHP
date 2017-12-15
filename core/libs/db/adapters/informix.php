@@ -1,6 +1,6 @@
 <?php
 /**
- * KumbiaPHP web & app Framework
+ * KumbiaPHP web & app Framework.
  *
  * LICENSE
  *
@@ -12,124 +12,122 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category   Kumbia
- * @package    Db
- * @subpackage Adapters
+ * @category   Db adapters
+ *
  * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
- * Informix Database Support
+ * Informix Database Support.
  *
  * @category   Kumbia
- * @package    Db
- * @subpackage Adapters
  */
 class DbInformix extends DbBase implements DbBaseInterface
 {
-
     /**
-     * Resource de la Conexion a Informix
+     * Resource de la Conexion a Informix.
      *
      * @var resource
      */
     public $id_connection;
     /**
-     * Ultimo Resultado de una Query
+     * Ultimo Resultado de una Query.
      *
      * @var resource
      */
     public $last_result_query;
     /**
-     * Ultima sentencia SQL enviada a Informix
+     * Ultima sentencia SQL enviada a Informix.
      *
      * @var string
      */
     protected $last_query;
     /**
-     * Ultimo error generado por Informix
+     * Ultimo error generado por Informix.
      *
      * @var string
      */
     public $last_error;
     /**
-     * Indica si query devuelve registros o no;
+     * Indica si query devuelve registros o no;.
      *
-     * @var boolean
+     * @var bool
      */
     private $return_rows = true;
     /**
-     * Emula un limit a nivel de Adaptador para Informix
+     * Emula un limit a nivel de Adaptador para Informix.
      *
      * @var int
      */
     private $limit = -1;
     /**
-     * Numero de limit actual para fetch_array
+     * Numero de limit actual para fetch_array.
      *
      * @var int
      */
     private $actual_limit = 0;
 
     /**
-     * Resultado de Array Asociativo
-     *
+     * Resultado de Array Asociativo.
      */
     const DB_ASSOC = 1;
 
     /**
-     * Resultado de Array Asociativo y Numerico
-     *
+     * Resultado de Array Asociativo y Numerico.
      */
     const DB_BOTH = 2;
 
     /**
-     * Resultado de Array Numerico
-     *
+     * Resultado de Array Numerico.
      */
     const DB_NUM = 3;
 
     /**
-     * Tipo de Dato Integer
-     *
+     * Tipo de Dato Integer.
      */
     const TYPE_INTEGER = 'INTEGER';
 
     /**
-     * Tipo de Dato Date
-     *
+     * Tipo de Dato Date.
      */
     const TYPE_DATE = 'DATE';
 
     /**
-     * Tipo de Dato Varchar
-     *
+     * Tipo de Dato Varchar.
      */
     const TYPE_VARCHAR = 'VARCHAR';
 
     /**
-     * Tipo de Dato Decimal
-     *
+     * Tipo de Dato Decimal.
      */
     const TYPE_DECIMAL = 'DECIMAL';
 
     /**
-     * Tipo de Dato Datetime
-     *
+     * Tipo de Dato Datetime.
      */
     const TYPE_DATETIME = 'DATETIME';
 
     /**
-     * Tipo de Dato Char
-     *
+     * Tipo de Dato Char.
      */
     const TYPE_CHAR = 'CHAR';
 
     /**
-     * Hace una conexión a la base de datos de Informix
+     * Constructor de la Clase.
      *
      * @param array $config
+     */
+    public function __construct($config)
+    {
+        $this->connect($config);
+    }
+
+    /**
+     * Hace una conexión a la base de datos de Informix.
+     *
+     * @param array $config
+     *
      * @return bool
      */
     public function connect($config)
@@ -140,15 +138,15 @@ class DbInformix extends DbBase implements DbBaseInterface
 
         if ($this->id_connection = ifx_connect("{$config['name']}@{$config['host']}", $config['username'], $config['password'])) {
             return true;
-        } else {
-            throw new KumbiaException($this->error());
         }
+        throw new KumbiaException($this->error());
     }
 
     /**
-     * Efectua operaciones SQL sobre la base de datos
+     * Efectua operaciones SQL sobre la base de datos.
      *
      * @param string $sql_query
+     *
      * @return resource or false
      */
     public function query($sql_query)
@@ -171,31 +169,32 @@ class DbInformix extends DbBase implements DbBaseInterface
             throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
         }
         $this->last_result_query = $result_query;
+
         return $result_query;
     }
 
     /**
-     * Cierra la Conexión al Motor de Base de datos
-     *
+     * Cierra la Conexión al Motor de Base de datos.
      */
     public function close()
     {
         if ($this->id_connection) {
             return ifx_close($this->id_connection);
         }
+
         return false;
     }
 
     /**
-     * Devuelve fila por fila el contenido de un select
+     * Devuelve fila por fila el contenido de un select.
      *
      * @param resource $result_query
-     * @param int $opt
+     * @param int      $opt
+     *
      * @return array
      */
-    public function fetch_array($result_query=NULL, $opt=2)
+    public function fetch_array($result_query = null, $opt = 2)
     {
-
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -209,9 +208,10 @@ class DbInformix extends DbBase implements DbBaseInterface
             if ($this->actual_limit >= $this->limit) {
                 $this->limit = -1;
                 $this->actual_limit = 0;
+
                 return false;
             } else {
-                $this->actual_limit++;
+                ++$this->actual_limit;
                 if ($this->actual_limit == $this->limit) {
                     $this->limit = -1;
                     $this->actual_limit = 0;
@@ -230,6 +230,7 @@ class DbInformix extends DbBase implements DbBaseInterface
                 $result[$key] = $value;
                 $result[$i++] = $value;
             }
+
             return $result;
         }
         if ($opt == self::DB_NUM) {
@@ -238,24 +239,14 @@ class DbInformix extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Constructor de la Clase
-     *
-     * @param array $config
-     */
-    public function __construct($config)
-    {
-        $this->connect($config);
-    }
-
-    /**
-     * Devuelve el numero de filas de un select
+     * Devuelve el numero de filas de un select.
      *
      * @param resource $result_query
+     *
      * @return int
      */
-    public function num_rows($result_query=NULL)
+    public function num_rows($result_query = null)
     {
-
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -263,28 +254,26 @@ class DbInformix extends DbBase implements DbBaseInterface
             }
         }
         if (($number_rows = ifx_num_rows($result_query)) !== false) {
-
             // Emula un limit a nivel de adaptador
             if ($this->limit == -1) {
                 return $number_rows;
-            } else {
-                return $this->limit < $number_rows ? $this->limit : $number_rows;
             }
-        } else {
-            throw new KumbiaException($this->error());
+
+            return $this->limit < $number_rows ? $this->limit : $number_rows;
         }
+        throw new KumbiaException($this->error());
     }
 
     /**
-     * Devuelve el nombre de un campo en el resultado de un select
+     * Devuelve el nombre de un campo en el resultado de un select.
      *
-     * @param int $number
+     * @param int      $number
      * @param resource $result_query
+     *
      * @return string
      */
-    public function field_name($number, $result_query=NULL)
+    public function field_name($number, $result_query = null)
     {
-
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -297,18 +286,20 @@ class DbInformix extends DbBase implements DbBaseInterface
         }
 
         $fields = array_keys($fields);
+
         return $fields[$number];
     }
 
     /**
      * Se Mueve al resultado indicado por $number en un select
-     * Hay problemas con este metodo hay problemas con curesores IFX_SCROLL
+     * Hay problemas con este metodo hay problemas con curesores IFX_SCROLL.
      *
-     * @param int $number
+     * @param int      $number
      * @param resource $result_query
-     * @return boolean
+     *
+     * @return bool
      */
-    public function data_seek($number, $result_query=NULL)
+    public function data_seek($number, $result_query = null)
     {
         if (!$result_query) {
             $result_query = $this->last_result_query;
@@ -318,18 +309,18 @@ class DbInformix extends DbBase implements DbBaseInterface
         }
         if (($success = ifx_fetch_row($result_query, $number)) !== false) {
             return $success;
-        } else {
-            throw new KumbiaException($this->error());
         }
+        throw new KumbiaException($this->error());
     }
 
     /**
-     * Numero de Filas afectadas en un insert, update o delete
+     * Numero de Filas afectadas en un insert, update o delete.
      *
      * @param resource $result_query
+     *
      * @return int
      */
-    public function affected_rows($result_query=NULL)
+    public function affected_rows($result_query = null)
     {
         if (!$result_query) {
             $result_query = $this->last_result_query;
@@ -339,35 +330,36 @@ class DbInformix extends DbBase implements DbBaseInterface
         }
         if (($numberRows = ifx_affected_rows($result_query)) !== false) {
             return $numberRows;
-        } else {
-            throw new KumbiaException($this->error());
         }
+        throw new KumbiaException($this->error());
     }
 
     /**
-     * Devuelve el error de Informix
+     * Devuelve el error de Informix.
      *
      * @return string
      */
-    public function error($err='')
+    public function error($err = '')
     {
         if (!$this->id_connection) {
             $this->last_error = ifx_errormsg() ?: "[Error Desconocido en Informix: $err]";
             if ($this->logger) {
                 Logger::error($this->last_error);
             }
+
             return $this->last_error;
         }
         $this->last_error = ifx_errormsg($this->id_connection) ?: "[Error Desconocido en Informix: $err]";
-        $this->last_error.= $err;
+        $this->last_error .= $err;
         if ($this->logger) {
             Logger::error($this->last_error);
         }
+
         return $this->last_error;
     }
 
     /**
-     * Devuelve el no error de Informix
+     * Devuelve el no error de Informix.
      *
      * @return int
      */
@@ -377,67 +369,73 @@ class DbInformix extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve el ultimo id autonumerico generado en la BD
+     * Devuelve el ultimo id autonumerico generado en la BD.
      *
      * @return int
      */
-    public function last_insert_id($table='', $primary_key='')
+    public function last_insert_id($table = '', $primary_key = '')
     {
         $sqlca = ifx_getsqlca($this->last_result_query);
-        return $sqlca["sqlerrd1"];
+
+        return $sqlca['sqlerrd1'];
     }
 
     /**
-     * Verifica si una tabla existe o no
+     * Verifica si una tabla existe o no.
      *
      * @param string $table
-     * @return integer
+     *
+     * @return int
      */
-    public function table_exists($table, $schema='')
+    public function table_exists($table, $schema = '')
     {
         // Informix no soporta schemas
         $table = addslashes("$table");
         $num = $this->fetch_one("SELECT COUNT(*) FROM systables WHERE tabname = '$table'");
+
         return (int) $num[0];
     }
 
     /**
-     * Devuelve un LIMIT valido para un SELECT del RBDM
+     * Devuelve un LIMIT valido para un SELECT del RBDM.
      *
      * @param string $sql
+     *
      * @return string
      */
-    public function limit($sql){
-           /**
-                 * No esta soportado por Informix
-                 */
-                return "$sql \n";
+    public function limit($sql)
+    {
+        /*
+              * No esta soportado por Informix
+              */
+        return "$sql \n";
     }
 
-
     /**
-     * Borra una tabla de la base de datos
+     * Borra una tabla de la base de datos.
      *
      * @param string $table
-     * @return boolean
+     *
+     * @return bool
      */
-    public function drop_table($table, $if_exists=true)
+    public function drop_table($table, $if_exists = true)
     {
         if ($if_exists) {
             if ($this->table_exists($table)) {
                 $this->set_return_rows(false);
+
                 return $this->query("DROP TABLE $table");
-            } else {
-                return true;
             }
-        } else {
-            $this->set_return_rows(false);
-            return $this->query("DROP TABLE $table");
+
+            return true;
         }
+        $this->set_return_rows(false);
+
+        return $this->query("DROP TABLE $table");
     }
 
     /**
-     * Crea una tabla utilizando SQL nativo del RDBM
+     * Crea una tabla utilizando SQL nativo del RDBM.
      *
      * TODO:
      * - Falta que el parametro index funcione. Este debe listar indices compuestos multipes y unicos
@@ -446,10 +444,11 @@ class DbInformix extends DbBase implements DbBaseInterface
      * - Soporte para llaves foraneas
      *
      * @param string $table
-     * @param array $definition
+     * @param array  $definition
+     *
      * @return resource
      */
-    public function create_table($table, $definition, $index=array())
+    public function create_table($table, $definition, $index = array())
     {
         $create_sql = "CREATE TABLE $table (";
         if (!is_array($definition)) {
@@ -465,12 +464,12 @@ class DbInformix extends DbBase implements DbBaseInterface
             if (isset($field_def['not_null'])) {
                 $not_null = $field_def['not_null'] ? 'NOT NULL' : '';
             } else {
-                $not_null = "";
+                $not_null = '';
             }
             if (isset($field_def['size'])) {
-                $size = $field_def['size'] ? '(' . $field_def['size'] . ')' : '';
+                $size = $field_def['size'] ? '('.$field_def['size'].')' : '';
             } else {
-                $size = "";
+                $size = '';
             }
             if (isset($field_def['index'])) {
                 if ($field_def['index']) {
@@ -489,20 +488,20 @@ class DbInformix extends DbBase implements DbBaseInterface
             }
             if (isset($field_def['auto'])) {
                 if ($field_def['auto']) {
-                    $field_def['type'] = "SERIAL";
+                    $field_def['type'] = 'SERIAL';
                 }
             }
             if (isset($field_def['extra'])) {
                 $extra = $field_def['extra'];
             } else {
-                $extra = "";
+                $extra = '';
             }
-            $create_lines[] = "$field " . $field_def['type'] . $size . ' ' . $not_null . ' ' . $extra;
+            $create_lines[] = "$field ".$field_def['type'].$size.' '.$not_null.' '.$extra;
         }
-        $create_sql.= join(',', $create_lines);
+        $create_sql .= join(',', $create_lines);
         $last_lines = array();
         if (count($primary)) {
-            $last_lines[] = 'PRIMARY KEY(' . join(",", $primary) . ')';
+            $last_lines[] = 'PRIMARY KEY('.join(',', $primary).')';
         }
         if (count($index)) {
             $last_lines[] = join(',', $index);
@@ -511,14 +510,15 @@ class DbInformix extends DbBase implements DbBaseInterface
             $last_lines[] = join(',', $unique_index);
         }
         if (count($last_lines)) {
-            $create_sql.= ',' . join(',', $last_lines) . ')';
+            $create_sql .= ','.join(',', $last_lines).')';
         }
         $this->set_return_rows(false);
+
         return $this->query($create_sql);
     }
 
     /**
-     * Listar las tablas en la base de datos
+     * Listar las tablas en la base de datos.
      *
      * @return array
      */
@@ -528,14 +528,14 @@ class DbInformix extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Listar los campos de una tabla
+     * Listar los campos de una tabla.
      *
      * @param string $table
+     *
      * @return array
      */
-    public function describe_table($table, $schema='')
+    public function describe_table($table, $schema = '')
     {
-
         // Informix no soporta schemas
         // TODO: No hay un metodo identificable para obtener llaves primarias
         // no nulos y tamaños reales de campos
@@ -547,59 +547,64 @@ class DbInformix extends DbBase implements DbBaseInterface
         foreach ($describe as $field) {
             //Serial
             if ($field['field'] == 'id') {
-                $field["key"] = 'PRI';
-                $field["null"] = 'NO';
+                $field['key'] = 'PRI';
+                $field['null'] = 'NO';
             } else {
-                $field["key"] = '';
+                $field['key'] = '';
             }
             if (substr($field['field'], -3) == '_id') {
-                $field["null"] = 'NO';
+                $field['null'] = 'NO';
             }
             if ($field['type'] == 262) {
-                $field['type'] = "serial";
+                $field['type'] = 'serial';
             }
             if ($field['type'] == 13) {
-                $field['type'] = "varchar";
+                $field['type'] = 'varchar';
             }
             if ($field['type'] == 7) {
-                $field['type'] = "date";
+                $field['type'] = 'date';
             }
             $final_describe[] = array(
-                "Field" => $field["field"],
-                "Type" => $field["type"],
-                "Null" => $field["null"],
-                "Key" => $field["key"]
+                'Field' => $field['field'],
+                'Type' => $field['type'],
+                'Null' => $field['null'],
+                'Key' => $field['key'],
             );
         }
+
         return $final_describe;
     }
 
     /**
-     * Realiza una inserci&oacute;n (Sobreescrito para indicar que no devuelve registros)
+     * Realiza una inserci&oacute;n (Sobreescrito para indicar que no devuelve registros).
      *
      * @param string $table
-     * @param array $values
-     * @param array $fields
-     * @return boolean
+     * @param array  $values
+     * @param array  $fields
+     *
+     * @return bool
      */
-    public function insert($table, $values, $fields=null)
+    public function insert($table, array $values, array $fields = null)
     {
         $this->set_return_rows(false);
+
         return parent::insert($table, $values, $fields);
     }
 
     /**
-     * Actualiza registros en una tabla
+     * Actualiza registros en una tabla.
      *
      * @param string $table
-     * @param array $fields
-     * @param array $values
+     * @param array  $fields
+     * @param array  $values
      * @param string $where_condition
-     * @return boolean
+     *
+     * @return bool
      */
-    public function update($table, $fields, $values, $where_condition=null)
+    public function update($table, array $fields, array $values, $where_condition = null)
     {
         $this->set_return_rows(false);
+
         return parent::update($table, $fields, $values, $where_condition);
     }
 
@@ -612,51 +617,52 @@ class DbInformix extends DbBase implements DbBaseInterface
     public function delete($table, $where_condition)
     {
         $this->set_return_rows(false);
+
         return parent::delete($table, $where_condition);
     }
 
     /**
-     * Indica internamente si el resultado obtenido es devuelve registros o no
+     * Indica internamente si el resultado obtenido es devuelve registros o no.
      *
-     * @param boolean $value
+     * @param bool $value
      */
-    public function set_return_rows($value=true)
+    public function set_return_rows($value = true)
     {
         $this->return_rows = $value;
     }
 
     /**
-     * Inicia una transacci&oacute;n si es posible
-     *
+     * Inicia una transacci&oacute;n si es posible.
      */
     public function begin()
     {
         $this->set_return_rows(false);
-        return $this->query("BEGIN WORK");
+
+        return $this->query('BEGIN WORK');
     }
 
     /**
-     * Cancela una transacci&oacute;n si es posible
-     *
+     * Cancela una transacci&oacute;n si es posible.
      */
     public function rollback()
     {
         $this->set_return_rows(false);
-        return $this->query("ROLLBACK");
+
+        return $this->query('ROLLBACK');
     }
 
     /**
-     * Hace commit sobre una transacci&oacute;n si es posible
-     *
+     * Hace commit sobre una transacci&oacute;n si es posible.
      */
     public function commit()
     {
         $this->set_return_rows(false);
-        return $this->query("COMMIT");
+
+        return $this->query('COMMIT');
     }
 
     /**
-     * Devuelve la ultima sentencia sql ejecutada por el Adaptador
+     * Devuelve la ultima sentencia sql ejecutada por el Adaptador.
      *
      * @return string
      */
@@ -664,5 +670,4 @@ class DbInformix extends DbBase implements DbBaseInterface
     {
         return $this->last_query;
     }
-
 }

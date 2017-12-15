@@ -31,7 +31,7 @@ interface DbBaseInterface
     /**
      * @return bool
      */
-    public function connect($config);
+    public function connect(array $config);
 
     /**
      * Efectua operaciones SQL sobre la base de datos
@@ -87,14 +87,14 @@ interface DbBaseInterface
     /**
      * @return bool
      */
-    public function insert($table, $values, $pk = '');
+    public function insert($table, array $values, $pk = '');
 
     /**
      * @param string $where_condition
      *
      * @return bool
      */
-    public function update($table, $fields, $values, $where_condition = null);
+    public function update($table, array $fields, array $values, $where_condition = null);
 
     /**
      * @param string $where_condition

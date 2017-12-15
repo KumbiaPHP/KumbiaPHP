@@ -538,14 +538,21 @@ class DbOracle extends DbBase implements DbBaseInterface
         /**
          * Soporta schemas?
          */
-        $describe = $this->fetch_all("SELECT LOWER(ALL_TAB_COLUMNS.COLUMN_NAME) AS FIELD, LOWER(ALL_TAB_COLUMNS.DATA_TYPE) AS TYPE, ALL_TAB_COLUMNS.DATA_LENGTH AS LENGTH, (SELECT COUNT(*) FROM ALL_CONS_COLUMNS WHERE TABLE_NAME = '".strtoupper($table)."' AND ALL_CONS_COLUMNS.COLUMN_NAME = ALL_TAB_COLUMNS.COLUMN_NAME AND ALL_CONS_COLUMNS.POSITION IS NOT NULL) AS KEY, ALL_TAB_COLUMNS.NULLABLE AS ISNULL FROM ALL_TAB_COLUMNS WHERE ALL_TAB_COLUMNS.TABLE_NAME = '".strtoupper($table)."'");
-        $final_describe = array();
-        foreach ($describe as $key => $value) {
+        $describe = $this->fetch_all("SELECT LOWER(ALL_TAB_COLUMNS.COLUMN_NAME) AS FIELD,
+                                        LOWER(ALL_TAB_COLUMNS.DATA_TYPE) AS TYPE,
+                                        ALL_TAB_COLUMNS.DATA_LENGTH AS LENGTH, (
+                                        SELECT COUNT(*)
+                                        FROM ALL_CONS_COLUMNS
+                                        WHERE TABLE_NAME = '".strtoupper($table)."' AND ALL_CONS_COLUMNS.COLUMN_NAME = ALL_TAB_COLUMNS.COLUMN_NAME AND ALL_CONS_COLUMNS.POSITION IS NOT NULL) AS KEY, ALL_TAB_COLUMNS.NULLABLE AS ISNULL FROM ALL_TAB_COLUMNS
+                                        WHERE ALL_TAB_COLUMNS.TABLE_NAME = '".strtoupper($table)."'");
+        $final_describe = [];
+        foreach ($describe as $field) {
             $final_describe[] = array(
-                'Field' => $value['field'],
-                'Type' => $value['type'],
-                'Null' => $value['isnull'] == 'Y' ? 'YES' : 'NO',
-                'Key' => $value['key'] == 1 ? 'PRI' : '',
+                'Field' => $field['field'],
+                'Type' => $field['type'],
+                'Length' => $field['length'],
+                'Null' => $field['isnull'] === 'Y' ? 'YES' : 'NO',
+                'Key' => $field['key'] == 1 ? 'PRI' : '',
             );
         }
 

@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category   Kumbia
+ * @category   Db adapters
  *
  * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
@@ -131,19 +131,20 @@ class DbPdoOracle extends DbPDO
      *
      * @param string $table
      * @param array  $definition
+     * @param array  $index
      *
      * @return bool
      */
-    public function create_table($table, $definition, $index = array())
+    public function create_table($table, $definition, $index = [])
     {
         $create_sql = "CREATE TABLE $table (";
         if (!is_array($definition)) {
             throw new KumbiaException("Definición inválida para crear la tabla '$table'");
         }
-        $create_lines = array();
-        $index = array();
-        $unique_index = array();
-        $primary = array();
+        $create_lines = [];
+        $index = [];
+        $unique_index = [];
+        $primary = [];
         //$not_null = "";
         //$size = "";
         foreach ($definition as $field => $field_def) {
@@ -173,7 +174,7 @@ class DbPdoOracle extends DbPDO
             $create_lines[] = "$field ".$field_def['type'].$size.' '.$not_null.' '.$extra;
         }
         $create_sql .= join(',', $create_lines);
-        $last_lines = array();
+        $last_lines = [];
         if (count($primary)) {
             $last_lines[] = 'PRIMARY KEY('.join(',', $primary).')';
         }
@@ -244,14 +245,21 @@ class DbPdoOracle extends DbPDO
         /**
          * Soporta schemas?
          */
-        $describe = $this->fetch_all("SELECT LOWER(ALL_TAB_COLUMNS.COLUMN_NAME) AS FIELD, LOWER(ALL_TAB_COLUMNS.DATA_TYPE) AS TYPE, ALL_TAB_COLUMNS.DATA_LENGTH AS LENGTH, (SELECT COUNT(*) FROM ALL_CONS_COLUMNS WHERE TABLE_NAME = '".strtoupper($table)."' AND ALL_CONS_COLUMNS.COLUMN_NAME = ALL_TAB_COLUMNS.COLUMN_NAME AND ALL_CONS_COLUMNS.POSITION IS NOT NULL) AS KEY, ALL_TAB_COLUMNS.NULLABLE AS ISNULL FROM ALL_TAB_COLUMNS WHERE ALL_TAB_COLUMNS.TABLE_NAME = '".strtoupper($table)."'");
-        $final_describe = array();
-        foreach ($describe as $key => $value) {
+        $describe = $this->fetch_all("SELECT LOWER(ALL_TAB_COLUMNS.COLUMN_NAME) AS FIELD,
+                                        LOWER(ALL_TAB_COLUMNS.DATA_TYPE) AS TYPE,
+                                        ALL_TAB_COLUMNS.DATA_LENGTH AS LENGTH, (
+                                        SELECT COUNT(*)
+                                        FROM ALL_CONS_COLUMNS
+                                        WHERE TABLE_NAME = '".strtoupper($table)."' AND ALL_CONS_COLUMNS.COLUMN_NAME = ALL_TAB_COLUMNS.COLUMN_NAME AND ALL_CONS_COLUMNS.POSITION IS NOT NULL) AS KEY, ALL_TAB_COLUMNS.NULLABLE AS ISNULL FROM ALL_TAB_COLUMNS
+                                        WHERE ALL_TAB_COLUMNS.TABLE_NAME = '".strtoupper($table)."'");
+        $final_describe = [];
+        foreach ($describe as $field) {
             $final_describe[] = array(
-                'Field' => $value['field'],
-                'Type' => $value['type'],
-                'Null' => $value['isnull'] == 'Y' ? 'YES' : 'NO',
-                'Key' => $value['key'] == 1 ? 'PRI' : '',
+                'Field' => $field['field'],
+                'Type' => $field['type'],
+                'Length' => $field['length'],
+                'Null' => $field['isnull'] === 'Y' ? 'YES' : 'NO',
+                'Key' => $field['key'] == 1 ? 'PRI' : '',
             );
         }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * KumbiaPHP web & app Framework
+ * KumbiaPHP web & app Framework.
  *
  * LICENSE
  *
@@ -12,111 +12,98 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category   Kumbia
- * @package    Db
- * @subpackage Adapters
+ * @category   Db adapters
+ *
  * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
- * Firebird/Interbase Database Support
+ * Firebird/Interbase Database Support.
  *
  * @category   Kumbia
- * @package    Db
- * @subpackage Adapters
  */
 class DbFirebird extends DbBase implements DbBaseInterface
 {
-
     /**
-     * Resource de la Conexion a Firebird
+     * Resource de la Conexion a Firebird.
      *
      * @var resource
      */
     public $id_connection;
     /**
-     * Ultimo Resultado de una Query
+     * Ultimo Resultado de una Query.
      *
      * @var resource
      */
     public $last_result_query;
     /**
-     * Ultima sentencia SQL enviada a Firebird
+     * Ultima sentencia SQL enviada a Firebird.
      *
      * @var string
      */
     protected $last_query;
     /**
-     * Ultimo error generado por Firebird
+     * Ultimo error generado por Firebird.
      *
      * @var string
      */
     public $last_error;
 
     /**
-     * Resultado de Array Asociativo
-     *
+     * Resultado de Array Asociativo.
      */
     const DB_ASSOC = MYSQL_ASSOC;
 
     /**
-     * Resultado de Array Asociativo y Numerico
-     *
+     * Resultado de Array Asociativo y Numerico.
      */
     const DB_BOTH = MYSQL_BOTH;
 
     /**
-     * Resultado de Array Numerico
-     *
+     * Resultado de Array Numerico.
      */
     const DB_NUM = MYSQL_NUM;
 
     /**
-     * Tipo de Dato Integer
-     *
+     * Tipo de Dato Integer.
      */
     const TYPE_INTEGER = 'INTEGER';
 
     /**
-     * Tipo de Dato Date
-     *
+     * Tipo de Dato Date.
      */
     const TYPE_DATE = 'DATE';
 
     /**
-     * Tipo de Dato Varchar
-     *
+     * Tipo de Dato Varchar.
      */
     const TYPE_VARCHAR = 'VARCHAR';
 
     /**
-     * Tipo de Dato Decimal
-     *
+     * Tipo de Dato Decimal.
      */
     const TYPE_DECIMAL = 'DECIMAL';
 
     /**
-     * Tipo de Dato Datetime
-     *
+     * Tipo de Dato Datetime.
      */
     const TYPE_DATETIME = 'DATETIME';
 
     /**
-     * Tipo de Dato Char
-     *
+     * Tipo de Dato Char.
      */
     const TYPE_CHAR = 'CHAR';
 
     /**
-     * Hace una conexion a la base de datos de Firebird
+     * Hace una conexion a la base de datos de Firebird.
      *
      * @param array $config
+     *
      * @return bool
      */
     public function connect($config)
     {
-
         if (!extension_loaded('interbase')) {
             throw new KumbiaException('Debe cargar la extensión de PHP llamada php_interbase');
         }
@@ -135,9 +122,10 @@ class DbFirebird extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Efectua operaciones SQL sobre la base de datos
+     * Efectua operaciones SQL sobre la base de datos.
      *
      * @param string $sql_query
+     *
      * @return resource or false
      */
     public function query($sql_query)
@@ -150,34 +138,35 @@ class DbFirebird extends DbBase implements DbBaseInterface
         $this->last_query = $sql_query;
         if ($result_query = ibase_query($this->id_connection, $sql_query)) {
             $this->last_result_query = $result_query;
+
             return $result_query;
-        } else {
-            throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
         }
+        throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
     }
 
     /**
-     * Cierra la Conexión al Motor de Base de datos
-     *
+     * Cierra la Conexión al Motor de Base de datos.
      */
     public function close()
     {
         if ($this->id_connection) {
             return ibase_close();
         }
+
         return false;
     }
 
     /**
-     * Devuelve fila por fila el contenido de un select
+     * Devuelve fila por fila el contenido de un select.
      *
      * @param resource $result_query
-     * @param int $opt
+     * @param int      $opt
+     *
      * @return array
      */
-    public function fetch_array($result_query=NULL, $opt=MYSQL_BOTH)
+    public function fetch_array($result_query = null, $opt = MYSQL_BOTH)
     {
-        $result=array();
+        $result = array();
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -192,6 +181,7 @@ class DbFirebird extends DbBase implements DbBaseInterface
                 $result[$key] = $value;
                 $result[$i++] = $value;
             }
+
             return $result;
         }
         if ($opt == db::DB_ASSOC) {
@@ -200,11 +190,12 @@ class DbFirebird extends DbBase implements DbBaseInterface
         if ($opt == db::DB_NUM) {
             return ibase_fetch_row($result_query);
         }
+
         return $result;
     }
 
     /**
-     * Constructor de la Clase
+     * Constructor de la Clase.
      *
      * @param array $config
      */
@@ -214,24 +205,24 @@ class DbFirebird extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve el numero de filas de un select
+     * Devuelve el numero de filas de un select.
      */
-    public function num_rows($result_query='')
+    public function num_rows($result_query = '')
     {
         // GDS Interbase no soporta esta funcion (No debe ser usada)
         return false;
     }
 
     /**
-     * Devuelve el nombre de un campo en el resultado de un select
+     * Devuelve el nombre de un campo en el resultado de un select.
      *
-     * @param int $number
+     * @param int      $number
      * @param resource $result_query
+     *
      * @return string
      */
-    public function field_name($number, $result_query='')
+    public function field_name($number, $result_query = '')
     {
-
         if (!$result_query) {
             $result_query = $this->last_result_query;
             if (!$result_query) {
@@ -246,13 +237,14 @@ class DbFirebird extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Se Mueve al resultado indicado por $number en un select
+     * Se Mueve al resultado indicado por $number en un select.
      *
-     * @param int $number
+     * @param int      $number
      * @param resource $result_query
-     * @return boolean
+     *
+     * @return bool
      */
-    public function data_seek($number, $result_query=NULL)
+    public function data_seek($number, $result_query = null)
     {
         if (!$result_query) {
             $result_query = $this->last_result_query;
@@ -268,12 +260,13 @@ class DbFirebird extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Numero de Filas afectadas en un insert, update o delete
+     * Numero de Filas afectadas en un insert, update o delete.
      *
      * @param resource $result_query
+     *
      * @return int
      */
-    public function affected_rows($result_query=NULL)
+    public function affected_rows($result_query = null)
     {
         if (($numberRows = ibase_affected_rows()) !== false) {
             return $numberRows;
@@ -283,32 +276,35 @@ class DbFirebird extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve el error de Firebird
+     * Devuelve el error de Firebird.
      *
      * @return string
      */
-    public function error($err='')
+    public function error($err = '')
     {
         if (!$this->id_connection) {
             $this->last_error = ibase_errmsg() ?: "[Error Desconocido en Firebird: $err]";
             if ($this->logger) {
                 Logger::error($this->last_error);
             }
+
             return $this->last_error;
         }
         $this->last_error = ibase_errmsg() ?: "[Error Desconocido en Firebird: $err]";
-        $this->last_error.= $err;
+        $this->last_error .= $err;
         if ($this->logger) {
             Logger::error($this->last_error);
         }
+
         return $this->last_error;
     }
 
     /**
-     * Devuelve un array del resultado de un select de un solo registro. Esta implementacion no
+     * Devuelve un array del resultado de un select de un solo registro. Esta implementacion no.
      *
      *
      * @param string $sql
+     *
      * @return array
      */
     public function fetch_one($sql)
@@ -316,13 +312,13 @@ class DbFirebird extends DbBase implements DbBaseInterface
         $q = $this->query($sql);
         if ($q) {
             return $this->fetch_array($q);
-        } else {
-            return array();
         }
+
+        return array();
     }
 
     /**
-     * Devuelve el no error de Firebird
+     * Devuelve el no error de Firebird.
      *
      * @return int
      */
@@ -332,33 +328,36 @@ class DbFirebird extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve el ultimo id autonumerico generado en la BD
+     * Devuelve el ultimo id autonumerico generado en la BD.
      *
      * @return int
      */
-    public function last_insert_id($table='', $primary_key='')
+    public function last_insert_id($table = '', $primary_key = '')
     {
         return ibase_insert_id($this->id_connection);
     }
 
     /**
-     * Verifica si una tabla existe o no
+     * Verifica si una tabla existe o no.
      *
      * @param string $table
-     * @return boolean
+     *
+     * @return bool
      */
-    public function table_exists($table, $schema='')
+    public function table_exists($table, $schema = '')
     {
         $table = strtoupper(addslashes("$table"));
         // NOT LIKE 'RDB\$%'
         $num = $this->fetch_one("SELECT COUNT(*) FROM rdb\$relations WHERE rdb\$relation_name = '$table'");
+
         return $num[0];
     }
 
     /**
-     * Devuelve un LIMIT valido para un SELECT del RBDM
+     * Devuelve un LIMIT valido para un SELECT del RBDM.
      *
      * @param string $sql consulta sql
+     *
      * @return string
      */
     public function limit($sql)
@@ -367,23 +366,24 @@ class DbFirebird extends DbBase implements DbBaseInterface
         $sql_new = $sql;
 
         if (isset($params['limit']) && is_numeric($params['limit'])) {
-            $sql_new.=" FIRST $params[limit]";
+            $sql_new .= " FIRST $params[limit]";
         }
 
         if (isset($params['offset']) && is_numeric($params['offset'])) {
-            $sql_new.=" SKIP $params[offset]";
+            $sql_new .= " SKIP $params[offset]";
         }
 
         return $sql_new;
     }
 
     /**
-     * Borra una tabla de la base de datos
+     * Borra una tabla de la base de datos.
      *
      * @param string $table
-     * @return boolean
+     *
+     * @return bool
      */
-    public function drop_table($table, $if_exists=true)
+    public function drop_table($table, $if_exists = true)
     {
         if ($if_exists) {
             if ($this->table_exists($table)) {
@@ -397,7 +397,7 @@ class DbFirebird extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Crea una tabla utilizando SQL nativo del RDBM
+     * Crea una tabla utilizando SQL nativo del RDBM.
      *
      * TODO:
      * - Falta que el parametro index funcione. Este debe listar indices compuestos multipes y unicos
@@ -406,10 +406,11 @@ class DbFirebird extends DbBase implements DbBaseInterface
      * - Soporte para llaves foraneas
      *
      * @param string $table
-     * @param array $definition
+     * @param array  $definition
+     *
      * @return resource
      */
-    public function create_table($table, $definition, $index=array())
+    public function create_table($table, $definition, $index = array())
     {
         $create_sql = "CREATE TABLE $table (";
         if (!is_array($definition)) {
@@ -425,12 +426,12 @@ class DbFirebird extends DbBase implements DbBaseInterface
             if (isset($field_def['not_null'])) {
                 $not_null = $field_def['not_null'] ? 'NOT NULL' : '';
             } else {
-                $not_null = "";
+                $not_null = '';
             }
             if (isset($field_def['size'])) {
-                $size = $field_def['size'] ? '(' . $field_def['size'] . ')' : '';
+                $size = $field_def['size'] ? '('.$field_def['size'].')' : '';
             } else {
-                $size = "";
+                $size = '';
             }
             if (isset($field_def['index'])) {
                 if ($field_def['index']) {
@@ -459,14 +460,14 @@ class DbFirebird extends DbBase implements DbBaseInterface
             if (isset($field_def['extra'])) {
                 $extra = $field_def['extra'];
             } else {
-                $extra = "";
+                $extra = '';
             }
-            $create_lines[] = "$field " . $field_def['type'] . $size . ' ' . $not_null . ' ' . $extra;
+            $create_lines[] = "$field ".$field_def['type'].$size.' '.$not_null.' '.$extra;
         }
-        $create_sql.= join(',', $create_lines);
+        $create_sql .= join(',', $create_lines);
         $last_lines = array();
         if (count($primary)) {
-            $last_lines[] = 'PRIMARY KEY(' . join(",", $primary) . ')';
+            $last_lines[] = 'PRIMARY KEY('.join(',', $primary).')';
         }
         if (count($index)) {
             $last_lines[] = join(',', $index);
@@ -475,28 +476,30 @@ class DbFirebird extends DbBase implements DbBaseInterface
             $last_lines[] = join(',', $unique_index);
         }
         if (count($last_lines)) {
-            $create_sql.= ',' . join(',', $last_lines) . ')';
+            $create_sql .= ','.join(',', $last_lines).')';
         }
+
         return $this->query($create_sql);
     }
 
     /**
-     * Listar las tablas en la base de datos
+     * Listar las tablas en la base de datos.
      *
      * @return array
      */
     public function list_tables()
     {
-        return $this->fetch_all("SHOW TABLES");
+        return $this->fetch_all('SHOW TABLES');
     }
 
     /**
-     * Listar los campos de una tabla
+     * Listar los campos de una tabla.
      *
      * @param string $table
+     *
      * @return array
      */
-    public function describe_table($table, $schema='')
+    public function describe_table($table, $schema = '')
     {
         if ($schema == '') {
             return $this->fetch_all("DESCRIBE $table");
@@ -506,7 +509,7 @@ class DbFirebird extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve la ultima sentencia sql ejecutada por el Adaptador
+     * Devuelve la ultima sentencia sql ejecutada por el Adaptador.
      *
      * @return string
      */
@@ -514,5 +517,4 @@ class DbFirebird extends DbBase implements DbBaseInterface
     {
         return $this->last_query;
     }
-
 }

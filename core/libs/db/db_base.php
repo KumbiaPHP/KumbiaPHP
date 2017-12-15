@@ -121,11 +121,9 @@ class DbBase
     public function in_query_assoc($sql)
     {
         $q = $this->query($sql);
-        $results = array();
-        if ($q) {
-            while ($row = $this->fetch_array($q, db::DB_ASSOC)) {
-                $results[] = $row;
-            }
+        $results = [];
+        while ($row = $this->fetch_array($q, db::DB_ASSOC)) {
+            $results[] = $row;
         }
 
         return $results;
@@ -142,18 +140,16 @@ class DbBase
     public function in_query_num($sql)
     {
         $q = $this->query($sql);
-        $results = array();
-        if ($q) {
-            while ($row = $this->fetch_array($q, db::DB_NUM)) {
-                $results[] = $row;
-            }
+        $results = [];
+        while ($row = $this->fetch_array($q, db::DB_NUM)) {
+            $results[] = $row;
         }
 
         return $results;
     }
 
     /**
-     * Devuelve un array del resultado de un select de un solo registro.
+     * Devuelve un array del resultado de un select de un sólo registro.
      *
      * @param string $sql
      *
@@ -161,16 +157,7 @@ class DbBase
      */
     public function fetch_one($sql)
     {
-        $q = $this->query($sql);
-        if ($q) {
-            if ($this->num_rows($q) > 1) {
-                Flash::warning("Una sentencia SQL: \"$sql\" retorno más de una fila cuando se esperaba una sola");
-            }
-
-            return $this->fetch_array($q);
-        }
-
-        return array();
+        return $this->fetch_array($this->query($sql));
     }
 
     /**
@@ -182,22 +169,18 @@ class DbBase
      *
      * @return bool
      */
-    public function insert($table, $values, $fields = null)
+    public function insert($table, array $values, $fields = null)
     {
-        //$insert_sql = "";
-        if (is_array($values)) {
-            if (!count($values)) {
-                throw new KumbiaException("Imposible realizar inserción en $table sin datos");
-            }
-            if (is_array($fields)) {
-                $insert_sql = "INSERT INTO $table (".join(',', $fields).') VALUES ('.join(',', $values).')';
-            } else {
-                $insert_sql = "INSERT INTO $table VALUES (".join(',', $values).')';
-            }
-
-            return $this->query($insert_sql);
+        if (!count($values)) {
+            throw new KumbiaException("Imposible realizar inserción en $table sin datos");
         }
-        throw new KumbiaException('El segundo parámetro para insert no es un Array');
+        $insert_sql = "INSERT INTO $table VALUES (".join(',', $values).')';
+
+        if (is_array($fields)) {
+            $insert_sql = "INSERT INTO $table (".join(',', $fields).') VALUES ('.join(',', $values).')';
+        }
+
+        return $this->query($insert_sql);
     }
 
     /**
@@ -210,7 +193,7 @@ class DbBase
      *
      * @return bool
      */
-    public function update($table, $fields, $values, $where_condition = null)
+    public function update($table, array $fields, array $values, $where_condition = null)
     {
         $update_sql = "UPDATE $table SET ";
         if (count($fields) != count($values)) {
