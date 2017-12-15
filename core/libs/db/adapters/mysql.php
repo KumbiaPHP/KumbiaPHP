@@ -102,7 +102,7 @@ class DbMySQL extends DbBase implements DbBaseInterface
      *
      * @return bool
      */
-    public function connect($config)
+    public function connect(array $config)
     {
         if (!extension_loaded('mysqli')) {
             throw new KumbiaException('Debe cargar la extensión de PHP llamada php_mysqli');
