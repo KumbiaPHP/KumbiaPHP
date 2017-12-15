@@ -448,6 +448,44 @@ abstract class DbPDO extends DbBase implements DbPDOInterface
     }
 
     /**
+     * Borra una tabla de la base de datos.
+     *
+     * @param string $table
+     *
+     * @return bool
+     */
+    public function drop_table($table, $if_exists = true)
+    {
+        if ($if_exists) {
+            return $this->query("DROP TABLE IF EXISTS $table");
+        }
+
+        return $this->query("DROP TABLE $table");
+    }
+
+    /**
+     * Devuelve un LIMIT para un SELECT del RBDM.
+     *
+     * @param string $sql consulta sql
+     *
+     * @return string
+     */
+    public function limit($sql)
+    {
+        $params = Util::getParams(func_get_args());
+
+        if (isset($params['limit']) && is_numeric($params['limit'])) {
+            $sql .= " LIMIT $params[limit]";
+        }
+
+        if (isset($params['offset']) && is_numeric($params['offset'])) {
+            $sql .= " OFFSET $params[offset]";
+        }
+
+        return $sql;
+    }
+
+    /**
      * Devuelve la ultima sentencia sql ejecutada por el Adaptador.
      *
      * @return string
