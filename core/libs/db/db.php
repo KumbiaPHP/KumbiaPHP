@@ -49,11 +49,11 @@ class Db
      */
     public static function factory($database = null)
     {
-        //Cargo el mode para mi aplicacion
+        //Cargo el mode para mi aplicación
         if (!$database) {
             $database = Config::get('config.application.database');
         }
-        //Si no es una conexion nueva y existe la conexion singleton
+        //Si no es una conexión nueva y existe la conexión singleton
         if (isset(self::$_connections[$database])) {
             return self::$_connections[$database];
         }
@@ -71,16 +71,15 @@ class Db
      */
     private static function connect($database)
     {
-        $databases = Config::read('databases');
-        $config = $databases[$database];
+        $config = Config::read('databases')[$database];
 
         // carga los valores por defecto para la conexión, si no existen
-        $default = array('port' => 0, 'dsn' => null, 'dbname' => null, 'host' => 'localhost', 'username' => null, 'password' => null);
-        $config = $config + $default;
+        $config = $config + ['port' => 0, 'dsn' => null, 'dbname' => null, 'host' => 'localhost',
+                             'username' => null, 'password' => null, 'pdo' => false, 'charset' => '', ];
         $path = __DIR__;
 
         //Si usa PDO
-        if (isset($config['pdo'])) {
+        if ($config['pdo']) {
             $dbclass = "DbPdo{$config['type']}";
             $db_file = "$path/adapters/pdo/{$config['type']}.php";
         } else {
