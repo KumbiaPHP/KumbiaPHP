@@ -33,7 +33,8 @@
  * @TODO
  * REVISAR ESTA SECCIÓN
  */
-define('APP_CHARSET', 'UTF-8');
+const APP_CHARSET = 'UTF-8';
+
 /*
  * Indicar si la aplicacion se encuentra en producción
  * directamente desde el index.php
@@ -43,7 +44,7 @@ define('APP_CHARSET', 'UTF-8');
  * el contenido del directorio de cache de la aplicación para que se renueve
  * la metadata (/app/tmp/cache/*)
  */
-define('PRODUCTION', false);
+const PRODUCTION = false;
 
 /*
  * Descomentar para mostrar los errores
@@ -56,17 +57,20 @@ define('PRODUCTION', false);
  * APP_PATH:
  * - Ruta al directorio de la aplicación (por defecto la ruta al directorio app)
  * - Esta ruta se utiliza para cargar los archivos de la aplicacion
- * - En producción, es recomendable ponerla manual
+ * - En producción, es recomendable ponerla manual usando const
  */
 define('APP_PATH', dirname(__DIR__).'/app/');
+//const APP_PATH = '/path/to/app/';
 
 /*
  * Define el CORE_PATH
  *
  * CORE_PATH:
  * - Ruta al directorio que contiene el núcleo de Kumbia (por defecto la ruta al directorio core)
+ * - En producción, es recomendable ponerla manual usando const
  */
 define('CORE_PATH', dirname(dirname(APP_PATH)).'/core/');
+//const CORE_PATH = '/path/to/core/';
 
 /**
  * Define el PUBLIC_PATH.
@@ -81,6 +85,14 @@ define('CORE_PATH', dirname(dirname(APP_PATH)).'/core/');
 $number = isset($_SERVER['PATH_INFO']) ? strlen(urldecode($_SERVER['PATH_INFO'])) - 1 : 0;
 $number += empty($_SERVER['QUERY_STRING']) ? 0 : strlen(urldecode($_SERVER['QUERY_STRING'])) + 1;
 define('PUBLIC_PATH', substr(urldecode($_SERVER['REQUEST_URI']), 0, -$number));
+
+/**
+ * En producción descomentar las 3 lineas de arriba y usar const
+ * '/'          en el root del dominio, recomendado
+ * '/carpeta/'  en una carpeta o varias
+ * 'https://www.midominio.com/'  usando dominio.
+ */
+//const PUBLIC_PATH = '/';
 
 /**
  * Obtiene la url usando PATH_INFO.
