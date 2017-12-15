@@ -1,6 +1,6 @@
 <?php
 /**
- * KumbiaPHP web & app Framework
+ * KumbiaPHP web & app Framework.
  *
  * LICENSE
  *
@@ -13,46 +13,44 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    Core
+ *
  * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
- * Clase principal para el manejo de excepciones
+ * Clase principal para el manejo de excepciones.
  *
  * @category   Kumbia
- * @package    Core
  */
 class KumbiaException extends Exception
 {
-
     /**
-     * View de error de la Excepción
+     * View de error de la Excepción.
      *
      * @var string
      */
     protected $view;
-    
+
     /**
-     * Error 404 para los siguientes views
+     * Error 404 para los siguientes views.
      *
      * @var array
      */
     protected static $view404 = array('no_controller', 'no_action', 'num_params', 'no_view');
 
     /**
-     * Path del template de exception
+     * Path del template de exception.
      *
      * @var string
      */
     protected $template = 'views/templates/exception.phtml';
-    
+
     /**
-     * Constructor de la clase;
+     * Constructor de la clase;.
      *
      * @param string $message mensaje
-     * @param string $view vista que se mostrara
+     * @param string $view    vista que se mostrara
      */
     public function __construct($message, $view = 'exception')
     {
@@ -61,9 +59,9 @@ class KumbiaException extends Exception
     }
 
     /**
-     * Maneja las excepciones no capturadas
+     * Maneja las excepciones no capturadas.
      *
-     * @param Exception $e
+     * @param Exception|KumbiaException $e
      * */
     public static function handleException($e)
     {
@@ -76,10 +74,11 @@ class KumbiaException extends Exception
         $Controller = Util::camelcase($controller);
         ob_start();
         if (PRODUCTION) { //TODO: añadir error 500.phtml
-            include APP_PATH . 'views/_shared/errors/404.phtml';
+            include APP_PATH.'views/_shared/errors/404.phtml';
+
             return;
         }
-        if ($e instanceof KumbiaException) {
+        if ($e instanceof self) {
             $view = $e->view;
             $tpl = $e->template;
         } else {
@@ -87,28 +86,29 @@ class KumbiaException extends Exception
             $tpl = 'views/templates/exception.phtml';
         }
         //Fix problem with action name in REST
-        $action =  $e->getMessage() ?: $action;
+        $action = $e->getMessage() ?: $action;
 
-        include CORE_PATH . "views/errors/{$view}.phtml";
- 
+        include CORE_PATH."views/errors/{$view}.phtml";
+
         $content = ob_get_clean();
 
         // termina los buffers abiertos
-        while (ob_get_level ()) {
+        while (ob_get_level()) {
             ob_end_clean();
         }
-        include CORE_PATH . $tpl;
+        include CORE_PATH.$tpl;
     }
 
     /**
-     * Añade la cabezera de error http
+     * Añade la cabezera de error http.
      *
      * @param Exception $e
      * */
     private static function setHeader($e)
     {
-        if (isset($e->view) && in_array($e->view, self::$view404)){
+        if (isset($e->view) && in_array($e->view, self::$view404)) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+
             return;
         }
         header($_SERVER['SERVER_PROTOCOL'].' 500 Internal Server Error');
