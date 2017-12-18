@@ -244,10 +244,6 @@ class KumbiaActiveRecord
     /**
      * Persistance Models Meta-data.
      */
-    protected static $_models = array();
-    /**
-     * Persistance Models Meta-data.
-     */
     protected static $models = array();
 
     /**
@@ -2297,8 +2293,8 @@ class KumbiaActiveRecord
         return true;
     }
 
-    /*     * *****************************************************************************************
-     * Metodos para generacion de relaciones
+    /** ******************************************************************************************
+     * Métodos para generación de relaciones.
      * ***************************************************************************************** */
 
     /**
@@ -2469,7 +2465,7 @@ class KumbiaActiveRecord
      */
     public function __toString()
     {
-        return '<'.get_class().' Object>';
+        return '<'.get_class($this).' Object>';
     }
 
     /**
@@ -2547,8 +2543,8 @@ class KumbiaActiveRecord
      * */
     public static function get($model)
     {
-        if (isset(self::$_models[$model])) {
-            return self::$_models[$model];
+        if (isset(self::$models[$model])) {
+            return self::$models[$model];
         }
 
         /**
@@ -2572,9 +2568,7 @@ class KumbiaActiveRecord
             }
         }
 
-        self::$_models[$model] = $obj = new $Model();
-
-        return $obj;
+        return new $Model();
     }
 
     /**
