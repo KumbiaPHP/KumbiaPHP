@@ -106,7 +106,7 @@ class KumbiaException extends Exception
      * */
     private static function setHeader($e)
     {
-        if (isset($e->view) && in_array($e->view, self::$view404)) {
+        if ($e instanceof self && in_array($e->view, self::$view404)) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
 
             return;
