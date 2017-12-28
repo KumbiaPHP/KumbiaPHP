@@ -1185,7 +1185,7 @@ class KumbiaActiveRecord
             foreach ($result as $k => $r) {
                 if (!is_numeric($k)) {
                     if (!is_object($r)) {
-                        $this->$k = stripslashes($r);
+                        $this->$k = (is_array)) ? $r : stripslashes($r);
                     } else {
                         $this->$k = $r->load();
                     }
