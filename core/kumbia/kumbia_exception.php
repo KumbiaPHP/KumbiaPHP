@@ -74,6 +74,7 @@ class KumbiaException extends Exception
         $Controller = Util::camelcase($controller);
         ob_start();
         if (PRODUCTION) { //TODO: añadir error 500.phtml
+            self::cleanBuffer();
             include APP_PATH.'views/_shared/errors/404.phtml';
 
             return;
@@ -91,12 +92,19 @@ class KumbiaException extends Exception
         include CORE_PATH."views/errors/{$view}.phtml";
 
         $content = ob_get_clean();
+        self::cleanBuffer();
+        include CORE_PATH.$tpl;
+    }
 
-        // termina los buffers abiertos
+    /**
+     * cleanBuffer
+     * termina los buffers abiertos.
+     */
+    private static function cleanBuffer()
+    {
         while (ob_get_level()) {
             ob_end_clean();
         }
-        include CORE_PATH.$tpl;
     }
 
     /**
