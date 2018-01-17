@@ -56,7 +56,9 @@ class Css
     public static function add($file, array $dependenciess = [])
     {
         self::$css[$file] = $file;
-        foreach ($dependenciess as $file) self::$dependencies[$file] = $file;
+        foreach ($dependenciess as $file) {
+            self::$dependencies[$file] = $file;
+        }
     }
 
     /**
