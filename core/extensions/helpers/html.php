@@ -30,13 +30,13 @@ class Html
      *
      * @var array
      */
-    protected static $_metatags = array();
+    protected static $meta_tags = array();
     /**
      * Enlaces de head.
      *
      * @var array
      */
-    protected static $_headLinks = array();
+    protected static $head_links = array();
 
     /**
      * Crea un enlace usando la constante PUBLIC_PATH, para que siempre funcione.
@@ -57,7 +57,7 @@ class Html
             $attrs = Tag::getAttrs($attrs);
         }
 
-        return '<a href="'.PUBLIC_PATH."$action\" $attrs>$text</a>";
+        return '<a href="'.PUBLIC_PATH.$action.'" '.$attrs.'>'.$text.'</a>';
     }
 
     /**
@@ -74,7 +74,7 @@ class Html
      */
     public static function linkAction($action, $text, $attrs = '')
     {
-        $action = Router::get('controller_path')."/$action";
+        $action = Router::get('controller_path').'/'.$action;
 
         return self::link($action, $text, $attrs);
     }
@@ -90,7 +90,7 @@ class Html
      */
     public static function img($src, $alt = '', $attrs = '')
     {
-        return '<img src="'.PUBLIC_PATH."img/$src\" alt=\"$alt\" ".Tag::getAttrs($attrs).' />';
+        return '<img src="'.PUBLIC_PATH.'img/'.$src.'" alt="'.$alt.'" '.Tag::getAttrs($attrs).' />';
     }
 
     /**
@@ -132,13 +132,11 @@ class Html
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-
-        $list = "<$type $attrs>".PHP_EOL;
+        $list = '<'.$type.' '.$attrs.'>'.PHP_EOL;
         foreach ($array as $item) {
-            $list .= "<li>$item</li>".PHP_EOL;
+            $list .= '<li>'.$item.'</li>'.PHP_EOL;
         }
-        $list .= "</$type>".PHP_EOL;
-
+        $list .= '</'.$type.'>'.PHP_EOL;
         return $list;
     }
 
@@ -151,9 +149,9 @@ class Html
     {
         $code = '';
         foreach (Tag::getCss() as $css) {
-            $code .= '<link href="'.PUBLIC_PATH."css/{$css['src']}.css\" rel=\"stylesheet\" type=\"text/css\" media=\"{$css['media']}\" />".PHP_EOL;
+            $code .= '<link href="'.PUBLIC_PATH.'css/'.$css['src'].'.css" rel="stylesheet" type="text/css" media="
+            '.$css['media'].'" />'.PHP_EOL;
         }
-
         return $code;
     }
 
@@ -168,7 +166,6 @@ class Html
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
         }
-
         self::$_headLinks[] = array('href' => $href, 'attrs' => $attrs);
     }
 
@@ -203,7 +200,7 @@ class Html
     {
         $code = '';
         foreach (self::$_headLinks as $link) {
-            $code .= "<link href=\"{$link['href']}\" {$link['attrs']} />".PHP_EOL;
+            $code .= '<link href="'.$link['href'].'" '.$link['attrs'].' />'.PHP_EOL;
         }
 
         return $code;
@@ -226,7 +223,9 @@ class Html
      */
     public static function gravatar($email, $alt = 'gravatar', $size = 40, $default = 'mm')
     {
-        $grav_url = 'https://secure.gravatar.com/avatar/'.md5(strtolower(trim($email))).'?d='.urlencode($default).'&amp;s='.$size;
+        $grav_url = 'https://secure.gravatar.com/avatar/'.md5(
+            strtolower(trim($email))
+        ).'?d='.urlencode($default).'&amp;s='.$size;
 
         return '<img src="'.$grav_url.'" alt="'.$alt.'" class="avatar" width="'.$size.'" height="'.$size.'" />';
     }
