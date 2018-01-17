@@ -31,15 +31,15 @@ class Css
      *
      * @var array
      * */
-    protected static $_dependencies  = array();
-    
+    protected static $dependencies  = array();
+
     /**
      * Css
      *
      * @var array
      * */
-    protected static $_css = array();
-    
+    protected static $css = array();
+
     /**
      * Directorio Css
      *
@@ -53,12 +53,12 @@ class Css
      * @param string $file nombre del archivo a añadir
      * @param array $dependencies  archivos que son requisito del archivo a añadir
      */
-    public static function add( $file, array $dependencies = [] )
+    public static function add($file, array $dependenciess = [])
     {
-        self::$_css[$file] = $file;
-        foreach ($dependencies  as $file) self::$_dependencies [$file] = $file;
+        self::$css[$file] = $file;
+        foreach ($dependenciess as $file) self::$dependencies[$file] = $file;
     }
-    
+
     /**
      * Incluye todos los archivo Css en el template añadidos con el metodo add
      *
@@ -66,11 +66,11 @@ class Css
      */
     public static function inc()
     {
-        $css = self::$_dependencies  + self::$_css;
+        $csss = self::$dependencies  + self::$css;
         $html = '';
-        foreach ($css as $file)
-        {
-            $html .= '<link href="' . PUBLIC_PATH . self::$css_dir . "$file.css\" rel=\"stylesheet\" type=\"text/css\" />" . PHP_EOL;
+        foreach ($csss as $file) {
+            $html .= '<link href="'.PUBLIC_PATH.self::$css_dir.$file.'.css" rel="stylesheet" type="text/css" />'
+            .PHP_EOL;
         }
         return $html;
     }
