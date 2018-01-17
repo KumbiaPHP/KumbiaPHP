@@ -225,7 +225,7 @@ class Html
     {
         $grav_url = 'https://secure.gravatar.com/avatar/'.md5(
             strtolower(trim($email))
-        ).'?d='.urlencode($default).'&amp;s='.$size;
+        ).'?d='.urlencode($default).'&s='.$size;
 
         return '<img src="'.$grav_url.'" alt="'.$alt.'" class="avatar" width="'.$size.'" height="'.$size.'" />';
     }
