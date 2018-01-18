@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-// carga libreria para manejo de cache
+/* corregir bug class en version 1.2 vurro */
 Load::lib('cache');
 
 /**
@@ -44,9 +44,9 @@ class CacheConsole
         // limpia la cache
         if ($cache->clean($group)) {
             if ($group) {
-                echo "-> Se ha limpiado el grupo $group", PHP_EOL;
+                echo '-> Se ha limpiado el grupo '.$group.PHP_EOL;
             } else {
-                echo "-> Se ha limpiado la cache", PHP_EOL;
+                echo '-> Se ha limpiado la cache'.PHP_EOL;
             }
         } else {
             throw new KumbiaException('No se ha logrado eliminar el contenido de la cache');
@@ -68,12 +68,12 @@ class CacheConsole
 
         // elimina el elemento
         if ($cache->remove($id, $group)) {
-            echo '-> Se ha eliminado el elemento de la cache', PHP_EOL;
+            echo '-> Se ha eliminado el elemento de la cache'.PHP_EOL;
         } else {
-            throw new KumbiaException("No se ha logrado eliminar el elemento \"$id\" del grupo \"$group\"");
+            throw new KumbiaException('No se ha logrado eliminar el elemento "'.$id.'" del grupo "'.$group.'"');
         }
     }
-    
+
     /**
      * Devuelve una instancia de cache del driver pasado
      *
@@ -83,9 +83,7 @@ class CacheConsole
     {
         if (isset($params['driver'])) {
             return Cache::driver($params['driver']);
-        } 
+        }
         return Cache::driver();
-        
     }
-
 }

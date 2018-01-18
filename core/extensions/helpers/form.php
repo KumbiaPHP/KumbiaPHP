@@ -23,6 +23,7 @@
  *
  * @category   KumbiaPHP
  */
+
 class Form
 {
     /**
@@ -98,15 +99,16 @@ class Form
 
     /**
      * Devuelve el nombre y el id de un campo.
-     *
      * @param array $field array del explode
-     *
      * @return array array(id, name)
      */
     protected static function fieldName(array $field)
     {
-        return isset($field[1]) ?
-                    array("{$field[0]}_{$field[1]}", "{$field[0]}[{$field[1]}]") : array($field[0], $field[0]);
+        /* NOTICE EXPLOIT SERVIDOR! */
+        /* FIX - version vurro 1.2 */
+        return isset($field[1]) ? array(
+            "{$field[0]}_{$field[1]}", "{$field[0]}[{$field[1]}]"
+        ) : array($field[0], $field[0]);
     }
 
     /**
@@ -152,11 +154,23 @@ class Form
     protected static function tag($tag, $field, $attrs = '', $value = null, $extra = '', $close = true)
     {
         $attrs = Tag::getAttrs($attrs);
-        $end = $close ? ">{{value}}</$tag>" : '/>';
+        /* si $end debe comportarse como string ?? */
+        $end = $close ? '>{{value}}</'.$tag.'>' : ' />';
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
+        /*
+        * NOTICE
+        * list() solo funciona con arrays numéricos y supone que los índices numéricos empiezan en 0.
+        * En PHP 7, list() empieza desde el parámetro más a la izquierda.
+        * se desaconseja su uso tal cual esta aqui, es mejor usar por idice ejemplo $id['0'] etc etc
+        */
+        /* variables id name no definidas para list */
         list($id, $name, $value) = self::getFieldData($field, $value);
 
-        return str_replace('{{value}}', $value, "<$tag id=\"$id\" name=\"$name\" $extra $attrs $end");
+        return str_replace(
+            '{{value}}',
+            $value,
+            '<'.$tag .'id="'.$id.'" name="'.$name.'" '.$extra.' '.$attrs.' '.$end
+        );
     }
 
     /*
@@ -168,9 +182,17 @@ class Form
      * @param string $value
      * @return string
      */
+     /* NOTE dudo que funcione :( */
     public static function input($type, $field, $attrs = '', $value = null)
     {
-        return self::tag('input', $field, $attrs, $value, "type=\"$type\" value=\"{{value}}\"", false);
+        return self::tag(
+            'input',
+            $field,
+            $attrs,
+            $value,
+            'type="'.$type.'" value="{{value}}"',
+            false
+        );
     }
 
     /**
@@ -191,7 +213,7 @@ class Form
             $action = PUBLIC_PATH.ltrim(Router::get('route'), '/');
         }
 
-        return "<form action=\"$action\" method=\"$method\" $attrs>";
+        return '<form action="'.$action.'" method="'.$method.'" '.$attrs.'>';
     }
 
     /**
@@ -268,9 +290,9 @@ class Form
     public static function button($text, $attrs = '', $type = 'button', $value = null)
     {
         $attrs = Tag::getAttrs($attrs);
-        $value = is_null($value) ? '' : "value=\"$value\"";
+        $value = is_null($value) ? '' : 'value="'.$value.'"';
 
-        return "<button type=\"$type\" $value $attrs>$text</button>";
+        return '<button type="'.$type.'" '.$value.' '.$attrs.'>'.$text.'</button>';
     }
 
     /**
@@ -286,7 +308,7 @@ class Form
     {
         $attrs = Tag::getAttrs($attrs);
 
-        return "<label for=\"$field\" $attrs>$text</label>";
+        return '<label for="'.$field.'" '.$attrs.'>'.$text.'</label>';
     }
 
     /**
@@ -328,10 +350,10 @@ class Form
             $val = self::selectValue($v, $k, $itemId);
             $text = self::selectShow($v, $show);
             $selected = self::selectedValue($value, $val);
-            $options .= "<option value=\"$val\" $selected>$text</option>";
+            $options .= '<option value="'.$val.'" '.$selected.'>'.$text.'</option>';
         }
-
-        return "<select id=\"$id\" name=\"$name\" $attrs>$options</select>";
+        /* NOTE TODO especifique type value para $id si es int or string */
+        return '<select id="'.$id.'" name="'.$name.'" '.$attrs.'>'.$options.'</select>';
     }
 
     /**
@@ -345,8 +367,7 @@ class Form
      */
     public static function selectValue($item, $key, $id)
     {
-        return htmlspecialchars(is_object($item) ? $item->$id : $key,
-                                ENT_COMPAT, APP_CHARSET);
+        return htmlspecialchars(is_object($item) ? $item->$id : $key, ENT_COMPAT, APP_CHARSET);
     }
 
     /**
@@ -360,8 +381,7 @@ class Form
      */
     public static function selectedValue($value, $key)
     {
-        return ((is_array($value) && in_array($key, $value)) || ($key == $value)) ?
-                'selected="selected"' : '';
+        return ((is_array($value) && in_array($key, $value)) || ($key == $value)) ? 'selected="selected"' : '';
     }
 
     /**
@@ -374,6 +394,7 @@ class Form
      */
     public static function selectShow($item, $show)
     {
+        /* NOTE $show no es un objeto */
         $value = (is_object($item) && !empty($show)) ? $item->$show : (string) $item;
 
         return htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
@@ -399,7 +420,8 @@ class Form
             $checked = 'checked="checked"';
         }
 
-        return "<input id=\"$id\" name=\"$name\" type=\"checkbox\" value=\"$checkValue\" $attrs $checked/>";
+        return '<input id="'.$id.'" name="'.$name.'" type="checkbox" '.'
+        value="'.$checkValue.'" '.$attrs.' '.$checked.' />';
     }
 
     /**
@@ -430,7 +452,7 @@ class Form
         }
         $id .= self::$radios[$field];
 
-        return "<input id=\"$id\" name=\"$name\" type=\"radio\" value=\"$radioValue\" $attrs $checked/>";
+        return '<input id="'.$id.'" name="'.$name.'" type="radio" value="'.$radioValue.'" '.$attrs.' '.$checked.' />';
     }
 
     /**
@@ -444,8 +466,7 @@ class Form
     public static function submitImage($img, $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
-
-        return '<input type="image" src="'.PUBLIC_PATH."img/$img\" $attrs/>";
+        return '<input type="image" src="'.PUBLIC_PATH.'img/'.$img.'" '.$attrs.' />';
     }
 
     /**
@@ -494,13 +515,13 @@ class Form
      * @param string       $field Nombre de campo
      * @param string       $show  Campo que se mostrara (opcional)
      * @param array        $data  Array('modelo','metodo','param') (opcional)
-     * @param string       $blank Campo en blanco (opcional)
+     * @param string       $b Campo en blanco (opcional)
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string|array $value (opcional) Array en select multiple
      *
      * @return string
      */
-    public static function dbSelect($field, $show = null, $data = null, $blank = 'Seleccione', $attrs = '', $value = null)
+    public static function dbSelect($field, $show = null, $data = null, $b = 'Seleccione', $attrs = '', $value = null)
     {
         $model = ($data === null) ? substr($field, strpos($field, '.') + 1, -3) : $data[0];
         $model = Util::camelcase($model);
@@ -509,6 +530,7 @@ class Form
         $show = $show ?: $model_asoc->non_primary[0];
         $pk = $model_asoc->primary_key[0];
         if ($data === null) {
+        /* NOTE MI NO ENTENDER JAJA!! */
             $data = $model_asoc->find("columns: $pk,$show", "order: $show asc"); //mejor usar array
         } else {
             $data = (isset($data[2])) ?
@@ -516,7 +538,7 @@ class Form
             $model_asoc->{$data[1]}();
         }
 
-        return self::select($field, $data, $attrs, $value, $blank, $pk, $show);
+        return self::select($field, $data, $attrs, $value, $b, $pk, $show);
     }
 
     /**
@@ -538,8 +560,11 @@ class Form
 
         // Obtiene name y id, y los carga en el scope
         list($id, $name) = self::getFieldData($field, false);
-
-        return "<input id=\"$id\" name=\"$name\" type=\"file\" $attrs/>";
+        /* NOTICE puedo ignorar MIME FILE test OWASP
+        * RECOMENDAR USAR $attrs -> accept="application/pdf, .doc, .docx, .odf" segun archivo esperado
+        * FIX concatenacion erronea
+        */
+        return '<input id=".'$id.'" name="'.$name.'" type="file" .'$attrs.' />';
     }
 
     /**
@@ -582,7 +607,14 @@ class Form
      */
     public static function datepicker($field, $class = '', $attrs = '', $value = null)
     {
-        return self::tag('input', $field, $attrs, null, "class=\"js-datepicker $class\" type=\"text\" value=\"$value\" ");
+        /* FIX standar PSR-2 */
+        return self::tag(
+            'input',
+            $field,
+            $attrs,
+            null,
+            'class="js-datepicker '.$class.'" type="text" value="'.$value.'" '
+        );
     }
 
     /**

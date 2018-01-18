@@ -45,29 +45,32 @@ class ModelConsole
 
         if (count($path)) {
             $dir = implode('/', $path);
-            $file .= "/$dir";
+            $file .= '/'.$dir;
             if (!is_dir($file) && !FileUtil::mkdir($file)) {
-                throw new KumbiaException("No se ha logrado crear el directorio \"$file\"");
+                throw new KumbiaException(
+                    'No se ha logrado crear el directorio "'.$file.'"'
+                );
             }
         }
-        $file .= "/$model_name.php";
+        $file .= '/'.$model_name.'.php';
 
-        // si no existe o se sobreescribe
         if (!is_file($file) ||
-            Console::input('El modelo existe, desea sobrescribirlo? (s/n): ', array('s', 'n')) == 's') {
-            // nombre de clase
+            Console::input(
+                'El modelo existe, desea sobrescribirlo? (s/n): ',
+                array(
+                    's',
+                    'n'
+                )
+            ) == 's') {
             $class = Util::camelcase($model_name);
-
-            // codigo de modelo
             ob_start();
-            include __DIR__.'/generators/model.php';
+            include_once(__DIR__.'/generators/model.php');
             $code = '<?php'.PHP_EOL.ob_get_clean();
 
-            // genera el archivo
             if (file_put_contents($file, $code)) {
-                echo "-> Creado modelo $model_name en: $file".PHP_EOL;
+                echo '-> Creado modelo '.$model_name.' en: '.$file.PHP_EOL;
             } else {
-                throw new KumbiaException("No se ha logrado crear el archivo \"$file\"");
+                throw new KumbiaException('No se ha logrado crear el archivo "'.$file.'"');
             }
         }
     }
@@ -89,15 +92,15 @@ class ModelConsole
             $success = FileUtil::rmdir($file);
         } else {
             // entonces es un archivo
-            $file = "$file.php";
+            $file = $file.'.php';
             $success = unlink($file);
         }
 
         // mensaje
         if ($success) {
-            echo "-> Eliminado: $file".PHP_EOL;
+            echo '-> Eliminado: '.$file.PHP_EOL;
         } else {
-            throw new KumbiaException("No se ha logrado eliminar \"$file\"");
+            throw new KumbiaException('No se ha logrado eliminar "'.$file.'"');
         }
     }
 }

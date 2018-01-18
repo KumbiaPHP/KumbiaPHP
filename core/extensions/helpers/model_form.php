@@ -36,14 +36,15 @@ class ModelForm
             $action = ltrim(Router::get('route'), '/');
         }
 
-        echo '<form action="', PUBLIC_PATH.$action, '" method="post" id="', $model_name, '" class="scaffold">' , PHP_EOL;
+        echo '<form action="'.PUBLIC_PATH.$action.'" method="post" id="'.$model_name.'" class="scaffold">'.PHP_EOL;
         $pk = $model->primary_key[0];
-        echo '<input id="', $model_name, '_', $pk, '" name="', $model_name, '[', $pk, ']" class="id" value="', $model->$pk , '" type="hidden">' , PHP_EOL;
+        echo '<input id="'.$model_name.'_'.$pk.'" name="'.$model_name.'['.$pk.']" class="id" value="'.$model->$pk.'" '
+        .'type="hidden" />'.PHP_EOL;
 
         $fields = array_diff($model->fields, $model->_at, $model->_in, $model->primary_key);
-
+        /* TODO: recoger tamaño y otros valores */
         foreach ($fields as $field) {
-            $tipo = trim(preg_replace('/(\(.*\))/', '', $model->_data_type[$field])); //TODO: recoger tamaño y otros valores
+            $tipo = trim(preg_replace('/(\(.*\))/', '', $model->_data_type[$field]));
             $alias = $model->get_alias($field);
             $formId = $model_name.'_'.$field;
             $formName = $model_name.'['.$field.']';
@@ -55,48 +56,87 @@ class ModelForm
             }
 
             switch ($tipo) {
-                case 'tinyint': case 'smallint': case 'mediumint':
-                case 'integer': case 'int': case 'bigint':
-                case 'float': case 'double': case 'precision':
-                case 'real': case 'decimal': case 'numeric':
-                case 'year': case 'day': case 'int unsigned': // Números
-
+                case 'tinyint':
+                case 'smallint':
+                case 'mediumint':
+                case 'integer':
+                case 'int':
+                case 'bigint':
+                case 'float':
+                case 'double':
+                case 'precision':
+                case 'real':
+                case 'decimal':
+                case 'numeric':
+                case 'year':
+                case 'day':
+                case 'int unsigned':
                     if (strripos($field, '_id', -3)) {
-                        echo Form::dbSelect($model_name.'.'.$field, null, null, 'Seleccione', null, $model->$field);
+                        echo Form::dbSelect(
+                            $model_name.'.'.$field,
+                            null,
+                            null,
+                            'Seleccione',
+                            null,
+                            $model->$field
+                        );
                         break;
                     } else {
-                        echo "<input id=\"$formId\" type=\"number\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
+                        echo '<input id="'.$formId.'" type="number" name="'.$formName.'" value="'.$model->$field.'" />'
+                        .PHP_EOL;
                         break;
                     }
 
-                    // no break
-                case 'date': // Usar el js de datetime
-                    echo "<input id=\"$formId\" type=\"date\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
+                /* no break */
+                case 'date':
+                    echo '<input id="'.$formId.'" type="date" name="'.$formName.'" value="'.$model->$field.'">'
+                    .PHP_EOL;
                     break;
 
-                case 'datetime': case 'timestamp':
-                    echo "<input id=\"$formId\" type=\"datetime\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
+                case 'datetime':
+                case 'timestamp':
+                    echo '<input id="'.$formId.'" type="datetime" name="'.$formName.'" value="'.$model->$field.'">'
+                    .PHP_EOL;
                     break;
 
-                case 'enum': case 'set': case 'bool':
-                    $enumList = explode(',', str_replace("'", '', substr($model->_data_type[$field], 5, (strlen($model->_data_type[$field]) - 6))));
-                    echo "<select id=\"$formId\" class=\"select\" name=\"$formName\" >", PHP_EOL;
+                case 'enum':
+                case 'set':
+                case 'bool':
+                    $enumList = explode(
+                        ',',
+                        str_replace(
+                            "'",
+                            '',
+                            substr(
+                                $model->_data_type[$field],
+                                5,
+                                (strlen($model->_data_type[$field]) - 6)
+                            )
+                        )
+                    );
+                    echo '<select id="'.$formId.'" class="select" name="'.$formName.'">'.PHP_EOL;
                     foreach ($enumList as $value) {
-                        echo "<option value=\"{$value}\">$value</option>", PHP_EOL;
+                        echo '<option value="'.$value.'">'.$value.'</option>'.PHP_EOL;
                     }
-                    echo '</select>', PHP_EOL;
+                    echo '</select>'.PHP_EOL;
                     break;
 
-                case 'text': case 'mediumtext': case 'longtext': // Usar textarea
-                case 'blob': case 'mediumblob': case 'longblob':
-                    echo "<textarea id=\"$formId\" name=\"$formName\">{$model->$field}</textarea>" , PHP_EOL;
+                case 'text':
+                case 'mediumtext':
+                case 'longtext':
+                case 'blob':
+                case 'mediumblob':
+                case 'longblob':
+                    echo '<textarea id="'.$formId.'" name="'.$formName.'">'.$model->$field.'</textarea>'.PHP_EOL;
                     break;
 
-                default: //text,tinytext,varchar, char,etc se comprobara su tamaño
-                    echo "<input id=\"$formId\" type=\"text\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
+                default:
+                    /* text, tinytext, varchar, char, etc se comprobara su tamaño */
+                    echo '<input id="'.$formId.'" type="text" name="'.$formName.'" value="'.$model->$field.'" />'
+                    .PHP_EOL;
             }
         }
-        echo '<input type="submit" value="Enviar" />' , PHP_EOL;
-        echo '</form>' , PHP_EOL;
+        echo '<input type="submit" value="Enviar">'.PHP_EOL;
+        echo '</form>'.PHP_EOL;
     }
 }

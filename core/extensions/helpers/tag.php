@@ -32,7 +32,7 @@ class Tag
      *
      * @var array
      * */
-    protected static $_css = array();
+    protected static $css = array();
 
     /**
      * Convierte los argumentos de un metodo de parametros por nombre a un string con los atributos
@@ -42,10 +42,12 @@ class Tag
      */
     public static function getAttrs($params)
     {
-        if(!is_array($params))return (string)$params;
+        if (!is_array($params)) {
+            return (string)$params;
+        }
         $data = '';
         foreach ($params as $k => $v) {
-            $data .= " $k=\"$v\"";
+            $data .= ' '.$k.'="'.$v.'"';
         }
         return $data;
     }
@@ -58,17 +60,17 @@ class Tag
      * @param string $attrs atributos para el tag
      * @return string
      * */
-    public static function create($tag, $content = NULL, $attrs = NULL)
+    public static function create($tag, $content = null, $attrs = null)
     {
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
 
         if (is_null($content)) {
-            echo "<$tag $attrs />";
+            echo '<'.$tag.' '.$attrs.' />';
         }
 
-        echo "<$tag $attrs>$content</$tag>";
+        echo '<'.$tag.' '.$attrs.'>'.$content.'</'.$tag.'>';
     }
 
     /**
@@ -77,14 +79,14 @@ class Tag
      * @param string $src archivo javascript
      * @param boolean $cache indica si se usa cache de navegador
      */
-    public static function js($src, $cache = TRUE)
+    public static function js($src, $cache = true)
     {
-        $src = "javascript/$src.js";
+        $src = 'javascript/'.$src.'.js';
         if (!$cache) {
-            $src .= '?nocache=' . uniqid();
+            $src .= '?nocache='.uniqid();
         }
 
-        return '<script type="text/javascript" src="' . PUBLIC_PATH . $src . '"></script>';
+        return '<script type="text/javascript" src="'.PUBLIC_PATH.$src.'"></script>';
     }
 
     /**
@@ -95,7 +97,7 @@ class Tag
      */
     public static function css($src, $media = 'screen')
     {
-        self::$_css[] = array('src' => $src, 'media' => $media);
+        self::$css[] = array('src' => $src, 'media' => $media);
     }
 
     /**
@@ -105,7 +107,6 @@ class Tag
      */
     public static function getCss()
     {
-        return self::$_css;
+        return self::$css;
     }
-
 }

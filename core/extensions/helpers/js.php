@@ -31,15 +31,15 @@ class Js
      *
      * @var array
      * */
-    protected static $_dependencies = array();
-    
+    protected static $dependencies = array();
+
     /**
      * Javascript
      *
      * @var array
      * */
-    protected static $_js = array();
-    
+    protected static $js = array();
+
     /**
      * Directorio Javascript
      *
@@ -58,10 +58,11 @@ class Js
      * @param string|array $attrs atributos adicionales
      * @return string
      */
-    public static function link($action, $text, $confirm = '¿Está Seguro?', $class = '', $attrs = '')
+    public static function link($action, $text, $confirm = '¿Esta Seguro?', $class = '', $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
-        return '<a href="' . PUBLIC_PATH . "$action\" data-msg=\"$confirm\" class=\"js-confirm $class\" $attrs>$text</a>";
+        return '<a href="'.PUBLIC_PATH.$action.'" data-msg="'.$confirm.'" class="js-confirm '.$class.'" '.$attrs.'>'
+        .$text.'</a>';
     }
 
     /**
@@ -75,10 +76,12 @@ class Js
      * @param string|array $attrs atributos adicionales
      * @return string
      */
-    public static function linkAction($action, $text, $confirm = '¿Está Seguro?', $class = '', $attrs = '')
+    public static function linkAction($action, $text, $confirm = '¿Esta Seguro?', $class = '', $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
-        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" data-msg=\"$confirm\" class=\"js-confirm $class\" $attrs>$text</a>";
+        return '<a href="'.PUBLIC_PATH.Router::get(
+            'controller_path'
+        ).'/'.$action.'" data-msg="'.$confirm.'" class="js-confirm '.$class.'" '.$attrs.'>'.$text.'</a>';
     }
 
     /**
@@ -91,10 +94,11 @@ class Js
      * @param string|array $attrs atributos adicionales
      * @return string
      */
-    public static function submit($text, $confirm = '¿Está Seguro?', $class = '', $attrs = '')
+    public static function submit($text, $confirm = '¿Esta Seguro?', $class = '', $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
-        return "<input type=\"submit\" value=\"$text\" data-msg=\"$confirm\" class=\"js-confirm $class\" $attrs/>";
+        return '<input type="submit" value="'.$text.'" data-msg="'.$confirm.'" class="js-confirm '.$class.'" '
+        .$attrs.'/>';
     }
 
     /**
@@ -108,7 +112,8 @@ class Js
     public static function submitImage($img, $confirm = '¿Está Seguro?', $class = '', $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
-        return "<input type=\"image\" data-msg=\"$confirm\" src=\"" . PUBLIC_PATH . "img/$img\" class=\"js-confirm $class\" $attrs/>";
+        return '<input type="image" data-msg="'.$confirm.'" src="'.PUBLIC_PATH.'img/'.$img.'" class="js-confirm '.
+        $class.'" '.$attrs.'/>';
     }
 
     /**
@@ -117,12 +122,14 @@ class Js
      * @param string $file nombre del archivo a añadir
      * @param array $dependencies archivos que son requisito del archivo a añadir
      */
-    public static function add( $file, $dependencies=array() )
+    public static function add($file, $dependencies = array())
     {
-        self::$_js[$file] = $file;
-        foreach ($dependencies as $file) self::$_dependencies[$file] = $file;
+        self::$js[$file] = $file;
+        foreach ($dependencies as $file) {
+            self::$dependencies[$file] = $file;
+        }
     }
-    
+
     /**
      * Incluye todos los archivo Javascript en el template añadidos con el metodo add
      *
@@ -130,11 +137,10 @@ class Js
      */
     public static function inc()
     {
-        $js = self::$_dependencies + self::$_js;
+        $js = self::$dependencies.self::$js;
         $html = '';
-        foreach ($js as $file)
-        {
-            $html .= '<script type="text/javascript" src="' . PUBLIC_PATH . self::$js_dir . "$file.js" . '"></script>';
+        foreach ($js as $file) {
+            $html .= '<script type="text/javascript" src="'.PUBLIC_PATH.self::$js_dir.$file.'.js"></script>';
         }
         return $html;
     }

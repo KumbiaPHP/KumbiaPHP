@@ -88,5 +88,4 @@ class Flash
     {
         return self::show('valid', $text);
     }
-
 }
