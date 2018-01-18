@@ -13,10 +13,28 @@ Fácil, rápido y en español
 ![Vurro logo](https://avatars2.githubusercontent.com/u/35511599?s=460&v=4)
 
 Esta rama es de desarrollo NO USE ESTE CODIGO PARA PRODUCCION
-El codigo esta siendo trabajado desde cero, puedo que no funcione hasta que este la version
-final.
+El codigo esta siendo trabajado desde cero, puede que no funcione correctamente
+
+* Etapa incial testeo Standar PSR-2
+* Esta dos testeo penetracion OWASP
+* Etapa tres testeo forence Kali
+* Etapa cuatro testeo forence OWASP
+* Etapa cinco reformulacion de codigo
+OBJETIVOS VERSION VURRO 1.2
+- Eliminacion de funciones y variables inecesarias
+- unificacion classes
+- desglose directorios
+- auto-load reformulados
+- auto creador de paginas
+- META:
+AUTO CREADOR DE PAGINAS SHOPPING CART
+AUTO GENERADOR PAGINAS PERSONALES
+AUTO GENERADOR FOROS
+ETC...
+===
 SALUDOS!! A VISITEN LA REPO OFICIAL. 
 ENJOY!
+===
 
 Bienvenidos a KumbiaPHP Framework  Versión 1.0
 
