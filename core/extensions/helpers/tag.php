@@ -109,5 +109,4 @@ class Tag
     {
         return self::$css;
     }
-
 }
