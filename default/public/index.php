@@ -72,7 +72,7 @@ define('APP_PATH', dirname(__DIR__).'/app/');
 define('CORE_PATH', dirname(dirname(APP_PATH)).'/core/');
 //const CORE_PATH = '/path/to/core/';
 
-/**
+/*
  * Define el PUBLIC_PATH.
  *
  * PUBLIC_PATH:
@@ -82,9 +82,7 @@ define('CORE_PATH', dirname(dirname(APP_PATH)).'/core/');
  *
  *  EN PRODUCCION ESTA CONSTANTE DEBERÍA SER ESTABLECIDA MANUALMENTE
  */
-$number = isset($_SERVER['PATH_INFO']) ? strlen(urldecode($_SERVER['PATH_INFO'])) - 1 : 0;
-$number += empty($_SERVER['QUERY_STRING']) ? 0 : strlen(urldecode($_SERVER['QUERY_STRING'])) + 1;
-define('PUBLIC_PATH', substr(urldecode($_SERVER['REQUEST_URI']), 0, -$number));
+define('PUBLIC_PATH', substr($_SERVER['SCRIPT_NAME'], 0, -9)); // - index.php string[9]
 
 /**
  * En producción descomentar las 3 lineas de arriba y usar const
