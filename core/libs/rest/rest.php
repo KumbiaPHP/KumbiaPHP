@@ -17,7 +17,7 @@
  *
  * @category   Kumbia
  * @package    Controller
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  * @deprecated since version 1  Usar rest_controller
  */
