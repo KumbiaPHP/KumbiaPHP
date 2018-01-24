@@ -8,6 +8,11 @@ default/public/temp/
 # Vagrant
 .vagrant
 
+# Sonarlint
+.sonarlint
+
+#### Editors:
+
 # Netbeans
 /nbproject
 
