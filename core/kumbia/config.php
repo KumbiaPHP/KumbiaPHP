@@ -1,6 +1,6 @@
 <?php
 /**
- * KumbiaPHP web & app Framework
+ * KumbiaPHP web & app Framework.
  *
  * LICENSE
  *
@@ -12,14 +12,14 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category   Kumbia
- * @package    Config
+ * @category   Config
+ *
  * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
- * Clase para la carga de Archivos .INI y de configuración
+ * Clase para la carga de Archivos .INI y de configuración.
  *
  * Aplica el patrón Singleton que utiliza un array
  * indexado por el nombre del archivo para evitar que
@@ -27,15 +27,13 @@
  * vez en runtime con lo que aumentamos la velocidad.
  *
  * @category   Kumbia
- * @package    Config
  */
 class Config
 {
-
     /**
      * Contain all the config
      * -
-     * Contenido de variables de configuración
+     * Contenido de variables de configuración.
      *
      * @var array
      */
@@ -44,15 +42,16 @@ class Config
     /**
      * Get config vars
      * -
-     * Obtiene configuración
+     * Obtiene configuración.
      *
      * @param string $var fichero.sección.variable
+     *
      * @return mixed
      */
     public static function get($var)
     {
         $namespaces = explode('.', $var);
-        if (! isset(self::$vars[$namespaces[0]])) {
+        if (!isset(self::$vars[$namespaces[0]])) {
             self::load($namespaces[0]);
         }
         switch (count($namespaces)) {
@@ -64,15 +63,16 @@ class Config
                              self::$vars[$namespaces[0]][$namespaces[1]] : null;
             case 1:
                 return isset(self::$vars[$namespaces[0]]) ? self::$vars[$namespaces[0]] : null;
-            
+
             default:
-                trigger_error('Máximo 3 niveles en Config::get(fichero.sección.variable), pedido: '. $var);
+                trigger_error('Máximo 3 niveles en Config::get(fichero.sección.variable), pedido: '.$var);
         }
     }
+
     /**
      * Get all configs
      * -
-     * Obtiene toda la configuración
+     * Obtiene toda la configuración.
      *
      * @return array
      */
@@ -84,7 +84,7 @@ class Config
     /**
      * Set variable in config
      * -
-     * Asigna un atributo de configuración
+     * Asigna un atributo de configuración.
      *
      * @param string $var   variable de configuración
      * @param mixed  $value valor para atributo
@@ -103,37 +103,45 @@ class Config
                 self::$vars[$namespaces[0]] = $value;
                 break;
             default:
-                trigger_error('Máximo 3 niveles en Config::set(fichero.sección.variable), pedido: '. $var);
+                trigger_error('Máximo 3 niveles en Config::set(fichero.sección.variable), pedido: '.$var);
         }
     }
 
     /**
      * Read config file
      * -
-     * Lee y devuelve un archivo de configuración
+     * Lee y devuelve un archivo de configuración.
      *
-     * @param string  $file  archivo .ini
-     * @param boolean $force forzar lectura de .ini
+     * @param string $file  archivo .php o .ini
+     * @param bool   $force forzar lectura de .php o .ini
+     *
      * @return array
      */
-    public static function & read($file, $force = false)
+    public static function &read($file, $force = false)
     {
         if (isset(self::$vars[$file]) && !$force) {
             return self::$vars[$file];
         }
         self::load($file);
+
         return self::$vars[$file];
     }
 
     /**
      * Load config file
      * -
-     * Lee un archivo de configuración
+     * Lee un archivo de configuración.
      *
-     * @param string  $file  archivo .ini
+     * @param string $file archivo
      */
     private static function load($file)
     {
-        self::$vars[$file] = parse_ini_file(APP_PATH . "config/$file.ini", true);
+        if (file_exists(APP_PATH."config/$file.php")) {
+            self::$vars[$file] = require APP_PATH."config/$file.php";
+
+            return;
+        }
+        // sino carga el .ini
+        self::$vars[$file] = parse_ini_file(APP_PATH."config/$file.ini", true);
     }
 }
