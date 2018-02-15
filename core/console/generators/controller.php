@@ -1,5 +1,5 @@
 /**
- * Controlador <?= $class, PHP_EOL ?>
+ * Controlador <?= $class ?>
  * 
  * @category App
  * @package Controllers
