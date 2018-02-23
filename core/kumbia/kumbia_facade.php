@@ -42,7 +42,7 @@
       */
      protected static function getAlias()
      {
-         throw new RuntimeException('Not implement');
+         throw new KumbiaException('Not implement');
      }
 
      protected static function getInstance($name)
@@ -58,13 +58,13 @@
       *
       * @return mixed
       *
-      * @throws \RuntimeException
+      * @throws \KumbiaException
       */
      public static function __callStatic($method, $args)
      {
          $instance = self::getInstance(static::getAlias());
          if (!$instance) {
-             throw new RuntimeException('A facade root has not been set.');
+             throw new KumbiaException('A facade root has not been set.');
          }
 
          switch (count($args)) {
