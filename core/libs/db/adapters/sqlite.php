@@ -152,10 +152,8 @@ class DbSQLite extends DbBase implements DbBaseInterface
     public function close()
     {
         if ($this->id_connection) {
-            return sqlite_close($this->id_connection);
+            sqlite_close($this->id_connection);
         }
-
-        return false;
     }
 
     /**
