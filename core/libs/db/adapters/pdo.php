@@ -290,7 +290,7 @@ abstract class DbPDO extends DbBase implements DbPDOInterface
             try {
                 $row_count = $pdo_statement->rowCount();
                 if ($row_count === false) {
-                    throw new KumbiaException($this->error(" al ejecutar <em>\"$sql_query\"</em>"));
+                    throw new KumbiaException($this->error(" al ejecutar SQL"));
                 }
 
                 return $row_count;
