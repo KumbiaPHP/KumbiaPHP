@@ -37,19 +37,19 @@ class DigestAuth implements AuthInterface
      */
     private $filename;
     /**
-     * Servidor de autenticaci�n (si es utilizado)
+     * Servidor de autenticación (si es utilizado)
      *
      * @var string
      */
     private $server;
     /**
-     * Nombre de usuario para conectar al servidor de autenticacion (si es utilizado)
+     * Nombre de usuario para conectar al servidor de autenticación (si es utilizado)
      *
      * @var string
      */
     private $username;
     /**
-     * Password de usuario para conectar al servidor de autenticacion (si es utilizado)
+     * Password de usuario para conectar al servidor de autenticación (si es utilizado)
      *
      * @var string
      */
@@ -79,7 +79,7 @@ class DigestAuth implements AuthInterface
             if (isset($extra_args[$param])) {
                 $this->$param = $extra_args[$param];
             } else {
-                throw new KumbiaException("Debe especificar el par�metro '$param' en los par�metros");
+                throw new KumbiaException("Debe especificar el parámetro '$param'.");
             }
         }
         foreach (array('username', 'password') as $param) {
@@ -95,8 +95,7 @@ class DigestAuth implements AuthInterface
      */
     public function get_identity()
     {
-        $identity = array("username" => $this->username, "realm" => $this->realm);
-        return $identity;
+        return array("username" => $this->username, "realm" => $this->realm);
     }
 
     /**
@@ -116,8 +115,8 @@ class DigestAuth implements AuthInterface
             $line = fgets($this->resource);
             $data = explode(":", $line);
 
-            if ($data[0] == $this->username) {
-                if (trim($data[2]) == md5($this->password)) {
+            if ($data[0] === $this->username) {
+                if (trim($data[2]) === md5($this->password)) {
                     $this->realm = $data[1];
                     $exists_user = true;
                     break;
