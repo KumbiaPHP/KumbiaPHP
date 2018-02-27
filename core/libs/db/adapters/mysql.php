@@ -108,7 +108,7 @@ class DbMySQL extends DbBase implements DbBaseInterface
             throw new KumbiaException('Debe cargar la extensión de PHP llamada php_mysqli');
         }
         $this->id_connection = new mysqli($config['host'], $config['username'], $config['password'], $config['name'], $config['port']);
-        //no se usa $object->error() ya que solo funciona a partir de 5.2.9 y 5.3
+        //no se usa $object->error() ya que sólo funciona a partir de 5.2.9 y 5.3
         if (mysqli_connect_error()) {
             throw new KumbiaException(mysqli_connect_error());
         }
@@ -186,7 +186,7 @@ class DbMySQL extends DbBase implements DbBaseInterface
     }
 
     /**
-     * Devuelve el numero de filas de un select.
+     * Devuelve el número de filas de un select.
      */
     public function num_rows($result_query = '')
     {
@@ -218,7 +218,7 @@ class DbMySQL extends DbBase implements DbBaseInterface
                 return false;
             }
         }
-        if (($fieldName = mysqli_field_seek($result_query, $number)) !== false) {
+        if ((mysqli_field_seek($result_query, $number)) !== false) {
             $field = mysqli_fetch_field($result_query);
 
             return $field->name;
@@ -374,14 +374,13 @@ class DbMySQL extends DbBase implements DbBaseInterface
     {
         $create_sql = "CREATE TABLE $table (";
         if (!is_array($definition)) {
-            throw new KumbiaException("Definición invalida para crear la tabla '$table'");
+            throw new KumbiaException("Definición inválida para crear la tabla '$table'");
         }
         $create_lines = array();
         $index = array();
         $unique_index = array();
         $primary = array();
-        //$not_null = "";
-        //$size = "";
+
         foreach ($definition as $field => $field_def) {
             if (isset($field_def['not_null'])) {
                 $not_null = $field_def['not_null'] ? 'NOT NULL' : '';
@@ -393,25 +392,17 @@ class DbMySQL extends DbBase implements DbBaseInterface
             } else {
                 $size = '';
             }
-            if (isset($field_def['index'])) {
-                if ($field_def['index']) {
-                    $index[] = "INDEX(`$field`)";
-                }
+            if (isset($field_def['index']) && $field_def['index']) {
+                $index[] = "INDEX(`$field`)";
             }
-            if (isset($field_def['unique_index'])) {
-                if ($field_def['unique_index']) {
-                    $index[] = "UNIQUE(`$field`)";
-                }
+            if (isset($field_def['unique_index']) && $field_def['unique_index']) {
+                $index[] = "UNIQUE(`$field`)";
             }
-            if (isset($field_def['primary'])) {
-                if ($field_def['primary']) {
-                    $primary[] = "`$field`";
-                }
+            if (isset($field_def['primary']) && $field_def['primary']) {
+                $primary[] = "`$field`";
             }
-            if (isset($field_def['auto'])) {
-                if ($field_def['auto']) {
-                    $field_def['extra'] = isset($field_def['extra']) ? $field_def['extra'].' AUTO_INCREMENT' : 'AUTO_INCREMENT';
-                }
+            if (isset($field_def['auto']) && $field_def['auto']) {
+                $field_def['extra'] = isset($field_def['extra']) ? $field_def['extra'].' AUTO_INCREMENT' : 'AUTO_INCREMENT';
             }
             if (isset($field_def['extra'])) {
                 $extra = $field_def['extra'];
@@ -457,7 +448,7 @@ class DbMySQL extends DbBase implements DbBaseInterface
      */
     public function describe_table($table, $schema = '')
     {
-        if ($schema == '') {
+        if ($schema === '') {
             return $this->fetch_all("DESCRIBE `$table`");
         }
 
