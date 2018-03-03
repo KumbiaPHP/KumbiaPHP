@@ -29,7 +29,8 @@ notifications:
 #  - DB=pgsql
 #  - DB=sqlite
 
-script: 
+script:
+  - composer install
   - phpunit --configuration core/phpunit.xml.dist --coverage-text --colors --coverage-clover=coverage.clover
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
