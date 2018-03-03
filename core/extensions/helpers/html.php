@@ -90,7 +90,7 @@ class Html
      */
     public static function img($src, $alt = '', $attrs = '')
     {
-        return '<img src="'.PUBLIC_PATH."img/$src\" alt=\"$alt\" ".Tag::getAttrs($attrs).' />';
+        return '<img src="'.PUBLIC_PATH."img/$src\" alt=\"$alt\" ".Tag::getAttrs($attrs).'/>';
     }
 
     /**

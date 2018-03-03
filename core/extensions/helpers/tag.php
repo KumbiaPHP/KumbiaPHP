@@ -47,27 +47,27 @@ class Tag
         }
         $data = '';
         foreach ($params as $k => $v) {
-            $data .= " $k=\"$v\"";
+            $data .= "$k=\"$v\" ";
         }
-        return $data;
+        return trim($data);
     }
 
     /**
      * Crea un tag
      *
      * @param string $tag nombre de tag
-     * @param string $content contenido interno
+     * @param string|null $content contenido interno
      * @param string|array $attrs atributos para el tag
      * @return string
      * */
-    public static function create($tag, $content = '', $attrs = '')
+    public static function create($tag, $content = null, $attrs = '')
     {
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
 
-        if ($content === '' || is_null($content)) {
-            echo "<$tag $attrs />";
+        if (is_null($content)) {
+            echo "<$tag $attrs/>";
             return;
         }
 
