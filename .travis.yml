@@ -9,12 +9,12 @@ php:
   - 7.1
   - 7.2
   - master
-  - hhvm
-    env: HHVM=true
+#  - hhvm
+#    env: HHVM=true
 
 matrix:
   allow_failures:
-    - php: hhvm
+#    - php: hhvm
     - php: master
     - php: 5.5
 
