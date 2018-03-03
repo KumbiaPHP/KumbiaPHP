@@ -10,6 +10,7 @@ php:
   - 7.2
   - master
   - hhvm
+    env: HHVM=true
 
 matrix:
   allow_failures:
@@ -29,8 +30,11 @@ notifications:
 #  - DB=pgsql
 #  - DB=sqlite
 
-script:
+install:
   - composer install
+  - if [[ $HHVM == true ]]; then composer require "phpunit/phpunit:5.7"; fi
+
+script:
   - phpunit --configuration core/phpunit.xml.dist --coverage-text --colors --coverage-clover=coverage.clover
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover

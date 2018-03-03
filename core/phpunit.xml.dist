@@ -11,7 +11,7 @@
     </php>
 
     <testsuites>
-        <testsuite name="KumbiaPHP Framework Test Suite">
+        <testsuite name="KumbiaPHP Framework Core Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
@@ -20,13 +20,13 @@
         <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
     </listeners>
 
-    <!--<filter>-->
-        <!--<whitelist>-->
-            <!--<directory>./</directory>-->
-            <!--<exclude>-->
-                <!--<directory>./Tests</directory>-->
-                <!--<directory>./vendor</directory>-->
-            <!--</exclude>-->
-        <!--</whitelist>-->
-    <!--</filter>-->
+    <!--<filter>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./Tests</directory>
+                <directory>./vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>-->
 </phpunit>

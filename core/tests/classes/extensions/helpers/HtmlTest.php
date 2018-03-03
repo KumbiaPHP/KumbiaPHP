@@ -27,8 +27,8 @@ use \Mockery as m;
  */
 class HtmlTest extends PHPUnit\Framework\TestCase
 {
-    use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    
+    //use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     protected function tearDown()
     {
         /*
