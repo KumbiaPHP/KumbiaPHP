@@ -31,7 +31,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 class Session
 {
     const SESSION = 'KUMBIA_SESSION';
-    const NAMESPACE = 'default';
+    const SPACE = 'default';
     /**
      * Crear o especificar el valor para un indice de la sesión
      * actual
@@ -40,7 +40,7 @@ class Session
      * @param mixed  $value
      * @param string $namespace
      */
-    public static function set($index, $value, $namespace = self::NAMESPACE)
+    public static function set($index, $value, $namespace = self::SPACE)
     {
         $_SESSION[self::SESSION][APP_PATH][$namespace][$index] = $value;
     }
@@ -52,7 +52,7 @@ class Session
      * @param string $namespace
      * @return mixed
      */
-    public static function get($index, $namespace = self::NAMESPACE)
+    public static function get($index, $namespace = self::SPACE)
     {
         if (isset($_SESSION[self::SESSION][APP_PATH][$namespace][$index])) {
             return $_SESSION[self::SESSION][APP_PATH][$namespace][$index];
@@ -65,7 +65,7 @@ class Session
      * @param string $index
      * @param string $namespace
      */
-    public static function delete($index, $namespace = self::NAMESPACE)
+    public static function delete($index, $namespace = self::SPACE)
     {
         unset($_SESSION[self::SESSION][APP_PATH][$namespace][$index]);
     }
@@ -77,7 +77,7 @@ class Session
      * @param string $namespace
      * @return boolean
      */
-    public static function has($index, $namespace = self::NAMESPACE)
+    public static function has($index, $namespace = self::SPACE)
     {
         return isset($_SESSION[self::SESSION][APP_PATH][$namespace][$index]);
     }
