@@ -16,10 +16,11 @@ matrix:
   allow_failures:
 #    - php: hhvm
     - php: master
-    - php: 5.5
+    - php: 7.2
+# 7.2 for the Mockery class
 
 notifications:
-# slack: kumbiaphp:51JaKQTXASwf52D8b32OyWb9
+  slack: kumbiaphp:51JaKQTXASwf52D8b32OyWb9
 #    irc: "irc.freenode.org#kumbiaphp"
 #    email:
 #    - programador.manuel@gmail.com
