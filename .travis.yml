@@ -31,8 +31,9 @@ notifications:
 #  - DB=sqlite
 
 install:
-  - composer install
-#  - if [[ $HHVM == true ]]; then composer require "phpunit/phpunit:5.7"; fi
+  - composer install --verbose
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.6" ]]; then composer require mockery/mockery ~0.9; fi
+  #  - if [[ $HHVM == true ]]; then composer require "phpunit/phpunit:5.7"; fi
 
 script:
   - phpunit --configuration core/phpunit.xml.dist
