@@ -45,19 +45,19 @@ class HtmlTest extends PHPUnit\Framework\TestCase
                 'img' => 'img.jpg',
                 'alt' => null,
                 'attrs' => array('class="btn"', 'class="btn"'),
-                'expected' => sprintf('<img src="%simg/img.jpg" alt="" class="btn" />', PUBLIC_PATH),
+                'expected' => sprintf('<img src="%simg/img.jpg" alt="" class="btn"/>', PUBLIC_PATH),
             ),
             array(
                 'img' => 'path/to/img2.png',
                 'alt' => 'Image Name',
                 'attrs' => array(array('class' => 'btn'), 'class="btn"'),
-                'expected' => sprintf('<img src="%simg/path/to/img2.png" alt="Image Name" class="btn" />', PUBLIC_PATH),
+                'expected' => sprintf('<img src="%simg/path/to/img2.png" alt="Image Name" class="btn"/>', PUBLIC_PATH),
             ),
             array(
                 'img' => 'path/to/img2.png',
                 'alt' => 'Alt',
                 'attrs' => array(array('class' => 'btn btn-primary', 'target' => '_blank'), 'class="btn" target="_blank"'),
-                'expected' => sprintf('<img src="%simg/path/to/img2.png" alt="Alt" class="btn" target="_blank" />', PUBLIC_PATH),
+                'expected' => sprintf('<img src="%simg/path/to/img2.png" alt="Alt" class="btn btn-primary" target="_blank"/>', PUBLIC_PATH),
             ),
         );
     }
@@ -67,26 +67,26 @@ class HtmlTest extends PHPUnit\Framework\TestCase
      */
     public function testImg($img, $alt, $attrs, $expected)
     {
-        $tagMock = m::mock('alias:Tag');
-        $tagMock->shouldReceive('getAttrs')->withArgs(array($attrs[0]))->andReturn($attrs[1]);
+        //$tagMock = m::mock('alias:Tag');
+        //$tagMock->shouldReceive('getAttrs')->withArgs(array($attrs[0]))->andReturn($attrs[1]);
 
         $this->assertSame($expected, Html::img($img, $alt, $attrs[0]));
     }
 
     public function testImgDefaultAlt()
     {
-        $tagMock = m::mock('alias:Tag');
-        $tagMock->shouldReceive('getAttrs')->withAnyArgs()->andReturn('');
+        //$tagMock = m::mock('alias:Tag');
+        //$tagMock->shouldReceive('getAttrs')->withAnyArgs()->andReturn('');
 
-        $expected = sprintf('<img src="%simg/img.png" alt=""  />', PUBLIC_PATH);
+        $expected = sprintf('<img src="%simg/img.png" alt="" />', PUBLIC_PATH);
         $this->assertSame($expected, Html::img('img.png'));
     }
 
     public function testLink()
     {
-        $tagMock = m::mock('alias:Tag');
-        $tagMock->shouldReceive('getAttrs')->with(array('a' => 'b'))->andReturn('a="b"');
-        $tagMock->shouldReceive('getAttrs')->with(array('a' => 'b', 'c' => 'd'))->andReturn('a="b" c="d"');
+        //$tagMock = m::mock('alias:Tag');
+        //$tagMock->shouldReceive('getAttrs')->with(array('a' => 'b'))->andReturn('a="b"');
+        //$tagMock->shouldReceive('getAttrs')->with(array('a' => 'b', 'c' => 'd'))->andReturn('a="b" c="d"');
 
         $expected = sprintf('<a href="%saction-name" >Action name</a>', PUBLIC_PATH);
         $this->assertSame($expected, Html::link('action-name', 'Action name'));
@@ -100,8 +100,8 @@ class HtmlTest extends PHPUnit\Framework\TestCase
 
     public function testLinkWithoutAttrs()
     {
-        $tagMock = m::mock('alias:Tag');
-        $tagMock->shouldNotReceive('getAttrs');
+        //$tagMock = m::mock('alias:Tag');
+        //$tagMock->shouldNotReceive('getAttrs');
 
         $expected = sprintf('<a href="%saction-name" >Action name</a>', PUBLIC_PATH);
         $this->assertSame($expected, Html::link('action-name', 'Action name'));
@@ -115,10 +115,10 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         $expected = sprintf('<a href="%saction-name" >Action name</a>', PUBLIC_PATH);
         Html::link('action-name', 'Action name', array());
         
-        $expected = sprintf('<a href="%saction-name"  a="b">Action name</a>', PUBLIC_PATH);
+        $expected = sprintf('<a href="%saction-name" a="b">Action name</a>', PUBLIC_PATH);
         $this->assertSame($expected, Html::link('action-name', 'Action name', array('a' => 'b')));
         
-        $expected = sprintf('<a href="%saction-name"  a="b" c="d">Action name</a>', PUBLIC_PATH);
+        $expected = sprintf('<a href="%saction-name" a="b" c="d">Action name</a>', PUBLIC_PATH);
         $this->assertSame($expected, Html::link('action-name', 'Action name', array('a' => 'b', 'c' => 'd')));
     }
 
@@ -140,8 +140,8 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         $routerMock = m::mock('alias:Router');
         $routerMock->shouldReceive('get')->with('controller_path')->andReturn($controllerPath);
 
-        $tagMock = m::mock('alias:Tag');
-        $tagMock->shouldReceive('getAttrs')->withAnyArgs()->andReturn('');
+        //$tagMock = m::mock('alias:Tag');
+        //$tagMock->shouldReceive('getAttrs')->withAnyArgs()->andReturn('');
 
         $link = Html::linkAction($action, 'Link Text');
 
@@ -153,8 +153,8 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         $routerMock = m::mock('alias:Router');
         $routerMock->shouldReceive('get')->with('controller_path')->andReturn('test');
 
-        $tagMock = m::mock('alias:Tag');
-        $tagMock->shouldReceive('getAttrs')->withAnyArgs()->andReturn('');
+        //$tagMock = m::mock('alias:Tag');
+        //$tagMock->shouldReceive('getAttrs')->withAnyArgs()->andReturn('');
 
         $link = Html::linkAction('action-name', 'Link Text');
 

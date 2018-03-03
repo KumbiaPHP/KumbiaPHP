@@ -65,7 +65,7 @@ class TagTest extends PHPUnit\Framework\TestCase
             'attr-two' => 'value-two',
         ));
 
-        $expected = ' attr-one="value-one" attr-two="value-two"';
+        $expected = 'attr-one="value-one" attr-two="value-two"';
         $this->assertSame($expected, $response);
     }
 
@@ -100,25 +100,25 @@ class TagTest extends PHPUnit\Framework\TestCase
                 'a',
                 array('href' => PUBLIC_PATH, 'class' => 'btn'),
                 null,
-                sprintf('<a  href="%s" class="btn" />', PUBLIC_PATH)
+                sprintf('<a href="%s" class="btn"/>', PUBLIC_PATH)
             ),
             array(
                 'input',
                 array('type' => 'text', 'value' => 'Hola KumbiaPHP'),
                 null,
-                '<input  type="text" value="Hola KumbiaPHP" />'
+                '<input type="text" value="Hola KumbiaPHP"/>'
             ),
             array(
                 'input',
                 'value="Hola KumbiaPHP" type="text"',
                 null,
-                '<input value="Hola KumbiaPHP" type="text" />'
+                '<input value="Hola KumbiaPHP" type="text"/>'
             ),
             array(
                 'script',
                 array('type' => 'text/javascript'),
                 'console.log("Hola KumbiaPHP");',
-                '<script  type="text/javascript">console.log("Hola KumbiaPHP");</script>',
+                '<script type="text/javascript">console.log("Hola KumbiaPHP");</script>',
             ),
         );
     }
