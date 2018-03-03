@@ -42,7 +42,9 @@ class Tag
      */
     public static function getAttrs($params)
     {
-        if(!is_array($params))return (string)$params;
+        if (!is_array($params)) {
+            return (string)$params;
+        }
         $data = '';
         foreach ($params as $k => $v) {
             $data .= " $k=\"$v\"";
@@ -55,17 +57,18 @@ class Tag
      *
      * @param string $tag nombre de tag
      * @param string $content contenido interno
-     * @param string $attrs atributos para el tag
+     * @param string|array $attrs atributos para el tag
      * @return string
      * */
-    public static function create($tag, $content = NULL, $attrs = NULL)
+    public static function create($tag, $content = '', $attrs = '')
     {
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
 
-        if (is_null($content)) {
+        if ($content === '' || is_null($content)) {
             echo "<$tag $attrs />";
+            return;
         }
 
         echo "<$tag $attrs>$content</$tag>";

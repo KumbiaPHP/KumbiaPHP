@@ -137,9 +137,8 @@ class Html
         foreach ($array as $item) {
             $list .= "<li>$item</li>".PHP_EOL;
         }
-        $list .= "</$type>".PHP_EOL;
 
-        return $list;
+        return "$list</$type>".PHP_EOL;
     }
 
     /**
