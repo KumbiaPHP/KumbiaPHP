@@ -18,7 +18,9 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
-if (!isset($_SESSION)) { session_start(); }
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 defined('CORE_PATH') || define('CORE_PATH', dirname(__DIR__) . '/');
 defined('APP_PATH') || define('APP_PATH', __DIR__ . '/');

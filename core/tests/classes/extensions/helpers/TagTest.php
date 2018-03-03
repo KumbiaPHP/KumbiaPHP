@@ -21,7 +21,7 @@
 /**
  * @category Test
  */
-class TagTest extends PHPUnit_Framework_TestCase
+class TagTest extends PHPUnit\Framework\TestCase
 {
     public function jsFileProvider()
     {
@@ -128,8 +128,6 @@ class TagTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateWithoutContent($tag, $attrs, $content, $expectedResult)
     {
-        $this->markTestSkipped("Se debe corregir el método Tag::create para que el test corra");
-        // TODO: el método tiene un if, pero igual el proceso despues del if se ejecuta.
         ob_start();
         Tag::create($tag, $content, $attrs);
         $html = ob_get_clean();

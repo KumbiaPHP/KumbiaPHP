@@ -25,7 +25,7 @@ use \Mockery as m;
  *
  * @runTestsInSeparateProcesses
  */
-class HtmlTest extends PHPUnit_Framework_TestCase
+class HtmlTest extends PHPUnit\Framework\TestCase
 {
     protected function tearDown()
     {
@@ -88,13 +88,13 @@ class HtmlTest extends PHPUnit_Framework_TestCase
         $tagMock->shouldReceive('getAttrs')->with(array('a' => 'b'))->andReturn('a="b"');
         $tagMock->shouldReceive('getAttrs')->with(array('a' => 'b', 'c' => 'd'))->andReturn('a="b" c="d"');
 
-        $expected = sprintf('<a href="%saction-name"  >Action name</a>', PUBLIC_PATH);
+        $expected = sprintf('<a href="%saction-name" >Action name</a>', PUBLIC_PATH);
         $this->assertSame($expected, Html::link('action-name', 'Action name'));
 
-        $expected = sprintf('<a href="%saction-name" a="b" >Action name</a>', PUBLIC_PATH);
+        $expected = sprintf('<a href="%saction-name" a="b">Action name</a>', PUBLIC_PATH);
         $this->assertSame($expected, Html::link('action-name', 'Action name', array('a' => 'b')));
 
-        $expected = sprintf('<a href="%saction-name" a="b" c="d" >Action name</a>', PUBLIC_PATH);
+        $expected = sprintf('<a href="%saction-name" a="b" c="d">Action name</a>', PUBLIC_PATH);
         $this->assertSame($expected, Html::link('action-name', 'Action name', array('a' => 'b', 'c' => 'd')));
     }
 
@@ -103,21 +103,23 @@ class HtmlTest extends PHPUnit_Framework_TestCase
         $tagMock = m::mock('alias:Tag');
         $tagMock->shouldNotReceive('getAttrs');
 
-        Html::link('action-name', 'Action name');
-        Html::link('action-name', 'Action name', 'a="b"');
+        $expected = sprintf('<a href="%saction-name" >Action name</a>', PUBLIC_PATH);
+        $this->assertSame($expected, Html::link('action-name', 'Action name'));
+
+        $expected = sprintf('<a href="%saction-name" a="b">Action name</a>', PUBLIC_PATH);
+        $this->assertSame($expected, Html::link('action-name', 'Action name', 'a="b"'));
     }
 
     public function testLinkWithAttrsAsArray()
     {
-        $tagMock = m::mock('alias:Tag');
-        $tagMock->shouldReceive('getAttrs')->times(3);
-
-        Html::link('action-name', 'Action name');
-        Html::link('action-name', 'Action name', 'a="b"');
-
+        $expected = sprintf('<a href="%saction-name" >Action name</a>', PUBLIC_PATH);
         Html::link('action-name', 'Action name', array());
-        Html::link('action-name', 'Action name', array('a' => 'b'));
-        Html::link('action-name', 'Action name', array('a' => 'b', 'c' => 'd'));
+        
+        $expected = sprintf('<a href="%saction-name"  a="b">Action name</a>', PUBLIC_PATH);
+        $this->assertSame($expected, Html::link('action-name', 'Action name', array('a' => 'b')));
+        
+        $expected = sprintf('<a href="%saction-name"  a="b" c="d">Action name</a>', PUBLIC_PATH);
+        $this->assertSame($expected, Html::link('action-name', 'Action name', array('a' => 'b', 'c' => 'd')));
     }
 
     public function linkActionDataProvider()
@@ -157,7 +159,7 @@ class HtmlTest extends PHPUnit_Framework_TestCase
         $link = Html::linkAction('action-name', 'Link Text');
 
         $this->assertSame(
-            '<a href="http://127.0.0.1/test/action-name"  >Link Text</a>',
+            '<a href="http://127.0.0.1/test/action-name" >Link Text</a>',
             $link
         );
     }
