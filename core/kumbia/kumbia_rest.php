@@ -99,7 +99,7 @@ class KumbiaRest extends Controller
     protected function rewriteActionName()
     {
         /**
-         * reescribimos la acción a ejecutar, ahora tendra será el metodo de
+         * reescribimos la acción a ejecutar, ahora será el mètodo de
          * la peticion: get(:id), getAll , put, post, delete, etc.
          */
         $action = $this->action_name;
@@ -110,7 +110,7 @@ class KumbiaRest extends Controller
 
             return;
         }
-        if ($action === 'index' && $method !== 'post') {
+        if ($action === 'index' && $method === 'get') {
             $this->action_name = 'getAll';
 
             return;
