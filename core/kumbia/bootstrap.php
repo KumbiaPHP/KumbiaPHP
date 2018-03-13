@@ -78,5 +78,4 @@ require APP_PATH . 'libs/view.php';
 // Dispatch y renderiza la vista
 View::render(Router::execute($url));
 
-// Fin del request
-//exit();
+// Fin del request exit()

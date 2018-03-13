@@ -30,12 +30,12 @@
  */
 class Router
 {
+
     /**
-     * Array estatico con las variables del router
+     * Array estático con las variables del router
      *
      * @var array
      */
-
     protected static $vars = array(
         'method'          => null, //Método usado GET, POST, ...
         'route'           => null, //Ruta pasada en el GET
@@ -54,7 +54,7 @@ class Router
      * @var String
      */
     protected static $router = 'KumbiaRouter';
-    //Es el router por defecto;
+    //Es el router por defecto
 
     /**
      * Indica si esta pendiente la ejecución de una ruta por parte del dispatcher
