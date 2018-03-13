@@ -151,8 +151,6 @@ abstract class Auth2 {
      * @return bool
      */
     public function isValid() {
-        session_regenerate_id(TRUE);
-
         if ($this->_checkSession) {
             $this->_checkSession();
         }
