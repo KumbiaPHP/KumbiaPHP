@@ -1,6 +1,6 @@
 <?php
 /**
- * KumbiaPHP web & app Framework
+ * KumbiaPHP web & app Framework.
  *
  * LICENSE
  *
@@ -14,144 +14,127 @@
  *
  * PDO SQLite Database Support
  *
- * @category   Kumbia
- * @package    Db
- * @subpackage Adapters
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @category   Db adapters
+ *
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 /**
  * @see DbPdo Padre de Drivers Pdo
  */
-require_once CORE_PATH . 'libs/db/adapters/pdo.php';
+require_once CORE_PATH.'libs/db/adapters/pdo.php';
 
 /**
- * PDO SQLite Database Support
+ * PDO SQLite Database Support.
  *
  * @category   Kumbia
- * @package    Db
- * @subpackage Adapters
  */
 class DbPdoSQLite extends DbPDO
 {
-
     /**
-     * Nombre de RBDM
+     * Nombre de RBDM.
      */
-    protected $db_rbdm = "sqlite";
+    protected $db_rbdm = 'sqlite';
 
     /**
-     * Tipo de Dato Integer
+     * Tipo de Dato Integer.
+     */
+    const TYPE_INTEGER = 'INTEGER';
+
+    /**
+     * Tipo de Dato Date.
+     */
+    const TYPE_DATE = 'DATE';
+
+    /**
+     * Tipo de Dato Varchar.
+     */
+    const TYPE_VARCHAR = 'VARCHAR';
+
+    /**
+     * Tipo de Dato Decimal.
+     */
+    const TYPE_DECIMAL = 'DECIMAL';
+
+    /**
+     * Tipo de Dato Datetime.
+     */
+    const TYPE_DATETIME = 'DATETIME';
+
+    /**
+     * Tipo de Dato Char.
+     */
+    const TYPE_CHAR = 'CHAR';
+
+    /**
+     * Hace una conexión a la base de datos.
      *
-     */
-    const TYPE_INTEGER = "INTEGER";
-
-    /**
-     * Tipo de Dato Date
+     * @param array $config
      *
+     * @return bool
      */
-    const TYPE_DATE = "DATE";
-
-    /**
-     * Tipo de Dato Varchar
-     *
-     */
-    const TYPE_VARCHAR = "VARCHAR";
-
-    /**
-     * Tipo de Dato Decimal
-     *
-     */
-    const TYPE_DECIMAL = "DECIMAL";
-
-    /**
-     * Tipo de Dato Datetime
-     *
-     */
-    const TYPE_DATETIME = "DATETIME";
-
-    /**
-     * Tipo de Dato Char
-     *
-     */
-    const TYPE_CHAR = "CHAR";
-
-    /**
-     * Ejecuta acciones de incializacion del driver
-     *
-     */
-    public function initialize()
+    public function connect(array $config)
     {
+        if (!extension_loaded('pdo')) {
+            throw new KumbiaException('Debe cargar la extensión de PHP llamada php_pdo');
+        }
+        try {
+            $this->pdo = new PDO($config['type'].':'.APP_PATH.$config['dsn'],null, null,
+                array(PDO::ATTR_PERSISTENT => true));
 
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->pdo->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+            $this->pdo->setAttribute(PDO::ATTR_CURSOR, PDO::CURSOR_FWDONLY);
+
+            $this->initialize();
+
+            return true;
+        } catch (PDOException $e) {
+            throw new KumbiaException($this->error($e->getMessage()));
+        }
     }
 
     /**
-     * Verifica si una tabla existe o no
+     * Ejecuta acciones de incializacion del driver.
+     */
+    public function initialize()
+    {
+    }
+
+    /**
+     * Verifica si una tabla existe o no.
      *
      * @param string $table
-     * @return boolean
+     *
+     * @return bool
      */
-    public function table_exists($table, $schema='')
+    public function table_exists($table, $schema = '')
     {
         $table = strtolower($table);
         $num = $this->fetch_one("SELECT COUNT(*) FROM sqlite_master WHERE name = '$table'");
+
         return $num[0];
     }
 
     /**
-     * Devuelve un LIMIT valido para un SELECT del RBDM
-     *
-     * @param string $sql consulta sql
-     * @return string
-     */
-    public function limit($sql)
-    {
-        $params = Util::getParams(func_get_args());
-        $sql_new = $sql;
-
-        if (isset($params['limit']) && is_numeric($params['limit'])) {
-            $sql_new.=" LIMIT $params[limit]";
-        }
-
-        if (isset($params['offset']) && is_numeric($params['offset'])) {
-            $sql_new.=" OFFSET $params[offset]";
-        }
-
-        return $sql_new;
-    }
-
-    /**
-     * Borra una tabla de la base de datos
-     *
-     * @param string $table
-     * @return boolean
-     */
-    public function drop_table($table, $if_exists=true)
-    {
-        if ($if_exists) {
-            return $this->query("DROP TABLE IF EXISTS $table");
-        }
-        return $this->query("DROP TABLE $table");
-    }
-
-    /**
-     * Crea una tabla utilizando SQL nativo del RDBM
+     * Crea una tabla utilizando SQL nativo del RDBM.
      *
      * TODO:
-     * - Falta que el parametro index funcione. Este debe listar indices compuestos multipes y unicos
+     * - Falta que el paraámetro index funcione. Este debe listar indices compuestos multipes y unicos
      * - Agregar el tipo de tabla que debe usarse (MySQL)
-     * - Soporte para campos autonumericos
-     * - Soporte para llaves foraneas
+     * - Soporte para campos autonuméricos
+     * - Soporte para llaves foráneas
      *
      * @param string $table
-     * @param array $definition
-     * @return boolean
+     * @param array  $definition
+     *
+     * @return bool
      */
-    public function create_table($table, $definition, $index=array())
+    public function create_table($table, $definition, $index = array())
     {
         $create_sql = "CREATE TABLE $table (";
         if (!is_array($definition)) {
-            throw new KumbiaException("Definici&oacute;n invalida para crear la tabla '$table'");
+            throw new KumbiaException("Definición inválida para crear la tabla '$table'");
         }
         $create_lines = array();
         $index = array();
@@ -163,12 +146,12 @@ class DbPdoSQLite extends DbPDO
             if (isset($field_def['not_null'])) {
                 $not_null = $field_def['not_null'] ? 'NOT NULL' : '';
             } else {
-                $not_null = "";
+                $not_null = '';
             }
             if (isset($field_def['size'])) {
-                $size = $field_def['size'] ? '(' . $field_def['size'] . ')' : '';
+                $size = $field_def['size'] ? '('.$field_def['size'].')' : '';
             } else {
-                $size = "";
+                $size = '';
             }
             if (isset($field_def['index'])) {
                 if ($field_def['index']) {
@@ -187,20 +170,20 @@ class DbPdoSQLite extends DbPDO
             }
             if (isset($field_def['auto'])) {
                 if ($field_def['auto']) {
-                    $not_null = "";
+                    $not_null = '';
                 }
             }
             if (isset($field_def['extra'])) {
                 $extra = $field_def['extra'];
             } else {
-                $extra = "";
+                $extra = '';
             }
-            $create_lines[] = "$field " . $field_def['type'] . $size . ' ' . $not_null . ' ' . $extra;
+            $create_lines[] = "$field ".$field_def['type'].$size.' '.$not_null.' '.$extra;
         }
-        $create_sql.= join(',', $create_lines);
+        $create_sql .= join(',', $create_lines);
         $last_lines = array();
         if (count($primary)) {
-            $last_lines[] = 'PRIMARY KEY(' . join(",", $primary) . ')';
+            $last_lines[] = 'PRIMARY KEY('.join(',', $primary).')';
         }
         if (count($index)) {
             $last_lines[] = join(',', $index);
@@ -209,46 +192,47 @@ class DbPdoSQLite extends DbPDO
             $last_lines[] = join(',', $unique_index);
         }
         if (count($last_lines)) {
-            $create_sql.= ',' . join(',', $last_lines) . ')';
+            $create_sql .= ','.join(',', $last_lines).')';
         }
+
         return $this->exec($create_sql);
     }
 
     /**
-     * Listar las tablas en la base de datos
+     * Listar las tablas en la base de datos.
      *
      * @return array
      */
     public function list_tables()
     {
-        return $this->fetch_all("SELECT name FROM sqlite_master WHERE type='table' " .
-                "UNION ALL SELECT name FROM sqlite_temp_master " .
+        return $this->fetch_all("SELECT name FROM sqlite_master WHERE type='table' ".
+                'UNION ALL SELECT name FROM sqlite_temp_master '.
                 "WHERE type='table' ORDER BY name");
     }
 
     /**
-     * Listar los campos de una tabla
+     * Listar los campos de una tabla.
      *
      * @param string $table
+     *
      * @return array
      */
-    public function describe_table($table, $schema='')
+    public function describe_table($table, $schema = '')
     {
-        $fields = array();
-        if (!$schema) {
-            $results = $this->fetch_all("PRAGMA table_info($table)", self::DB_ASSOC);
-        } else {
-            $results = $this->fetch_all("PRAGMA table_info($schema.$table)", self::DB_ASSOC);
-        }
+        $table = $schema ? "$table.$schema" : $table;
+        $results = $this->fetch_all("PRAGMA table_info($table)");
+
+        $fields = [];
         foreach ($results as $field) {
             $fields[] = array(
-                "Field" => $field["name"],
-                "Type" => $field["type"],
-                "Null" => $field["notnull"] == 99 ? "YES" : "NO",
-                "Key" => $field['pk'] == 1 ? "PRI" : ""
+                'Field' => $field['name'],
+                'Type' => $field['type'],
+                'Null' => $field['notnull'] == 99 ? 'YES' : 'NO',
+                'Default' => $field['dflt_value'],
+                'Key' => $field['pk'] == 1 ? 'PRI' : '',
             );
         }
+
         return $fields;
     }
-
 }

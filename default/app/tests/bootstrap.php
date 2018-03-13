@@ -13,33 +13,20 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    Filter
- * @subpackage BaseFilter
+ * @package    Session
  * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
-/**
- * Filtra una cadena Htmlentities
- *
- * @category   Kumbia
- * @package    Filter
- * @subpackage BaseFilter
- */
-class HtmlentitiesFilter implements FilterInterface
-{
-
-    /**
-     * Ejecuta el filtro
-     *
-     * @param string $s
-     * @param array $options
-     * @return string
-     */
-    public static function execute($s, $options)
-    {
-        $charset = (isset($options['charset'])) ? $options['charset'] : APP_CHARSET;
-        return htmlentities((string) $s, ENT_QUOTES, $charset);
-    }
-
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
 }
+
+defined('CORE_PATH') || define('CORE_PATH', dirname(dirname(dirname(__DIR__))) . '/core/');
+defined('APP_PATH') || define('APP_PATH', dirname(__DIR__) . '/');
+defined('PUBLIC_PATH') || define('PUBLIC_PATH', 'http://127.0.0.1/');
+
+require_once CORE_PATH.'kumbia/autoload.php';
+require_once APP_PATH.'../../vendor/autoload.php';
+
+spl_autoload_register('kumbia_autoload_helper', true, true);

@@ -7,11 +7,14 @@
          bootstrap="./tests/bootstrap.php"
 >
     <php>
-        <ini name="error_reporting" value="-1" />
+        <ini name="error_reporting" value="-1"/>
+        <ini name="memory_limit" value="-1"/>
+        <ini name="apc.enable_cli" value="1"/>
+        <ini name="opcache.enable_cli" value="1"/>
     </php>
 
     <testsuites>
-        <testsuite name="KumbiaPHP Framework Test Suite">
+        <testsuite name="KumbiaPHP Framework Core Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
@@ -20,13 +23,14 @@
         <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
     </listeners>
 
-    <!--<filter>-->
-        <!--<whitelist>-->
-            <!--<directory>./</directory>-->
-            <!--<exclude>-->
-                <!--<directory>./Tests</directory>-->
-                <!--<directory>./vendor</directory>-->
-            <!--</exclude>-->
-        <!--</whitelist>-->
-    <!--</filter>-->
+    <!-- Ignore vendor tests in code coverage reports -->
+    <filter>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./tests</directory>
+                <directory>../vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
 </phpunit>

@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Core
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -65,7 +65,7 @@ function kumbia_autoload($class)
 function kumbia_autoload_vendor($class)
 {
     //Autoload PSR0
-    $psr0 = dirname(CORE_PATH).'/vendor/'.str_replace(array('_', '\\'), DIRECTORY_SEPARATOR, $class).'.php';
+    $psr0 = dirname(dirname(APP_PATH)).'/vendor/'.str_replace(array('_', '\\'), DIRECTORY_SEPARATOR, $class).'.php';
     if (is_file($psr0)) {
         include $psr0;
     }

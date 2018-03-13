@@ -1,6 +1,6 @@
 <?php
 /**
- * KumbiaPHP web & app Framework
+ * KumbiaPHP web & app Framework.
  *
  * LICENSE
  *
@@ -12,27 +12,23 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category   Kumbia
- * @package    Db
- * @subpackage Behaviors
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @category   Paginate
+ *
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
- * Componente para páginar
+ * Componente para páginar.
  *
  * Permite paginar arrays y modelos
  *
  * @category   Kumbia
- * @package    Db
- * @subpackage Behaviors
  */
 class Paginator
 {
-
     /**
-     * paginador
+     * paginador.
      *
      * page: número de página a mostrar (por defecto la página 1)
      * per_page: cantidad de registros por página (por defecto 10 registros por página)
@@ -68,6 +64,7 @@ class Paginator
      *  $page = paginate($this->Usuario, 'conditions: sexo="F"' , 'per_page: 5', "page: $page_num"); <br>
      *
      * @params object $model
+     *
      * @return stdClass
      * */
     public static function paginate($model)
@@ -143,23 +140,24 @@ class Paginator
         $page->total = ceil($n / $per_page);
         $page->count = $n;
         $page->per_page = $per_page;
+
         return $page;
     }
 
     /**
-     * páginador por sql
+     * páginador por sql.
      *
      * @param object $model Modelo a paginar
-     * @param string $sql Consulta sql
+     * @param string $sql   Consulta sql
      *
      * page: número de página a mostrar (por defecto la página 1)
      * per_page: cantidad de registros por página (por defecto 10 registros por página)
      *
      *
      * Retorna un PageObject que tiene los siguientes atributos:
-     *  next: numero de página siguiente, si no hay página siguiente entonces es false
-     *  prev: numero de página anterior, si no hay página anterior entonces es false
-     *  current: numero de página actual
+     *  next: número de página siguiente, si no hay página siguiente entonces es false
+     *  prev: número de página anterior, si no hay página anterior entonces es false
+     *  current: número de página actual
      *  total: total de páginas que se pueden mostrar
      *  items: array de registros de la página
      *  count: Total de registros
@@ -176,7 +174,7 @@ class Paginator
         $per_page = isset($params['per_page']) ? (int) $params['per_page'] : 10;
         //Si la página o por página es menor de 1 (0 o negativo)
         if ($page_number < 1 || $per_page < 1) {
-            throw new KumbiaException("La página $page_number no existe en el páginador");
+            throw new KumbiaException("La página $page_number no existe en el paginador");
         }
         $start = $per_page * ($page_number - 1);
         //Instancia del objeto contenedor de página
@@ -186,7 +184,7 @@ class Paginator
         //si el inicio es superior o igual al conteo de elementos,
         //entonces la página no existe, exceptuando cuando es la página 1
         if ($page_number > 1 && $start >= $n) {
-            throw new KumbiaException("La página $page_number no existe en el páginador");
+            throw new KumbiaException("La página $page_number no existe en el paginador");
         }
         $page->items = $model->find_all_by_sql($model->limit($sql, "offset: $start", "limit: $per_page"));
         //Se efectuan los calculos para las páginas
@@ -196,7 +194,7 @@ class Paginator
         $page->total = ceil($n / $per_page);
         $page->count = $n;
         $page->per_page = $per_page;
+
         return $page;
     }
-
 }

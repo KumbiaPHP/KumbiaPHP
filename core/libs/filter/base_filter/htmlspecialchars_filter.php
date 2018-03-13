@@ -15,7 +15,7 @@
  * @category   Kumbia
  * @package    Filter
  * @subpackage BaseFilter
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -38,7 +38,7 @@ class HtmlspecialcharsFilter implements FilterInterface
      */
     public static function execute($s, $options)
     {
-        $charset = (isset($options['charset']) && $options['charset']) ? $options['charset'] : APP_CHARSET;
+        $charset = (isset($options['charset'])) ? $options['charset'] : APP_CHARSET;
         return htmlspecialchars((string) $s, ENT_QUOTES, $charset);
     }
 

@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    KumbiaRouter
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -31,7 +31,7 @@ class KumbiaRouter
     {
         $router = array();
         //Valor por defecto
-        if ($url == '/') {
+        if ($url === '/') {
             return $router;
         }
 
@@ -52,7 +52,7 @@ class KumbiaRouter
 
         // Controlador, cambia - por _
         $router['controller']      = str_replace('-', '_', current($urlItems));
-        $router['controller_path'] = !empty($router['module']) ? "$urlItems[0]/".$router['controller'] : $router['controller'];
+        $router['controller_path'] = isset($router['module']) ? "$urlItems[0]/".$router['controller'] : $router['controller'];
 
         // Si no hay mas parametros sale
         if (next($urlItems) === false) {

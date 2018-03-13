@@ -14,7 +14,7 @@
  *
  * @category   KumbiaPHP
  * @package    Helpers
- * @copyright  Copyright (c) 2005 - 2017 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2018 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -42,30 +42,33 @@ class Tag
      */
     public static function getAttrs($params)
     {
-        if(!is_array($params))return (string)$params;
+        if (!is_array($params)) {
+            return (string)$params;
+        }
         $data = '';
         foreach ($params as $k => $v) {
-            $data .= " $k=\"$v\"";
+            $data .= "$k=\"$v\" ";
         }
-        return $data;
+        return trim($data);
     }
 
     /**
      * Crea un tag
      *
      * @param string $tag nombre de tag
-     * @param string $content contenido interno
-     * @param string $attrs atributos para el tag
+     * @param string|null $content contenido interno
+     * @param string|array $attrs atributos para el tag
      * @return string
      * */
-    public static function create($tag, $content = NULL, $attrs = NULL)
+    public static function create($tag, $content = null, $attrs = '')
     {
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
         }
 
         if (is_null($content)) {
-            echo "<$tag $attrs />";
+            echo "<$tag $attrs/>";
+            return;
         }
 
         echo "<$tag $attrs>$content</$tag>";

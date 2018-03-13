@@ -1,6 +1,6 @@
 <?php
 /**
- * KumbiaPHP web & app Framework
+ * KumbiaPHP web & app Framework.
  *
  * LICENSE
  *
@@ -13,46 +13,59 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    Db
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ *
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
- * Interfaz para los adaptadores de bases de datos
+ * Interfaz para los adaptadores de bases de datos.
  *
  * Esta interface expone los metodos que se deben implementar en un driver
  * de KumbiaPHP
  *
  * @category   Kumbia
- * @package    Db
  */
 interface DbBaseInterface
 {
     /**
      * @return bool
      */
-    public function connect($config);
+    public function connect(array $config);
 
     /**
-     * @return resource
+     * Efectua operaciones SQL sobre la base de datos
+     * Este método lo extienden los adapters.
+     *
+     * @param string $sql_query
+     *
+     * @return resource|false
      */
     public function query($sql);
 
-    public function fetch_array($resultQuery = NULL, $opt = '');
+    /**
+     * Devuelve fila por fila el contenido de un select
+     * Este método lo extienden los adapters.
+     *
+     * @param resource $resultQuery
+     * @param int      $opt
+     *
+     * @return array
+     */
+    public function fetch_array($resultQuery = null, $opt = '');
 
     public function close();
 
-    public function num_rows($resultQuery = NULL);
+    public function num_rows($resultQuery = null);
 
-    public function field_name($number, $resultQuery = NULL);
+    public function field_name($number, $resultQuery = null);
 
     /**
      * @return bool
      */
-    public function data_seek($number, $resultQuery = NULL);
+    public function data_seek($number, $resultQuery = null);
 
-    public function affected_rows($result_query = NULL);
+    public function affected_rows($result_query = null);
 
     /**
      * @return string
@@ -74,14 +87,14 @@ interface DbBaseInterface
     /**
      * @return bool
      */
-    public function insert($table, $values, $pk = '');
+    public function insert($table, array $values, $pk = '');
 
     /**
      * @param string $where_condition
      *
      * @return bool
      */
-    public function update($table, $fields, $values, $where_condition = null);
+    public function update($table, array $fields, array $values, $where_condition = null);
 
     /**
      * @param string $where_condition

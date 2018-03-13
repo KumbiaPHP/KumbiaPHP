@@ -14,18 +14,18 @@
  *
  * @category   Kumbia
  * @package    Session
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
  * @category Test
  */
-class SessionTest extends PHPUnit_Framework_TestCase
+class SessionTest extends PHPUnit\Framework\TestCase
 {
     public function setUp()
     {
-        if (session_status() == PHP_SESSION_NONE) {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
             @session_start();
         }
     }
@@ -48,6 +48,8 @@ class SessionTest extends PHPUnit_Framework_TestCase
 
     public function testGetDefaultValue()
     {
+        Session::delete('test_key');
+        
         $this->assertFalse(Session::has('test_key'));
         $this->assertNull(Session::get('test_key'));
     }
@@ -71,6 +73,9 @@ class SessionTest extends PHPUnit_Framework_TestCase
 
     public function testGetWithNamespaces()
     {
+        Session::delete('test_key');
+        Session::delete('test_key', 'other');
+        
         $this->assertNull(Session::get('test_key'));
         $this->assertNull(Session::get('test_key', 'other'));
 

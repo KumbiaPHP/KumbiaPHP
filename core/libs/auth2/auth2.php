@@ -14,9 +14,14 @@
  *
  * @category   Kumbia
  * @package    Auth
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
+
+ // Evita problemas al actualizar de la beta2
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 /**
  * Clase Base para la gestion de autenticación
@@ -146,8 +151,6 @@ abstract class Auth2 {
      * @return bool
      */
     public function isValid() {
-        session_regenerate_id(TRUE);
-
         if ($this->_checkSession) {
             $this->_checkSession();
         }

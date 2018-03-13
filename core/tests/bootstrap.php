@@ -14,11 +14,13 @@
  *
  * @category   Kumbia
  * @package    Session
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
-if (!isset($_SESSION)) { session_start(); }
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 defined('CORE_PATH') || define('CORE_PATH', dirname(__DIR__) . '/');
 defined('APP_PATH') || define('APP_PATH', __DIR__ . '/');

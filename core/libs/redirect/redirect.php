@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Router
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -43,11 +43,11 @@ class Redirect
 
         if ($seconds) {
             header("Refresh: $seconds; url=$route");
-        } else {
-            header('Location: '.$route, TRUE, $statusCode);
-            $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
-            View::select(null, null);
+            return;
         }
+        header('Location: '.$route, TRUE, $statusCode);
+        $_SESSION['KUMBIA.CONTENT'] = ob_get_clean();
+        View::select(null, null);
     }
 
     /**

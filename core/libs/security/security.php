@@ -1,6 +1,6 @@
 <?php
 /**
- * KumbiaPHP web & app Framework
+ * KumbiaPHP web & app Framework.
  *
  * LICENSE
  *
@@ -13,25 +13,22 @@
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
  * @category   Kumbia
- * @package    Security
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ *
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
-session_register("rsa_key");
 
 /**
- * Clase que contiene métodos útiles para manejar seguridad
+ * Clase que contiene métodos útiles para manejar seguridad.
  *
  * @category   Kumbia
- * @package    Security
  */
 abstract class Security
 {
-
     public static function generateRSAKey($kumbia)
     {
-        $h = date("G") > 12 ? 1 : 0;
-        $time = uniqid() . mktime($h, 0, 0, date("m"), date("d"), date("Y"));
+        $h = date('G') > 12 ? 1 : 0;
+        $time = uniqid().mktime($h, 0, 0, date('m'), date('d'), date('Y'));
         $key = sha1($time);
         $_SESSION['rsa_key'] = $key;
         $xCode = "<input type='hidden' id='rsa32_key' value='$key' />\r\n";
@@ -42,19 +39,18 @@ abstract class Security
         }
     }
 
-    public static function createSecureRSAKey($kumbia=true)
+    public static function createSecureRSAKey($kumbia = true)
     {
         $config = Config::read('config');
         if ($config->kumbia->secure_ajax) {
             if ($_SESSION['rsa_key']) {
                 if ((time() % 8) == 0) {
                     return self::generateRSAKey($kumbia);
-                } else {
-                    echo "<input type='hidden' id='rsa32_key' value=\"{$_SESSION['rsa_key']}\"/>";
                 }
-            } else {
-                return self::generateRSAKey($kumbia);
+                echo "<input type='hidden' id='rsa32_key' value=\"{$_SESSION['rsa_key']}\"/>";
             }
+
+            return self::generateRSAKey($kumbia);
         }
     }
 }

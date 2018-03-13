@@ -14,7 +14,7 @@
  *
  * @category   Kumbia
  * @package    Session
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -23,7 +23,7 @@
  *
  * @runTestsInSeparateProcesses
  */
-class UtilTest extends PHPUnit_Framework_TestCase
+class UtilTest extends PHPUnit\Framework\TestCase
 {
     public function underescoreDataProvider()
     {

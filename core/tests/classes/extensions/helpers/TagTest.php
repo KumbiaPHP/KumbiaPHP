@@ -14,14 +14,14 @@
  *
  * @category   Kumbia
  * @package    Session
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
 /**
  * @category Test
  */
-class TagTest extends PHPUnit_Framework_TestCase
+class TagTest extends PHPUnit\Framework\TestCase
 {
     public function jsFileProvider()
     {
@@ -65,7 +65,7 @@ class TagTest extends PHPUnit_Framework_TestCase
             'attr-two' => 'value-two',
         ));
 
-        $expected = ' attr-one="value-one" attr-two="value-two"';
+        $expected = 'attr-one="value-one" attr-two="value-two"';
         $this->assertSame($expected, $response);
     }
 
@@ -100,25 +100,25 @@ class TagTest extends PHPUnit_Framework_TestCase
                 'a',
                 array('href' => PUBLIC_PATH, 'class' => 'btn'),
                 null,
-                sprintf('<a  href="%s" class="btn" />', PUBLIC_PATH)
+                sprintf('<a href="%s" class="btn"/>', PUBLIC_PATH)
             ),
             array(
                 'input',
                 array('type' => 'text', 'value' => 'Hola KumbiaPHP'),
                 null,
-                '<input  type="text" value="Hola KumbiaPHP" />'
+                '<input type="text" value="Hola KumbiaPHP"/>'
             ),
             array(
                 'input',
                 'value="Hola KumbiaPHP" type="text"',
                 null,
-                '<input value="Hola KumbiaPHP" type="text" />'
+                '<input value="Hola KumbiaPHP" type="text"/>'
             ),
             array(
                 'script',
                 array('type' => 'text/javascript'),
                 'console.log("Hola KumbiaPHP");',
-                '<script  type="text/javascript">console.log("Hola KumbiaPHP");</script>',
+                '<script type="text/javascript">console.log("Hola KumbiaPHP");</script>',
             ),
         );
     }
@@ -128,8 +128,6 @@ class TagTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateWithoutContent($tag, $attrs, $content, $expectedResult)
     {
-        $this->markTestSkipped("Se debe corregir el método Tag::create para que el test corra");
-        // TODO: el método tiene un if, pero igual el proceso despues del if se ejecuta.
         ob_start();
         Tag::create($tag, $content, $attrs);
         $html = ob_get_clean();

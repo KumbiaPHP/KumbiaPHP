@@ -1,5 +1,5 @@
 /**
- * Modelo <?= $class, PHP_EOL ?>
+ * Modelo <?= $class ?>
  * 
  * @category App
  * @package Models

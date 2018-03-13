@@ -15,7 +15,7 @@
  * @category Kumbia
  * @package Auth
  * @subpackage Adapters
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -81,7 +81,7 @@ class Kerberos5Auth implements AuthInterface
     {
 
         if (!extension_loaded("kadm5")) {
-            throw new KumbiaException("Debe cargar la extensi�n de php llamada kadm5");
+            throw new KumbiaException("Debe cargar la extensión de php llamada kadm5");
         }
 
         foreach (array('server', 'username', 'principal', 'password') as $param) {

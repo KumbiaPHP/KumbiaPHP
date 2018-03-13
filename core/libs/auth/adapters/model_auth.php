@@ -14,7 +14,7 @@
  *
  * @category   extensions
  * @package    Auth
- * @copyright  Copyright (c) 2005 - 2017 Kumbia Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
@@ -26,33 +26,8 @@
  */
 class ModelAuth implements AuthInterface
 {
-
     /**
-     * Nombre del archivo (si es utilizado)
-     *
-     * @var string
-     */
-    private $filename;
-    /**
-     * Servidor de autenticación (si es utilizado)
-     *
-     * @var string
-     */
-    private $server;
-    /**
-     * Nombre de usuario para conectar al servidor de autenticacion (si es utilizado)
-     *
-     * @var string
-     */
-    private $username;
-    /**
-     * Password de usuario para conectar al servidor de autenticacion (si es utilizado)
-     *
-     * @var string
-     */
-    private $password;
-    /**
-     * Atributos del modelo a comparar para autenticacion valida
+     * Atributos del modelo a comparar para autenticación válida
      */
     private $compare_attributes = array();
     /**
@@ -107,7 +82,7 @@ class ModelAuth implements AuthInterface
         }
         $result = (new $this->class)->count(join(" AND ", $where_condition));
         if ($result) {
-            $model = KumbiaActiveRecord::get($this->class)->find_first(join(" AND ", $where_condition));
+            $model = (new $this->class)->find_first(join(" AND ", $where_condition));
             $identity = array();
             foreach ($model->fields as $field) {
                 /**
@@ -123,7 +98,7 @@ class ModelAuth implements AuthInterface
     }
 
     /**
-     * Asigna los valores de los parametros al objeto autenticador
+     * Asigna los valores de los parámetros al objeto autenticador
      *
      * @param array $extra_args
      */
