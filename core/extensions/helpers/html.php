@@ -115,7 +115,11 @@ class Html
      */
     public static function includeMetatags()
     {
-        return implode(PHP_EOL, array_unique(self::$_metatags));
+        $code = '';
+        foreach (self::$_metatags as $meta) {
+            $code .= "<meta content=\"{$meta['content']}\" {$meta['attrs']}>" . PHP_EOL;
+        }
+        return $code;
     }
 
     /**
