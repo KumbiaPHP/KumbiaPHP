@@ -18,6 +18,11 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
+ // Evita problemas al actualizar de la beta2
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
 /**
  * Clase Base para la gestion de autenticación
  *
