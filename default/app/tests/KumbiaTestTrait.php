@@ -21,28 +21,28 @@
 trait KumbiaTestTrait
 {
     /**
-	 * Asserts HTTP response code
-	 *
-	 * @param int $code
-	 */
-	public function assertResponseCode($code)
-	{
-		$actual = http_response_code();
-		$this->assertSame(
-			$code,
-			$actual,
-			"Status code is not $code but $actual."
-		);
+     * Asserts HTTP response code
+     *
+     * @param int $code
+     */
+    public function assertResponseCode($code)
+    {
+        $actual = http_response_code();
+        $this->assertSame(
+            $code,
+            $actual,
+            "Status code is not $code but $actual."
+        );
     }
     /**
-	 * Request to Controller
-	 *
-	 * @param string       $method      HTTP method
-	 * @param string       $url         array of controller,method,arg|uri
-	 * @param array        $params      POST parameters/Query string
-	 */
-	protected function request($method, $url, $params = [])
-	{
+     * Request to Controller
+     *
+     * @param string       $method      HTTP method
+     * @param string       $url         controller/method/arg|uri
+     * @param array        $params      POST parameters/Query string
+     */
+    protected function request($method, $url, $params = [])
+    {
         $_SERVER['REQUEST_METHOD'] = $method;
         
         ob_start();
@@ -56,7 +56,12 @@ trait KumbiaTestTrait
         //$content = $this->getActualOutput();
         return ob_get_clean();
     }
-    
+    /**
+     * GET Request to Controller
+     *
+     * @param string       $url         controller/method/arg|uri
+     * @param array        $params      Query string
+     */
     public function get($url, $params = [])
     {
         return $this->request('GET', $url, $params);
