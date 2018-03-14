@@ -11,7 +11,9 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
- *
+ */
+ 
+ /** 
  * Clase para manejar los datos del request
  *
  * @category   Kumbia
@@ -22,15 +24,15 @@
 class Input
 {
     /**
-     * Verifica o obtiene el metodo de la peticion
+     * Verifica o obtiene el método de la petición
      *
-     * @param string $method
+     * @param string $method Http method
      * @return mixed
      */
     public static function is($method = '')
     {
         if($method){
-            return $method == $_SERVER['REQUEST_METHOD'];
+            return $method === $_SERVER['REQUEST_METHOD'];
         }
         return $_SERVER['REQUEST_METHOD'];
     }
