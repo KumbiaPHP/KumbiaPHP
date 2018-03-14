@@ -1,6 +1,6 @@
-vendor/
-default/app/temp/
-default/public/temp/
+vendor
+default/app/temp
+default/public/temp
 
 # Mac filesystem dust
 .DS_Store
@@ -21,3 +21,9 @@ default/public/temp/
 
 # Intellij
 .idea
+
+#sonar
+.sonar
+.scannerwork
+sonar-project.properties
+composer.lock
