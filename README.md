@@ -3,7 +3,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP/badges/quality-score.png)](https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP)
 [![Code Climate](https://codeclimate.com/github/KumbiaPHP/KumbiaPHP/badges/gpa.svg)](https://codeclimate.com/github/KumbiaPHP/KumbiaPHP)
 [![Slack](http://slack.kumbiaphp.com/badge.svg)](http://slack.kumbiaphp.com)
-![PHP7 ready](https://rawgit.com/kumbiaphp/kumbiaphp/1.0/default/public/img/php7.svg)
+![PHP7 ready](https://rawgit.com/kumbiaphp/kumbiaphp/master/default/public/img/php7.svg)
 
 Fácil, rápido y en español
 (Or should I say fast and easy?)
