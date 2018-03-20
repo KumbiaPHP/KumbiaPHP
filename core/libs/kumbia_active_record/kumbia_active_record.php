@@ -162,11 +162,11 @@ class KumbiaActiveRecord
      *
      * inclusion_in: el campo pertenece a un conjunto de elementos
      * exclusion_of: el campo no pertenece a un conjunto de elementos
-     * numericality_of: el campo debe ser numerico
-     * format_of: el campo debe coincidir con la expresion regular compatible con perl
-     * date_in: el campo debe ser una fecha valida
-     * email_in: el campo debe ser un correo electronico
-     * uniqueness_of: el campo debe ser unico
+     * numericality_of: el campo debe ser númerico
+     * format_of: el campo debe coincidir con la expresión regular
+     * date_in: el campo debe ser una fecha válida
+     * email_in: el campo debe ser un correo electrónico
+     * uniqueness_of: el campo debe ser único
      *
      * @var array
      * */
@@ -1382,7 +1382,7 @@ class KumbiaActiveRecord
          */
         if (isset($this->_validates['presence_of'])) {
             foreach ($this->_validates['presence_of'] as $f => $opt) {
-                if (isset($this->$f) && (is_null($this->$f) || $this->$f == '')) {
+                if (isset($this->$f) && (is_null($this->$f) || $this->$f === '')) {
                     if (!$ex && $f == $this->primary_key[0]) {
                         continue;
                     }
@@ -2211,7 +2211,7 @@ class KumbiaActiveRecord
     }
 
     /**
-     * Verifica si un campo es de tipo de dato numerico o no.
+     * Verifica si un campo es de tipo de dato númerico o no.
      *
      * @param string $field
      *
@@ -2219,15 +2219,11 @@ class KumbiaActiveRecord
      */
     public function is_a_numeric_type($field)
     {
-        if (strpos(' '.$this->_data_type[$field], 'int') || strpos(' '.$this->_data_type[$field], 'decimal') || strpos(' '.$this->_data_type[$field], 'number')) {
-            return true;
-        } else {
-            return false;
-        }
+        return (strpos(' '.$this->_data_type[$field], 'int') || strpos(' '.$this->_data_type[$field], 'decimal') || strpos(' '.$this->_data_type[$field], 'number'));
     }
 
     /**
-     * Obtiene los datos de los metadatos generados por Primera vez en la Sesi&oacute;n.
+     * Obtiene los datos de los metadatos generados por Primera vez en la Sesión.
      *
      * @param string $table
      *
