@@ -503,9 +503,9 @@ class DbFirebird extends DbBase implements DbBaseInterface
     {
         if ($schema == '') {
             return $this->fetch_all("DESCRIBE $table");
-        } else {
-            return $this->fetch_all("DESCRIBE $schema.$table");
         }
+
+        return $this->fetch_all("DESCRIBE $schema.$table");
     }
 
     /**
