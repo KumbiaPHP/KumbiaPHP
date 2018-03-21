@@ -452,7 +452,7 @@ class DbMySQL extends DbBase implements DbBaseInterface
             return $this->fetch_all("DESCRIBE `$schema`.`$table`");
         }
 
-        return $this->fetch_all("DESCRIBE `$schema`");
+        return $this->fetch_all("DESCRIBE `$table`");
     }
 
     /**
