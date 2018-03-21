@@ -448,11 +448,11 @@ class DbMySQL extends DbBase implements DbBaseInterface
      */
     public function describe_table($table, $schema = '')
     {
-        if ($schema == '') {
-            return $this->fetch_all("DESCRIBE `$table`");
+        if ($schema) {
+            return $this->fetch_all("DESCRIBE `$schema`.`$table`");
         }
 
-        return $this->fetch_all("DESCRIBE `$schema`.`$table`");
+        return $this->fetch_all("DESCRIBE `$schema`");
     }
 
     /**
