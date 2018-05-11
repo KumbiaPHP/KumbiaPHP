@@ -11,6 +11,6 @@ return [
     'cache_driver' => 'file',
     'metadata_lifetime' => '+1 year',
     'namespace_auth' => 'default',
-    //'routes' => 1,
+    //'routes' => '1',
     ],
 ];
