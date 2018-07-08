@@ -3,7 +3,7 @@
 return [
 'application' => [
     'name' => 'KUMBIA PROJECT',
-    'database' => 'default',
+    'database' => 'development',
     'dbdate' => 'YYYY-MM-DD',
     'debug' => 'On',
     'log_exceptions' => 'On',
@@ -11,6 +11,6 @@ return [
     'cache_driver' => 'file',
     'metadata_lifetime' => '+1 year',
     'namespace_auth' => 'default',
-    //'routes' => 'On',
+    //'routes' => '1',
     ],
 ];
