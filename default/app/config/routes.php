@@ -20,12 +20,6 @@ $routes['routes'] = [
 	'/posts/adicionar/*' =>	'posts/insertar/*',
 
 	/*
-	| Enrutar cualquier petición a cualquier controlador en la accion
-	| adicionar a posts/adicionar/*
-	*/
-	'/*/adicionar/*' =>	'posts/insertar/*',
-
-	/*
 	| Otros ejemplos
 	*/
 	'/prueba/ruta1/*' => 'prueba/ruta2/*',

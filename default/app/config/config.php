@@ -1,15 +1,17 @@
 <?php
 
+/*
+|------------------------------------------------------------
+| Kumbia Web Framework Application Configuration
+| Parámetros de configuracion de la aplicacion
+|------------------------------------------------------------
+*/
+
 return [
-  /*
-  |--------------------------------------------------------------
-  | Configuración de la aplicación
-  |--------------------------------------------------------------
-  */
 'application' => [
     /*
     |--------------------------------------------------------------
-    | name: es el nombre de la aplicación
+    | name: es el nombre de la aplicacion
     |--------------------------------------------------------------
     */
     'name' => 'KUMBIA PROJECT',
@@ -21,7 +23,7 @@ return [
     'database' => 'development',
     /*
     |--------------------------------------------------------------
-    | dbdate: Formato de Fecha por defecto de la Applicación
+    | dbdate: formato de fecha por defecto de la aplicacion
     |--------------------------------------------------------------
     */
     'dbdate' => 'YYYY-MM-DD',
@@ -51,7 +53,7 @@ return [
     'cache_driver' => 'file',
     /*
     |--------------------------------------------------------------
-    | metadata_lifetime: Tiempo de vida de la metadata cacheada
+    | metadata_lifetime: tiempo de vida de la metadata en cache
     |--------------------------------------------------------------
     */
     'metadata_lifetime' => '+1 year',
