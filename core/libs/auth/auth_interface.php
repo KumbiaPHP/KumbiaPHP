@@ -21,7 +21,7 @@
 /**
  * Contiene métodos claves que implementan los adaptadores
  *
- * @category   extensions
+ * @category   Kumbia
  * @package    Auth
  */
 interface AuthInterface
