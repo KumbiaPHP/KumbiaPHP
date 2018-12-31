@@ -44,6 +44,6 @@ return [
         /**
          * routes: descomentar para activar routes en routes.php
          */
-        //'routes' => 'On',
+        //'routes' => '1',
     ],
 ];
