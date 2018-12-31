@@ -25,11 +25,11 @@ $databases['development'] = [
      */
     'type' => 'mysql',
     /**
-     * charset: este valor es necesario para abrir conexiones UTF-8
+     * charset: Conjunto de caracteres de conexión, por ejemplo 'utf8'
      */
     'charset' => 'utf8',
     /**
-     * dsn: para usar conexiones PDO; descomentar para usarlo
+     * dsn: Cadena de conexión a la base de datos
      */
     //'dsn' => '',
     /**
@@ -61,11 +61,11 @@ $databases['production'] = [
      */
     'type' => 'mysql',
     /**
-     * charset: este valor es necesario para abrir conexiones UTF-8
+     * charset: Conjunto de caracteres de conexión, por ejemplo 'utf8'
      */
     'charset' => 'utf8',
     /**
-     * dsn: para usar conexiones PDO; descomentar para usarlo
+     * dsn: cadena de conexión a la base de datos
      */
     //'dsn' => '',
     /**
