@@ -44,9 +44,10 @@ class Flash
     {
         if (isset($_SERVER['SERVER_SOFTWARE'])) {
             echo '<div class="', $name, ' flash">', $text, '</div>', PHP_EOL;
-        } else {
-            echo $name, ': ', strip_tags($text), PHP_EOL;
+            return;
         }
+        // salida CLI
+        echo $name, ': ', strip_tags($text), PHP_EOL;
     }
 
     /**
