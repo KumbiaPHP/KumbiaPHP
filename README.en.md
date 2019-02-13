@@ -9,7 +9,7 @@ Fast and easy php framework
 ---
 ## Welcome to KumbiaPHP Framework v1.0
 
-Manual v1.0:
+## Manual v1.0:
 
 https://github.com/KumbiaPHP/Documentation/tree/master/en
 
@@ -20,8 +20,7 @@ http://slack.kumbiaphp.com (new)
 * Require PHP 5.4, recommended PHP 5.6, 7.1, 7.2 or 7.3
 * CRUD: https://github.com/KumbiaPHP/Documentation/blob/master/en/crud.md
 
-Comunity
-===
+## Comunity
 * https://www.kumbiaphp.com Website.
 * http://groups.google.com/group/kumbia/ KumbiaPHP group +1.500 developers
 * https://twitter.com/KumbiaPHP Twitter
@@ -31,6 +30,5 @@ Comunity
 * http://slack.kumbiaphp.com  Slack
 
 
-License
-===
+## License
 BSD-3-Clause https://opensource.org/licenses/BSD-3-Clause
