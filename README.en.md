@@ -7,7 +7,7 @@
 
 Fast and easy php framework
 ---
-## Welcome to KumbiaPHP Framework v1.0
+# Welcome to KumbiaPHP Framework v1.0
 
 ## Manual v1.0:
 
