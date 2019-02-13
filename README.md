@@ -35,7 +35,6 @@ Comunidad
 * https://twitter.com/KumbiaPHP Twitter
 * https://www.facebook.com/kumbia.fw/ Facebook page
 * http://slack.kumbiaphp.com  Slack (nuevo y recomendado)
-* irc://irc.freenode.org/#kumbiaphp  IRC [![Visita nuestro canal IRC channel](https://kiwiirc.com/buttons/irc.freenode.org/kumbiaphp.png)](https://kiwiirc.com/client/irc.freenode.org/?nick=invitado|?&theme=cli#kumbiaphp) Actualmente no usamos el IRC
 * Largo historial de repos durante estos años ;)  cvs(sf.net), svn(sf.net), bzr(launchpad.com) y ahora git(github.com)
 
 Licencia
