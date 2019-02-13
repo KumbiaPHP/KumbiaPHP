@@ -18,15 +18,16 @@
  * '/prueba/ruta1/*' => 'prueba/ruta2/*',
  * '/prueba/ruta2/*' => 'prueba/ruta3/*',
  */
-$routes['routes'] = [
-    /**
-     * Muestra la info relacionado con el framework
-     */
-    '/' => 'index/index',
-    /**
-     * Status del config.php/config.ini
-     */
-    '/status' => 'pages/show/kumbia/status'
+return [
+    'routes' => [
+        /**
+         * Muestra la info relacionado con el framework
+         */
+        '/' => 'index/index',
+        /**
+         * Status del config.php/config.ini
+         */
+        '/status' => 'pages/kumbia/status'
+        
+        ],
 ];
-
-return $routes;
