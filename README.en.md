@@ -5,11 +5,9 @@
 [![Slack](http://slack.kumbiaphp.com/badge.svg)](http://slack.kumbiaphp.com)
 ![PHP7 ready](https://rawgit.com/kumbiaphp/kumbiaphp/master/default/public/img/php7.svg)
 
-Fácil, rápido y en español
-(Or should I say fast and easy?)
-
+Fast and easy php framework
 ---
-## Bienvenidos a KumbiaPHP Framework  Versión 1.0
+## Welcome to KumbiaPHP Framework v1.0
 
 Manual v1.0:
 
@@ -19,19 +17,19 @@ https://github.com/KumbiaPHP/Documentation/tree/master/en
 http://slack.kumbiaphp.com (new)
 
 ## Change Log
-* Requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.1, 7.2 o 7.3
+* Require PHP 5.4, recommended PHP 5.6, 7.1, 7.2 or 7.3
 * CRUD: https://github.com/KumbiaPHP/Documentation/blob/master/en/crud.md
 
 Comunity
 ===
-* https://www.kumbiaphp.com  Web oficial  (pronto en KumbiaPHP http://proto.kumbiaphp.com, bienvenida ayuda con el diseño).
-* http://wiki.kumbiaphp.com Wiki
-* http://foro.kumbiaphp.com Foro de KumbiaPHP
-* http://groups.google.com/group/kumbia/   Grupo de KumbiaPHP +1.500 programadores
+* https://www.kumbiaphp.com Website.
+* http://groups.google.com/group/kumbia/ KumbiaPHP group +1.500 developers
 * https://twitter.com/KumbiaPHP Twitter
 * https://www.facebook.com/kumbia.fw/ Facebook page
-* http://slack.kumbiaphp.com  Slack (nuevo y recomendado)
-* Largo historial de repos durante estos años ;)  cvs(sf.net), svn(sf.net), bzr(launchpad.com) y ahora git(github.com)
+* http://wiki.kumbiaphp.com Wiki
+* http://foro.kumbiaphp.com Forum
+* http://slack.kumbiaphp.com  Slack
+
 
 License
 ===
