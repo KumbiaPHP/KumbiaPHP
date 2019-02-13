@@ -14,6 +14,7 @@
  *
  * @category   Kumbia
  * @package    Core
+ *
  * @copyright  Copyright (c) 2005 - 2018 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
@@ -29,27 +30,27 @@
 ob_start();
 
 // Versión de KumbiaPHP
-function kumbia_version() {
+function kumbia_version()
+{
     return 'RC 1.0';
 }
 
 // @see KumbiaException
-function handle_exception($e) {
-    KumbiaException::handleException($e);
-}
-
 // Inicializar el ExceptionHandler
-set_exception_handler('handle_exception');
+set_exception_handler(function($e) {
+    KumbiaException::handleException($e);
+});
+
 
 // @see Autoload
-require CORE_PATH . 'kumbia/autoload.php';
+require CORE_PATH.'kumbia/autoload.php';
 
 // @see Config
-require CORE_PATH . 'kumbia/config.php';
+require CORE_PATH.'kumbia/config.php';
 
 if (PRODUCTION && Config::get('config.application.cache_template')) {
     // @see Cache
-    require CORE_PATH . 'libs/cache/cache.php';
+    require CORE_PATH.'libs/cache/cache.php';
 
     //Asigna el driver por defecto usando el config.ini
     if ($config = Config::get('config.application.cache_driver')) {
@@ -60,19 +61,19 @@ if (PRODUCTION && Config::get('config.application.cache_template')) {
     if ($template = Cache::driver()->get($url, 'kumbia.templates')) {
         //verifica cache de template para la url
         echo $template;
-        echo '<!-- Time: ', round((microtime(1) - $_SERVER['REQUEST_TIME_FLOAT'])*1000, 4), ' ms -->';
+        echo '<!-- Time: ', round((microtime(1) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000, 4), ' ms -->';
         exit(0);
     }
 }
 
 // @see Router
-require CORE_PATH . 'kumbia/router.php';
+require CORE_PATH.'kumbia/router.php';
 
 // @see Controller
-require APP_PATH . 'libs/app_controller.php';
+require APP_PATH.'libs/app_controller.php';
 
 // @see KumbiaView
-require APP_PATH . 'libs/view.php';
+require APP_PATH.'libs/view.php';
 
 // Ejecuta el request
 // Dispatch y renderiza la vista
