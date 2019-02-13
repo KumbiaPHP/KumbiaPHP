@@ -7,18 +7,15 @@
 
 Fast and easy php framework
 ---
-# Welcome to KumbiaPHP Framework v1.0
-
+# Welcome to KumbiaPHP Framework
+* Require PHP 5.4, recommended PHP 5.6, 7.1, 7.2 or 7.3
 ## Manual v1.0:
 
 https://github.com/KumbiaPHP/Documentation/tree/master/en
 
+CRUD example: https://github.com/KumbiaPHP/Documentation/blob/master/en/crud.md
 ## Slack KumbiaPHP Channel in spanish and english
 http://slack.kumbiaphp.com (new)
-
-## Change Log
-* Require PHP 5.4, recommended PHP 5.6, 7.1, 7.2 or 7.3
-* CRUD: https://github.com/KumbiaPHP/Documentation/blob/master/en/crud.md
 
 ## Comunity
 * https://www.kumbiaphp.com Website.
