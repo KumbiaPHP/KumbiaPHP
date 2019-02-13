@@ -23,7 +23,7 @@ Ayúdanos a traducir el manual al inglés: http://translate.kumbiaphp.com
 http://slack.kumbiaphp.com (new)
 
 ## Change Log
-* Requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.0 o 7.1
+* Requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.1, 7.2 o 7.3
 * CRUD: http://wiki.kumbiaphp.com/V1.0_CRUD_en_KumbiaPHP_Framework
 
 Comunidad
