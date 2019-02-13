@@ -40,4 +40,4 @@ Comunidad
 
 Licencia
 ===
-New BSD
+BSD-3-Clause
