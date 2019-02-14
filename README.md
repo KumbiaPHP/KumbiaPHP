@@ -5,6 +5,8 @@
 [![Slack](http://slack.kumbiaphp.com/badge.svg)](http://slack.kumbiaphp.com)
 ![PHP7 ready](https://rawgit.com/kumbiaphp/kumbiaphp/master/default/public/img/php7.svg)
 
+Español | [English](README.EN.md)
+
 Fácil, rápido y en español
 (Or should I say fast and easy?)
 
@@ -23,7 +25,7 @@ Ayúdanos a traducir el manual al inglés: http://translate.kumbiaphp.com
 http://slack.kumbiaphp.com (new)
 
 ## Change Log
-* Requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.0 o 7.1
+* Requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.1, 7.2 o 7.3
 * CRUD: http://wiki.kumbiaphp.com/V1.0_CRUD_en_KumbiaPHP_Framework
 
 Comunidad
@@ -35,9 +37,8 @@ Comunidad
 * https://twitter.com/KumbiaPHP Twitter
 * https://www.facebook.com/kumbia.fw/ Facebook page
 * http://slack.kumbiaphp.com  Slack (nuevo y recomendado)
-* irc://irc.freenode.org/#kumbiaphp  IRC [![Visita nuestro canal IRC channel](https://kiwiirc.com/buttons/irc.freenode.org/kumbiaphp.png)](https://kiwiirc.com/client/irc.freenode.org/?nick=invitado|?&theme=cli#kumbiaphp) Actualmente no usamos el IRC
 * Largo historial de repos durante estos años ;)  cvs(sf.net), svn(sf.net), bzr(launchpad.com) y ahora git(github.com)
 
 Licencia
 ===
-New BSD
+BSD-3-Clause https://opensource.org/licenses/BSD-3-Clause

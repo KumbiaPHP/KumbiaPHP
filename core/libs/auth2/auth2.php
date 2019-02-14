@@ -22,8 +22,7 @@
  * Clase Base para la gestion de autenticación
  *
  * @category   Kumbia
- * @package    Auth
- * @deprecated 0.9 use KumbiaAuth
+ * @package    Auth 
  */
 abstract class Auth2 {
 

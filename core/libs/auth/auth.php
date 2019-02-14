@@ -12,11 +12,12 @@
  * obtain it through the world-wide-web, please send an email
  * to license@kumbiaphp.com so we can send you a copy immediately.
  *
- * @category   extensions
- *
+ * @category   Kumbia
+ * @package    Auth
  * @copyright  Copyright (c) 2005 - 2018 Kumbia Team (http://www.kumbiaphp.com)
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
+
 /**
  * @see AuthInterface
  */
@@ -30,9 +31,8 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 /**
  * Esta clase permite autenticar usuarios.
  *
- * @category   extensions
- *
- * @deprecated 0.9 use KumbiaAuth
+ * @category   Kumbia
+ * @package    Auth 
  */
 class Auth
 {
@@ -110,7 +110,12 @@ class Auth
     }
 
     /**
-     * @param $auth Auth
+     * Modifica el adaptador a usar.
+     * 
+     * @param string $adapter Tipo de adaptador a usar ('digest', 'model', 'kerberos5', 'radius')
+     * @param Auth $auth Instancia de la clase Auth
+     * @param array $extra_args Argumentos adicionales
+     * @throws kumbiaException
      */
     public function set_adapter($adapter, $auth = '', $extra_args = array())
     {
@@ -156,7 +161,7 @@ class Auth
         return $result;
     }
     /**
-     * Si es una sesión activa maneja un archivo persistente para control
+     * Si es una sesión activa maneja un archivo persistente para control.
      * 
      * TODO usar sqlite
      */
@@ -223,9 +228,11 @@ class Auth
     }
 
     /**
-     * Permite controlar que usuario no se loguee más de una vez en el sistema desde cualquier parte.
-     *
-     * @bool string $value
+     * Permite controlar que usuario no se loguee más de una vez en el 
+     * sistema desde cualquier parte.
+     * 
+     * @param bool $value En true para activar la validación
+     * @param int $time Tiempo en el que expirará la sesión
      */
     public function set_active_session($value, $time = 3600)
     {
@@ -234,7 +241,7 @@ class Auth
     }
 
     /**
-     * Destruir sesion activa del usuario autenticado.
+     * Permite destruir sesion activa del usuario autenticado.
      */
     public function destroy_active_session()
     {
@@ -253,7 +260,7 @@ class Auth
     /**
      * Devuelve la instancia del adaptador.
      *
-     * @return string
+     * @return mixed Objeto Adaptador actual.
      */
     public function get_adapter_instance()
     {
@@ -289,7 +296,8 @@ class Auth
     }
 
     /**
-     * Devuelve el resultado de la ultima identidad obtenida en authenticate desde el ultimo objeto Auth instanciado.
+     * Devuelve el resultado de la ultima identidad obtenida en authenticate 
+     * desde el ultimo objeto Auth instanciado.
      *
      * @return array
      */
@@ -301,13 +309,12 @@ class Auth
 
         return self::$active_identity = $_SESSION[self::IDENTITY][Config::get('config.application.namespace_auth')];
     }
-
+    
     /**
      * Obtiene un valor de la identidad actual.
-     *
-     * @param string $var
-     *
-     * @return string
+     * 
+     * @param string $var Llave que identifica el valor
+     * @return string Valor de la llave
      */
     public static function get($var)
     {
