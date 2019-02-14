@@ -5,6 +5,8 @@
 [![Slack](http://slack.kumbiaphp.com/badge.svg)](http://slack.kumbiaphp.com)
 ![PHP7 ready](https://rawgit.com/kumbiaphp/kumbiaphp/master/default/public/img/php7.svg)
 
+Español | [English](README.EN.md)
+
 Fácil, rápido y en español
 (Or should I say fast and easy?)
 
