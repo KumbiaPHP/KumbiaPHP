@@ -35,11 +35,11 @@ class KumbiaRouter
         // Obtiene y asigna todos los parámetros de la url
         $urlItems = explode('/', trim($url, '/'));
 
-        // El primer parametro de la url es un módulo?
+        // El primer parámetro de la url es un módulo?
         if (is_dir(APP_PATH."controllers/$urlItems[0]")) {
             $router['module'] = $urlItems[0];
 
-            // Si no hay mas parametros sale
+            // Si no hay más parámetros sale
             if (next($urlItems) === false) {
                 $router['controller_path'] = "$urlItems[0]/index";
                 return $router;
@@ -50,7 +50,7 @@ class KumbiaRouter
         $router['controller']      = str_replace('-', '_', current($urlItems));
         $router['controller_path'] = isset($router['module']) ? "$urlItems[0]/".$router['controller'] : $router['controller'];
 
-        // Si no hay mas parametros sale
+        // Si no hay más parámetros sale
         if (next($urlItems) === false) {
             return $router;
         }
@@ -58,7 +58,7 @@ class KumbiaRouter
         // Acción
         $router['action'] = current($urlItems);
 
-        // Si no hay mas parametros sale
+        // Si no hay más parámetros sale
         if (next($urlItems) === false) {
             return $router;
         }
@@ -84,9 +84,9 @@ class KumbiaRouter
             return $routes[$url];
         }
 
-        // Si existe una ruta con el comodin * crea la nueva ruta
+        // Si existe una ruta con el comodín * crea la nueva ruta
         foreach ($routes as $key => $val) {
-            if ($key == '/*') {
+            if ($key === '/*') {
                 return rtrim($val, '*').$url;
             }
 
@@ -108,7 +108,7 @@ class KumbiaRouter
         // Extrae las variables para manipularlas facilmente
         extract($param, EXTR_OVERWRITE);
         if (!include_once "$default_path{$dir}/$controller_path{$suffix}") {
-            throw new KumbiaException(null, 'no_controller');
+            throw new KumbiaException('', 'no_controller');
         }
         //Asigna el controlador activo
         $app_controller = Util::camelcase($controller).'Controller';
