@@ -31,7 +31,7 @@ http_response_code(200);
 defined('PRODUCTION') || define('PRODUCTION', false);
 defined('APP_CHARSET') || define('APP_CHARSET', 'utf-8');
 
-defined('CORE_PATH') || define('CORE_PATH', dirname(dirname(dirname(__DIR__))) . '/core/');
+defined('CORE_PATH') || define('CORE_PATH', dirname(__DIR__, 3) . '/core/');
 defined('APP_PATH') || define('APP_PATH', dirname(__DIR__) . '/');
 defined('PUBLIC_PATH') || define('PUBLIC_PATH', 'http://127.0.0.1/');
 
