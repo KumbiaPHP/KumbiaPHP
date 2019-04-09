@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+PATH=./vendor/bin:../../vendor/bin:~/.config/composer/vendor/bin:~/.composer/vendor/bin:$PATH
+phpmetrics --report-html="./temp/metrics" --exclude="tests,temp" . 
+
+echo
+echo Control+click to open:
+echo file://$PWD/temp/metrics/index.html
+echo
+# If you want open it in browser directly
+# xdg-open file://$PWD/temp/metrics/index.html
+# in Mac
+# open file://$PWD/temp/metrics/index.html
+
+# composer global require 'phpmetrics/phpmetrics'
