@@ -60,7 +60,7 @@ class Form
             $value = $is_check ?
             Input::post($field) == $value : Input::post($field);
         } elseif ($is_check) {
-            $value = (bool) $check;
+            $value = $check;
         } elseif ($tmp_val = self::getFromModel($formField)) {
             // Autocarga de datos
             $value = $is_check ? $tmp_val == $value : $tmp_val;
@@ -271,9 +271,9 @@ class Form
     /**
      * Crea un label.
      *
-     * @param string $text  Texto a mostrar
-     * @param string $field Campo al que hace referencia
-     * @param string|array Atributos de campo (opcional)
+     * @param string        $text  Texto a mostrar
+     * @param string        $field Campo al que hace referencia
+     * @param string|array  $attrs Atributos de campo (opcional)
      *
      * @return string
      */
@@ -355,7 +355,7 @@ class Form
      */
     public static function selectedValue($value, $key)
     {
-        return ((is_array($value) && in_array($key, $value)) || ($key == $value)) ?
+        return ((is_array($value) && in_array($key, $value)) || $key === $value) ?
                 'selected="selected"' : '';
     }
 

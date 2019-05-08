@@ -61,14 +61,13 @@ class ModelForm
                 case 'year': case 'day': case 'int unsigned': // Números
 
                     if (strripos($field, '_id', -3)) {
-                        echo Form::dbSelect($model_name.'.'.$field, null, null, 'Seleccione', null, $model->$field);
-                        break;
-                    } else {
-                        echo "<input id=\"$formId\" type=\"number\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
+                        echo Form::dbSelect($model_name.'.'.$field, null, null, 'Seleccione', '', $model->$field);
                         break;
                     }
 
-                    // no break
+                    echo "<input id=\"$formId\" type=\"number\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
+                    break;
+
                 case 'date': // Usar el js de datetime
                     echo "<input id=\"$formId\" type=\"date\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
                     break;

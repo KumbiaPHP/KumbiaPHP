@@ -62,7 +62,7 @@ function kumbia_autoload($class)
 function kumbia_autoload_vendor($class)
 {
     //Autoload PSR0
-    $psr0 = dirname(APP_PATH, 2).'/vendor/'.str_replace(['_', '\\'], DIRECTORY_SEPARATOR, $class).'.php';
+    $psr0 = dirname(dirname(APP_PATH)).'/vendor/'.str_replace(['_', '\\'], DIRECTORY_SEPARATOR, $class).'.php';
     if (is_file($psr0)) {
         include $psr0;
     }

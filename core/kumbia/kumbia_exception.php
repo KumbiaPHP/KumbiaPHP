@@ -23,7 +23,7 @@ class KumbiaException extends Exception
     /**
      * View de error de la Excepción.
      *
-     * @var string
+     * @var string|null
      */
     protected $view;
 

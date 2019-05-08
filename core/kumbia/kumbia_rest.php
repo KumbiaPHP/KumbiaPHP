@@ -290,7 +290,7 @@ class KumbiaRest extends Controller
     {
         /* busco un posible formato de salida */
         $accept = self::accept();
-        foreach ($accept as $key => $a) {
+        foreach ($accept as $key) {
             if (array_key_exists($key, $validOutput)) {
                 return $validOutput[$key];
             }

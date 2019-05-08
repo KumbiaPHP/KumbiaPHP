@@ -59,10 +59,12 @@ class Controller
      *
      * @var string
      */
-    public $scaffold;
+    public $scaffold = '';
 
     /**
      * Data disponble para mostrar
+     * 
+     * @var mixed
      */
     public $data;
 
@@ -94,7 +96,7 @@ class Controller
     /**
      * AfterFilter
      *
-     * @return false|null
+     * @return false|void
      */
     protected function after_filter()
     {
@@ -103,7 +105,7 @@ class Controller
     /**
      * Initialize
      *
-     * @return false|null
+     * @return false|void
      */
     protected function initialize()
     {
@@ -112,7 +114,7 @@ class Controller
     /**
      * Finalize
      *
-     * @return false|null
+     * @return false|void
      */
     protected function finalize()
     {
@@ -122,7 +124,7 @@ class Controller
      * Ejecuta los callback filter
      *
      * @param boolean $init filtros de inicio
-     * @return false|null
+     * @return false|void
      */
     final public function k_callback($init = false)
     {

@@ -24,14 +24,22 @@
 // Iniciar el buffer de salida
 ob_start();
 
-// Versión de KumbiaPHP
+/**
+ * Versión de KumbiaPHP
+ *
+ * @return string
+ */
 function kumbia_version()
 {
     return '1.0.0';
 }
 
-// @see KumbiaException
-// Inicializar el ExceptionHandler
+/**
+ * Inicializar el ExceptionHandler
+ * @see KumbiaException
+ *
+ * @return void
+ */
 set_exception_handler(function($e) {
     KumbiaException::handleException($e);
 });
@@ -56,8 +64,8 @@ if (PRODUCTION && Config::get('config.application.cache_template')) {
     if ($template = Cache::driver()->get($url, 'kumbia.templates')) {
         //verifica cache de template para la url
         echo $template;
-        echo '<!-- Time: ', round((microtime(1) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000, 4), ' ms -->';
-        exit(0);
+        echo '<!-- Time: ', round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000, 4), ' ms -->';
+        return;
     }
 }
 

@@ -83,6 +83,8 @@ class Config
      *
      * @param string $var   variable de configuración
      * @param mixed  $value valor para atributo
+     * 
+     * @return void
      */
     public static function set($var, $value)
     {
@@ -128,6 +130,8 @@ class Config
      * Lee un archivo de configuración.
      *
      * @param string $file archivo
+     * 
+     * @return void
      */
     private static function load($file)
     {
