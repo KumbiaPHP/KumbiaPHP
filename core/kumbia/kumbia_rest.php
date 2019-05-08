@@ -34,7 +34,7 @@ class KumbiaRest extends Controller
      *
      * @var string MIME Type del formato
      */
-    protected $_fInput = null;
+    protected $_fInput;
 
     /**
      * Permite definir parser personalizados por MIME TYPE
@@ -55,7 +55,7 @@ class KumbiaRest extends Controller
      *
      * @var string nombre del template a usar
      */
-    protected $_fOutput = null;
+    protected $_fOutput;
 
     /**
      * Permite definir las salidas disponibles,
@@ -69,6 +69,11 @@ class KumbiaRest extends Controller
         'text/csv' => 'csv',
     );
 
+    /**
+     * Constructor
+     *
+     * @param array $arg
+     */
     public function __construct($arg)
     {
         parent::__construct($arg);
@@ -77,7 +82,7 @@ class KumbiaRest extends Controller
 
     /**
      * Hacer el router de la petición y envia los parametros correspondientes
-     * a la acción, adema captura formatos de entrada y salida.
+     * a la acción, adema captura formatos de entrada y salida. 
      */
     protected function initREST()
     {
@@ -105,13 +110,13 @@ class KumbiaRest extends Controller
 
             return;
         }
-        if ($action === 'index' && $method === 'get') {
+        if ($rewrite === 'get_index') {
             $this->action_name = 'getAll';
 
             return;
         }
         $this->action_name = $method;
-        $this->parameters = ($action === 'index') ? $this->parameters : array($action) + $this->parameters;
+        $this->parameters = ($action === 'index') ? $this->parameters : [$action] + $this->parameters;
     }
 
     /**
@@ -211,19 +216,15 @@ class KumbiaRest extends Controller
      *
      * @param string $input
      *
-     * @return \SimpleXMLElement|string
+     * @return \SimpleXMLElement|null
      */
     protected static function parseXML($input)
-    {
-        if (class_exists('SimpleXMLElement')) {
-            try {
-                return new SimpleXMLElement($input);
-            } catch (Exception $e) {
-                // Do nothing
-            }
+    {    
+        try {
+            return new SimpleXMLElement($input);
+        } catch (Exception $e) {
+            // Do nothing
         }
-
-        return $input;
     }
 
     /**

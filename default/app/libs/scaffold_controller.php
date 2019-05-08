@@ -15,6 +15,8 @@ class ScaffoldController extends AdminController
 
     /**
      * Resultados paginados
+     * 
+     * @param int $page  Página a mostrar
      */
     public function index($page = 1)
     {
@@ -44,6 +46,8 @@ class ScaffoldController extends AdminController
 
     /**
      * Edita un Registro
+     * 
+     * @param int $id  Idendificador del registro
      */
     public function editar($id)
     {
@@ -67,6 +71,8 @@ class ScaffoldController extends AdminController
 
     /**
      * Borra un Registro
+     * 
+     * @param int $id Identificador de registro
      */
     public function borrar($id)
     {
@@ -79,6 +85,8 @@ class ScaffoldController extends AdminController
 
     /**
      * Ver un Registro
+     * 
+     * @param int $id Identificador de registro
      */
     public function ver($id)
     {
