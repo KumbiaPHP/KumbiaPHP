@@ -23,7 +23,7 @@ class KumbiaView
     /**
      * Contenido.
      *
-     * @var string
+     * @var string|null
      */
     protected static $_content;
     /**
@@ -35,7 +35,7 @@ class KumbiaView
     /**
      * Template.
      *
-     * @var string
+     * @var string|null
      */
     protected static $_template = 'default';
     /**
@@ -70,15 +70,17 @@ class KumbiaView
     /**
      * Cambia el view y opcionalmente el template.
      *
-     * @param string $view     nombre del view a utilizar sin .phtml
-     * @param string $template opcional nombre del template a utilizar sin .phtml
+     * @param string|null    $view     nombre del view a utilizar sin .phtml
+     * @param string|null    $template opcional nombre del template a utilizar sin .phtml
+     * 
+     * @return void
      */
-    public static function select($view, $template = false)
+    public static function select($view, $template = '')
     {
         self::$_view = $view;
 
         // verifica si se indico template
-        if ($template !== false) {
+        if ($template !== '') {
             self::$_template = $template;
         }
     }
@@ -86,7 +88,9 @@ class KumbiaView
     /**
      * Asigna el template para la vista.
      *
-     * @param string $template nombre del template a utilizar sin .phtml
+     * @param string|null $template nombre del template a utilizar sin .phtml
+     * 
+     * @return void
      */
     public static function template($template)
     {
@@ -99,15 +103,17 @@ class KumbiaView
      * ej. View::response('xml');
      * buscara: views/controller/action.xml.phtml.
      *
-     * @param string $response
-     * @param string $template Opcional nombre del template sin .phtml
+     * @param string        $response
+     * @param string|null   $template Opcional nombre del template sin .phtml
+     * 
+     * @return void
      */
-    public static function response($response, $template = false)
+    public static function response($response, $template = null)
     {
         self::$_response = $response;
 
         // verifica si se indico template
-        if ($template !== false) {
+        if ($template !== null) {
             self::$_template = $template;
         }
     }
@@ -116,6 +122,8 @@ class KumbiaView
      * Asigna el path de la vista.
      *
      * @param string $path path de la vista sin extension .phtml
+     * 
+     * @return void
      */
     public static function setPath($path)
     {
@@ -140,6 +148,8 @@ class KumbiaView
      * Obtiene un atributo de KumbiaView.
      *
      * @param string $atribute nombre de atributo (template, response, path, etc)
+     * 
+     * @return mixed
      */
     public static function get($atribute)
     {
@@ -149,18 +159,16 @@ class KumbiaView
     /**
      * Asigna cacheo de vistas o template.
      *
-     * @param $time Tiempo de vida de cache
-     * @param $type Tipo de cache (view, template)
-     * @param $group Grupo de pertenencia de cache
+     * @param string|null  $time Tiempo de vida de cache
+     * @param string        $type Tipo de cache (view, template)
+     * @param string        $group Grupo de pertenencia de cache
      *
      * @return bool En producción y cache de view
      */
     public static function cache($time, $type = 'view', $group = 'kumbia.view')
     {
-        if ($time === false) { //TODO borrar cache
-            self::$_cache['type'] = false;
-
-            return false;
+        if ($time === null) { //TODO borrar cache
+            return self::$_cache['type'] = false;
         }
         self::$_cache['type'] = $type;
         self::$_cache['time'] = $time;
@@ -206,6 +214,8 @@ class KumbiaView
      * Cachea el view o template.
      *
      * @param string $type view o template
+     * 
+     * @return void
      */
     protected static function saveCache($type)
     {
@@ -219,11 +229,15 @@ class KumbiaView
      * Renderiza la vista.
      *
      * @param Controller $controller
+     * 
+     * @return void
      */
     public static function render(Controller $controller)
     {
         if (!self::$_view && !self::$_template) {
-            return ob_end_flush();
+            ob_end_flush();
+
+            return; 
         }
 
         // Guarda los datos del controlador y los envia
@@ -234,6 +248,8 @@ class KumbiaView
      * Genera la vista.
      *
      * @param array $controller
+     * 
+     * @return void
      */
     protected static function generate($controller)
     {
@@ -265,6 +281,7 @@ class KumbiaView
             }
 
             self::$_content = ob_get_clean();
+            ob_clean();
         }
 
         // Renderizar template
@@ -278,8 +295,9 @@ class KumbiaView
 
             // si esta en produccion y se cachea template
             self::saveCache('template');
+            ob_end_flush();
 
-            return ob_end_flush();
+            return;
         }
 
         echo self::$_content;
@@ -287,6 +305,8 @@ class KumbiaView
 
     /**
      * Imprime el contenido del buffer.
+     * 
+     * @return void
      */
     public static function content()
     {
@@ -300,13 +320,12 @@ class KumbiaView
     /**
      * Renderiza una vista parcial.
      *
-     * @param string $partial vista a renderizar
-     * @param string $__time  tiempo de cache
-     * @param array  $params
-     * @param string $group   grupo de cache
-     *
-     * @return string
      * @throw KumbiaException
+     * @param  string            $partial vista a renderizar
+     * @param  string            $__time  tiempo de cache
+     * @param  array|string|null $params  variables para el partial
+     * @param  string            $group   grupo de cache
+     * @return void
      */
     public static function partial($partial, $__time = '', $params = null, $group = 'kumbia.partials')
     {
@@ -363,12 +382,12 @@ class KumbiaView
  * Atajo para htmlspecialchars, por defecto toma el charset de la
  * aplicacion.
  *
- * @param string $s
+ * @param string $string
  * @param string $charset
  *
  * @return string
  */
-function h($s, $charset = APP_CHARSET)
+function h($string, $charset = APP_CHARSET)
 {
-    return htmlspecialchars($s, ENT_QUOTES, $charset);
+    return htmlspecialchars($string, ENT_QUOTES, $charset);
 }
