@@ -24,14 +24,22 @@
 // Iniciar el buffer de salida
 ob_start();
 
-// Versión de KumbiaPHP
+/**
+ * Versión de KumbiaPHP
+ *
+ * @return string
+ */
 function kumbia_version()
 {
     return '1.0.0';
 }
 
-// @see KumbiaException
-// Inicializar el ExceptionHandler
+/**
+ * Inicializar el ExceptionHandler
+ * @see KumbiaException
+ *
+ * @return void
+ */
 set_exception_handler(function($e) {
     KumbiaException::handleException($e);
 });
