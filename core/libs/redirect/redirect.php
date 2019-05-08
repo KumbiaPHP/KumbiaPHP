@@ -29,6 +29,8 @@ class Redirect
      * @param string $route ruta a la que será redirigida la petición.
      * @param integer $seconds segundos que se esperarán antes de redirigir
      * @param integer $statusCode código http de la respuesta, por defecto 302
+     * 
+     * @return void
      */
     public static function to($route = '', $seconds = 0, $statusCode = 302)
     {
@@ -52,6 +54,8 @@ class Redirect
      * @param string $action acción del controlador actual a la que se redirige
      * @param integer $seconds segundos que se esperarán antes de redirigir
      * @param integer $statusCode código http de la respuesta, por defecto 302
+     * 
+     * @return void
      */
     public static function toAction($action, $seconds = 0, $statusCode = 302)
     {
@@ -62,6 +66,8 @@ class Redirect
      * Enrutamiento interno
      * @example
      * Redirect::intern("module: modulo", "controller: nombre", "action: accion", "parameters: 1/2")
+     * 
+     * @return void
      */
     public static function internal()
     {
@@ -91,6 +97,8 @@ class Redirect
      * @deprecated Se mantiene por legacy temporalmente
      * @example
      * Redirect::route_to("module: modulo", "controller: nombre", "action: accion", "parameters: 1/2")
+     * 
+     * @return void
      */
     public static function route_to() {
         self::internal(func_get_args());
