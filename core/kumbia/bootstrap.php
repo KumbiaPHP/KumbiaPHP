@@ -56,8 +56,8 @@ if (PRODUCTION && Config::get('config.application.cache_template')) {
     if ($template = Cache::driver()->get($url, 'kumbia.templates')) {
         //verifica cache de template para la url
         echo $template;
-        echo '<!-- Time: ', round((microtime(1) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000, 4), ' ms -->';
-        exit(0);
+        echo '<!-- Time: ', round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000, 4), ' ms -->';
+        return;
     }
 }
 
