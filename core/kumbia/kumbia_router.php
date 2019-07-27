@@ -107,8 +107,10 @@ class KumbiaRouter
     {
         // Extrae las variables para manipularlas facilmente
         extract($param, EXTR_OVERWRITE);
-        if (!include_once "$default_path{$dir}/$controller_path{$suffix}") {
-            throw new KumbiaException('', 'no_controller');
+        if (file_exists("$default_path{$dir}/$controller_path{$suffix}")) {
+            include_once "$default_path{$dir}/$controller_path{$suffix}";
+        } else {
+            throw new KumbiaException(null, 'no_controller');
         }
         //Asigna el controlador activo
         $app_controller = Util::camelcase($controller).'Controller';
