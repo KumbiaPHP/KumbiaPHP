@@ -24,6 +24,9 @@ Ayúdanos a traducir el manual al inglés: http://translate.kumbiaphp.com
 ## Slack KumbiaPHP Channel in spanish and english
 http://slack.kumbiaphp.com (new)
 
+## Framework PHP más rápido según benchmark independiente
+https://www.techempower.com/benchmarks/#section=data-r18&hw=ph&test=fortune&l=zik073-f&w=0-jz6rk-0&c=4
+
 ## Change Log
 * Requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.1, 7.2 o 7.3
 * CRUD: http://wiki.kumbiaphp.com/V1.0_CRUD_en_KumbiaPHP_Framework
