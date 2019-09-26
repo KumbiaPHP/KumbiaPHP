@@ -376,6 +376,19 @@ class KumbiaView
 
         return isset(self::$_controller[$var]) ? self::$_controller[$var] : null;
     }
+    
+    /**
+     * Devuelve la respuesta en formato JSON
+     * application/json 
+     *  
+     * @param type $data
+     */
+	public static function json($data)
+	{
+        View::select(null, null);
+        header('Content-type: application/json');
+        echo json_encode($data);
+    }
 }
 
 /**
