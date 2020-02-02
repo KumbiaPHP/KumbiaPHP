@@ -21,7 +21,7 @@
 
 
     /**
-     * Configuracion del config.ini
+     * Configuracion del config.php
      */
     $config = Config::read('config');
 
@@ -37,17 +37,17 @@
         $timezone = 'No se ha especificado un Timezone.';
     }
 ?>
-        <h2>config.ini <span class='app'> de <?= basename(dirname(APP_PATH)) ?></span></h2>
+        <h2>config.php <span class='app'> de la aplicación '<?= basename(dirname(APP_PATH)) ?>'</span></h2>
 
         <div id="conf">
         <h4>Directorio temp/:</h4>
         <p><?= $tmp ?></p>
 
         <h4>Estado Actual del Framework: <span><?= $status ?></span></h4>
-        <p>Ver <a href='http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#Modos_de_una_Aplicaci.C3.B3n'>Modos de ejecución</a></p>
+        <p>Ver <a href='https://github.com/KumbiaPHP/Documentation/blob/master/es/to-install.md#modos-de-una-aplicaci%C3%B3n'>Modos de ejecución</a></p>
 
         <h4>Base de Datos: <span><?= $config['application']['database'] ?></span></h4>
-        <p>Datos de la conexión a la BD que será utilizada, ver configuración <a href="http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#databases.ini">databases.ini</a>.</p>
+        <p>Datos de la conexión a la BD que será utilizada, ver configuración <a href="https://github.com/KumbiaPHP/Documentation/blob/master/es/active-record.md#configurando-conexi%C3%B3n-a-la-base-de-datos">databases.php</a>.</p>
         
         <h4>Cache Driver: <span><?= $cahe_driver ?></span></h4>
         <p>Driver que se utilizará para realizar las operaciones de cache.</p>
