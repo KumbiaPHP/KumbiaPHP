@@ -20,6 +20,9 @@ CRUD example: https://github.com/KumbiaPHP/Documentation/blob/master/en/crud.md
 ## Slack KumbiaPHP Channel in spanish and english
 http://slack.kumbiaphp.com (new)
 
+## Fastest PHP framework by independent benchmark
+https://www.techempower.com/benchmarks/#section=data-r18&hw=ph&test=fortune&l=zik073-f&w=0-jz6rk-0&c=4
+
 ## Comunity
 * https://www.kumbiaphp.com Website.
 * http://groups.google.com/group/kumbia/ KumbiaPHP group +1.500 developers
