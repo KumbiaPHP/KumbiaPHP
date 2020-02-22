@@ -32,22 +32,33 @@ class Router
      *
      * @var array
      */
-    protected static $vars = array(
-        'method'          => '', //Método usado GET, POST, ...
-        'route'           => '', //Ruta pasada en el GET
+    protected static $vars = [
+        // 'method'          => '', //Método usado GET, POST, ...
+        // 'route'           => '', //Ruta pasada en el GET
+        // 'module'          => '', //Nombre del módulo actual
+        // 'controller'      => 'index', //Nombre del controlador actual
+        // 'action'          => 'index', //Nombre de la acción actual, por defecto index
+        // 'parameters'      => [], //Lista los parámetros adicionales de la URL
+        // 'controller_path' => 'index'
+    ];
+
+    /**
+     * Array estático con las variables del router por defecto
+     * TODO: Convertir a constante
+     * 
+     * @var array
+     */
+    protected static $default = [
         'module'          => '', //Nombre del módulo actual
-        'controller'      => 'index', //Nombre del controlador actual
+        'controller'      => 'index', //Nombre del controlador actual, por defecto index
         'action'          => 'index', //Nombre de la acción actual, por defecto index
         'parameters'      => [], //Lista los parámetros adicionales de la URL
-        'controller_path' => 'index',
-        'default_path'    => APP_PATH, //Path donde se encuentran los controller
-        'suffix'          => '_controller.php', //suffix for controler
-        'dir'             => 'controllers', //dir of controller
-    );
+        'controller_path' => 'index'
+    ];
 
     /**
      * This is the name of router class
-     * @var String
+     * @var string
      */
     protected static $router = 'KumbiaRouter';
     //Es el router por defecto
@@ -105,7 +116,7 @@ class Router
         }
 
         // Descompone la url
-        self::$vars = $router::rewrite($url) + self::$vars;
+        self::$vars = $router::rewrite($url) + self::$default;
 
         // Despacha la ruta actual
         return self::dispatch($router::getController(self::$vars));
@@ -203,11 +214,11 @@ class Router
      * 
      * @return void
      */
-    public static function to($params, $intern = false)
+    public static function to(array $params, $intern = false)
     {
         if ($intern) {
             self::$routed = true;
         }
-        self::$vars = $params + self::$vars;
+        self::$vars = $params + self::$default;
     }
 }
