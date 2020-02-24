@@ -107,7 +107,7 @@ class KumbiaRouter
     {
         // Extrae las variables para manipularlas facilmente
         extract($param, EXTR_OVERWRITE);
-        if (!include_once "$default_path{$dir}/$controller_path{$suffix}") {
+        if (!include_once APP_PATH."controllers/{$controller_path}_controller.php") {
             throw new KumbiaException('', 'no_controller');
         }
         //Asigna el controlador activo
