@@ -29,17 +29,12 @@ use Workerman\Lib\Timer;
 
 // Iniciar el buffer de salida
 //ob_start();
-const KUMBIA_VERSION = '1.0.0';
 /**
  * Versión de KumbiaPHP
  *
- * @deprecated 1.1  Use constant KUMBIA_VERSION
- * @return string
+ * @var string
  */
-function kumbia_version()
-{
-    return KUMBIA_VERSION;
-}
+const KUMBIA_VERSION = '2.0.0';
 
 /**
  * Inicializar el ExceptionHandler TODO

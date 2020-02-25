@@ -20,16 +20,19 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 }
 //ob_start();
 // Versión de KumbiaPHP
-function kumbia_version() {
-    return 'RC 1.0';
-}
+/**
+ * Versión de KumbiaPHP
+ *
+ * @var string
+ */
+const KUMBIA_VERSION = '2.0.0';
+
 require_once 'KumbiaTestTrait.php';
 
 //default in any server
 http_response_code(200);
 
 defined('PRODUCTION') || define('PRODUCTION', false);
-defined('APP_CHARSET') || define('APP_CHARSET', 'utf-8');
 
 defined('CORE_PATH') || define('CORE_PATH', dirname(dirname(dirname(__DIR__))) . '/core/');
 defined('APP_PATH') || define('APP_PATH', dirname(__DIR__) . '/');

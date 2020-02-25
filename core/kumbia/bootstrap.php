@@ -27,12 +27,9 @@ ob_start();
 /**
  * Versión de KumbiaPHP
  *
- * @return string
+ * @var string
  */
-function kumbia_version()
-{
-    return '1.0.0';
-}
+const KUMBIA_VERSION = '2.0.0';
 
 /**
  * Inicializar el ExceptionHandler
