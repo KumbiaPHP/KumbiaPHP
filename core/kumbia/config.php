@@ -43,21 +43,19 @@ class Config
      *
      * @return mixed
      */
-    public static function get($var)
+    public static function get(string $var)
     {
         $namespaces = explode('.', $var);
-        if (!isset(self::$vars[$namespaces[0]])) {
+        if (! isset(self::$vars[$namespaces[0]])) {
             self::load($namespaces[0]);
         }
         switch (count($namespaces)) {
             case 3:
-                return isset(self::$vars[$namespaces[0]][$namespaces[1]][$namespaces[2]]) ?
-                             self::$vars[$namespaces[0]][$namespaces[1]][$namespaces[2]] : null;
+                return self::$vars[$namespaces[0]][$namespaces[1]][$namespaces[2]] ?? null;
             case 2:
-                return isset(self::$vars[$namespaces[0]][$namespaces[1]]) ?
-                             self::$vars[$namespaces[0]][$namespaces[1]] : null;
+                return self::$vars[$namespaces[0]][$namespaces[1]] ?? null;
             case 1:
-                return isset(self::$vars[$namespaces[0]]) ? self::$vars[$namespaces[0]] : null;
+                return self::$vars[$namespaces[0]] ?? null;
 
             default:
                 trigger_error('Máximo 3 niveles en Config::get(fichero.sección.variable), pedido: '.$var);
@@ -71,7 +69,7 @@ class Config
      *
      * @return array
      */
-    public static function getAll()
+    public static function getAll() : array
     {
         return self::$vars;
     }
@@ -92,13 +90,13 @@ class Config
         switch (count($namespaces)) {
             case 3:
                 self::$vars[$namespaces[0]][$namespaces[1]][$namespaces[2]] = $value;
-                break;
+                return;
             case 2:
                 self::$vars[$namespaces[0]][$namespaces[1]] = $value;
-                break;
+                return;
             case 1:
                 self::$vars[$namespaces[0]] = $value;
-                break;
+                return;
             default:
                 trigger_error('Máximo 3 niveles en Config::set(fichero.sección.variable), pedido: '.$var);
         }
@@ -133,14 +131,8 @@ class Config
      * 
      * @return void
      */
-    private static function load($file)
+    private static function load(string $file) : void
     {
-        if (file_exists(APP_PATH."config/$file.php")) {
-            self::$vars[$file] = require APP_PATH."config/$file.php";
-
-            return;
-        }
-        // sino carga el .ini
-        self::$vars[$file] = parse_ini_file(APP_PATH."config/$file.ini", true);
+        self::$vars[$file] = require APP_PATH."config/$file.php";
     }
 }
