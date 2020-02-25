@@ -20,7 +20,7 @@
  */
 class FlashTest extends PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $_SERVER['SERVER_SOFTWARE'] = 'Test';
     }
