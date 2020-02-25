@@ -34,7 +34,7 @@ class HtmlspecialcharsFilter implements FilterInterface
      */
     public static function execute($s, $options)
     {
-        $charset = (isset($options['charset'])) ? $options['charset'] : APP_CHARSET;
+        $charset = $options['charset'] ?? ini_get('default_charset');
         return htmlspecialchars((string) $s, ENT_QUOTES, $charset);
     }
 

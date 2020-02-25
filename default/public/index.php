@@ -28,7 +28,7 @@
  * @TODO
  * REVISAR ESTA SECCIÓN
  */
-const APP_CHARSET = 'UTF-8';
+
 
 /*
  * Indicar si la aplicacion se encuentra en producción
