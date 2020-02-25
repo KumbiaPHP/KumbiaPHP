@@ -44,8 +44,8 @@ class KumbiaException extends Exception
     /**
      * Constructor de la clase;.
      *
-     * @param string $message mensaje
-     * @param string $view    vista que se mostrara
+     * @param string|null $message mensaje
+     * @param string|null $view    vista que se mostrara
      */
     public function __construct($message, $view = 'exception')
     {
@@ -60,7 +60,7 @@ class KumbiaException extends Exception
      * */
     public static function handleException($e)
     {
-        self::setHeader($e);
+        self::setHeaders($e);
         //TODO quitar el extract, que el view pida los que necesite
         extract(Router::get(), EXTR_OVERWRITE);
         // Registra la autocarga de helpers
@@ -107,7 +107,7 @@ class KumbiaException extends Exception
      *
      * @param Exception $e
      * */
-    private static function setHeader($e)
+    private static function setHeaders($e)
     {
         if ($e instanceof self && in_array($e->view, self::$view404)) {
             http_response_code(404);
