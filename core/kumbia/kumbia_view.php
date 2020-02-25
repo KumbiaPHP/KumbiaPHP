@@ -374,7 +374,7 @@ class KumbiaView
             return self::$_controller;
         }
 
-        return isset(self::$_controller[$var]) ? self::$_controller[$var] : null;
+        return self::$_controller[$var] ?? null;
     }
 }
 
