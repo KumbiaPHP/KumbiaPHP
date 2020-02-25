@@ -114,7 +114,7 @@ class SessionTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(Session::has('test_key', 'another'));
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if (session_status() != PHP_SESSION_NONE) {
             @session_unset();
