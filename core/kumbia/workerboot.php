@@ -83,8 +83,8 @@ require APP_PATH.'libs/view.php';
 
 function kumbiaSend() {
     ob_start();ob_start();
-    Http::header(WorkerTimer::$date);
     View::render(Router::execute($_SERVER['REQUEST_URI']));
+    Http::header(WorkerTimer::$date);
     return ob_get_clean();
 }
 
