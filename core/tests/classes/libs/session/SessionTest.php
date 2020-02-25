@@ -20,7 +20,7 @@
  */
 class SessionTest extends PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             @session_start();
