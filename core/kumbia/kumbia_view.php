@@ -383,11 +383,10 @@ class KumbiaView
  * aplicacion.
  *
  * @param string $string
- * @param string $charset
  *
  * @return string
  */
-function h($s)
+function h(string $string)
 {
-    return htmlspecialchars($s, ENT_QUOTES);
+    return htmlspecialchars($string, ENT_QUOTES);
 }
