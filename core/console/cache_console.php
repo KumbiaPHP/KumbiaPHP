@@ -13,11 +13,11 @@
  * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
-// carga libreria para manejo de cache
+// library load for cache management
 Load::lib('cache');
 
 /**
- * Consola para manejar la cache
+ * Console to manage the cache
  *
  * @category   Kumbia
  * @package    Console
@@ -26,18 +26,18 @@ class CacheConsole
 {
 
     /**
-     * Comando de consola para limpiar la cache
+     * Console command to clear the cache
      *
-     * @param array $params parametros nombrados de la consola
-     * @param string $group nombre de grupo
-     * @throw KumbiaException
+     * @param array $params Named parameters of the console
+     * @param string $group Group name (Optional)
+     * @throws KumbiaException
      */
     public function clean($params, $group = '')
     {
-        // obtiene el driver de cache
+        // Gets chache driver
         $cache = $this->setDriver($params);
 
-        // limpia la cache
+        // Cleans cache
         if ($cache->clean($group)) {
             if ($group) {
                 echo "-> Se ha limpiado el grupo $group", PHP_EOL;
@@ -50,19 +50,19 @@ class CacheConsole
     }
 
     /**
-     * Comando de consola para eliminar un elemento cacheado
+     * Console command to clear a element into cache
      *
-     * @param array $params parametros nombrados de la consola
-     * @param string $id id del elemento
-     * @param string $group nombre de grupo
-     * @throw KumbiaException
+     * @param array $params Named parameters of the console
+     * @param string $id Element ID
+     * @param string $group Group name (Optional)
+     * @throws KumbiaException
      */
     public function remove($params, $id, $group = 'default')
     {
-        // obtiene el driver de cache
+        // Gets chache driver
         $cache = $this->setDriver($params);
 
-        // elimina el elemento
+        // Removes element
         if ($cache->remove($id, $group)) {
             echo '-> Se ha eliminado el elemento de la cache', PHP_EOL;
         } else {
@@ -71,9 +71,9 @@ class CacheConsole
     }
     
     /**
-     * Devuelve una instancia de cache del driver pasado
+     * Returns a cache instance of the passed driver
      *
-     * @param array $params parametros nombrados
+     * @param array $params Named parameters of the console
      */
     private function setDriver($params)
     {
