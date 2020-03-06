@@ -1,5 +1,5 @@
 /**
- * Controlador <?= $class ?>
+ * Controller <?= $class ?>
  * 
  * @category App
  * @package Controllers
