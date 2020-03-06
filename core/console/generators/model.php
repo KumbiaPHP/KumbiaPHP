@@ -1,5 +1,5 @@
 /**
- * Modelo <?= $class ?>
+ * Model <?= $class ?>
  * 
  * @category App
  * @package Models
