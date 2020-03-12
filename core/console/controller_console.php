@@ -15,7 +15,7 @@
  */
 
 /**
- * Consola para manejar controladores
+ * Console to manage the cache
  *
  * @category   Kumbia
  * @package    Console
@@ -24,27 +24,27 @@ class ControllerConsole
 {
 
     /**
-     * Comando de consola para crear un controlador
+     * Console command to create a controller
      *
-     * @param array $params parametros nombrados de la consola
-     * @param string $controller controlador
-     * @throw KumbiaException
+     * @param array $params Named parameters of the console
+     * @param string $controller Controller name
+     * @throws KumbiaException
      */
     public function create($params, $controller)
     {
-        // nombre de archivo
+        // File name
         $file = APP_PATH . 'controllers';
 
-        // limpia el path de controller
+        // Cleans the controller path
         $clean_path = trim($controller, '/');
 
-        // obtiene el path
+        // Gets path
         $path = explode('/', $clean_path);
 
-        // obtiene el nombre de controlador
+        // Gets the controller name
         $controller_name = array_pop($path);
 
-        // si se agrupa el controlador en un directorio
+        // Is controller into a directory
         if (count($path)) {
             $dir = implode('/', $path);
             $file .= "/$dir";
@@ -54,29 +54,29 @@ class ControllerConsole
         }
         $file .= "/{$controller_name}_controller.php";
 
-        // si no existe o se sobreescribe
+        // If it does not exist or should be overwritten
         if (!is_file($file) ||
                 Console::input("El controlador existe, ¿desea sobrescribirlo? (s/n): ", array('s', 'n')) == 's') {
 
-            // nombre de clase
+            // Class name
             $class = Util::camelcase($controller_name);
 
-            // codigo de controlador
+            // Controller code
             ob_start();
             include __DIR__ . '/generators/controller.php';
             $code = '<?php' . PHP_EOL . ob_get_clean();
 
-            // genera el archivo
+            // Generates file
             if (file_put_contents($file, $code)) {
                 echo "-> Creado controlador $controller_name en: $file" . PHP_EOL;
             } else {
                 throw new KumbiaException("No se ha logrado crear el archivo \"$file\"");
             }
 
-            // directorio para vistas
+            // Views directory
             $views_dir = APP_PATH . "views/$clean_path";
 
-            //si el directorio no existe
+            // If folder does not exist
             if (!is_dir($views_dir)) {
                 if (FileUtil::mkdir($views_dir)) {
                     echo "-> Creado directorio para vistas: $views_dir" . PHP_EOL;
@@ -88,40 +88,40 @@ class ControllerConsole
     }
 
     /**
-     * Comando de consola para eliminar un controlador
+     * Console command to delete a controller
      *
-     * @param array $params parametros nombrados de la consola
-     * @param string $controller controlador
-     * @throw KumbiaException
+     * @param array $params Named parameters of the console
+     * @param string $controller Controller name
+     * @throws KumbiaException
      */
     public function delete($params, $controller)
     {
-        // path limpio al controlador
+        // Cleans the controller path
         $clean_path = trim($controller, '/');
 
-        // nombre de archivo
+        // File name
         $file = APP_PATH . "controllers/$clean_path";
 
-        // si es un directorio
+        // If it is a directory
         if (is_dir($file)) {
             $success = FileUtil::rmdir($file);
         } else {
-            // entonces es un archivo
+            // so is a file
             $file = "{$file}_controller.php";
             $success = unlink($file);
         }
 
-        // mensaje
+        // Message
         if ($success) {
             echo "-> Eliminado: $file" . PHP_EOL;
         } else {
             throw new KumbiaException("No se ha logrado eliminar \"$file\"");
         }
 
-        // directorio para vistas
+        // Views directory
         $views_dir = APP_PATH . "views/$clean_path";
 
-        // intenta eliminar el directorio de vistas
+        // Try deletes the views directory
         if (is_dir($views_dir)
                 && Console::input('¿Desea eliminar el directorio de vistas? (s/n): ', array('s', 'n')) == 's') {
 
