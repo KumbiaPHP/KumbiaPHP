@@ -49,14 +49,14 @@ class ControllerConsole
             $dir = implode('/', $path);
             $file .= "/$dir";
             if (!is_dir($file) && !FileUtil::mkdir($file)) {
-                throw new KumbiaException("No se ha logrado crear el directorio \"$file\"");
+                throw new KumbiaException("Failed to create directory \"$file\"");
             }
         }
         $file .= "/{$controller_name}_controller.php";
 
         // If it does not exist or should be overwritten
         if (!is_file($file) ||
-                Console::input("El controlador existe, ¿desea sobrescribirlo? (s/n): ", array('s', 'n')) == 's') {
+                Console::input("The controller exists, do you want to overwrite it? (y / n):", array('y', 'n')) == 'y') {
 
             // Class name
             $class = Util::camelcase($controller_name);
@@ -68,9 +68,9 @@ class ControllerConsole
 
             // Generates file
             if (file_put_contents($file, $code)) {
-                echo "-> Creado controlador $controller_name en: $file" . PHP_EOL;
+                echo "-> Controller $controller_name created in: $file" . PHP_EOL;
             } else {
-                throw new KumbiaException("No se ha logrado crear el archivo \"$file\"");
+                throw new KumbiaException("Failed to create file \"$file\"");
             }
 
             // Views directory
@@ -79,9 +79,9 @@ class ControllerConsole
             // If folder does not exist
             if (!is_dir($views_dir)) {
                 if (FileUtil::mkdir($views_dir)) {
-                    echo "-> Creado directorio para vistas: $views_dir" . PHP_EOL;
+                    echo "-> Created directory for views: $views_dir" . PHP_EOL;
                 } else {
-                    throw new KumbiaException("No se ha logrado crear el directorio \"$views_dir\"");
+                    throw new KumbiaException("Failed to create directory \"$views_dir\"");
                 }
             }
         }
@@ -113,9 +113,9 @@ class ControllerConsole
 
         // Message
         if ($success) {
-            echo "-> Eliminado: $file" . PHP_EOL;
+            echo "-> Deleted: $file" . PHP_EOL;
         } else {
-            throw new KumbiaException("No se ha logrado eliminar \"$file\"");
+            throw new KumbiaException("Failed to delete \"$file\"");
         }
 
         // Views directory
@@ -123,13 +123,13 @@ class ControllerConsole
 
         // Try deletes the views directory
         if (is_dir($views_dir)
-                && Console::input('¿Desea eliminar el directorio de vistas? (s/n): ', array('s', 'n')) == 's') {
+                && Console::input('Do you want to delete the views directory? (y / n): ', array('y', 'n')) == 'y') {
 
             if (!FileUtil::rmdir($views_dir)) {
-                throw new KumbiaException("No se ha logrado eliminar \"$views_dir\"");
+                throw new KumbiaException("Failed to delete \"$views_dir\"");
             }
 
-            echo "-> Eliminado: $views_dir" . PHP_EOL;
+            echo "-> Deleted: $views_dir" . PHP_EOL;
         }
     }
 
