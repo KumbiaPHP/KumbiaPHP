@@ -15,7 +15,7 @@
  */
 
 /**
- * Console to manage the cache
+ * Console to manage controllers
  *
  * @category   Kumbia
  * @package    Console
