@@ -1,4 +1,4 @@
-![KumbiaPHP logo](https://rawgit.com/kumbiaphp/kumbiaphp/1.0/default/public/img/kumbiaphp.svg)
+![KumbiaPHP logo](https://camo.githubusercontent.com/fffdccdfdd9fa5091367291aa9085a027349ff35/68747470733a2f2f7261776769742e636f6d2f6b756d6269617068702f6b756d6269617068702f6d61737465722f64656661756c742f7075626c69632f696d672f6b756d6269617068702e737667)
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP/badges/quality-score.png?b=1.0)](https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP/?branch=1.0)
 [![Code Climate](https://codeclimate.com/github/KumbiaPHP/KumbiaPHP/badges/gpa.svg)](https://codeclimate.com/github/KumbiaPHP/KumbiaPHP)
