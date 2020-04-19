@@ -15,12 +15,12 @@
  */
 
 /**
- * Script para consolas de KumbiaPHP
+ * KumbiaPHP Console Script
  *
  * @category   Kumbia
  * @package    Console
  */
-// Define el CORE_PATH
+// Define the CORE_PATH
 define('CORE_PATH', dirname(__DIR__) . '/');
 
 /**
@@ -28,5 +28,5 @@ define('CORE_PATH', dirname(__DIR__) . '/');
  */
 require CORE_PATH . 'kumbia/console.php';
 
-// Ejecuta el despachador
+// Run the dispatcher
 Console::dispatch($argv);

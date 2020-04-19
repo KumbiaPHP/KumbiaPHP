@@ -15,7 +15,7 @@
  */
 
 /**
- * Consola para manejar modelos.
+ * Console to manage models.
  *
  * @category   Kumbia
  * @package    Console
@@ -23,78 +23,78 @@
 class ModelConsole
 {
     /**
-     * Comando de consola para crear un modelo.
+     * Console command to create a model
      *
-     * @param array  $params parametros nombrados de la consola
-     * @param string $model  modelo
-     * @throw KumbiaException
+     * @param array  $params Named parameters of the console
+     * @param string $model  Model name
+     * @throws KumbiaException
      */
     public function create($params, $model)
     {
-        // nombre de archivo
+        // File name
         $file = APP_PATH.'models';
 
-        // obtiene el path
+        // Gets path
         $path = explode('/', trim($model, '/'));
 
-        // obtiene el nombre de modelo
+        // Gets the model name
         $model_name = array_pop($path);
 
         if (count($path)) {
             $dir = implode('/', $path);
             $file .= "/$dir";
             if (!is_dir($file) && !FileUtil::mkdir($file)) {
-                throw new KumbiaException("No se ha logrado crear el directorio \"$file\"");
+                throw new KumbiaException("Failed to create directory \"$file\"");
             }
         }
         $file .= "/$model_name.php";
 
-        // si no existe o se sobreescribe
+        // If it does not exist or should be overwritten
         if (!is_file($file) ||
-            Console::input('El modelo existe, desea sobrescribirlo? (s/n): ', array('s', 'n')) == 's') {
-            // nombre de clase
+            Console::input('The model exists, do you want to overwrite it? (y / n): ', array('y', 'n')) == 'y') {
+            // Class name
             $class = Util::camelcase($model_name);
 
-            // codigo de modelo
+            // Model code
             ob_start();
             include __DIR__.'/generators/model.php';
             $code = '<?php'.PHP_EOL.ob_get_clean();
 
-            // genera el archivo
+            // Generates file
             if (file_put_contents($file, $code)) {
-                echo "-> Creado modelo $model_name en: $file".PHP_EOL;
+                echo "-> Model $model_name created in: $file".PHP_EOL;
             } else {
-                throw new KumbiaException("No se ha logrado crear el archivo \"$file\"");
+                throw new KumbiaException("Failed to create file \"$file\"");
             }
         }
     }
 
     /**
-     * Comando de consola para eliminar un modelo.
+     * Console command to delete a model
      *
-     * @param array  $params parametros nombrados de la consola
-     * @param string $model  modelo
-     * @throw KumbiaException
+     * @param array  $params Named parameters of the console
+     * @param string $model  Model name
+     * @throws KumbiaException
      */
     public function delete($params, $model)
     {
-        // nombre de archivo
+        // File name
         $file = APP_PATH.'models/'.trim($model, '/');
 
-        // si es un directorio
+        // If it is a directory
         if (is_dir($file)) {
             $success = FileUtil::rmdir($file);
         } else {
-            // entonces es un archivo
+            // so is a file
             $file = "$file.php";
             $success = unlink($file);
         }
 
-        // mensaje
+        // Message
         if ($success) {
-            echo "-> Eliminado: $file".PHP_EOL;
+            echo "-> Deleted: $file".PHP_EOL;
         } else {
-            throw new KumbiaException("No se ha logrado eliminar \"$file\"");
+            throw new KumbiaException("Failed to delete \"$file\"");
         }
     }
 }
