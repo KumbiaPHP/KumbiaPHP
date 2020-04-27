@@ -106,6 +106,4 @@ class WorkerTimer
 
 function kumbiaInit() {
     WorkerTimer::init();
-
-    Kumbia\ActiveRecord\Db::get();
 }
