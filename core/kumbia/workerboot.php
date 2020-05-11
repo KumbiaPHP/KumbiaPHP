@@ -85,6 +85,9 @@ function kumbiaSend() {
     ob_start();ob_start();
     View::render(Router::execute($_SERVER['REQUEST_URI']));
     Http::header(WorkerTimer::$date);
+    if (ob_get_level() > 1) {
+        ob_end_flush();
+    }
     return ob_get_clean();
 }
 
@@ -103,6 +106,4 @@ class WorkerTimer
 
 function kumbiaInit() {
     WorkerTimer::init();
-
-    Kumbia\ActiveRecord\Db::get();
 }

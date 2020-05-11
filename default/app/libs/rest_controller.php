@@ -13,7 +13,7 @@
  * @author kumbiaPHP Team
  */
 require_once CORE_PATH . 'kumbia/kumbia_rest.php';
-class RestController extends KumbiaRest {
+abstract class RestController extends KumbiaRest {
 
     /**
      * Inicialización de la petición

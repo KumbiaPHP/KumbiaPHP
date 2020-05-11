@@ -26,7 +26,7 @@ require_once __DIR__.'/controller.php';
  *
  * @author kumbiaPHP Team
  */
-class KumbiaRest extends Controller
+abstract class KumbiaRest extends Controller
 {
     /**
      * Formato de entrada usado para interpretar los datos

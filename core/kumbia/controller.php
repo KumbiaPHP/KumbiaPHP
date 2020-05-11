@@ -20,7 +20,7 @@
  * @category   Kumbia
  * @package    Controller
  */
-class Controller
+abstract class Controller
 {
 
     /**
@@ -137,5 +137,19 @@ class Controller
 
         $this->after_filter();
         $this->finalize();
+    }
+
+    /**
+     * Se llama cuando no existe un método
+     *
+     * @param string $name      
+     * @param array  $arguments
+     * @throws KumbiaException
+     * 
+     * @return void
+     */
+    public function __call($name, $arguments)
+    {
+        throw new KumbiaException($name, 'no_action');
     }
 }

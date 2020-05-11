@@ -24,18 +24,6 @@ class PagesControllerTest extends TestCase
     use KumbiaTestTrait;
     
     /**
-     * testDisplay method
-     *
-     * @return void
-     */
-    public function testDisplay()
-    {
-        $actual = $this->get('/pages/show/kumbia/status/');
-        $this->assertContains('<h2>config.ini', $actual);
-        //$test = $this->get('/pages/show/kumbia/status/');
-        $this->assertResponseCode(200);
-    }
-    /**
      * 
      *
      * @return void

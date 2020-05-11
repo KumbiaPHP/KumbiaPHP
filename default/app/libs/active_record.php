@@ -13,7 +13,7 @@ require_once CORE_PATH.'libs/kumbia_active_record/kumbia_active_record.php';
  * @package Db
  * @subpackage ActiveRecord
  */
-class ActiveRecord extends KumbiaActiveRecord
+abstract class ActiveRecord extends KumbiaActiveRecord
 {
 
 }
