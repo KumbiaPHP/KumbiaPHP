@@ -24,40 +24,42 @@ class PagesControllerTest extends TestCase
     use KumbiaTestTrait;
     
     /**
-     * testDisplay method
-     *
-     * @return void
      */
-    public function testDisplay()
-    {
-        $actual = $this->get('/pages/show/kumbia/status/');
-        $this->assertContains('<h2>config.ini', $actual);
-        //$test = $this->get('/pages/show/kumbia/status/');
-        $this->assertResponseCode(200);
-    }
-    /**
-     * 
-     *
-     * @return void
-     */
-    public function testDisplayNoAction()
+    public function testDisplayNoAction(): void
     {
         $actual = $this->get('/pages/kumbia/status/');
-        $this->assertContains('<h2>config.ini', $actual);
-        //$test = $this->get('/pages/show/kumbia/status/');
+        $this->assertStringContainsString('<h2>config.php', $actual);
         $this->assertResponseCode(200);
     }
     /**
-     * expectedException KumbiaException
+     * Test no page to show
      */
-    //public function testDisplayNoPage()
-    //{
-        //$this->expectException(KumbiaException::class);
-        //$actual = $this->get('/pages/no_page/');
-        //$this->assertResponseCode(404);
-        //$this->assertContains('<h1>Vista "pages/no_page.phtml" no encontrada</h1>', $actual);
-        //$this->assertResponseCode(404);
-        //$this->expectException(KumbiaException::class);
+    public function testDisplayNoPage(): void
+    {
+        $this->expectWarning();
+        $this->expectWarningMessageMatches('/No such file or directory/');
         
-    //}
+        $actual = $this->get('/pages/no_page/');
+
+        $this->expectException(KumbiaException::class);
+        $this->assertResponseCode(404);
+        $this->assertStringContainsString('<h1>Vista "pages/no_page.phtml" no ffencontrada</h1>', $actual);
+    }
+
+    /**
+     * Test for bad people
+     */
+    public function testBadPeople(): void
+    {
+        $this->expectException(KumbiaException::class);
+        $actual = $this->get('/pages/../no_page/');
+
+        $this->assertResponseCode(404);
+        $this->assertStringContainsString("Posible intento de hack en URL: '/pages/../no_page/'", $actual);
+    }
+
+    public function testObLevel(): void
+    {
+        $this->assertEquals(1, ob_get_level());
+    }
 }
