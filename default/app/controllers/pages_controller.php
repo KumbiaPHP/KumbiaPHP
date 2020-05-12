@@ -3,47 +3,42 @@
  * Controller para el manejo de páginas estáticas, aunque
  * se puede utilizar como cualquier otro controller haciendo uso
  * de los Templates, Layouts y Partials.
- * los parámetros pasados al metodo show() indican vistas que están en views/pages/
+ * los parámetros pasados indican vistas que están en views/pages/
  * manteniendo su estructura en directorios
  * Ejemplo:
  *
  * Ej.
- * dominio.com/pages/show/organizacion/privacidad
+ * dominio.com/pages/organizacion/privacidad
  * enseñara la vista views/pages/organizacion/privacidad.phtml
  *
- * dominio.com/pages/show/aviso
+ * dominio.com/pages/aviso
  * enseñara la vista views/pages/aviso.phtml
  *
  * También se puede usar el routes.ini para llamarlo con otro nombre,
  * /aviso = pages/show/aviso
  * Asi al ir a dominio.com/aviso enseñara la vista views/pages/aviso.phtml
  *
- * /organizacion/* = pages/show/organizacion/*
+ * /organizacion/* = pages/organizacion/*
  * Al ir a dominio.com/organizacion/privacidad enseñará la vista en views/organizacion/privacidad.phtml
  *
  * Ademas se pueden utilizar Helpers
- * <?= link_to('pages/show/aviso', 'Ir Aviso') ?>
- * Mostrara un link que al hacer click ira a dominio.com/pages/show/aviso
+ * <?= Html::link_to('pages/aviso', 'Ir Aviso') ?>
+ * Muestra un enlace que al hacer click irá a dominio.com/pages/aviso
  *
  */
 class PagesController extends AppController
 {
     protected function before_filter()
     {
-        $this->limit_params = false;
-        // Si es AJAX enviar solo el view
+        // If is AJAX, send only the view
         if (Input::isAjax()) {
           View::template(null);
         }
-        // Usar directamente controlador/pagina
-        if (! method_exists($this, $this->action_name)) {
-            array_unshift($this->parameters, $this->action_name);
-            $this->action_name = 'show';
-        }
     }
 
-    public function show()
+    public function __call($name, $params)
     {
-        View::select(implode('/', $this->parameters));
+        array_unshift($params, $name);
+        View::select(implode('/', $params));
     }
 }
