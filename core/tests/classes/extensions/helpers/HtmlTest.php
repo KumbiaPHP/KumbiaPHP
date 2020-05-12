@@ -14,7 +14,8 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
-use \Mockery as m;
+use PHPUnit\Framework\TestCase;
+use \Mockery;
 
 /**
  * @category Test
@@ -22,7 +23,7 @@ use \Mockery as m;
  *  
  * @runTestsInSeparateProcesses
  */
-class HtmlTest extends PHPUnit\Framework\TestCase
+class HtmlTest extends TestCase
 {
     //use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
@@ -34,7 +35,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
          *
          * http://docs.mockery.io/en/latest/reference/phpunit_integration.html#phpunit-integration
          */
-        m::close();
+        Mockery::close();
     }
 
     public function imgDataProvider()
@@ -64,26 +65,26 @@ class HtmlTest extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider imgDataProvider
      */
-    public function testImg($img, $alt, $attrs, $expected)
+    public function testImg($img, $alt, $attrs, $expected): void
     {
-        //$tagMock = m::mock('alias:Tag');
+        //$tagMock = Mockery::mock('alias:Tag');
         //$tagMock->shouldReceive('getAttrs')->withArgs(array($attrs[0]))->andReturn($attrs[1]);
 
         $this->assertSame($expected, Html::img($img, $alt, $attrs[0]));
     }
 
-    public function testImgDefaultAlt()
+    public function testImgDefaultAlt(): void
     {
-        //$tagMock = m::mock('alias:Tag');
+        //$tagMock = Mockery::mock('alias:Tag');
         //$tagMock->shouldReceive('getAttrs')->withAnyArgs()->andReturn('');
 
         $expected = sprintf('<img src="%simg/img.png" alt="" />', PUBLIC_PATH);
         $this->assertSame($expected, Html::img('img.png'));
     }
 
-    public function testLink()
+    public function testLink(): void
     {
-        //$tagMock = m::mock('alias:Tag');
+        //$tagMock = Mockery::mock('alias:Tag');
         //$tagMock->shouldReceive('getAttrs')->with(array('a' => 'b'))->andReturn('a="b"');
         //$tagMock->shouldReceive('getAttrs')->with(array('a' => 'b', 'c' => 'd'))->andReturn('a="b" c="d"');
 
@@ -97,9 +98,9 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, Html::link('action-name', 'Action name', array('a' => 'b', 'c' => 'd')));
     }
 
-    public function testLinkWithoutAttrs()
+    public function testLinkWithoutAttrs(): void
     {
-        //$tagMock = m::mock('alias:Tag');
+        //$tagMock = Mockery::mock('alias:Tag');
         //$tagMock->shouldNotReceive('getAttrs');
 
         $expected = sprintf('<a href="%saction-name" >Action name</a>', PUBLIC_PATH);
@@ -109,7 +110,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, Html::link('action-name', 'Action name', 'a="b"'));
     }
 
-    public function testLinkWithAttrsAsArray()
+    public function testLinkWithAttrsAsArray(): void
     {
         $expected = sprintf('<a href="%saction-name" >Action name</a>', PUBLIC_PATH);
         Html::link('action-name', 'Action name', array());
@@ -134,12 +135,12 @@ class HtmlTest extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider linkActionDataProvider
      */
-    public function testLinkActionHrefPattern($action, $controllerPath, $expected)
+    public function testLinkActionHrefPattern($action, $controllerPath, $expected): void
     {
-        $routerMock = m::mock('alias:Router');
+        $routerMock = Mockery::mock('alias:Router');
         $routerMock->shouldReceive('get')->with('controller_path')->andReturn($controllerPath);
 
-        //$tagMock = m::mock('alias:Tag');
+        //$tagMock = Mockery::mock('alias:Tag');
         //$tagMock->shouldReceive('getAttrs')->withAnyArgs()->andReturn('');
 
         $link = Html::linkAction($action, 'Link Text');
@@ -147,12 +148,12 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         $this->assertStringContainsString($expected, $link);
     }
 
-    public function testLinkAction()
+    public function testLinkAction(): void
     {
-        $routerMock = m::mock('alias:Router');
+        $routerMock = Mockery::mock('alias:Router');
         $routerMock->shouldReceive('get')->with('controller_path')->andReturn('test');
 
-        //$tagMock = m::mock('alias:Tag');
+        //$tagMock = Mockery::mock('alias:Tag');
         //$tagMock->shouldReceive('getAttrs')->withAnyArgs()->andReturn('');
 
         $link = Html::linkAction('action-name', 'Link Text');

@@ -14,12 +14,14 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * 
  * @category   Test
  * @package    Tag 
  */
-class TagTest extends PHPUnit\Framework\TestCase
+class TagTest extends TestCase
 {
     public function jsFileProvider()
     {
@@ -33,7 +35,7 @@ class TagTest extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsFileProvider
      */
-    public function testJs($file)
+    public function testJs($file): void
     {
         $scriptPattern = '<script type="text/javascript" src="%sjavascript/%s"></script>';
         $response = Tag::js($file);
@@ -45,7 +47,7 @@ class TagTest extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsFileProvider
      */
-    public function testJsNoCache($file)
+    public function testJsNoCache($file): void
     {
         $scriptPattern = '<script type="text/javascript" src="%sjavascript/%s?nocache=';
 
@@ -56,7 +58,7 @@ class TagTest extends PHPUnit\Framework\TestCase
         $this->assertStringEndsWith('"></script>', $response);
     }
 
-    public function testGetAttrsPassingArray()
+    public function testGetAttrsPassingArray(): void
     {
         $response = Tag::getAttrs(array(
             'attr-one' => 'value-one',
@@ -67,7 +69,7 @@ class TagTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $response);
     }
 
-    public function testGetAttrsPassingString()
+    public function testGetAttrsPassingString(): void
     {
         $expected = 'attr-one="value-one" attr-two="value-two"';
         $response = Tag::getAttrs($expected);
@@ -75,7 +77,7 @@ class TagTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $response);
     }
 
-    public function testAddAndGetCssFiles()
+    public function testAddAndGetCssFiles(): void
     {
         $this->assertEmpty(Tag::getCss());
 
@@ -124,7 +126,7 @@ class TagTest extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider createTagDataProvider
      */
-    public function testCreateWithoutContent($tag, $attrs, $content, $expectedResult)
+    public function testCreateWithoutContent($tag, $attrs, $content, $expectedResult): void
     {
         ob_start();
         Tag::create($tag, $content, $attrs);
@@ -138,7 +140,7 @@ class TagTest extends PHPUnit\Framework\TestCase
      * @param $media
      * @param $data
      */
-    private function assertInternalCssValue($file, $media, $data)
+    private function assertInternalCssValue($file, $media, $data): void
     {
         $this->assertArrayHasKey('src', $data);
         $this->assertArrayHasKey('media', $data);

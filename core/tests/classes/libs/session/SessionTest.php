@@ -14,11 +14,13 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
+ use PHPUnit\Framework\TestCase;
+
 /**
  * @category    Test
  * @package     Session
  */
-class SessionTest extends PHPUnit\Framework\TestCase
+class SessionTest extends TestCase
 {
     public function setUp(): void
     {
@@ -27,13 +29,13 @@ class SessionTest extends PHPUnit\Framework\TestCase
         }
     }
 
-    public function testAssertKeyNotExists()
+    public function testAssertKeyNotExists(): void
     {
         $this->assertFalse(Session::has('test_key'));
         $this->assertFalse(Session::has('test_key', 'other_namespace'));
     }
 
-    public function testAssertSetAndGet()
+    public function testAssertSetAndGet(): void
     {
         $this->assertFalse(Session::has('test_key'));
 
@@ -43,7 +45,7 @@ class SessionTest extends PHPUnit\Framework\TestCase
         $this->assertSame('value', Session::get('test_key'));
     }
 
-    public function testGetDefaultValue()
+    public function testGetDefaultValue(): void
     {
         Session::delete('test_key');
         
@@ -51,7 +53,7 @@ class SessionTest extends PHPUnit\Framework\TestCase
         $this->assertNull(Session::get('test_key'));
     }
 
-    public function testHasWithNamespaces()
+    public function testHasWithNamespaces(): void
     {
         $this->assertFalse(Session::has('test_key'));
         $this->assertFalse(Session::has('test_key', 'other'));
@@ -68,7 +70,7 @@ class SessionTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(Session::has('test_key', 'other'));
     }
 
-    public function testGetWithNamespaces()
+    public function testGetWithNamespaces(): void
     {
         Session::delete('test_key');
         Session::delete('test_key', 'other');
@@ -83,7 +85,7 @@ class SessionTest extends PHPUnit\Framework\TestCase
         $this->assertSame('other_value', Session::get('test_key', 'other'));
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         Session::set('test_key', 'value');
 
@@ -96,7 +98,7 @@ class SessionTest extends PHPUnit\Framework\TestCase
         $this->assertNull(Session::get('test_key'));
     }
 
-    public function testDeleteWithNamespace()
+    public function testDeleteWithNamespace(): void
     {
         Session::set('test_key', 'value');
         Session::set('test_key', 'other_value', 'other');

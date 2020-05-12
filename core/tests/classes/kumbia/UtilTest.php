@@ -14,13 +14,15 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @category    Test
  * @package     Core
  *
  * @runTestsInSeparateProcesses
  */
-class UtilTest extends PHPUnit\Framework\TestCase
+class UtilTest extends TestCase
 {
     public function underescoreDataProvider()
     {
@@ -142,7 +144,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider underescoreDataProvider
      */
-    public function testUnderescore($original, $expected)
+    public function testUnderescore($original, $expected): void
     {
         $result = Util::underscore($original);
 
@@ -152,7 +154,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider dashDataProvider
      */
-    public function testDash($original, $expected)
+    public function testDash($original, $expected): void
     {
         $result = Util::dash($original);
 
@@ -162,7 +164,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider humanizeDataProvider
      */
-    public function testHumanize($original, $expected)
+    public function testHumanize($original, $expected): void
     {
         $result = Util::humanize($original);
 
@@ -172,7 +174,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider encomillarDataProvider
      */
-    public function testEncomillar($original, $expected)
+    public function testEncomillar($original, $expected): void
     {
         $result = Util::encomillar($original);
 
@@ -182,7 +184,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider camelcaseDataProvider
      */
-    public function testCamelcase($original, $expected, $expectedLowerCase)
+    public function testCamelcase($original, $expected, $expectedLowerCase): void
     {
         $result = Util::camelcase($original);
         $resultLowerCase = Util::camelcase($original, true);
@@ -194,7 +196,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider smallcaseDataProvider
      */
-    public function testSmallcase($original, $expected)
+    public function testSmallcase($original, $expected): void
     {
         $result = Util::smallcase($original);
 
@@ -204,7 +206,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider getParamsDataProvider
      */
-    public function testGetParams($original, $expected)
+    public function testGetParams($original, $expected): void
     {
         $result = Util::getParams($original);
 
