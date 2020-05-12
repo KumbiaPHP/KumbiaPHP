@@ -102,6 +102,10 @@ class KumbiaRouter
 
     /**
      * Carga y devuelve una instancia del controllador
+     * 
+     * @throws KumbiaException
+     * 
+     * @return Controller
      */
     public static function getController($param)
     {
