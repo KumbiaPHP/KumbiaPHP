@@ -132,41 +132,35 @@ class Router
      */
     private static function dispatch($cont)
     {
-        // Se ejecutan los filtros initialize y before
+        // Run initialize y before_filter
         if ($cont->k_callback(true) === false) {
             return $cont;
         }
 
-        //Obteniendo el metodo
-        try {
-            $reflectionMethod = new ReflectionMethod($cont, $cont->action_name);
-        } catch (ReflectionException $e) {
-            throw new KumbiaException($cont->action_name, 'no_action');//TODO: enviar a un método del controller
-        }
+        if (method_exists($cont, $cont->action_name)) {
+            if ($cont->action_name === 'k_callback') {
+                throw new KumbiaException('Esta intentando ejecutar un método reservado de KumbiaPHP');
+            }
 
-        //k_callback y __constructor metodo reservado
-        if ($cont->action_name === 'k_callback' || $reflectionMethod->isConstructor()) {
-            throw new KumbiaException('Esta intentando ejecutar un método reservado de KumbiaPHP');
+            if ($cont->limit_params) { // with variadic php5.6 delete it
+                $reflectionMethod = new ReflectionMethod($cont, $cont->action_name);
+                $num_params = count($cont->parameters);
+                
+                if ($num_params < $reflectionMethod->getNumberOfRequiredParameters() ||
+                    $num_params > $reflectionMethod->getNumberOfParameters()) {
+                        
+                    throw new KumbiaException('', 'num_params');   
+                }
+                        
+            }
         }
+        
+        call_user_func_array([$cont, $cont->action_name], $cont->parameters);
 
-        //se verifica que los parametros que recibe
-        //la action sea la cantidad correcta
-        $num_params = count($cont->parameters);
-        if ($cont->limit_params && ($num_params < $reflectionMethod->getNumberOfRequiredParameters() ||
-                $num_params > $reflectionMethod->getNumberOfParameters())) {
-            throw new KumbiaException(null, 'num_params');
-        }
-
-        try {
-            $reflectionMethod->invokeArgs($cont, $cont->parameters);
-        } catch (ReflectionException $e) {
-            throw new KumbiaException(null, 'no_action');//TODO: mejor no_public
-        }
-
-        //Corre los filtros after y finalize
+        // Run after_filter and finalize
         $cont->k_callback();
 
-        //Si esta routed internamente volver a ejecutar
+        // If routed , run again (in v2 final will be removed)
         self::isRouted();
 
         return $cont;
