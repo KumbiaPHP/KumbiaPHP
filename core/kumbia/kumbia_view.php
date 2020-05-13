@@ -323,33 +323,24 @@ class KumbiaView
      * @throw KumbiaException
      * @param  string            $partial vista a renderizar
      * @param  string            $__time  tiempo de cache
-     * @param  array|string|null $params  variables para el partial
+     * @param  array|null $params  variables para el partial
      * @param  string            $group   grupo de cache
+     * @throws KumbiaException
+     * 
      * @return void
      */
-    public static function partial($partial, $__time = '', $params = null, $group = 'kumbia.partials')
+    public static function partial(string $partial, string $__time = '', ?array $params = null, string $group = 'kumbia.partials'): void
     {
         if (PRODUCTION && $__time && !Cache::driver()->start($__time, $partial, $group)) {
             return;
         }
-
-        //Verificando el partials en el dir app
+        
         $__file = APP_PATH."views/_shared/partials/$partial.phtml";
-
-        if (!is_file($__file)) {
-            //Verificando el partials en el dir core
-            $__file = CORE_PATH."views/partials/$partial.phtml";
-        }
-
-        if ($params) {
-            if (is_string($params)) {
-                $params = Util::getParams(explode(',', $params));
-            }
-
-            // carga los parametros en el scope
+        
+        if($params) {
             extract($params, EXTR_OVERWRITE);
         }
-
+        
         // carga la vista parcial
         if (!include $__file) {
             throw new KumbiaException('Vista Parcial "'.$__file.'" no encontrada', 'no_partial');
