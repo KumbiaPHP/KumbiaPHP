@@ -43,7 +43,7 @@ class PagesControllerTest extends TestCase
 
         $this->expectException(KumbiaException::class);
         $this->assertResponseCode(404);
-        $this->assertStringContainsString('<h1>Vista "pages/no_page.phtml" no ffencontrada</h1>', $actual);
+        $this->assertStringContainsString('<h1>Vista "pages/no_page.phtml" no encontrada</h1>', $actual);
     }
 
     /**
