@@ -34,7 +34,7 @@ class Router
      */
     protected static $vars = [
         // 'method'          => '', //Método usado GET, POST, ...
-        // 'route'           => '', //Ruta pasada en el GET
+        // 'route'           => '', //Ruta pasada URL
         // 'module'          => '', //Nombre del módulo actual
         // 'controller'      => 'index', //Nombre del controlador actual
         // 'action'          => 'index', //Nombre de la acción actual, por defecto index
@@ -84,9 +84,9 @@ class Router
             throw new KumbiaException("Posible intento de hack en URL: '$url'");
         }
         // Si hay intento de hack TODO: añadir la ip y referer en el log
-        self::$vars['route'] = $url;
+        self::$default['route'] = $url;
         //Método usado
-        self::$vars['method'] = $_SERVER['REQUEST_METHOD'];
+        self::$default['method'] = $_SERVER['REQUEST_METHOD'];
     }
 
     /**
