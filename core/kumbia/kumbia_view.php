@@ -281,7 +281,6 @@ class KumbiaView
             }
 
             self::$_content = ob_get_clean();
-            ob_clean();
         }
 
         // Renderizar template
