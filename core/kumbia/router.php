@@ -138,7 +138,7 @@ class Router
         }
 
         if (method_exists($cont, $cont->action_name)) {
-            if ($cont->action_name === 'k_callback') {
+            if (strcasecmp($cont->action_name, 'k_callback') === 0 ) {
                 throw new KumbiaException('Esta intentando ejecutar un método reservado de KumbiaPHP');
             }
 
