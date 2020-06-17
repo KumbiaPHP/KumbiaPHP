@@ -50,7 +50,7 @@ class FileCache extends Cache
         $this->_group = $group;
 
         $filename = APP_PATH . 'temp/cache/' . $this->_getFilename($id, $group);
-        if (file_exists($filename)) {
+        if (is_file($filename)) {
             $fh = fopen($filename, 'r');
 
             $lifetime = trim(fgets($fh));

@@ -135,7 +135,7 @@ class Config
      */
     private static function load($file)
     {
-        if (file_exists(APP_PATH."config/$file.php")) {
+        if (is_file(APP_PATH."config/$file.php")) {
             self::$vars[$file] = require APP_PATH."config/$file.php";
 
             return;

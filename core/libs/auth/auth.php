@@ -165,7 +165,7 @@ class Auth
     {
             $user_hash = md5(serialize($this->extra_args));
             $filename = APP_PATH.'temp/cache/'.base64_encode('auth');
-            if (file_exists($filename)) {
+            if (is_file($filename)) {
                 $fp = fopen($filename, 'r');
                 while (!feof($fp)) {
                     $line = fgets($fp);

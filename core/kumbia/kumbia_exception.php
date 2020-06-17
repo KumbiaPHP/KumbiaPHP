@@ -61,19 +61,30 @@ class KumbiaException extends Exception
     public static function handleException($e)
     {
         self::setHeader($e);
-        //TODO quitar el extract, que el view pida los que necesite
-        extract(Router::get(), EXTR_OVERWRITE);
+
+        if (PRODUCTION) { 
+            self::cleanBuffer();
+            include APP_PATH.'views/_shared/errors/404.phtml'; //TODO: añadir error 500.phtml
+
+            return;
+        }
+        // show developer info in development
+        self::showDev($e);
+    }
+    
+    private static function showDev($e)
+    {
+        $data = Router::get();
+        array_walk_recursive($data, function (&$value) {
+                $value = htmlspecialchars($value, ENT_QUOTES, APP_CHARSET);
+            });
+        extract($data, EXTR_OVERWRITE);
         // Registra la autocarga de helpers
         spl_autoload_register('kumbia_autoload_helper', true, true);
 
         $Controller = Util::camelcase($controller);
         ob_start();
-        if (PRODUCTION) { //TODO: añadir error 500.phtml
-            self::cleanBuffer();
-            include APP_PATH.'views/_shared/errors/404.phtml';
-
-            return;
-        }
+        
         if ($e instanceof self) {
             $view = $e->view;
             $tpl = $e->template;
@@ -83,6 +94,7 @@ class KumbiaException extends Exception
         }
         //Fix problem with action name in REST
         $action = $e->getMessage() ?: $action;
+        $action = htmlspecialchars($action, ENT_QUOTES, APP_CHARSET);
 
         include CORE_PATH."views/errors/{$view}.phtml";
 
