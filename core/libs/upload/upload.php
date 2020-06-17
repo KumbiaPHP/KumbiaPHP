@@ -262,7 +262,7 @@ abstract class Upload {
         if ($this->_overwrite) {
             return TRUE;
         }
-        if (file_exists("$this->_path/$name")) {
+        if (is_file("$this->_path/$name")) {
             Flash::error('Error: ya existe este fichero. Y no se permite reescribirlo');
             return FALSE;
         }
