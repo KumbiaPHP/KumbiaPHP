@@ -71,7 +71,12 @@ class KumbiaException extends Exception
         // show developer info in development
         self::showDev($e);
     }
-    
+
+    /**
+     * Maneja las excepciones no capturadas.
+     *
+     * @param Exception|KumbiaException $e
+     * */
     private static function showDev($e)
     {
         $data = Router::get();
