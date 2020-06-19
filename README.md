@@ -11,9 +11,9 @@ Fácil, rápido y en español
 (Or should I say fast and easy?)
 
 ---
-## Bienvenidos a KumbiaPHP Framework  Versión 1.0
+## Bienvenidos a KumbiaPHP Framework  Versión 1
 
-Manual en construcción de la 1.0:
+Manual en construcción de la v1:
 
 Español: https://github.com/KumbiaPHP/Documentation/tree/master/es
 

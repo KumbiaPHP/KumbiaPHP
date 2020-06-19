@@ -23,7 +23,7 @@
 
 // Iniciar el buffer de salida
 ob_start();
-const KUMBIA_VERSION = '1.1.1';
+const KUMBIA_VERSION = '1.1.2';
 
 /**
  * Versión de KumbiaPHP
