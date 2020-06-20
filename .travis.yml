@@ -39,7 +39,7 @@ install:
   #  - if [[ $HHVM == true ]]; then composer require "phpunit/phpunit:5.7"; fi
 
 script:
-  - phpunit --configuration core/phpunit.xml.dist
+  - vendor/bin/phpunit --configuration core/phpunit.xml.dist
 #  - phpunit --configuration core/phpunit.xml.dist --coverage-text --colors --coverage-clover=coverage.clover
 #  - wget https://scrutinizer-ci.com/ocular.phar
 #  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
