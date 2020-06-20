@@ -9,6 +9,7 @@ php:
   - 7.1
   - 7.2
   - 7.3
+  - 7.4
   - master
 #  - hhvm
 #    env: HHVM=true
@@ -19,6 +20,7 @@ matrix:
     - php: master
     - php: 7.2
     - php: 7.3
+    - php: 7.4
 # 7.2 and 7.3 for the Mockery class
 
 notifications:
