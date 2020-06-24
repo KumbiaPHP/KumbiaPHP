@@ -34,7 +34,7 @@ abstract class KumbiaRest extends Controller
      *
      * @var string MIME Type del formato
      */
-    protected $_fInput;
+    protected $_inputFormat;
 
     /**
      * Permite definir parser personalizados por MIME TYPE
@@ -42,32 +42,32 @@ abstract class KumbiaRest extends Controller
      * Se define como un MIME type como clave y el valor debe ser un
      * callback que devuelva los datos interpretado.
      */
-    protected $_inputType = array(
-        'application/json' => array('RestController', 'parseJSON'),
-        'application/xml' => array('RestController', 'parseXML'),
-        'text/xml' => array('RestController', 'parseXML'),
-        'text/csv' => array('RestController', 'parseCSV'),
-        'application/x-www-form-urlencoded' => array('RestController', 'parseForm'),
-    );
+    protected $_inputType = [
+        'application/json' => ['self', 'parseJSON'],
+        'application/xml' => ['self', 'parseXML'],
+        'text/xml' => ['self', 'parseXML'],
+        'text/csv' => ['self', 'parseCSV'],
+        'application/x-www-form-urlencoded' => ['self', 'parseForm']
+    ];
 
     /**
      * Formato de salida enviada al cliente.
      *
      * @var string nombre del template a usar
      */
-    protected $_fOutput;
+    protected $_outputFormat;
 
     /**
      * Permite definir las salidas disponibles,
      * de esta manera se puede presentar la misma salida en distintos
      * formatos a requerimientos del cliente.
      */
-    protected $_outputType = array(
+    protected $_outputType = [
         'application/json' => 'json',
         'application/xml' => 'xml',
         'text/xml' => 'xml',
         'text/csv' => 'csv',
-    );
+    ];
 
     /**
      * Constructor
@@ -87,9 +87,9 @@ abstract class KumbiaRest extends Controller
     protected function initREST()
     {
         /* formato de entrada */
-        $this->_fInput = self::getInputFormat();
-        $this->_fOutput = self::getOutputFormat($this->_outputType);
-        View::select(null, $this->_fOutput);
+        $this->_inputFormat = self::getInputFormat();
+        $this->_outputFormat = self::getOutputFormat($this->_outputType);
+        View::select(null, $this->_outputFormat);
         $this->rewriteActionName();
     }
 
@@ -142,7 +142,7 @@ abstract class KumbiaRest extends Controller
     protected function param()
     {
         $input = file_get_contents('php://input');
-        $format = $this->_fInput;
+        $format = $this->_inputFormat;
         /* verifica si el formato tiene un parser válido */
         if (isset($this->_inputType[$format]) && is_callable($this->_inputType[$format])) {
             $result = call_user_func($this->_inputType[$format], $input);
@@ -166,7 +166,7 @@ abstract class KumbiaRest extends Controller
     {
         http_response_code((int) $error);
 
-        return array('error' => $text);
+        return ['error' => $text];
     }
 
     /**
@@ -178,7 +178,7 @@ abstract class KumbiaRest extends Controller
     protected static function accept()
     {
         /* para almacenar los valores acceptados por el cliente */
-        $aTypes = array();
+        $aTypes = [];
         /* Elimina espacios, convierte a minusculas, y separa */
         $accept = explode(',', strtolower(str_replace(' ', '', Input::server('HTTP_ACCEPT'))));
         foreach ($accept as $a) {
@@ -242,7 +242,7 @@ abstract class KumbiaRest extends Controller
         $temp = fopen('php://memory', 'rw');
         fwrite($temp, $input);
         fseek($temp, 0);
-        $res = array();
+        $res = [];
         while (($data = fgetcsv($temp)) !== false) {
             $res[] = $data;
         }
@@ -287,7 +287,7 @@ abstract class KumbiaRest extends Controller
      *
      * @return string
      */
-    protected function getOutputFormat(array $validOutput)
+    protected static function getOutputFormat(array $validOutput)
     {
         /* busco un posible formato de salida */
         $accept = self::accept();
