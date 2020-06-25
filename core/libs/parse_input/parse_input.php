@@ -35,8 +35,6 @@ class ParseInput
     
     /**
      * Returns the parsed input data
-     *
-     * @param string $input
      * 
      * @return mixed
      */
