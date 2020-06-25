@@ -19,9 +19,10 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 //ob_start();
+const KUMBIA_VERSION = '1.1.3';
 // Versión de KumbiaPHP
 function kumbia_version() {
-    return 'RC 1.0';
+    return KUMBIA_VERSION;
 }
 require_once 'KumbiaTestTrait.php';
 
