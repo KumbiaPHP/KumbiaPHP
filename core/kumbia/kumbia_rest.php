@@ -117,7 +117,7 @@ abstract class KumbiaRest extends Controller
      */
     protected function param()
     {
-        return ParseInput::parse();
+        return ParseInput::auto();
     }
 
     /**
