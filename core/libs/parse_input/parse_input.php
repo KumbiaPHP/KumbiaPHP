@@ -25,12 +25,12 @@ class ParseInput
      * Se define como un MIME type como clave y el valor debe ser un
      * callback que devuelva los datos interpretado.
      */
-    const INPUT_TYPE = [
-        'application/json' => ['self', 'parseJSON'],
-        'application/xml' => ['self', 'parseXML'],
-        'text/xml' => ['self', 'parseXML'],
-        'text/csv' => ['self', 'parseCSV'],
-        'application/x-www-form-urlencoded' => ['self', 'parseForm']
+    protected static $inputType = [
+        'application/json' => ['self', 'json'],
+        'application/xml' => ['self', 'xml'],
+        'text/xml' => ['self', 'xml'],
+        'text/csv' => ['self', 'csv'],
+        'application/x-www-form-urlencoded' => ['self', 'form']
     ];
     
     /**
@@ -38,13 +38,13 @@ class ParseInput
      * 
      * @return mixed
      */
-    public static function parse()
+    public static function auto()
     {
         $input = file_get_contents('php://input');
-        $format = self::getInputFormat();
+        $format = self::$inputType[self::getFormat()];
         /* verifica si el formato tiene un parser válido */
-        if ($format && is_callable(self::INPUT_TYPE[$format])) {
-            $result = call_user_func(self::INPUT_TYPE[$format], $input);
+        if ($format && is_callable($format)) {
+            $result = call_user_func($format, $input);
             if ($result) {
                 return $result;
             }
@@ -58,7 +58,7 @@ class ParseInput
      *
      * @return string
      */
-    public static function getInputFormat()
+    public static function getFormat()
     {
         if (isset($_SERVER['CONTENT_TYPE'])) {
             $str = explode(';', $_SERVER['CONTENT_TYPE']);
@@ -76,7 +76,7 @@ class ParseInput
      *
      * @return array|string
      */
-    public static function parseJSON($input)
+    public static function json($input)
     {
         return json_decode($input, true);
     }
@@ -91,7 +91,7 @@ class ParseInput
      *
      * @return \SimpleXMLElement|null
      */
-    public static function parseXML($input)
+    public static function xml($input)
     {
         try {
             return new SimpleXMLElement($input);
@@ -110,7 +110,7 @@ class ParseInput
      *
      * @return array
      */
-    public static function parseCSV($input)
+    public static function csv($input)
     {
         $temp = fopen('php://memory', 'rw');
         fwrite($temp, $input);
@@ -131,7 +131,7 @@ class ParseInput
      *
      * @return array
      */
-    public static function parseForm($input)
+    public static function form($input)
     {
         parse_str($input, $vars);
 
