@@ -263,7 +263,7 @@
 		initialize: function () {
 			// Obtiene el publicPath
 			let src = $('script:last').attr('src');
-			this.publicPath = src.slice(0, src.lastIndexOf('javascript/jquery/'));
+			this.publicPath = src.slice(0, src.lastIndexOf('javascript/'));
 
 			// Enlaza a los métodos por defecto
 			$(function () {
