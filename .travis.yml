@@ -11,17 +11,10 @@ php:
   - 7.3
   - 7.4
   - master
-#  - hhvm
-#    env: HHVM=true
 
 matrix:
   allow_failures:
-#    - php: hhvm
     - php: master
-    - php: 7.2
-    - php: 7.3
-    - php: 7.4
-# 7.2 and 7.3 for the Mockery class
 
 notifications:
   slack: kumbiaphp:51JaKQTXASwf52D8b32OyWb9
@@ -38,10 +31,14 @@ notifications:
 install:
   - composer install
   - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.6" ]]; then composer require mockery/mockery ~0.9; fi
-  #  - if [[ $HHVM == true ]]; then composer require "phpunit/phpunit:5.7"; fi
+  - if [[ $TRAVIS_PHP_VERSION > '7.1' ]]; then wget -O ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-7.phar; fi
+  - if [[ $TRAVIS_PHP_VERSION > '7.1' ]]; then chmod 755 ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit; fi
+  # Force PHPUnit 7 $TRAVIS_PHP_VERSION > '7.1' rule
+  -
 
 script:
-  - vendor/bin/phpunit --configuration core/phpunit.xml.dist
+  - phpunit --version
+  - phpunit --configuration core/phpunit.xml.dist
 #  - phpunit --configuration core/phpunit.xml.dist --coverage-text --colors --coverage-clover=coverage.clover
 #  - wget https://scrutinizer-ci.com/ocular.phar
 #  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
