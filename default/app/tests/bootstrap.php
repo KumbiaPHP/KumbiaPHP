@@ -19,11 +19,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 //ob_start();
-const KUMBIA_VERSION = '1.1.3';
-// Versión de KumbiaPHP
-function kumbia_version() {
-    return KUMBIA_VERSION;
-}
+
 require_once 'KumbiaTestTrait.php';
 
 //default in any server
@@ -36,6 +32,8 @@ defined('CORE_PATH') || define('CORE_PATH', dirname(dirname(dirname(__DIR__))) .
 defined('APP_PATH') || define('APP_PATH', dirname(__DIR__) . '/');
 defined('PUBLIC_PATH') || define('PUBLIC_PATH', 'http://127.0.0.1/');
 
+// Kumbia Version
+require CORE_PATH.'kumbia/kumbia_version.php';
 require_once CORE_PATH.'kumbia/autoload.php';
 require_once APP_PATH.'../../vendor/autoload.php';
 

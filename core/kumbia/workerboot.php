@@ -29,17 +29,9 @@ use Workerman\Lib\Timer;
 
 // Iniciar el buffer de salida
 //ob_start();
-const KUMBIA_VERSION = '1.1.3';
-/**
- * Versión de KumbiaPHP
- *
- * @deprecated 1.1  Use constant KUMBIA_VERSION
- * @return string
- */
-function kumbia_version()
-{
-    return KUMBIA_VERSION;
-}
+
+// Kumbia Version
+require CORE_PATH.'kumbia/kumbia_version.php';
 
 /**
  * Inicializar el ExceptionHandler TODO
