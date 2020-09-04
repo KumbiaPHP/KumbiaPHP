@@ -15,10 +15,6 @@ php:
 matrix:
   allow_failures:
     - php: master
-    - php: 7.2
-    - php: 7.3
-    - php: 7.4
-# 7.2 and 7.3 for the Mockery class
 
 notifications:
   slack: kumbiaphp:51JaKQTXASwf52D8b32OyWb9
