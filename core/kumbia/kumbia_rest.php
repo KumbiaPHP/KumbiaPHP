@@ -29,28 +29,6 @@ require_once __DIR__.'/controller.php';
 abstract class KumbiaRest extends Controller
 {
     /**
-     * Formato de entrada usado para interpretar los datos
-     * enviados por el cliente.
-     *
-     * @var string MIME Type del formato
-     */
-    protected $_inputFormat;
-
-    /**
-     * Permite definir parser personalizados por MIME TYPE
-     * Esto es necesario para interpretar las entradas
-     * Se define como un MIME type como clave y el valor debe ser un
-     * callback que devuelva los datos interpretado.
-     */
-    protected $_inputType = [
-        'application/json' => ['self', 'parseJSON'],
-        'application/xml' => ['self', 'parseXML'],
-        'text/xml' => ['self', 'parseXML'],
-        'text/csv' => ['self', 'parseCSV'],
-        'application/x-www-form-urlencoded' => ['self', 'parseForm']
-    ];
-
-    /**
      * Formato de salida enviada al cliente.
      *
      * @var string nombre del template a usar
@@ -86,8 +64,6 @@ abstract class KumbiaRest extends Controller
      */
     protected function initREST()
     {
-        /* formato de entrada */
-        $this->_inputFormat = self::getInputFormat();
         $this->_outputFormat = self::getOutputFormat($this->_outputType);
         View::select(null, $this->_outputFormat);
         $this->rewriteActionName();
@@ -141,17 +117,7 @@ abstract class KumbiaRest extends Controller
      */
     protected function param()
     {
-        $input = file_get_contents('php://input');
-        $format = $this->_inputFormat;
-        /* verifica si el formato tiene un parser válido */
-        if (isset($this->_inputType[$format]) && is_callable($this->_inputType[$format])) {
-            $result = call_user_func($this->_inputType[$format], $input);
-            if ($result) {
-                return $result;
-            }
-        }
-
-        return $input;
+        return ParseInput::auto();
     }
 
     /**
@@ -193,91 +159,6 @@ abstract class KumbiaRest extends Controller
         arsort($aTypes);
 
         return $aTypes;
-    }
-
-    /**
-     * Parse JSON
-     * Convierte formato JSON en array asociativo.
-     *
-     * @param string $input
-     *
-     * @return array|string
-     */
-    protected static function parseJSON($input)
-    {
-        return json_decode($input, true);
-    }
-
-    /**
-     * Parse XML.
-     *
-     * Convierte formato XML en un objeto, esto será necesario volverlo estandar
-     * si se devuelven objetos o arrays asociativos
-     *
-     * @param string $input
-     *
-     * @return \SimpleXMLElement|null
-     */
-    protected static function parseXML($input)
-    {    
-        try {
-            return new SimpleXMLElement($input);
-        } catch (Exception $e) {
-            // Do nothing
-        }
-    }
-
-    /**
-     * Parse CSV.
-     *
-     * Convierte CSV en arrays numéricos,
-     * cada item es una linea
-     *
-     * @param string $input
-     *
-     * @return array
-     */
-    protected static function parseCSV($input)
-    {
-        $temp = fopen('php://memory', 'rw');
-        fwrite($temp, $input);
-        fseek($temp, 0);
-        $res = [];
-        while (($data = fgetcsv($temp)) !== false) {
-            $res[] = $data;
-        }
-        fclose($temp);
-
-        return $res;
-    }
-
-    /**
-     * Realiza la conversión de formato de Formulario a array.
-     *
-     * @param string $input
-     *
-     * @return array
-     */
-    protected static function parseForm($input)
-    {
-        parse_str($input, $vars);
-
-        return $vars;
-    }
-
-    /**
-     * Retorna el tipo de formato de entrada.
-     *
-     * @return string
-     */
-    protected static function getInputFormat()
-    {
-        if (isset($_SERVER['CONTENT_TYPE'])) {
-            $str = explode(';', $_SERVER['CONTENT_TYPE']);
-            return trim($str[0]);
-        }
-
-        return '';
     }
 
     /**
