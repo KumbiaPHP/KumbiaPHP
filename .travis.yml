@@ -42,7 +42,7 @@ install:
 
 script:
   - phpunit --version
-  - vendor/bin/phpunit --configuration core/phpunit.xml.dist
+  - phpunit --configuration core/phpunit.xml.dist
 #  - phpunit --configuration core/phpunit.xml.dist --coverage-text --colors --coverage-clover=coverage.clover
 #  - wget https://scrutinizer-ci.com/ocular.phar
 #  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
