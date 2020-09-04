@@ -35,7 +35,9 @@ notifications:
 install:
   - composer install
   - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.6" ]]; then composer require mockery/mockery ~0.9; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} > "7.1" ]]; then composer require "phpunit/phpunit:7.5.9"; fi
+  - if [[ $TRAVIS_PHP_VERSION > '7.1' ]]; then wget -O ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-7.phar; fi
+  - if [[ $TRAVIS_PHP_VERSION > '7.1' ]]; then chmod 755 ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit; fi
+  # Force PHPUnit 7 $TRAVIS_PHP_VERSION > '7.1' rule
 
 script:
   - vendor/bin/phpunit --configuration core/phpunit.xml.dist
