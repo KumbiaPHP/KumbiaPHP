@@ -21,7 +21,7 @@
 /**
  * @category Test
  */
-class InputTest extends PHPUnit_Framework_TestCase
+class InputTest extends PHPUnit\Framework\TestCase
 {
     public function setUp()
     {
