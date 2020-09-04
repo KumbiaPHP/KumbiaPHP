@@ -11,7 +11,7 @@
 <div class="container">
   <header class="row">
       <div class="col-8">
-        <?= Html::img('kumbiaphp.svg', 'KumbiaPHP logo') ?>
+          <?= Html::link('', Html::img('kumbiaphp.svg', 'KumbiaPHP logo'), 'title="Inicio"') ?>
       </div>
       <div class="col-4 text-right">
           App: <strong><?= basename(dirname(APP_PATH)) ?></strong> (<?= PRODUCTION ? 'Production' : 'Development' ?>)
