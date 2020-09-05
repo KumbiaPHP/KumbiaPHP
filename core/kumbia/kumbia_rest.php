@@ -318,7 +318,7 @@ abstract class KumbiaRest extends Controller
     public function __call($name, $arguments)
     {
         if(PRODUCTION) {
-            $this->error('Not found', 404);
+            $this->data = $this->error('Not found', 404);
             return;
         }
         parent::__call($name, $arguments);
