@@ -260,9 +260,9 @@
 		 * Inicializa el plugin
 		 *
 		 */
-		initialize: function () {
+		init: function () {
 			// Obtiene el publicPath
-			let src = $('script:last').attr('src');
+			let src = document.currentScript.src;
 			this.publicPath = src.slice(0, src.lastIndexOf('javascript/'));
 
 			// Enlaza a los métodos por defecto
@@ -274,5 +274,5 @@
 	};
 
 	// Inicializa el plugin
-	$.Kumbia.initialize();
+	$.Kumbia.init();
 })(jQuery);

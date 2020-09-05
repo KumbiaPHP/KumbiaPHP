@@ -309,4 +309,18 @@ abstract class KumbiaRest extends Controller
     {
         return getallheaders();
     }
+
+    /**
+     * En producción envia el error con el formato de salida
+     *
+     * @return void
+     */
+    public function __call($name, $arguments)
+    {
+        if(PRODUCTION) {
+            $this->data = $this->error('Not found', 404);
+            return;
+        }
+        parent::__call($name, $arguments);
+    }
 }
