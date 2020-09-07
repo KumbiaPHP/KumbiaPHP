@@ -98,7 +98,7 @@ class Util
      */
     public static function getParams($params)
     {
-        $data = array();
+        $data = [];
         foreach ($params as $p) {
             if (is_string($p)) {
                 $match = explode(': ', $p, 2);

@@ -58,7 +58,7 @@ class KumbiaView
      *
      * @var array
      */
-    protected static $_cache = array('type' => false, 'time' => false, 'group' => false);
+    protected static $_cache = ['type' => false, 'time' => false, 'group' => false];
 
     /**
      * Datos del Controlador actual.

@@ -32,7 +32,7 @@ class KumbiaException extends Exception
      *
      * @var array
      */
-    protected static $view404 = array('no_controller', 'no_action', 'num_params', 'no_view');
+    protected static $view404 = ['no_controller', 'no_action', 'num_params', 'no_view'];
 
     /**
      * Path del template de exception.

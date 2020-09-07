@@ -60,7 +60,7 @@ class Load
      *
      * @return obj model
      */
-    public static function model($model, array $params = array())
+    public static function model($model, array $params = [])
     {
         //Nombre de la clase
         $Model = Util::camelcase(basename($model));

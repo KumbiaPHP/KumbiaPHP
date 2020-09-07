@@ -25,7 +25,7 @@ class KumbiaRouter
      */
     public static function rewrite($url)
     {
-        $router = array();
+        $router = [];
         //Valor por defecto
         if ($url === '/') {
             return $router;
