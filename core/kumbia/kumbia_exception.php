@@ -23,9 +23,9 @@ class KumbiaException extends Exception
     /**
      * View de error de la Excepción.
      *
-     * @var string|null
+     * @var string
      */
-    protected $view;
+    protected $view = 'exception';
 
     /**
      * Error 404 para los siguientes views.
@@ -57,25 +57,41 @@ class KumbiaException extends Exception
      * Maneja las excepciones no capturadas.
      *
      * @param Exception|KumbiaException $e
+     * 
+     * @return void
      * */
     public static function handleException($e)
     {
-        self::setHeader($e);
-
-        if (PRODUCTION) { 
+        self::setStatus($e);
+        if (PRODUCTION || self::untrustedIp()) {
             self::cleanBuffer();
-            include APP_PATH.'views/_shared/errors/404.phtml'; //TODO: añadir error 500.phtml
+            include APP_PATH.'views/_shared/errors/404.phtml';
 
             return;
         }
-        // show developer info in development
+        // show developer info in development and trusted IPs
         self::showDev($e);
+    }
+
+    /**
+     * Is not localhost or trusted ip ?
+     *
+     * @return bool
+     */
+    private static function untrustedIp()
+    {
+        $local = ['127.0.0.1', '::1'];
+        $trusted = (array) Config::get('exception.trustedIp') + $local;
+
+        return !in_array($_SERVER['REMOTE_ADDR'], $trusted);
     }
 
     /**
      * Maneja las excepciones no capturadas.
      *
      * @param Exception|KumbiaException $e
+     * 
+     * @return void
      * */
     private static function showDev($e)
     {
@@ -90,13 +106,8 @@ class KumbiaException extends Exception
         $Controller = Util::camelcase($controller);
         ob_start();
         
-        if ($e instanceof self) {
-            $view = $e->view;
-            $tpl = $e->template;
-        } else {
-            $view = 'exception';
-            $tpl = 'views/templates/exception.phtml';
-        }
+        $view = $e instanceof self ? $e->view : 'exception';
+        $tpl = $e->template;
         //Fix problem with action name in REST
         $action = $e->getMessage() ?: $action;
         $action = htmlspecialchars($action, ENT_QUOTES, APP_CHARSET);
@@ -120,18 +131,17 @@ class KumbiaException extends Exception
     }
 
     /**
-     * Añade la cabezera de error http.
+     * Añade el status de error http.
      *
      * @param Exception $e
      * */
-    private static function setHeader($e)
+    private static function setStatus($e)
     {
         if ($e instanceof self && in_array($e->view, self::$view404)) {
             http_response_code(404);
 
             return;
         }
-        http_response_code(500);
-        //TODO: mover a los views
+        http_response_code(500);  
     }
 }
