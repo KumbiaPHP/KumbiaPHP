@@ -1,15 +1,15 @@
 {
     "name": "kumbia/framework",
     "description": "The KumbiaPHP framework",
-	"type": "project",
-	"homepage": "https://kumbiaphp.com",
-	"license": "BSD-3-Clause",
-	"support": {
+    "type": "project",
+    "homepage": "https://kumbiaphp.com",
+    "license": "BSD-3-Clause",
+    "support": {
         "slack": "https://slack.kumbiaphp.com",
         "group": "https://groups.google.com/group/kumbia",
-		"forum": "http://foro.kumbiaphp.com/",
-		"wiki": "http://wiki.kumbiaphp.com",
-		"source": "https://github.com/KumbiaPHP/KumbiaPHP"
+        "forum": "http://foro.kumbiaphp.com/",
+        "wiki": "http://wiki.kumbiaphp.com",
+        "source": "https://github.com/KumbiaPHP/KumbiaPHP"
     },
     "require": {
         "php": ">=5.4"
