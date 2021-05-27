@@ -144,7 +144,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
 
         $link = Html::linkAction($action, 'Link Text');
 
-        $this->assertContains($expected, $link);
+        $this->assertStringContainsString($expected, $link);
     }
 
     public function testLinkAction()
