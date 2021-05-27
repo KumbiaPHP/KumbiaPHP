@@ -38,7 +38,7 @@ class InputTest extends PHPUnit\Framework\TestCase
         $_SERVER = array();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         list($_GET, $_POST, $_REQUEST, $_SERVER) = $this->originalValues;
     }
