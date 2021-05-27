@@ -23,7 +23,7 @@
  */
 class InputTest extends PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->originalValues = array(
             $_GET,
