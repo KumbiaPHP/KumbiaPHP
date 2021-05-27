@@ -26,7 +26,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
 {
     //use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         /*
          * Cuando se ejecutan los procesos por separado (@runTestsInSeparateProcesses)
