@@ -31,7 +31,7 @@ class Util
      *
      * @return string
      * */
-    public static function camelcase($str, $lower = false)
+    public static function camelcase($str, $lower = false): string
     {
         // Notacion lowerCamelCase
         if ($lower) {
@@ -48,7 +48,7 @@ class Util
      *
      * @return string
      * */
-    public static function smallcase($str)
+    public static function smallcase($str): string
     {
         return strtolower(preg_replace('/([A-Z])/', '_\\1', lcfirst($str)));
     }
@@ -60,7 +60,7 @@ class Util
      *
      * @return string
      * */
-    public static function underscore($str)
+    public static function underscore($str): string
     {
         return strtr($str, ' ', '_');
     }
@@ -72,7 +72,7 @@ class Util
      *
      * @return string
      */
-    public static function dash($str)
+    public static function dash($str): string
     {
         return strtr($str, ' ', '-');
     }
@@ -84,7 +84,7 @@ class Util
      *
      * @return string
      */
-    public static function humanize($str)
+    public static function humanize($str): string
     {
         return strtr($str, '_-', '  ');
     }
@@ -96,7 +96,7 @@ class Util
      *
      * @return array
      */
-    public static function getParams($params)
+    public static function getParams($params): array
     {
         $data = [];
         foreach ($params as $p) {
@@ -122,7 +122,7 @@ class Util
      *
      * @return string cadena con Items encerrados en doblecomillas y separados por comas (,)
      */
-    public static function encomillar($lista)
+    public static function encomillar($lista): string
     {
         $items = explode(',', $lista);
 
