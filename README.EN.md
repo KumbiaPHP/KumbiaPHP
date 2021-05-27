@@ -11,7 +11,7 @@ Fast and easy php framework
 
 ---
 # Welcome to KumbiaPHP Framework
-* Require PHP 5.4, recommended PHP 5.6, 7.1, 7.2 or 7.3
+* v1.3 Require PHP 7.4
 ## Manual v1:
 
 https://github.com/KumbiaPHP/Documentation/tree/master/en
