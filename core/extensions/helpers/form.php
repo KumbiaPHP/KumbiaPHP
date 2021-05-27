@@ -50,7 +50,7 @@ class Form
      *
      * @return array devuelve un array de longitud 3 con la forma array(id, name, value)
      */
-    public static function getField($field, $value = null, $is_check = false, $filter = true, $check = false)
+    public static function getField(string $field, $value = null, bool $is_check = false, bool $filter = true, bool $check = false): array
     {
         // Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
@@ -70,7 +70,7 @@ class Form
             $value = htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
         }
         // Devuelve los datos
-        return array($id, $name, $value);
+        return [$id, $name, $value];
     }
 
     /**
@@ -88,7 +88,7 @@ class Form
         }
         $form = (object) $form;
 
-        return isset($form->{$formField[1]}) ? $form->{$formField[1]} : null;
+        return $form->{$formField[1]} ?? null;
     }
 
     /**
@@ -98,10 +98,10 @@ class Form
      *
      * @return array array(id, name)
      */
-    protected static function fieldName(array $field)
+    protected static function fieldName(array $field): array
     {
         return isset($field[1]) ?
-                    array("{$field[0]}_{$field[1]}", "{$field[0]}[{$field[1]}]") : array($field[0], $field[0]);
+                    ["{$field[0]}_{$field[1]}", "{$field[0]}[{$field[1]}]"] : [$field[0], $field[0]];
     }
 
     /**
@@ -116,7 +116,7 @@ class Form
      *
      * @return array devuelve un array de longitud 3 con la forma array(id, name, value)
      */
-    public static function getFieldData($field, $value = null, $filter = true)
+    public static function getFieldData(string $field, $value = null, bool $filter = true): array
     {
         return self::getField($field, $value, false, $filter);
     }
@@ -133,7 +133,7 @@ class Form
      *
      * @return array Devuelve un array de longitud 3 con la forma array(id, name, checked);
      */
-    public static function getFieldDataCheck($field, $checkValue, $checked = false)
+    public static function getFieldDataCheck(string $field, string $checkValue, bool $checked = false): array
     {
         return self::getField($field, $checkValue, true, false, $checked);
     }
@@ -144,7 +144,7 @@ class Form
      * @param string       $value
      * @param string|array $attrs
      */
-    protected static function tag($tag, $field, $attrs = '', $value = null, $extra = '', $close = true)
+    protected static function tag(string $tag, string $field, $attrs = '', $value = null, $extra = '', $close = true)
     {
         $attrs = Tag::getAttrs($attrs);
         $end = $close ? ">{{value}}</$tag>" : '/>';
@@ -154,7 +154,7 @@ class Form
         return str_replace('{{value}}', $value, "<$tag id=\"$id\" name=\"$name\" $extra $attrs $end");
     }
 
-    /*
+    /**
      * Crea un campo input
      *
      * @param string|array $attrs Atributos de campo (opcional)
@@ -163,7 +163,7 @@ class Form
      * @param string $value
      * @return string
      */
-    public static function input($type, $field, $attrs = '', $value = null)
+    public static function input(string $type, $field, $attrs = '', $value = null): string
     {
         return self::tag('input', $field, $attrs, $value, "type=\"$type\" value=\"{{value}}\"", false);
     }
@@ -177,7 +177,7 @@ class Form
      *
      * @return string
      */
-    public static function open($action = '', $method = 'post', $attrs = '')
+    public static function open(string $action = '', string $method = 'post', $attrs = ''): string
     {
         $attrs = Tag::getAttrs($attrs);
         if ($action) {
@@ -197,7 +197,7 @@ class Form
      *
      * @return string
      */
-    public static function openMultipart($action = null, $attrs = '')
+    public static function openMultipart(string $action = null, $attrs = ''): string
     {
         self::$multipart = true;
         if (is_array($attrs)) {
@@ -215,7 +215,7 @@ class Form
      *
      * @return string
      */
-    public static function close()
+    public static function close(): string
     {
         self::$multipart = false;
 
@@ -230,7 +230,7 @@ class Form
      *
      * @return string
      */
-    public static function submit($text, $attrs = '')
+    public static function submit(string $text, $attrs = ''): string
     {
         return self::button($text, $attrs, 'submit');
     }
@@ -243,7 +243,7 @@ class Form
      *
      * @return string
      */
-    public static function reset($text, $attrs = '')
+    public static function reset(string $text, $attrs = ''): string
     {
         return self::button($text, $attrs, 'reset');
     }
@@ -260,7 +260,7 @@ class Form
      *
      * @return string
      */
-    public static function button($text, $attrs = '', $type = 'button', $value = null)
+    public static function button(string $text, $attrs = '', string $type = 'button', $value = null): string
     {
         $attrs = Tag::getAttrs($attrs);
         $value = is_null($value) ? '' : "value=\"$value\"";
@@ -277,7 +277,7 @@ class Form
      *
      * @return string
      */
-    public static function label($text, $field, $attrs = '')
+    public static function label(string $text, string $field, $attrs = ''): string
     {
         $attrs = Tag::getAttrs($attrs);
 
@@ -293,7 +293,7 @@ class Form
      *
      * @return string
      */
-    public static function text($field, $attrs = '', $value = null)
+    public static function text(string $field, $attrs = '', $value = null): string
     {
         return self::input('text', $field, $attrs, $value);
     }
@@ -311,7 +311,7 @@ class Form
      *
      * @return string
      */
-    public static function select($field, $data, $attrs = '', $value = null, $blank = '', $itemId = 'id', $show = '')
+    public static function select(string $field, array $data, $attrs = '', $value = null, string $blank = '', string $itemId = 'id', string $show = ''): string
     {
         $attrs = Tag::getAttrs($attrs);
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
@@ -338,7 +338,7 @@ class Form
      *
      * @return string
      */
-    public static function selectValue($item, $key, $id)
+    public static function selectValue($item, string $key, string $id): string
     {
         return htmlspecialchars(is_object($item) ? $item->$id : $key,
                                 ENT_COMPAT, APP_CHARSET);
@@ -353,7 +353,7 @@ class Form
      *
      * @return string
      */
-    public static function selectedValue($value, $key)
+    public static function selectedValue($value, array $key): string
     {
         return ((is_array($value) && in_array($key, $value)) || $key === $value) ?
                 'selected="selected"' : '';
@@ -367,7 +367,7 @@ class Form
      *
      * @return string
      */
-    public static function selectShow($item, $show)
+    public static function selectShow($item, string $show): string
     {
         $value = (is_object($item) && !empty($show)) ? $item->$show : (string) $item;
 
@@ -384,7 +384,7 @@ class Form
      *
      * @return string
      */
-    public static function check($field, $checkValue, $attrs = '', $checked = false)
+    public static function check(string $field, string $checkValue, $attrs = '', bool $checked = false): string
     {
         $attrs = Tag::getAttrs($attrs);
         // Obtiene name y id para el campo y los carga en el scope
@@ -407,7 +407,7 @@ class Form
      *
      * @return string
      */
-    public static function radio($field, $radioValue, $attrs = '', $checked = false)
+    public static function radio(string $field, string $radioValue, $attrs = '', bool $checked = false): string
     {
         $attrs = Tag::getAttrs($attrs);
         // Obtiene name y id para el campo y los carga en el scope
@@ -436,7 +436,7 @@ class Form
      *
      * @return string
      */
-    public static function submitImage($img, $attrs = '')
+    public static function submitImage(string $img, $attrs = ''): string
     {
         $attrs = Tag::getAttrs($attrs);
 
@@ -452,7 +452,7 @@ class Form
      *
      * @return string
      */
-    public static function hidden($field, $attrs = '', $value = null)
+    public static function hidden(string $field, $attrs = '', $value = null): string
     {
         return self::input('hidden', $field, $attrs, $value);
     }
@@ -466,7 +466,7 @@ class Form
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string       $value
      */
-    public static function pass($field, $attrs = '', $value = null)
+    public static function pass(string $field, $attrs = '', $value = null): string
     {
         return self::password($field, $attrs, $value);
     }
@@ -478,7 +478,7 @@ class Form
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string       $value
      */
-    public static function password($field, $attrs = '', $value = null)
+    public static function password(string $field, $attrs = '', $value = null): string
     {
         return self::input('password', $field, $attrs, $value);
     }
@@ -495,7 +495,7 @@ class Form
      *
      * @return string
      */
-    public static function dbSelect($field, $show = null, $data = null, $blank = 'Seleccione', $attrs = '', $value = null)
+    public static function dbSelect(string $field, $show = null, array $data = null, string $blank = 'Seleccione', $attrs = '', $value = null): string
     {
         $model = ($data === null) ? substr($field, strpos($field, '.') + 1, -3) : $data[0];
         $model = Util::camelcase($model);
@@ -522,7 +522,7 @@ class Form
      *
      * @return string
      */
-    public static function file($field, $attrs = '')
+    public static function file(string $field, $attrs = ''): string
     {
         // aviso al programador
         if (!self::$multipart) {
@@ -546,7 +546,7 @@ class Form
      *
      * @return string
      */
-    public static function textarea($field, $attrs = '', $value = null)
+    public static function textarea(string $field, $attrs = '', $value = null): string
     {
         return self::tag('textarea', $field, $attrs, $value);
     }
@@ -560,7 +560,7 @@ class Form
      *
      * @return string
      */
-    public static function date($field, $attrs = '', $value = null)
+    public static function date(string $field, $attrs = '', $value = null): string
     {
         return self::input('date', $field, $attrs, $value);
     }
@@ -575,7 +575,7 @@ class Form
      *
      * @return string
      */
-    public static function datepicker($field, $class = '', $attrs = '', $value = null)
+    public static function datepicker(string $field, string $class = '', $attrs = '', $value = null): string
     {
         return self::tag('input', $field, $attrs, null, "class=\"js-datepicker $class\" type=\"text\" value=\"$value\" ");
     }
@@ -589,7 +589,7 @@ class Form
      *
      * @return string
      */
-    public static function time($field, $attrs = '', $value = null)
+    public static function time(string $field, $attrs = '', $value = null): string
     {
         return self::input('time', $field, $attrs, $value);
     }
@@ -603,7 +603,7 @@ class Form
      *
      * @return string
      */
-    public static function datetime($field, $attrs = '', $value = null)
+    public static function datetime(string $field, $attrs = '', $value = null): string
     {
         return self::input('datetime', $field, $attrs, $value);
     }
@@ -617,7 +617,7 @@ class Form
      *
      * @return string
      */
-    public static function number($field, $attrs = '', $value = null)
+    public static function number(string $field, $attrs = '', $value = null): string
     {
         return self::input('number', $field, $attrs, $value);
     }
@@ -631,7 +631,7 @@ class Form
      *
      * @return string
      */
-    public static function url($field, $attrs = '', $value = null)
+    public static function url(string $field, $attrs = '', $value = null): string
     {
         return self::input('url', $field, $attrs, $value);
     }
@@ -645,7 +645,7 @@ class Form
      *
      * @return string
      */
-    public static function email($field, $attrs = '', $value = null)
+    public static function email(string $field, $attrs = '', $value = null): string
     {
         return self::input('email', $field, $attrs, $value);
     }
