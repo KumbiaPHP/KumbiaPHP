@@ -31,7 +31,7 @@ class PagesControllerTest extends TestCase
     public function testDisplayNoAction()
     {
         $actual = $this->get('/pages/kumbia/status/');
-        $this->assertContains('<h2>config.ini', $actual);
+        $this->assertStringContainsString('<h2>config.php', $actual);
         //$test = $this->get('/pages/show/kumbia/status/');
         $this->assertResponseCode(200);
     }
