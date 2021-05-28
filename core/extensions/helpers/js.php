@@ -27,19 +27,19 @@ class Js
      *
      * @var array
      * */
-    protected static $_dependencies = array();
+    protected static array $_dependencies = [];
     
     /**
      * Javascript
      *
      * @var array
      * */
-    protected static $_js = array();
+    protected static array $_js = [];
     
     /**
      * Directorio Javascript
      *
-     * @var array
+     * @var string
      * */
     protected static $js_dir = 'javascript/';
 
@@ -54,7 +54,7 @@ class Js
      * @param string|array $attrs atributos adicionales
      * @return string
      */
-    public static function link($action, $text, $confirm = '¿Está Seguro?', $class = '', $attrs = '')
+    public static function link(string $action, string $text, string $confirm = '¿Está Seguro?', string $class = '', $attrs = ''): string
     {
         $attrs = Tag::getAttrs($attrs);
         return '<a href="' . PUBLIC_PATH . "$action\" data-msg=\"$confirm\" class=\"js-confirm $class\" $attrs>$text</a>";
@@ -71,7 +71,7 @@ class Js
      * @param string|array $attrs atributos adicionales
      * @return string
      */
-    public static function linkAction($action, $text, $confirm = '¿Está Seguro?', $class = '', $attrs = '')
+    public static function linkAction(string $action, string $text, string $confirm = '¿Está Seguro?', string $class = '', $attrs = ''): string
     {
         $attrs = Tag::getAttrs($attrs);
         return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" data-msg=\"$confirm\" class=\"js-confirm $class\" $attrs>$text</a>";
@@ -87,7 +87,7 @@ class Js
      * @param string|array $attrs atributos adicionales
      * @return string
      */
-    public static function submit($text, $confirm = '¿Está Seguro?', $class = '', $attrs = '')
+    public static function submit(string $text, string $confirm = '¿Está Seguro?', string $class = '', $attrs = ''): string
     {
         $attrs = Tag::getAttrs($attrs);
         return "<input type=\"submit\" value=\"$text\" data-msg=\"$confirm\" class=\"js-confirm $class\" $attrs/>";
@@ -101,7 +101,7 @@ class Js
      * @param string|array $attrs atributos adicionales
      * @return string
      */
-    public static function submitImage($img, $confirm = '¿Está Seguro?', $class = '', $attrs = '')
+    public static function submitImage(string $img, string $confirm = '¿Está Seguro?', $class = '', $attrs = ''): string
     {
         $attrs = Tag::getAttrs($attrs);
         return "<input type=\"image\" data-msg=\"$confirm\" src=\"" . PUBLIC_PATH . "img/$img\" class=\"js-confirm $class\" $attrs/>";
@@ -113,10 +113,12 @@ class Js
      * @param string $file nombre del archivo a añadir
      * @param array $dependencies archivos que son requisito del archivo a añadir
      */
-    public static function add( $file, $dependencies=array() )
+    public static function add( string $file, array $dependencies = [] ): void
     {
         self::$_js[$file] = $file;
-        foreach ($dependencies as $file) self::$_dependencies[$file] = $file;
+        foreach ($dependencies as $file) {
+            self::$_dependencies[$file] = $file;
+        }
     }
     
     /**
@@ -124,7 +126,7 @@ class Js
      *
      * @return string
      */
-    public static function inc()
+    public static function inc(): string
     {
         $js = self::$_dependencies + self::$_js;
         $html = '';
