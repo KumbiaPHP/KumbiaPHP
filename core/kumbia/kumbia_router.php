@@ -23,7 +23,7 @@ class KumbiaRouter
      * @param string $url
      * @return  array
      */
-    public static function rewrite($url)
+    public static function rewrite(string $url): array
     {
         $router = [];
         //Valor por defecto
@@ -75,7 +75,7 @@ class KumbiaRouter
      * @param string $url Url para enrutar
      * @return string
      */
-    public static function ifRouted($url)
+    public static function ifRouted(string $url): string
     {
         $routes = Config::get('routes.routes');
 
@@ -107,7 +107,7 @@ class KumbiaRouter
      * 
      * @return Controller
      */
-    public static function getController($param)
+    public static function getController(array $param): Controller
     {
         // Extrae las variables para manipularlas facilmente
         extract($param, EXTR_OVERWRITE);
