@@ -33,7 +33,7 @@ class Flash
      * @param string $name  Para tipo de mensaje y para CSS class='$name'.
      * @param string $text  Mensaje a mostrar
      */
-    public static function show($name, $text)
+    public static function show(string $name, string $text): void
     {
         if (isset($_SERVER['SERVER_SOFTWARE'])) {
             echo '<div class="', $name, ' flash">', $text, '</div>', PHP_EOL;
@@ -48,9 +48,9 @@ class Flash
      *
      * @param string $text
      */
-    public static function error($text)
+    public static function error($text): void
     {
-        return self::show('error', $text);
+        self::show('error', $text);
     }
 
     /**
@@ -58,9 +58,9 @@ class Flash
      *
      * @param string $text
      */
-    public static function warning($text)
+    public static function warning($text): void
     {
-        return self::show('warning', $text);
+        self::show('warning', $text);
     }
 
     /**
@@ -68,9 +68,9 @@ class Flash
      *
      * @param string $text
      */
-    public static function info($text)
+    public static function info($text): void
     {
-        return self::show('info', $text);
+        self::show('info', $text);
     }
 
     /**
@@ -78,9 +78,9 @@ class Flash
      *
      * @param string $text
      */
-    public static function valid($text)
+    public static function valid($text): void
     {
-        return self::show('valid', $text);
+        self::show('valid', $text);
     }
 
 }
