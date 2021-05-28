@@ -107,15 +107,15 @@ class KumbiaRouter
      * 
      * @return Controller
      */
-    public static function getController($param)
+    public static function getController($params)
     {
-        // Extrae las variables para manipularlas facilmente
-        extract($param, EXTR_OVERWRITE);
-        if (!include_once APP_PATH."controllers/{$controller_path}_controller.php") {
+        if (!include_once APP_PATH."controllers/{$params['controller_path']}_controller.php") {
+            // Extrae las variables para manipularlas facilmente
+            extract($params, EXTR_OVERWRITE);
             throw new KumbiaException('', 'no_controller');
         }
         //Asigna el controlador activo
-        $app_controller = Util::camelcase($controller).'Controller';
-        return new $app_controller($param);
+        $app_controller = Util::camelcase($params['controller']).'Controller';
+        return new $app_controller($params);
     }
 }
