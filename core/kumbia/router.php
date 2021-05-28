@@ -32,7 +32,7 @@ class Router
      *
      * @var array
      */
-    protected static $vars = [
+    protected static array $vars = [
         // 'method'          => '', //Método usado GET, POST, ...
         // 'route'           => '', //Ruta pasada URL
         // 'module'          => '', //Nombre del módulo actual
@@ -48,7 +48,7 @@ class Router
      * 
      * @var array
      */
-    protected static $default = [
+    protected static array $default = [
         'module'          => '', //Nombre del módulo actual
         'controller'      => 'index', //Nombre del controlador actual, por defecto index
         'action'          => 'index', //Nombre de la acción actual, por defecto index
@@ -60,7 +60,7 @@ class Router
      * This is the name of router class
      * @var string
      */
-    protected static $router = 'KumbiaRouter';
+    protected static string $router = 'KumbiaRouter';
     //Es el router por defecto
 
     /**
@@ -68,7 +68,7 @@ class Router
      *
      * @var boolean
      */
-    protected static $routed = false;
+    protected static bool $routed = false;
 
     /**
      * Procesamiento basico del router
@@ -77,7 +77,7 @@ class Router
      * @throws KumbiaException
      * @return void
      */
-    public static function init($url)
+    public static function init(string $url): void
     {
         // Se miran los parámetros por seguridad
         if (stripos($url, '/../') !== false) {
@@ -97,7 +97,7 @@ class Router
      * @throws KumbiaException
      * @return Controller
      */
-    public static function execute($url)
+    public static function execute(string $url): Controller
     {
         self::init($url);
         //alias
@@ -130,7 +130,7 @@ class Router
      * @throws KumbiaException
      * @return Controller
      */
-    protected static function dispatch($cont)
+    protected static function dispatch(Controller $cont): Controller
     {
         // Se ejecutan los filtros initialize y before
         if ($cont->k_callback(true) === false) {
@@ -172,7 +172,7 @@ class Router
      * @throws KumbiaException
      * @return void
      */
-    protected static function isRouted()
+    protected static function isRouted(): void
     {
         if (self::$routed) {
             self::$routed = false;
@@ -195,7 +195,7 @@ class Router
      * 
      * @return array|string con el valor del atributo
      */
-    public static function get($var = '')
+    public static function get(string $var = '')
     {
         return ($var) ? static::$vars[$var] : static::$vars;
     }
@@ -208,7 +208,7 @@ class Router
      * 
      * @return void
      */
-    public static function to(array $params, $intern = false)
+    public static function to(array $params, bool $intern = false): void
     {
         if ($intern) {
             self::$routed = true;
