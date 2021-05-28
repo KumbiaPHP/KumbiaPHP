@@ -41,7 +41,7 @@ class Js
      *
      * @var string
      * */
-    protected static $js_dir = 'javascript/';
+    protected static string $js_dir = 'javascript/';
 
     /**
      * Crea un enlace en una Aplicacion con mensaje de confirmacion respetando
