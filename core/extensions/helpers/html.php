@@ -26,13 +26,13 @@ class Html
      *
      * @var array
      */
-    protected static $_metatags = array();
+    protected static array $_metatags = [];
     /**
      * Enlaces de head.
      *
      * @var array
      */
-    protected static $_headLinks = array();
+    protected static array $_headLinks = [];
 
     /**
      * Crea un enlace usando la constante PUBLIC_PATH, para que siempre funcione.
