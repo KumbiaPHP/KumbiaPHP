@@ -115,7 +115,7 @@ class KumbiaRouter
             throw new KumbiaException('', 'no_controller');
         }
         //Asigna el controlador activo
-        $app_controller = Util::camelcase($params['controller']).'Controller';
-        return new $app_controller($params);
+        $controller = Util::camelcase($params['controller']).'Controller';
+        return new $controller($params);
     }
 }
