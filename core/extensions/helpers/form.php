@@ -356,7 +356,7 @@ class Form
     public static function selectedValue($value, string $key): string
     {
         return ((is_array($value) && in_array($key, $value)) || $key === $value) ?
-                'selected="selected"' : '';
+                'selected' : '';
     }
 
     /**
@@ -391,7 +391,7 @@ class Form
         list($id, $name, $checked) = self::getFieldDataCheck($field, $checkValue, $checked);
 
         if ($checked) {
-            $checked = 'checked="checked"';
+            $checked = 'checked';
         }
 
         return "<input id=\"$id\" name=\"$name\" type=\"checkbox\" value=\"$checkValue\" $attrs $checked/>";
@@ -414,7 +414,7 @@ class Form
         list($id, $name, $checked) = self::getFieldDataCheck($field, $radioValue, $checked);
 
         if ($checked) {
-            $checked = 'checked="checked"';
+            $checked = 'checked';
         }
 
         // contador de campos radio
