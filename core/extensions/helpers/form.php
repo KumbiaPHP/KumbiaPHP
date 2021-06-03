@@ -353,7 +353,7 @@ class Form
      *
      * @return string
      */
-    public static function selectedValue($value, array $key): string
+    public static function selectedValue($value, string $key): string
     {
         return ((is_array($value) && in_array($key, $value)) || $key === $value) ?
                 'selected="selected"' : '';
