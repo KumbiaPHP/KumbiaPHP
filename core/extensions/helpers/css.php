@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KumbiaPHP web & app Framework
  *
@@ -28,14 +29,14 @@ class Css
      * @var array
      * */
     protected static array $_dependencies  = [];
-    
+
     /**
      * Css
      *
      * @var array
      * */
     protected static array $_css = [];
-    
+
     /**
      * Directorio Css
      *
@@ -49,14 +50,14 @@ class Css
      * @param string $file nombre del archivo a añadir
      * @param array $dependencies  archivos que son requisito del archivo a añadir
      */
-    public static function add( string $file, array $dependencies = [] ): void
+    public static function add(string $file, array $dependencies = []): void
     {
         self::$_css[$file] = $file;
         foreach ($dependencies as $file) {
-            self::$_dependencies [$file] = $file;
+            self::$_dependencies[$file] = $file;
         }
     }
-    
+
     /**
      * Incluye todos los archivo Css en el template añadidos con el metodo add
      *
@@ -66,8 +67,7 @@ class Css
     {
         $css = self::$_dependencies  + self::$_css;
         $html = '';
-        foreach ($css as $file)
-        {
+        foreach ($css as $file) {
             $html .= '<link href="' . PUBLIC_PATH . self::$css_dir . "$file.css\" rel=\"stylesheet\" type=\"text/css\" />" . PHP_EOL;
         }
         return $html;
