@@ -80,8 +80,11 @@ class KumbiaException extends Exception
      */
     private static function untrustedIp()
     {
-        $local = ['127.0.0.1', '::1'];
-        $trusted = (array) Config::get('exception.trustedIp') + $local;
+        $trusted = ['127.0.0.1', '::1']; // Localhost ip
+        // check for old aplications
+        if (is_file(APP_PATH.'config/exception.php')) {
+            $trusted = array_merge( $trusted, (array) Config::get('exception.trustedIp'));
+        }
 
         return !in_array($_SERVER['REMOTE_ADDR'], $trusted);
     }
@@ -106,8 +109,8 @@ class KumbiaException extends Exception
         $Controller = Util::camelcase($controller);
         ob_start();
         
-        $view = $e instanceof self ? $e->view : 'exception';
-        $tpl = $e->template;
+        $view = $e->view ?? 'exception';
+        $tpl =  $e->template ?? 'views/templates/exception.phtml';
         //Fix problem with action name in REST
         $action = $e->getMessage() ?: $action;
         $action = htmlspecialchars($action, ENT_QUOTES, APP_CHARSET);
