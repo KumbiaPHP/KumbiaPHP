@@ -78,7 +78,7 @@ class KumbiaException extends Exception
      *
      * @return bool
      */
-    private static function untrustedIp(): bool
+    private static function untrustedIp()
     {
         $trusted = ['127.0.0.1', '::1']; // Localhost ip
         // check for old aplications
