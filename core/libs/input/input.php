@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KumbiaPHP web & app Framework
  *
@@ -13,8 +14,8 @@
  * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
- 
- /** 
+
+/** 
  * Clase para manejar los datos del request
  *
  * @category   Kumbia
@@ -28,9 +29,9 @@ class Input
      * @param string $method Http method
      * @return mixed
      */
-    public static function is($method = '')
+    public static function is(string $method = '')
     {
-        if($method){
+        if ($method) {
             return $method === $_SERVER['REQUEST_METHOD'];
         }
         return $_SERVER['REQUEST_METHOD'];
@@ -41,19 +42,19 @@ class Input
      *
      * @return boolean
      */
-    public static function isAjax()
+    public static function isAjax(): bool
     {
         return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
-    }    
-    
+    }
+
     /**
      * Detecta si el Agente de Usuario (User Agent) es un móvil
      *
      * @return boolean
      */
-    public static function isMobile()
-    {  
-        return strpos(mb_strtolower($_SERVER['HTTP_USER_AGENT']), 'mobile') ? TRUE : FALSE;
+    public static function isMobile(): bool
+    {
+        return (bool) strpos(mb_strtolower($_SERVER['HTTP_USER_AGENT']), 'mobile');
     }
 
     /**
@@ -62,7 +63,7 @@ class Input
      * @param string $var
      * @return mixed
      */
-    public static function post($var = '')
+    public static function post(string $var = '')
     {
         return self::getFilter($_POST, $var);
     }
@@ -74,7 +75,7 @@ class Input
      * @param string $var
      * @return mixed
      */
-    public static function get($var = '')
+    public static function get(string $var = '')
     {
         return self::getFilter($_GET, $var);
     }
@@ -85,7 +86,7 @@ class Input
      * @param string $var
      * @return mixed
      */
-    public static function request($var = '')
+    public static function request(string $var = '')
     {
         return self::getFilter($_REQUEST, $var);
     }
@@ -97,7 +98,7 @@ class Input
      * @param string $var
      * @return mixed
      */
-    public static function server($var = '')
+    public static function server(string $var = '')
     {
         return self::getFilter($_SERVER, $var);
     }
@@ -108,7 +109,7 @@ class Input
      * @param string $var elemento a verificar
      * @return boolean
      */
-    public static function hasPost($var)
+    public static function hasPost(string $var): bool
     {
         return (bool) self::post($var);
     }
@@ -119,7 +120,7 @@ class Input
      * @param string $var elemento a verificar
      * @return boolean
      */
-    public static function hasGet($var)
+    public static function hasGet(string $var): bool
     {
         return (bool) self::get($var);
     }
@@ -130,7 +131,7 @@ class Input
      * @param string $var elemento a verificar
      * @return boolean
      */
-    public static function hasRequest($var)
+    public static function hasRequest(string $var): bool
     {
         return (bool) self::request($var);
     }
@@ -139,34 +140,36 @@ class Input
      * Elimina elemento indicado en $_POST
      *
      * @param string $var elemento a verificar
-     * @return boolean|null
+     * @return void
      */
-    public static function delete($var = '')
+    public static function delete(string $var = ''): void
     {
-        if($var){
-            $_POST[$var] = array();
+        if ($var) {
+            $_POST[$var] = [];
             return;
         }
-        $_POST = array();
+        $_POST = [];
     }
 
     /**
-    * Permite Obtener el Agente de Usuario (User Agent)
-    * @return String
-    */
-    public static function userAgent(){
+     * Permite Obtener el Agente de Usuario (User Agent)
+     * @return String
+     */
+    public static function userAgent(): string
+    {
         return $_SERVER['HTTP_USER_AGENT'];
     }
 
     /**
-    * Permite obtene la IP del cliente, aún cuando usa proxy
-    * @return String
-    */
-    public static function ip(){
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])){
+     * Permite obtene la IP del cliente, aún cuando usa proxy
+     * @return String
+     */
+    public static function ip(): string
+    {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
             return $_SERVER['HTTP_CLIENT_IP'];
         }
-        if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             return $_SERVER['HTTP_X_FORWARDED_FOR'];
         }
         return $_SERVER['REMOTE_ADDR'];
@@ -180,29 +183,29 @@ class Input
      * @param string $var
      * @return mixed
      */
-    public static function filter($var)
+    public static function filter(string $var)
     {
         //TODO
     }
 
     /**
      * Devuelve el valor dentro de un array con clave en formato uno.dos.tres
-     * @param Array array que contiene la variable
+     * @param array  $var array que contiene la variable
      * @param string $str clave a usar
      * @return mixed
      */
-    protected static function getFilter(Array $var, $str)
+    protected static function getFilter(array $var, string $str)
     {
-        if(empty($str)) {
+        if (empty($str)) {
             return filter_var_array($var);
-        }   
+        }
         $arr = explode('.', $str);
         $value = $var;
         foreach ($arr as $key) {
-            if(isset($value[$key])){
+            if (isset($value[$key])) {
                 $value = $value[$key];
             } else {
-                $value = NULL;
+                $value = null;
                 break;
             }
         }

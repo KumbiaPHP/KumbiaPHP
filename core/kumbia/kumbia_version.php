@@ -29,7 +29,7 @@ const KUMBIA_VERSION = '1.3.0';
  * @deprecated 1.1  Use constant KUMBIA_VERSION
  * @return string
  */
-function kumbia_version()
+function kumbia_version(): string
 {
     return KUMBIA_VERSION;
 }

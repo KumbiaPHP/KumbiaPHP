@@ -69,7 +69,7 @@ class Config
      *
      * @return array
      */
-    public static function getAll()
+    public static function getAll(): array
     {
         return self::$vars;
     }
@@ -84,7 +84,7 @@ class Config
      * 
      * @return void
      */
-    public static function set($var, $value): void
+    public static function set(string $var, $value): void
     {
         $namespaces = explode('.', $var);
         switch (count($namespaces)) {
@@ -112,7 +112,7 @@ class Config
      *
      * @return array
      */
-    public static function &read($file, $force = false)
+    public static function &read(string $file, bool $force = false): array
     {
         if (isset(self::$vars[$file]) && !$force) {
             return self::$vars[$file];
@@ -131,7 +131,7 @@ class Config
      * 
      * @return void
      */
-    private static function load($file)
+    private static function load(string $file): void
     {
         if (is_file(APP_PATH."config/$file.php")) {
             self::$vars[$file] = require APP_PATH."config/$file.php";
