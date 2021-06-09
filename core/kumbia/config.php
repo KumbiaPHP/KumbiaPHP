@@ -14,6 +14,13 @@
  */
 
 /**
+ * Loads the .ini files and configuration 
+ * 
+ * Applies the Singleton pattern which uses an indexed array by file name 
+ * in order to avoid a file can be read more than once
+ * 
+ * -
+ * 
  * Clase para la carga de Archivos .INI y de configuración.
  *
  * Aplica el patrón Singleton que utiliza un array
@@ -39,7 +46,7 @@ class Config
      * -
      * Obtiene configuración.
      *
-     * @param string $var fichero.sección.variable
+     * @param string $var file.section.var - fichero.sección.variable
      *
      * @return mixed
      */
@@ -79,8 +86,8 @@ class Config
      * -
      * Asigna un atributo de configuración.
      *
-     * @param string $var   variable de configuración
-     * @param mixed  $value valor para atributo
+     * @param string $var   configuration var - variable de configuración
+     * @param mixed  $value value for the attribute - valor para atributo
      * 
      * @return void
      */
@@ -107,8 +114,8 @@ class Config
      * -
      * Lee y devuelve un archivo de configuración.
      *
-     * @param string $file  archivo .php o .ini
-     * @param bool   $force forzar lectura de .php o .ini
+     * @param string $file  .php or .ini
+     * @param bool   $force force reading a file - forzar lectura de .php o .ini
      *
      * @return array
      */
@@ -127,7 +134,7 @@ class Config
      * -
      * Lee un archivo de configuración.
      *
-     * @param string $file archivo
+     * @param string $file
      * 
      * @return void
      */

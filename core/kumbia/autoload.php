@@ -17,9 +17,13 @@
 // @see Util
 require CORE_PATH.'kumbia/util.php';
 
+// Autoloads the classes
+// - 
 // Autocarga de clases
 function kumbia_autoload($class)
 {
+    // Optimises the loading
+    // -
     // Optimizando carga
     static $classes;
     if ( ! isset($classes)) {
@@ -79,5 +83,7 @@ function kumbia_autoload_helper($class)
     }
 }
 
+// Registries the autoload
+// -
 // Registrar la autocarga
 spl_autoload_register('kumbia_autoload');

@@ -15,8 +15,11 @@
  */
 
 /**
- * Este script ejecuta la carga de KumbiaPHP
+ * The following script executes the loading of KumbiaPHP
  *
+ * -
+ * Este script ejecuta la carga de KumbiaPHP
+ * 
  * @category   Kumbia
  * @package    Core
  */
@@ -25,13 +28,17 @@
 ob_start();
 
 /**
- * Versión de KumbiaPHP
+ * KumbiaPHP Version
  *
  * @var string
  */
 const KUMBIA_VERSION = '2.0.0';
 
 /**
+ * Initiates the ExceptionHandler
+ * 
+ * =
+ * 
  * Inicializar el ExceptionHandler
  * @see KumbiaException
  *
@@ -52,11 +59,15 @@ if (PRODUCTION && Config::get('config.application.cache_template')) {
     // @see Cache
     require CORE_PATH.'libs/cache/cache.php';
 
-    //Asigna el driver por defecto usando el config.ini
+    // Asigns the default driver from config.ini
+    // -
+    ///Asigna el driver por defecto usando el config.ini
     if ($config = Config::get('config.application.cache_driver')) {
         Cache::setDefault($config);
     }
 
+    // Checks the template is cached
+    // -
     // Verifica si esta cacheado el template
     if ($template = Cache::driver()->get($url, 'kumbia.templates')) {
         //verifica cache de template para la url
@@ -75,6 +86,9 @@ require APP_PATH.'libs/app_controller.php';
 // @see KumbiaView
 require APP_PATH.'libs/view.php';
 
+// Executes the request
+// Dispatches and renders the view
+// - 
 // Ejecuta el request
 // Dispatch y renderiza la vista
 View::render(Router::execute($url));
