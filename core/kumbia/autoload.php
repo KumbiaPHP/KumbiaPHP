@@ -10,16 +10,20 @@
  * @category   Kumbia
  * @package    Core
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (https://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
 // @see Util
 require CORE_PATH.'kumbia/util.php';
 
+// Autoloads the classes
+// - 
 // Autocarga de clases
 function kumbia_autoload($class)
 {
+    // Optimises the loading
+    // -
     // Optimizando carga
     static $classes;
     if ( ! isset($classes)) {
@@ -79,5 +83,7 @@ function kumbia_autoload_helper($class)
     }
 }
 
+// Registries the autoload
+// -
 // Registrar la autocarga
 spl_autoload_register('kumbia_autoload');

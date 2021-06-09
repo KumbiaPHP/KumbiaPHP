@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    Core
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (https://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 /**
@@ -31,7 +31,10 @@ require CORE_PATH . 'kumbia/config.php';
 require CORE_PATH . 'kumbia/load.php';
 
 /**
- * modificado por nelsonrojas
+ * Includes file_util lib
+ * 
+ * -
+ * 
  * el problema: al usar console controller create produce un error en linea 85.
  *              no reconoce FileUtil
  * solucion: incluir la libreria con la linea siguiente
@@ -39,6 +42,15 @@ require CORE_PATH . 'kumbia/load.php';
 require CORE_PATH . 'libs/file_util/file_util.php';
 
 /**
+ * Console Manager
+ * 
+ * Consoles for:
+ *                  Model Creation
+ *                  Controller Creation
+ *                  Cache managing
+ * 
+ * -
+ * 
  * Manejador de consolas de KumbiaPHP
  *
  * Consola para la creación de modelos.
@@ -52,10 +64,14 @@ class Console
 {
 
     /**
+     * Gets an arguments list for the console.
+     *
+     * - 
+     * 
      * Genera la lista de argumentos para la consola, el primer argumento
      * retornado corresponde al array de parametros nombrados de terminal
      *
-     * @param array $argv argumentos de terminal
+     * @param array $argv
      * @return array
      * */
     private static function _getConsoleArgs($argv)
@@ -76,9 +92,13 @@ class Console
     }
 
     /**
+     * Makes a console instance
+     * 
+     * -
+     * 
      * Crea una instancia de la consola indicada
      *
-     * @param string $console_name nombre de la consola
+     * @param string $console_name 
      * return object
      * @throw KumbiaException
      * */
@@ -103,7 +123,6 @@ class Console
             include_once $file;
         }
 
-        // crea la instancia de objeto
         $console = new $Console();
 
         // inicializa la consola
@@ -187,6 +206,10 @@ class Console
     }
 
     /**
+     * Reads a console input
+     * 
+     * -
+     * 
      * Lee un dato de entrada desde la consola
      *
      * @param string $message mensaje a mostrar
