@@ -8,7 +8,7 @@
  *
  * Plugin para jQuery que incluye los callbacks basicos para los Helpers
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -67,7 +67,9 @@
 			let el = $(this),
 				rel = $("#" + el.data("to"));
 			event.preventDefault();
+			rel.hide();
 			rel.load(this.href);
+			rel.show('fast');
 		},
 
 		/**
@@ -80,7 +82,9 @@
 				rel = $("#" + el.data("to"));
 			event.preventDefault();
 			if (confirm(el.data("msg"))) {
+				rel.hide();
 				rel.load(this.href);
+				rel.show('fast');
 			}
 		},
 
@@ -97,9 +101,9 @@
 			let div = el.attr("data-to");
 			$.post(url, el.serialize(), function (data, status) {
 				let capa = $("#" + div);
-				capa.html(data);
 				capa.hide();
-				capa.show("slow");
+				capa.html(data);
+				capa.show("fast");
 				button.attr("disabled", null);
 			});
 		},
@@ -142,19 +146,19 @@
 			$("body").on("click", "a.js-remote-confirm", this.cRemoteConfirm);
 
 			// Efecto show
-			$("body").on("click", "a.js-show", this.cFx("show"));
+			$("body").on("click", ".js-show", this.cFx("show"));
 
 			// Efecto hide
-			$("body").on("click", "a.js-hide", this.cFx("hide"));
+			$("body").on("click", ".js-hide", this.cFx("hide"));
 
 			// Efecto toggle
-			$("body").on("click", "a.js-toggle", this.cFx("toggle"));
+			$("body").on("click", ".js-toggle", this.cFx("toggle"));
 
 			// Efecto fadeIn  @deprecated use CSS
-			$("body").on("click", "a.js-fade-in", this.cFx("fadeIn"));
+			$("body").on("click", ".js-fade-in", this.cFx("fadeIn"));
 
 			// Efecto fadeOut @deprecated use CSS
-			$("body").on("click", "a.js-fade-out", this.cFx("fadeOut"));
+			$("body").on("click", ".js-fade-out", this.cFx("fadeOut"));
 
 			// Formulario ajax
 			$("body").on("submit", "form.js-remote", this.cFRemote);
@@ -260,7 +264,7 @@
 		 * Inicializa el plugin
 		 *
 		 */
-		init: function () {
+		initialize: function () {
 			// Obtiene el publicPath
 			let src = document.currentScript.src;
 			this.publicPath = src.slice(0, src.lastIndexOf('javascript/'));
@@ -274,5 +278,5 @@
 	};
 
 	// Inicializa el plugin
-	$.Kumbia.init();
+	$.Kumbia.initialize();
 })(jQuery);
