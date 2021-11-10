@@ -84,6 +84,7 @@ pre{display:block;padding:10.5px;margin:0 0 11px;line-height:1.5;word-break:brea
 .offset-9{margin-left:75%}
 .offset-10{margin-left:83.33333333333334%}
 .offset-11{margin-left:91.66666666666666%}
+.blankSpace {padding: 20px 30px;position: absolute;top: 0;left: 0;}
 @media (min-width:992px){.container{max-width:970px}}@media (min-width:1200px){.container{max-width:1170px}}table{max-width:100%;border-collapse:collapse}
 table.t{margin:auto;margin-bottom:22px}table.t tr>th,table.t tr>td{padding:8px;line-height:1.5;border-top:1px solid #ddd}
 table.t thead>tr>th{vertical-align:bottom;border-bottom:2px solid #ddd}
