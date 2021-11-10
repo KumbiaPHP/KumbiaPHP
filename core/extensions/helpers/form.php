@@ -283,6 +283,17 @@ class Form
 
         return "<label for=\"$field\" $attrs>$text</label>";
     }
+    
+    
+    /**
+     * Create a blank div with padding adding a blank space.
+     *
+     * @return string
+     */
+    public static function space()
+    {
+         return "<div class='blankSpace'>&nbsp;</div>";
+    }
 
     /**
      * Crea un campo text.
