@@ -9,7 +9,7 @@
  *
  * @category   Kumbia
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -98,7 +98,7 @@ class Util
      */
     public static function getParams($params)
     {
-        $data = array();
+        $data = [];
         foreach ($params as $p) {
             if (is_string($p)) {
                 $match = explode(': ', $p, 2);

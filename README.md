@@ -28,7 +28,8 @@ https://slack.kumbiaphp.com (new)
 https://www.techempower.com/benchmarks/#section=data-r18&hw=ph&test=fortune&l=zik073-f&w=0-jz6rk-0&c=4
 
 ## Change Log
-* Requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.1, 7.2 o 7.3
+* v1.2 necesita mínimo PHP 7.4
+* Hasta la v1.1.5 requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.1, 7.2 o 7.3
 * CRUD: https://wiki.kumbiaphp.com/V1.0_CRUD_en_KumbiaPHP_Framework
 
 Comunidad

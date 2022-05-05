@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    Router
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -119,7 +119,7 @@ class Router
         self::$vars = $router::rewrite($url) + self::$default;
 
         // Despacha la ruta actual
-        return self::dispatch($router::getController(self::$vars));
+        return static::dispatch($router::getController(self::$vars));
     }
 
     /**
@@ -130,7 +130,7 @@ class Router
      * @throws KumbiaException
      * @return Controller
      */
-    private static function dispatch($cont)
+    protected static function dispatch($cont)
     {
         // Se ejecutan los filtros initialize y before
         if ($cont->k_callback(true) === false) {
@@ -197,7 +197,7 @@ class Router
      */
     public static function get($var = '')
     {
-        return ($var) ? self::$vars[$var] : self::$vars;
+        return ($var) ? static::$vars[$var] : static::$vars;
     }
 
     /**
@@ -213,6 +213,6 @@ class Router
         if ($intern) {
             self::$routed = true;
         }
-        self::$vars = $params + self::$default;
+        static::$vars = $params + self::$default;
     }
 }

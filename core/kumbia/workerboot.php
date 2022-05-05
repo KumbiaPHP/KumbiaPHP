@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    Core
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -50,6 +50,7 @@ require CORE_PATH.'kumbia/config.php';
 
 // @see Router
 require CORE_PATH.'kumbia/router.php';
+require CORE_PATH.'kumbia/static_router.php';
 // @see Controller
 require APP_PATH.'libs/app_controller.php';
 // @see KumbiaView
@@ -59,7 +60,7 @@ require APP_PATH.'libs/view.php';
 
 function kumbiaSend() {
     ob_start();ob_start();
-    View::render(Router::execute($_SERVER['REQUEST_URI']));
+    View::render(StaticRouter::execute($_SERVER['REQUEST_URI']));
     Http::header(WorkerTimer::$date);
     if (ob_get_level() > 1) {
         ob_end_flush();

@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    KumbiaRouter
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -25,7 +25,7 @@ class KumbiaRouter
      */
     public static function rewrite($url)
     {
-        $router = array();
+        $router = [];
         //Valor por defecto
         if ($url === '/') {
             return $router;
