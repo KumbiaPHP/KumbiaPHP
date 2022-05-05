@@ -183,7 +183,7 @@
 <td><h3><?= ini_get('max_execution_time'),' seg.'?></h3>Tiempo Máximo PHP</td>
 <td><h3><?= ini_get('memory_limit') ?></h3>Memoria PHP</td>
 <td><h3><?= PHP_VERSION?><br><small title="PHP SAPI"><?= PHP_SAPI ?></small></h3>Versión PHP</td>
-<td><h3><?= $_SERVER['SERVER_SOFTWARE'] ?> <br><small>IP: </strong> <?= $_SERVER['SERVER_ADDR'] ?></small></h3>Servidor</td>
+<td><h3><?= $_SERVER['SERVER_SOFTWARE'] ?> <br><small>IP: </strong> <?= $_SERVER['SERVER_ADDR'] ?? '??' ?></small></h3>Servidor</td>
 </tr>
 </table>
 
