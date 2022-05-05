@@ -4,11 +4,14 @@ $data = (array) $data;
 /* delimitador entre campos */
 $delimiter = isset($delimiter) ? $delimiter : ',';
 
+if(isset($filename)) {
+    header("Content-Disposition: attachment; filename=\"$filename.csv\"");
+}
 /*mime type para el contenido*/
 header("Content-type: text/csv");
 /*apertura del buffer de salida*/
 $buffer = fopen('php://output', 'w');
-foreach ($data as $key) {
-    fputcsv($buffer, get_object_vars($key), $delimiter);
+foreach ($data as $line) {
+    fputcsv($buffer, is_object($line) ? get_object_vars($line) : $line, $delimiter);
 }
 fclose($buffer);
