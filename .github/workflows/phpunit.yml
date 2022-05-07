@@ -49,7 +49,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: composer, pecl
+          tools: phpunit:${{ matrix.phpunit-versions }}, composer, pecl
           extensions: gd, sqlite3
           coverage: none
         env:
