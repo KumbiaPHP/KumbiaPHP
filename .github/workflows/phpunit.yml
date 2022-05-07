@@ -1,0 +1,68 @@
+name: PHPUnit
+
+on:
+  push:
+    branches:
+      - dev
+      - master
+    paths:
+      - 'default/app/**.php'
+      - 'core/**.php'
+      - 'core/tests/**.php'
+      - 'default/app/tests/**.php'
+      - composer.json
+      - core/phpunit.xml.dist
+      - default/app/phpunit.xml.dist
+      - .github/workflows/test-phpunit.yml
+
+  pull_request:
+    branches:
+      - dev
+      - master
+    paths:
+      - 'default/app/**.php'
+      - 'core/**.php'
+      - 'core/tests/**.php'
+      - 'default/app/tests/**.php'
+      - composer.json
+      - core/phpunit.xml.dist
+      - default/app/phpunit.xml.dist
+      - .github/workflows/test-phpunit.yml
+
+jobs:
+  tests:
+    name: PHP ${{ matrix.php-versions }}
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['7.4', '8.0', '8.1']
+        phpunit-versions: ['latest']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: composer, pecl
+          extensions: gd, sqlite3
+          coverage: none
+        env:
+          update: true
+
+      - name: Test core with PHPUnit
+        run: script -e -c "vendor/bin/phpunit --color=always --configuration core/phpunit.xml.dist"
+        env:
+          DB: ${{ matrix.db-platforms }}
+          TERM: xterm-256color
+
+      - name: Test app with PHPUnit
+        run: script -e -c "vendor/bin/phpunit --color=always --configuration default/app/phpunit.xml.dist"
+        env:
+          DB: ${{ matrix.db-platforms }}
+          TERM: xterm-256color
