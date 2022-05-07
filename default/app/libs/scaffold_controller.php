@@ -9,9 +9,9 @@
 abstract class ScaffoldController extends AdminController
 {
     /** @var string Carpeta en views/_shared/scaffolds/ */
-    public $scaffold = 'kumbia';
+    public string $scaffold = 'kumbia';
     /** @var string Nombre del modelo en CamelCase */
-    public $model = '';
+    public string $model = '';
 
     /**
      * Resultados paginados
