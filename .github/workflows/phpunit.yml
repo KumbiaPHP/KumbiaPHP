@@ -45,22 +45,37 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup PHP, with composer and extensions
+      - name: Setup PHP, with composer
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: phpunit:${{ matrix.phpunit-versions }}, composer, pecl
+          tools: composer
           extensions: gd, sqlite3
           coverage: none
         env:
           update: true
+      
+      - name: Get composer cache directory
+        id: composercache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: Test core with PHPUnit
-        run: script -e -c "phpunit --color=always --configuration core/phpunit.xml.dist"
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composercache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist
+
+
+      - name: Test with PHPUnit
+        run: script -e -c "vendor/bin/phpunit --color=always --configuration core/phpunit.xml.dist"
         env:
           TERM: xterm-256color
 
       - name: Test app with PHPUnit
-        run: script -e -c "phpunit --color=always --configuration default/app/phpunit.xml.dist"
+        run: script -e -c "vendor/bin/phpunit --color=always --configuration default/app/phpunit.xml.dist"
         env:
           TERM: xterm-256color
