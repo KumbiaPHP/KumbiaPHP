@@ -15,7 +15,7 @@ notifications:
   slack: kumbiaphp:51JaKQTXASwf52D8b32OyWb9
 #    irc: "irc.freenode.org#kumbiaphp"
 #    email:
-#    - programador.manuel@gmail.com
+#    - xxx@gmail.com
 
 
 # env:
@@ -27,8 +27,6 @@ install:
   - composer install
   - wget -O ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-9.phar; fi
   - chmod 755 ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit; fi
-  # Force PHPUnit 7 $TRAVIS_PHP_VERSION > '7.1' rule
-  -
 
 script:
   - phpunit --version
