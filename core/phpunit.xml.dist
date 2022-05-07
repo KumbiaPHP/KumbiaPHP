@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          backupGlobals="false"
          colors="true"
-         bootstrap="./tests/bootstrap.php"
->
+         bootstrap="./tests/bootstrap.php">
+
     <php>
         <ini name="error_reporting" value="-1"/>
         <ini name="memory_limit" value="-1"/>
@@ -24,13 +24,10 @@
     </listeners>
 
     <!-- Ignore vendor tests in code coverage reports -->
-    <filter>
-        <whitelist>
-            <directory>./</directory>
-            <exclude>
-                <directory>./tests</directory>
-                <directory>../vendor</directory>
-            </exclude>
-        </whitelist>
-    </filter>
+    <coverage>
+        <exclude>
+            <directory suffix=".php">./tests</directory>
+            <directory suffix=".php">../../vendor</directory>
+        </exclude>
+    </coverage>
 </phpunit>

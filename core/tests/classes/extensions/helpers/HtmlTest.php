@@ -26,7 +26,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
 {
     //use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         /*
          * Cuando se ejecutan los procesos por separado (@runTestsInSeparateProcesses)
@@ -144,7 +144,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
 
         $link = Html::linkAction($action, 'Link Text');
 
-        $this->assertContains($expected, $link);
+        $this->assertStringContainsString($expected, $link);
     }
 
     public function testLinkAction()
