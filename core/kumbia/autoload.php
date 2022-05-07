@@ -32,15 +32,18 @@ function kumbia_autoload($class)
         ];
     }
     if (isset($classes[$class])) {
-        return include $classes[$class];
+        include $classes[$class];
+        return;
     }
     // PSR0
     if (strpos($class, '\\')) {
-        return kumbia_autoload_vendor($class);
+        kumbia_autoload_vendor($class);
+        return;
     }
     // for legacy apps
     if ($class === 'Flash') {
-        return kumbia_autoload_helper('Flash');
+        kumbia_autoload_helper('Flash');
+        return;
     }
 
     // Convert to smallcase
@@ -59,7 +62,7 @@ function kumbia_autoload($class)
     return kumbia_autoload_vendor($class);
 }
 
-function kumbia_autoload_vendor($class)
+function kumbia_autoload_vendor($class): void
 {
     //Autoload PSR0
     $psr0 = dirname(dirname(APP_PATH)).'/vendor/'.str_replace(['_', '\\'], DIRECTORY_SEPARATOR, $class).'.php';
@@ -68,14 +71,15 @@ function kumbia_autoload_vendor($class)
     }
 }
 
-function kumbia_autoload_helper($class)
+function kumbia_autoload_helper($class): void
 {
     $sclass = Util::smallcase($class);
     if (is_file(APP_PATH."extensions/helpers/$sclass.php")) {
-        return include APP_PATH."extensions/helpers/$sclass.php";
+        include APP_PATH."extensions/helpers/$sclass.php";
+        return;
     }
     if (is_file(CORE_PATH."extensions/helpers/$sclass.php")) {
-        return include CORE_PATH."extensions/helpers/$sclass.php";
+        include CORE_PATH."extensions/helpers/$sclass.php";
     }
 }
 
