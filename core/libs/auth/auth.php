@@ -314,9 +314,7 @@ class Auth
      */
     public static function get($var)
     {
-        if (isset($_SESSION[self::IDENTITY][Config::get('config.application.namespace_auth')][$var])) {
-            return $_SESSION[self::IDENTITY][Config::get('config.application.namespace_auth')][$var];
-        }
+        return $_SESSION[self::IDENTITY][Config::get('config.application.namespace_auth')][$var] ?? null;
     }
 
     /**
