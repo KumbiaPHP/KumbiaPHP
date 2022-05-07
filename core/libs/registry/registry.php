@@ -77,9 +77,7 @@ class Registry
      */
     public static function get($index)
     {
-        if (isset(self::$registry[$index])) {
-            return self::$registry[$index];
-        } 
+        return self::$registry[$index] ?? null;
     }
     
     /**

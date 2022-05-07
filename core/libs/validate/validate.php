@@ -127,8 +127,7 @@ class Validate
      * @param string $rule Nombre de la regla
      */
     protected function addError(Array $param, $field, $rule){
-         $this->messages[$field][] = isset($param['error']) ?
-                $param['error']: Validations::getMessage($rule);
+         $this->messages[$field][] = $param['error'] ?? Validations::getMessage($rule);
     }
 
     /**

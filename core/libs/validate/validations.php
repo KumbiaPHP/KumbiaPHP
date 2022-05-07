@@ -100,8 +100,8 @@ class Validations
      */
     public static function range($value, $param)
     {
-        $min = isset($param['min']) ? $param['min'] : 0;
-        $max = isset($param['max']) ? $param['max'] : 10;
+        $min = $param['min'] ?? 0;
+        $max = $param['max'] ?? 10;
         $int_options = array('options' => array('min_range'=>$min, 'max_range'=>$max));
         return filter_var($value, FILTER_VALIDATE_INT, $int_options);
     }
@@ -138,7 +138,7 @@ class Validations
      */
     public static function url($url, $param)
     {
-        $flag = isset($param['flag'])? $param['flag'] : 0;
+        $flag = $param['flag'] ?? 0;
         return filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED | $flag);
     }
 
@@ -212,7 +212,7 @@ class Validations
      */
     public static function pattern($check, $param)
     {
-        $regex = isset($param['regexp'])? $param['regexp'] : '/.*/';
+        $regex = $param['regexp'] ?? '/.*/';
         return empty($check) || FALSE !== filter_var($check, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => $regex)));
     }
 
@@ -239,7 +239,7 @@ class Validations
      */
     public static function equal($value, $param, $obj)
     {
-        $equal = isset($param['to'])? $param['to'] : '';
+        $equal = $param['to'] ?? '';
         return ($obj->$equal == $value);
     }
 

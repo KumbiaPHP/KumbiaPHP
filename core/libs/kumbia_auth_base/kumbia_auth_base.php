@@ -72,6 +72,6 @@ abstract class KumbiaAuthBase {
     public function get($var)
     {
         $store = Session::get('store', self::$namespace);
-        return isset($store[$var]) ? $store[$var] : null;
+        return $store[$var] ?? null;
     }
 }

@@ -42,7 +42,7 @@
 
      protected static function getInstance($name)
      {
-         return  isset(self::$providers[$name]) ? self::$providers[$name] : null;
+         return  self::$providers[$name] ?? null;
      }
 
      /**
