@@ -2,7 +2,7 @@
 /* datos a formatear*/
 $data = (array) $data;
 /* delimitador entre campos */
-$delimiter = isset($delimiter) ? $delimiter : ',';
+$delimiter = $delimiter ?? ',';
 
 if(isset($filename)) {
     header("Content-Disposition: attachment; filename=\"$filename.csv\"");
