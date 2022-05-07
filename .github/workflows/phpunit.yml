@@ -58,11 +58,9 @@ jobs:
       - name: Test core with PHPUnit
         run: script -e -c "vendor/bin/phpunit --color=always --configuration core/phpunit.xml.dist"
         env:
-          DB: ${{ matrix.db-platforms }}
           TERM: xterm-256color
 
       - name: Test app with PHPUnit
         run: script -e -c "vendor/bin/phpunit --color=always --configuration default/app/phpunit.xml.dist"
         env:
-          DB: ${{ matrix.db-platforms }}
           TERM: xterm-256color
