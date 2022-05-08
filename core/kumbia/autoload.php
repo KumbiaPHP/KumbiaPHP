@@ -49,13 +49,16 @@ function kumbia_autoload($class)
     // Convert to smallcase
     $sclass = Util::smallcase($class);
     if (is_file(APP_PATH."models/$sclass.php")) {
-        return include APP_PATH."models/$sclass.php";
+        include APP_PATH."models/$sclass.php";
+        return;
     }
     if (is_file(APP_PATH."libs/$sclass.php")) {
-        return include APP_PATH."libs/$sclass.php";
+        include APP_PATH."libs/$sclass.php";
+        return;
     }
     if (is_file(CORE_PATH."libs/$sclass/$sclass.php")) {
-        return include CORE_PATH."libs/$sclass/$sclass.php";
+        include CORE_PATH."libs/$sclass/$sclass.php";
+        return;
     }
     // Perhaps is PEAR,  zend framework 1, ...
     kumbia_autoload_vendor($class);
