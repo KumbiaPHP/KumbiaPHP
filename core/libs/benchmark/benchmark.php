@@ -38,7 +38,7 @@ final class Benchmark
     /**
      * Inicia el reloj (profiling)
      *
-     * @return array $_benchmark
+     * @return void $_benchmark
      */
     public static function start_clock($name)
     {
@@ -51,7 +51,7 @@ final class Benchmark
      * Detiene el reloj para efecto del calculo del
      * tiempo de ejecucion de un script
      *
-     * @return array $_benchmark
+     * @return string|null $_benchmark
      */
     private static function _stop_clock($name)
     {

@@ -54,7 +54,7 @@ class Tag
      * @param string $tag nombre de tag
      * @param string|null $content contenido interno
      * @param string|array $attrs atributos para el tag
-     * @return string
+     * @return void
      * */
     public static function create($tag, $content = null, $attrs = '')
     {
