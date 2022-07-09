@@ -32,7 +32,7 @@ class Registry
      *
      * @var array
      */
-    private static $registry = array();
+    private static $registry = [];
 
     /**
      * Establece un valor del registro
@@ -85,7 +85,8 @@ class Registry
      *
      * @param string $index
      */
-    protected function exist($index) {
+    protected static function exist($index)
+    {
         if (!isset(self::$registry[$index])) {
             self::$registry[$index] = array();
         }
