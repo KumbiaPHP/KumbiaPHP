@@ -88,7 +88,7 @@ class Form
         }
         $form = (object) $form;
 
-        return isset($form->{$formField[1]}) ? $form->{$formField[1]} : null;
+        return $form->{$formField[1]} ?? null;
     }
 
     /**

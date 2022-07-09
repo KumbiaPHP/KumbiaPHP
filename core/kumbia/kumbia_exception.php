@@ -47,7 +47,7 @@ class KumbiaException extends Exception
      * @param string $message mensaje
      * @param string $view    vista que se mostrara
      */
-    public function __construct($message, $view = 'exception')
+    public function __construct(string $message = '', string $view = 'exception')
     {
         $this->view = $view;
         parent::__construct($message);
@@ -78,7 +78,7 @@ class KumbiaException extends Exception
      *
      * @return bool
      */
-    private static function untrustedIp()
+    private static function untrustedIp(): bool
     {
         $trusted = ['127.0.0.1', '::1']; // Localhost ip
         // check for old aplications

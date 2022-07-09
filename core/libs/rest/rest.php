@@ -69,7 +69,7 @@ class Rest {
      * @param Controller $controller controlador que se convertira en un servicio REST
      */
     static public function init(Controller $controller) {
-        $content = isset($_SERVER['CONTENT_TYPE'])?$_SERVER['CONTENT_TYPE']:'text/html';
+        $content = $_SERVER['CONTENT_TYPE'] ?? 'text/html';
         /**
          * Verifico el formato de entrada
          */

@@ -28,18 +28,19 @@ class ModelForm
      * @param object $model
      * @param string $action
      */
-    public static function create($model, $action = '')
+    public static function create(object $model, string $action = ''): void
     {
-        $model_name = get_class($model);
+        $model_name = $model::class;
         if (!$action) {
             $action = ltrim(Router::get('route'), '/');
         }
+        // separar para diferentes ORM u otros formatos json, ini, xml, array,...
 
         echo '<form action="', PUBLIC_PATH.$action, '" method="post" id="', $model_name, '" class="scaffold">' , PHP_EOL;
         $pk = $model->primary_key[0];
         echo '<input id="', $model_name, '_', $pk, '" name="', $model_name, '[', $pk, ']" class="id" value="', $model->$pk , '" type="hidden">' , PHP_EOL;
 
-        $fields = array_diff($model->fields, $model->_at, $model->_in, $model->primary_key);
+        $fields = array_diff($model->fields, [$model->_at, $model->_in, $model->primary_key]);
 
         foreach ($fields as $field) {
             $tipo = trim(preg_replace('/(\(.*\))/', '', $model->_data_type[$field])); //TODO: recoger tamaño y otros valores
@@ -48,9 +49,9 @@ class ModelForm
             $formName = $model_name.'['.$field.']';
 
             if (in_array($field, $model->not_null)) {
-                echo "<label for=\"$formId\" class=\"required\">$alias *</label>" , PHP_EOL;
+                echo "<label class=\"required\">$alias" , PHP_EOL;
             } else {
-                echo "<label for=\"$formId\">$alias</label>" , PHP_EOL;
+                echo "<label>$alias" , PHP_EOL;
             }
 
             switch ($tipo) {
@@ -68,7 +69,7 @@ class ModelForm
                     echo "<input id=\"$formId\" type=\"number\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
                     break;
 
-                case 'date': // Usar el js de datetime
+                case 'date':
                     echo "<input id=\"$formId\" type=\"date\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
                     break;
 
@@ -93,8 +94,9 @@ class ModelForm
                 default: //text,tinytext,varchar, char,etc se comprobara su tamaño
                     echo "<input id=\"$formId\" type=\"text\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
             }
+            echo '</label>';
         }
         echo '<input type="submit" value="Enviar" />' , PHP_EOL;
-        echo '</form>' , PHP_EOL;
+        echo '</form>' , PHP_EOL; 
     }
 }

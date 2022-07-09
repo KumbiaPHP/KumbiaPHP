@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
     colors="true"
+    verbose="true"
     processIsolation="true"
     stopOnFailure="false"
-    syntaxCheck="false"
-    bootstrap="./tests/bootstrap.php"
-    >
+    bootstrap="./tests/bootstrap.php">
     <php>
         <ini name="memory_limit" value="-1"/>
         <ini name="apc.enable_cli" value="1"/>
@@ -21,11 +20,11 @@
 
 
     <!-- Ignore vendor, core and tests in code coverage reports -->
-    <filter>
+    <coverage>
         <exclude>
             <directory suffix=".php">./tests</directory>
             <directory suffix=".php">../../core</directory>
             <directory suffix=".php">../../vendor</directory>
         </exclude>
-    </filter>
+    </coverage>
 </phpunit>

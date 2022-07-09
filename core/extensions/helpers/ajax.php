@@ -70,7 +70,7 @@ class Ajax
     public static function linkConfirm($action, $text, $update, $confirm, $class = '', $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
-        return '<a href="' . PUBLIC_PATH . "$action\" class=\"js-remote-confirm $class\" data-to=\"{$update}\" title=\"$confirm\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . "$action\" data-msg=\"$confirm\" class=\"js-remote-confirm $class\" data-to=\"{$update}\" title=\"$confirm\" $attrs>$text</a>";
     }
 
     /**
@@ -88,7 +88,7 @@ class Ajax
     public static function linkActionConfirm($action, $text, $update, $confirm, $class = '', $attrs = '')
     {
         $attrs = Tag::getAttrs($attrs);
-        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" class=\"js-remote-confirm $class\" data-to=\"{$update}\" title=\"$confirm\" $attrs>$text</a>";
+        return '<a href="' . PUBLIC_PATH . Router::get('controller_path') . "/$action\" data-msg=\"$confirm\" class=\"js-remote-confirm $class\" data-to=\"{$update}\" title=\"$confirm\" $attrs>$text</a>";
     }
 
     /**

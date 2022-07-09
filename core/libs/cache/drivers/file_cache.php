@@ -42,7 +42,7 @@ class FileCache extends Cache
      *
      * @param string $id
      * @param string $group
-     * @return string
+     * @return string|null
      */
     public function get($id, $group='default')
     {

@@ -28,38 +28,38 @@ abstract class Controller
      *
      * @var string
      */
-    public $module_name;
+    public string $module_name;
     /**
      * Nombre del controlador actual
      *
      * @var string
      */
-    public $controller_name;
+    public string $controller_name;
     /**
      * Nombre de la acción actual
      *
      * @var string
      */
-    public $action_name;
+    public string $action_name;
     /**
      * Parámetros de la acción
      *
      * @var array
      */
-    public $parameters;
+    public array $parameters;
     /**
      * Limita la cantidad correcta de
      * parametros de una action
      *
      * @var bool
      */
-    public $limit_params = true;
+    public bool $limit_params = true;
     /**
      * Nombre del scaffold a usar
      *
      * @var string
      */
-    public $scaffold = '';
+    public string $scaffold = '';
 
     /**
      * Data disponble para mostrar
@@ -73,7 +73,7 @@ abstract class Controller
      *
      * @param array $args
      */
-    public function __construct($args)
+    public function __construct(array $args)
     {
         /*modulo al que pertenece el controlador*/
         $this->module_name = $args['module'];

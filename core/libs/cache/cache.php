@@ -65,7 +65,7 @@ abstract class Cache
      *
      * @param string $id    identificador
      * @param string $group grupo
-     * @return string
+     * @return string|null
      */
     abstract public function get($id, $group = 'default');
 

@@ -25,11 +25,7 @@
      */
     $config = Config::read('config');
 
-    if (isset($config['application']['cache_driver'])) {
-        $cahe_driver = $config['application']['cache_driver'];
-    } else {
-        $cache_driver = 'No ha seleccionado un driver para la cache';
-    }
+    $cahe_driver = $config['application']['cache_driver'] ?? 'No ha seleccionado un driver para la cache';
 
     $locale = str_replace(';', '<br>', setlocale(LC_ALL, '0'));
     

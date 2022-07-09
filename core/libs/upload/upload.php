@@ -245,7 +245,7 @@ abstract class Upload {
     /**
      * Devuelve la extensión
      *
-     * @return string
+     * @return string|null
      */
     protected function _getExtension() {
         if ($ext = pathinfo($_FILES[$this->_name]['name'], PATHINFO_EXTENSION)) {

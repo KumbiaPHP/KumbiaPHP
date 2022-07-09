@@ -49,12 +49,8 @@ class Db
         if (!$database) {
             $database = Config::get('config.application.database');
         }
-        //Si no es una conexión nueva y existe la conexión singleton
-        if (isset(self::$_connections[$database])) {
-            return self::$_connections[$database];
-        }
 
-        return self::$_connections[$database] = self::connect($database);
+        return self::$_connections[$database] ?? self::$_connections[$database] = self::connect($database);
     }
 
     /**
