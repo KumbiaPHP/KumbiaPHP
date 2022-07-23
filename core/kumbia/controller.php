@@ -53,7 +53,7 @@ abstract class Controller
      *
      * @var bool
      */
-    public bool $limit_params = true;
+    public $limit_params = true;
     /**
      * Nombre del scaffold a usar
      *
