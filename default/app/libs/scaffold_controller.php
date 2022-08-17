@@ -9,9 +9,9 @@
 abstract class ScaffoldController extends AdminController
 {
     /** @var string Carpeta en views/_shared/scaffolds/ */
-    public $scaffold = 'kumbia';
+    public string $scaffold = 'kumbia';
     /** @var string Nombre del modelo en CamelCase */
-    public $model = '';
+    public string $model = '';
 
     /**
      * Resultados paginados
@@ -38,7 +38,8 @@ abstract class ScaffoldController extends AdminController
                 $this->{$this->model} = $obj;
                 return;
             }
-            return Redirect::to();
+            Redirect::to();
+            return;
         }
         // Sólo es necesario para el autoForm
         $this->{$this->model} = new $this->model;
@@ -61,7 +62,8 @@ abstract class ScaffoldController extends AdminController
                 //se hacen persistente los datos en el formulario
                 $this->{$this->model} = Input::post($this->model);
             } else {
-                return Redirect::to();
+                Redirect::to();
+                return;
             }
         }
 

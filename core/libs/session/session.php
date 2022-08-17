@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    Session
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -36,7 +36,7 @@ class Session
      * @param mixed  $value
      * @param string $namespace
      */
-    public static function set($index, $value, $namespace = self::SPACE)
+    public static function set($index, $value, $namespace = self::SPACE): void
     {
         $_SESSION[self::SESSION][APP_PATH][$namespace][$index] = $value;
     }
@@ -50,9 +50,7 @@ class Session
      */
     public static function get($index, $namespace = self::SPACE)
     {
-        if (isset($_SESSION[self::SESSION][APP_PATH][$namespace][$index])) {
-            return $_SESSION[self::SESSION][APP_PATH][$namespace][$index];
-        }
+        return $_SESSION[self::SESSION][APP_PATH][$namespace][$index] ?? null;
     }
 
     /**
@@ -61,7 +59,7 @@ class Session
      * @param string $index
      * @param string $namespace
      */
-    public static function delete($index, $namespace = self::SPACE)
+    public static function delete($index, $namespace = self::SPACE): void
     {
         unset($_SESSION[self::SESSION][APP_PATH][$namespace][$index]);
     }
@@ -73,7 +71,7 @@ class Session
      * @param string $namespace
      * @return boolean
      */
-    public static function has($index, $namespace = self::SPACE)
+    public static function has($index, $namespace = self::SPACE): bool
     {
         return isset($_SESSION[self::SESSION][APP_PATH][$namespace][$index]);
     }

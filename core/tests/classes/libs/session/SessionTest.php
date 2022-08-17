@@ -10,7 +10,7 @@
  * @category   Test
  * @package    Session
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -20,7 +20,7 @@
  */
 class SessionTest extends PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             @session_start();
@@ -114,7 +114,7 @@ class SessionTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(Session::has('test_key', 'another'));
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if (session_status() != PHP_SESSION_NONE) {
             @session_unset();

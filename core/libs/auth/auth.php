@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    Auth
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -111,12 +111,12 @@ class Auth
      * @param string $adapter Tipo de adaptador a usar ('digest', 'model', 'kerberos5', 'radius')
      * @param Auth $auth Instancia de la clase Auth
      * @param array $extra_args Argumentos adicionales
-     * @throws kumbiaException
+     * @throws KumbiaException
      */
-    public function set_adapter($adapter, $auth = '', $extra_args = array())
+    public function set_adapter($adapter, $auth = '', $extra_args = array()): void
     {
         if (!in_array($adapter, array('digest', 'model', 'kerberos5', 'radius'))) {
-            throw new kumbiaException("Adaptador de autenticación '$adapter' no soportado");
+            throw new KumbiaException("Adaptador de autenticación '$adapter' no soportado");
         }
         $this->adapter = Util::camelcase($adapter);
         require_once __DIR__."/adapters/{$adapter}_auth.php";
@@ -314,9 +314,7 @@ class Auth
      */
     public static function get($var)
     {
-        if (isset($_SESSION[self::IDENTITY][Config::get('config.application.namespace_auth')][$var])) {
-            return $_SESSION[self::IDENTITY][Config::get('config.application.namespace_auth')][$var];
-        }
+        return $_SESSION[self::IDENTITY][Config::get('config.application.namespace_auth')][$var] ?? null;
     }
 
     /**

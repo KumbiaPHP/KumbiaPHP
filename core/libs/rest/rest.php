@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    Rest
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  * 
  * @deprecated Deprecated since version 1.0, Use RestController
@@ -69,7 +69,7 @@ class Rest {
      * @param Controller $controller controlador que se convertira en un servicio REST
      */
     static public function init(Controller $controller) {
-        $content = isset($_SERVER['CONTENT_TYPE'])?$_SERVER['CONTENT_TYPE']:'text/html';
+        $content = $_SERVER['CONTENT_TYPE'] ?? 'text/html';
         /**
          * Verifico el formato de entrada
          */

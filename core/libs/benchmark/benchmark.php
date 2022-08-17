@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    Core
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -38,7 +38,7 @@ final class Benchmark
     /**
      * Inicia el reloj (profiling)
      *
-     * @return array $_benchmark
+     * @return void $_benchmark
      */
     public static function start_clock($name)
     {
@@ -51,7 +51,7 @@ final class Benchmark
      * Detiene el reloj para efecto del calculo del
      * tiempo de ejecucion de un script
      *
-     * @return array $_benchmark
+     * @return string|null $_benchmark
      */
     private static function _stop_clock($name)
     {

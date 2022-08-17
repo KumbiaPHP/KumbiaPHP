@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    KumbiaAuth
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -72,6 +72,6 @@ abstract class KumbiaAuthBase {
     public function get($var)
     {
         $store = Session::get('store', self::$namespace);
-        return isset($store[$var]) ? $store[$var] : null;
+        return $store[$var] ?? null;
     }
 }

@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    Db
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 /**
@@ -49,12 +49,8 @@ class Db
         if (!$database) {
             $database = Config::get('config.application.database');
         }
-        //Si no es una conexión nueva y existe la conexión singleton
-        if (isset(self::$_connections[$database])) {
-            return self::$_connections[$database];
-        }
 
-        return self::$_connections[$database] = self::connect($database);
+        return self::$_connections[$database] ?? self::$_connections[$database] = self::connect($database);
     }
 
     /**

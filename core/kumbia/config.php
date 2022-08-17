@@ -9,7 +9,7 @@
  *
  * @category   Config
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -51,13 +51,13 @@ class Config
         }
         switch (count($namespaces)) {
             case 3:
-                return isset(self::$vars[$namespaces[0]][$namespaces[1]][$namespaces[2]]) ?
-                             self::$vars[$namespaces[0]][$namespaces[1]][$namespaces[2]] : null;
+                return self::$vars[$namespaces[0]][$namespaces[1]][$namespaces[2]] ?? null;
+
             case 2:
-                return isset(self::$vars[$namespaces[0]][$namespaces[1]]) ?
-                             self::$vars[$namespaces[0]][$namespaces[1]] : null;
+                return self::$vars[$namespaces[0]][$namespaces[1]] ?? null;
+
             case 1:
-                return isset(self::$vars[$namespaces[0]]) ? self::$vars[$namespaces[0]] : null;
+                return self::$vars[$namespaces[0]] ?? null;
 
             default:
                 trigger_error('Máximo 3 niveles en Config::get(fichero.sección.variable), pedido: '.$var);

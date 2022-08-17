@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    Logger
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -55,7 +55,7 @@ abstract class Logger
     /**
      * Resource hacia el Archivo del Log
      *
-     * @var resource
+     * @var null|resource
      */
     private static $fileLogger;
     /**
@@ -86,7 +86,7 @@ abstract class Logger
      *
      * @param string $name
      */
-    public static function initialize($name = '')
+    public static function initialize(string $name = ''): void
     {
         self::$log_path = APP_PATH . 'temp/logs/'; //TODO poder cambiar el path
         if ($name === '') {
@@ -103,7 +103,7 @@ abstract class Logger
      *
      * @param string $path
      */
-    public static function set_path($path)
+    public static function set_path(string $path): void
     {
         self::$log_path = $path;
     }
@@ -113,7 +113,7 @@ abstract class Logger
      *
      * @return string
      */
-    public static function get_path()
+    public static function get_path(): string
     {
         return self::$log_path;
     }
@@ -122,10 +122,10 @@ abstract class Logger
      * Almacena un mensaje en el log
      *
      * @param string $type
-     * @param string $msg
+     * @param string|array $msg
      * @param string $name_log
      */
-    public static function log($type = 'DEBUG', $msg, $name_log)
+    public static function log(string $type = 'DEBUG', string|array $msg, string $name_log): void
     {
         if (is_array($msg)) {
             $msg = print_r($msg, true);
@@ -145,7 +145,7 @@ abstract class Logger
      *
      * @param string $msg
      */
-    protected static function write($msg, $name_log)
+    protected static function write(string $msg, string $name_log): void
     {
         self::initialize($name_log); //TODO dejarlo abierto cuando es un commit
         fputs(self::$fileLogger, $msg . PHP_EOL);
@@ -156,7 +156,7 @@ abstract class Logger
      * Inicia una transacción
      *
      */
-    public static function begin()
+    public static function begin(): void
     {
         self::$transaction = true;
     }
@@ -165,7 +165,7 @@ abstract class Logger
      * Deshace una transacción
      *
      */
-    public static function rollback()
+    public static function rollback(): void
     {
         self::$transaction = false;
         self::$queue = array();
@@ -176,7 +176,7 @@ abstract class Logger
      *
      * @param string $name_log
      */
-    public static function commit($name_log = '')
+    public static function commit(string $name_log = ''): void
     {
         foreach (self::$queue as $msg) {
             self::write($msg, $name_log);
@@ -189,7 +189,7 @@ abstract class Logger
      * Cierra el Logger
      *
      */
-    public static function close()
+    public static function close(): bool
     {
         if (!self::$fileLogger) {
             throw new KumbiaException("No se puede cerrar el log porque es invalido");
@@ -200,11 +200,11 @@ abstract class Logger
     /**
      * Genera un log de tipo WARNING
      *
-     * @return
+     * @return void
      * @param string $msg
      * @param string $name_log
      */
-    public static function warning($msg, $name_log = '')
+    public static function warning(string $msg, string $name_log = ''): void
     {
         self::log('WARNING', $msg, $name_log);
     }
@@ -212,11 +212,11 @@ abstract class Logger
     /**
      * Genera un log de tipo ERROR
      *
-     * @return
-     * @param string $msg
+     * @return void
+     * @param string|array $msg
      * @param string $name_log
      */
-    public static function error($msg, $name_log = '')
+    public static function error(string|array $msg, string $name_log = ''): void
     {
         self::log('ERROR', $msg, $name_log);
     }
@@ -224,11 +224,11 @@ abstract class Logger
     /**
      * Genera un log de tipo DEBUG
      *
-     * @return
-     * @param string $msg
+     * @return void
+     * @param string|array $msg
      * @param string $name_log
      */
-    public static function debug($msg, $name_log = '')
+    public static function debug(string|array $msg, string $name_log = ''): void
     {
         self::log('DEBUG', $msg, $name_log);
     }
@@ -236,11 +236,11 @@ abstract class Logger
     /**
      * Genera un log de tipo ALERT
      *
-     * @return
-     * @param string $msg
+     * @return void
+     * @param string|array $msg
      * @param string $name_log
      */
-    public static function alert($msg, $name_log = '')
+    public static function alert(string|array $msg, string $name_log = ''): void
     {
         self::log('ALERT', $msg, $name_log);
     }
@@ -248,11 +248,11 @@ abstract class Logger
     /**
      * Genera un log de tipo CRITICAL
      *
-     * @return
-     * @param string $msg
+     * @return void
+     * @param string|array $msg
      * @param string $name_log
      */
-    public static function critical($msg, $name_log = '')
+    public static function critical(string|array $msg, string $name_log = ''): void
     {
         self::log('CRITICAL', $msg, $name_log);
     }
@@ -260,11 +260,11 @@ abstract class Logger
     /**
      * Genera un log de tipo NOTICE
      *
-     * @return
-     * @param string $msg
+     * @return void
+     * @param string|array $msg
      * @param string $name_log
      */
-    public static function notice($msg, $name_log = '')
+    public static function notice(string|array $msg, string $name_log = ''): void
     {
         self::log('NOTICE', $msg, $name_log);
     }
@@ -272,11 +272,11 @@ abstract class Logger
     /**
      * Genera un log de tipo INFO
      *
-     * @return
-     * @param string $msg
+     * @return void
+     * @param string|array $msg
      * @param string $name_log
      */
-    public static function info($msg, $name_log = '')
+    public static function info(string|array $msg, string $name_log = ''): void
     {
         self::log('INFO', $msg, $name_log);
     }
@@ -284,11 +284,11 @@ abstract class Logger
     /**
      * Genera un log de tipo EMERGENCE
      *
-     * @return
-     * @param string $msg
+     * @return void
+     * @param string|array $msg
      * @param string $name_log
      */
-    public static function emergence($msg, $name_log = '')
+    public static function emergence(string|array $msg, string $name_log = ''): void
     {
         self::log('EMERGENCE', $msg, $name_log);
     }
@@ -297,10 +297,10 @@ abstract class Logger
      * Genera un log Personalizado
      *
      * @param string $type
-     * @param string $msg
+     * @param string|array $msg
      * @param string $name_log
      */
-    public static function custom($type = 'CUSTOM', $msg, $name_log = '')
+    public static function custom(string $type = 'CUSTOM', string|array $msg, string $name_log = ''): void
     {
         self::log($type, $msg, $name_log);
     }

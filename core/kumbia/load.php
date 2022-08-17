@@ -9,7 +9,7 @@
  *
  * @category   Kumbia
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -60,7 +60,7 @@ class Load
      *
      * @return obj model
      */
-    public static function model($model, array $params = array())
+    public static function model($model, array $params = [])
     {
         //Nombre de la clase
         $Model = Util::camelcase(basename($model));

@@ -1,25 +1,24 @@
 {
-    "name": "kumbia/framework",
-    "description": "The KumbiaPHP framework",
-	"type": "project",
-	"homepage": "https://kumbiaphp.com",
-	"license": "BSD-3-Clause",
-	"support": {
-        "slack": "https://slack.kumbiaphp.com",
-        "group": "https://groups.google.com/group/kumbia",
-		"forum": "http://foro.kumbiaphp.com/",
-		"wiki": "http://wiki.kumbiaphp.com",
-		"source": "https://github.com/KumbiaPHP/KumbiaPHP"
-    },
-    "require": {
-        "php": ">=5.4"
-    },
-    "require-dev": {
-        "php": ">=5.4",
-        "phpunit/phpunit": ">=4.0",
-        "mockery/mockery": ">=0.9"
-    },
     "config": {
         "sort-packages": true
-    }
+    },
+    "description": "The KumbiaPHP framework.",
+    "homepage": "https://kumbiaphp.com",
+    "license": "BSD-3-Clause",
+    "name": "kumbia/framework",
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9",
+        "mockery/mockery": "^1"
+    },
+    "support": {
+        "forum": "http://foro.kumbiaphp.com/",
+        "group": "https://groups.google.com/group/kumbia",
+        "slack": "https://slack.kumbiaphp.com",
+        "source": "https://github.com/KumbiaPHP/KumbiaPHP",
+        "wiki": "http://wiki.kumbiaphp.com"
+    },
+    "type": "project"
 }

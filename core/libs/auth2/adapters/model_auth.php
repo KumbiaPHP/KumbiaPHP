@@ -11,7 +11,7 @@
  * @package    Auth
  * @subpackage Adapters
  * 
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -104,7 +104,7 @@ class ModelAuth extends Auth2
         // TODO: revisar seguridad
         $password = hash($this->_algos, $password);
         //$username = addslashes($username);
-        $username = filter_var($username, FILTER_SANITIZE_MAGIC_QUOTES);
+        $username = filter_var($username, FILTER_SANITIZE_ADD_SLASHES);
 
         $Model = new $this->_model;
         if ($user = $Model->find_first("$this->_login = '$username' AND $this->_pass = '$password'")) {

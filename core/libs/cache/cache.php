@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    Cache
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -65,7 +65,7 @@ abstract class Cache
      *
      * @param string $id    identificador
      * @param string $group grupo
-     * @return string
+     * @return string|null
      */
     abstract public function get($id, $group = 'default');
 

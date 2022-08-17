@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    KumbiaRouter
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -23,9 +23,9 @@ class KumbiaRouter
      * @param string $url
      * @return  array
      */
-    public static function rewrite($url)
+    public static function rewrite(string $url): array
     {
-        $router = array();
+        $router = [];
         //Valor por defecto
         if ($url === '/') {
             return $router;
@@ -75,7 +75,7 @@ class KumbiaRouter
      * @param string $url Url para enrutar
      * @return string
      */
-    public static function ifRouted($url)
+    public static function ifRouted(string $url): string
     {
         $routes = Config::get('routes.routes');
 
@@ -107,7 +107,7 @@ class KumbiaRouter
      * 
      * @return Controller
      */
-    public static function getController($params)
+    public static function getController(array $params): Controller
     {
         if (!include_once APP_PATH."controllers/{$params['controller_path']}_controller.php") {
             // Extrae las variables para manipularlas facilmente

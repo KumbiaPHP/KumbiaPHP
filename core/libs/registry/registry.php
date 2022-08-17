@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    Security
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -32,7 +32,7 @@ class Registry
      *
      * @var array
      */
-    private static $registry = array();
+    private static $registry = [];
 
     /**
      * Establece un valor del registro
@@ -77,9 +77,7 @@ class Registry
      */
     public static function get($index)
     {
-        if (isset(self::$registry[$index])) {
-            return self::$registry[$index];
-        } 
+        return self::$registry[$index] ?? null;
     }
     
     /**
@@ -87,7 +85,8 @@ class Registry
      *
      * @param string $index
      */
-    protected function exist($index) {
+    protected static function exist($index)
+    {
         if (!isset(self::$registry[$index])) {
             self::$registry[$index] = array();
         }

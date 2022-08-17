@@ -10,7 +10,7 @@
  * @category   Kumbia
  * @package    Validate
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -127,8 +127,7 @@ class Validate
      * @param string $rule Nombre de la regla
      */
     protected function addError(Array $param, $field, $rule){
-         $this->messages[$field][] = isset($param['error']) ?
-                $param['error']: Validations::getMessage($rule);
+         $this->messages[$field][] = $param['error'] ?? Validations::getMessage($rule);
     }
 
     /**

@@ -10,7 +10,7 @@
  * @category   KumbiaPHP
  * @package    Helpers
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -54,7 +54,7 @@ class Tag
      * @param string $tag nombre de tag
      * @param string|null $content contenido interno
      * @param string|array $attrs atributos para el tag
-     * @return string
+     * @return void
      * */
     public static function create($tag, $content = null, $attrs = '')
     {

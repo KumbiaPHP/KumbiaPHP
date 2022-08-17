@@ -9,7 +9,7 @@
  *
  * @category   Kumbia
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -23,16 +23,16 @@ class KumbiaException extends Exception
     /**
      * View de error de la Excepción.
      *
-     * @var string|null
+     * @var string
      */
-    protected $view;
+    protected $view = 'exception';
 
     /**
      * Error 404 para los siguientes views.
      *
      * @var array
      */
-    protected static $view404 = array('no_controller', 'no_action', 'num_params', 'no_view');
+    protected static $view404 = ['no_controller', 'no_action', 'num_params', 'no_view'];
 
     /**
      * Path del template de exception.
@@ -47,7 +47,7 @@ class KumbiaException extends Exception
      * @param string $message mensaje
      * @param string $view    vista que se mostrara
      */
-    public function __construct($message, $view = 'exception')
+    public function __construct(string $message = '', string $view = 'exception')
     {
         $this->view = $view;
         parent::__construct($message);
@@ -57,25 +57,44 @@ class KumbiaException extends Exception
      * Maneja las excepciones no capturadas.
      *
      * @param Exception|KumbiaException $e
+     * 
+     * @return void
      * */
     public static function handleException($e)
     {
-        self::setHeader($e);
-
-        if (PRODUCTION) { 
+        self::setStatus($e);
+        if (PRODUCTION || self::untrustedIp()) {
             self::cleanBuffer();
-            include APP_PATH.'views/_shared/errors/404.phtml'; //TODO: añadir error 500.phtml
+            include APP_PATH.'views/_shared/errors/404.phtml';
 
             return;
         }
-        // show developer info in development
+        // show developer info in development and trusted IPs
         self::showDev($e);
+    }
+
+    /**
+     * Is not localhost or trusted ip ?
+     *
+     * @return bool
+     */
+    private static function untrustedIp(): bool
+    {
+        $trusted = ['127.0.0.1', '::1']; // Localhost ip
+        // check for old aplications
+        if (is_file(APP_PATH.'config/exception.php')) {
+            $trusted = array_merge( $trusted, (array) Config::get('exception.trustedIp'));
+        }
+        
+        return !in_array($_SERVER['REMOTE_ADDR'], $trusted);
     }
 
     /**
      * Maneja las excepciones no capturadas.
      *
      * @param Exception|KumbiaException $e
+     * 
+     * @return void
      * */
     private static function showDev($e)
     {
@@ -90,13 +109,8 @@ class KumbiaException extends Exception
         $Controller = Util::camelcase($controller);
         ob_start();
         
-        if ($e instanceof self) {
-            $view = $e->view;
-            $tpl = $e->template;
-        } else {
-            $view = 'exception';
-            $tpl = 'views/templates/exception.phtml';
-        }
+        $view = $e instanceof self ? $e->view : 'exception';
+        $tpl =  $e instanceof self ? $e->template : 'views/templates/exception.phtml';
         //Fix problem with action name in REST
         $action = $e->getMessage() ?: $action;
         $action = htmlspecialchars($action, ENT_QUOTES, APP_CHARSET);
@@ -120,18 +134,17 @@ class KumbiaException extends Exception
     }
 
     /**
-     * Añade la cabezera de error http.
+     * Añade el status de error http.
      *
      * @param Exception $e
      * */
-    private static function setHeader($e)
+    private static function setStatus($e)
     {
         if ($e instanceof self && in_array($e->view, self::$view404)) {
             http_response_code(404);
 
             return;
         }
-        http_response_code(500);
-        //TODO: mover a los views
+        http_response_code(500);  
     }
 }

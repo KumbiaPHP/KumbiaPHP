@@ -11,7 +11,7 @@
  * @package    Filter
  * @subpackage BaseFilter
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -34,8 +34,7 @@ class HtmlentitiesFilter implements FilterInterface
      */
     public static function execute($s, $options)
     {
-        $charset = (isset($options['charset'])) ? $options['charset'] : APP_CHARSET;
-        return htmlentities((string) $s, ENT_QUOTES, $charset);
+        return htmlentities((string) $s, ENT_QUOTES, $options['charset'] ?? APP_CHARSET);
     }
 
 }

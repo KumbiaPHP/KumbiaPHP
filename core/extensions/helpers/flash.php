@@ -10,7 +10,7 @@
  * @category   KumbiaPHP
  * @package    Helpers
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -33,7 +33,7 @@ class Flash
      * @param string $name  Para tipo de mensaje y para CSS class='$name'.
      * @param string $text  Mensaje a mostrar
      */
-    public static function show($name, $text)
+    public static function show(string $name, string $text): void
     {
         if (isset($_SERVER['SERVER_SOFTWARE'])) {
             echo '<div class="', $name, ' flash">', $text, '</div>', PHP_EOL;
@@ -48,7 +48,7 @@ class Flash
      *
      * @param string $text
      */
-    public static function error($text)
+    public static function error(string $text): void
     {
         self::show('error', $text);
     }
@@ -58,7 +58,7 @@ class Flash
      *
      * @param string $text
      */
-    public static function warning($text)
+    public static function warning(string $text): void
     {
         self::show('warning', $text);
     }
@@ -68,7 +68,7 @@ class Flash
      *
      * @param string $text
      */
-    public static function info($text)
+    public static function info(string $text): void
     {
         self::show('info', $text);
     }
@@ -78,7 +78,7 @@ class Flash
      *
      * @param string $text
      */
-    public static function valid($text)
+    public static function valid(string $text): void
     {
         self::show('valid', $text);
     }

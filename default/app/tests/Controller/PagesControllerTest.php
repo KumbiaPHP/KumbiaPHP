@@ -10,7 +10,7 @@
  * @category   Kumbia Tests
  * @package    Controller
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -28,10 +28,10 @@ class PagesControllerTest extends TestCase
      *
      * @return void
      */
-    public function testDisplayNoAction()
+    public function testDisplayPage()
     {
-        $actual = $this->get('/pages/kumbia/status/');
-        $this->assertContains('<h2>config.ini', $actual);
+        $actual = $this->get('/pages/kumbia/status');
+        $this->assertStringContainsString('<h2>config.', $actual);
         //$test = $this->get('/pages/show/kumbia/status/');
         $this->assertResponseCode(200);
     }

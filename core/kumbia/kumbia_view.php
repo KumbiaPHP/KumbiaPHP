@@ -9,7 +9,7 @@
  *
  * @category   View
  *
- * @copyright  Copyright (c) 2005 - 2020 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2021 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
@@ -58,7 +58,7 @@ class KumbiaView
      *
      * @var array
      */
-    protected static $_cache = array('type' => false, 'time' => false, 'group' => false);
+    protected static $_cache = ['type' => false, 'time' => false, 'group' => false];
 
     /**
      * Datos del Controlador actual.
@@ -373,7 +373,7 @@ class KumbiaView
             return self::$_controller;
         }
 
-        return isset(self::$_controller[$var]) ? self::$_controller[$var] : null;
+        return self::$_controller[$var] ?? null;
     }
 }
 
