@@ -56,7 +56,7 @@ class Flash
      */
     public static function error($text)
     {
-        return self::show('error', $text);
+        self::show('error', $text);
     }
 
     /**
@@ -66,7 +66,7 @@ class Flash
      */
     public static function warning($text)
     {
-        return self::show('warning', $text);
+        self::show('warning', $text);
     }
 
     /**
@@ -76,7 +76,7 @@ class Flash
      */
     public static function info($text)
     {
-        return self::show('info', $text);
+        self::show('info', $text);
     }
 
     /**
@@ -86,7 +86,7 @@ class Flash
      */
     public static function valid($text)
     {
-        return self::show('valid', $text);
+        self::show('valid', $text);
     }
 
 }
