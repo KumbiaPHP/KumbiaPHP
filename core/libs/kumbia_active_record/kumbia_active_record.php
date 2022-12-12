@@ -1997,7 +1997,7 @@ class KumbiaActiveRecord
         }
         if (func_num_args() > 1) {
             $params = Util::getParams(func_get_args());
-            $limit_args = array($select);
+            $limit_args = array();
             if (isset($params['limit'])) {
                 array_push($limit_args, "limit: $params[limit]");
             }
