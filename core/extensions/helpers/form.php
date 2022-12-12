@@ -605,7 +605,7 @@ class Form
      */
     public static function datetime($field, $attrs = '', $value = null)
     {
-        return self::input('datetime', $field, $attrs, $value);
+        return self::input('datetime-local', $field, $attrs, $value);
     }
 
     /**
