@@ -386,7 +386,9 @@ class KumbiaView
  *
  * @return string
  */
-function h($string, $charset = APP_CHARSET)
-{
-    return htmlspecialchars($string, ENT_QUOTES, $charset);
+if(!function_exists('h')) {
+    function h($string, $charset = APP_CHARSET)
+    {
+        return htmlspecialchars($string, ENT_QUOTES, $charset);
+    }
 }
