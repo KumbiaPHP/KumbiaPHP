@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KumbiaPHP web & app Framework
  *
@@ -58,7 +59,7 @@ class Form
         // Verifica en $_POST
         if (Input::hasPost($field)) {
             $value = $is_check ?
-            Input::post($field) == $value : Input::post($field);
+                Input::post($field) == $value : Input::post($field);
         } elseif ($is_check) {
             $value = $check;
         } elseif ($tmp_val = self::getFromModel($formField)) {
@@ -67,10 +68,26 @@ class Form
         }
         // Filtrar caracteres especiales
         if (!$is_check && $value !== null && $filter) {
-            $value = htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
+            if (is_array($value)) {
+                $value = self::filterArrayValues($value);
+            } else {
+                $value = htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
+            }
         }
         // Devuelve los datos
         return array($id, $name, $value);
+    }
+
+    private static function filterArrayValues(array $array)
+    {
+        foreach ($array as &$value) {
+            if (is_array($value)) {
+                $value = self::filterArrayValues($value);
+            } else {
+                $value = htmlspecialchars($value, ENT_COMPAT, APP_CHARSET);
+            }
+        }
+        return $array;
     }
 
     /**
@@ -101,7 +118,7 @@ class Form
     protected static function fieldName(array $field)
     {
         return isset($field[1]) ?
-                    array("{$field[0]}_{$field[1]}", "{$field[0]}[{$field[1]}]") : array($field[0], $field[0]);
+            array("{$field[0]}_{$field[1]}", "{$field[0]}[{$field[1]}]") : array($field[0], $field[0]);
     }
 
     /**
@@ -181,9 +198,9 @@ class Form
     {
         $attrs = Tag::getAttrs($attrs);
         if ($action) {
-            $action = PUBLIC_PATH.$action;
+            $action = PUBLIC_PATH . $action;
         } else {
-            $action = PUBLIC_PATH.ltrim(Router::get('route'), '/');
+            $action = PUBLIC_PATH . ltrim(Router::get('route'), '/');
         }
 
         return "<form action=\"$action\" method=\"$method\" $attrs>";
@@ -318,7 +335,7 @@ class Form
         list($id, $name, $value) = self::getFieldData($field, $value);
         //Si se quiere agregar blank
         $options = empty($blank) ? '' :
-        '<option value="">'.htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET).'</option>';
+            '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
         foreach ($data as $k => $v) {
             $val = self::selectValue($v, $k, $itemId);
             $text = self::selectShow($v, $show);
@@ -340,8 +357,11 @@ class Form
      */
     public static function selectValue($item, $key, $id)
     {
-        return htmlspecialchars(is_object($item) ? $item->$id : $key,
-                                ENT_COMPAT, APP_CHARSET);
+        return htmlspecialchars(
+            is_object($item) ? $item->$id : $key,
+            ENT_COMPAT,
+            APP_CHARSET
+        );
     }
 
     /**
@@ -356,7 +376,7 @@ class Form
     public static function selectedValue($value, $key)
     {
         return ((is_array($value) && in_array($key, $value)) || $key === $value) ?
-                'selected="selected"' : '';
+            'selected="selected"' : '';
     }
 
     /**
@@ -440,7 +460,7 @@ class Form
     {
         $attrs = Tag::getAttrs($attrs);
 
-        return '<input type="image" src="'.PUBLIC_PATH."img/$img\" $attrs/>";
+        return '<input type="image" src="' . PUBLIC_PATH . "img/$img\" $attrs/>";
     }
 
     /**
@@ -507,8 +527,8 @@ class Form
             $data = $model_asoc->find("columns: $pk,$show", "order: $show asc"); //mejor usar array
         } else {
             $data = (isset($data[2])) ?
-            $model_asoc->{$data[1]}($data[2]) :
-            $model_asoc->{$data[1]}();
+                $model_asoc->{$data[1]}($data[2]) :
+                $model_asoc->{$data[1]}();
         }
 
         return self::select($field, $data, $attrs, $value, $blank, $pk, $show);
