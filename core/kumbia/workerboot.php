@@ -24,7 +24,6 @@
 
 require_once CORE_PATH.'../../autoload.php';
 
-use Workerman\Protocols\Http;
 use Workerman\Lib\Timer;
 
 // Iniciar el buffer de salida
@@ -61,7 +60,7 @@ require APP_PATH.'libs/view.php';
 function kumbiaSend() {
     ob_start();ob_start();
     View::render(StaticRouter::execute($_SERVER['REQUEST_URI']));
-    Http::header(WorkerTimer::$date);
+    header(WorkerTimer::$date);
     if (ob_get_level() > 1) {
         ob_end_flush();
     }
