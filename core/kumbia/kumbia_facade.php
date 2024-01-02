@@ -62,15 +62,6 @@
              throw new KumbiaException('A facade root has not been set.');
          }
 
-         switch (count($args)) {
-            case 0:
-                return $instance->$method();
-            case 1:
-                return $instance->$method($args[0]);
-            case 2:
-                return $instance->$method($args[0], $args[1]);
-            default:
-                return call_user_func_array([$instance, $method], $args);
-        }
+        return call_user_func_array([$instance, $method], $args);
      }
  }
