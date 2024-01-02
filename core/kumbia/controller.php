@@ -20,6 +20,7 @@
  * @category   Kumbia
  * @package    Controller
  */
+#[\AllowDynamicProperties]
 abstract class Controller
 {
 
