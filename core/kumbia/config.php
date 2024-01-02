@@ -9,16 +9,16 @@
  *
  * @category   Config
  *
- * @copyright  Copyright (c) 2005 - 2023 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2024 KumbiaPHP Team (http://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
 /**
- * Clase para la carga de Archivos .INI y de configuración.
- *
+ * Clase para la carga de Archivos de configuración.
+ * 
  * Aplica el patrón Singleton que utiliza un array
  * indexado por el nombre del archivo para evitar que
- * un .ini de configuración sea leido mas de una
+ * un fichero de configuración sea leido mas de una
  * vez en runtime con lo que aumentamos la velocidad.
  *
  * @category   Kumbia
@@ -30,38 +30,31 @@ class Config
      * -
      * Contenido de variables de configuración.
      *
-     * @var array
+     * @var array<array-key,mixed>
      */
-    protected static $vars = [];
+    protected static $config = [];
 
     /**
-     * Get config vars
+     * Get config
      * -
      * Obtiene configuración.
      *
      * @param string $var fichero.sección.variable
      *
+     * @throws KumbiaException
      * @return mixed
      */
     public static function get($var)
     {
-        $namespaces = explode('.', $var);
-        if (!isset(self::$vars[$namespaces[0]])) {
-            self::load($namespaces[0]);
-        }
-        switch (count($namespaces)) {
-            case 3:
-                return self::$vars[$namespaces[0]][$namespaces[1]][$namespaces[2]] ?? null;
+        $sections = explode('.', $var);
+        self::$config[$sections[0]] ??= self::load($sections[0]);
 
-            case 2:
-                return self::$vars[$namespaces[0]][$namespaces[1]] ?? null;
-
-            case 1:
-                return self::$vars[$namespaces[0]] ?? null;
-
-            default:
-                trigger_error('Máximo 3 niveles en Config::get(fichero.sección.variable), pedido: '.$var);
-        }
+        return match(count($sections)) {
+            3 => self::$config[$sections[0]][$sections[1]][$sections[2]] ?? null,
+            2 => self::$config[$sections[0]][$sections[1]] ?? null,
+            1 => self::$config[$sections[0]] ?? null,
+            default => throw new KumbiaException('Máximo 3 niveles en Config::get(fichero.sección.variable), pedido: '.$var)
+        };
     }
 
     /**
@@ -69,11 +62,11 @@ class Config
      * -
      * Obtiene toda la configuración.
      *
-     * @return array
+     * @return array<array-key,mixed>
      */
     public static function getAll()
     {
-        return self::$vars;
+        return self::$config;
     }
 
     /**
@@ -84,24 +77,18 @@ class Config
      * @param string $var   variable de configuración
      * @param mixed  $value valor para atributo
      * 
+     * @throws KumbiaException
      * @return void
      */
     public static function set($var, $value)
     {
-        $namespaces = explode('.', $var);
-        switch (count($namespaces)) {
-            case 3:
-                self::$vars[$namespaces[0]][$namespaces[1]][$namespaces[2]] = $value;
-                break;
-            case 2:
-                self::$vars[$namespaces[0]][$namespaces[1]] = $value;
-                break;
-            case 1:
-                self::$vars[$namespaces[0]] = $value;
-                break;
-            default:
-                trigger_error('Máximo 3 niveles en Config::set(fichero.sección.variable), pedido: '.$var);
-        }
+        $sections = explode('.', $var);
+        match(count($sections)) {
+            3 => self::$config[$sections[0]][$sections[1]][$sections[2]] = $value,
+            2 => self::$config[$sections[0]][$sections[1]] = $value,
+            1 => self::$config[$sections[0]] = $value,
+            default => throw new KumbiaException('Máximo 3 niveles en Config::set(fichero.sección.variable), pedido: '.$var)
+        };
     }
 
     /**
@@ -112,16 +99,15 @@ class Config
      * @param string $file  archivo .php o .ini
      * @param bool   $force forzar lectura de .php o .ini
      *
-     * @return array
+     * @return array<array-key,mixed>
      */
-    public static function &read($file, $force = false)
+    public static function read($file, $force = false)
     {
-        if (isset(self::$vars[$file]) && !$force) {
-            return self::$vars[$file];
+        if ($force) {
+            return self::$config[$file] = self::load($file);
         }
-        self::load($file);
 
-        return self::$vars[$file];
+        return self::$config[$file] ??= self::load($file);
     }
 
     /**
@@ -131,16 +117,15 @@ class Config
      *
      * @param string $file archivo
      * 
-     * @return void
+     * @return array<array-key,mixed>
      */
-    private static function load($file)
+    private static function load($file): array
     {
         if (is_file(APP_PATH."config/$file.php")) {
-            self::$vars[$file] = require APP_PATH."config/$file.php";
 
-            return;
+            return require APP_PATH."config/$file.php";
         }
-        // sino carga el .ini
-        self::$vars[$file] = parse_ini_file(APP_PATH."config/$file.ini", true);
+        // sino carga el .ini desaconsejado por rendimiento (legacy)
+        return parse_ini_file(APP_PATH."config/$file.ini", true);
     }
 }
