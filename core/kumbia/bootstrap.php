@@ -33,10 +33,7 @@ require CORE_PATH.'kumbia/kumbia_version.php';
  *
  * @return void
  */
-set_exception_handler(function($e) {
-    KumbiaException::handleException($e);
-});
-
+set_exception_handler(fn($e) => KumbiaException::handleException($e));
 
 // @see Autoload
 require CORE_PATH.'kumbia/autoload.php';
