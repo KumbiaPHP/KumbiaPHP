@@ -59,6 +59,7 @@ require CORE_PATH.'libs/db/db.php';
  *
  * @category   Kumbia
  */
+#[\AllowDynamicProperties]
 class KumbiaActiveRecord
 {
     //Soportados
