@@ -63,8 +63,8 @@ class ModelForm
                 case 'real': case 'decimal': case 'numeric':
                 case 'year': case 'day': case 'int unsigned': // Números
 
-                    if (strripos($field, '_id', -3)) {
-                        echo Form::dbSelect($model_name.'.'.$field, null, null, 'Seleccione', $required, $model->$field);
+                    if (str_ends_with($field, '_id')) {
+                        echo Form::dbSelect($model_name.'.'.$field, null, null, 'Seleccione', '', $model->$field);
                         break;
                     }
 
