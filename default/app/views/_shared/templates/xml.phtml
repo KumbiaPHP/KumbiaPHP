@@ -27,8 +27,8 @@ function generate_valid_xml_from_array($array, $nodeBlock = 'nodes', $nodeName =
 
 //First element
 $first =  is_array($data) ? $data[key($data)] : $data;
-$block =  $first === $data && is_object($first) ? strtolower(get_class($first)) : 'data';
-$node  =  is_object($first) ? strtolower(get_class($first)) : 'node';
+$block =  $first === $data && is_object($first) ? strtolower($first::class) : 'data';
+$node  =  is_object($first) ? strtolower($first::class) : 'node';
 
 generate_valid_xml_from_array($data, $block, $node);
 /*

@@ -185,7 +185,7 @@ abstract class KumbiaRest extends Controller
             $q = 1; /* Por defecto la prioridad es 1, el siguiente verifica si es otra */
             if (strpos($a, ';q=')) {
                 /* parte el "mime/type;q=X" en dos: "mime/type" y "X" */
-                list($a, $q) = explode(';q=', $a);
+                [$a, $q] = explode(';q=', $a);
             }
             $aTypes[$a] = $q;
         }
