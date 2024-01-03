@@ -68,6 +68,21 @@ class KumbiaView
     protected static $_controller;
 
     /**
+     * Initialize view
+     *
+     * @param string $view
+     * @param string $path
+     * @return void
+     */
+    public static function init($view, $path)
+    {
+        self::$_view = $view;
+        self::$_path = $path.'/';
+        //self::$init = true;
+        // TODO add defaults if init executed (workerman, ngx-php,...)
+    }
+
+    /**
      * Cambia el view y opcionalmente el template.
      *
      * @param string|null    $view     nombre del view a utilizar sin .phtml
