@@ -25,38 +25,38 @@ class InputTest extends PHPUnit\Framework\TestCase
 {
     public function setUp(): void
     {
-        $this->originalValues = array(
+        $this->originalValues = [
             $_GET,
             $_POST,
             $_REQUEST,
             $_SERVER,
-        );
+        ];
 
-        $_GET = array();
-        $_POST = array();
-        $_REQUEST = array();
-        $_SERVER = array();
+        $_GET = [];
+        $_POST = [];
+        $_REQUEST = [];
+        $_SERVER = [];
     }
 
     protected function tearDown(): void
     {
-        list($_GET, $_POST, $_REQUEST, $_SERVER) = $this->originalValues;
+        [$_GET, $_POST, $_REQUEST, $_SERVER] = $this->originalValues;
     }
 
     public function isMethodProvider()
     {
-        return array(
-            array('GET', 'GET', true),
-            array('POST', 'POST', true),
-            array('get', 'GET', false),
-            array('get', 'POST', false),
-            array('GET', 'POST', false),
-            array('POST', 'GET', false),
-            array('GET ', 'GET', false),
-            array(' GET ', 'GET', false),
-            array(' GET', 'GET', false),
-            array(' Get', 'GET', false),
-        );
+        return [
+            ['GET', 'GET', true],
+            ['POST', 'POST', true],
+            ['get', 'GET', false],
+            ['get', 'POST', false],
+            ['GET', 'POST', false],
+            ['POST', 'GET', false],
+            ['GET ', 'GET', false],
+            [' GET ', 'GET', false],
+            [' GET', 'GET', false],
+            [' Get', 'GET', false],
+        ];
     }
 
     /**
@@ -98,7 +98,7 @@ class InputTest extends PHPUnit\Framework\TestCase
 
         Input::delete('__index__');
 
-        $this->assertSame(array(), $_POST['__index__']);
+        $this->assertSame([], $_POST['__index__']);
     }
 
     public function testDeleteWithoutIndex()
@@ -109,7 +109,7 @@ class InputTest extends PHPUnit\Framework\TestCase
 
         Input::delete();
 
-        $this->assertSame(array(), $_POST);
+        $this->assertSame([], $_POST);
     }
 
     public function testIpFromClientIp()
@@ -135,11 +135,11 @@ class InputTest extends PHPUnit\Framework\TestCase
 
     public function getRequestTestingData()
     {
-        return array(
-            array(&$_POST, 'post'),
-            array(&$_GET, 'get'),
-            array(&$_REQUEST, 'request'),
-        );
+        return [
+            [&$_POST, 'post'],
+            [&$_GET, 'get'],
+            [&$_REQUEST, 'request'],
+        ];
     }
 
     /**
@@ -165,7 +165,7 @@ class InputTest extends PHPUnit\Framework\TestCase
 
         $GLOBAl['__post_index__'] = 'value';
 
-        $this->assertSame(array('__post_index__' => 'value'), Input::$method());
+        $this->assertSame(['__post_index__' => 'value'], Input::$method());
     }
 
     /**
@@ -176,12 +176,12 @@ class InputTest extends PHPUnit\Framework\TestCase
         $this->assertSame('', Input::post('index1.index2.index4'));
         $this->assertSame('', Input::post('index1.index3'));
 
-        $_POST['index1'] = array(
-            'index2' => array(
+        $_POST['index1'] = [
+            'index2' => [
                 'index4' => 'value4',
-            ),
+            ],
             'index3' => 'value3',
-        );
+        ];
 
         $this->assertSame('value4', Input::post('index1.index2.index4'));
         $this->assertSame('value3', Input::post('index1.index3'));

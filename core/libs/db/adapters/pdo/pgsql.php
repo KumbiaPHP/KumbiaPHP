@@ -95,7 +95,7 @@ class DbPdoPgSQL extends DbPDO
     {
         $table = addslashes(strtolower($table));
         if (strpos($table, '.')) {
-            list($schema, $table) = explode('.', $table);
+            [$schema, $table] = explode('.', $table);
         }
         if ($schema == '') {
             $num = $this->fetch_one("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public' AND TABLE_NAME ='$table'");
