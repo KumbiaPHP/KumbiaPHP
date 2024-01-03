@@ -21,6 +21,7 @@
 /**
  * @category Test
  */
+#[\AllowDynamicProperties]
 class InputTest extends PHPUnit\Framework\TestCase
 {
     public function setUp(): void
