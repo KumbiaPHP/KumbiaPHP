@@ -98,7 +98,7 @@ class ModelForm
             }
             echo '</label>';
         }
-        echo '<input type="submit" value="Enviar" />' , PHP_EOL;
+        echo '<input type="submit">' , PHP_EOL;
         echo '</form>' , PHP_EOL; 
     }
 }
