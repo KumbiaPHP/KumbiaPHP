@@ -74,7 +74,7 @@ class ModelForm
                     break;
 
                 case 'datetime': case 'timestamp':
-                    echo "<input id=\"$formId\" type=\"datetime\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
+                    echo "<input id=\"$formId\" type=\"datetime-local\" name=\"$formName\" value=\"{$model->$field}\">" , PHP_EOL;
                     break;
 
                 case 'enum': case 'set': case 'bool':
