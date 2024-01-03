@@ -63,11 +63,6 @@ abstract class Controller
      */
     public $data;
 
-    /**
-     * Constructor
-     *
-     * @param array $args
-     */
     public function __construct(array $args)
     {
         $this->module_name = $args['module'];
