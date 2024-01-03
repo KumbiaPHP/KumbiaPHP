@@ -52,7 +52,7 @@ class StaticRouter extends Router
     protected static function dispatch($cont)
     {
         self::$routes[self::$vars['route']] = 
-                            [ 'name' => get_class($cont), // in php 5.5 try ::class
+                            [ 'name' => $cont::class,
                             'vars' => self::$vars ];
         if (\count(self::$routes) > 256) {
             unset(self::$routes[key(self::$routes)]);
