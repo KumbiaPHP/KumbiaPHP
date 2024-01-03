@@ -1,5 +1,6 @@
 ![KumbiaPHP logo](https://rawgit.com/kumbiaphp/kumbiaphp/master/default/public/img/kumbiaphp.svg)
 
+[![PHPUnit](https://github.com/KumbiaPHP/KumbiaPHP/actions/workflows/phpunit.yml/badge.svg)](https://github.com/KumbiaPHP/KumbiaPHP/actions/workflows/phpunit.yml)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP/badges/quality-score.png)](https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP)
 [![Code Climate](https://codeclimate.com/github/KumbiaPHP/KumbiaPHP/badges/gpa.svg)](https://codeclimate.com/github/KumbiaPHP/KumbiaPHP)
 [![Slack](https://slack.kumbiaphp.com/badge.svg)](https://slack.kumbiaphp.com)
