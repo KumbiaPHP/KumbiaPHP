@@ -23,10 +23,10 @@
 class ModelForm
 {
     /**
+     * Generate a form from model automatically
+     * -
      * Genera un form de un modelo (objeto) automáticamente.
      *
-     * @param object $model
-     * @param string $action
      */
     public static function create(object $model, string $action = ''): void
     {
