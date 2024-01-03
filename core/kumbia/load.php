@@ -58,7 +58,7 @@ class Load
      * @param string $model  modelo a instanciar en small_case
      * @param array  $params parámetros para instanciar el modelo
      *
-     * @return obj model
+     * @return object model
      */
     public static function model($model, array $params = [])
     {
@@ -78,7 +78,7 @@ class Load
     /**
      * Carga modelos.
      *
-     * @param string $model en small_case
+     * @param string|array $model en small_case
      * @throw KumbiaException
      */
     public static function models($model)
