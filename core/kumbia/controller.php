@@ -76,13 +76,11 @@ abstract class Controller
      */
     public function __construct(array $args)
     {
-        /*modulo al que pertenece el controlador*/
         $this->module_name = $args['module'];
         $this->controller_name = $args['controller'];
         $this->parameters = $args['parameters'];
         $this->action_name = $args['action'];
-        View::select($args['action']);
-        View::setPath($args['controller_path']);
+        View::init($args['action'], $args['controller_path']);
     }
 
     /**
