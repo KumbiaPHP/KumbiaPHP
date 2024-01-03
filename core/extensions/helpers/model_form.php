@@ -40,7 +40,7 @@ class ModelForm
         $pk = $model->primary_key[0];
         echo '<input id="', $model_name, '_', $pk, '" name="', $model_name, '[', $pk, ']" class="id" value="', $model->$pk , '" type="hidden">' , PHP_EOL;
 
-        $fields = array_diff($model->fields, [$model->_at, $model->_in, $model->primary_key]);
+        $fields = array_diff($model->fields, array_merge($model->_at, $model->_in, $model->primary_key));
 
         foreach ($fields as $field) {
             $tipo = trim(preg_replace('/(\(.*\))/', '', $model->_data_type[$field])); //TODO: recoger tamaño y otros valores
