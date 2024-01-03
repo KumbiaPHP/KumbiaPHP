@@ -55,12 +55,6 @@ abstract class Controller
      * @var bool
      */
     public $limit_params = true;
-    /**
-     * Nombre del scaffold a usar
-     *
-     * @var string
-     */
-    public string $scaffold = '';
 
     /**
      * Data disponble para mostrar
