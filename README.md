@@ -1,9 +1,10 @@
 ![KumbiaPHP logo](https://raw.githubusercontent.com/KumbiaPHP/KumbiaPHP/master/default/public/img/kumbiaphp.svg?sanitize=true)
 
+[![PHPUnit](https://github.com/KumbiaPHP/KumbiaPHP/actions/workflows/phpunit.yml/badge.svg)](https://github.com/KumbiaPHP/KumbiaPHP/actions/workflows/phpunit.yml)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP/badges/quality-score.png)](https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP)
 [![Code Climate](https://codeclimate.com/github/KumbiaPHP/KumbiaPHP/badges/gpa.svg)](https://codeclimate.com/github/KumbiaPHP/KumbiaPHP)
 [![Slack](https://slack.kumbiaphp.com/badge.svg)](https://slack.kumbiaphp.com)
-![PHP7 ready](https://raw.githubusercontent.com/KumbiaPHP/KumbiaPHP/master/default/public/img/php7.svg?sanitize=true)
+![PHP8 ready](/default/public/img/php8.svg?sanitize=true)
 
 Español | [English](README.EN.md)
 
@@ -28,8 +29,8 @@ https://slack.kumbiaphp.com (new)
 https://www.techempower.com/benchmarks/#section=data-r18&hw=ph&test=fortune&l=zik073-f&w=0-jz6rk-0&c=4
 
 ## Change Log
-* v1.2 necesita mínimo PHP 7.4
-* Hasta la v1.1.5 requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.1, 7.2 o 7.3
+* v1.2 necesita mínimo PHP 8.0
+* Hasta la v1.1.5 requiere PHP 5.4 como mínimo, recomendado 7.x o 8.x
 * CRUD: https://wiki.kumbiaphp.com/V1.0_CRUD_en_KumbiaPHP_Framework
 
 Comunidad
