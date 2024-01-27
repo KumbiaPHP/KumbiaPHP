@@ -36,7 +36,7 @@ function kumbia_autoload($class)
         return;
     }
     // PSR0
-    if (strpos($class, '\\')) {
+    if (str_contains($class, '\\')) {
         kumbia_autoload_vendor($class);
         return;
     }
