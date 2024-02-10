@@ -22,21 +22,20 @@ function kumbia_autoload($class)
 {
     // Optimizando carga
     static $classes;
-    if ( ! isset($classes)) {
-        $classes = [
-            'ActiveRecord'    => APP_PATH.'libs/active_record.php',
-            'Load'            => CORE_PATH.'kumbia/load.php',
-            'KumbiaException' => CORE_PATH.'kumbia/kumbia_exception.php',
-            'KumbiaRouter'    => CORE_PATH.'kumbia/kumbia_router.php',
-            'KumbiaFacade'    => CORE_PATH.'kumbia/kumbia_facade.php'
-        ];
-    }
+    $classes ??= [
+        'ActiveRecord'    => APP_PATH.'libs/active_record.php',
+        'Load'            => CORE_PATH.'kumbia/load.php',
+        'KumbiaException' => CORE_PATH.'kumbia/kumbia_exception.php',
+        'KumbiaRouter'    => CORE_PATH.'kumbia/kumbia_router.php',
+        'KumbiaFacade'    => CORE_PATH.'kumbia/kumbia_facade.php'
+    ];
+
     if (isset($classes[$class])) {
         include $classes[$class];
         return;
     }
     // PSR0
-    if (strpos($class, '\\')) {
+    if (str_contains($class, '\\')) {
         kumbia_autoload_vendor($class);
         return;
     }
