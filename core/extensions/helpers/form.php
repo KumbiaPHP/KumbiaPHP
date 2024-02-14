@@ -55,7 +55,7 @@ class Form
     {
         // Obtiene considerando el patrón de formato form.field
         $formField = explode('.', $field, 2);
-        list($id, $name) = self::fieldName($formField);
+        [$id, $name] = self::fieldName($formField);
         // Verifica en $_POST
         if (Input::hasPost($field)) {
             $value = $is_check ?
@@ -161,12 +161,12 @@ class Form
      * @param string       $value
      * @param string|array $attrs
      */
-    protected static function tag($tag, $field, $attrs = '', $value = null, $extra = '', $close = true)
+    protected static function tag($tag, $field, $attrs = '', $value = '', $extra = '', $close = true)
     {
         $attrs = Tag::getAttrs($attrs);
         $end = $close ? ">{{value}}</$tag>" : '/>';
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        list($id, $name, $value) = self::getFieldData($field, $value);
+        [$id, $name, $value] = self::getFieldData($field, $value);
 
         return str_replace('{{value}}', $value, "<$tag id=\"$id\" name=\"$name\" $extra $attrs $end");
     }
@@ -332,7 +332,7 @@ class Form
     {
         $attrs = Tag::getAttrs($attrs);
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
-        list($id, $name, $value) = self::getFieldData($field, $value);
+        [$id, $name, $value] = self::getFieldData($field, $value);
         //Si se quiere agregar blank
         $options = empty($blank) ? '' :
             '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
@@ -408,7 +408,7 @@ class Form
     {
         $attrs = Tag::getAttrs($attrs);
         // Obtiene name y id para el campo y los carga en el scope
-        list($id, $name, $checked) = self::getFieldDataCheck($field, $checkValue, $checked);
+        [$id, $name, $checked] = self::getFieldDataCheck($field, $checkValue, $checked);
 
         if ($checked) {
             $checked = 'checked="checked"';
@@ -431,7 +431,7 @@ class Form
     {
         $attrs = Tag::getAttrs($attrs);
         // Obtiene name y id para el campo y los carga en el scope
-        list($id, $name, $checked) = self::getFieldDataCheck($field, $radioValue, $checked);
+        [$id, $name, $checked] = self::getFieldDataCheck($field, $radioValue, $checked);
 
         if ($checked) {
             $checked = 'checked="checked"';
@@ -552,7 +552,7 @@ class Form
         $attrs = Tag::getAttrs($attrs);
 
         // Obtiene name y id, y los carga en el scope
-        list($id, $name) = self::getFieldData($field, false);
+        [$id, $name] = self::getFieldData($field, false);
 
         return "<input id=\"$id\" name=\"$name\" type=\"file\" $attrs/>";
     }
