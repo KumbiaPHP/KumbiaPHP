@@ -180,7 +180,7 @@ class Form
      * @param string $value
      * @return string
      */
-    public static function input($type, $field, $attrs = '', $value = null)
+    public static function input($type, $field, $attrs = '', $value = '')
     {
         return self::tag('input', $field, $attrs, $value, "type=\"$type\" value=\"{{value}}\"", false);
     }
@@ -566,7 +566,7 @@ class Form
      *
      * @return string
      */
-    public static function textarea($field, $attrs = '', $value = null)
+    public static function textarea($field, $attrs = '', $value = '')
     {
         return self::tag('textarea', $field, $attrs, $value);
     }
@@ -580,7 +580,7 @@ class Form
      *
      * @return string
      */
-    public static function date($field, $attrs = '', $value = null)
+    public static function date($field, $attrs = '', $value = '')
     {
         return self::input('date', $field, $attrs, $value);
     }
