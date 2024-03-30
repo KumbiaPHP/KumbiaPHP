@@ -43,11 +43,11 @@ abstract class KumbiaRest extends Controller
      * callback que devuelva los datos interpretado.
      */
     protected $_inputType = [
-        'application/json' => ['self', 'parseJSON'],
-        'application/xml' => ['self', 'parseXML'],
-        'text/xml' => ['self', 'parseXML'],
-        'text/csv' => ['self', 'parseCSV'],
-        'application/x-www-form-urlencoded' => ['self', 'parseForm']
+        'application/json' => [self::class, 'parseJSON'],
+        'application/xml' => [self::class, 'parseXML'],
+        'text/xml' => [self::class, 'parseXML'],
+        'text/csv' => [self::class, 'parseCSV'],
+        'application/x-www-form-urlencoded' => [self::class, 'parseForm']
     ];
 
     /**
