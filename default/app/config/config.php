@@ -42,6 +42,10 @@ return [
          */
         'namespace_auth' => 'default',
         /**
+         * image_upload_path: ruta por defecto para subir imagenes
+         */
+        'image_upload_path' => '/img/upload',
+        /**
          * routes: descomentar para activar routes en routes.php
          */
         //'routes' => '1',
