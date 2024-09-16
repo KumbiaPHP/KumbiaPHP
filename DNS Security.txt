@@ -1,0 +1,3 @@
+Record name 	Record type 	Value
+_security.kumbiaphp.com 	TXT 	"security_contact=mailto:yo@kumbiaphp.com"
+_security.kumbiaphp.com 	TXT 	"security_policy=https://kumbiaphp.com/blog/soporte/"
