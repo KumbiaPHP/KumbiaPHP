@@ -24,7 +24,7 @@
 
 require_once CORE_PATH.'../../autoload.php';
 
-use Workerman\Lib\Timer;
+use Workerman\Timer;
 
 // Iniciar el buffer de salida
 //ob_start();
