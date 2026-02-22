@@ -42,7 +42,7 @@ class Registry
      */
     public static function set($index, $value)
     {
-        self::$registry[$index] = $value;
+        self::$registry[$index] = [$value];
     }
 
     /**
@@ -79,7 +79,7 @@ class Registry
     {
         return self::$registry[$index] ?? null;
     }
-    
+
     /**
      * Crea un index si no existe
      *
