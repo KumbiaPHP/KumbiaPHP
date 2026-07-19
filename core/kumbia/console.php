@@ -155,7 +155,7 @@ class Console
         }
 
         // define el path de la aplicacion
-        define('APP_PATH', rtrim($dir, '/') . '/');
+        define('APP_PATH', self::resolveAppPath($dir));
 
         // lee la configuracion
         $config = Config::read('config');
@@ -212,4 +212,26 @@ class Console
         return $data;
     }
 
+    /**
+     * Resuelve la ruta de aplicación para consola.
+     *
+     * Resuelve el path de la aplicación bajo la estructura estándar de KumbiaPHP,
+     * donde el app vive en default/app/ relativo a la raíz del proyecto.
+     *
+     * @param string $dir Directorio raíz del proyecto recibido desde terminal
+     *
+     * @throws KumbiaException
+     * @return string
+     */
+    private static function resolveAppPath(string $dir): string
+    {
+        $path = rtrim($dir, '/') . '/default/app/';
+
+        if (is_dir("{$path}config")
+                && (is_file("{$path}config/config.php") || is_file("{$path}config/config.ini"))) {
+            return $path;
+        }
+
+        throw new KumbiaException('No se encontró la aplicación. Use --path con la ruta de app');
+    }
 }
