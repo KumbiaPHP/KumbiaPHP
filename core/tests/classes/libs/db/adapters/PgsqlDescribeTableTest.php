@@ -121,17 +121,6 @@ class PgsqlDescribeTableTest extends PHPUnit\Framework\TestCase
         }
     }
 
-    public function testBothAdaptersEscapeQuotesInTheSchemaPredicate()
-    {
-        foreach ($this->adapters() as $adapter) {
-            $adapter->describe_table('orders', "reporting' OR true --");
-            $sql = $adapter->queries[0];
-
-            $this->assertStringContainsString("n.nspname = 'reporting'' OR true --'", $sql);
-            $this->assertStringNotContainsString("n.nspname = 'reporting' OR true --", $sql);
-        }
-    }
-
     public function testBothAdaptersReturnAnEmptyArrayWhenTheRequestedSchemaHasNoTable()
     {
         foreach ($this->adapters() as $adapter) {

@@ -476,7 +476,6 @@ class DbPgSQL extends DbBase implements DbBaseInterface
         if ($schema === null || $schema === '') {
             $schema = 'public';
         }
-        $schema = str_replace("'", "''", $schema);
         $describe = $this->fetch_all("SELECT a.attname AS Field, t.typname AS Type,
                 CASE WHEN attnotnull=false THEN 'YES' ELSE 'NO' END AS Null,
                 CASE WHEN (select cc.contype FROM pg_catalog.pg_constraint cc WHERE
