@@ -216,13 +216,17 @@ class DbPdoPgSQL extends DbPDO
      */
     public function describe_table($table, $schema = '')
     {
+        if ($schema == '') {
+            $schema = 'public';
+        }
         $describe = $this->fetch_all("SELECT a.attname AS Field, t.typname AS Type,
                 CASE WHEN attnotnull=false THEN 'YES' ELSE 'NO' END AS Null,
                 CASE WHEN (select cc.contype FROM pg_catalog.pg_constraint cc WHERE
                 cc.conrelid = c.oid AND cc.conkey[1] = a.attnum)='p' THEN 'PRI' ELSE ''
                 END AS Key, CASE WHEN atthasdef=true THEN TRUE ELSE NULL END AS Default
                 FROM pg_catalog.pg_class c, pg_catalog.pg_attribute a,
-                pg_catalog.pg_type t WHERE c.relname = '$table' AND c.oid = a.attrelid
+                pg_catalog.pg_type t, pg_catalog.pg_namespace n WHERE c.relname = '$table' AND n.nspname = '$schema'
+                AND n.oid = c.relnamespace AND c.oid = a.attrelid
                 AND a.attnum > 0 AND t.oid = a.atttypid order by a.attnum");
         $final_describe = [];
         foreach ($describe as $field) {
