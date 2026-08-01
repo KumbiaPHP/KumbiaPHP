@@ -191,4 +191,24 @@ class InputTest extends PHPUnit\Framework\TestCase
         $this->assertSame('', Input::post('index1.index5'));
         $this->assertSame('', Input::post('index61'));
     }
+
+    public function testHasPostRecognizesPresentFalsyValuesAndNestedKeys()
+    {
+        $values = [
+            'empty_string' => '',
+            'false' => false,
+            'null' => null,
+            'empty_array' => [],
+            'integer_zero' => 0,
+            'string_zero' => '0',
+        ];
+        $_POST = $values + ['record' => $values];
+
+        foreach (array_keys($values) as $key) {
+            $this->assertTrue(Input::hasPost($key));
+            $this->assertTrue(Input::hasPost("record.$key"));
+        }
+        $this->assertFalse(Input::hasPost('record.missing'));
+        $this->assertFalse(Input::hasPost('record.false.missing'));
+    }
 }
