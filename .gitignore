@@ -11,16 +11,35 @@ default/public/temp
 # Sonarlint
 .sonarlint
 
+# PHPUnit
+/.phpunit.result.cache
+/.phpunit.cache/
+
+#### Local development tools:
+
+# AI agents
+/.atl/
+/.claude/
+/.codegraph/
+/.codex/
+/.cursor/
+
 #### Editors:
 
 # Netbeans
 /nbproject
 
 # Visual Studio Code
-.vscode
+/.vscode/
 
 # Intellij
-.idea
+/.idea/
+
+# Nova
+/.nova/
+
+# Zed
+/.zed/
 
 #sonar
 .sonar
