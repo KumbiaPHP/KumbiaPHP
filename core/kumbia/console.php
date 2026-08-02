@@ -143,19 +143,27 @@ class Console
 
         // verifica el path de aplicacion
         if (isset($args[0]['path'])) {
-            $dir = realpath($args[0]['path']);
+            $path = $args[0]['path'];
+            $dir = realpath($path);
+            $trimmedPath = rtrim($path, '/\\');
+            if ($dir === false && $trimmedPath !== '') {
+                $dir = realpath($trimmedPath);
+            }
             if (!$dir) {
-                throw new KumbiaException("La ruta \"{$args[0]['path']}\" es invalida");
+                throw new KumbiaException("La ruta \"$path\" es invalida");
             }
             // elimina el parametro path del array
             unset($args[0]['path']);
         } else {
             // obtiene el directorio de trabajo actual
             $dir = getcwd();
+            if ($dir === false) {
+                throw new KumbiaException('No se pudo obtener el directorio de trabajo actual');
+            }
         }
 
         // define el path de la aplicacion
-        define('APP_PATH', rtrim($dir, '/') . '/');
+        define('APP_PATH', self::resolveAppPath($dir));
 
         // lee la configuracion
         $config = Config::read('config');
@@ -212,4 +220,37 @@ class Console
         return $data;
     }
 
+    /**
+     * Resolves the console application path from an app directory or project root.
+     *
+     * @param string $dir Application directory or KumbiaPHP project root
+     *
+     * @throws KumbiaException
+     * @return string Canonical application path with one trailing separator
+     */
+    private static function resolveAppPath(string $dir): string
+    {
+        $candidates = [
+            $dir,
+            $dir . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'app',
+        ];
+
+        foreach ($candidates as $candidate) {
+            $path = rtrim($candidate, '/\\');
+            $path = $path === '' ? DIRECTORY_SEPARATOR : $path;
+            $config = $path . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config';
+
+            if (is_file("$config.php") || is_file("$config.ini")) {
+                $resolved = realpath($candidate);
+                if ($resolved !== false) {
+                    return rtrim($resolved, '/\\') . DIRECTORY_SEPARATOR;
+                }
+            }
+        }
+
+        throw new KumbiaException(
+            'No se encontró la aplicación. --path puede apuntar al directorio de la aplicación '
+            . 'o a la raíz del proyecto KumbiaPHP'
+        );
+    }
 }
