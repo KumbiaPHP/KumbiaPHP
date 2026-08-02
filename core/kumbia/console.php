@@ -169,7 +169,7 @@ class Console
         $config = Config::read('config');
 
         // constante que indica si la aplicacion se encuentra en produccion
-        define('PRODUCTION', $config['application']['production']);
+        define('PRODUCTION', $config['application']['production'] ?? false);
 
         // crea la consola
         $console = self::load($console_name);

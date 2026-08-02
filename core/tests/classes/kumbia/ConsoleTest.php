@@ -98,6 +98,22 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
         ];
     }
 
+    public function testConfiguredProductionValueIsPreserved(): void
+    {
+        $app = $this->temporaryDirectory . '/configured-production-app';
+        $this->createApp($app);
+        file_put_contents(
+            $app . '/config/config.php',
+            "<?php\nreturn ['application' => ['production' => 'configured']];\n"
+        );
+
+        $result = $this->runConsole($app, null, 'production');
+
+        $this->assertSame('', $result['stderr']);
+        $this->assertSame(0, $result['status']);
+        $this->assertSame('configured', $result['stdout']);
+    }
+
     /**
      * @dataProvider trailingSeparatorProvider
      */
@@ -178,18 +194,18 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
         mkdir($app . '/extensions/console', 0777, true);
 
         $config = $configFile === 'config.php'
-            ? "<?php\nreturn ['application' => ['production' => false]];\n"
-            : "[application]\nproduction = 0\n";
+            ? "<?php\nreturn ['application' => []];\n"
+            : "[application]\n";
         file_put_contents($app . "/config/$configFile", $config);
         file_put_contents(
             $app . '/extensions/console/path_probe_console.php',
-            "<?php\nclass PathProbeConsole\n{\n    public function main()\n    {\n        echo APP_PATH;\n    }\n}\n"
+            "<?php\nclass PathProbeConsole\n{\n    public function main()\n    {\n        echo APP_PATH;\n    }\n\n    public function production()\n    {\n        echo PRODUCTION;\n    }\n}\n"
         );
     }
 
-    private function runConsole(?string $path, ?string $cwd = null): array
+    private function runConsole(?string $path, ?string $cwd = null, string $command = 'main'): array
     {
-        $command = [PHP_BINARY, $this->consoleEntrypoint, 'path_probe', 'main'];
+        $command = [PHP_BINARY, $this->consoleEntrypoint, 'path_probe', $command];
         if ($path !== null) {
             $command[] = "--path=$path";
         }
