@@ -127,6 +127,59 @@ class FormTest extends PHPUnit\Framework\TestCase
         $this->assertSame('0', $actual);
     }
 
+    public function onePartModelValueProvider()
+    {
+        return [
+            ['0'],
+            [0],
+            [false],
+        ];
+    }
+
+    /**
+     * @dataProvider onePartModelValueProvider
+     */
+    public function testOnePartFieldPreservesFalsyViewValues($modelValue)
+    {
+        $this->viewData->setValue(null, ['status' => $modelValue]);
+
+        [, , $actual] = Form::getFieldData('status', 'fallback', false);
+
+        $this->assertSame($modelValue, $actual);
+    }
+
+    /**
+     * @dataProvider onePartNonScalarValueProvider
+     */
+    public function testOnePartFieldIgnoresObjectAndArrayViewValues($modelValue)
+    {
+        $this->viewData->setValue(null, ['status' => $modelValue]);
+
+        [, , $actual] = Form::getFieldData('status', 'fallback', false);
+
+        $this->assertSame('fallback', $actual);
+    }
+
+    public function onePartNonScalarValueProvider()
+    {
+        return [
+            [(object) ['value' => 'ignored']],
+            [['value' => 'ignored']],
+        ];
+    }
+
+    public function testOnePartFieldUsesFallbackForNullOrUnavailableViewValue()
+    {
+        $this->viewData->setValue(null, ['status' => null]);
+        [, , $nullValue] = Form::getFieldData('status', 'fallback', false);
+
+        $this->viewData->setValue(null, []);
+        [, , $unavailableValue] = Form::getFieldData('status', 'fallback', false);
+
+        $this->assertSame('fallback', $nullValue);
+        $this->assertSame('fallback', $unavailableValue);
+    }
+
     public function testOnePartCheckedFieldUsesFallbackWithoutModelProperty()
     {
         $this->viewData->setValue(null, ['record' => (object) ['flag' => 1]]);

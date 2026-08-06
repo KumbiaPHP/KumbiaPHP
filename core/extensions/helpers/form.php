@@ -99,10 +99,11 @@ class Form
      */
     protected static function getFromModel(array $formField)
     {
-        if (!isset($formField[1])) {
-            return null;
-        }
         $form = View::getVar($formField[0]);
+
+        if (!isset($formField[1])) {
+            return is_scalar($form) || is_null($form) ? $form : null;
+        }
         if (is_scalar($form) || is_null($form)) {
             return $form;
         }
