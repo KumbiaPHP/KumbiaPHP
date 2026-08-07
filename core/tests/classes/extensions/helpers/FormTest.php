@@ -96,25 +96,32 @@ class FormTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, str_contains($html, 'checked="checked"'));
     }
 
-    public function genericModelValueProvider()
+    public function twoPartViewValueProvider()
     {
         return [
-            [0],
-            ['0'],
-            [false],
+            'object property' => [true, (object) ['flag' => 'object value'], 'object value'],
+            'array property' => [true, ['flag' => 'array value'], 'array value'],
+            'scalar string zero' => [true, '0', '0'],
+            'scalar integer zero' => [true, 0, 0],
+            'scalar false' => [true, false, false],
+            'null view value' => [true, null, 'fallback'],
+            'missing view value' => [false, null, 'fallback'],
+            'null property' => [true, (object) ['flag' => null], 'fallback'],
+            'missing object property' => [true, (object) [], 'fallback'],
+            'missing array property' => [true, [], 'fallback'],
         ];
     }
 
     /**
-     * @dataProvider genericModelValueProvider
+     * @dataProvider twoPartViewValueProvider
      */
-    public function testGenericFieldPreservesFalsyModelValues($modelValue)
+    public function testTwoPartFieldUsesViewValueOrFallback($hasViewValue, $viewValue, $expected)
     {
-        $this->setModelValue($modelValue);
+        $this->viewData->setValue(null, $hasViewValue ? ['record' => $viewValue] : []);
 
         [, , $actual] = Form::getFieldData('record.flag', 'fallback', false);
 
-        $this->assertSame($modelValue, $actual);
+        $this->assertSame($expected, $actual);
     }
 
     public function testGenericFieldUsesPostedStringZero()
@@ -127,9 +134,10 @@ class FormTest extends PHPUnit\Framework\TestCase
         $this->assertSame('0', $actual);
     }
 
-    public function onePartModelValueProvider()
+    public function onePartScalarViewValueProvider()
     {
         return [
+            ['active'],
             ['0'],
             [0],
             [false],
@@ -137,9 +145,9 @@ class FormTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider onePartModelValueProvider
+     * @dataProvider onePartScalarViewValueProvider
      */
-    public function testOnePartFieldPreservesFalsyViewValues($modelValue)
+    public function testOnePartFieldPreservesScalarViewValues($modelValue)
     {
         $this->viewData->setValue(null, ['status' => $modelValue]);
 
