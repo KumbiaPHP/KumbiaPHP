@@ -15,6 +15,11 @@ require_once CORE_PATH.'libs/db/adapters/pdo.php';
 if (!defined('PGSQL_CONNECT_FORCE_NEW')) {
     define('PGSQL_CONNECT_FORCE_NEW', 2);
 }
+if (!defined('PGSQL_ASSOC')) {
+    define('PGSQL_ASSOC', 1);
+    define('PGSQL_NUM', 2);
+    define('PGSQL_BOTH', 3);
+}
 
 require_once CORE_PATH.'libs/db/adapters/pgsql.php';
 require_once CORE_PATH.'libs/db/adapters/pdo/pgsql.php';
