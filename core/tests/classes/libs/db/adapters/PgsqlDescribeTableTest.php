@@ -26,6 +26,7 @@ class PgsqlDescribeTableNativeDouble extends DbPgSQL
 
     public function __construct()
     {
+        // Intentionally bypass the parent constructor to avoid opening a database connection.
     }
 
     public function fetch_all($sql)
@@ -43,6 +44,7 @@ class PgsqlDescribeTablePdoDouble extends DbPdoPgSQL
 
     public function __construct()
     {
+        // Intentionally bypass the parent constructor to avoid opening a database connection.
     }
 
     public function fetch_all($sql)

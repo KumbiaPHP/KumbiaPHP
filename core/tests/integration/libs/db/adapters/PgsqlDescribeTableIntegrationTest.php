@@ -111,6 +111,7 @@ class PgsqlDescribeTableIntegrationTest extends PHPUnit\Framework\TestCase
             $this->native->query("DROP TABLE IF EXISTS public.{$this->table}");
             $this->native->query("DROP SCHEMA IF EXISTS {$this->schema} CASCADE");
         } catch (Throwable $exception) {
+            // Cleanup failures must not mask the primary test result.
         }
     }
 }

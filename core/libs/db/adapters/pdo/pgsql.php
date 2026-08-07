@@ -216,8 +216,11 @@ class DbPdoPgSQL extends DbPDO
      */
     public function describe_table($table, $schema = '')
     {
-        if ($schema == '') {
+        $table = addslashes($table);
+        if ($schema === null || $schema === '') {
             $schema = 'public';
+        } else {
+            $schema = addslashes($schema);
         }
         $describe = $this->fetch_all("SELECT a.attname AS Field, t.typname AS Type,
                 CASE WHEN attnotnull=false THEN 'YES' ELSE 'NO' END AS Null,
