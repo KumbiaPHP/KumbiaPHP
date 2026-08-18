@@ -10,14 +10,10 @@
  * @category   Test
  * @package    Registry
  *
- * @copyright  Copyright (c) 2005 - 2023 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @copyright  Copyright (c) 2005 - 2026 KumbiaPHP Team (https://www.kumbiaphp.com)
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
-/**
- * @category    Test
- * @package     Registry
- */
 class RegistryTest extends PHPUnit\Framework\TestCase
 {
     public function testSetAndGetScalarValue()
@@ -43,6 +39,11 @@ class RegistryTest extends PHPUnit\Framework\TestCase
         Registry::set('registry_object', $value);
 
         $this->assertSame($value, Registry::get('registry_object'));
+    }
+
+    public function testGetReturnsNullForMissingKey()
+    {
+        $this->assertNull(Registry::get('registry_missing'));
     }
 
     public function testAppendAndPrependPreserveNull()
