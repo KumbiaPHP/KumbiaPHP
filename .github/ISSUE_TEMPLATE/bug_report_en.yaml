@@ -1,0 +1,45 @@
+name: Bug report
+description: Report a reproducible problem in KumbiaPHP.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem description
+      description: Describe the problem clearly.
+      placeholder: What went wrong?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: List the minimum steps needed to reproduce the problem.
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected behavior
+      description: Describe what you expected to happen.
+      placeholder: What should have happened?
+    validations:
+      required: true
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: Actual behavior
+      description: Describe what happened instead.
+      placeholder: What happened instead?
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: KumbiaPHP/PHP version
+      description: Provide the KumbiaPHP and PHP versions in use.
+      placeholder: "KumbiaPHP 1.x.x; PHP 8.x"
+    validations:
+      required: true

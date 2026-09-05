@@ -1,0 +1,45 @@
+name: Reporte de error
+description: Reporta un problema reproducible en KumbiaPHP.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Descripción del problema
+      description: Describe claramente el problema.
+      placeholder: ¿Qué ocurrió?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Pasos para reproducirlo
+      description: Enumera los pasos mínimos para reproducir el problema.
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Comportamiento esperado
+      description: Describe lo que esperabas que ocurriera.
+      placeholder: ¿Qué debería haber ocurrido?
+    validations:
+      required: true
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: Comportamiento actual
+      description: Describe lo que ocurrió en su lugar.
+      placeholder: ¿Qué ocurrió en su lugar?
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versiones de KumbiaPHP y PHP
+      description: Indica las versiones de KumbiaPHP y PHP utilizadas.
+      placeholder: "KumbiaPHP 1.x.x; PHP 8.x"
+    validations:
+      required: true
