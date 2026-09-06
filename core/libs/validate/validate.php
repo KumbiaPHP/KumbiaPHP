@@ -138,7 +138,7 @@ class Validate
      */
     protected static function getRuleName($ruleName, $param){
          /*Evita tener que colocar un null cuando no se pasan parametros*/
-        return is_integer($ruleName) && is_string($param)?$param:$ruleName;
+        return is_int($ruleName) && is_string($param)?$param:$ruleName;
     }
 
     /**
