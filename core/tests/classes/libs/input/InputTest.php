@@ -44,7 +44,7 @@ class InputTest extends PHPUnit\Framework\TestCase
         [$_GET, $_POST, $_REQUEST, $_SERVER] = $this->originalValues;
     }
 
-    public static function isMethodProvider()
+    public static function isMethodProvider(): array
     {
         return [
             ['GET', 'GET', true],
