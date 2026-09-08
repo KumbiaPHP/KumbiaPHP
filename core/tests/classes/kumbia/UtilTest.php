@@ -22,7 +22,7 @@
  */
 class UtilTest extends PHPUnit\Framework\TestCase
 {
-    public function underescoreDataProvider()
+    public static function underescoreDataProvider()
     {
         return array(
             array('Hello World', 'Hello_World'),
@@ -38,7 +38,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function dashDataProvider()
+    public static function dashDataProvider()
     {
         return array(
             array('Hello World', 'Hello-World'),
@@ -55,7 +55,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function humanizeDataProvider()
+    public static function humanizeDataProvider()
     {
         return array(
             array('Hello-World', 'Hello World'),
@@ -74,7 +74,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function encomillarDataProvider()
+    public static function encomillarDataProvider()
     {
         return array(
             array('a,b,c', '"a","b","c"'),
@@ -84,7 +84,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function camelcaseDataProvider()
+    public static function camelcaseDataProvider()
     {
         return array(
             array('a_b_c', 'ABC', 'aBC'),
@@ -105,7 +105,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function smallcaseDataProvider()
+    public static function smallcaseDataProvider()
     {
         return array(
             array('ABC', 'a_b_c'),
@@ -118,7 +118,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function getParamsDataProvider()
+    public static function getParamsDataProvider()
     {
         return array(
             array(array(), array()),
