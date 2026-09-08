@@ -50,7 +50,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: composer
-          extensions: gd, sqlite3
+          extensions: gd, sqlite3, opcache
           coverage: none
         env:
           update: true
