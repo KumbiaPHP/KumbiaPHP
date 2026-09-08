@@ -37,7 +37,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         m::close();
     }
 
-    public static function imgDataProvider()
+    public static function imgDataProvider(): array
     {
         return array(
             array(
@@ -121,7 +121,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, Html::link('action-name', 'Action name', array('a' => 'b', 'c' => 'd')));
     }
 
-    public static function linkActionDataProvider()
+    public static function linkActionDataProvider(): array
     {
         return array(
             array('action', 'controller', sprintf('href="%scontroller/action"', PUBLIC_PATH)),
