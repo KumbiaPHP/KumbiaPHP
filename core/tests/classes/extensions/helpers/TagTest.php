@@ -21,7 +21,7 @@
  */
 class TagTest extends PHPUnit\Framework\TestCase
 {
-    public function jsFileProvider()
+    public static function jsFileProvider()
     {
         return array(
             array('file'),
@@ -91,7 +91,7 @@ class TagTest extends PHPUnit\Framework\TestCase
         $this->assertInternalCssValue('css3', 'screen', $files[2]);
     }
 
-    public function createTagDataProvider()
+    public static function createTagDataProvider()
     {
         return array(
             array(
