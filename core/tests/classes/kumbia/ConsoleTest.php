@@ -90,7 +90,7 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
         $this->assertSuccessfulPath($result, $app);
     }
 
-    public function configFileProvider(): array
+    public static function configFileProvider(): array
     {
         return [
             ['config.php'],
@@ -127,7 +127,7 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
         $this->assertSuccessfulPath($result, $app);
     }
 
-    public function trailingSeparatorProvider(): array
+    public static function trailingSeparatorProvider(): array
     {
         return [
             ['/'],
