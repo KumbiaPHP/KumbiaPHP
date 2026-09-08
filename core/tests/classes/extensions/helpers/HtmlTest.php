@@ -37,7 +37,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         m::close();
     }
 
-    public function imgDataProvider()
+    public static function imgDataProvider()
     {
         return array(
             array(
