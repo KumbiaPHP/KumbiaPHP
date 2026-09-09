@@ -96,9 +96,7 @@ class PgsqlDescribeTableTest extends PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @dataProvider emptySchemaInputsProvider
-     */
+    #[DataProvider('emptySchemaInputsProvider')]
     public function testBothAdaptersDefaultNullAndEmptySchemaToPublic($schema)
     {
         foreach ($this->adapters() as $adapter) {
