@@ -152,7 +152,7 @@ class FormTest extends PHPUnit\Framework\TestCase
         $this->assertSame($modelValue, $actual);
     }
 
-    #[DataProvider('onePartNonScalarViewValueProvider')]
+    #[DataProvider('onePartNonScalarValueProvider')]
     public function testOnePartFieldIgnoresObjectAndArrayViewValues($modelValue)
     {
         $this->viewData->setValue(null, ['status' => $modelValue]);
