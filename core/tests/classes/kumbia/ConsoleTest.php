@@ -16,6 +16,8 @@
 
 class ConsoleTest extends PHPUnit\Framework\TestCase
 {
+    use PHPUnit\Framework\Attributes\DataProvider;
+
     private $consoleEntrypoint;
     private $temporaryDirectory;
 
