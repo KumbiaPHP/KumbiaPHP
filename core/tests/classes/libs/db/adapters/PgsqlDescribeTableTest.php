@@ -108,7 +108,7 @@ class PgsqlDescribeTableTest extends PHPUnit\Framework\TestCase
         }
     }
 
-    public function emptySchemaInputs()
+    public static function emptySchemaInputs()
     {
         return [
             'null schema' => [null],

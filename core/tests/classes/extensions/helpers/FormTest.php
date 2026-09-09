@@ -50,7 +50,7 @@ class FormTest extends PHPUnit\Framework\TestCase
         $this->viewData->setValue(null, $this->originalViewData);
     }
 
-    public function checkedFieldProvider()
+    public static function checkedFieldProvider()
     {
         $cases = [
             [1, false, null, 1, false, true],
@@ -96,7 +96,7 @@ class FormTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, str_contains($html, 'checked="checked"'));
     }
 
-    public function twoPartViewValueProvider()
+    public static function twoPartViewValueProvider()
     {
         return [
             'object property' => [true, (object) ['flag' => 'object value'], 'object value'],
@@ -134,7 +134,7 @@ class FormTest extends PHPUnit\Framework\TestCase
         $this->assertSame('0', $actual);
     }
 
-    public function onePartScalarViewValueProvider()
+    public static function onePartScalarViewValueProvider()
     {
         return [
             ['active'],
@@ -168,7 +168,7 @@ class FormTest extends PHPUnit\Framework\TestCase
         $this->assertSame('fallback', $actual);
     }
 
-    public function onePartNonScalarValueProvider()
+    public static function onePartNonScalarValueProvider()
     {
         return [
             [(object) ['value' => 'ignored']],
