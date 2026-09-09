@@ -61,9 +61,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider imgDataProvider
-     */
+    #[DataProvider('imgDataProvider')]
     public function testImg($img, $alt, $attrs, $expected)
     {
         //$tagMock = m::mock('alias:Tag');
@@ -131,9 +129,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider linkActionDataProvider
-     */
+    #[DataProvider('linkActionDataProvider')]
     public function testLinkActionHrefPattern($action, $controllerPath, $expected)
     {
         $routerMock = m::mock('alias:Router');
