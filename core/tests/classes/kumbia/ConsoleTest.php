@@ -77,9 +77,7 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
         $this->assertSuccessfulPath($result, $app);
     }
 
-    /**
-     * @dataProvider configFileProvider
-     */
+    #[DataProvider('configFileProvider')]
     public function testConfigFileIdentifiesAnApp(string $configFile): void
     {
         $app = $this->temporaryDirectory . '/config-app';
@@ -114,9 +112,7 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
         $this->assertSame('configured', $result['stdout']);
     }
 
-    /**
-     * @dataProvider trailingSeparatorProvider
-     */
+    #[DataProvider('trailingSeparatorProvider')]
     public function testAcceptedPathHasOnePlatformSeparator(string $separator): void
     {
         $app = $this->temporaryDirectory . '/trailing-app';
