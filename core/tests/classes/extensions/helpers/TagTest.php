@@ -30,9 +30,7 @@ class TagTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider jsFileProvider
-     */
+    #[DataProvider('jsFileProvider')]
     public function testJs($file)
     {
         $scriptPattern = '<script type="text/javascript" src="%sjavascript/%s"></script>';
@@ -42,9 +40,7 @@ class TagTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $response);
     }
 
-    /**
-     * @dataProvider jsFileProvider
-     */
+    #[DataProvider('jsFileProvider')]
     public function testJsNoCache($file)
     {
         $scriptPattern = '<script type="text/javascript" src="%sjavascript/%s?nocache=';
@@ -121,9 +117,7 @@ class TagTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider createTagDataProvider
-     */
+    #[DataProvider('createTagDataProvider')]
     public function testCreateWithoutContent($tag, $attrs, $content, $expectedResult)
     {
         ob_start();
