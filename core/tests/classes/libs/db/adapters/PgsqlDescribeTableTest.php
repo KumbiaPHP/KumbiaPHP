@@ -97,7 +97,7 @@ class PgsqlDescribeTableTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider emptySchemaInputs
+     * @dataProvider emptySchemaInputsProvider
      */
     public function testBothAdaptersDefaultNullAndEmptySchemaToPublic($schema)
     {
@@ -108,7 +108,7 @@ class PgsqlDescribeTableTest extends PHPUnit\Framework\TestCase
         }
     }
 
-    public static function emptySchemaInputs(): array
+    public static function emptySchemaInputsProvider(): array
     {
         return [
             'null schema' => [null],
