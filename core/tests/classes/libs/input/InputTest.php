@@ -18,6 +18,8 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * @category Test
  */
