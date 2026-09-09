@@ -22,6 +22,8 @@
  */
 class UtilTest extends PHPUnit\Framework\TestCase
 {
+    use PHPUnit\Framework\Attributes\DataProvider;
+
     public static function underescoreDataProvider(): array
     {
         return array(
