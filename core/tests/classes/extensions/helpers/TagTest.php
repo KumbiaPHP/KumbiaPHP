@@ -14,6 +14,8 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * 
  * @category   Test
@@ -21,8 +23,6 @@
  */
 class TagTest extends PHPUnit\Framework\TestCase
 {
-    use PHPUnit\Framework\Attributes\DataProvider;
-
     public static function jsFileProvider(): array
     {
         return array(
