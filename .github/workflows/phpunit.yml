@@ -51,6 +51,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           tools: composer
           extensions: gd, sqlite3, opcache
+          ini-values: opcache.enable_cli=1
           coverage: none
         env:
           update: true
