@@ -14,6 +14,8 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * @category    Test
  * @package     Core
@@ -22,8 +24,6 @@
  */
 class UtilTest extends PHPUnit\Framework\TestCase
 {
-    use PHPUnit\Framework\Attributes\DataProvider;
-
     public static function underescoreDataProvider(): array
     {
         return array(
