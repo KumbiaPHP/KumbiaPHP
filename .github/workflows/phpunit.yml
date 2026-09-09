@@ -38,7 +38,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5', '8.6']
+        php-versions: ['8.1', '8.2', '8.3', '8.4', '8.5', '8.6']
         phpunit-versions: ['latest']
 
     steps:
@@ -50,7 +50,8 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: composer
-          extensions: gd, sqlite3
+          extensions: gd, sqlite3, opcache
+          ini-values: opcache.enable_cli=1
           coverage: none
         env:
           update: true

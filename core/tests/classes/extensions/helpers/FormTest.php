@@ -14,6 +14,8 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 require_once CORE_PATH.'kumbia/kumbia_view.php';
 
 if (!class_exists('View', false)) {
@@ -74,9 +76,7 @@ class FormTest extends PHPUnit\Framework\TestCase
         return $data;
     }
 
-    /**
-     * @dataProvider checkedFieldProvider
-     */
+    #[DataProvider('checkedFieldProvider')]
     public function testCheckedFieldsUsePostThenModelThenFallback(
         $helper,
         $modelValue,
@@ -112,9 +112,7 @@ class FormTest extends PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @dataProvider twoPartViewValueProvider
-     */
+    #[DataProvider('twoPartViewValueProvider')]
     public function testTwoPartFieldUsesViewValueOrFallback($hasViewValue, $viewValue, $expected)
     {
         $this->viewData->setValue(null, $hasViewValue ? ['record' => $viewValue] : []);
@@ -144,9 +142,7 @@ class FormTest extends PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @dataProvider onePartScalarViewValueProvider
-     */
+    #[DataProvider('onePartScalarViewValueProvider')]
     public function testOnePartFieldPreservesScalarViewValues($modelValue)
     {
         $this->viewData->setValue(null, ['status' => $modelValue]);
@@ -156,9 +152,7 @@ class FormTest extends PHPUnit\Framework\TestCase
         $this->assertSame($modelValue, $actual);
     }
 
-    /**
-     * @dataProvider onePartNonScalarValueProvider
-     */
+    #[DataProvider('onePartNonScalarValueProvider')]
     public function testOnePartFieldIgnoresObjectAndArrayViewValues($modelValue)
     {
         $this->viewData->setValue(null, ['status' => $modelValue]);

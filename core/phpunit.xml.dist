@@ -10,8 +10,6 @@
     <php>
         <ini name="error_reporting" value="-1"/>
         <ini name="memory_limit" value="-1"/>
-        <ini name="apc.enable_cli" value="1"/>
-        <ini name="opcache.enable_cli" value="1"/>
     </php>
 
     <testsuites>

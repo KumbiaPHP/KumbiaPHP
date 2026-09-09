@@ -18,6 +18,8 @@
  * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
  */
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * @category Test
  */
@@ -44,7 +46,7 @@ class InputTest extends PHPUnit\Framework\TestCase
         [$_GET, $_POST, $_REQUEST, $_SERVER] = $this->originalValues;
     }
 
-    public function isMethodProvider()
+    public static function isMethodProvider(): array
     {
         return [
             ['GET', 'GET', true],
@@ -60,9 +62,7 @@ class InputTest extends PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @dataProvider isMethodProvider
-     */
+    #[DataProvider('isMethodProvider')]
     public function testIsMethod($expectedMethod, $method, $canBeTrue)
     {
         $_SERVER['REQUEST_METHOD'] = $method;
@@ -134,7 +134,7 @@ class InputTest extends PHPUnit\Framework\TestCase
         $this->assertSame('__test_ip__', Input::ip());
     }
 
-    public function getRequestTestingData()
+    public static function getRequestTestingDataProvider(): array
     {
         return [
             [&$_POST, 'post'],
@@ -143,9 +143,7 @@ class InputTest extends PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @dataProvider getRequestTestingData
-     */
+    #[DataProvider('getRequestTestingDataProvider')]
     public function testRequestSimpleIndex(&$GLOBAl, $method)
     {
         $hasMethod = 'has'.ucfirst($method);
@@ -157,9 +155,7 @@ class InputTest extends PHPUnit\Framework\TestCase
         $this->assertSame('value', Input::$method('__post_index__'));
     }
 
-    /**
-     * @dataProvider getRequestTestingData
-     */
+    #[DataProvider('getRequestTestingDataProvider')]
     public function testRequestWithoutIndex(&$GLOBAl, $method)
     {
         $this->assertEmpty(Input::$method());
@@ -169,9 +165,7 @@ class InputTest extends PHPUnit\Framework\TestCase
         $this->assertSame(['__post_index__' => 'value'], Input::$method());
     }
 
-    /**
-     * @dataProvider getRequestTestingData
-     */
+     #[DataProvider('getRequestTestingDataProvider')]
     public function testRequestNestedIndex(&$GLOBAL, $method)
     {
         $this->assertSame('', Input::post('index1.index2.index4'));
