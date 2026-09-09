@@ -21,6 +21,8 @@
  */
 class TagTest extends PHPUnit\Framework\TestCase
 {
+    use PHPUnit\Framework\Attributes\DataProvider;
+
     public static function jsFileProvider(): array
     {
         return array(
