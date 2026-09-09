@@ -139,9 +139,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider underescoreDataProvider
-     */
+    #[DataProvider('underescoreDataProvider')]
     public function testUnderescore($original, $expected)
     {
         $result = Util::underscore($original);
@@ -149,9 +147,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $result);
     }
 
-    /**
-     * @dataProvider dashDataProvider
-     */
+    #[DataProvider('dashDataProvider')]
     public function testDash($original, $expected)
     {
         $result = Util::dash($original);
@@ -159,9 +155,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $result);
     }
 
-    /**
-     * @dataProvider humanizeDataProvider
-     */
+    #[DataProvider('humanizeDataProvider')]
     public function testHumanize($original, $expected)
     {
         $result = Util::humanize($original);
@@ -169,9 +163,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $result);
     }
 
-    /**
-     * @dataProvider encomillarDataProvider
-     */
+    #[DataProvider('encomillarDataProvider')]
     public function testEncomillar($original, $expected)
     {
         $result = Util::encomillar($original);
@@ -179,9 +171,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $result);
     }
 
-    /**
-     * @dataProvider camelcaseDataProvider
-     */
+    #[DataProvider('camelcaseDataProvider')]
     public function testCamelcase($original, $expected, $expectedLowerCase)
     {
         $result = Util::camelcase($original);
@@ -191,9 +181,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expectedLowerCase, $resultLowerCase);
     }
 
-    /**
-     * @dataProvider smallcaseDataProvider
-     */
+    #[DataProvider('smallcaseDataProvider')]
     public function testSmallcase($original, $expected)
     {
         $result = Util::smallcase($original);
@@ -201,9 +189,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $result);
     }
 
-    /**
-     * @dataProvider getParamsDataProvider
-     */
+    #[DataProvider('getParamsDataProvider')]
     public function testGetParams($original, $expected)
     {
         $result = Util::getParams($original);
