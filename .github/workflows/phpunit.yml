@@ -38,19 +38,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+        php-versions: ['8.1', '8.2', '8.3', '8.4', '8.5', '8.6']
         phpunit-versions: ['latest']
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Setup PHP, with composer
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           tools: composer
-          extensions: gd, sqlite3
+          extensions: gd, sqlite3, opcache
+          ini-values: opcache.enable_cli=1
           coverage: none
         env:
           update: true
@@ -60,7 +61,7 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v6
         with:
           path: ${{ steps.composercache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}

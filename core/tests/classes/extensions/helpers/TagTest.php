@@ -14,6 +14,8 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * 
  * @category   Test
@@ -21,7 +23,7 @@
  */
 class TagTest extends PHPUnit\Framework\TestCase
 {
-    public function jsFileProvider()
+    public static function jsFileProvider(): array
     {
         return array(
             array('file'),
@@ -30,9 +32,7 @@ class TagTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider jsFileProvider
-     */
+    #[DataProvider('jsFileProvider')]
     public function testJs($file)
     {
         $scriptPattern = '<script type="text/javascript" src="%sjavascript/%s"></script>';
@@ -42,9 +42,7 @@ class TagTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $response);
     }
 
-    /**
-     * @dataProvider jsFileProvider
-     */
+    #[DataProvider('jsFileProvider')]
     public function testJsNoCache($file)
     {
         $scriptPattern = '<script type="text/javascript" src="%sjavascript/%s?nocache=';
@@ -91,7 +89,7 @@ class TagTest extends PHPUnit\Framework\TestCase
         $this->assertInternalCssValue('css3', 'screen', $files[2]);
     }
 
-    public function createTagDataProvider()
+    public static function createTagDataProvider(): array
     {
         return array(
             array(
@@ -121,9 +119,7 @@ class TagTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider createTagDataProvider
-     */
+    #[DataProvider('createTagDataProvider')]
     public function testCreateWithoutContent($tag, $attrs, $content, $expectedResult)
     {
         ob_start();

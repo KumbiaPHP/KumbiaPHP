@@ -14,6 +14,7 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use \Mockery as m;
 
 /**
@@ -24,8 +25,6 @@ use \Mockery as m;
  */
 class HtmlTest extends PHPUnit\Framework\TestCase
 {
-    //use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     protected function tearDown(): void
     {
         /*
@@ -37,7 +36,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         m::close();
     }
 
-    public function imgDataProvider()
+    public static function imgDataProvider(): array
     {
         return array(
             array(
@@ -61,9 +60,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider imgDataProvider
-     */
+    #[DataProvider('imgDataProvider')]
     public function testImg($img, $alt, $attrs, $expected)
     {
         //$tagMock = m::mock('alias:Tag');
@@ -121,7 +118,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, Html::link('action-name', 'Action name', array('a' => 'b', 'c' => 'd')));
     }
 
-    public function linkActionDataProvider()
+    public static function linkActionDataProvider(): array
     {
         return array(
             array('action', 'controller', sprintf('href="%scontroller/action"', PUBLIC_PATH)),
@@ -131,9 +128,7 @@ class HtmlTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider linkActionDataProvider
-     */
+    #[DataProvider('linkActionDataProvider')]
     public function testLinkActionHrefPattern($action, $controllerPath, $expected)
     {
         $routerMock = m::mock('alias:Router');

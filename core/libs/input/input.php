@@ -110,7 +110,15 @@ class Input
      */
     public static function hasPost($var)
     {
-        return (bool) self::post($var);
+        $value = $_POST;
+        foreach (explode('.', $var) as $key) {
+            if (!is_array($value) || !array_key_exists($key, $value)) {
+                return false;
+            }
+            $value = $value[$key];
+        }
+
+        return true;
     }
 
     /**

@@ -14,6 +14,8 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * @category    Test
  * @package     Core
@@ -22,7 +24,7 @@
  */
 class UtilTest extends PHPUnit\Framework\TestCase
 {
-    public function underescoreDataProvider()
+    public static function underescoreDataProvider(): array
     {
         return array(
             array('Hello World', 'Hello_World'),
@@ -38,7 +40,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function dashDataProvider()
+    public static function dashDataProvider(): array
     {
         return array(
             array('Hello World', 'Hello-World'),
@@ -55,7 +57,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function humanizeDataProvider()
+    public static function humanizeDataProvider(): array
     {
         return array(
             array('Hello-World', 'Hello World'),
@@ -74,7 +76,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function encomillarDataProvider()
+    public static function encomillarDataProvider(): array
     {
         return array(
             array('a,b,c', '"a","b","c"'),
@@ -84,7 +86,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function camelcaseDataProvider()
+    public static function camelcaseDataProvider(): array
     {
         return array(
             array('a_b_c', 'ABC', 'aBC'),
@@ -105,7 +107,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function smallcaseDataProvider()
+    public static function smallcaseDataProvider(): array
     {
         return array(
             array('ABC', 'a_b_c'),
@@ -118,7 +120,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function getParamsDataProvider()
+    public static function getParamsDataProvider(): array
     {
         return array(
             array(array(), array()),
@@ -139,9 +141,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider underescoreDataProvider
-     */
+    #[DataProvider('underescoreDataProvider')]
     public function testUnderescore($original, $expected)
     {
         $result = Util::underscore($original);
@@ -149,9 +149,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $result);
     }
 
-    /**
-     * @dataProvider dashDataProvider
-     */
+    #[DataProvider('dashDataProvider')]
     public function testDash($original, $expected)
     {
         $result = Util::dash($original);
@@ -159,9 +157,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $result);
     }
 
-    /**
-     * @dataProvider humanizeDataProvider
-     */
+    #[DataProvider('humanizeDataProvider')]
     public function testHumanize($original, $expected)
     {
         $result = Util::humanize($original);
@@ -169,9 +165,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $result);
     }
 
-    /**
-     * @dataProvider encomillarDataProvider
-     */
+    #[DataProvider('encomillarDataProvider')]
     public function testEncomillar($original, $expected)
     {
         $result = Util::encomillar($original);
@@ -179,9 +173,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $result);
     }
 
-    /**
-     * @dataProvider camelcaseDataProvider
-     */
+    #[DataProvider('camelcaseDataProvider')]
     public function testCamelcase($original, $expected, $expectedLowerCase)
     {
         $result = Util::camelcase($original);
@@ -191,9 +183,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expectedLowerCase, $resultLowerCase);
     }
 
-    /**
-     * @dataProvider smallcaseDataProvider
-     */
+    #[DataProvider('smallcaseDataProvider')]
     public function testSmallcase($original, $expected)
     {
         $result = Util::smallcase($original);
@@ -201,9 +191,7 @@ class UtilTest extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, $result);
     }
 
-    /**
-     * @dataProvider getParamsDataProvider
-     */
+    #[DataProvider('getParamsDataProvider')]
     public function testGetParams($original, $expected)
     {
         $result = Util::getParams($original);
