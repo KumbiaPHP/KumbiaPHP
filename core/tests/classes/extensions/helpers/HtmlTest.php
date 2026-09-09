@@ -14,6 +14,7 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use \Mockery as m;
 
 /**
@@ -24,8 +25,6 @@ use \Mockery as m;
  */
 class HtmlTest extends PHPUnit\Framework\TestCase
 {
-    //use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     protected function tearDown(): void
     {
         /*
