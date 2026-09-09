@@ -7,6 +7,8 @@
  * @subpackage Adapters
  */
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 require_once CORE_PATH.'libs/db/db_base.php';
 require_once CORE_PATH.'libs/db/db_base_interface.php';
 require_once CORE_PATH.'libs/db/adapters/pdo/interface.php';
