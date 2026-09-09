@@ -60,11 +60,11 @@ class Form
         if (Input::hasPost($field)) {
             $value = $is_check ?
                 Input::post($field) == $value : Input::post($field);
-        } elseif ($is_check) {
-            $value = $check;
-        } elseif ($tmp_val = self::getFromModel($formField)) {
+        } elseif (($tmp_val = self::getFromModel($formField)) !== null) {
             // Autocarga de datos
             $value = $is_check ? $tmp_val == $value : $tmp_val;
+        } elseif ($is_check) {
+            $value = $check;
         }
         // Filtrar caracteres especiales
         if (!$is_check && $value !== null && $filter) {
@@ -100,8 +100,12 @@ class Form
     protected static function getFromModel(array $formField)
     {
         $form = View::getVar($formField[0]);
+
         if (is_scalar($form) || is_null($form)) {
             return $form;
+        }
+        if (!isset($formField[1])) {
+            return null;
         }
         $form = (object) $form;
 
