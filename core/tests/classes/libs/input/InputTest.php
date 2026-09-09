@@ -134,7 +134,7 @@ class InputTest extends PHPUnit\Framework\TestCase
         $this->assertSame('__test_ip__', Input::ip());
     }
 
-    public function getRequestTestingData()
+    public static function getRequestTestingDataProvider(): array
     {
         return [
             [&$_POST, 'post'],
@@ -144,7 +144,7 @@ class InputTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider getRequestTestingData
+     * @dataProvider getRequestTestingDataProvider
      */
     public function testRequestSimpleIndex(&$GLOBAl, $method)
     {
@@ -158,7 +158,7 @@ class InputTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider getRequestTestingData
+     * @dataProvider getRequestTestingDataProvider
      */
     public function testRequestWithoutIndex(&$GLOBAl, $method)
     {
@@ -170,7 +170,7 @@ class InputTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider getRequestTestingData
+     * @dataProvider getRequestTestingDataProvider
      */
     public function testRequestNestedIndex(&$GLOBAL, $method)
     {
