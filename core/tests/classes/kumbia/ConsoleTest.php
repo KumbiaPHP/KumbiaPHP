@@ -14,10 +14,10 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ConsoleTest extends PHPUnit\Framework\TestCase
 {
-    use PHPUnit\Framework\Attributes\DataProvider;
-
     private $consoleEntrypoint;
     private $temporaryDirectory;
 
