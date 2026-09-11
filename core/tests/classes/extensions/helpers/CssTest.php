@@ -60,9 +60,9 @@ class CssTest extends PHPUnit\Framework\TestCase
         Css::add('main', ['reset', 'base']);
 
         $output   = Css::inc();
-        $resetPos = str_contains($output, 'reset.css');
-        $basePos  = str_contains($output, 'base.css');
-        $mainPos  = str_contains($output, 'main.css');
+        $resetPos = strpos($output, 'reset.css');
+        $basePos  = strpos($output, 'base.css');
+        $mainPos  = strpos($output, 'main.css');
 
         $this->assertLessThan($mainPos, $resetPos, 'reset.css should appear before main.css');
         $this->assertLessThan($mainPos, $basePos,  'base.css should appear before main.css');
