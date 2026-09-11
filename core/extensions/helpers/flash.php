@@ -27,6 +27,13 @@
 class Flash
 {
 
+    protected const CLI = [
+        'error' => [STDERR, "\033[01;31m"], //red
+        'warning' => [STDERR, "\033[01;33m"], //yellow
+        'valid' => [STDOUT, "\033[01;32m"], //green
+        'info' => [STDOUT, "\033[00m"], //none
+    ];
+
     /**
      * Visualiza un mensaje flash
      *
@@ -40,7 +47,7 @@ class Flash
             return;
         }
         // salida CLI
-        echo $name, ': ', strip_tags($text), PHP_EOL;
+        fwrite(self::CLI[$name][0], self::CLI[$name][1] . "[$name] " . strip_tags($text) . self::CLI['info'][1] . PHP_EOL);
     }
 
     /**
