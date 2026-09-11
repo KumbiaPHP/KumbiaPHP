@@ -321,7 +321,7 @@ class DbPgSQL extends DbBase implements DbBaseInterface
     public function table_exists($table, $schema = '')
     {
         $table = addslashes(strtolower($table));
-        if (strpos($table, '.')) {
+        if (str_contains($table, '.')) {
                 [$schema, $table] = explode('.', $table);
         }
         if ($schema == '') {

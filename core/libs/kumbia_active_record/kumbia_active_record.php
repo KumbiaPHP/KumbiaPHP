@@ -2216,7 +2216,7 @@ class KumbiaActiveRecord
      */
     public function is_a_numeric_type($field)
     {
-        return (strpos(' '.$this->_data_type[$field], 'int') || strpos(' '.$this->_data_type[$field], 'decimal') || strpos(' '.$this->_data_type[$field], 'number'));
+        return (str_contains(' '.$this->_data_type[$field], 'int') || str_contains(' '.$this->_data_type[$field], 'decimal') || str_contains(' '.$this->_data_type[$field], 'number'));
     }
 
     /**
