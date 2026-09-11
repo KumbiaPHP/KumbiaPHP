@@ -30,9 +30,8 @@ class Router
     /**
      * Array estático con las variables del router
      *
-     * @var array
      */
-    protected static $vars = [
+    protected static array $vars = [
         // 'method'          => '', //Método usado GET, POST, ...
         // 'route'           => '', //Ruta pasada URL
         // 'module'          => '', //Nombre del módulo actual
@@ -46,9 +45,8 @@ class Router
      * Array estático con las variables del router por defecto
      * TODO: Convertir a constante
      * 
-     * @var array
      */
-    protected static $default = [
+    protected static array $default = [
         'module'          => '', //Nombre del módulo actual
         'controller'      => 'index', //Nombre del controlador actual, por defecto index
         'action'          => 'index', //Nombre de la acción actual, por defecto index
@@ -58,29 +56,24 @@ class Router
 
     /**
      * This is the name of router class
-     * @var string
      */
-    protected static $router = 'KumbiaRouter';
+    protected static string $router = 'KumbiaRouter';
     //Es el router por defecto
 
     /**
      * Indica si esta pendiente la ejecución de una ruta por parte del dispatcher
-     *
-     * @var boolean
      */
-    protected static $routed = false;
+    protected static bool $routed = false;
 
     /**
      * Procesamiento basico del router
-     * @param string $url
      * 
      * @throws KumbiaException
-     * @return void
      */
-    public static function init($url)
+    public static function init(string $url): void
     {
         // Se miran los parámetros por seguridad
-        if (stripos($url, '/../') !== false) {
+        if (str_contains($url, '/../')) {
             throw new KumbiaException("Posible intento de hack en URL: '$url'");
         }
         // Si hay intento de hack TODO: añadir la ip y referer en el log
@@ -91,19 +84,16 @@ class Router
 
     /**
      * Ejecuta una url
-     *
-     * @param string $url
      * 
      * @throws KumbiaException
-     * @return Controller
      */
-    public static function execute($url)
+    public static function execute(string $url): Controller
     {
         self::init($url);
         //alias
         $router = self::$router;
         $conf   = Config::get('config.application.routes');
-        //Si config.ini tiene routes activados, mira si esta routed
+        //Si config tiene routes activados, mira si esta routed
         if ($conf) {
             /*Esta activado el router*/
             /* This if for back compatibility*/
@@ -128,9 +118,8 @@ class Router
      * @param Controller $cont  Controlador a usar
      *
      * @throws KumbiaException
-     * @return Controller
      */
-    protected static function dispatch($cont)
+    protected static function dispatch(Controller $cont): Controller
     {
         // Se ejecutan los filtros initialize y before
         if ($cont->k_callback(true) === false) {
@@ -155,7 +144,8 @@ class Router
             }
         }
         
-        call_user_func_array([$cont, $cont->action_name], $cont->parameters);
+        //call_user_func_array([$cont, $cont->action_name], $cont->parameters);
+        $cont->{$cont->action_name}(...$cont->parameters);
 
         //Corre los filtros after y finalize
         $cont->k_callback();
@@ -170,9 +160,8 @@ class Router
      * Redirecciona la ejecución internamente
      * 
      * @throws KumbiaException
-     * @return void
      */
-    protected static function isRouted()
+    protected static function isRouted(): void
     {
         if (self::$routed) {
             self::$routed = false;
@@ -206,9 +195,8 @@ class Router
      * @param array $params array de $vars (móddulo, controller, action, params, ...)
      * @param boolean $intern si la redirección es interna
      * 
-     * @return void
      */
-    public static function to(array $params, $intern = false)
+    public static function to(array $params, $intern = false): void
     {
         if ($intern) {
             self::$routed = true;
