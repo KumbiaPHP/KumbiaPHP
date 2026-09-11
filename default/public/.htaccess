@@ -4,6 +4,10 @@ DirectoryIndex index.php
     # Activar modo de reescritura
     RewriteEngine On
 
+    # Conserva la cabecera Authorization en entornos CGI/FastCGI
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
     # Directorio de instalacion, puede ser necesario si 
     # la aplicacion se ubica en public_html
     #RewriteBase /
