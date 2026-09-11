@@ -43,10 +43,8 @@ class Router
 
     /**
      * Array estático con las variables del router por defecto
-     * TODO: Convertir a constante
-     * 
-     */
-    protected static array $default = [
+    */
+    protected const DEFAULT = [
         'module'          => '', //Nombre del módulo actual
         'controller'      => 'index', //Nombre del controlador actual, por defecto index
         'action'          => 'index', //Nombre de la acción actual, por defecto index
@@ -77,9 +75,9 @@ class Router
             throw new KumbiaException("Posible intento de hack en URL: '$url'");
         }
         // Si hay intento de hack TODO: añadir la ip y referer en el log
-        self::$default['route'] = $url;
+        self::$vars['route'] = $url;
         //Método usado
-        self::$default['method'] = $_SERVER['REQUEST_METHOD'];
+        self::$vars['method'] = $_SERVER['REQUEST_METHOD'];
     }
 
     /**
@@ -106,7 +104,7 @@ class Router
         }
 
         // Descompone la url
-        self::$vars = $router::rewrite($url) + self::$default;
+        self::$vars = $router::rewrite($url) + self::DEFAULT;
 
         // Despacha la ruta actual
         return static::dispatch($router::getController(self::$vars));
@@ -201,6 +199,6 @@ class Router
         if ($intern) {
             self::$routed = true;
         }
-        static::$vars = $params + self::$default;
+        static::$vars = $params + self::DEFAULT;
     }
 }
