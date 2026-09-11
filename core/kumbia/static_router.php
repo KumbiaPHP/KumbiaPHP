@@ -24,15 +24,13 @@
  */
 class StaticRouter extends Router
 {
-    protected static $routes = [];
+    protected static array $routes = [];
 
     /**
      * Ejecuta el router de la url
-     *
-     * @param string $url
-     * @return Controller
+
      */
-    public static function execute($url)
+    public static function execute(string $url): Controller
     {
         if(isset(self::$routes[$url])) {
             $cont = self::$routes[$url];
@@ -44,16 +42,14 @@ class StaticRouter extends Router
     }
 
     /**
-     * Undocumented function
-     *
-     * @param Controller $cont
-     * @return Controller
+     * Despacha la ruta actual
      */
-    protected static function dispatch($cont)
+    protected static function dispatch(Controller $cont): Controller
     {
-        self::$routes[self::$vars['route']] = 
-                            [ 'name' => $cont::class,
-                            'vars' => self::$vars ];
+        self::$routes[self::$vars['route']] = [
+                'name' => $cont::class,
+                'vars' => self::$vars
+        ];
         if (\count(self::$routes) > 256) {
             unset(self::$routes[key(self::$routes)]);
         }
