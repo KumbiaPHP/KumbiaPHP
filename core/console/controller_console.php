@@ -33,10 +33,10 @@ class ControllerConsole
     public function create($params, $controller)
     {
         // nombre de archivo
-        $file = APP_PATH . 'controllers';
+        $basePath = APP_PATH . 'controllers';
 
         // limpia el path de controller
-        $clean_path = trim($controller, '/');
+        $clean_path = FileUtil::normalizeRelativePath($controller);
 
         // obtiene el path
         $path = explode('/', $clean_path);
@@ -46,13 +46,12 @@ class ControllerConsole
 
         // si se agrupa el controlador en un directorio
         if (count($path)) {
-            $dir = implode('/', $path);
-            $file .= "/$dir";
-            if (!is_dir($file) && !FileUtil::mkdir($file)) {
-                throw new KumbiaException("No se ha logrado crear el directorio \"$file\"");
+            $dir = FileUtil::resolveRelativePath($basePath, implode('/', $path));
+            if (!is_dir($dir) && !FileUtil::mkdir($dir)) {
+                throw new KumbiaException("No se ha logrado crear el directorio \"$dir\"");
             }
         }
-        $file .= "/{$controller_name}_controller.php";
+        $file = FileUtil::resolveRelativePath($basePath, $clean_path, '_controller.php');
 
         // si no existe o se sobreescribe
         if (!is_file($file) ||
@@ -74,7 +73,7 @@ class ControllerConsole
             }
 
             // directorio para vistas
-            $views_dir = APP_PATH . "views/$clean_path";
+            $views_dir = FileUtil::resolveRelativePath(APP_PATH . 'views', $clean_path);
 
             //si el directorio no existe
             if (!is_dir($views_dir)) {
@@ -96,11 +95,8 @@ class ControllerConsole
      */
     public function delete($params, $controller)
     {
-        // path limpio al controlador
-        $clean_path = trim($controller, '/');
-
         // nombre de archivo
-        $file = APP_PATH . "controllers/$clean_path";
+        $file = FileUtil::resolveRelativePath(APP_PATH . 'controllers', $controller);
 
         // si es un directorio
         if (is_dir($file)) {
@@ -119,7 +115,7 @@ class ControllerConsole
         }
 
         // directorio para vistas
-        $views_dir = APP_PATH . "views/$clean_path";
+        $views_dir = FileUtil::resolveRelativePath(APP_PATH . 'views', $controller);
 
         // intenta eliminar el directorio de vistas
         if (is_dir($views_dir)
