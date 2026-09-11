@@ -25,23 +25,20 @@ class Css
     /**
      * Css que son requisito de otros
      *
-     * @var array
      * */
-    protected static $_dependencies  = array();
+    protected static array $_dependencies  = [];
     
     /**
      * Css
      *
-     * @var array
      * */
-    protected static $_css = array();
+    protected static array $_css = [];
     
     /**
      * Directorio Css
      *
-     * @var array
      * */
-    protected static $css_dir = 'css/';
+    protected static string $css_dir = 'css/';
 
     /**
      * Añade un archivo Css fuera del template para ser incluido en el template
@@ -49,7 +46,7 @@ class Css
      * @param string $file nombre del archivo a añadir
      * @param array $dependencies  archivos que son requisito del archivo a añadir
      */
-    public static function add( $file, array $dependencies = [] )
+    public static function add(string $file, array $dependencies = [] )
     {
         self::$_css[$file] = $file;
         foreach ($dependencies  as $file) self::$_dependencies [$file] = $file;
@@ -58,9 +55,8 @@ class Css
     /**
      * Incluye todos los archivo Css en el template añadidos con el metodo add
      *
-     * @return string
      */
-    public static function inc()
+    public static function inc(): string
     {
         $css = self::$_dependencies  + self::$_css;
         $html = '';
