@@ -84,13 +84,13 @@ class DbPdoOracle extends DbPDO
             return $sql;
         }
         if (preg_match("/ORDER[\t\n\r ]+BY/i", $sql)) {
-            if (stripos($sql, 'WHERE')) {
+            if (str_contains($sql, 'WHERE')) {
                 return preg_replace("/ORDER[\t\n\r ]+BY/i", "AND ROWNUM <= $number ORDER BY", $sql);
             }
 
             return preg_replace("/ORDER[\t\n\r ]+BY/i", "WHERE ROWNUM <= $number ORDER BY", $sql);
         }
-        if (stripos($sql, 'WHERE')) {
+        if (str_contains($sql, 'WHERE')) {
             return "$sql AND ROWNUM <= $number";
         }
 
