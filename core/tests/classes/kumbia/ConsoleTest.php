@@ -202,9 +202,7 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
         $this->assertFileExists($app . '/models/admin/user.php');
     }
 
-    /**
-     * @dataProvider unsafeModelNameProvider
-     */
+    #[DataProvider('unsafeModelNameProvider')]
     public function testModelCreateRejectsUnsafeNames(string $model): void
     {
         $app = $this->temporaryDirectory . '/model-create-app';
@@ -218,9 +216,7 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
         $this->assertFileDoesNotExist($this->temporaryDirectory . '/outside.php');
     }
 
-    /**
-     * @dataProvider unsafeModelNameProvider
-     */
+    #[DataProvider('unsafeModelNameProvider')]
     public function testModelDeleteRejectsUnsafeNames(string $model): void
     {
         $app = $this->temporaryDirectory . '/model-delete-app';
@@ -260,9 +256,7 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
         $this->assertDirectoryExists($app . '/views/admin/users');
     }
 
-    /**
-     * @dataProvider unsafeControllerNameProvider
-     */
+    #[DataProvider('unsafeControllerNameProvider')]
     public function testControllerCreateRejectsUnsafeNames(string $controller): void
     {
         $app = $this->temporaryDirectory . '/controller-create-app';
@@ -277,9 +271,7 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
         $this->assertDirectoryDoesNotExist($app . '/views/../outside');
     }
 
-    /**
-     * @dataProvider unsafeControllerNameProvider
-     */
+    #[DataProvider('unsafeControllerNameProvider')]
     public function testControllerDeleteRejectsUnsafeNames(string $controller): void
     {
         $app = $this->temporaryDirectory . '/controller-delete-app';
