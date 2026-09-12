@@ -90,7 +90,7 @@ class FileUtil
             }
         }
 
-return $targetPath;
+        return $targetPath;
     }
 
     /**
