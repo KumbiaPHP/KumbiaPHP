@@ -21,6 +21,8 @@
  */
 class FileUtil
 {
+    private const UNSAFE_PATH_MESSAGE = 'La ruta indicada no es segura';
+
     /**
      * Normaliza un nombre relativo usado por las consolas generadoras.
      *
@@ -38,14 +40,14 @@ class FileUtil
             || $path[0] === '/'
             || preg_match('/^[a-zA-Z]:/', $path)
         ) {
-            throw new KumbiaException('La ruta indicada no es segura');
+            throw new KumbiaException(self::UNSAFE_PATH_MESSAGE);
         }
 
         $path = trim($path, '/');
         $segments = explode('/', $path);
         foreach ($segments as $segment) {
             if ($segment === '' || $segment === '.' || $segment === '..') {
-                throw new KumbiaException('La ruta indicada no es segura');
+                throw new KumbiaException(self::UNSAFE_PATH_MESSAGE);
             }
         }
 
@@ -83,7 +85,7 @@ class FileUtil
                 $baseRealPath = rtrim($baseRealPath, '/\\') . DIRECTORY_SEPARATOR;
                 $checkRealPath = rtrim($checkRealPath, '/\\') . DIRECTORY_SEPARATOR;
                 if (strpos($checkRealPath, $baseRealPath) !== 0) {
-                    throw new KumbiaException('La ruta indicada no es segura');
+                    throw new KumbiaException(self::UNSAFE_PATH_MESSAGE);
                 }
             }
         }
