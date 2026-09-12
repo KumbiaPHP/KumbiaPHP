@@ -172,7 +172,7 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
         $this->assertNotSame(0, $result['status']);
         $this->assertStringContainsString(
             '--path puede apuntar al directorio de la aplicación o a la raíz del proyecto KumbiaPHP',
-            $result['stderr']
+            $result['stdout'] . $result['stderr']
         );
     }
 
@@ -183,7 +183,118 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
         $result = $this->runConsole($invalid);
 
         $this->assertNotSame(0, $result['status']);
-        $this->assertStringContainsString("La ruta \"$invalid\" es invalida", $result['stderr']);
+        $this->assertStringContainsString(
+            "La ruta \"$invalid\" es invalida",
+            $result['stdout'] . $result['stderr']
+        );
+    }
+
+    public function testModelCreateAcceptsSafeNestedName(): void
+    {
+        $app = $this->temporaryDirectory . '/model-create-safe-app';
+        $this->createApp($app);
+        mkdir($app . '/models');
+
+        $result = $this->runConsoleCommand($app, 'model', 'create', ['admin/user']);
+
+        $this->assertSame('', $result['stderr']);
+        $this->assertSame(0, $result['status']);
+        $this->assertFileExists($app . '/models/admin/user.php');
+    }
+
+    #[DataProvider('unsafeModelNameProvider')]
+    public function testModelCreateRejectsUnsafeNames(string $model): void
+    {
+        $app = $this->temporaryDirectory . '/model-create-app';
+        $this->createApp($app);
+        mkdir($app . '/models');
+
+        $result = $this->runConsoleCommand($app, 'model', 'create', [$model]);
+
+        $this->assertUnsafePathRejected($result);
+        $this->assertFileDoesNotExist($app . '/outside.php');
+        $this->assertFileDoesNotExist($this->temporaryDirectory . '/outside.php');
+    }
+
+    #[DataProvider('unsafeModelNameProvider')]
+    public function testModelDeleteRejectsUnsafeNames(string $model): void
+    {
+        $app = $this->temporaryDirectory . '/model-delete-app';
+        $this->createApp($app);
+        mkdir($app . '/models');
+        file_put_contents($app . '/outside.php', 'outside');
+
+        $result = $this->runConsoleCommand($app, 'model', 'delete', [$model]);
+
+        $this->assertUnsafePathRejected($result);
+        $this->assertFileExists($app . '/outside.php');
+    }
+
+    public static function unsafeModelNameProvider(): array
+    {
+        return [
+            ['../outside'],
+            ['.'],
+            ['..'],
+            ['/outside'],
+            ['nested\\outside'],
+        ];
+    }
+
+    public function testControllerCreateAcceptsSafeNestedName(): void
+    {
+        $app = $this->temporaryDirectory . '/controller-create-safe-app';
+        $this->createApp($app);
+        mkdir($app . '/controllers');
+        mkdir($app . '/views');
+
+        $result = $this->runConsoleCommand($app, 'controller', 'create', ['admin/users']);
+
+        $this->assertSame('', $result['stderr']);
+        $this->assertSame(0, $result['status']);
+        $this->assertFileExists($app . '/controllers/admin/users_controller.php');
+        $this->assertDirectoryExists($app . '/views/admin/users');
+    }
+
+    #[DataProvider('unsafeControllerNameProvider')]
+    public function testControllerCreateRejectsUnsafeNames(string $controller): void
+    {
+        $app = $this->temporaryDirectory . '/controller-create-app';
+        $this->createApp($app);
+        mkdir($app . '/controllers');
+        mkdir($app . '/views');
+
+        $result = $this->runConsoleCommand($app, 'controller', 'create', [$controller]);
+
+        $this->assertUnsafePathRejected($result);
+        $this->assertFileDoesNotExist($app . '/outside_controller.php');
+        $this->assertDirectoryDoesNotExist($app . '/views/../outside');
+    }
+
+    #[DataProvider('unsafeControllerNameProvider')]
+    public function testControllerDeleteRejectsUnsafeNames(string $controller): void
+    {
+        $app = $this->temporaryDirectory . '/controller-delete-app';
+        $this->createApp($app);
+        mkdir($app . '/controllers');
+        mkdir($app . '/views');
+        file_put_contents($app . '/outside_controller.php', 'outside');
+
+        $result = $this->runConsoleCommand($app, 'controller', 'delete', [$controller]);
+
+        $this->assertUnsafePathRejected($result);
+        $this->assertFileExists($app . '/outside_controller.php');
+    }
+
+    public static function unsafeControllerNameProvider(): array
+    {
+        return [
+            ['../outside'],
+            ['.'],
+            ['..'],
+            ['/outside'],
+            ['nested\\outside'],
+        ];
     }
 
     private function createApp(string $app, string $configFile = 'config.php'): void
@@ -203,9 +314,22 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
 
     private function runConsole(?string $path, ?string $cwd = null, string $command = 'main'): array
     {
-        $command = [PHP_BINARY, $this->consoleEntrypoint, 'path_probe', $command];
+        return $this->runConsoleCommand($path, 'path_probe', $command, [], $cwd);
+    }
+
+    private function runConsoleCommand(
+        ?string $path,
+        string $console,
+        string $action,
+        array $arguments = [],
+        ?string $cwd = null
+    ): array {
+        $command = [PHP_BINARY, $this->consoleEntrypoint, $console, $action];
         if ($path !== null) {
             $command[] = "--path=$path";
+        }
+        foreach ($arguments as $argument) {
+            $command[] = $argument;
         }
 
         $process = proc_open(
@@ -240,6 +364,15 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
         $this->assertSame('', $result['stderr']);
         $this->assertSame(0, $result['status']);
         $this->assertSame(realpath($app) . DIRECTORY_SEPARATOR, $result['stdout']);
+    }
+
+    private function assertUnsafePathRejected(array $result): void
+    {
+        $this->assertNotSame(0, $result['status']);
+        $this->assertStringContainsString(
+            'La ruta indicada no es segura',
+            $result['stdout'] . $result['stderr']
+        );
     }
 
     private function removeDirectory(string $path): void
