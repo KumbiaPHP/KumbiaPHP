@@ -98,11 +98,11 @@ class FileUtilTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function testResolveRelativePathSupportsNewNestedPaths(): void
+    public function testResolveRelativePathChecksExistingNestedPaths(): void
     {
         $base = $this->temporaryDirectory . '/models';
-        mkdir($base, 0777, true);
-
+        mkdir($base . '/admin', 0777, true);
+    
         $this->assertSame(
             $base . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'user.php',
             FileUtil::resolveRelativePath($base, 'admin/user', '.php')

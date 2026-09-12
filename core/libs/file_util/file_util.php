@@ -38,7 +38,8 @@ class FileUtil
         if ($path === ''
             || $path[0] === '/'
             || strpbrk($path, "\0\\") !== false
-            || preg_match('/^[a-zA-Z]:|(?:^|\/)(?:\.{0,2})(?:\/|$)/', $normalized)) {
+            || preg_match('/^[a-zA-Z]:/', $path)
+            || preg_match('/(^|\/)\.{0,2}(\/|$)/', $normalized)) {
             throw new KumbiaException(self::UNSAFE_PATH_MESSAGE);
         }
 
