@@ -51,6 +51,7 @@ class RouterTestCustomRouter
  * @package     Core
  *
  * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class RouterTest extends TestCase
 {
