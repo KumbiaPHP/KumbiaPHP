@@ -16,10 +16,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once CORE_PATH.'kumbia/config.php';
 require_once CORE_PATH.'kumbia/kumbia_view.php';
-require_once CORE_PATH.'kumbia/controller.php';
-require_once CORE_PATH.'kumbia/router.php';
 
 if (!class_exists('View', false)) {
     class View extends KumbiaView
@@ -41,7 +38,7 @@ class RouterTestCustomRouter
         ];
     }
 
-    public static function getController(array $params): Controller
+    public static function getController(array $params)
     {
         require_once APP_PATH.'controllers/router_controller.php';
 
@@ -65,6 +62,11 @@ class RouterTest extends TestCase
 
     protected function setUp(): void
     {
+        require_once CORE_PATH.'kumbia/config.php';
+        require_once CORE_PATH.'kumbia/kumbia_view.php';
+        require_once CORE_PATH.'kumbia/controller.php';
+        require_once CORE_PATH.'kumbia/router.php';
+
         $this->originalServer = $_SERVER;
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
