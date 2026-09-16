@@ -14,6 +14,7 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\TestCase;
 
 require_once CORE_PATH.'kumbia/kumbia_view.php';
@@ -53,6 +54,7 @@ class RouterTestCustomRouter
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
  */
+#[PreserveGlobalState(false)]
 class RouterTest extends TestCase
 {
     private array $originalServer;
