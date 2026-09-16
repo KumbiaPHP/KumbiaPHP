@@ -15,6 +15,7 @@
  */
 
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 
 require_once CORE_PATH.'kumbia/kumbia_view.php';
@@ -103,6 +104,7 @@ class RouterTest extends TestCase
         }
     }
 
+    #[RunInSeparateProcess]
     public function testInitStoresRouteAndRequestMethod(): void
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -113,6 +115,7 @@ class RouterTest extends TestCase
         $this->assertSame('POST', Router::get('method'));
     }
 
+    #[RunInSeparateProcess]
     public function testInitRejectsParentDirectoryTraversal(): void
     {
         $this->expectException(KumbiaException::class);
@@ -121,6 +124,7 @@ class RouterTest extends TestCase
         Router::init('/admin/../config');
     }
 
+    #[RunInSeparateProcess]
     public function testGetReturnsAllVarsOrOneValue(): void
     {
         Router::to([
@@ -141,6 +145,7 @@ class RouterTest extends TestCase
         ], Router::get());
     }
 
+    #[RunInSeparateProcess]
     public function testToMergesDefaults(): void
     {
         Router::to(['controller' => 'posts']);
@@ -154,11 +159,13 @@ class RouterTest extends TestCase
         ], Router::get());
     }
 
+    #[RunInSeparateProcess]
     public function testKumbiaRouterRewriteReturnsNoOverridesForRoot(): void
     {
         $this->assertSame([], KumbiaRouter::rewrite('/'));
     }
 
+    #[RunInSeparateProcess]
     public function testKumbiaRouterRewriteNormalizesControllerActionAndParameters(): void
     {
         $this->assertSame([
@@ -169,6 +176,7 @@ class RouterTest extends TestCase
         ], KumbiaRouter::rewrite('/blog-posts/show/10/hello-world/'));
     }
 
+    #[RunInSeparateProcess]
     public function testKumbiaRouterRewriteDetectsModuleAndControllerPath(): void
     {
         $this->assertSame([
@@ -180,6 +188,7 @@ class RouterTest extends TestCase
         ], KumbiaRouter::rewrite('/admin/router/show/42'));
     }
 
+    #[RunInSeparateProcess]
     public function testKumbiaRouterRewriteUsesModuleIndexControllerWhenOnlyModuleIsPresent(): void
     {
         $this->assertSame([
@@ -188,6 +197,7 @@ class RouterTest extends TestCase
         ], KumbiaRouter::rewrite('/admin'));
     }
 
+    #[RunInSeparateProcess]
     public function testKumbiaRouterIfRoutedReturnsExactRoute(): void
     {
         Config::set('routes.routes./legacy', '/router/show/1');
@@ -195,6 +205,7 @@ class RouterTest extends TestCase
         $this->assertSame('/router/show/1', KumbiaRouter::ifRouted('/legacy'));
     }
 
+    #[RunInSeparateProcess]
     public function testKumbiaRouterIfRoutedAppliesGlobalWildcard(): void
     {
         Config::set('routes.routes./*', '/router*');
@@ -202,6 +213,7 @@ class RouterTest extends TestCase
         $this->assertSame('/router/admin/show', KumbiaRouter::ifRouted('/admin/show'));
     }
 
+    #[RunInSeparateProcess]
     public function testKumbiaRouterIfRoutedAppliesPrefixWildcard(): void
     {
         Config::set('routes.routes./blog/*', '/router/show/*');
@@ -209,6 +221,7 @@ class RouterTest extends TestCase
         $this->assertSame('/router/show/10', KumbiaRouter::ifRouted('/blog/10'));
     }
 
+    #[RunInSeparateProcess]
     public function testKumbiaRouterIfRoutedReturnsOriginalUrlWhenNoRouteMatches(): void
     {
         Config::set('routes.routes./blog/*', '/router/show/*');
@@ -216,6 +229,7 @@ class RouterTest extends TestCase
         $this->assertSame('/pages/about', KumbiaRouter::ifRouted('/pages/about'));
     }
 
+    #[RunInSeparateProcess]
     public function testKumbiaRouterGetControllerBuildsControllerInstance(): void
     {
         $controller = KumbiaRouter::getController([
@@ -231,6 +245,7 @@ class RouterTest extends TestCase
         $this->assertSame('index', $controller->action_name);
     }
 
+    #[RunInSeparateProcess]
     public function testKumbiaRouterGetControllerRejectsMissingController(): void
     {
         $this->expectException(KumbiaException::class);
@@ -250,6 +265,7 @@ class RouterTest extends TestCase
         }
     }
 
+    #[RunInSeparateProcess]
     public function testExecuteDispatchesDefaultRouterAction(): void
     {
         Config::set('config.application.routes', null);
@@ -266,6 +282,7 @@ class RouterTest extends TestCase
         ], RouterController::$events);
     }
 
+    #[RunInSeparateProcess]
     public function testExecuteUsesLegacyConfiguredRoutes(): void
     {
         Config::set('config.application.routes', '1');
@@ -278,6 +295,7 @@ class RouterTest extends TestCase
         $this->assertContains('target:routed', RouterController::$events);
     }
 
+    #[RunInSeparateProcess]
     public function testExecuteUsesConfiguredRouterClass(): void
     {
         Config::set('config.application.routes', RouterTestCustomRouter::class);
@@ -289,6 +307,7 @@ class RouterTest extends TestCase
         $this->assertContains('target:custom', RouterController::$events);
     }
 
+    #[RunInSeparateProcess]
     public function testDispatchStopsWhenInitialCallbacksReturnFalse(): void
     {
         require_once APP_PATH.'controllers/router_controller.php';
@@ -306,6 +325,7 @@ class RouterTest extends TestCase
         $this->assertSame(['initialize', 'before_filter'], RouterController::$events);
     }
 
+    #[RunInSeparateProcess]
     public function testDispatchRejectsReservedCallbackAction(): void
     {
         $this->expectException(KumbiaException::class);
@@ -323,6 +343,7 @@ class RouterTest extends TestCase
         $this->dispatch($controller);
     }
 
+    #[RunInSeparateProcess]
     public function testDispatchRejectsMissingAction(): void
     {
         $this->expectException(KumbiaException::class);
@@ -339,6 +360,7 @@ class RouterTest extends TestCase
         $this->dispatch($controller);
     }
 
+    #[RunInSeparateProcess]
     public function testDispatchRejectsInvalidActionParameterCount(): void
     {
         $this->expectException(KumbiaException::class);
@@ -355,6 +377,7 @@ class RouterTest extends TestCase
         $this->dispatch($controller);
     }
 
+    #[RunInSeparateProcess]
     public function testDispatchRunsInternalRedirectOnce(): void
     {
         Config::set('config.application.routes', null);
