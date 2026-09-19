@@ -17,6 +17,7 @@
 class RouterController extends Controller
 {
     public static array $events = [];
+    public static bool $stopInitialize = false;
     public static bool $stopBeforeFilter = false;
 
     public function index(): void
@@ -48,6 +49,10 @@ class RouterController extends Controller
     protected function initialize()
     {
         self::$events[] = 'initialize';
+
+        if (self::$stopInitialize) {
+            return false;
+        }
     }
 
     protected function before_filter()

@@ -86,6 +86,7 @@ class RouterTest extends TestCase
 
         if (class_exists('RouterController', false)) {
             RouterController::$events = [];
+            RouterController::$stopInitialize = false;
             RouterController::$stopBeforeFilter = false;
         }
     }
@@ -100,9 +101,12 @@ class RouterTest extends TestCase
 
         if (class_exists('RouterController', false)) {
             RouterController::$events = [];
+            RouterController::$stopInitialize = false;
             RouterController::$stopBeforeFilter = false;
         }
     }
+
+    // Phase 1: Router initialization and state access
 
     #[RunInSeparateProcess]
     public function testInitStoresRouteAndRequestMethod(): void
@@ -159,6 +163,8 @@ class RouterTest extends TestCase
         ], Router::get());
     }
 
+    // Phase 2: URL rewriting
+
     #[RunInSeparateProcess]
     public function testKumbiaRouterRewriteReturnsNoOverridesForRoot(): void
     {
@@ -198,6 +204,27 @@ class RouterTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    public function testKumbiaRouterRewriteReturnsControllerWhenNoActionIsPresent(): void
+    {
+        $this->assertSame([
+            'controller' => 'router',
+            'controller_path' => 'router',
+        ], KumbiaRouter::rewrite('/router'));
+    }
+
+    #[RunInSeparateProcess]
+    public function testKumbiaRouterRewriteReturnsActionWithoutParameters(): void
+    {
+        $this->assertSame([
+            'controller' => 'router',
+            'controller_path' => 'router',
+            'action' => 'show',
+        ], KumbiaRouter::rewrite('/router/show'));
+    }
+
+    // Phase 3: Configured route matching
+
+    #[RunInSeparateProcess]
     public function testKumbiaRouterIfRoutedReturnsExactRoute(): void
     {
         Config::set('routes.routes./legacy', '/router/show/1');
@@ -230,6 +257,17 @@ class RouterTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    public function testKumbiaRouterIfRoutedPrefersExactRouteOverWildcard(): void
+    {
+        Config::set('routes.routes./*', '/router/show/*');
+        Config::set('routes.routes./blog/10', '/router/target/exact');
+
+        $this->assertSame('/router/target/exact', KumbiaRouter::ifRouted('/blog/10'));
+    }
+
+    // Phase 4: Controller resolution
+
+    #[RunInSeparateProcess]
     public function testKumbiaRouterGetControllerBuildsControllerInstance(): void
     {
         $controller = KumbiaRouter::getController([
@@ -248,22 +286,27 @@ class RouterTest extends TestCase
     #[RunInSeparateProcess]
     public function testKumbiaRouterGetControllerRejectsMissingController(): void
     {
-        $this->expectException(KumbiaException::class);
-
-        set_error_handler(static fn () => true);
+        $exception = null;
+        set_error_handler(static function (int $severity, string $message): bool {
+            return $severity === E_WARNING && str_contains($message, 'missing_controller.php');
+        });
 
         try {
-            KumbiaRouter::getController([
-                'module' => '',
-                'controller' => 'missing',
-                'action' => 'index',
-                'parameters' => [],
-                'controller_path' => 'missing',
-            ]);
+            KumbiaRouter::getController($this->routerParameters('index', [], 'missing'));
+        } catch (KumbiaException $caught) {
+            $exception = $caught;
         } finally {
             restore_error_handler();
         }
+
+        $this->assertInstanceOf(KumbiaException::class, $exception);
+        $this->assertSame(0, $exception->getCode());
+        $reflection = new ReflectionProperty(KumbiaException::class, 'view');
+        $reflection->setAccessible(true);
+        $this->assertSame('no_controller', $reflection->getValue($exception));
     }
+
+    // Phase 5: Public route execution
 
     #[RunInSeparateProcess]
     public function testExecuteDispatchesDefaultRouterAction(): void
@@ -283,6 +326,18 @@ class RouterTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    public function testExecutePreservesRouteAndRequestMethod(): void
+    {
+        Config::set('config.application.routes', null);
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+
+        Router::execute('/router/show/7/custom-slug');
+
+        $this->assertSame('/router/show/7/custom-slug', Router::get('route'));
+        $this->assertSame('POST', Router::get('method'));
+    }
+
+    #[RunInSeparateProcess]
     public function testExecuteUsesLegacyConfiguredRoutes(): void
     {
         Config::set('config.application.routes', '1');
@@ -290,8 +345,15 @@ class RouterTest extends TestCase
 
         Router::execute('/legacy');
 
-        $this->assertSame('target', Router::get('action'));
-        $this->assertSame(['routed'], Router::get('parameters'));
+        $this->assertRouterState([
+            'route' => '/legacy',
+            'method' => 'GET',
+            'module' => '',
+            'controller' => 'router',
+            'action' => 'target',
+            'parameters' => ['routed'],
+            'controller_path' => 'router',
+        ]);
         $this->assertContains('target:routed', RouterController::$events);
     }
 
@@ -302,23 +364,38 @@ class RouterTest extends TestCase
 
         Router::execute('/anything');
 
-        $this->assertSame('target', Router::get('action'));
-        $this->assertSame(['custom'], Router::get('parameters'));
+        $this->assertRouterState([
+            'route' => '/anything',
+            'method' => 'GET',
+            'module' => '',
+            'controller' => 'router',
+            'action' => 'target',
+            'parameters' => ['custom'],
+            'controller_path' => 'router',
+        ]);
         $this->assertContains('target:custom', RouterController::$events);
     }
 
+    // Phase 6: Dispatch lifecycle and validation
+
     #[RunInSeparateProcess]
-    public function testDispatchStopsWhenInitialCallbacksReturnFalse(): void
+    public function testDispatchStopsWhenInitializeReturnsFalse(): void
+    {
+        require_once APP_PATH.'controllers/router_controller.php';
+        RouterController::$stopInitialize = true;
+        $controller = new RouterController($this->routerParameters());
+
+        $this->dispatch($controller);
+
+        $this->assertSame(['initialize'], RouterController::$events);
+    }
+
+    #[RunInSeparateProcess]
+    public function testDispatchStopsWhenBeforeFilterReturnsFalse(): void
     {
         require_once APP_PATH.'controllers/router_controller.php';
         RouterController::$stopBeforeFilter = true;
-        $controller = new RouterController([
-            'module' => '',
-            'controller' => 'router',
-            'action' => 'index',
-            'parameters' => [],
-            'controller_path' => 'router',
-        ]);
+        $controller = new RouterController($this->routerParameters());
 
         $this->dispatch($controller);
 
@@ -332,13 +409,7 @@ class RouterTest extends TestCase
         $this->expectExceptionMessage('Esta intentando ejecutar un método reservado de KumbiaPHP');
 
         require_once APP_PATH.'controllers/router_controller.php';
-        $controller = new RouterController([
-            'module' => '',
-            'controller' => 'router',
-            'action' => 'k_callback',
-            'parameters' => [],
-            'controller_path' => 'router',
-        ]);
+        $controller = new RouterController($this->routerParameters('k_callback'));
 
         $this->dispatch($controller);
     }
@@ -346,18 +417,19 @@ class RouterTest extends TestCase
     #[RunInSeparateProcess]
     public function testDispatchRejectsMissingAction(): void
     {
-        $this->expectException(KumbiaException::class);
-
         require_once APP_PATH.'controllers/router_controller.php';
-        $controller = new RouterController([
-            'module' => '',
-            'controller' => 'router',
-            'action' => 'missing',
-            'parameters' => [],
-            'controller_path' => 'router',
-        ]);
+        $controller = new RouterController($this->routerParameters('missing'));
+        $exception = null;
 
-        $this->dispatch($controller);
+        try {
+            $this->dispatch($controller);
+        } catch (KumbiaException $caught) {
+            $exception = $caught;
+        }
+
+        $this->assertInstanceOf(KumbiaException::class, $exception);
+        $this->assertNotContains('after_filter', RouterController::$events);
+        $this->assertNotContains('finalize', RouterController::$events);
     }
 
     #[RunInSeparateProcess]
@@ -366,16 +438,47 @@ class RouterTest extends TestCase
         $this->expectException(KumbiaException::class);
 
         require_once APP_PATH.'controllers/router_controller.php';
+        $controller = new RouterController($this->routerParameters('show'));
+
+        $this->dispatch($controller);
+    }
+
+    #[RunInSeparateProcess]
+    public function testDispatchRejectsTooManyActionParameters(): void
+    {
+        $this->expectException(KumbiaException::class);
+
+        require_once APP_PATH.'controllers/router_controller.php';
         $controller = new RouterController([
             'module' => '',
             'controller' => 'router',
             'action' => 'show',
-            'parameters' => [],
+            'parameters' => ['1', 'slug', 'extra'],
             'controller_path' => 'router',
         ]);
 
         $this->dispatch($controller);
     }
+
+    #[RunInSeparateProcess]
+    public function testDispatchAllowsExtraParametersWhenLimitParamsIsDisabled(): void
+    {
+        require_once APP_PATH.'controllers/router_controller.php';
+        $controller = new RouterController([
+            'module' => '',
+            'controller' => 'router',
+            'action' => 'show',
+            'parameters' => ['1', 'slug', 'extra'],
+            'controller_path' => 'router',
+        ]);
+        $controller->limit_params = false;
+
+        $this->dispatch($controller);
+
+        $this->assertContains('show:1:slug', RouterController::$events);
+    }
+
+    // Phase 7: Internal redirects
 
     #[RunInSeparateProcess]
     public function testDispatchRunsInternalRedirectOnce(): void
@@ -396,6 +499,25 @@ class RouterTest extends TestCase
             'after_filter',
             'finalize',
         ], RouterController::$events);
+        $this->assertFalse($this->getStaticProperty(Router::class, 'routed'));
+    }
+
+    private function routerParameters(string $action = 'index', array $parameters = [], string $controllerPath = 'router'): array
+    {
+        return [
+            'module' => '',
+            'controller' => 'router',
+            'action' => $action,
+            'parameters' => $parameters,
+            'controller_path' => $controllerPath,
+        ];
+    }
+
+    private function assertRouterState(array $expected): void
+    {
+        foreach ($expected as $field => $value) {
+            $this->assertSame($value, Router::get($field));
+        }
     }
 
     private function dispatch(Controller $controller): Controller
