@@ -105,7 +105,7 @@ class Router
         }
 
         // Descompone la url
-        self::$vars += $router::rewrite($url) + self::DEFAULT;
+        self::$vars = $router::rewrite($url) + self::$vars + self::DEFAULT;
 
         // Despacha la ruta actual
         return static::dispatch($router::getController(self::$vars));
