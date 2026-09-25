@@ -74,10 +74,11 @@ class Router
         if (str_contains($url, '/../')) {
             throw new KumbiaException("Posible intento de hack en URL: '$url'");
         }
-        // Si hay intento de hack TODO: añadir la ip y referer en el log
-        self::$vars['route'] = $url;
-        //Método usado
-        self::$vars['method'] = $_SERVER['REQUEST_METHOD'];
+        
+        self::$vars = [
+            'route'  => $url,
+            'method' => $_SERVER['REQUEST_METHOD']
+        ];
     }
 
     /**
