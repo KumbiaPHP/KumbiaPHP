@@ -68,7 +68,7 @@ class Router
      * 
      * @throws KumbiaException
      */
-    public static function init(string $url): void
+    protected static function init(string $url): void
     {
         // Se miran los parámetros por seguridad
         if (str_contains($url, '/../')) {
