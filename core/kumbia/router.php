@@ -42,7 +42,7 @@ class Router
     ];
 
     /**
-     * Array estático con las variables del router por defecto
+     * Constante del Array con las variables del router por defecto
     */
     protected const DEFAULT = [
         'module'          => '', //Nombre del módulo actual
