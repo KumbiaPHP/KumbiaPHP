@@ -78,7 +78,7 @@ class Router
         self::$vars = [
             'route'  => $url,
             'method' => $_SERVER['REQUEST_METHOD']
-        ];
+        ] + self::DEFAULT;
     }
 
     /**
@@ -105,7 +105,7 @@ class Router
         }
 
         // Descompone la url
-        self::$vars = $router::rewrite($url) + self::$vars + self::DEFAULT;
+        self::$vars = $router::rewrite($url) + self::$vars;
 
         // Despacha la ruta actual
         return self::dispatch($router::getController(self::$vars));
@@ -200,6 +200,6 @@ class Router
         if ($intern) {
             self::$routed = true;
         }
-        self::$vars = $params + self::$vars + self::DEFAULT;
+        self::$vars = $params + self::$vars;
     }
 }
