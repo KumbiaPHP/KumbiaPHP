@@ -159,9 +159,8 @@ class Router
     {
         if (self::$routed) {
             self::$routed = false;
-            $router = self::$router;
             // Despacha la ruta actual
-            self::dispatch($router::getController(self::$vars));
+            self::dispatch((self::$router)::getController(self::$vars));
         }
     }
 
