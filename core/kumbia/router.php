@@ -70,11 +70,6 @@ class Router
      */
     protected static function init(string $url): void
     {
-        // Se miran los parámetros por seguridad
-        if (str_contains($url, '/../')) {
-            throw new KumbiaException("Posible intento de hack en URL: '$url'");
-        }
-        
         self::$vars = [
             'route'  => $url,
             'method' => $_SERVER['REQUEST_METHOD']
