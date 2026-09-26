@@ -190,7 +190,7 @@ class Router
      * @param boolean $intern si la redirección es interna
      * 
      */
-    public static function to(array $params, $intern = false): void
+    public static function to(array $params, bool $intern = false): void
     {
         if ($intern) {
             self::$routed = true;
