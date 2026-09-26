@@ -108,7 +108,7 @@ class Router
         self::$vars = $router::rewrite($url) + self::$vars + self::DEFAULT;
 
         // Despacha la ruta actual
-        return static::dispatch($router::getController(self::$vars));
+        return self::dispatch($router::getController(self::$vars));
     }
 
     /**
@@ -185,7 +185,7 @@ class Router
      */
     public static function get($var = '')
     {
-        return ($var) ? static::$vars[$var] : static::$vars;
+        return ($var) ? self::$vars[$var] : self::$vars;
     }
 
     /**
@@ -200,6 +200,6 @@ class Router
         if ($intern) {
             self::$routed = true;
         }
-        static::$vars = $params + self::DEFAULT;
+        self::$vars = $params + self::DEFAULT;
     }
 }
