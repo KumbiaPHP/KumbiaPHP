@@ -200,6 +200,6 @@ class Router
         if ($intern) {
             self::$routed = true;
         }
-        self::$vars = $params + self::DEFAULT;
+        self::$vars = $params + self::$vars + self::DEFAULT;
     }
 }
