@@ -114,7 +114,7 @@ abstract class Controller
      * @param boolean $init filtros de inicio
      * @return false|void
      */
-    final public function k_callback(bool $init = false)
+    final public function k_callback($init = false)
     {
         if ($init) {
             if ($this->initialize() !== false) {
