@@ -95,7 +95,7 @@ class Router
         self::$vars = $router::rewrite($url) + self::$vars;
 
         // Despacha la ruta actual
-        return self::dispatch($router::getController(self::$vars));
+        return static::dispatch($router::getController(self::$vars));
     }
 
     /**
@@ -152,7 +152,7 @@ class Router
         if (self::$routed) {
             self::$routed = false;
             // Despacha la ruta actual
-            self::dispatch((self::$router)::getController(self::$vars));
+            static::dispatch((self::$router)::getController(self::$vars));
         }
     }
 
