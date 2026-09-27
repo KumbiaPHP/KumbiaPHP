@@ -53,15 +53,15 @@ class Router
     protected static bool $routed = false;
 
     /**
-     * Procesamiento basico del router
+     * Procesamiento basico del router por defecto
      * 
      * @throws KumbiaException
      */
     protected static function init(string $url): void
     {
         self::$vars = [
-            'route'  => $url,
-            'method' => $_SERVER['REQUEST_METHOD'],
+            'route'           => $url,
+            'method'          => $_SERVER['REQUEST_METHOD'],
             'module'          => '',
             'controller'      => 'index', //Nombre del controlador actual, por defecto index
             'action'          => 'index', //Nombre de la acción actual, por defecto index
