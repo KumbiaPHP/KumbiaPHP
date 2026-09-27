@@ -179,7 +179,7 @@ class Router
      */
     public static function get(string $var = '')
     {
-        return $var === '' ? self::$vars[$var] : self::$vars;
+        return $var === '' ? self::$vars : self::$vars[$var];
     }
 
     /**
