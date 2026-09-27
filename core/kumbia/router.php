@@ -54,8 +54,6 @@ class Router
 
     /**
      * Procesamiento basico del router por defecto
-     * 
-     * @throws KumbiaException
      */
     protected static function init(string $url): void
     {
