@@ -42,17 +42,6 @@ class Router
     ];
 
     /**
-     * Constante del Array con las variables del router por defecto
-    */
-    protected const DEFAULT = [
-        'module'          => '', //Nombre del módulo actual
-        'controller'      => 'index', //Nombre del controlador actual, por defecto index
-        'action'          => 'index', //Nombre de la acción actual, por defecto index
-        'parameters'      => [], //Lista los parámetros adicionales de la URL
-        'controller_path' => 'index'
-    ];
-
-    /**
      * This is the name of router class
      */
     protected static string $router = 'KumbiaRouter';
@@ -72,8 +61,13 @@ class Router
     {
         self::$vars = [
             'route'  => $url,
-            'method' => $_SERVER['REQUEST_METHOD']
-        ] + self::DEFAULT;
+            'method' => $_SERVER['REQUEST_METHOD'],
+            'module'          => '',
+            'controller'      => 'index', //Nombre del controlador actual, por defecto index
+            'action'          => 'index', //Nombre de la acción actual, por defecto index
+            'parameters'      => [], //Lista los parámetros adicionales de la URL
+            'controller_path' => 'index'
+        ];
     }
 
     /**
