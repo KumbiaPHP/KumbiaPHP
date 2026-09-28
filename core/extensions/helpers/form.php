@@ -168,7 +168,7 @@ class Form
     protected static function tag($tag, $field, $attrs = '', $value = '', $extra = '', $close = true)
     {
         $attrs = Tag::getAttrs($attrs);
-        $end = $close ? ">{{value}}</$tag>" : '/>';
+        $end = $close ? ">{{value}}</$tag>" : '>';
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         [$id, $name, $value] = self::getFieldData($field, $value);
 
