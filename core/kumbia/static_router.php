@@ -51,7 +51,7 @@ class StaticRouter extends Router
                 'vars' => self::$vars
         ];
         if (\count(self::$routes) > 256) {
-            unset(self::$routes[key(self::$routes)]);
+            unset(self::$routes[array_key_first(self::$routes)]);
         }
 
         return parent::dispatch($cont);
