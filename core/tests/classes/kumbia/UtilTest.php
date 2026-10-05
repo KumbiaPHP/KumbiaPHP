@@ -14,187 +14,182 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
-use PHPUnit\Framework\Attributes\DataProvider;
+it('converts strings to underscores', function ($original, $expected) {
+    expect(Util::underscore($original))->toBe($expected);
+})->with([
+            ['Hello World', 'Hello_World'],
+            ['', ''],
+            ['-_ae123$%&', '-_ae123$%&'],
+            [' ', '_'],
+            ['  ', '__'],
+            ['---', '---'],
+            ['If you did not receive a copy of the license and are unable to', 'If_you_did_not_receive_a_copy_of_the_license_and_are_unable_to'],
+        ]);
+});
 
-/**
- * @category    Test
- * @package     Core
- *
- */
-class UtilTest extends PHPUnit\Framework\TestCase
-{
-    public static function underescoreDataProvider(): array
-    {
-        return array(
-            array('Hello World', 'Hello_World'),
-            array('', ''),
-            array('-_ae123$%&', '-_ae123$%&'),
-            array(' ', '_'),
-            array('  ', '__'),
-            array('---', '---'),
-            array(
-                'If you did not receive a copy of the license and are unable to',
-                'If_you_did_not_receive_a_copy_of_the_license_and_are_unable_to',
-            ),
-        );
-    }
-
-    public static function dashDataProvider(): array
-    {
-        return array(
-            array('Hello World', 'Hello-World'),
-            array('', ''),
-            array('-_ae123$%&', '-_ae123$%&'),
-            array(' ', '-'),
-            array('  ', '--'),
-            array('---', '---'),
-            array('___', '___'),
-            array(
+it('converts strings to dashes', function ($original, $expected) {
+    expect(Util::dash($original))->toBe($expected);
+})->with([
+            ['Hello World', 'Hello-World'],
+            ['', ''],
+            ['-_ae123$%&', '-_ae123$%&'],
+            [' ', '-'],
+            ['  ', '--'],
+            ['---', '---'],
+            ['___', '___'],
+            [
                 'If you did not receive a copy of the license and are unable to',
                 'If-you-did-not-receive-a-copy-of-the-license-and-are-unable-to',
-            ),
-        );
-    }
+            ],
+]);
 
-    public static function humanizeDataProvider(): array
-    {
-        return array(
-            array('Hello-World', 'Hello World'),
-            array('Hello_World', 'Hello World'),
-            array('', ''),
-            array('-_ae123$%&', '  ae123$%&'),
-            array(' ', ' '),
-            array('  ', '  '),
-            array('---', '   '),
-            array('___', '   '),
-            array('-__---___', '         '),
-            array(
+it('humanizes underscored and dashed strings', function ($original, $expected) {
+    expect(Util::humanize($original))->toBe($expected);
+})->with([
+            ['Hello-World', 'Hello World'],
+            ['Hello_World', 'Hello World'],
+            ['Hello-World-Again', 'Hello World Again'],
+            ['Hello_World_Again', 'Hello World Again'],
+            ['Hello-World_Again', 'Hello World Again'],
+            ['Hello_World-Again', 'Hello World Again'],
+            ['hello-world-again', 'hello world again'],
+            ['hello_world_again', 'hello world again'],
+            ['hello-world_again', 'hello world again'],
+            ['hello_world-again', 'hello world again'],
+            [' hello ', ' hello '],
+            ['  ', '  '],
+            ['---', '   '],
+            ['___', '   '],
+            ['-__---___', '         '],
+            [
                 'If you-did_not receive a-copy of the-license_and_are unable to',
                 'If you did not receive a copy of the license and are unable to',
-            ),
-        );
-    }
+            ],
+]);
 
-    public static function encomillarDataProvider(): array
-    {
-        return array(
-            array('a,b,c', '"a","b","c"'),
-            array('a, b, c', '"a"," b"," c"'),
-            array(' a , b , c ', '" a "," b "," c "'),
-            array('hello , world,123', '"hello "," world","123"'),
-        );
-    }
+it('encloses comma-separated values in quotes', function ($original, $expected) {
+    expect(Util::encomillar($original))->toBe($expected);
+})->with([
+            ['a,b,c', '"a","b","c"'],
+            ['a, b, c', '"a"," b"," c"'],
+            [' a , b , c ', '" a "," b "," c "'],
+            ['hello , world,123', '"hello "," world","123"'],
+            ['hello,world,123', '"hello","world","123"'],
+            ['hello, world, 123', '"hello"," world"," 123"'],
+            ['hello , world , 123', '"hello "," world "," 123"'],
+            ['hello , world , 123 ', '"hello "," world "," 123 "'],
+            ['hello , world , 123 ', '"hello "," world "," 123 "'],
+            ['a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z', '"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"'],
+            ['a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,1,2,3,4,5,6,7,8,9,0', '"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","1","2","3","4","5","6","7","8","9","0"'],
+]);
 
-    public static function camelcaseDataProvider(): array
-    {
-        return array(
-            array('a_b_c', 'ABC', 'aBC'),
-            array('users', 'Users', 'users'),
-            array('table_name', 'TableName', 'tableName'),
-            array('table__name', 'TableName', 'tableName'),
-            array('table___name', 'TableName', 'tableName'),
-            array('table_name1', 'TableName1', 'tableName1'),
-            array('table_name_1', 'TableName1', 'tableName1'),
-            array('table_1_name', 'Table1Name', 'table1Name'),
-            array('table_1name', 'Table1name', 'table1name'),
-            array('table1_name', 'Table1Name', 'table1Name'),
-            array('table1_2name', 'Table12name', 'table12name'),
-            array('table_1_2_name', 'Table12Name', 'table12Name'),
-            array('table_12_name', 'Table12Name', 'table12Name'),
-            array('table12_name', 'Table12Name', 'table12Name'),
-            array('table12name', 'Table12name', 'table12name'),
-        );
-    }
+it('converts strings to camel case', function ($original, $expected, $expectedLowerCase) {
+    expect(Util::camelcase($original))->toBe($expected);
+    expect(Util::camelcase($original, true))->toBe($expectedLowerCase);
+})->with([
+            ['a_b_c', 'ABC', 'aBC'],
+            ['users', 'Users', 'users'],
+            ['table_name', 'TableName', 'tableName'],
+            ['table__name', 'TableName', 'tableName'],
+            ['table___name', 'TableName', 'tableName'],
+            ['table_name1', 'TableName1', 'tableName1'],
+            ['table_name_1', 'TableName1', 'tableName1'],
+            ['table_1_name', 'Table1Name', 'table1Name'],
+            ['table_1name', 'Table1name', 'table1name'],
+            ['table1_name', 'Table1Name', 'table1Name'],
+            ['table1_2name', 'Table12name', 'table12name'],
+            ['table_1_2_name', 'Table12Name', 'table12Name'],
+            ['table_12_name', 'Table12Name', 'table12Name'],
+            ['table12_name', 'Table12Name', 'table12Name'],
+            ['table12name', 'Table12name', 'table12name'],
+]);
 
-    public static function smallcaseDataProvider(): array
-    {
-        return array(
-            array('ABC', 'a_b_c'),
-            array('Users', 'users'),
-            array('TableName', 'table_name'),
-            array('TableName1', 'table_name1'),
-            array('Table1Name', 'table1_name'),
-            array('Table12name', 'table12name'),
-            array('Table12Name', 'table12_name'),
-        );
-    }
+it('converts strings to snake case', function ($original, $expected) {
+    expect(Util::smallcase($original))->toBe($expected);
+})->with([
+            ['ABC', 'a_b_c'],
+            ['Users', 'users'],
+            ['TableName', 'table_name'],
+            ['TableName1', 'table_name1'],
+            ['Table1Name', 'table1_name'],
+            ['Table12name', 'table12name'],
+            ['Table12Name', 'table12_name'],
+]);
 
-    public static function getParamsDataProvider(): array
-    {
-        return array(
-            array(array(), array()),
-            array(array('a: b'), array('a' => 'b')),
-            array(array('a: b', 'c: d'), array('a' => 'b', 'c' => 'd')),
-            array(
-                array('param1: value1', 'param2:  value2'),
-                array('param1' => 'value1', 'param2' => ' value2')
-            ),
-            array(
-                array('param1 : value1', 'param2 :  value2'),
-                array('param1 ' => 'value1', 'param2 ' => ' value2')
-            ),
-            array(
-                array('value1', 'value2'),
-                array('value1', 'value2'),
-            ),
-        );
-    }
-
-    #[DataProvider('underescoreDataProvider')]
-    public function testUnderescore($original, $expected)
-    {
-        $result = Util::underscore($original);
-
-        $this->assertSame($expected, $result);
-    }
-
-    #[DataProvider('dashDataProvider')]
-    public function testDash($original, $expected)
-    {
-        $result = Util::dash($original);
-
-        $this->assertSame($expected, $result);
-    }
-
-    #[DataProvider('humanizeDataProvider')]
-    public function testHumanize($original, $expected)
-    {
-        $result = Util::humanize($original);
-
-        $this->assertSame($expected, $result);
-    }
-
-    #[DataProvider('encomillarDataProvider')]
-    public function testEncomillar($original, $expected)
-    {
-        $result = Util::encomillar($original);
-
-        $this->assertSame($expected, $result);
-    }
-
-    #[DataProvider('camelcaseDataProvider')]
-    public function testCamelcase($original, $expected, $expectedLowerCase)
-    {
-        $result = Util::camelcase($original);
-        $resultLowerCase = Util::camelcase($original, true);
-
-        $this->assertSame($expected, $result);
-        $this->assertSame($expectedLowerCase, $resultLowerCase);
-    }
-
-    #[DataProvider('smallcaseDataProvider')]
-    public function testSmallcase($original, $expected)
-    {
-        $result = Util::smallcase($original);
-
-        $this->assertSame($expected, $result);
-    }
-
-    #[DataProvider('getParamsDataProvider')]
-    public function testGetParams($original, $expected)
-    {
-        $result = Util::getParams($original);
-
-        $this->assertEquals($expected, $result);
-    }
-}
+it('parses parameters', function ($original, $expected) {
+    expect(Util::getParams($original))->toEqual($expected);
+})->with([
+            [[], []],
+            [['a: b'], ['a' => 'b']],
+            [['a: b', 'c: d'], ['a' => 'b', 'c' => 'd']],
+            [['param1: value1', 'param2:  value2'], ['param1' => 'value1', 'param2' => ' value2']],
+            [['param1 : value1', 'param2 :  value2'], ['param1 ' => 'value1', 'param2 ' => ' value2']],
+            [['value1', 'value2'], ['value1', 'value2']],
+            [['value1', 'value2', 'param1: value1', 'param2:  value2'], ['value1', 'value2', 'param1' => 'value1', 'param2' => ' value2']],
+            [['value1', 'value2', 'param1 : value1', 'param2 :  value2'], ['value1', 'value2', 'param1 ' => 'value1', 'param2 ' => ' value2']],
+            [['value1', 'value2', 'param1: value1', 'param2:  value2', 'value3'], ['value1', 'value2', 'param1' => 'value1', 'param2' => ' value2', 'value3']],
+            [['value1', 'value2', 'param1 : value1', 'param2 :  value2', 'value3'], ['value1', 'value2', 'param1 ' => 'value1', 'param2 ' => ' value2', 'value3']],
+            [['a: b'], ['a' => 'b']],
+            [['a: b', 'c: d'], ['a' => 'b', 'c' => 'd']],
+            [
+                ['param1: value1', 'param2:  value2'],
+                ['param1' => 'value1', 'param2' => ' value2']
+            ]   ,
+            [
+                ['param1 : value1', 'param2 :  value2'],
+                ['param1 ' => 'value1', 'param2 ' => ' value2']
+            ],
+            [
+                ['value1', 'value2'],
+                ['value1', 'value2'],
+            ],
+            [
+                ['value1', 'value2', 'param1: value1', 'param2:  value2'],
+                ['value1', 'value2', 'param1' => 'value1', 'param2' => ' value2']
+            ],
+            [
+                ['value1', 'value2', 'param1 : value1', 'param2 :  value2'],
+                ['value1', 'value2', 'param1 ' => 'value1', 'param2 ' => ' value2']
+            ],
+            [
+                ['value1', 'value2', 'param1: value1', 'param2:  value2', 'value3'],
+                ['value1', 'value2', 'param1' => 'value1', 'param2' => ' value2', 'value3']
+            ],
+            [
+                ['value1', 'value2', 'param1 : value1', 'param2 :  value2', 'value3'],
+                ['value1', 'value2', 'param1 ' => 'value1', 'param2 ' => ' value2', 'value3']
+            ],
+            [
+                ['a: b'],
+                ['a' => 'b']
+            ],
+            [
+                ['a: b', 'c: d'],
+                ['a' => 'b', 'c' => 'd']
+            ],
+            [
+                ['param1: value1', 'param2:  value2'],
+                ['param1' => 'value1', 'param2' => ' value2']
+            ],
+            [
+                ['param1 : value1', 'param2 :  value2'],
+                ['param1 ' => 'value1', 'param2 ' => ' value2']
+            ],
+            [
+                ['value1', 'value2'],
+                ['value1', 'value2']
+            ],
+            [
+                ['value1', 'value2', 'param1: value1', 'param2:  value2'],
+                ['value1', 'value2', 'param1' => 'value1', 'param2' => ' value2']
+            ],
+            [
+                ['value1', 'value2', 'param1 : value1', 'param2 :  value2'],
+                ['value1', 'value2', 'param1 ' => 'value1', 'param2 ' => ' value2']
+            ],
+            [
+                ['value1', 'value2'],
+                ['value1', 'value2']
+            ],
+        ],
+    );
