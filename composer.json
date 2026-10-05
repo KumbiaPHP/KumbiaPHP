@@ -13,6 +13,11 @@
         "pestphp/pest": "^2.36 || ^3 || ^4 || ^5",
         "mockery/mockery": "^1"
     },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
     "support": {
         "forum": "http://foro.kumbiaphp.com/",
         "group": "https://groups.google.com/group/kumbia",
