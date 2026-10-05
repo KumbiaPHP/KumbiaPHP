@@ -15,7 +15,9 @@
  */
 
 it('default router', function() {
-    expect(Router::execute(''))
+    $_SERVER['REQUEST_METHOD'] = 'GET';
+
+    expect(Router::execute('/'))
         ->toBeInstanceOf(Router::class);
     
 });
@@ -26,7 +28,7 @@ it('default router vars', function($url, $method, $vars) {
     Router::execute($url);
     expect(Router::get())->toBe($vars);
 })->with([
-            ['', 'GET', 
+            ['/', 'GET', 
                ['route'           => '',
                 'method'          => 'GET',
                 'module'          => '',
@@ -36,7 +38,7 @@ it('default router vars', function($url, $method, $vars) {
                 'controller_path' => 'index'
                 ] 
             ],
-            ['', 'POST', 
+            ['/', 'POST', 
                ['route'           => '',
                 'method'          => 'POST',
                 'module'          => '',
