@@ -10,9 +10,9 @@
 | need to change it using the "uses()" function to bind a different classes or traits.
 |
 */
-use Tests\ServerTestCase;
+//use Tests\ServerTestCase;
 
-uses(ServerTestCase::class)->in('Feature');
+//uses(ServerTestCase::class)->in('Feature');
 
 /*
 |--------------------------------------------------------------------------
