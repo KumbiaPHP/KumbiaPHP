@@ -36,10 +36,8 @@ class FormTest extends PHPUnit\Framework\TestCase
     {
         $this->originalPost = $_POST;
         $this->radios = new ReflectionProperty(Form::class, 'radios');
-        $this->radios->setAccessible(true);
         $this->originalRadios = $this->radios->getValue();
         $this->viewData = new ReflectionProperty(View::class, '_controller');
-        $this->viewData->setAccessible(true);
         $this->originalViewData = $this->viewData->getValue();
         $this->radios->setValue(null, []);
         $_POST = [];
