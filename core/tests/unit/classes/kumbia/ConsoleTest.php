@@ -23,7 +23,7 @@ class ConsoleTest extends PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->consoleEntrypoint = dirname(__DIR__, 3) . '/console/kumbia.php';
+        $this->consoleEntrypoint = dirname(__DIR__, 4) . '/console/kumbia.php';
         $this->temporaryDirectory = sys_get_temp_dir() . DIRECTORY_SEPARATOR
             . 'kumbia console ' . bin2hex(random_bytes(8));
 
