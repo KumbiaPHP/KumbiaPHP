@@ -18,8 +18,9 @@ it('default router', function() {
     $_SERVER['REQUEST_METHOD'] = 'GET';
 
     expect(Router::execute('/'))
-        ->toBeInstanceOf(Controller::class);
-    
+        ->toBeInstanceOf(Controller::class)
+        ->and(toBeInstanceOf(IndexController::class));
+
 });
 
 it('default router vars', function($url, $method, $vars) {
