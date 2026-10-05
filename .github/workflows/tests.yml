@@ -1,10 +1,11 @@
-name: PHPUnit
+name: Test KumbiaPHP
 
 on:
   push:
     branches:
       - dev
       - master
+      - pest
     paths:
       - 'default/app/**.php'
       - 'core/**.php'
@@ -13,12 +14,13 @@ on:
       - composer.json
       - core/phpunit.xml.dist
       - default/app/phpunit.xml.dist
-      - .github/workflows/phpunit.yml
+      - .github/workflows/tests.yml
 
   pull_request:
     branches:
       - dev
       - master
+      - pest
     paths:
       - 'default/app/**.php'
       - 'core/**.php'
@@ -27,7 +29,7 @@ on:
       - composer.json
       - core/phpunit.xml.dist
       - default/app/phpunit.xml.dist
-      - .github/workflows/phpunit.yml
+      - .github/workflows/tests.yml
 
 jobs:
   tests:
@@ -38,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.1', '8.2', '8.3', '8.4', '8.5', '8.6']
+        php-versions: ['8.2', '8.3', '8.4', '8.5', '8.6']
         phpunit-versions: ['latest']
 
     steps:
@@ -71,12 +73,11 @@ jobs:
         run: composer install --prefer-dist
 
 
-      - name: Test core with PHPUnit
-        run: script -e -c "vendor/bin/phpunit --color=always --configuration core/phpunit.xml.dist"
-        env:
-          TERM: xterm-256color
+      - name: Test core
+        run: |
+          vendor/bin/pest --colors=always --configuration core/phpunit.xml.dist --test-directory=core/tests
 
-      - name: Test app with PHPUnit
-        run: script -e -c "vendor/bin/phpunit --color=always --configuration default/app/phpunit.xml.dist"
-        env:
-          TERM: xterm-256color
+      - name: Test app
+        run: |
+          vendor/bin/pest --colors=always --configuration default/app/phpunit.xml.dist --test-directory=default/app/tests
+
