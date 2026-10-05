@@ -71,12 +71,9 @@ jobs:
         run: composer install --prefer-dist
 
 
-      - name: Test core with PHPUnit
-        run: script -e -c "vendor/bin/phpunit --color=always --configuration core/phpunit.xml.dist"
-        env:
-          TERM: xterm-256color
+      - name: Test core
+        run: vendor/bin/pest --colors=always --configuration core/phpunit.xml.dist"
 
-      - name: Test app with PHPUnit
-        run: script -e -c "vendor/bin/phpunit --color=always --configuration default/app/phpunit.xml.dist"
-        env:
-          TERM: xterm-256color
+      - name: Test app
+        run: vendor/bin/pest --colors=always --configuration default/app/phpunit.xml.dist"
+
