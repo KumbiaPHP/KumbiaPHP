@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
     colors="true"
-    verbose="true"
     processIsolation="true"
     stopOnFailure="false"
     bootstrap="./tests/bootstrap.php">
@@ -19,11 +19,11 @@
 
 
     <!-- Ignore vendor, core and tests in code coverage reports -->
-    <coverage>
+    <source>
         <exclude>
             <directory suffix=".php">./tests</directory>
             <directory suffix=".php">../../core</directory>
             <directory suffix=".php">../../vendor</directory>
         </exclude>
-    </coverage>
+    </source>
 </phpunit>
