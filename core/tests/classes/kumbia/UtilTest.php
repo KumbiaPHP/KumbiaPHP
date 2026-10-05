@@ -20,7 +20,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * @category    Test
  * @package     Core
  *
- * @runTestsInSeparateProcesses
  */
 class UtilTest extends PHPUnit\Framework\TestCase
 {
