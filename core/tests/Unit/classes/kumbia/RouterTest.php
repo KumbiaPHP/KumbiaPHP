@@ -29,7 +29,7 @@ it('default router vars', function($url, $method, $vars) {
     expect(Router::get())->toBe($vars);
 })->with([
             ['/', 'GET', 
-               ['route'           => '',
+               ['route'           => '/',
                 'method'          => 'GET',
                 'module'          => '',
                 'controller'      => 'index', //Nombre del controlador actual, por defecto index
@@ -39,7 +39,7 @@ it('default router vars', function($url, $method, $vars) {
                 ] 
             ],
             ['/', 'POST', 
-               ['route'           => '',
+               ['route'           => '/',
                 'method'          => 'POST',
                 'module'          => '',
                 'controller'      => 'index', //Nombre del controlador actual, por defecto index
