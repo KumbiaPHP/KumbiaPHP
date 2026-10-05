@@ -24,7 +24,7 @@ it('default router vars', function($url, $method, $vars) {
     $_SERVER['REQUEST_METHOD'] = $method;
 
     Router::execute($url);
-    expect(Router::get())->toBe();
+    expect(Router::get())->toBe($vars);
 })->with([
             ['', 'GET', 
                ['route'           => '',
