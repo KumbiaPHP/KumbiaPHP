@@ -14,7 +14,7 @@ on:
       - composer.json
       - core/phpunit.xml.dist
       - default/app/phpunit.xml.dist
-      - .github/workflows/phpunit.yml
+      - .github/workflows/tests.yml
 
   pull_request:
     branches:
@@ -29,7 +29,7 @@ on:
       - composer.json
       - core/phpunit.xml.dist
       - default/app/phpunit.xml.dist
-      - .github/workflows/phpunit.yml
+      - .github/workflows/tests.yml
 
 jobs:
   tests:
