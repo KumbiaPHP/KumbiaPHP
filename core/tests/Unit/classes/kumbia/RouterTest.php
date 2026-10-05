@@ -54,7 +54,7 @@ it('default router vars', function($url, $method, $vars) {
 it('route to non existing controller', function() {
     $_SERVER['REQUEST_METHOD'] = 'GET';
 
-    Router::execute('/non-existing');
+    expect(Router::execute('/non-existing'))->toThrow(KumbiaException::class);
     expect(Router::get('controller'))->toBe('non_existing');
     expect(Router::get('action'))->toBe('index');
     expect(Router::get('controller_path'))->toBe('non_existing');
