@@ -14,7 +14,7 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
-it('converts strings to underscores', function ($original, $expected) {
+it('converts string spaces to underscores', function ($original, $expected) {
     expect(Util::underscore($original))->toBe($expected);
 })->with([
             ['Hello World', 'Hello_World'],
@@ -24,12 +24,11 @@ it('converts strings to underscores', function ($original, $expected) {
             ['  ', '__'],
             ['---', '---'],
             ['If you did not receive a copy of the license and are unable to', 'If_you_did_not_receive_a_copy_of_the_license_and_are_unable_to'],
-        ]);
-});
+]);
 
-it('converts strings to dashes', function ($original, $expected) {
+it('converts string spaces to dashes', function ($original, $expected) {
     expect(Util::dash($original))->toBe($expected);
-})->with([
+})->with([  
             ['Hello World', 'Hello-World'],
             ['', ''],
             ['-_ae123$%&', '-_ae123$%&'],
