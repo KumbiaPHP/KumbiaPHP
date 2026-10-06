@@ -14,8 +14,9 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
+$_SERVER['REQUEST_METHOD'] = 'GET';
+
 it('default router', function() {
-    $_SERVER['REQUEST_METHOD'] = 'GET';
 
     $controller = Router::execute('/');
     expect($controller)->toBeObject();
@@ -29,16 +30,6 @@ it('default router vars', function($url, $method, $vars) {
     Router::execute($url);
     expect(Router::get())->toBe($vars);
 })->with([
-            ['/', 'GET', 
-               ['route'           => '/',
-                'method'          => 'GET',
-                'module'          => '',
-                'controller'      => 'index', //Nombre del controlador actual, por defecto index
-                'action'          => 'index', //Nombre de la acción actual, por defecto index
-                'parameters'      => [], //Lista los parámetros adicionales de la URL
-                'controller_path' => 'index'
-                ] 
-            ],
             ['/', 'POST', 
                ['route'           => '/',
                 'method'          => 'POST',
@@ -49,22 +40,29 @@ it('default router vars', function($url, $method, $vars) {
                 'controller_path' => 'index'
                 ] 
             ],
+            ['/', 'GET', 
+               ['route'           => '/',
+                'method'          => 'GET',
+                'module'          => '',
+                'controller'      => 'index', //Nombre del controlador actual, por defecto index
+                'action'          => 'index', //Nombre de la acción actual, por defecto index
+                'parameters'      => [], //Lista los parámetros adicionales de la URL
+                'controller_path' => 'index'
+                ] 
+            ],
 ]);
 
 it('route to non existing controller', function() {
-    $_SERVER['REQUEST_METHOD'] = 'GET';
 
     Router::execute('/non-existing');
 })->throws(KumbiaException::class);
 
 it('route to non existing action', function() {
-    $_SERVER['REQUEST_METHOD'] = 'GET';
 
     Router::execute('/index/non-existing');
 })->throws(KumbiaException::class);
 
 it('route to non existing module', function() {
-    $_SERVER['REQUEST_METHOD'] = 'GET';
 
     Router::execute('/non-existing/index');
 })->throws(KumbiaException::class);
@@ -86,7 +84,6 @@ it('route to', function($url, $method, $controllerClass) {
 ]);
 
 it('route traverse path fail', function($url) {
-    $_SERVER['REQUEST_METHOD'] = 'GET';
 
     Router::execute($url);
 })->with([
