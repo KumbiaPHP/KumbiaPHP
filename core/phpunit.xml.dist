@@ -11,8 +11,11 @@
     </php>
 
     <testsuites>
-        <testsuite name="KumbiaPHP Framework Core Test Suite">
-            <directory>./tests/</directory>
+        <testsuite name="Unit tests KumbiaPHP Core">
+            <directory>./tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature tests KumbiaPHP Core">
+            <directory>./tests/Feature</directory>
         </testsuite>
     </testsuites>
 
