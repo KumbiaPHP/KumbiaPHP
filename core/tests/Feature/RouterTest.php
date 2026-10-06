@@ -82,6 +82,7 @@ it('route to', function($url, $method, $controllerClass) {
             ['/index/index', 'POST', IndexController::class],
             ['/index/index', 'PUT', IndexController::class],
             ['/index/index', 'DELETE', IndexController::class],
+            ['/pages/hola', 'GET', PagesController::class],
 ]);
 
 it('route outside of controllers fail', function() {
