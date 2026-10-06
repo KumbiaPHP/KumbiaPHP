@@ -56,3 +56,30 @@ it('route to non existing controller', function() {
 
     Router::execute('/non-existing');
 })->throws(KumbiaException::class);
+
+it('route to non existing action', function() {
+    $_SERVER['REQUEST_METHOD'] = 'GET';
+
+    Router::execute('/index/non-existing');
+})->throws(KumbiaException::class);
+
+it('route to non existing module', function() {
+    $_SERVER['REQUEST_METHOD'] = 'GET';
+
+    Router::execute('/non-existing/index');
+})->throws(KumbiaException::class);
+
+it('route to', function($url, $method, $controllerClass) {
+    $_SERVER['REQUEST_METHOD'] = $method;
+
+    $controller = Router::execute($url);
+    expect($controller)->toBeObject();
+    expect($controller)->toBeInstanceOf(Controller::class);
+    expect($controller)->toBeInstanceOf($controllerClass);
+})->with([
+            ['/index', 'GET', IndexController::class],
+            ['/index/index', 'GET', IndexController::class],
+            ['/index/index', 'POST', IndexController::class],
+            ['/index/index', 'PUT', IndexController::class],
+            ['/index/index', 'DELETE', IndexController::class],
+]);
