@@ -97,8 +97,9 @@ it('route traverse path fail', function($url) {
     ['/index/../index'],
     ['/index/../../index'],
     ['/index/../../../index'],
-    ['//index'],
-    ['//index/index'],
+    //['//index'], el trim($url, '/') en Router::execute() evita que se pueda hacer un traverse path con doble slash
+    //['//index/index'],
+    ['/index//index'],
     ['../index'],
     ['../../index'],
     ['/../pages/hola'],
