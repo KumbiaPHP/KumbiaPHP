@@ -79,4 +79,4 @@ jobs:
 
       - name: Test app
         run: |
-          composer test:app
+          composer test
