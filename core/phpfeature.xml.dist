@@ -3,7 +3,7 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
          colors="true"
-         bootstrap="./tests/bootstrap.php">
+         bootstrap="./tests/bootstrap_feature.php">
 
     <php>
         <ini name="error_reporting" value="-1"/>
@@ -11,10 +11,10 @@
     </php>
 
     <testsuites>
-        <testsuite name="Unit tests KumbiaPHP Core">
-            <directory>./tests/Unit</directory>
+        <testsuite name="Feature tests KumbiaPHP Core">
+            <directory>./tests/Feature</directory>
         </testsuite>
-   </testsuites>
+    </testsuites>
 
     <!-- Ignore vendor tests in code coverage reports -->
     <source>
