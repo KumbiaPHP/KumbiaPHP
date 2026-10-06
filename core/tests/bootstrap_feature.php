@@ -17,5 +17,5 @@
 include __DIR__.'/bootstrap.php';
 
 require_once CORE_PATH.'kumbia/config.php';
-require_once APP_PATH.'kumbia/router.php';
+require_once CORE_PATH.'kumbia/router.php';
 
