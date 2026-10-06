@@ -103,4 +103,5 @@ it('route traverse path fail', function($url) {
     ['../index'],
     ['../../index'],
     ['/../pages/hola'],
+    ['../pages/hola'],
 ])->throws(KumbiaException::class);
