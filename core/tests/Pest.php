@@ -13,6 +13,11 @@
 //use Tests\ServerTestCase;
 
 //uses(ServerTestCase::class)->in('Feature');
+beforeAll(function () {
+    require_once CORE_PATH.'kumbia/config.php';
+    require_once CORE_PATH.'kumbia/router.php';
+    
+})->in('Feature');
 
 /*
 |--------------------------------------------------------------------------

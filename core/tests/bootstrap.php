@@ -18,17 +18,9 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-const APP_CHARSET = 'UTF-8';
-const PRODUCTION = false;
-
 defined('CORE_PATH') || define('CORE_PATH', dirname(__DIR__) . '/');
 defined('APP_PATH') || define('APP_PATH', __DIR__ . '/Stub/app/');
 defined('PUBLIC_PATH') || define('PUBLIC_PATH', 'http://127.0.0.1/');
-
-require_once CORE_PATH.'kumbia/config.php';
-require_once CORE_PATH.'kumbia/router.php';
-
-//require_once APP_PATH.'libs/app_controller.php';
 
 require_once CORE_PATH.'kumbia/autoload.php';
 require_once __DIR__.'/../../vendor/autoload.php';
