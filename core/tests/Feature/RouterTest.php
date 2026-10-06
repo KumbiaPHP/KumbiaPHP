@@ -94,6 +94,7 @@ it('route traverse path fail', function($url) {
     ['/../../bootstrap'],
     ['/../../../../bootstrap.php'],
     ['/../../../bootstrap.php'],
+    ['/../libs/app'],
     ['/index/../index'],
     ['/index/../../index'],
     ['/index/../../../index'],
