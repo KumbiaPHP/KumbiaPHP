@@ -85,8 +85,16 @@ it('route to', function($url, $method, $controllerClass) {
             ['/pages/hola', 'GET', PagesController::class],
 ]);
 
-it('route outside of controllers fail', function() {
+it('route outside of controllers fail', function($url) {
     $_SERVER['REQUEST_METHOD'] = 'GET';
 
-    Router::execute('/../../bootstrap.php');
-})->throws(KumbiaException::class);
+    Router::execute($url);
+})->with([
+    ['/../../bootstrap.php'],
+    ['/../../bootstrap'],
+    ['/../../../../bootstrap.php'],
+    ['/../../../bootstrap.php'],
+    ['/index/../index'],
+    ['/index/../../index'],
+    ['/index/../../../index'],
+])->throws(KumbiaException::class);
