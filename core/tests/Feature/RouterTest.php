@@ -97,4 +97,5 @@ it('route outside of controllers fail', function($url) {
     ['/index/../index'],
     ['/index/../../index'],
     ['/index/../../../index'],
+    ['/../pages/hola'],
 ])->throws(KumbiaException::class);
