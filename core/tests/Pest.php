@@ -13,7 +13,7 @@
 //use Tests\ServerTestCase;
 
 //uses(ServerTestCase::class)->in('Feature');
-pest()->extend(TestCase::class)->beforeAll(function () {
+pest()->beforeAll(function () {
     require_once CORE_PATH.'kumbia/config.php';
     require_once CORE_PATH.'kumbia/router.php';
 
