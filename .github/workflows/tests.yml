@@ -75,10 +75,8 @@ jobs:
 
       - name: Test core
         run: |
-          vendor/bin/pest core/tests/Unit --colors=always --configuration core/phpunit.xml.dist --test-directory=core/tests/Unit
-          vendor/bin/pest core/tests/Feature --colors=always --configuration core/phpfeature.xml.dist --test-directory=core/tests/Feature
+          composer test:core
 
       - name: Test app
         run: |
-          vendor/bin/pest default/app/tests --colors=always --configuration default/app/phpunit.xml.dist --test-directory=default/app/tests
-
+          composer test:app

@@ -24,6 +24,19 @@
         "source": "https://github.com/KumbiaPHP/KumbiaPHP",
         "wiki": "http://wiki.kumbiaphp.com"
     },
-    "type": "project"
+    "type": "project",
+    "scripts": {
+        "test:core:unit": "pest --colors=always --configuration core/phpunit.xml.dist --test-directory=core/tests/Unit",
+        "test:core:feature": "pest --colors=always --configuration core/phpfeature.xml.dist --test-directory=core/tests/Feature",
+        "test:core": [
+            "@test:core:unit",
+            "@test:core:feature"
+        ],
+        "test": "pest --colors=always --configuration default/app/phpunit.xml.dist --test-directory=default/app/tests",
+        "test:all": [
+            "@test:core",
+            "@test"
+        ]
+    }
 }
 
