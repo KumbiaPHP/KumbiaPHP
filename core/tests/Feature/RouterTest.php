@@ -85,7 +85,7 @@ it('route to', function($url, $method, $controllerClass) {
             ['/pages/hola', 'GET', PagesController::class],
 ]);
 
-it('route outside of controllers fail', function($url) {
+it('route traverse path fail', function($url) {
     $_SERVER['REQUEST_METHOD'] = 'GET';
 
     Router::execute($url);
