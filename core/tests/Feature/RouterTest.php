@@ -83,3 +83,9 @@ it('route to', function($url, $method, $controllerClass) {
             ['/index/index', 'PUT', IndexController::class],
             ['/index/index', 'DELETE', IndexController::class],
 ]);
+
+it('route outside of controllers fail', function() {
+    $_SERVER['REQUEST_METHOD'] = 'GET';
+
+    Router::execute('/../../bootstrap.php');
+})->throws(KumbiaException::class);
