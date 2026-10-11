@@ -591,11 +591,17 @@ class KumbiaActiveRecord
              * valor por defecto, entonces no se incluye en la lista, ya que
              * al colocar un valor por defecto, el campo nunca sera nulo
              *
+             * Lo que decide es que la columna DECLARE un valor por defecto, no que
+             * ese valor sea truthy: describe_table() devuelve los defaults como
+             * string, con lo cual el de un `NOT NULL DEFAULT 0` llega como '0' y el
+             * de un `DEFAULT ''` como '', ambos falsy en PHP. La ausencia de valor
+             * por defecto se expresa con Default === null.
              */
-            if ($field['Null'] == 'NO' && !(isset($field['Default']) && $field['Default'])) {
+            $hasDefault = isset($field['Default']);
+            if ($field['Null'] == 'NO' && !$hasDefault) {
                 $this->not_null[] = $field['Field'];
             }
-            if (isset($field['Default']) && $field['Default']) {
+            if ($hasDefault) {
                 $this->_with_default[] = $field['Field'];
             }
             if ($field['Type']) {
