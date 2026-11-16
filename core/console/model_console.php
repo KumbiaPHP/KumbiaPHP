@@ -32,22 +32,21 @@ class ModelConsole
     public function create($params, $model)
     {
         // nombre de archivo
-        $file = APP_PATH.'models';
+        $basePath = APP_PATH.'models';
 
-        // obtiene el path
-        $path = explode('/', trim($model, '/'));
+        // obtiene el path seguro
+        $path = explode('/', FileUtil::normalizeRelativePath($model));
 
         // obtiene el nombre de modelo
         $model_name = array_pop($path);
 
         if (count($path)) {
-            $dir = implode('/', $path);
-            $file .= "/$dir";
-            if (!is_dir($file) && !FileUtil::mkdir($file)) {
-                throw new KumbiaException("No se ha logrado crear el directorio \"$file\"");
+            $dir = FileUtil::resolveRelativePath($basePath, implode('/', $path));
+            if (!is_dir($dir) && !FileUtil::mkdir($dir)) {
+                throw new KumbiaException("No se ha logrado crear el directorio \"$dir\"");
             }
         }
-        $file .= "/$model_name.php";
+        $file = FileUtil::resolveRelativePath($basePath, $model, '.php');
 
         // si no existe o se sobreescribe
         if (!is_file($file) ||
@@ -79,7 +78,7 @@ class ModelConsole
     public function delete($params, $model)
     {
         // nombre de archivo
-        $file = APP_PATH.'models/'.trim($model, '/');
+        $file = FileUtil::resolveRelativePath(APP_PATH.'models', $model);
 
         // si es un directorio
         if (is_dir($file)) {

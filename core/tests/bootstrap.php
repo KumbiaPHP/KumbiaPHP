@@ -19,7 +19,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 }
 
 defined('CORE_PATH') || define('CORE_PATH', dirname(__DIR__) . '/');
-defined('APP_PATH') || define('APP_PATH', __DIR__ . '/');
+defined('APP_PATH') || define('APP_PATH', __DIR__ . '/Stub/app/');
 defined('PUBLIC_PATH') || define('PUBLIC_PATH', 'http://127.0.0.1/');
 
 require_once CORE_PATH.'kumbia/autoload.php';

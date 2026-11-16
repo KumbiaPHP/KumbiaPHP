@@ -25,12 +25,12 @@ class PgsqlDescribeTableIntegrationTest extends PHPUnit\Framework\TestCase
 
         $config = $this->configuration();
 
-        require_once CORE_PATH.'libs/db/db_base.php';
-        require_once CORE_PATH.'libs/db/db_base_interface.php';
-        require_once CORE_PATH.'libs/db/adapters/pdo/interface.php';
-        require_once CORE_PATH.'libs/db/adapters/pdo.php';
-        require_once CORE_PATH.'libs/db/adapters/pgsql.php';
-        require_once CORE_PATH.'libs/db/adapters/pdo/pgsql.php';
+        //require_once CORE_PATH.'libs/db/db_base.php';
+        //require_once CORE_PATH.'libs/db/db_base_interface.php';
+        //require_once CORE_PATH.'libs/db/adapters/pdo/interface.php';
+        //require_once CORE_PATH.'libs/db/adapters/pdo.php';
+        //require_once CORE_PATH.'libs/db/adapters/pgsql.php';
+        //require_once CORE_PATH.'libs/db/adapters/pdo/pgsql.php';
 
         try {
             $this->native = new DbPgSQL($config);

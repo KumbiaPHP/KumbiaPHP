@@ -313,7 +313,7 @@ class DbSQLite extends DbBase implements DbBaseInterface
     public function table_exists($table, $schema = '')
     {
         $table = addslashes(strtolower($table));
-        if (strpos($table, '.')) {
+        if (str_contains($table, '.')) {
             [$schema, $table] = explode('.', $table);
         }
         $num = $this->fetch_one("SELECT COUNT(*) FROM sqlite_master WHERE name = '$table'");

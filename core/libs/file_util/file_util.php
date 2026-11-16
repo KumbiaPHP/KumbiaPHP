@@ -21,6 +21,60 @@
  */
 class FileUtil
 {
+    private const UNSAFE_PATH_MESSAGE = 'La ruta indicada no es segura';
+
+    /**
+     * Normaliza una ruta relativa segura.
+     *
+     * @param string $path Ruta relativa a validar
+     *
+     * @throws KumbiaException
+     * @return string Ruta relativa segura con separador /
+     */
+    public static function normalizeRelativePath(string $path): string
+    {
+        $normalized = trim($path, '/');
+        // Reject absolute paths, Windows separators/drive prefixes, NUL bytes, and empty, ".", or ".." segments.
+        if ($path === ''
+            || $path[0] === '/'
+            || strpbrk($path, "\0\\") !== false
+            || preg_match('/^[a-zA-Z]:/', $path)
+            || preg_match('/(^|\/)\.{0,2}(\/|$)/', $normalized)) {
+            throw new KumbiaException(self::UNSAFE_PATH_MESSAGE);
+        }
+
+        return $normalized;
+    }
+
+    /**
+     * Resuelve una ruta relativa segura dentro de un directorio base.
+     *
+     * @param string $basePath Directorio autorizado
+     * @param string $path Ruta relativa a resolver
+     * @param string $suffix Sufijo opcional para el archivo final
+     *
+     * @throws KumbiaException
+     * @return string Ruta segura dentro del directorio base
+     */
+    public static function resolveRelativePath(string $basePath, string $path, string $suffix = ''): string
+    {
+        $relativePath = str_replace('/', DIRECTORY_SEPARATOR, self::normalizeRelativePath($path));
+        $targetPath = rtrim($basePath, '/\\') . DIRECTORY_SEPARATOR . $relativePath . $suffix;
+        $baseRealPath = realpath($basePath);
+        $checkPath = $targetPath;
+        while (($checkRealPath = realpath($checkPath)) === false && dirname($checkPath) !== $checkPath) {
+            $checkPath = dirname($checkPath);
+        }
+
+        if ($baseRealPath !== false && $checkRealPath !== false
+            && strpos(rtrim($checkRealPath, '/\\') . DIRECTORY_SEPARATOR,
+                rtrim($baseRealPath, '/\\') . DIRECTORY_SEPARATOR) !== 0) {
+            throw new KumbiaException(self::UNSAFE_PATH_MESSAGE);
+        }
+
+        return $targetPath;
+    }
+
     /**
      * Crea un path en caso de que no exista
      *

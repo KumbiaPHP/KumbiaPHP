@@ -93,7 +93,7 @@ table.zebra>tbody>tr:nth-child(odd)>td,table.zebra>tbody>tr:nth-child(odd)>th{ba
 table.hover>tbody>tr:hover{background-color:#f5f5f5}
 legend{display:block;width:100%;padding:0;margin-bottom:22px;font-size:22.5px;line-height:inherit;color:#333;border:0;border-bottom:1px solid #e5e5e5}
 fieldset{border:0}
-label{display:inline-block;margin-bottom:5px;font-weight:bold}
+label{margin-bottom:5px;font-weight:bold}
 .control::-moz-placeholder{color:#999}
 .control:-ms-input-placeholder{color:#999}
 .control::-webkit-input-placeholder{color:#999}

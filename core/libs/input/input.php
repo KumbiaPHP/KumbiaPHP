@@ -53,7 +53,7 @@ class Input
      */
     public static function isMobile()
     {  
-        return strpos(mb_strtolower($_SERVER['HTTP_USER_AGENT']), 'mobile') ? TRUE : FALSE;
+        return str_contains(mb_strtolower($_SERVER['HTTP_USER_AGENT']), 'mobile');
     }
 
     /**

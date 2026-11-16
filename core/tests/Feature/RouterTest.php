@@ -1,0 +1,105 @@
+<?php
+/**
+ * KumbiaPHP web & app Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.
+ *
+ * @category   Test
+ * @package    Core
+ *
+ * @copyright  Copyright (c) 2005 - 2026 KumbiaPHP Team (http://www.kumbiaphp.com)
+ * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
+ */
+
+$_SERVER['REQUEST_METHOD'] = 'GET';
+
+it('default router', function() {
+
+    $controller = Router::execute('/');
+    expect($controller)->toBeObject();
+    expect($controller)->toBeInstanceOf(Controller::class);
+    expect($controller)->toBeInstanceOf(IndexController::class);
+});
+
+it('default router vars', function($url, $method, $vars) {
+    $_SERVER['REQUEST_METHOD'] = $method;
+
+    Router::execute($url);
+    expect(Router::get())->toBe($vars);
+})->with([
+            ['/', 'POST', 
+               ['route'           => '/',
+                'method'          => 'POST',
+                'module'          => '',
+                'controller'      => 'index', //Nombre del controlador actual, por defecto index
+                'action'          => 'index', //Nombre de la acción actual, por defecto index
+                'parameters'      => [], //Lista los parámetros adicionales de la URL
+                'controller_path' => 'index'
+                ] 
+            ],
+            ['/', 'GET', 
+               ['route'           => '/',
+                'method'          => 'GET',
+                'module'          => '',
+                'controller'      => 'index', //Nombre del controlador actual, por defecto index
+                'action'          => 'index', //Nombre de la acción actual, por defecto index
+                'parameters'      => [], //Lista los parámetros adicionales de la URL
+                'controller_path' => 'index'
+                ] 
+            ],
+]);
+
+it('route to non existing controller', function() {
+
+    Router::execute('/non-existing');
+})->throws(KumbiaException::class);
+
+it('route to non existing action', function() {
+
+    Router::execute('/index/non-existing');
+})->throws(KumbiaException::class);
+
+it('route to non existing module', function() {
+
+    Router::execute('/non-existing/index');
+})->throws(KumbiaException::class);
+
+it('route to', function($url, $method, $controllerClass) {
+    $_SERVER['REQUEST_METHOD'] = $method;
+
+    $controller = Router::execute($url);
+    expect($controller)->toBeObject();
+    expect($controller)->toBeInstanceOf(Controller::class);
+    expect($controller)->toBeInstanceOf($controllerClass);
+})->with([
+            ['/index', 'GET', IndexController::class],
+            ['/index/index', 'GET', IndexController::class],
+            ['/index/index', 'POST', IndexController::class],
+            ['/index/index', 'PUT', IndexController::class],
+            ['/index/index', 'DELETE', IndexController::class],
+            ['/pages/hola', 'GET', PagesController::class],
+]);
+
+it('route traverse path fail', function($url) {
+
+    Router::execute($url);
+})->with([
+    ['/../../bootstrap.php'],
+    ['/../../bootstrap'],
+    ['/../../../../bootstrap.php'],
+    ['/../../../bootstrap.php'],
+    ['/../libs/app'],
+    ['/index/../index'],
+    ['/index/../../index'],
+    ['/index/../../../index'],
+    //['//index'], el trim($url, '/') en Router::execute() evita que se pueda hacer un traverse path con doble slash
+    //['//index/index'],
+    ['/index//index'],
+    ['../index'],
+    ['../../index'],
+    ['/../pages/hola'],
+    ['../pages/hola'],
+])->throws(KumbiaException::class);

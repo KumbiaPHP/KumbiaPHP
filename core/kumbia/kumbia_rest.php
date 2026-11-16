@@ -183,7 +183,7 @@ abstract class KumbiaRest extends Controller
         $accept = explode(',', strtolower(str_replace(' ', '', Input::server('HTTP_ACCEPT'))));
         foreach ($accept as $a) {
             $q = 1; /* Por defecto la prioridad es 1, el siguiente verifica si es otra */
-            if (strpos($a, ';q=')) {
+            if (str_contains($a, ';q=')) {
                 /* parte el "mime/type;q=X" en dos: "mime/type" y "X" */
                 [$a, $q] = explode(';q=', $a);
             }

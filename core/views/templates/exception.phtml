@@ -98,8 +98,8 @@
 <h1>Rastro</h1>
 <?php foreach ($e->getTrace() as $trace) : ?>
     <?php if (isset($trace['file'])) //&&
-        //!(strpos ( $trace ['file'], APP_PATH) ===false) &&
-        //!(strpos ( $trace ['file'], 'index.php')))
+        //!(str_contains ( $trace ['file'], APP_PATH) ===false) &&
+        //!(str_contains ( $trace ['file'], 'index.php')))
     : ?>
         <p><strong class="file"><?= htmlentities($trace['file'], ENT_NOQUOTES, 'UTF-8'), "(", $trace['line'], ")" ?></strong></p>
         <!-- <p>La excepción se ha generado en el archivo <em class="file"><?= $trace['file'] ?></em> en la línea: <em><?= $trace['line'] ?></em>:</p> -->

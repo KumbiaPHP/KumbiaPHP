@@ -103,7 +103,7 @@ class DbPdoMsSQL extends DbPDO
         }
         $orderby = stristr($sql, 'ORDER BY');
         if ($orderby !== false) {
-            $sort = (stripos($orderby, 'desc') !== false) ? 'desc' : 'asc';
+            $sort = str_contains($orderby, 'desc') ? 'desc' : 'asc';
             $order = str_ireplace('ORDER BY', '', $orderby);
             $order = trim(preg_replace('/ASC|DESC/i', '', $order));
         }
@@ -111,7 +111,7 @@ class DbPdoMsSQL extends DbPDO
         $sql = 'SELECT * FROM (SELECT TOP '.$params[limit].' * FROM ('.$sql.') AS itable';
         if ($orderby !== false) {
             $sql .= ' ORDER BY '.$order.' ';
-            $sql .= (stripos($sort, 'asc') !== false) ? 'DESC' : 'ASC';
+            $sql .= str_contains($sort, 'asc') ? 'DESC' : 'ASC';
         }
         $sql .= ') AS otable';
         if ($orderby !== false) {

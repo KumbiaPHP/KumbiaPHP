@@ -88,6 +88,19 @@ abstract class Upload {
     }
 
     /**
+     * Devuelve el nombre original enviado por el cliente, o NULL si no es un string.
+     * Es metadata no confiable: no es una ruta segura ni el nombre del archivo guardado.
+     *
+     * @return string|null
+     */
+    public function getOriginalName(): ?string {
+        $file = $_FILES[$this->_name] ?? null;
+        $name = is_array($file) ? ($file['name'] ?? null) : null;
+
+        return is_string($name) ? $name : null;
+    }
+
+    /**
      * Indica si se permitirá guardar archivos de scripts ejecutables
      *
      * @param boolean $value

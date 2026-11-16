@@ -26,17 +26,15 @@ class Tag
     /**
      * Hojas de estilo
      *
-     * @var array
      * */
-    protected static $_css = array();
+    protected static array $_css = [];
 
     /**
      * Convierte los argumentos de un metodo de parametros por nombre a un string con los atributos
      *
      * @param string|array $params argumentos a convertir
-     * @return string
      */
-    public static function getAttrs($params)
+    public static function getAttrs($params): string
     {
         if (!is_array($params)) {
             return (string)$params;
@@ -54,9 +52,8 @@ class Tag
      * @param string $tag nombre de tag
      * @param string|null $content contenido interno
      * @param string|array $attrs atributos para el tag
-     * @return void
      * */
-    public static function create($tag, $content = null, $attrs = '')
+    public static function create($tag, $content = null, $attrs = ''): void
     {
         if (is_array($attrs)) {
             $attrs = self::getAttrs($attrs);
@@ -76,7 +73,7 @@ class Tag
      * @param string $src archivo javascript
      * @param boolean $cache indica si se usa cache de navegador
      */
-    public static function js($src, $cache = TRUE)
+    public static function js($src, $cache = TRUE): string
     {
         $src = "javascript/$src.js";
         if (!$cache) {
@@ -92,17 +89,16 @@ class Tag
      * @param string $src archivo css
      * @param string $media medio de la hoja de estilo
      */
-    public static function css($src, $media = 'screen')
+    public static function css($src, $media = 'screen'): void
     {
-        self::$_css[] = array('src' => $src, 'media' => $media);
+        self::$_css[] = ['src' => $src, 'media' => $media];
     }
 
     /**
      * Obtiene el array de hojas de estilo
      *
-     * @return array
      */
-    public static function getCss()
+    public static function getCss(): array
     {
         return self::$_css;
     }

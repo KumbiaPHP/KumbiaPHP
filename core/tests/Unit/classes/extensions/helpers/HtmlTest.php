@@ -20,8 +20,7 @@ use \Mockery as m;
 /**
  * @category Test
  * @package  Html
- *  
- * @runTestsInSeparateProcesses
+ * 
  */
 class HtmlTest extends PHPUnit\Framework\TestCase
 {
