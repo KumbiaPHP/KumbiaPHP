@@ -21,7 +21,7 @@
  * @package    Core
  */
 
-const KUMBIA_VERSION = '1.2.1';
+const KUMBIA_VERSION = '1.3.0';
 
 /**
  * Versión de KumbiaPHP
