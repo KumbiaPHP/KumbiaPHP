@@ -14,107 +14,99 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
-/**
- * @category    Test
- * @package     Css
- */
-class CssTest extends PHPUnit\Framework\TestCase
-{
-    protected function setUp(): void
-    {
-        Closure::bind(static function () {
-            Css::$_css = [];
-            Css::$_dependencies = [];
-        }, null, Css::class)();
-    }
+beforeEach(function () {
+    Closure::bind(static function () {
+        Css::$_css = [];
+        Css::$_dependencies = [];
+    }, null, Css::class)();
+});
 
-    public function testIncReturnsEmptyStringWhenNothingAdded()
-    {
-        $this->assertSame('', Css::inc());
-    }
+it('returns empty string when nothing added', function () {
+    expect(Css::inc())->toBe('');
+});
 
-    public function testAddSingleFile()
-    {
-        Css::add('style');
+it('adds single file', function () {
+    Css::add('style');
 
-        $expected = '<link href="' . PUBLIC_PATH . 'css/style.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
-        $this->assertSame($expected, Css::inc());
-    }
+    $expected = '<link href="' . PUBLIC_PATH . 'css/style.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
+    expect(Css::inc())->toBe($expected);
+});
 
-    public function testAddMultipleFilesPreservesInsertionOrder()
-    {
-        Css::add('reset');
-        Css::add('base');
-        Css::add('main');
+it('adds multiple files and preserves insertion order', function () {
+    Css::add('reset');
+    Css::add('base');
+    Css::add('main');
 
-        $expected =
-            '<link href="' . PUBLIC_PATH . 'css/reset.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
-            '<link href="' . PUBLIC_PATH . 'css/base.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
-            '<link href="' . PUBLIC_PATH . 'css/main.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
+    $expected =
+        '<link href="' . PUBLIC_PATH . 'css/reset.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
+        '<link href="' . PUBLIC_PATH . 'css/base.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
+        '<link href="' . PUBLIC_PATH . 'css/main.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
 
-        $this->assertSame($expected, Css::inc());
-    }
+    expect(Css::inc())->toBe($expected);
+});
 
-    public function testDependenciesAreOutputBeforeMainFile()
-    {
-        Css::add('main', ['reset', 'base']);
+it('outputs dependencies before main file', function () {
+    Css::add('main', ['reset', 'base']);
 
-        $output   = Css::inc();
-        $resetPos = strpos($output, 'reset.css');
-        $basePos  = strpos($output, 'base.css');
-        $mainPos  = strpos($output, 'main.css');
+    $expected =
+        '<link href="' . PUBLIC_PATH . 'css/reset.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
+        '<link href="' . PUBLIC_PATH . 'css/base.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
+        '<link href="' . PUBLIC_PATH . 'css/main.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
 
-        $this->assertLessThan($mainPos, $resetPos, 'reset.css should appear before main.css');
-        $this->assertLessThan($mainPos, $basePos,  'base.css should appear before main.css');
-    }
+    expect(Css::inc())->toBe($expected);
+});
 
-    public function testAllDependenciesAndMainFileAreIncluded()
-    {
-        Css::add('app', ['normalize', 'grid']);
+it('includes all dependencies and main file', function () {
+    Css::add('app', ['normalize', 'grid']);
 
-        $output = Css::inc();
+    $expected =
+        '<link href="' . PUBLIC_PATH . 'css/normalize.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
+        '<link href="' . PUBLIC_PATH . 'css/grid.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
+        '<link href="' . PUBLIC_PATH . 'css/app.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
 
-        $this->assertStringContainsString(PUBLIC_PATH . 'css/normalize.css', $output);
-        $this->assertStringContainsString(PUBLIC_PATH . 'css/grid.css', $output);
-        $this->assertStringContainsString(PUBLIC_PATH . 'css/app.css', $output);
-    }
+    expect(Css::inc())->toBe($expected);
+});
 
-    public function testAddingSameFileMultipleTimesDeduplicates()
-    {
-        Css::add('style');
-        Css::add('style');
+it('deduplicates same file added multiple times', function () {
+    Css::add('style');
+    Css::add('style');
 
-        $this->assertSame(1, substr_count(Css::inc(), 'style.css'));
-    }
+    $expected = '<link href="' . PUBLIC_PATH . 'css/style.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
+    expect(Css::inc())->toBe($expected);
+});
 
-    public function testAddingSameDependencyFromMultipleCallsDeduplicates()
-    {
-        Css::add('comp-a', ['shared']);
-        Css::add('comp-b', ['shared']);
+it('deduplicates same dependency from multiple calls', function () {
+    Css::add('comp-a', ['shared']);
+    Css::add('comp-b', ['shared']);
 
-        $this->assertSame(1, substr_count(Css::inc(), 'shared.css'));
-    }
+    $expected =
+        '<link href="' . PUBLIC_PATH . 'css/shared.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
+        '<link href="' . PUBLIC_PATH . 'css/comp-a.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
+        '<link href="' . PUBLIC_PATH . 'css/comp-b.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
 
-    public function testFileUsedAsBothDependencyAndMainAppearsOnce()
-    {
-        Css::add('base');
-        Css::add('main', ['base']);
+    expect(Css::inc())->toBe($expected);
+});
 
-        $this->assertSame(1, substr_count(Css::inc(), 'base.css'));
-    }
+it('outputs file used as both dependency and main only once', function () {
+    Css::add('base');
+    Css::add('main', ['base']);
 
-    public function testIncIsIdempotent()
-    {
-        Css::add('style');
+    $expected =
+        '<link href="' . PUBLIC_PATH . 'css/base.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
+        '<link href="' . PUBLIC_PATH . 'css/main.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
 
-        $this->assertSame(Css::inc(), Css::inc());
-    }
+    expect(Css::inc())->toBe($expected);
+});
 
-    public function testAddFileWithSubdirectoryPath()
-    {
-        Css::add('vendor/bootstrap');
+it('is idempotent', function () {
+    Css::add('style');
 
-        $expected = '<link href="' . PUBLIC_PATH . 'css/vendor/bootstrap.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
-        $this->assertSame($expected, Css::inc());
-    }
-}
+    expect(Css::inc())->toBe(Css::inc());
+});
+
+it('adds file with subdirectory path', function () {
+    Css::add('vendor/bootstrap');
+
+    $expected = '<link href="' . PUBLIC_PATH . 'css/vendor/bootstrap.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
+    expect(Css::inc())->toBe($expected);
+});
