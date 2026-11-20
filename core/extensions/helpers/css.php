@@ -62,7 +62,7 @@ class Css
         $html = '';
         foreach ($css as $file)
         {
-            $html .= '<link href="' . PUBLIC_PATH . self::$css_dir . "$file.css\" rel=\"stylesheet\" type=\"text/css\" />" . PHP_EOL;
+            $html .= '<link rel="stylesheet" href="' . PUBLIC_PATH . self::$css_dir . "$file.css\"/>" . PHP_EOL;
         }
         return $html;
     }

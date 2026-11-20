@@ -28,7 +28,7 @@ it('returns empty string when nothing added', function () {
 it('adds single file', function () {
     Css::add('style');
 
-    $expected = '<link href="' . PUBLIC_PATH . 'css/style.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
+    $expected = '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/style.css"/>' . PHP_EOL;
     expect(Css::inc())->toBe($expected);
 });
 
@@ -38,9 +38,9 @@ it('adds multiple files and preserves insertion order', function () {
     Css::add('main');
 
     $expected =
-        '<link href="' . PUBLIC_PATH . 'css/reset.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
-        '<link href="' . PUBLIC_PATH . 'css/base.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
-        '<link href="' . PUBLIC_PATH . 'css/main.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/reset.css"/>' . PHP_EOL .
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/base.css"/>' . PHP_EOL .
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/main.css"/>' . PHP_EOL;
 
     expect(Css::inc())->toBe($expected);
 });
@@ -49,9 +49,9 @@ it('outputs dependencies before main file', function () {
     Css::add('main', ['reset', 'base']);
 
     $expected =
-        '<link href="' . PUBLIC_PATH . 'css/reset.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
-        '<link href="' . PUBLIC_PATH . 'css/base.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
-        '<link href="' . PUBLIC_PATH . 'css/main.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/reset.css"/>' . PHP_EOL .
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/base.css"/>' . PHP_EOL .
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/main.css"/>' . PHP_EOL;
 
     expect(Css::inc())->toBe($expected);
 });
@@ -60,9 +60,9 @@ it('includes all dependencies and main file', function () {
     Css::add('app', ['normalize', 'grid']);
 
     $expected =
-        '<link href="' . PUBLIC_PATH . 'css/normalize.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
-        '<link href="' . PUBLIC_PATH . 'css/grid.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
-        '<link href="' . PUBLIC_PATH . 'css/app.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/normalize.css"/>' . PHP_EOL .
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/grid.css"/>' . PHP_EOL .
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/app.css"/>' . PHP_EOL;
 
     expect(Css::inc())->toBe($expected);
 });
@@ -71,7 +71,7 @@ it('deduplicates same file added multiple times', function () {
     Css::add('style');
     Css::add('style');
 
-    $expected = '<link href="' . PUBLIC_PATH . 'css/style.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
+    $expected = '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/style.css"/>' . PHP_EOL;
     expect(Css::inc())->toBe($expected);
 });
 
@@ -80,9 +80,9 @@ it('deduplicates same dependency from multiple calls', function () {
     Css::add('comp-b', ['shared']);
 
     $expected =
-        '<link href="' . PUBLIC_PATH . 'css/shared.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
-        '<link href="' . PUBLIC_PATH . 'css/comp-a.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
-        '<link href="' . PUBLIC_PATH . 'css/comp-b.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/shared.css"/>' . PHP_EOL .
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/comp-a.css"/>' . PHP_EOL .
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/comp-b.css"/>' . PHP_EOL;
 
     expect(Css::inc())->toBe($expected);
 });
@@ -92,8 +92,8 @@ it('outputs file used as both dependency and main only once', function () {
     Css::add('main', ['base']);
 
     $expected =
-        '<link href="' . PUBLIC_PATH . 'css/base.css" rel="stylesheet" type="text/css" />' . PHP_EOL .
-        '<link href="' . PUBLIC_PATH . 'css/main.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/base.css"/>' . PHP_EOL .
+        '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/main.css"/>' . PHP_EOL;
 
     expect(Css::inc())->toBe($expected);
 });
@@ -107,6 +107,6 @@ it('is idempotent', function () {
 it('adds file with subdirectory path', function () {
     Css::add('vendor/bootstrap');
 
-    $expected = '<link href="' . PUBLIC_PATH . 'css/vendor/bootstrap.css" rel="stylesheet" type="text/css" />' . PHP_EOL;
+    $expected = '<link rel="stylesheet" href="' . PUBLIC_PATH . 'css/vendor/bootstrap.css"/>' . PHP_EOL;
     expect(Css::inc())->toBe($expected);
 });
