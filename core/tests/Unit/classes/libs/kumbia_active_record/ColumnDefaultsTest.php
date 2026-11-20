@@ -161,7 +161,7 @@ class ColumnDefaultsTest extends PHPUnit\Framework\TestCase
     public function testSourceClassifiesByPresenceOfDefault(): void
     {
         $source = file_get_contents(
-            __DIR__ . '/../../../../libs/kumbia_active_record/kumbia_active_record.php'
+            CORE_PATH . 'libs/kumbia_active_record/kumbia_active_record.php'
         );
 
         $this->assertIsString($source);
