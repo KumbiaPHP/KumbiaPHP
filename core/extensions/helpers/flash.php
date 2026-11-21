@@ -28,10 +28,11 @@ class Flash
 {
 
     protected const CLI = [
-        'error' => [STDERR, "\033[01;31m"], //red
-        'warning' => [STDERR, "\033[01;33m"], //yellow
-        'valid' => [STDOUT, "\033[01;32m"], //green
-        'info' => [STDOUT, "\033[00m"], //none
+        'ERROR' => [STDERR, "\033[37;41m"], //red
+        'WARNING' => [STDERR, "\033[37;43m"], //yellow
+        'VALID' => [STDOUT, "\033[37;42m"], //green
+        'INFO' => [STDOUT, "\033[37;44m"], //blue
+        'RESET' => "\033[0m", //reset color
     ];
 
     /**
@@ -47,7 +48,8 @@ class Flash
             return;
         }
         // salida CLI
-        fwrite(self::CLI[$name][0], self::CLI[$name][1] . "[$name] " . strip_tags($text) . self::CLI['info'][1] . PHP_EOL);
+        $name = strtoupper($name);
+        fwrite(self::CLI[$name][0], self::CLI[$name][1] . " $name " . self::CLI['RESET'] . ' '. strip_tags($text) . PHP_EOL);
     }
 
     /**
