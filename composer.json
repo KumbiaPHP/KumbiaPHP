@@ -7,7 +7,7 @@
         "php": ">=8.2"
     },
     "require-dev": {
-        "pestphp/pest": "^2 || ^3 || ^4 || ^5",
+        "pestphp/pest": "^3 || ^4 || ^5",
         "mockery/mockery": "^1"
     },
     "config": {
@@ -26,8 +26,8 @@
     },
     "type": "project",
     "scripts": {
-        "test:core:unit": "pest --colors=always --configuration core/phpunit.xml.dist --test-directory=core/tests/Unit",
-        "test:core:feature": "pest --colors=always --configuration core/phpfeature.xml.dist --test-directory=core/tests/Feature",
+        "test:core:unit": "pest --colors=always --configuration core/phpunit.xml.dist --test-directory=core/tests",
+        "test:core:feature": "pest --colors=always --configuration core/phpfeature.xml.dist --test-directory=core/tests",
         "test:core": [
             "@test:core:unit",
             "@test:core:feature"
