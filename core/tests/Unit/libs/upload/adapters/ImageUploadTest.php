@@ -15,9 +15,6 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
-use ImageUpload;
-use Upload;
-
 require_once __DIR__ . '/../UploadHelpers.php';
 
 describe('factory', function () {
@@ -36,13 +33,13 @@ describe('factory', function () {
 describe('path', function () {
     it('has default path ending with img/upload', function () {
         $upload = _createImageUpload();
-        expect($upload->testGetPath())->toMatch('#/img/upload$#');
+        expect(_getProperty($upload, 'path'))->toMatch('#/img/upload$#');
     });
 
     it('allows changing default path with setPath', function () {
         $upload = _createImageUpload();
         $upload->setPath('/custom/images/path');
-        expect($upload->testGetPath())->toBe('/custom/images/path');
+        expect(_getProperty($upload, 'path'))->toBe('/custom/images/path');
     });
 });
 
@@ -164,7 +161,7 @@ describe('saveFile', function () {
         $result = $upload->save($customName);
 
         expect($result)->toBe($customName);
-        expect($upload->savedName)->toBe($customName);
+        expect(_getProperty($upload, 'savedName'))->toBe($customName);
         expect(file_exists($customPath . '/' . $customName))->toBeTrue();
 
         if (file_exists($customPath . '/' . $customName)) {
@@ -181,7 +178,7 @@ describe('saveFile', function () {
 
         expect($result)->toBe('image.png');
 
-        $path = $upload->testGetPath() . '/image.png';
+        $path = _getProperty($upload, 'path') . '/image.png';
         if (file_exists($path)) {
             unlink($path);
         }

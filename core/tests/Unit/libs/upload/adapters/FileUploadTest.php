@@ -43,8 +43,6 @@ function _createFileUpload(): FileUpload {
             }
         }
         public function isUploaded(): bool { return true; }
-        public function testGetPath(): string { return $this->path; }
-        public function testSaveFile(string $name): bool { return $this->saveFile($name); }
         protected function saveFile(string $name): bool {
             return copy($_FILES[$this->name]['tmp_name'], "$this->path/$name");
         }
@@ -68,20 +66,20 @@ describe('factory', function () {
 describe('path', function () {
     it('has default path ending with files/upload', function () {
         $upload = _createFileUpload();
-        expect($upload->testGetPath())->toMatch('#/files/upload$#');
+        expect(_getProperty($upload, 'path'))->toMatch('#/files/upload$#');
     });
 
     it('allows changing default path with setPath', function () {
         $upload = _createFileUpload();
         $upload->setPath('/custom/upload/path');
-        expect($upload->testGetPath())->toBe('/custom/upload/path');
+        expect(_getProperty($upload, 'path'))->toBe('/custom/upload/path');
     });
 });
 
 describe('saveFile', function () {
     it('returns true when saveFile succeeds', function () {
         $upload = _createFileUpload();
-        $dir = dirname($upload->testGetPath());
+        $dir = dirname(_getProperty($upload, 'path'));
         if (!is_dir($dir)) {
             mkdir($dir, 0755, true);
         }
@@ -91,8 +89,8 @@ describe('saveFile', function () {
         $result = $upload->save('test.txt');
         expect($result)->toBe('test.txt');
 
-        if (file_exists($upload->testGetPath() . '/test.txt')) {
-            unlink($upload->testGetPath() . '/test.txt');
+        if (file_exists(_getProperty($upload, 'path') . '/test.txt')) {
+            unlink(_getProperty($upload, 'path') . '/test.txt');
         }
     });
 
@@ -108,7 +106,7 @@ describe('saveFile', function () {
 
     it('saves file with custom name', function () {
         $upload = _createFileUpload();
-        $dir = dirname($upload->testGetPath());
+        $dir = dirname(_getProperty($upload, 'path'));
         if (!is_dir($dir)) {
             mkdir($dir, 0755, true);
         }
@@ -117,10 +115,10 @@ describe('saveFile', function () {
 
         $result = $upload->save($customName);
         expect($result)->toBe($customName);
-        expect($upload->savedName)->toBe($customName);
+        expect(_getProperty($upload, 'savedName'))->toBe($customName);
 
-        if (file_exists($upload->testGetPath() . '/' . $customName)) {
-            unlink($upload->testGetPath() . '/' . $customName);
+        if (file_exists(_getProperty($upload, 'path') . '/' . $customName)) {
+            unlink(_getProperty($upload, 'path') . '/' . $customName);
         }
     });
 
@@ -146,7 +144,7 @@ describe('saveFile', function () {
 
     it('uses original name when save is called without arguments', function () {
         $upload = _createFileUpload();
-        $dir = dirname($upload->testGetPath());
+        $dir = dirname(_getProperty($upload, 'path'));
         if (!is_dir($dir)) {
             mkdir($dir, 0755, true);
         }
@@ -155,8 +153,8 @@ describe('saveFile', function () {
 
         expect($result)->toBe('file.txt');
 
-        if (file_exists($upload->testGetPath() . '/file.txt')) {
-            unlink($upload->testGetPath() . '/file.txt');
+        if (file_exists(_getProperty($upload, 'path') . '/file.txt')) {
+            unlink(_getProperty($upload, 'path') . '/file.txt');
         }
     });
 });

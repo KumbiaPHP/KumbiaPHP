@@ -84,14 +84,13 @@ function _createImageUpload(string $name = 'document'): ImageUpload {
     $upload = new class($name) extends ImageUpload {
         public function __construct(string $name) { parent::__construct($name); }
         public function isUploaded(): bool { return true; }
-        public function testGetPath(): string { return $this->path; }
         protected function saveFile(string $name): bool {
             return copy($_FILES[$this->name]['tmp_name'], "$this->path/$name");
         }
     };
 
     // Crear directorio de destino
-    $uploadPath = $upload->testGetPath();
+    $uploadPath = _getProperty($upload, 'path');
     if (!is_dir($uploadPath)) {
         mkdir($uploadPath, 0755, true);
     }
