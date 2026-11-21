@@ -299,6 +299,6 @@ describe('save', function () {
 
         $result = $upload->save('custom_name.txt');
         expect($result)->toBe('custom_name.txt');
-        expect($upload->savedName)->toBe('custom_name.txt');
+        expect(_getProperty($upload, 'savedName'))->toBe('custom_name.txt');
     });
 });

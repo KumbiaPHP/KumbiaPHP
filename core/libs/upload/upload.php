@@ -80,7 +80,7 @@ abstract class Upload {
     /**
      * Nombre del archivo guardado (sin ruta)
      */
-    public string $savedName = '';
+    protected string $savedName = '';
 
     /**
      * Constructor
@@ -286,7 +286,7 @@ abstract class Upload {
                 UPLOAD_ERR_EXTENSION => 'Una extensión de php ha detenido la subida del archivo',
             ];
 
-            Flash::error($error[$file['error']] ?? 'desconocido');
+            Flash::error($error[$file['error']] ?? 'Desconocido');
             return false;
         }
 
