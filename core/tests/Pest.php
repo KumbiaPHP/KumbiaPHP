@@ -40,3 +40,11 @@ expect()->extend('toBeOne', function () {
 | global functions to help you to reduce the number of lines of code in your test files.
 |
 */
+
+/**
+ * Si es Pest version < 4.0, require all helpers in the Helpers directory
+ * only add files in the Helpers directory, not subdirectories with this code
+ */
+ foreach (glob(__DIR__ . '/Helpers/*.php') as $filename) {
+    require_once $filename;
+} 
