@@ -26,3 +26,4 @@ require_once CORE_PATH.'kumbia/autoload.php';
 require_once __DIR__.'/../../vendor/autoload.php';
 
 spl_autoload_register('kumbia_autoload_helper', true, true);
+
