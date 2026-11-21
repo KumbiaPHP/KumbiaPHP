@@ -24,142 +24,155 @@ abstract class Upload {
 
     /**
      * Nombre de archivo subido por método POST
-     *
-     * @var string
      */
-    protected $_name;
+    protected string $name;
 
     /**
      * Ruta donde se guardara el archivo
-     *
-     * @var string
      */
-    protected $_path;
+    protected string $path;
 
     /**
      * Permitir subir archivos de scripts ejecutables
-     *
-     * @var boolean
      */
-    protected $_allowScripts = FALSE;
+    protected bool $allowScripts = false;
 
     /**
      * Tamaño mínimo del archivo
-     *
-     * @var string
      */
-    protected $_minSize = '';
+    protected int $minSize = 1;
 
     /**
      * Tamaño máximo del archivo
-     *
-     * @var string
      */
-    protected $_maxSize = '';
+    protected int $maxSize;
 
     /**
      * Tipos de archivo permitidos utilizando mime
-     *
-     * @var array
      */
-    protected $_types = array();
+    protected array $types = [];
 
     /**
      * Extensión de archivo permitida
-     *
-     * @var array
      */
-    protected $_extensions = array();
+    protected array $extensions = [];
 
     /**
      * Permitir sobrescribir ficheros
-     *
-     * @var bool Por defecto FALSE
      */
-    protected $_overwrite = FALSE;
+    protected bool $overwrite = false;
+
+    /**
+     * MIME type real
+     */
+    public readonly string $realMime;
+
+    /**
+     * Basename del archivo subido
+     */
+    public readonly string $baseName;
+
+    /**
+     * Extensión del archivo subido
+     */
+    public readonly string $extension;
+
+    /**
+     * Nombre del archivo guardado (sin ruta)
+     */
+    public string $savedName = '';
 
     /**
      * Constructor
      *
      * @param string $name nombre de archivo por método POST
      */
-    public function __construct($name) {
-        $this->_name = $name;
+    public function __construct(string $name) {
+        $this->name = $name;
+        $this->path = dirname($_SERVER['SCRIPT_FILENAME']);
+        $this->maxSize = self::toBytes(ini_get('upload_max_filesize'));
+        $this->realMime = $this->getExtension();
+        $this->baseName = basename($_FILES[$this->name]['name']);
+        $this->extension = explode('/', $this->realMime)[1] ?? '';
     }
 
     /**
      * Devuelve el nombre original enviado por el cliente, o NULL si no es un string.
      * Es metadata no confiable: no es una ruta segura ni el nombre del archivo guardado.
-     *
-     * @return string|null
      */
     public function getOriginalName(): ?string {
-        $file = $_FILES[$this->_name] ?? null;
-        $name = is_array($file) ? ($file['name'] ?? null) : null;
+        $file = $_FILES[$this->name] ?? null;
+        if (!is_array($file)) {
+            return null;
+        }
+        $name = $file['name'] ?? null;
 
         return is_string($name) ? $name : null;
     }
 
     /**
      * Indica si se permitirá guardar archivos de scripts ejecutables
-     *
-     * @param boolean $value
      */
-    public function setAllowScripts($value) {
-        $this->_allowScripts = $value;
+    public function setAllowScripts(bool $value) {
+        $this->allowScripts = $value;
+    }
+
+    /**
+     * Asigna la ruta al directorio de destino para el archivo
+     * 
+     *
+     * @param string $path ruta al directorio de destino (Ej: /home/usuario/data)
+     */
+    public function setPath(string $path) {
+        $this->path = $path;
     }
 
     /**
      * Asigna el tamaño mínimo permitido para el archivo
-     *
-     * @param string $size
      */
-    public function setMinSize($size) {
-        $this->_minSize = trim($size);
+    public function setMinSize(string|int $size) {
+        $this->minSize = self::toBytes($size);
     }
 
     /**
      * Asigna el tamaño máximo permitido para el archivo
-     *
-     * @param string $size
      */
-    public function setMaxSize($size) {
-        $this->_maxSize = trim($size);
+    public function setMaxSize(string|int $size) {
+        $this->maxSize = self::toBytes($size);
     }
 
     /**
-     * Asigna los tipos de archivos permitido (mime)
+     * Asigna los tipos de archivos permitido (MIME)
      *
      * @param array|string $value lista de tipos de archivos permitidos (mime) si es string separado por |
      */
-    public function setTypes($value) {
+    public function setTypes(array|string $value) {
         if (!is_array($value)) {
             $value = explode('|', $value);
         }
 
-        $this->_types = $value;
+        $this->types = $value;
     }
 
     /**
      * Asigna las extensiones de archivos permitidas
      *
+     * @deprecated Usar setTypes() con MIME types, este método no es seguro
      * @param array|string $value lista de extensiones para archivos, si es string separado por |
      */
-    public function setExtensions($value) {
+    public function setExtensions(array|string $value) {
         if (!is_array($value)) {
             $value = explode('|', $value);
         }
 
-        $this->_extensions = $value;
+        $this->extensions = $value;
     }
 
     /**
      * Permitir sobrescribir el fichero
-     *
-     * @param bool $value
      */
-    public function overwrite($value) {
-        $this->_overwrite = (bool) $value;
+    public function overwrite(bool $value) {
+        $this->overwrite = $value;
     }
 
     /**
@@ -168,7 +181,7 @@ abstract class Upload {
      * @param string $name nombre con el que se va a guardar el archivo
      * @return  boolean|null
      */
-    protected function _beforeSave($name) {
+    protected function beforeSave(string $name) {
     }
 
     /**
@@ -177,93 +190,141 @@ abstract class Upload {
      * @param string $name nombre con el que se guardo el archivo
      * @return  boolean|null
      */
-    protected function _afterSave($name) {
+    protected function afterSave(string $name) {
+    }
+
+    /**
+     * Sanitiza un nombre de archivo para prevenir caracteres peligrosos
+     */
+    protected function sanitizeName(string $name): string {
+        // Elimina rutas absolutas y caracteres peligrosos
+        $name = basename($name);
+        $name = preg_replace('/[^a-zA-Z0-9._-]/', '_', $name);
+        // Evita nombres que comiencen con punto (archivos ocultos)
+        if (str_starts_with($name, '.')) {
+            $name = '_' . $name;
+        }
+        return $name;
+    }
+
+    /**
+     * Devuelve el nombre con el que se guardó el archivo en la última operación
+     */
+    public function getSavedName(): string {
+        return $this->savedName;
+    }
+
+    /**
+     * Devuelve la ruta completa del archivo guardado
+     */
+    public function getSavedPath(): string {
+        return $this->path . '/' . $this->savedName;
     }
 
     /**
      * Guarda el archivo subido
      *
-     * @param string $name nombre con el que se guardara el archivo
-     * @return boolean|string Nombre de archivo generado con la extensión o FALSE si falla
+     * @param string $name nombre con el que se guardara el archivo (vacío = usar nombre original)
+     * @return string|false Nombre de archivo generado con la extensión o FALSE si falla
      */
-    public function save($name = '') {
+    public function save(string $name = ''): string|false {
         if (!$this->isUploaded()) {
-            return FALSE;
+            return false;
         }
+
         if (!$name) {
-            $name = $_FILES[$this->_name]['name'];
-        } else {
-            $name = $name . $this->_getExtension();
+            $name = $this->sanitizeName($this->baseName);
         }
 
         // Guarda el archivo
-        if ($this->_beforeSave($name) !== FALSE && $this->_overwrite($name) && $this->_validates() && $this->_saveFile($name)) {
-            $this->_afterSave($name);
+        if ($this->beforeSave($name) !== false
+            && $this->permitOverwrite($name)
+            && $this->validates()
+            && $this->saveFile($name)
+        ) {
+            $this->savedName = $name;
+            $this->afterSave($name);
             return $name;
         }
-        return FALSE;
+        return false;
     }
 
     /**
      * Guarda el archivo con un nombre aleatorio
      *
+     * @param string $prefix Prefijo opcional para el nombre generado
      * @return string|false Nombre de archivo generado o FALSE si falla
      */
-    public function saveRandom() {
+    public function saveRandom(string $prefix = ''): string|false {
+        $random = bin2hex(random_bytes(16));
+        $name = $prefix !== '' ? $prefix . '_' . $random : $random;
 
-        // Genera el nombre de archivo
-        $name = md5(time());
-
-        // Guarda el archivo
-        if ($this->save($name)) {
-            return $name . $this->_getExtension();
-        }
-
-        return FALSE;
+        return $this->save($name);
     }
 
     /**
      * Verifica si el archivo esta subido en el servidor y listo para guardarse
-     *
-     * @return boolean
      */
-    public function isUploaded() {
+    public function isUploaded(): bool {
+        $file = $_FILES[$this->name] ?? null;
+
+        // Verifica que exista la entrada de $_FILES
+        if (!is_array($file)) {
+            Flash::error('No se ha recibido ningún archivo');
+            return false;
+        }
 
         // Verifica si ha ocurrido un error al subir
-        if ($_FILES[$this->_name]['error'] > 0) {
-            $error = array(UPLOAD_ERR_INI_SIZE => 'el archivo excede el tamaño máximo (' . ini_get('upload_max_filesize') . 'b) permitido por el servidor', UPLOAD_ERR_FORM_SIZE => 'el archivo excede el tamaño máximo permitido', UPLOAD_ERR_PARTIAL => 'se ha subido el archivo parcialmente', UPLOAD_ERR_NO_FILE => 'no se ha subido ningún archivo', UPLOAD_ERR_NO_TMP_DIR => 'no se encuentra el directorio de archivos temporales', UPLOAD_ERR_CANT_WRITE => 'falló al escribir el archivo en disco', UPLOAD_ERR_EXTENSION => 'una extensión de php ha detenido la subida del archivo');
+        if ($file['error'] > 0) {
+            $error = [
+                UPLOAD_ERR_INI_SIZE => 'El archivo excede el tamaño máximo (' . ini_get('upload_max_filesize') . 'b) permitido por el servidor',
+                UPLOAD_ERR_FORM_SIZE => 'El archivo excede el tamaño máximo permitido',
+                UPLOAD_ERR_PARTIAL => 'Se ha subido el archivo parcialmente',
+                UPLOAD_ERR_NO_FILE => 'No se ha subido ningún archivo',
+                UPLOAD_ERR_NO_TMP_DIR => 'No se encuentra el directorio de archivos temporales',
+                UPLOAD_ERR_CANT_WRITE => 'Falló al escribir el archivo en disco',
+                UPLOAD_ERR_EXTENSION => 'Una extensión de php ha detenido la subida del archivo',
+            ];
 
-            Flash::error('Error: ' . $error[$_FILES[$this->_name]['error']]);
-            return FALSE;
+            Flash::error($error[$file['error']] ?? 'desconocido');
+            return false;
         }
-        return TRUE;
+
+        // Verifica que sea un archivo subido vía HTTP
+        if (!is_uploaded_file($file['tmp_name'])) {
+            Flash::error('El archivo no fue subido vía HTTP');
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * Valida el archivo antes de guardar
-     *
-     * @return boolean
      */
-    protected function _validates() {
-        $validations = array('allowScripts', 'types', 'extensions', 'maxSize', 'minSize');
-        foreach ($validations as $value) {
-            $func = "_{$value}";
-            if ($this->$func && !$this->$func()) {
-                return FALSE;
+    protected function validates(): bool {
+        // Verifica que se pueda escribir en el directorio
+        if (!is_dir($this->path) || !is_writable($this->path)) {
+            Flash::error('No se puede escribir en el directorio o no es un directorio válido');
+            return false;
+        }
+
+        $validations = ['allowScripts', 'types', 'extensions', 'maxSize', 'minSize'];
+        foreach ($validations as $val) {
+            if (!$this->$val()) {
+                return false;
             }
         }
-        return TRUE;
+        return true;
     }
 
     /**
      * Devuelve la extensión
-     *
-     * @return string|null
      */
-    protected function _getExtension() {
-        if ($ext = pathinfo($_FILES[$this->_name]['name'], PATHINFO_EXTENSION)) {
-            return '.' . $ext;
-        }
+    protected function getExtension(): string {
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $realMime = $finfo->file($_FILES[$this->name]['tmp_name']);
+        return $realMime === false ? '' : $realMime;
     }
 
     /**
@@ -271,53 +332,37 @@ abstract class Upload {
      *
      * @return boolean
      */
-    protected function _overwrite($name) {
-        if ($this->_overwrite) {
-            return TRUE;
+    protected function permitOverwrite(string $name): bool {
+        if ($this->overwrite) {
+            return true;
         }
-        if (is_file("$this->_path/$name")) {
-            Flash::error('Error: ya existe este fichero. Y no se permite reescribirlo');
-            return FALSE;
+        if (is_file("$this->path/$name")) {
+            Flash::error('Ya existe este fichero. Y no se permite reescribirlo');
+            return false;
         }
-        return TRUE;
+        return true;
     }
 
     /**
      * Convierte de tamaño legible por humanos a bytes
-     *
-     * @param string $size
-     * @return int
      */
-    protected function _toBytes($size) {
+    protected static function toBytes(string|int $size): int {
         if (is_int($size) || ctype_digit($size)) {
             return (int) $size;
         }
 
-        $tipo = strtolower(substr($size, -1));
+        $tipo = strtoupper(substr($size, -1));
         $size = (int) $size;
 
-        switch ($tipo) {
-            case 'g':
+        match($tipo) {
+            'G' => $size *= 1073741824, // Gigabytes
+            'M' => $size *= 1048576,    // Megabytes
+            'K' => $size *= 1024,       // Kilobytes
+            default => $size = -1,
+        };
 
-                //Gigabytes
-                $size *= 1073741824;
-                break;
-
-            case 'm':
-
-                //Megabytes
-                $size *= 1048576;
-                break;
-
-            case 'k':
-
-                //Kilobytes
-                $size *= 1024;
-                break;
-
-            default:
-                $size = -1;
-                Flash::error('Error: el tamaño debe ser un int para bytes, o un string terminado con K, M o G. Ej: 30k , 2M, 2G');
+        if ($size === -1) {
+            Flash::error('El tamaño debe ser un int para bytes, o un string terminado con K, M o G. Ej: 30K , 2M, 2G');
         }
 
         return $size;
@@ -327,9 +372,8 @@ abstract class Upload {
      * Guardar el archivo en el servidor
      *
      * @param string $name nombre con el que se guardará el archivo
-     * @return boolean
      */
-    protected abstract function _saveFile($name);
+    protected abstract function saveFile(string $name): bool;
 
     /**
      * Obtiene el adaptador para Upload
@@ -338,28 +382,32 @@ abstract class Upload {
      * @param string $adapter (file, image, model)
      * @return Upload
      */
-    public static function factory($name, $adapter = 'file') {
+    public static function factory(string $name, string $adapter = 'file'): static {
         require_once __DIR__ . "/adapters/{$adapter}_upload.php";
-        $class = $adapter . 'upload';
+        $class = $adapter . 'Upload';
 
         return new $class($name);
     }
 
     /**
-     * @param boolean $cond
+     * Valida una condición y muestra un mensaje de error si es verdadera
+     *
+     * @param bool $cond Condición a evaluar
+     * @param string $message Mensaje de error a mostrar si la condición es verdadera
+     * @return bool Retorna false si la condición es verdadera, true en caso contrario
      */
-    protected function _cond($cond, $message) {
+    protected function cond(bool $cond, string $message): bool {
         if ($cond) {
-            Flash::error("Error: $message");
-            return FALSE;
+            Flash::error($message);
+            return false;
         }
-        return TRUE;
+        return true;
     }
 
-    protected function _allowScripts() {
-        return $this->_cond(
-            !$this->_allowScripts && preg_match('/\.(php|phtml|php3|php4|js|shtml|pl|py|rb|rhtml)$/i', $_FILES[$this->_name]['name']),
-            'no esta permitido subir scripts ejecutables'
+    protected function allowScripts(): bool {
+        return $this->cond(
+            !$this->allowScripts && preg_match('/\.(php|phtml|php3|php4|js|shtml|pl|py|rb|rhtml)$/i', $_FILES[$this->name]['name']),
+            'No está permitido subir scripts ejecutables'
         );
     }
 
@@ -368,31 +416,37 @@ abstract class Upload {
      *
      * @return boolean
      */
-    protected function _types() {
-        return $this->_cond(
-            !in_array($_FILES[$this->_name]['type'], $this->_types),
-            'el tipo de archivo no es válido'
+    protected function types(): bool {
+        // Si no hay tipos configurados, se permite todo
+        if ($this->types === []) {
+            return true;
+        }
+
+        // Compara el MIME completo (image/jpeg), no solo la extensión
+        return $this->cond(
+            !in_array($this->realMime, $this->types),
+            'El tipo de archivo no es válido'
         );
     }
 
-    protected function _extensions() {
-        return $this->_cond(
-            !preg_match('/\.(' . implode('|', $this->_extensions) . ')$/i', $_FILES[$this->_name]['name']),
-            'la extensión del archivo no es válida'
+    protected function extensions(): bool {
+        return $this->cond(
+            !($this->extensions === []) && !in_array($this->extension, $this->extensions),
+            'La extensión del archivo no es válida'
         );
     }
 
-    protected function _maxSize() {
-        return $this->_cond(
-            $_FILES[$this->_name]['size'] > $this->_toBytes($this->_maxSize),
-            "no se admiten archivos superiores a $this->_maxSize b"
+    protected function maxSize(): bool {
+        return $this->cond(
+            $_FILES[$this->name]['size'] > $this->maxSize,
+            "No se admiten archivos superiores a $this->maxSize b"
         );
     }
 
-    protected function _minSize() {
-        return $this->_cond(
-            $_FILES[$this->_name]['size'] < $this->_toBytes($this->_minSize),
-            "Error: no se admiten archivos inferiores a $this->_minSize b"
+    protected function minSize(): bool {
+        return $this->cond(
+            $_FILES[$this->name]['size'] < $this->minSize,
+            "No se admiten archivos inferiores a $this->minSize b"
         );
     }
 }

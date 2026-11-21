@@ -26,183 +26,118 @@ class ImageUpload extends Upload
 {
     /**
      * Información de la imagen
-     *
-     * @var array|boolean
      */
-    protected $_imgInfo;
+    protected array|false $imgInfo;
     /**
-     * Ancho mínimo de la imagen
-     *
-     * @var int
+     * Ancho mínimo de la imagen en px
      */
-    protected $_minWidth = NULL;
+    protected ?int $minWidth = null;
     /**
-     * Ancho máximo de la imagen
-     *
-     * @var int
+     * Ancho máximo de la imagen en px
      */
-    protected $_maxWidth = NULL;
+    protected ?int $maxWidth = null;
     /**
-     * Alto mínimo de la imagen
-     *
-     * @var int
+     * Alto mínimo de la imagen en px
      */
-    protected $_minHeight = NULL;
+    protected ?int $minHeight = null;
     /**
-     * Alto máximo de la imagen
-     *
-     * @var int
+     * Alto máximo de la imagen en px
      */
-    protected $_maxHeight = NULL;
+    protected ?int $maxHeight = null;
 
     /**
      * Constructor
      *
      * @param string $name nombre de archivo por metodo POST
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         parent::__construct($name);
 
-        $this->_imgInfo = getimagesize($_FILES[$name]['tmp_name']);
+        $this->imgInfo = getimagesize($_FILES[$name]['tmp_name']);
 
         // Ruta donde se guardara el archivo
-        $this->_path = dirname($_SERVER['SCRIPT_FILENAME']) . Config::get('config.application.image_upload_path') ?? '/img/upload';
+        $this->path = dirname($_SERVER['SCRIPT_FILENAME']) . '/img/upload';
     }
 
     /**
-     * Asigna la ruta al directorio de destino para la imagen
-     *
-     * @param string $path ruta al directorio de destino (Ej: /home/usuario/data)
+     * Asigna el ancho mínimo de la imagen en px
      */
-    public function setPath($path)
+    public function setMinWidth(int $value)
     {
-        $this->_path = $path;
+        $this->minWidth = $value;
     }
 
     /**
-     * Asigna el ancho mínimo de la imagen
-     *
-     * @param int $value
+     * Asigna el ancho máximo de la imagen en px
      */
-    public function setMinWidth($value)
+    public function setMaxWidth(int $value)
     {
-        $this->_minWidth = $value;
+        $this->maxWidth = $value;
     }
 
     /**
-     * Asigna el ancho máximo de la imagen
-     *
-     * @param int $value
+     * Asigna el alto mínimo de la imagen en px
      */
-    public function setMaxWidth($value)
+    public function setMinHeight(int $value)
     {
-        $this->_maxWidth = $value;
+        $this->minHeight = $value;
     }
 
     /**
-     * Asigna el alto mínimo de la imagen
-     *
-     * @param int $value
+     * Asigna el alto máximo de la imagen en px
      */
-    public function setMinHeight($value)
+    public function setMaxHeight(int $value)
     {
-        $this->_minHeight = $value;
-    }
-
-    /**
-     * Asigna el alto máximo de la imagen
-     *
-     * @param int $value
-     */
-    public function setMaxHeight($value)
-    {
-        $this->_maxHeight = $value;
+        $this->maxHeight = $value;
     }
 
     /**
      * Valida el archivo antes de guardar
      *
-     * @return boolean
+     * @throws RuntimeException Si se intenta validar sin una imagen válida
      */
-    protected function _validates()
+    protected function validates(): bool
     {
-        // Verifica que se pueda escribir en el directorio
-        if (!is_writable($this->_path)) {
-            Flash::error('Error: no se puede escribir en el directorio');
-            return FALSE;
+        // Verifica que la imagen se haya cargado correctamente
+        if ($this->imgInfo === false) {
+            Flash::error('El archivo debe ser una imagen válida');
+            return false;
         }
 
-
-        $image = $this->_imgInfo;
-        // Verifica que sea un archivo de imagen
-        if (!$image){
-            Flash::error('Error: el archivo debe ser una imagen');
-            return FALSE;
+        // Verifica que sea un tipo de imagen reconocido
+        if (!str_starts_with($this->realMime, 'image/')) {
+            Flash::error('El archivo debe ser una imagen');
+            return false;
         }
 
-        // Verifica ancho minimo de la imagen
-        if ($this->_minWidth !== NULL) {
-            if ($image[0] < $this->_minWidth) {
-                Flash::error("Error: el ancho de la imagen debe ser superior o igual a {$this->_minWidth}px");
-                return FALSE;
+        // Validaciones de dimensiones
+        $dimensions = [
+            ['label' => 'ancho', 'value' => $this->imgInfo[0], 'min' => $this->minWidth, 'max' => $this->maxWidth],
+            ['label' => 'alto', 'value' => $this->imgInfo[1], 'min' => $this->minHeight, 'max' => $this->maxHeight],
+        ];
+
+        foreach ($dimensions as $dim) {
+            if ($dim['min'] !== null && $dim['value'] < $dim['min']) {
+                Flash::error("El {$dim['label']} de la imagen debe ser >= {$dim['min']}px");
+                return false;
+            }
+            if ($dim['max'] !== null && $dim['value'] > $dim['max']) {
+                Flash::error("El {$dim['label']} de la imagen debe ser <= {$dim['max']}px");
+                return false;
             }
         }
 
-        // Verifica ancho maximo de la imagen
-        if ($this->_maxWidth !== NULL) {
-            if ($image[0] > $this->_maxWidth) {
-                Flash::error("Error: el ancho de la imagen debe ser inferior o igual a {$this->_maxWidth}px");
-                return FALSE;
-            }
-        }
-
-        // Verifica alto minimo de la imagen
-        if ($this->_minHeight !== NULL) {
-            if ($image[1] < $this->_minHeight) {
-                Flash::error("Error: el alto de la imagen debe ser superior o igual a {$this->_minHeight}px");
-                return FALSE;
-            }
-        }
-
-        // Verifica alto maximo de la imagen
-        if ($this->_maxHeight !== NULL) {
-            if ($image[1] > $this->_maxHeight) {
-                Flash::error("Error: el alto de la imagen debe ser inferior o igual a {$this->_maxHeight}px");
-                return FALSE;
-            }
-        }
-
-        // Validaciones
-        return parent::_validates();
-    }
-
-    /**
-     * Valida que el tipo de archivo
-     *
-     * @return boolean
-     */
-    protected function _validatesTypes()
-    {
-        // Verifica que sea un archivo de imagen
-        if (!$this->_imgInfo) return FALSE;
-
-        foreach ($this->_types as $type) {
-            if ($this->_imgInfo['mime'] == "image/$type") return TRUE;
-        }
-
-        return FALSE;
+        return parent::validates();
     }
 
     /**
      * Guardar el archivo en el servidor
      *
      * @param string $name nombre con el que se guardará el archivo
-     * @return boolean
      */
-    protected function _saveFile($name)
+    protected function saveFile(string $name): bool
     {
-        return move_uploaded_file($_FILES[$this->_name]['tmp_name'], "$this->_path/$name");
+        return move_uploaded_file($_FILES[$this->name]['tmp_name'], "$this->path/$name");
     }
-
 }
