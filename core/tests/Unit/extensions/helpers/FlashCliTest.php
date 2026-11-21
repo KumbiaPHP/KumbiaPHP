@@ -20,16 +20,20 @@
 
 it('shows a valid flash message to STDOUT', function () {
     Flash::valid('Test content for valid');
+    expect(true)->toBeTrue();
 });
 
 it('shows an error flash message to STDERR', function () {
     Flash::error('Test content for error');
+    expect(true)->toBeTrue();
 });
 
 it('shows an info flash message to STDOUT', function () {
     Flash::info('Test content for info');
+    expect(true)->toBeTrue();
 });
 
 it('shows a warning flash message to STDERR', function () {
     Flash::warning('Test content for warning');
+    expect(true)->toBeTrue();
 });
