@@ -14,7 +14,7 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
-//include __DIR__.'/bootstrap.php';
+include __DIR__.'/bootstrap.php';
 
 require_once CORE_PATH.'kumbia/config.php';
 require_once CORE_PATH.'kumbia/router.php';
