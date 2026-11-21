@@ -29,9 +29,13 @@ function _getProperty(object $obj, string $name): mixed {
  *
  * @param object $obj The object instance.
  * @param string $name The name of the method.
+ * @param mixed ...$args Arguments to pass to the method.
  * @return mixed The result of invoking the method.
  */
-function _getMethod(object $obj, string $name): mixed {
+function _getMethod(object $obj, string $name, mixed ...$args): mixed {
     $method = (new ReflectionClass($obj))->getMethod($name);
-    return $method->invoke($obj);
+    if ($method->isStatic()) {
+        return $method->invokeArgs(null, $args);
+    }
+    return $method->invokeArgs($obj, $args);
 }
