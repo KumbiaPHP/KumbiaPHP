@@ -14,8 +14,12 @@
  * @license    https://github.com/KumbiaPHP/KumbiaPHP/blob/master/LICENSE   New BSD License
  */
 
-beforeEach(function () {
+beforeAll(function () {
     $_SERVER['SERVER_SOFTWARE'] = 'Test';
+});
+
+afterAll(function () {
+    $_SERVER['SERVER_SOFTWARE'] = null;
 });
 
 it('shows a test flash message', function () {
